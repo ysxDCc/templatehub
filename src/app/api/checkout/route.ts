@@ -37,6 +37,7 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
+      allowed_payment_method_types: ['credit', 'debit', 'apple_pay', 'google_pay'],
       return_url: `${origin}/checkout/success?plan=${plan.id}`,
     };
 
