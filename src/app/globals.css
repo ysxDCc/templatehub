@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #09090b;
+    color: #f4f4f5;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #27272a;
+    color: #fafafa;
+  }
+}
+
+@layer utilities {
+  .subtle-border {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .dark-card {
+    background-color: #121215;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .dark-card:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+}

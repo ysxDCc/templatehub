@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex - Launch Your Next Big Idea</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a1a;
+            --primary: #3b82f6;
+            --accent: #06b6d4;
+            --text-light: #ffffff;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        
+        header.scrolled {
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 5%;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 12rem 5% 8rem;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(6, 182, 212, 0.05) 40%, rgba(10, 10, 26, 0) 70%);
+            z-index: -1;
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 900px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 3.5rem;
+            max-width: 650px;
+            font-weight: 400;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Trusted By */
+        .trusted-by {
+            padding: 4rem 5%;
+            background: rgba(255, 255, 255, 0.01);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .trusted-by p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2.5rem;
+            font-weight: 600;
+        }
+
+        .logo-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .logo-grid:hover {
+            opacity: 1;
+        }
+
+        .company-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: -0.5px;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .company-logo:hover {
+            color: var(--text-light);
+        }
+
+        /* General Sections */
+        section {
+            padding: 8rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            padding: 3rem 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(6,182,212,0.1));
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .feature-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* How it works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .step {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0 auto 2rem;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            border: 4px solid var(--bg-color);
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.5rem;
+            padding: 3.5rem 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .pricing-card.popular {
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(10, 10, 26, 0) 100%);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: scale(1.05);
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .pricing-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .price span {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .pricing-features li {
+            margin-bottom: 1.25rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+            background: rgba(6, 182, 212, 0.1);
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 1.25rem;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .stars {
+            color: #fbbf24;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .quote {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: #e2e8f0;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .avatar-1 { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .avatar-2 { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .avatar-3 { background: linear-gradient(135deg, #10b981, #059669); }
+
+        .author-info h4 {
+            font-size: 1.05rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.05));
+            border-top: 1px solid var(--card-border);
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-form {
+            display: flex;
+            max-width: 550px;
+            margin: 0 auto;
+            gap: 0.75rem;
+        }
+
+        .cta-form input {
+            flex: 1;
+            padding: 1.25rem 1.75rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 1.05rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .cta-form input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 5rem 5% 2rem;
+            background: #05050c;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto 5rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.75rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--primary);
+        }
+
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--card-border);
+            color: rgba(148, 163, 184, 0.6);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 4rem; }
+            .pricing-card.popular { transform: none; }
+            .pricing-card.popular:hover { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero p { font-size: 1.1rem; }
+            .hero { padding-top: 10rem; }
+            
+            nav .nav-links { display: none; } /* Simpler responsive approach for template */
+            
+            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .hero-btns .btn { width: 100%; }
+            
+            .section-header h2 { font-size: 2.5rem; }
+            section { padding: 5rem 5%; }
+            
+            .cta-form { flex-direction: column; }
+            .cta-form .btn { padding: 1.25rem; }
+            
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header id="navbar">
+        <a href="#" class="logo">Apex</a>
+        <nav>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#about">About</a>
+            </div>
+            <a href="#cta" class="btn btn-primary">Get Started</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Launch Your Next Big Idea</h1>
+        <p>Build, scale, and ship products faster with our comprehensive platform. Empower your team to deliver excellence without the overhead.</p>
+        <div class="hero-btns">
+            <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
+            <a href="#demo" class="btn btn-secondary">Watch Demo</a>
+        </div>
+    </section>
+
+    <!-- Trusted By -->
+    <div class="trusted-by">
+        <p>Trusted by innovative companies worldwide</p>
+        <div class="logo-grid">
+            <div class="company-logo">TechCorp</div>
+            <div class="company-logo">DataFlow</div>
+            <div class="company-logo">CloudSync</div>
+            <div class="company-logo">NeuralNet</div>
+            <div class="company-logo">PixelPro</div>
+            <div class="company-logo">CodeWave</div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="section-header">
+            <h2>Everything you need to scale</h2>
+            <p>Our platform provides a robust set of tools designed to help you build faster, optimize operations, and secure your data.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Speed</h3>
+                <p>Global edge network ensures your application loads instantly for users anywhere in the world, with zero configuration required.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Bank-Level Security</h3>
+                <p>End-to-end encryption, automated threat detection, and compliance certifications keep your sensitive data completely safe.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3>Cloud Native</h3>
+                <p>Built from the ground up for the modern cloud. Easily deploy containers, serverless functions, and microservices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Smart Analytics</h3>
+                <p>Gain actionable insights into your application's performance and user behavior with our real-time analytics dashboard.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔌</div>
+                <h3>API First</h3>
+                <p>Connect seamlessly with your existing stack. Our comprehensive REST and GraphQL APIs offer total flexibility.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎧</div>
+                <h3>24/7 Support</h3>
+                <p>Our dedicated team of engineers is always on standby to help you resolve issues and optimize your architecture.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" style="background: rgba(255,255,255,0.01);">
+        <div class="section-header">
+            <h2>From idea to production in minutes</h2>
+            <p>We've streamlined the deployment process so you can focus on writing code, not managing infrastructure.</p>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Sign Up</h3>
+                <p>Create your account in seconds. No credit card required to start building on our developer tier.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>Configure</h3>
+                <p>Connect your repository and let our engine automatically detect your framework and configure settings.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>Launch</h3>
+                <p>Push to main and watch your application go live globally in under a minute with instant rollbacks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="section-header">
+            <h2>Simple, transparent pricing</h2>
+            <p>Choose the perfect plan for your team's needs. Scale seamlessly as your business grows.</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <p class="pricing-desc">Perfect for side projects and individual developers.</p>
+                <div class="price">$29<span>/mo</span></div>
+                <ul class="pricing-features">
+                    <li>Up to 3 team members</li>
+                    <li>Basic analytics</li>
+                    <li>Community support</li>
+                    <li>10GB Storage</li>
+                    <li>Standard API limits</li>
+                </ul>
+                <a href="#" class="btn btn-secondary">Get Started</a>
+            </div>
+            
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <h3>Professional</h3>
+                <p class="pricing-desc">Ideal for growing startups and small teams.</p>
+                <div class="price">$79<span>/mo</span></div>
+                <ul class="pricing-features">
+                    <li>Up to 10 team members</li>
+                    <li>Advanced analytics dashboard</li>
+                    <li>Priority email support</li>
+                    <li>100GB Storage</li>
+                    <li>Increased API limits</li>
+                    <li>Custom domains</li>
+                </ul>
+                <a href="#" class="btn btn-primary">Start Free Trial</a>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <p class="pricing-desc">For large-scale organizations with advanced needs.</p>
+                <div class="price">Custom</div>
+                <ul class="pricing-features">
+                    <li>Unlimited team members</li>
+                    <li>Custom reporting & SLA</li>
+                    <li>24/7 dedicated phone support</li>
+                    <li>Unlimited Storage</li>
+                    <li>Unlimited API access</li>
+                    <li>On-premise deployment options</li>
+                </ul>
+                <a href="#" class="btn btn-secondary">Contact Sales</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" style="background: rgba(255,255,255,0.01);">
+        <div class="section-header">
+            <h2>Loved by builders everywhere</h2>
+            <p>Don't just take our word for it. Here's what our customers have to say about building with Apex.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"Apex has completely transformed our deployment pipeline. What used to take hours now takes minutes. It's the most intuitive platform we've ever used."</p>
+                <div class="author">
+                    <div class="avatar avatar-1">JD</div>
+                    <div class="author-info">
+                        <h4>Jane Doe</h4>
+                        <p>CTO at TechCorp</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"The performance improvements were immediate. Our site load times dropped by 60%, and the built-in analytics give us visibility we never had before."</p>
+                <div class="author">
+                    <div class="avatar avatar-2">MS</div>
+                    <div class="author-info">
+                        <h4>Michael Smith</h4>
+                        <p>Lead Engineer at DataFlow</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote">"Security was our biggest concern migrating to the cloud. Apex's compliance certifications and out-of-the-box encryption gave us complete peace of mind."</p>
+                <div class="author">
+                    <div class="avatar avatar-3">AL</div>
+                    <div class="author-info">
+                        <h4>Amanda Lee</h4>
+                        <p>VP of Product at CloudSync</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <h2>Ready to Get Started?</h2>
+        <p>Join thousands of companies building the future on Apex. Start your 14-day free trial today.</p>
+        <form class="cta-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="Enter your work email" required>
+            <button type="submit" class="btn btn-primary">Start Building</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand footer-col">
+                <a href="#" class="logo">Apex</a>
+                <p>Empowering teams to build, scale, and ship exceptional products faster than ever before. The all-in-one platform for modern development.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">𝕏</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">GH</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Integrations</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Changelog</a></li>
+                    <li><a href="#">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Partners</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Status</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Apex Inc. All rights reserved.</p>
+            <p>Designed with precision for modern teams.</p>
+        </div>
+    </footer>
+
+    <!-- Minimal JS for sticky navbar -->
+    <script>
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

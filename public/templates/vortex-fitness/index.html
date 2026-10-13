@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vortex Fitness | Transform Your Body</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #09090b;
+      --card: #121217;
+      --border: #22222b;
+      --primary: #ccff00;
+      --orange: #ff5500;
+      --text: #ffffff;
+      --muted: #a1a1aa;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 9, 11, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 76px;
+    }
+    .logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-links { display: flex; gap: 32px; font-weight: 600; font-size: 14px; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--primary); }
+    .btn-cta {
+      background: var(--primary);
+      color: #000;
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-cta:hover {
+      box-shadow: 0 0 25px rgba(204, 255, 0, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: 100px 0 80px;
+      text-align: center;
+      background: radial-gradient(circle at 50% 20%, rgba(204, 255, 0, 0.12), transparent 70%);
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(204, 255, 0, 0.1);
+      border: 1px solid rgba(204, 255, 0, 0.3);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(48px, 8vw, 84px);
+      line-height: 1;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto 36px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; margin-bottom: 60px; }
+    .btn-outline {
+      border: 2px solid var(--border);
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: 0.3s;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .stat-item h3 { font-family: 'Oswald', sans-serif; font-size: 38px; color: var(--primary); }
+    .stat-item p { font-size: 13px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    
+    /* Programs */
+    .section { padding: 90px 0; }
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-title h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 42px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .section-title p { color: var(--muted); }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .program-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: 0.3s;
+      position: relative;
+    }
+    .program-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-5px);
+    }
+    .program-icon { font-size: 36px; margin-bottom: 16px; }
+    .program-card h3 { font-family: 'Oswald', sans-serif; font-size: 24px; text-transform: uppercase; margin-bottom: 12px; }
+    .program-card p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    
+    /* BMI Widget */
+    .bmi-card {
+      background: linear-gradient(145deg, #16161d, #0d0d10);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .bmi-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+    .bmi-inputs input {
+      background: #09090b;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+    }
+    .bmi-inputs input:focus { border-color: var(--primary); }
+    .bmi-result { margin-top: 20px; font-size: 22px; font-weight: 700; color: var(--primary); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      background: #060608;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-bar">
+      <div class="logo">⚡ VORTEX FITNESS</div>
+      <div class="nav-links">
+        <a href="#programs">Programs</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#pricing">Memberships</a>
+        <a href="#bmi">BMI Tool</a>
+      </div>
+      <button class="btn-cta">Free Pass</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">⚡ Next-Gen Athletic Center</div>
+      <h1>Transform Your Body <br><span>Elevate Your Mind</span></h1>
+      <p>State-of-the-art training facilities, Olympic lifting rigs, and high-intensity coaching designed for athletes of all levels.</p>
+      <div class="hero-actions">
+        <button class="btn-cta">Claim Free 7-Day Pass</button>
+        <a href="#schedule" class="btn-outline">View Timetable</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-item">
+          <h3>24/7</h3>
+          <p>Gym Floor Access</p>
+        </div>
+        <div class="stat-item">
+          <h3>45+</h3>
+          <p>Weekly Classes</p>
+        </div>
+        <div class="stat-item">
+          <h3>15+</h3>
+          <p>Elite Coaches</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="programs" class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Engineered Workouts</h2>
+        <p>Built for maximum conditioning, hyper-growth, and performance.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="program-card">
+          <div class="program-icon">🏋️‍♂️</div>
+          <h3>HIIT & Hypertrophy</h3>
+          <p>High-energy cardio intervals fused with barbell strength drills for rapid calorie burn and muscle retention.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">🥊</div>
+          <h3>Combat & Boxing</h3>
+          <p>Heavy bag combos, agility footwork, and core conditioning coached by professional combat sports athletes.</p>
+        </div>
+        <div class="program-card">
+          <div class="program-icon">🧘‍♀️</div>
+          <h3>Athletic Recovery</h3>
+          <p>Deep mobility sessions, active fascial stretch release, and contrast sauna hydrotherapy recovery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bmi" class="section">
+    <div class="container">
+      <div class="bmi-card">
+        <h2 style="font-family: 'Oswald'; font-size: 32px; text-transform: uppercase;">Instant BMI Calculator</h2>
+        <p style="color: var(--muted); font-size: 14px;">Calculate your Body Mass Index score and plan your transformation journey.</p>
+        <div class="bmi-inputs">
+          <input type="number" id="height" placeholder="Height (cm)" value="180">
+          <input type="number" id="weight" placeholder="Weight (kg)" value="78">
+        </div>
+        <button class="btn-cta" onclick="calcBMI()" style="width: 100%;">Calculate My Score</button>
+        <div class="bmi-result" id="bmiOutput">Your BMI: 24.1 (Normal Weight)</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Vortex Fitness Club. All Rights Reserved. Built for high performance.</p>
+    </div>
+  </footer>
+
+  <script>
+    function calcBMI() {
+      const h = parseFloat(document.getElementById('height').value) / 100;
+      const w = parseFloat(document.getElementById('weight').value);
+      if (!h || !w) return;
+      const bmi = (w / (h * h)).toFixed(1);
+      let cat = 'Normal Weight';
+      if (bmi < 18.5) cat = 'Underweight';
+      else if (bmi >= 25 && bmi < 30) cat = 'Overweight';
+      else if (bmi >= 30) cat = 'Obese';
+      document.getElementById('bmiOutput').innerText = `Your BMI: ${bmi} (${cat})`;
+    }
+  </script>
+</body>
+</html>
