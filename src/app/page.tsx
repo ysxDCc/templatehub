@@ -70,6 +70,29 @@ export default function Home() {
               <PricingCard key={plan.id} plan={plan} />
             ))}
           </div>
+
+          {/* Supported payment badges */}
+          <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-400">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Encrypted global checkout via Dodo Payments</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="text-zinc-500">Supported methods:</span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 170 170">
+                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.97-9.13-10.66-19.43-14.07-30.89-3.41-11.46-5.12-22.18-5.12-32.16 0-14.12 3.65-25.79 10.96-35.01 7.31-9.23 16.32-13.93 27.04-14.12 5.02 0 10.53 1.29 16.53 3.88 6 2.58 10.02 3.93 12.06 4.06 1.7.01 5.92-1.39 12.66-4.18 6.74-2.79 12.51-4.06 17.3-3.8 12.44.75 22.22 5.37 29.35 13.88-10.88 6.58-16.2 15.54-15.96 26.89.26 8.84 3.73 16.14 10.41 21.9 6.69 5.76 14.54 9.17 23.57 10.23-2.22 6.89-5.1 14.28-8.64 22.16zM119.22 33.64c0-7.29 2.65-14.18 7.96-20.67 5.31-6.5 11.9-10.74 19.78-12.72.33 1.15.5 2.27.5 3.36 0 7.2-2.75 14.17-8.24 20.91-5.49 6.74-12.16 10.87-20 12.39z"/>
+                </svg>
+                Apple Pay
+              </span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">
+                Google Pay
+              </span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">
+                Visa / Mastercard
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
