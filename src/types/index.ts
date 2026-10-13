@@ -38,6 +38,7 @@ export interface PricingPlan {
   description: string;
   features: string[];
   highlighted?: boolean;
+  dodoProductId?: string;
 }
 
 export interface User {
