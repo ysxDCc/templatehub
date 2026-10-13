@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,18 +50,23 @@ export default function Navbar() {
 
           {/* Right Action buttons */}
           <div className="hidden md:flex items-center space-x-3 text-sm font-medium">
-            <Link 
-              href="/login" 
-              className="px-3.5 py-1.5 text-zinc-300 hover:text-white transition-colors"
-            >
-              Log in
-            </Link>
-            <Link 
-              href="/signup" 
-              className="px-4 py-2 bg-white text-zinc-950 font-medium rounded-lg hover:bg-zinc-200 transition-colors shadow-xs"
-            >
-              Get started free
-            </Link>
+            <SignedOut>
+              <Link 
+                href="/login" 
+                className="px-3.5 py-1.5 text-zinc-300 hover:text-white transition-colors"
+              >
+                Log in
+              </Link>
+              <Link 
+                href="/signup" 
+                className="px-4 py-2 bg-white text-zinc-950 font-medium rounded-lg hover:bg-zinc-200 transition-colors shadow-xs"
+              >
+                Get started free
+              </Link>
+            </SignedOut>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
           </div>
 
           {/* Mobile hamburger */}
@@ -85,12 +91,20 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-[#09090b] border-b border-white/[0.08] px-4 pt-3 pb-5 space-y-3">
           <Link href="/templates" className="block text-sm text-zinc-300 hover:text-white py-1">Templates</Link>
-          <Link href="/#categories" className="block text-sm text-zinc-300 hover:text-white py-1">Categories</Link>
+          <Link href="/builder" className="block text-sm text-zinc-300 hover:text-white py-1">Visual Customizer</Link>
           <Link href="/#pricing" className="block text-sm text-zinc-300 hover:text-white py-1">Pricing</Link>
           <Link href="/#license" className="block text-sm text-zinc-300 hover:text-white py-1">Licensing</Link>
           <div className="pt-3 border-t border-white/[0.08] flex flex-col gap-2">
-            <Link href="/login" className="w-full text-center py-2 text-sm text-zinc-300 border border-white/10 rounded-lg">Log in</Link>
-            <Link href="/signup" className="w-full text-center py-2 text-sm bg-white text-zinc-950 font-medium rounded-lg">Get started free</Link>
+            <SignedOut>
+              <Link href="/login" className="w-full text-center py-2 text-sm text-zinc-300 border border-white/10 rounded-lg">Log in</Link>
+              <Link href="/signup" className="w-full text-center py-2 text-sm bg-white text-zinc-950 font-medium rounded-lg">Get started free</Link>
+            </SignedOut>
+            <SignedIn>
+              <div className="py-2 flex items-center justify-between">
+                <span className="text-sm text-zinc-400">Account</span>
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
           </div>
         </div>
       )}
