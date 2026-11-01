@@ -9,8 +9,11 @@ import { FavoritesProvider } from '@/context/FavoritesContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TemplateHub - Pre-Built Website Templates',
-  description: 'Access a growing library of professionally designed, fully responsive website templates. Subscribe and start building.',
+  title: 'TemplateHub — Sovereign Website Template Engine & Registry',
+  description: 'The premier subscription marketplace for high-performance, zero-dependency website templates. Standalone HTML5 codebases with in-browser Store Auto-Edit.',
+  icons: {
+    icon: '/logo.svg',
+  },
 };
 
 export default function RootLayout({
@@ -20,8 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-slate-950 text-white min-h-screen antialiased flex flex-col`}>
+      <html lang="en" className="dark scroll-smooth">
+        <body className={`${inter.className} bg-[#070314] text-purple-100 min-h-screen antialiased flex flex-col selection:bg-purple-600 selection:text-white`}>
           <FavoritesProvider>
             <Navbar />
             <main className="flex-1">

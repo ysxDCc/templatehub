@@ -1,0 +1,151 @@
+'use client';
+
+import React from 'react';
+
+interface LogoProps {
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  showText?: boolean;
+  className?: string;
+}
+
+export default function Logo({ size = 'md', showText = true, className = '' }: LogoProps) {
+  const sizeMap = {
+    sm: { icon: 28, text: 'text-base', badge: 'text-[9px] px-1.5 py-0.2' },
+    md: { icon: 34, text: 'text-lg', badge: 'text-[10px] px-2 py-0.5' },
+    lg: { icon: 42, text: 'text-2xl', badge: 'text-xs px-2.5 py-0.5' },
+    xl: { icon: 54, text: 'text-3xl', badge: 'text-xs px-3 py-1' },
+  };
+
+  const { icon, text, badge } = sizeMap[size];
+
+  return (
+    <div className={`flex items-center gap-3 group select-none ${className}`}>
+      {/* 3D Geometric Purple Cyber-Prism Icon */}
+      <div className="relative shrink-0 flex items-center justify-center">
+        {/* Ambient Pulsing Purple Glow Behind Logo */}
+        <div 
+          className="absolute inset-0 rounded-xl bg-purple-600/40 blur-lg transition-all duration-500 group-hover:bg-fuchsia-500/60 group-hover:blur-xl group-hover:scale-125"
+        />
+
+        <svg
+          width={icon}
+          height={icon}
+          viewBox="0 0 64 64"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="relative transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-3 drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]"
+        >
+          <defs>
+            {/* Ambient Shadow & Neon Filter */}
+            <filter id="purpleGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+
+            {/* Facet Gradients */}
+            <linearGradient id="prismTop" x1="16" y1="12" x2="48" y2="30" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#e9d5ff" />
+              <stop offset="50%" stopColor="#c084fc" />
+              <stop offset="100%" stopColor="#9333ea" />
+            </linearGradient>
+
+            <linearGradient id="prismLeft" x1="14" y1="28" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="60%" stopColor="#6b21a8" />
+              <stop offset="100%" stopColor="#3b0764" />
+            </linearGradient>
+
+            <linearGradient id="prismRight" x1="32" y1="28" x2="52" y2="54" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#c084fc" />
+              <stop offset="50%" stopColor="#7e22ce" />
+              <stop offset="100%" stopColor="#4c1d95" />
+            </linearGradient>
+
+            <linearGradient id="prismCore" x1="26" y1="22" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="40%" stopColor="#f472b6" />
+              <stop offset="100%" stopColor="#a855f7" />
+            </linearGradient>
+
+            <linearGradient id="ringGlow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#e879f9" />
+              <stop offset="100%" stopColor="#6366f1" />
+            </linearGradient>
+          </defs>
+
+          {/* Exterior Orbit Ring with Cyber Cuts */}
+          <circle
+            cx="32"
+            cy="32"
+            r="28"
+            stroke="url(#ringGlow)"
+            strokeWidth="1.5"
+            strokeDasharray="4 6 12 6"
+            strokeOpacity="0.45"
+            className="animate-spin-slow origin-center"
+          />
+
+          {/* Top Facet */}
+          <polygon
+            points="32,8 52,22 32,32 12,22"
+            fill="url(#prismTop)"
+            stroke="#ffffff"
+            strokeWidth="0.75"
+            strokeOpacity="0.5"
+          />
+
+          {/* Left Facet */}
+          <polygon
+            points="12,22 32,32 32,56 12,42"
+            fill="url(#prismLeft)"
+            stroke="#a855f7"
+            strokeWidth="0.5"
+            strokeOpacity="0.6"
+          />
+
+          {/* Right Facet */}
+          <polygon
+            points="32,32 52,22 52,42 32,56"
+            fill="url(#prismRight)"
+            stroke="#c084fc"
+            strokeWidth="0.5"
+            strokeOpacity="0.6"
+          />
+
+          {/* Inner Glowing Holographic Prism Core */}
+          <polygon
+            points="32,20 40,27 32,38 24,27"
+            fill="url(#prismCore)"
+            opacity="0.95"
+            filter="url(#purpleGlow)"
+          />
+
+          {/* Specular Highlight Glint */}
+          <path
+            d="M32 10L33.5 17L38 18.5L33.5 20L32 27L30.5 20L26 18.5L30.5 17L32 10Z"
+            fill="#ffffff"
+            opacity="0.85"
+          />
+        </svg>
+      </div>
+
+      {/* Typography */}
+      {showText && (
+        <div className="flex items-center gap-2">
+          <span className={`${text} font-black tracking-tight text-white flex items-center`}>
+            <span>Template</span>
+            <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-violet-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+              Hub
+            </span>
+          </span>
+
+          <span
+            className={`${badge} font-mono uppercase font-bold tracking-wider rounded-full bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 border border-purple-500/40 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)]`}
+          >
+            V3.0
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}

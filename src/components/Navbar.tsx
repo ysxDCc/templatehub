@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Show, UserButton } from '@clerk/nextjs';
 import { useFavorites } from '@/context/FavoritesContext';
 import CommandPalette from '@/components/CommandPalette';
+import Logo from '@/components/Logo';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,68 +14,68 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full bg-[#060609]/90 backdrop-blur-xl border-b border-white/[0.08]">
+      <nav className="sticky top-0 z-40 w-full bg-[#070314]/85 backdrop-blur-2xl border-b border-purple-500/20 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo brand */}
+            {/* Logo Brand */}
             <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-3 group">
-                <div className="w-8 h-8 rounded-lg overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center transition-transform group-hover:scale-105">
-                  <img
-                    src="/logo.jpg"
-                    alt="TemplateHub Logo"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <span className="text-base font-bold tracking-tight text-white flex items-center gap-2">
-                  <span>TemplateHub</span>
-                  <span className="text-[10px] font-mono uppercase px-1.5 py-0.2 rounded bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold">
-                    Masterpiece
-                  </span>
-                </span>
+              <Link href="/" className="flex items-center">
+                <Logo size="md" />
               </Link>
 
-              <div className="hidden md:flex items-center space-x-6 text-sm">
-                <Link href="/templates" className="text-zinc-400 hover:text-white transition-colors font-medium">
-                  Templates (36)
+              <div className="hidden lg:flex items-center space-x-6 text-sm">
+                <Link 
+                  href="/templates" 
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                >
+                  <span>Templates</span>
+                  <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300">
+                    36
+                  </span>
                 </Link>
+
                 {favoritesCount > 0 && (
                   <Link
                     href="/templates"
-                    className="text-rose-400 hover:text-rose-300 transition-colors font-medium flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/20"
+                    className="text-rose-300 hover:text-white transition-colors font-medium flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 shadow-[0_0_12px_rgba(244,63,94,0.2)]"
                   >
                     <span>❤️</span>
                     <span>Saved ({favoritesCount})</span>
                   </Link>
                 )}
+
                 <Link 
                   href="/ai-generator" 
-                  className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
                 >
-                  <span>AI Generator</span>
-                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">
+                  <span>AI Studio</span>
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-gradient-to-r from-purple-500/30 to-fuchsia-500/30 text-purple-200 border border-purple-400/30 font-semibold shadow-[0_0_8px_rgba(168,85,247,0.3)]">
                     New
                   </span>
                 </Link>
+
                 <Link 
                   href="/compare" 
-                  className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium"
                 >
-                  <span>Compare</span>
+                  Compare
                 </Link>
+
                 <Link 
                   href="/builder" 
-                  className="text-white hover:text-zinc-200 transition-colors font-medium flex items-center gap-1.5"
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
                 >
                   <span>Visual Customizer</span>
-                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
-                    No-Code
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold">
+                    Live
                   </span>
                 </Link>
-                <Link href="/#pricing" className="text-zinc-400 hover:text-white transition-colors font-medium">
+
+                <Link href="/#pricing" className="text-purple-200/80 hover:text-white transition-colors font-medium">
                   Pricing
                 </Link>
-                <Link href="/#license" className="text-zinc-400 hover:text-white transition-colors font-medium">
+
+                <Link href="/#license" className="text-purple-200/80 hover:text-white transition-colors font-medium">
                   Licensing
                 </Link>
               </div>
@@ -82,17 +83,17 @@ export default function Navbar() {
 
             {/* Right Action buttons */}
             <div className="hidden md:flex items-center space-x-3 text-sm font-medium">
-              {/* Quick Search Command Trigger */}
+              {/* Purple-Glow Search Command Trigger */}
               <button
                 onClick={() => setIsCommandOpen(true)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-zinc-900/60 hover:bg-zinc-800 text-xs text-zinc-400 hover:text-white transition-all shadow-inner"
+                className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border border-purple-500/25 bg-[#0e0624]/90 hover:bg-[#1a0b3b] text-xs text-purple-200/90 hover:text-white transition-all shadow-[0_0_15px_-3px_rgba(168,85,247,0.25)] hover:border-purple-400/50"
                 title="Search templates (Cmd+K)"
               >
-                <svg className="w-3.5 h-3.5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3.5 h-3.5 text-purple-400 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span>Search</span>
-                <kbd className="px-1.5 py-0.2 text-[9px] font-mono bg-zinc-950 text-zinc-400 border border-white/10 rounded">
+                <span>Search archive</span>
+                <kbd className="px-1.5 py-0.5 text-[9px] font-mono bg-[#070314] text-purple-300 border border-purple-500/30 rounded shadow-xs">
                   ⌘K
                 </kbd>
               </button>
@@ -100,27 +101,30 @@ export default function Navbar() {
               <Show when="signed-out">
                 <Link 
                   href="/login" 
-                  className="px-3.5 py-1.5 text-zinc-300 hover:text-white transition-colors text-xs"
+                  className="px-3.5 py-1.5 text-purple-200 hover:text-white transition-colors text-xs font-semibold"
                 >
                   Log in
                 </Link>
                 <Link 
                   href="/signup" 
-                  className="px-4 py-2 bg-white text-zinc-950 font-semibold text-xs rounded-lg hover:bg-zinc-200 transition-colors shadow-xs"
+                  className="px-4 py-2 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold text-xs rounded-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:scale-[1.02] active:scale-95 flex items-center gap-1.5 shimmer-active"
                 >
-                  Get started
+                  <span>Get Started</span>
+                  <span>→</span>
                 </Link>
               </Show>
               <Show when="signed-in">
-                <UserButton />
+                <div className="ring-2 ring-purple-500/40 rounded-full p-0.5 bg-[#0e0624]">
+                  <UserButton />
+                </div>
               </Show>
             </div>
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger & search */}
             <div className="md:hidden flex items-center gap-2">
               <button
                 onClick={() => setIsCommandOpen(true)}
-                className="p-1.5 text-zinc-400 hover:text-white border border-white/10 rounded-lg bg-zinc-900"
+                className="p-2 text-purple-300 hover:text-white border border-purple-500/30 rounded-xl bg-[#0e0624]"
                 aria-label="Open search palette"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -129,7 +133,7 @@ export default function Navbar() {
               </button>
               <button 
                 onClick={() => setIsOpen(!isOpen)} 
-                className="p-1.5 text-zinc-400 hover:text-white focus:outline-none"
+                className="p-2 text-purple-300 hover:text-white focus:outline-none border border-purple-500/20 rounded-xl bg-[#0e0624]"
                 aria-label="Toggle navigation menu"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -144,24 +148,81 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Mobile dropdown menu */}
         {isOpen && (
-          <div className="md:hidden bg-[#060609] border-b border-white/[0.08] px-4 pt-3 pb-5 space-y-3">
-            <Link href="/templates" className="block text-sm text-zinc-300 hover:text-white py-1">Templates (36)</Link>
-            <Link href="/ai-generator" className="block text-sm text-zinc-300 hover:text-white py-1 flex items-center gap-1.5">
-              AI Generator <span className="px-1.5 rounded-full text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">New</span>
+          <div className="md:hidden bg-[#070314]/95 backdrop-blur-2xl border-b border-purple-500/25 px-4 pt-3 pb-6 space-y-3">
+            <Link 
+              href="/templates" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+            >
+              <span>Explore Templates</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold">
+                36 Total
+              </span>
             </Link>
-            <Link href="/compare" className="block text-sm text-zinc-300 hover:text-white py-1">Compare Matrix</Link>
-            <Link href="/builder" className="block text-sm text-zinc-300 hover:text-white py-1">Visual Customizer</Link>
-            <Link href="/#pricing" className="block text-sm text-zinc-300 hover:text-white py-1">Pricing</Link>
-            <Link href="/#license" className="block text-sm text-zinc-300 hover:text-white py-1">Licensing</Link>
-            <div className="pt-3 border-t border-white/[0.08] flex flex-col gap-2">
+            <Link 
+              href="/ai-generator" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+            >
+              <span>AI Template Studio</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
+                PRO
+              </span>
+            </Link>
+            <Link 
+              href="/compare" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+            >
+              Compare Specifications
+            </Link>
+            <Link 
+              href="/builder" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+            >
+              <span>Visual Customizer</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Live
+              </span>
+            </Link>
+            <Link 
+              href="/#pricing" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+            >
+              Subscription Tiers
+            </Link>
+            <Link 
+              href="/#license" 
+              onClick={() => setIsOpen(false)}
+              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+            >
+              Commercial License
+            </Link>
+
+            <div className="pt-4 border-t border-purple-500/20 flex flex-col gap-2">
               <Show when="signed-out">
-                <Link href="/login" className="w-full text-center py-2 text-sm text-zinc-300 border border-white/10 rounded-lg">Log in</Link>
-                <Link href="/signup" className="w-full text-center py-2 text-sm bg-white text-zinc-950 font-medium rounded-lg">Get started free</Link>
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center py-2.5 rounded-xl border border-purple-500/30 bg-[#0e0624] text-xs font-semibold text-purple-200"
+                >
+                  Log in
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                >
+                  Get Started Free
+                </Link>
               </Show>
               <Show when="signed-in">
-                <div className="py-2 flex items-center justify-between">
-                  <span className="text-sm text-zinc-400">Account</span>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-xs text-purple-300">Account Session</span>
                   <UserButton />
                 </div>
               </Show>

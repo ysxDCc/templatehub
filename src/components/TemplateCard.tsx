@@ -14,26 +14,27 @@ export default function TemplateCard({ template }: TemplateCardProps) {
   const favorited = isFavorite(template.id);
 
   const tierBadge = 
-    template.tier === 'free' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-    template.tier === 'basic' ? 'bg-zinc-800 text-zinc-300 border-zinc-700' :
-    template.tier === 'pro' ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' :
-    'bg-amber-500/10 text-amber-300 border-amber-500/20';
+    template.tier === 'free' ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' :
+    template.tier === 'basic' ? 'bg-purple-900/50 text-purple-200 border-purple-500/30' :
+    template.tier === 'pro' ? 'bg-fuchsia-900/50 text-fuchsia-200 border-fuchsia-500/40 shadow-[0_0_8px_rgba(232,121,249,0.3)]' :
+    'bg-amber-500/15 text-amber-300 border-amber-500/30';
 
   return (
     <Link href={`/templates/${template.id}`} className="group block h-full">
-      <div className="h-full rounded-xl bg-zinc-900/60 border border-white/[0.08] overflow-hidden transition-all duration-200 hover:border-white/20 hover:bg-zinc-900/90 flex flex-col">
-        {/* Preview Image Frame */}
-        <div className="relative aspect-[16/10] w-full bg-zinc-950 overflow-hidden border-b border-white/[0.06]">
+      <div className="h-full rounded-2xl bg-[#0d0622]/85 border border-purple-500/20 overflow-hidden transition-all duration-300 hover:border-purple-400/80 hover:bg-[#140838] hover:shadow-[0_0_35px_rgba(168,85,247,0.3)] hover:-translate-y-1 flex flex-col">
+        
+        {/* Preview Image Frame with 16:10 Ratio */}
+        <div className="relative aspect-[16/10] w-full bg-[#070314] overflow-hidden border-b border-purple-500/20">
           <Image 
             src={template.previewImage} 
             alt={template.name}
             fill
             unoptimized
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Top Overlays: Favorite Button & Tier Badge */}
-          <div className="absolute top-2.5 left-2.5 z-10">
+          <div className="absolute top-3 left-3 z-10">
             <button
               type="button"
               onClick={(e) => {
@@ -41,11 +42,11 @@ export default function TemplateCard({ template }: TemplateCardProps) {
                 e.stopPropagation();
                 toggleFavorite(template.id);
               }}
-              title={favorited ? 'Remove from favorites' : 'Save to favorites'}
+              title={favorited ? 'Remove from saved' : 'Save to favorites'}
               className={`w-7 h-7 rounded-full flex items-center justify-center transition-all backdrop-blur-md border ${
                 favorited
-                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 scale-105'
-                  : 'bg-zinc-950/70 border-white/10 text-zinc-400 hover:text-white hover:bg-zinc-900/90'
+                  ? 'bg-rose-500/25 border-rose-500/50 text-rose-300 scale-105 shadow-[0_0_12px_rgba(244,63,94,0.4)]'
+                  : 'bg-[#070314]/80 border-purple-500/30 text-purple-300 hover:text-white hover:bg-[#1a0b3b]'
               }`}
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -54,9 +55,16 @@ export default function TemplateCard({ template }: TemplateCardProps) {
             </button>
           </div>
 
-          <div className="absolute top-2.5 right-2.5 z-10">
-            <span className={`px-2 py-0.5 text-[10px] font-semibold tracking-wide uppercase rounded-md border backdrop-blur-xs ${tierBadge}`}>
+          <div className="absolute top-3 right-3 z-10">
+            <span className={`px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-md border backdrop-blur-md ${tierBadge}`}>
               {template.tier}
+            </span>
+          </div>
+
+          {/* Hover Overlay Hint */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070314] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+            <span className="text-[11px] font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 px-2.5 py-1 rounded-md shadow-md">
+              View Specs &amp; Sandbox ↗
             </span>
           </div>
         </div>
@@ -65,44 +73,45 @@ export default function TemplateCard({ template }: TemplateCardProps) {
         <div className="p-4 flex flex-col flex-grow">
           {/* Brand tag + category */}
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-semibold text-zinc-200 truncate">
+            <span className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">
               {template.name}
             </span>
-            <span className="text-[10px] uppercase tracking-wider text-zinc-500 font-mono">
+            <span className="text-[10px] uppercase tracking-wider text-purple-400 font-mono">
               {template.category}
             </span>
           </div>
 
           {/* Description */}
-          <p className="text-xs text-zinc-400 line-clamp-2 mb-4 flex-grow leading-relaxed">
+          <p className="text-xs text-purple-200/70 line-clamp-2 mb-4 flex-grow leading-relaxed">
             {template.description}
           </p>
 
           {/* Metadata Row */}
-          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] text-[11px] text-zinc-500">
+          <div className="flex items-center justify-between pt-3 border-t border-purple-500/20 text-[11px] text-purple-300/80">
             <div className="flex items-center gap-1.5">
-              <span className="text-zinc-400">★ {template.rating.toFixed(1)}</span>
+              <span className="text-amber-400 font-semibold">★ {template.rating.toFixed(1)}</span>
               <span>•</span>
-              <span>{template.downloads.toLocaleString()} downloads</span>
+              <span className="font-mono">{template.downloads.toLocaleString()} dl</span>
             </div>
             <div className="flex items-center gap-2">
               {template.accessibilityScore && (
                 <span className={`px-1.5 py-0.5 text-[9px] font-bold tracking-wide rounded border ${
                   template.accessibilityScore === 'AAA'
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
                     : template.accessibilityScore === 'AA'
-                    ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
-                    : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                    ? 'bg-blue-500/15 text-blue-300 border-blue-500/30'
+                    : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
                 }`}>
                   WCAG {template.accessibilityScore}
                 </span>
               )}
-              <span className="text-zinc-400 group-hover:text-white font-medium transition-colors">
-                Preview →
+              <span className="text-purple-400 group-hover:text-white font-bold transition-colors">
+                →
               </span>
             </div>
           </div>
         </div>
+
       </div>
     </Link>
   );

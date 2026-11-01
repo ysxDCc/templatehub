@@ -4,35 +4,38 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function MasterpieceBentoGrid() {
-  const [activeColor, setActiveColor] = useState('#6366f1');
+  const [activeColor, setActiveColor] = useState('#a855f7');
 
   const colorPalettes = [
-    { name: 'Indigo', color: '#6366f1', glow: 'rgba(99, 102, 241, 0.4)' },
-    { name: 'Cyan', color: '#06b6d4', glow: 'rgba(6, 182, 212, 0.4)' },
-    { name: 'Emerald', color: '#10b981', glow: 'rgba(16, 185, 129, 0.4)' },
-    { name: 'Scarlet', color: '#ef233c', glow: 'rgba(239, 35, 60, 0.4)' },
-    { name: 'Gold', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.4)' },
-    { name: 'Purple', color: '#a855f7', glow: 'rgba(168, 85, 247, 0.4)' },
+    { name: 'Amethyst', color: '#a855f7', glow: 'rgba(168, 85, 247, 0.5)' },
+    { name: 'Royal Violet', color: '#7c3aed', glow: 'rgba(124, 58, 237, 0.5)' },
+    { name: 'Neon Fuchsia', color: '#e879f9', glow: 'rgba(232, 121, 249, 0.5)' },
+    { name: 'Electric Cyan', color: '#06b6d4', glow: 'rgba(6, 182, 212, 0.5)' },
+    { name: 'Emerald Pulse', color: '#10b981', glow: 'rgba(16, 185, 129, 0.5)' },
+    { name: 'Solar Amber', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.5)' },
   ];
 
   return (
-    <section className="py-24 border-b border-white/[0.08] bg-[#070709] relative overflow-hidden">
+    <section className="py-28 border-b border-purple-500/20 bg-[#070314] relative overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-fuchsia-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-mono uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-xs font-mono uppercase tracking-wider mb-4 shadow-[0_0_15px_rgba(168,85,247,0.25)]">
             <span>✦ Engineered Without Compromise</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
-            Not Just Templates. <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400">
-              Sovereign Production Codebases.
+            Not Mere Templates. <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-fuchsia-200 to-violet-300 drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+              Sovereign Codebase Engines.
             </span>
           </h2>
-          <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
-            Eliminate runtime fragility. Every codebase is self-contained HTML5, semantic Tailwind/CSS variables, and zero bundled node_modules dependencies.
+          <p className="text-purple-200/80 text-base sm:text-lg leading-relaxed">
+            Eliminate runtime fragility. Every codebase is self-contained HTML5, semantic CSS variables, and zero bundled node_modules dependencies.
           </p>
         </div>
 
@@ -40,33 +43,35 @@ export default function MasterpieceBentoGrid() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           
           {/* Bento Card 1: Interactive Live CSS Token Playground (7 cols) */}
-          <div className="md:col-span-7 bg-zinc-900/40 border border-white/10 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-white/20 transition-all shadow-2xl">
+          <div className="md:col-span-7 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
               <div className="flex items-center justify-between gap-4 mb-4">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-400 font-bold">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 font-bold">
                   LIVE TOKEN HARNESS
                 </span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-500/10 border border-indigo-500/20 text-indigo-300">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-purple-500/20 border border-purple-500/35 text-purple-200">
                   CSS Variables Reactive
                 </span>
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">
                 Dynamic Brand Token Customizer
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                Test how effortlessly our templates absorb your brand identity. Click a theme token below to watch the live UI node react in real-time.
+              <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-6">
+                Test how effortlessly our templates absorb your brand identity. Select a theme token below to watch the live UI node adapt instantly.
               </p>
 
               {/* Swatch Selector */}
-              <div className="flex items-center gap-3 mb-6 bg-zinc-950/70 p-2 rounded-xl border border-white/10 w-fit">
-                <span className="text-xs text-zinc-400 font-medium px-2">Palette:</span>
+              <div className="flex items-center gap-3 mb-6 bg-[#070314] p-2.5 rounded-2xl border border-purple-500/25 w-fit shadow-inner">
+                <span className="text-xs text-purple-300 font-medium px-2">Palette:</span>
                 {colorPalettes.map((p) => (
                   <button
                     key={p.name}
                     onClick={() => setActiveColor(p.color)}
                     style={{ backgroundColor: p.color }}
-                    className={`w-6 h-6 rounded-full transition-transform ${
-                      activeColor === p.color ? 'scale-125 ring-2 ring-white ring-offset-2 ring-offset-zinc-950' : 'opacity-70 hover:opacity-100'
+                    className={`w-7 h-7 rounded-full transition-transform duration-300 ${
+                      activeColor === p.color
+                        ? 'scale-125 ring-2 ring-white ring-offset-2 ring-offset-[#070314] shadow-[0_0_15px_rgba(168,85,247,0.7)]'
+                        : 'opacity-70 hover:opacity-100 hover:scale-110'
                     }`}
                     title={p.name}
                   />
@@ -76,138 +81,160 @@ export default function MasterpieceBentoGrid() {
 
             {/* Interactive Preview Canvas Node */}
             <div
-              className="bg-zinc-950 border border-white/10 rounded-2xl p-6 transition-all duration-300 shadow-xl"
-              style={{ borderColor: activeColor }}
+              className="bg-[#070314] border rounded-2xl p-6 transition-all duration-300 shadow-2xl"
+              style={{
+                borderColor: activeColor,
+                boxShadow: `0 0 30px -5px ${activeColor}40`,
+              }}
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-xs" style={{ backgroundColor: activeColor }}>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-xs shadow-md transition-colors"
+                    style={{ backgroundColor: activeColor }}
+                  >
                     ⚡
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-white">Quantum Cloud Infrastructure</div>
-                    <div className="text-[10px] text-zinc-500 font-mono">--primary-brand: {activeColor}</div>
+                    <div className="text-xs font-bold text-white">Quantum Cloud Mesh</div>
+                    <div className="text-[10px] text-purple-300/70 font-mono">
+                      --brand-primary: {activeColor}
+                    </div>
                   </div>
                 </div>
                 <span
                   className="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider"
-                  style={{ backgroundColor: `${activeColor}20`, color: activeColor, border: `1px solid ${activeColor}40` }}
+                  style={{
+                    backgroundColor: `${activeColor}20`,
+                    color: activeColor,
+                    border: `1px solid ${activeColor}50`,
+                  }}
                 >
-                  Sub-5ms Cluster
+                  Sub-3ms Edge
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/5">
-                  <div className="text-[10px] text-zinc-500 uppercase font-mono">Uptime SLA</div>
-                  <div className="text-sm font-bold text-white">99.998%</div>
+                <div className="bg-[#0e0624] p-3 rounded-xl border border-purple-500/20">
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Uptime SLA</div>
+                  <div className="text-sm font-bold text-white">99.999%</div>
                 </div>
-                <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/5">
-                  <div className="text-[10px] text-zinc-500 uppercase font-mono">Edge Latency</div>
-                  <div className="text-sm font-bold" style={{ color: activeColor }}>3.2 ms</div>
+                <div className="bg-[#0e0624] p-3 rounded-xl border border-purple-500/20">
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Edge Latency</div>
+                  <div className="text-sm font-bold" style={{ color: activeColor }}>
+                    2.8 ms
+                  </div>
                 </div>
-                <div className="bg-zinc-900/60 p-3 rounded-lg border border-white/5">
-                  <div className="text-[10px] text-zinc-500 uppercase font-mono">Global Mesh</div>
-                  <div className="text-sm font-bold text-white">320 PoPs</div>
+                <div className="bg-[#0e0624] p-3 rounded-xl border border-purple-500/20">
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Global Mesh</div>
+                  <div className="text-sm font-bold text-white">340 PoPs</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Bento Card 2: Zero Dependency Architecture Comparison (5 cols) */}
-          <div className="md:col-span-5 bg-zinc-900/40 border border-white/10 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-white/20 transition-all shadow-2xl">
+          {/* Bento Card 2: Zero Dependency Sovereignty (5 cols) */}
+          <div className="md:col-span-5 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-bold block mb-4">
                 ARCHITECTURAL SOVEREIGNTY
               </span>
               <h3 className="text-2xl font-bold text-white mb-2">
-                Zero node_modules. Zero Fragility.
+                Immune to Dependency Rot
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                Most template vendors ship 150MB of deprecated packages that break with every React major bump. TemplateHub ships standalone purity.
+              <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-6">
+                Typical templates pull 400+ transitive npm packages that break every 3 months. Our templates have zero dependencies. Run them today, run them in 2036.
               </p>
+
+              {/* Comparison Matrix */}
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-between text-rose-300">
+                  <span>Standard Theme:</span>
+                  <span className="font-bold">428 npm packages, 120MB</span>
+                </div>
+                <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/35 flex items-center justify-between text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                  <span>TemplateHub Masterpiece:</span>
+                  <span className="font-bold">0 packages, &lt; 50KB HTML</span>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-3 font-mono text-xs">
-              <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-rose-300">
-                <div className="font-bold flex items-center justify-between">
-                  <span>Legacy Marketplaces</span>
-                  <span>✕ Deprecated</span>
-                </div>
-                <div className="text-[11px] text-zinc-400 mt-1">180 MB dependencies · 42 vulnerabilities · Broken builds</div>
-              </div>
-              <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-emerald-300">
-                <div className="font-bold flex items-center justify-between">
-                  <span>TemplateHub Registry</span>
-                  <span>✓ 100% Standalone</span>
-                </div>
-                <div className="text-[11px] text-zinc-400 mt-1">1 Single File · 0 npm installs · Immediate browser execution</div>
-              </div>
+            <div className="pt-6 border-t border-purple-500/20 mt-6 flex items-center justify-between">
+              <span className="text-xs text-purple-300">Self-sufficient codebases</span>
+              <span className="text-xs text-emerald-400 font-bold">100% Perpetual Guarantee</span>
             </div>
           </div>
 
-          {/* Bento Card 3: Multi-Format Package Generator (6 cols) */}
-          <div className="md:col-span-6 bg-zinc-900/40 border border-white/10 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-white/20 transition-all shadow-2xl">
+          {/* Bento Card 3: Store Auto-Edit Studio with Base64 Photos (5 cols) */}
+          <div className="md:col-span-5 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-cyan-400 font-bold block mb-4">
-                NATIVE PKZIP PACKAGER
+              <span className="text-[11px] font-mono uppercase tracking-widest text-fuchsia-400 font-bold block mb-4">
+                NO-CODE CUSTOMIZATION
               </span>
               <h3 className="text-2xl font-bold text-white mb-2">
-                Multi-Format Instant Export
+                In-Browser Store Auto-Edit Studio
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                Download single-file `.html` for instant deployment, or export a complete project archive bundle (`.zip`) with README, License, and Configs.
+              <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-4">
+                Paid members can click any template and enter brand info, product titles, phone numbers, and upload local photos. Our engine updates the DOM live and builds a downloadable package in seconds.
               </p>
-            </div>
-
-            <div className="grid grid-cols-3 gap-2 bg-zinc-950 p-3 rounded-xl border border-white/10 text-center font-mono text-xs">
-              <div className="p-2 rounded bg-zinc-900 border border-white/5">
-                <div className="text-base mb-1">📄</div>
-                <div className="font-bold text-white text-[11px]">.html</div>
-                <div className="text-[9px] text-zinc-500">Standalone</div>
-              </div>
-              <div className="p-2 rounded bg-zinc-900 border border-white/5">
-                <div className="text-base mb-1">📦</div>
-                <div className="font-bold text-white text-[11px]">.zip</div>
-                <div className="text-[9px] text-zinc-500">Full Archive</div>
-              </div>
-              <div className="p-2 rounded bg-zinc-900 border border-white/5">
-                <div className="text-base mb-1">⟨/⟩</div>
-                <div className="font-bold text-white text-[11px]">iframe</div>
-                <div className="text-[9px] text-zinc-500">Embed Snippet</div>
+              <div className="flex flex-wrap gap-2 text-[10px] font-mono text-purple-300">
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Base64 Image Injection</span>
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ PKZIP Bundler</span>
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Live Split-Pane</span>
               </div>
             </div>
-          </div>
 
-          {/* Bento Card 4: WCAG AAA Accessibility Matrix (6 cols) */}
-          <div className="md:col-span-6 bg-zinc-900/40 border border-white/10 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-white/20 transition-all shadow-2xl">
-            <div>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-amber-400 font-bold block mb-4">
-                WCAG AAA ACCESSIBILITY
-              </span>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Audited Screen-Reader &amp; Contrast
-              </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed mb-6">
-                Every component is built with semantic landmark roles, keyboard navigation focus rings, and verified 7:1 contrast ratios.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-zinc-950 rounded-2xl border border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-lg">
-                  AAA
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-white">Full WCAG 2.1 Compliance</div>
-                  <div className="text-[10px] text-zinc-500 font-mono">ARIA Landmarks &amp; Focus Traps Included</div>
-                </div>
-              </div>
+            <div className="pt-6 border-t border-purple-500/20 mt-6">
               <Link
-                href="/compare"
-                className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-colors border border-white/10"
+                href="/templates/astral-aerospace"
+                className="text-xs font-bold text-fuchsia-300 hover:text-white transition-colors flex items-center gap-1.5"
               >
-                Inspect Matrix →
+                <span>Launch Auto-Edit Studio</span>
+                <span>→</span>
               </Link>
+            </div>
+          </div>
+
+          {/* Bento Card 4: Global Performance Benchmark Telemetry (7 cols) */}
+          <div className="md:col-span-7 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
+            <div>
+              <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 font-bold block mb-4">
+                PERFORMANCE BENCHMARK
+              </span>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Certified 100/100 Core Web Vitals
+              </h3>
+              <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-6">
+                Because there is zero JavaScript hydration tax, our templates achieve perfect Lighthouse metrics out of the box on mobile and desktop.
+              </p>
+
+              {/* 4 Score Rings */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
+                  <div className="text-2xl font-extrabold text-emerald-400 mb-1">100</div>
+                  <div className="text-[11px] font-bold text-white">Performance</div>
+                  <div className="text-[10px] text-purple-400/80 font-mono mt-0.5">LCP 0.4s</div>
+                </div>
+                <div className="p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
+                  <div className="text-2xl font-extrabold text-emerald-400 mb-1">100</div>
+                  <div className="text-[11px] font-bold text-white">Accessibility</div>
+                  <div className="text-[10px] text-purple-400/80 font-mono mt-0.5">WCAG AAA</div>
+                </div>
+                <div className="p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
+                  <div className="text-2xl font-extrabold text-emerald-400 mb-1">100</div>
+                  <div className="text-[11px] font-bold text-white">Best Practices</div>
+                  <div className="text-[10px] text-purple-400/80 font-mono mt-0.5">Modern Web</div>
+                </div>
+                <div className="p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
+                  <div className="text-2xl font-extrabold text-emerald-400 mb-1">100</div>
+                  <div className="text-[11px] font-bold text-white">SEO Score</div>
+                  <div className="text-[10px] text-purple-400/80 font-mono mt-0.5">Semantic Tags</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-purple-500/20 mt-6 flex items-center justify-between text-xs text-purple-300">
+              <span>Audited with Google Chrome Lighthouse v12</span>
+              <span className="font-mono text-purple-400 font-semibold">ZERO REGRESSIONS</span>
             </div>
           </div>
 

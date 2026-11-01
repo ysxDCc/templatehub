@@ -151,7 +151,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
         <button
           onClick={() => handleDownload('zip')}
           disabled={loadingHtml || loadingZip}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50"
+          className="bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-bold py-2.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.35)] disabled:opacity-50"
           title="Export complete package with README, License, and Configs (.zip)"
         >
           {loadingZip ? (

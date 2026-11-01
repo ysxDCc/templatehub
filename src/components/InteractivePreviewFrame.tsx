@@ -22,7 +22,7 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
 
   const [viewMode, setViewMode] = useState<ViewMode>('preview');
   const [viewport, setViewport] = useState<ViewportMode>('desktop');
-  const [primaryColor, setPrimaryColor] = useState('#6366f1');
+  const [primaryColor, setPrimaryColor] = useState('#a855f7');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Raw Code state (only loaded if user has access)
@@ -201,16 +201,16 @@ Deploy directly to Vercel, Netlify, or any static web host.
     : codeLines.map((line, idx) => ({ line, idx, match: false }));
 
   return (
-    <div className="border border-white/10 rounded-2xl overflow-hidden bg-zinc-950 shadow-2xl transition-all">
+    <div className="border border-purple-500/25 rounded-2xl overflow-hidden bg-[#0a041b] shadow-2xl transition-all">
       {/* Primary Tab Switcher Bar */}
-      <div className="bg-zinc-950 px-4 py-2 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/10">
+      <div className="bg-[#0e0624] px-4 py-2 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-1 bg-[#070314] p-1 rounded-xl border border-purple-500/25">
           <button
             onClick={() => setViewMode('preview')}
             className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
               viewMode === 'preview'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]'
+                : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
             }`}
           >
             <span>👁️</span>
@@ -225,13 +225,13 @@ Deploy directly to Vercel, Netlify, or any static web host.
             onClick={() => setViewMode('autoedit')}
             className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
               viewMode === 'autoedit'
-                ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-xs'
-                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(232,121,249,0.4)]'
+                : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
             }`}
           >
             <span>🪄</span>
             <span>Auto-Edit with Store Info</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+            <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
               Pro
             </span>
           </button>

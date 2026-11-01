@@ -87,28 +87,28 @@ export default function AIGeneratorPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#09090b]">
+    <div className="min-h-screen bg-[#070314] text-purple-100">
       {/* Header */}
-      <div className="relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-b from-zinc-950 to-[#09090b]">
+      <div className="relative overflow-hidden border-b border-purple-500/20 bg-gradient-to-b from-[#0e0624] to-[#070314]">
         {/* Glow blobs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-indigo-600/10 blur-3xl" />
-          <div className="absolute top-0 left-1/4 w-[300px] h-[200px] rounded-full bg-violet-600/10 blur-3xl" />
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-purple-600/15 blur-[140px]" />
+          <div className="absolute top-0 left-1/4 w-[350px] h-[250px] rounded-full bg-fuchsia-600/10 blur-[120px]" />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-semibold mb-6 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-            Powered by Gemini
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-xs font-semibold mb-6 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.25)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse" />
+            <span>Powered by Gemini 2.5 Flash</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4">
             AI Template{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-300">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-fuchsia-200 to-violet-300 drop-shadow-[0_0_35px_rgba(168,85,247,0.5)]">
               Generator
             </span>
           </h1>
-          <p className="text-zinc-400 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-purple-200/75 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Describe your dream website, get production-ready HTML in seconds.
           </p>
         </div>
@@ -117,8 +117,8 @@ export default function AIGeneratorPage() {
       {/* Main content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Prompt area */}
-        <div className="bg-zinc-900/60 border border-white/[0.08] rounded-2xl p-6 mb-6 backdrop-blur-xl">
-          <label className="block text-sm font-semibold text-zinc-300 mb-3">
+        <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-6 mb-6 backdrop-blur-xl shadow-2xl">
+          <label className="block text-sm font-bold text-white mb-3">
             Describe your website
           </label>
           <textarea
@@ -127,7 +127,7 @@ export default function AIGeneratorPage() {
             placeholder="e.g. 'Dark SaaS landing page for a project management tool with pricing table and testimonials'"
             rows={4}
             disabled={state === 'loading'}
-            className="w-full bg-zinc-950/80 border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none disabled:opacity-50"
+            className="w-full bg-[#070314] border border-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all resize-none disabled:opacity-50"
           />
 
           {/* Example prompts */}
@@ -137,7 +137,7 @@ export default function AIGeneratorPage() {
                 key={i}
                 onClick={() => setPrompt(ex)}
                 disabled={state === 'loading'}
-                className="text-[11px] px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 border border-white/[0.06] transition-colors disabled:opacity-40 text-left"
+                className="text-[11px] px-2.5 py-1 rounded-lg bg-[#070314] hover:bg-[#1a0b3b] text-purple-300 hover:text-white border border-purple-500/25 transition-colors disabled:opacity-40 text-left font-mono"
               >
                 {ex.length > 50 ? ex.slice(0, 50) + '…' : ex}
               </button>
@@ -148,7 +148,7 @@ export default function AIGeneratorPage() {
             <button
               onClick={handleGenerate}
               disabled={state === 'loading' || !prompt.trim()}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white text-xs font-bold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {state === 'loading' ? (
                 <>
@@ -156,14 +156,14 @@ export default function AIGeneratorPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Generating…
+                  <span>Generating…</span>
                 </>
               ) : (
                 <>
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  Generate Template
+                  <span>Generate Template</span>
                 </>
               )}
             </button>
@@ -172,41 +172,41 @@ export default function AIGeneratorPage() {
 
         {/* Loading state */}
         {state === 'loading' && (
-          <div className="bg-zinc-900/60 border border-white/[0.08] rounded-2xl p-8 mb-6 text-center backdrop-blur-xl">
+          <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-8 mb-6 text-center backdrop-blur-xl shadow-2xl">
             <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce [animation-delay:-0.3s]" />
-              <div className="w-2 h-2 rounded-full bg-violet-400 animate-bounce [animation-delay:-0.15s]" />
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" />
+              <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce [animation-delay:-0.3s]" />
+              <div className="w-2 h-2 rounded-full bg-fuchsia-400 animate-bounce [animation-delay:-0.15s]" />
+              <div className="w-2 h-2 rounded-full bg-violet-400 animate-bounce" />
             </div>
-            <p className="text-sm font-semibold text-zinc-300 mb-4">Generating your template…</p>
-            <p className="text-xs text-zinc-500 mb-6">Gemini is crafting production-ready HTML with embedded CSS</p>
+            <p className="text-sm font-bold text-white mb-2">Generating your template…</p>
+            <p className="text-xs text-purple-300/70 mb-6">Gemini is crafting production-ready HTML with embedded CSS</p>
 
             {/* Progress bar */}
-            <div className="w-full max-w-sm mx-auto bg-zinc-800 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full max-w-sm mx-auto bg-[#070314] rounded-full h-2 overflow-hidden border border-purple-500/20">
               <div
-                className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]"
                 style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-600 mt-2">{Math.round(Math.min(progress, 100))}%</p>
+            <p className="text-[11px] text-purple-400/80 font-mono mt-2">{Math.round(Math.min(progress, 100))}%</p>
           </div>
         )}
 
         {/* No API key state */}
         {state === 'no-key' && (
-          <div className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-8 mb-6 text-center">
+          <div className="bg-amber-500/5 border border-amber-500/25 rounded-2xl p-8 mb-6 text-center">
             <div className="text-4xl mb-4">🔑</div>
             <h3 className="text-base font-bold text-amber-300 mb-2">Connect Gemini API key to enable generation</h3>
-            <p className="text-sm text-zinc-400 max-w-md mx-auto mb-4 leading-relaxed">
+            <p className="text-sm text-purple-200/70 max-w-md mx-auto mb-4 leading-relaxed">
               The AI generator requires a Gemini API key configured in your environment.
-              Add <code className="px-1.5 py-0.5 bg-zinc-800 rounded text-amber-300 text-[11px]">GEMINI_API_KEY</code> to your{' '}
-              <code className="px-1.5 py-0.5 bg-zinc-800 rounded text-zinc-300 text-[11px]">.env.local</code> to activate this feature.
+              Add <code className="px-1.5 py-0.5 bg-[#070314] border border-purple-500/25 rounded text-amber-300 text-[11px] font-mono">GEMINI_API_KEY</code> to your{' '}
+              <code className="px-1.5 py-0.5 bg-[#070314] border border-purple-500/25 rounded text-purple-200 text-[11px] font-mono">.env.local</code> to activate this feature.
             </p>
             <a
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-xs font-semibold rounded-xl transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/35 text-amber-300 text-xs font-semibold rounded-xl transition-colors"
             >
               Get a free API key →
             </a>
@@ -215,10 +215,10 @@ export default function AIGeneratorPage() {
 
         {/* Generic error state */}
         {state === 'error' && (
-          <div className="bg-red-500/5 border border-red-500/20 rounded-2xl p-6 mb-6 text-center">
+          <div className="bg-rose-500/10 border border-rose-500/25 rounded-2xl p-6 mb-6 text-center">
             <div className="text-3xl mb-3">⚠️</div>
-            <h3 className="text-sm font-bold text-red-400 mb-1">Generation failed</h3>
-            <p className="text-xs text-zinc-500">Something went wrong. Try again or rephrase your prompt.</p>
+            <h3 className="text-sm font-bold text-rose-300 mb-1">Generation failed</h3>
+            <p className="text-xs text-purple-300/70">Something went wrong. Try again or rephrase your prompt.</p>
           </div>
         )}
 
@@ -226,15 +226,15 @@ export default function AIGeneratorPage() {
         {state === 'success' && generatedHtml && (
           <div className="space-y-4">
             {/* Action bar */}
-            <div className="flex items-center justify-between bg-zinc-900/60 border border-white/[0.08] rounded-xl px-4 py-3 backdrop-blur-xl">
+            <div className="flex items-center justify-between bg-[#0d0622]/90 border border-purple-500/25 rounded-xl px-4 py-3 backdrop-blur-xl">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-semibold text-zinc-300">Template generated</span>
+                <span className="text-xs font-bold text-white">Template generated</span>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleCopy}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 border border-white/[0.08] text-zinc-300 hover:text-white text-xs font-medium rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 hover:text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   {copied ? (
                     <>
@@ -254,7 +254,7 @@ export default function AIGeneratorPage() {
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg transition-colors shadow-sm shadow-indigo-500/20"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm shadow-purple-500/30 hover:scale-105"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -265,12 +265,12 @@ export default function AIGeneratorPage() {
             </div>
 
             {/* iframe preview */}
-            <div className="rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/40 bg-white">
-              <div className="flex items-center gap-1.5 px-4 py-2.5 bg-zinc-900 border-b border-white/[0.06]">
+            <div className="rounded-2xl overflow-hidden border border-purple-500/30 shadow-2xl bg-[#070314]">
+              <div className="flex items-center gap-1.5 px-4 py-2.5 bg-[#0e0624] border-b border-purple-500/20">
                 <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-                <span className="ml-3 text-[11px] text-zinc-500 font-mono">generated-template.html</span>
+                <span className="ml-3 text-[11px] text-purple-400/80 font-mono">generated-template.html</span>
               </div>
               <iframe
                 srcDoc={generatedHtml}
