@@ -37,7 +37,11 @@ export type TemplateCategory =
   | 'education'
   | 'green'
   | 'food'
-  | 'fintech';
+  | 'fintech'
+  | 'security'
+  | 'energy'
+  | 'luxury'
+  | 'cloud';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 

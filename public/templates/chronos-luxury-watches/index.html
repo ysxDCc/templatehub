@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chronos Horology — Haute Horlogerie Atelier & Masterpiece Archive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090704;
+      --surface: #141009;
+      --surface-card: #1f1810;
+      --border: rgba(212, 175, 55, 0.2);
+      --gold: #d4af37;
+      --gold-light: #f3e5ab;
+      --text: #fdfcf7;
+      --text-muted: #a89f91;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.4rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(9, 7, 4, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { font-family: 'Cinzel', serif; font-size: 1.45rem; font-weight: 700; letter-spacing: 0.15em; color: var(--gold); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), #997a15);
+      color: #090704;
+      padding: 0.65rem 1.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+    }
+    .hero {
+      padding: 8rem 6% 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.75rem, 6.5vw, 5.25rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #fff 30%, var(--gold) 70%, #997a15 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+    }
+
+    .masterpiece-showcase {
+      max-width: 1050px;
+      margin: 3.5rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      text-align: left;
+    }
+    @media (max-width: 850px) { .masterpiece-showcase { grid-template-columns: 1fr; } }
+    .watch-art {
+      height: 320px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 50% 50%, #2b1f10 0%, #120d07 100%);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+    .piece-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.25rem;
+    }
+    footer {
+      padding: 3.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">CHRONOS <span>GENÈVE</span></div>
+  <ul class="nav-links">
+    <li><a href="#complications">Grand Complications</a></li>
+    <li><a href="#atelier">The Atelier</a></li>
+    <li><a href="#archive">Archive</a></li>
+  </ul>
+  <button class="btn-gold">Private Viewing</button>
+</nav>
+
+<section class="hero">
+  <div class="badge">Atelier d'Horlogerie Fonde en 1892</div>
+  <h1>Perpetual Artistry in <br><span>Mechanical Precision</span></h1>
+  <p>Hand-finished tourbillons, minute repeaters, and astronomical celestial spheres crafted by master horologists in Vallée de Joux, Switzerland.</p>
+
+  <div class="masterpiece-showcase">
+    <div class="watch-art">⌚</div>
+    <div>
+      <span style="font-size:0.75rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase">Reference 8820 / Platinum</span>
+      <h2 style="font-family:'Cinzel',serif;font-size:2rem;margin:0.5rem 0 1rem;color:#fff">The Celestial Tourbillon</h2>
+      <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem">
+        Calibre CH-980 manually wound movement with 3-axis spherical tourbillon, sidereal time display, and hand-engraved Northern Hemisphere star chart. Limited to 8 numbered pieces worldwide.
+      </p>
+      <div style="font-size:1.5rem;font-weight:700;color:var(--gold);font-family:'Cinzel',serif;margin-bottom:1.5rem">€ 385,000</div>
+      <button class="btn-gold">Request Allocation Dossier</button>
+    </div>
+  </div>
+</section>
+
+<div class="grid-3">
+  <div class="piece-card">
+    <div style="font-family:'Cinzel',serif;font-size:1.25rem;color:var(--gold);margin-bottom:0.5rem">Grand Feu Enameling</div>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Each dial is kiln-fired at 800°C in eight successive layers of vitreous silica enamel, producing a rich, lustrous porcelain finish that never fades across centuries.</p>
+  </div>
+  <div class="piece-card">
+    <div style="font-family:'Cinzel',serif;font-size:1.25rem;color:var(--gold);margin-bottom:0.5rem">Hand Anglage & Beveling</div>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Internal angles polished by hand using gentian wood pegs and diamond paste to achieve mirror reflection according to the Poinçon de Genève standard.</p>
+  </div>
+  <div class="piece-card">
+    <div style="font-family:'Cinzel',serif;font-size:1.25rem;color:var(--gold);margin-bottom:0.5rem">Poinçon de Genève Certified</div>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Every mechanical caliber undergoes 21 days of chronometric trials testing rate variance, magnetic resistance, and water-resistance up to 50 meters.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Chronos Genève Horlogerie SA. Geneva, Switzerland.</p>
+</footer>
+
+</body>
+</html>

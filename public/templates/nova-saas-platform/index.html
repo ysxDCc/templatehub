@@ -3,2054 +3,755 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CloudScale SaaS — Scale Your Business to the Cloud</title>
+  <title>Nova SaaS Platform — Enterprise B2B Workspaces & Team Governance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables & Theme Configuration */
     :root {
-      --bg-deep: #090616;
-      --bg-dark: #0e0b1f;
-      --bg-surface: #151030;
-      --bg-card: rgba(21, 16, 48, 0.7);
-      --bg-card-hover: rgba(31, 24, 71, 0.85);
-      --border-subtle: rgba(168, 85, 247, 0.16);
-      --border-glow: rgba(168, 85, 247, 0.4);
-      --border-accent: rgba(6, 182, 212, 0.4);
-      
-      --neon-violet: #a855f7;
-      --neon-violet-light: #c084fc;
-      --neon-violet-glow: rgba(168, 85, 247, 0.35);
-      --electric-cyan: #06b6d4;
-      --electric-cyan-light: #38bdf8;
-      --electric-cyan-glow: rgba(6, 182, 212, 0.3);
-      --accent-indigo: #6366f1;
-      
-      --text-main: #f8fafc;
+      --bg: #07070a;
+      --surface: #0f0f16;
+      --surface-elevated: #161622;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(147, 51, 234, 0.4);
+      --primary: #9333ea;
+      --primary-hover: #a855f7;
+      --accent: #06b6d4;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --text: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      --text-highlight: #e2e8f0;
-      
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      
-      --container-max: 1200px;
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    /* Reset & Base Styles */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-      color-scheme: dark;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: var(--font-sans);
-      background-color: var(--bg-deep);
-      color: var(--text-main);
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       line-height: 1.6;
       overflow-x: hidden;
-      position: relative;
-      background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 58, 237, 0.25), transparent),
-        radial-gradient(circle 600px at 85% 20%, rgba(6, 182, 212, 0.12), transparent),
-        radial-gradient(circle 500px at 15% 65%, rgba(168, 85, 247, 0.1), transparent);
-      background-attachment: fixed;
     }
 
-    /* Ambient Background Grid */
-    .bg-grid {
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 80%);
-      -webkit-mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 80%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Container */
-    .container {
-      width: 100%;
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Section Utilities */
-    .section {
-      padding: 6.5rem 0;
-      position: relative;
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 4rem auto;
-    }
-
-    .badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.4rem 1rem;
-      border-radius: var(--radius-full);
-      font-size: 0.8125rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      color: var(--neon-violet-light);
-      margin-bottom: 1.25rem;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
-    }
-
-    .badge-pill.cyan {
-      background: rgba(6, 182, 212, 0.1);
-      border-color: rgba(6, 182, 212, 0.3);
-      color: var(--electric-cyan-light);
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.12);
-    }
-
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .section-desc {
-      font-size: 1.125rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .text-gradient {
-      background: linear-gradient(135deg, #ffffff 10%, #c084fc 50%, #38bdf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .text-gradient-cyan {
-      background: linear-gradient(135deg, #a855f7 0%, #06b6d4 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.625rem;
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 0.9375rem;
-      padding: 0.85rem 1.75rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: var(--transition);
-      text-align: center;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-      color: #ffffff;
-      box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #b865ff 0%, #8b45ff 100%);
-      box-shadow: 0 0 35px rgba(168, 85, 247, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: var(--text-main);
-      backdrop-filter: blur(8px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(168, 85, 247, 0.5);
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid rgba(168, 85, 247, 0.4);
-      color: var(--neon-violet-light);
-    }
-
-    .btn-outline:hover {
-      background: rgba(168, 85, 247, 0.15);
-      border-color: var(--neon-violet);
-      color: #ffffff;
-    }
-
-    .btn-sm {
-      padding: 0.55rem 1.25rem;
-      font-size: 0.875rem;
-    }
-
-    .btn-lg {
-      padding: 1rem 2.25rem;
-      font-size: 1.0625rem;
-      border-radius: 10px;
-    }
-
-    /* 1. Header & Navigation */
-    .site-header {
+    header {
       position: sticky;
       top: 0;
-      width: 100%;
       z-index: 100;
-      background: rgba(9, 6, 22, 0.8);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(168, 85, 247, 0.15);
-      transition: var(--transition);
+      background: rgba(7, 7, 10, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
     }
-
     .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 70px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 76px;
     }
-
-    .logo {
+    .brand {
       display: flex;
       align-items: center;
-      gap: 0.625rem;
-      font-size: 1.35rem;
+      gap: 0.75rem;
       font-weight: 800;
+      font-size: 1.25rem;
       letter-spacing: -0.02em;
-      color: #ffffff;
     }
-
-    .logo-badge {
-      display: inline-flex;
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 8px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.35rem;
-      filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.6));
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
     }
-
-    .logo-text {
-      background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .nav-links {
+    .workspace-pill {
       display: flex;
       align-items: center;
-      gap: 2.25rem;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-
-    .nav-link {
-      font-size: 0.9375rem;
-      font-weight: 500;
+    .workspace-pill:hover {
+      border-color: var(--border-focus);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
       color: var(--text-muted);
-      position: relative;
-      padding: 0.25rem 0;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
     }
-
-    .nav-link:hover {
-      color: #ffffff;
+    .nav-links a:hover {
+      color: #fff;
     }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--neon-violet), var(--electric-cyan));
-      transition: width 0.2s ease;
-      border-radius: 2px;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1rem;
     }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-main);
+    .btn {
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
       cursor: pointer;
-      padding: 0.5rem;
-      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #7e22ce);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.5);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      background: var(--surface);
+      color: #fff;
     }
 
-    /* 2. Hero Section */
-    .hero-section {
-      padding: 6rem 0 5rem 0;
-      position: relative;
-      overflow: hidden;
+    .hero {
+      padding: 6rem 1.5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
       text-align: center;
+      position: relative;
     }
-
-    .hero-glow-backdrop {
+    .hero::before {
+      content: '';
       position: absolute;
       top: 10%;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 500px;
-      background: radial-gradient(ellipse, rgba(168, 85, 247, 0.22) 0%, rgba(6, 182, 212, 0.12) 40%, transparent 70%);
-      filter: blur(70px);
-      z-index: 0;
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(147, 51, 234, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
+      z-index: -1;
       pointer-events: none;
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
+    .tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1rem;
+      background: rgba(147, 51, 234, 0.1);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      border-radius: 999px;
+      color: #d8b4fe;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
     }
-
-    .hero-title {
-      font-size: clamp(2.75rem, 6vw, 4.5rem);
+    .tag-badge span.pulsar {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+    }
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4.75rem);
       font-weight: 800;
       line-height: 1.1;
       letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
     }
-
-    .hero-subtitle {
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      max-width: 720px;
-      margin: 0 auto 2.5rem auto;
-      line-height: 1.7;
+    .hero h1 span.gradient {
+      background: linear-gradient(135deg, #fff 20%, #d8b4fe 60%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-
-    .hero-cta-group {
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-actions {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 1.25rem;
-      margin-bottom: 4rem;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
-    /* Stat Metrics Bar */
-    .hero-stats-bar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      max-width: 850px;
-      margin: 0 auto;
-      padding: 1.75rem 2rem;
-      background: rgba(21, 16, 48, 0.55);
-      border: 1px solid rgba(168, 85, 247, 0.2);
-      border-radius: var(--radius-md);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(168, 85, 247, 0.08);
-    }
-
-    .stat-item {
-      text-align: center;
-      position: relative;
-    }
-
-    .stat-item:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      right: -0.75rem;
-      top: 15%;
-      height: 70%;
-      width: 1px;
-      background: rgba(168, 85, 247, 0.2);
-    }
-
-    .stat-value {
-      font-size: 2.25rem;
-      font-weight: 800;
-      line-height: 1.2;
-      background: linear-gradient(135deg, #ffffff, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.25rem;
-      font-family: var(--font-sans);
-    }
-
-    .stat-value.cyan {
-      background: linear-gradient(135deg, #ffffff, #38bdf8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .stat-label {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    /* Hero Interactive UI Preview / Terminal */
-    .hero-preview {
-      margin-top: 4.5rem;
-      position: relative;
-      border-radius: var(--radius-lg);
+    .dashboard-preview {
+      max-width: 1200px;
+      margin: 3.5rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      background: rgba(14, 11, 31, 0.9);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(168, 85, 247, 0.15);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(147, 51, 234, 0.1);
     }
-
     .preview-header {
+      background: var(--surface-elevated);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.85rem 1.5rem;
-      background: rgba(21, 16, 48, 0.9);
-      border-bottom: 1px solid rgba(168, 85, 247, 0.15);
     }
-
-    .preview-dots {
+    .browser-dots {
       display: flex;
-      gap: 0.5rem;
+      gap: 6px;
     }
-
-    .preview-dot {
+    .b-dot {
       width: 11px;
       height: 11px;
       border-radius: 50%;
     }
-    .preview-dot.red { background: #ef4444; }
-    .preview-dot.yellow { background: #eab308; }
-    .preview-dot.green { background: #22c55e; }
+    .b-red { background: #ef4444; }
+    .b-yellow { background: #f59e0b; }
+    .b-green { background: #10b981; }
 
-    .preview-title {
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      color: var(--text-dim);
-    }
-
-    .preview-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: #34d399;
-      background: rgba(16, 185, 129, 0.1);
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .live-dot {
-      width: 6px;
-      height: 6px;
-      background: #34d399;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #34d399;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-
-    .preview-body {
-      padding: 2rem;
+    .dash-body {
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      gap: 2rem;
-      text-align: left;
+      grid-template-columns: 260px 1fr;
+      min-height: 520px;
     }
-
-    .preview-cluster-status {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    @media (max-width: 850px) {
+      .dash-body { grid-template-columns: 1fr; }
+      .dash-sidebar { display: none; }
     }
-
-    .status-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-sm);
-      padding: 1rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: var(--transition);
+    .dash-sidebar {
+      background: rgba(15, 15, 22, 0.5);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
     }
-
-    .status-card:hover {
-      background: rgba(168, 85, 247, 0.08);
-      border-color: rgba(168, 85, 247, 0.3);
-    }
-
-    .status-info-label {
-      font-size: 0.8125rem;
+    .side-group-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       color: var(--text-dim);
-      margin-bottom: 0.2rem;
-    }
-
-    .status-info-val {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .terminal-code {
-      background: #0a0817;
-      border-radius: var(--radius-sm);
-      padding: 1.25rem;
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      line-height: 1.8;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      overflow-x: auto;
-    }
-
-    .t-cyan { color: var(--electric-cyan); }
-    .t-purple { color: var(--neon-violet-light); }
-    .t-green { color: #34d399; }
-    .t-dim { color: #64748b; }
-
-    /* 3. Cloud Architecture Features Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.75rem;
-    }
-
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 2.25rem 2rem;
-      position: relative;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--neon-violet), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .feature-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-glow);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(168, 85, 247, 0.15);
-    }
-
-    .feature-card:hover::before {
-      opacity: 1;
-    }
-
-    .feature-icon-wrapper {
-      width: 54px;
-      height: 54px;
-      border-radius: 12px;
-      background: rgba(168, 85, 247, 0.15);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--neon-violet-light);
-      margin-bottom: 1.5rem;
-      transition: var(--transition);
-    }
-
-    .feature-card:hover .feature-icon-wrapper {
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(6, 182, 212, 0.3));
-      border-color: var(--neon-violet);
-      transform: scale(1.08);
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-    }
-
-    .feature-title {
-      font-size: 1.25rem;
-      font-weight: 700;
       margin-bottom: 0.75rem;
-      color: #ffffff;
+      padding: 0 0.5rem;
     }
-
-    .feature-description {
-      font-size: 0.9375rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
-    .feature-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 1.25rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      font-size: 0.8125rem;
-    }
-
-    .feature-tag {
-      font-family: var(--font-mono);
-      color: var(--electric-cyan-light);
-      background: rgba(6, 182, 212, 0.1);
-      padding: 0.2rem 0.6rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-    }
-
-    .feature-learn-link {
-      color: var(--neon-violet-light);
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .feature-learn-link:hover {
-      color: #ffffff;
-      gap: 0.6rem;
-    }
-
-    /* 4. Interactive Pricing Section */
-    .pricing-toggle-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .toggle-label {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .toggle-label.active {
-      color: #ffffff;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 60px;
-      height: 32px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-full);
-      padding: 4px;
-      cursor: pointer;
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      transition: var(--transition);
-    }
-
-    .toggle-switch:hover {
-      border-color: var(--neon-violet);
-    }
-
-    .toggle-thumb {
-      width: 22px;
-      height: 22px;
-      background: linear-gradient(135deg, var(--neon-violet), var(--electric-cyan));
-      border-radius: 50%;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-    }
-
-    .toggle-switch.annual .toggle-thumb {
-      transform: translateX(28px);
-    }
-
-    .discount-pill {
-      font-size: 0.75rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #a855f7, #06b6d4);
-      color: #ffffff;
-      padding: 0.25rem 0.65rem;
-      border-radius: var(--radius-full);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      align-items: stretch;
-    }
-
-    .pricing-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-lg);
-      padding: 2.75rem 2rem;
-      position: relative;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      backdrop-filter: blur(12px);
-    }
-
-    .pricing-card:hover {
-      border-color: rgba(168, 85, 247, 0.4);
-      transform: translateY(-5px);
-    }
-
-    .pricing-card.featured {
-      background: linear-gradient(180deg, rgba(31, 24, 71, 0.9) 0%, rgba(21, 16, 48, 0.9) 100%);
-      border: 2px solid var(--neon-violet);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.3);
-      transform: scale(1.04);
-      z-index: 2;
-    }
-
-    .pricing-card.featured:hover {
-      transform: scale(1.05) translateY(-5px);
-    }
-
-    .popular-tag {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, #a855f7, #06b6d4);
-      color: #ffffff;
-      padding: 0.35rem 1.25rem;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
-    }
-
-    .plan-header {
-      margin-bottom: 2rem;
-    }
-
-    .plan-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #ffffff;
-    }
-
-    .plan-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .plan-price-box {
-      display: flex;
-      align-items: baseline;
-      gap: 0.35rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .plan-currency {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .plan-amount {
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.03em;
-      color: #ffffff;
-      transition: all 0.3s ease;
-    }
-
-    .plan-period {
-      font-size: 0.9375rem;
-      color: var(--text-dim);
-    }
-
-    .plan-features-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.95rem;
-      margin-bottom: 2.5rem;
-      flex-grow: 1;
-    }
-
-    .plan-feature-item {
+    .side-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.9375rem;
-      color: var(--text-highlight);
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0.25rem;
+    }
+    .side-item:hover, .side-item.active {
+      background: rgba(147, 51, 234, 0.12);
+      color: #fff;
+    }
+    .dash-content {
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .dash-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .dash-stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .kpi-card {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .kpi-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .kpi-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .kpi-delta {
+      font-size: 0.75rem;
+      color: var(--emerald);
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
     }
 
-    .check-icon {
-      width: 18px;
-      height: 18px;
-      color: var(--electric-cyan);
-      flex-shrink: 0;
+    .table-container {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
     }
-
-    .plan-cta-btn {
-      width: 100%;
+    .table-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
-    /* 5. Feature Comparison Matrix Table */
-    .matrix-section {
-      padding-top: 2rem;
-    }
-
-    .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .comparison-table {
+    table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
+      font-size: 0.85rem;
     }
-
-    .comparison-table th,
-    .comparison-table td {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.9375rem;
-    }
-
-    .comparison-table thead th {
-      background: rgba(21, 16, 48, 0.8);
-      font-weight: 700;
-      color: #ffffff;
-      font-size: 1.05rem;
-      position: sticky;
-      top: 0;
-    }
-
-    .comparison-table thead th:not(:first-child) {
-      text-align: center;
-      width: 22%;
-    }
-
-    .comparison-table thead th.featured-col {
-      color: var(--neon-violet-light);
-      background: rgba(168, 85, 247, 0.12);
-      border-left: 1px solid rgba(168, 85, 247, 0.2);
-      border-right: 1px solid rgba(168, 85, 247, 0.2);
-    }
-
-    .comparison-table tbody tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .comparison-table tbody td.featured-col {
-      background: rgba(168, 85, 247, 0.04);
-      border-left: 1px solid rgba(168, 85, 247, 0.15);
-      border-right: 1px solid rgba(168, 85, 247, 0.15);
-      font-weight: 600;
-      color: #ffffff;
-      text-align: center;
-    }
-
-    .comparison-table tbody td:not(:first-child) {
-      text-align: center;
-    }
-
-    .table-category-header td {
-      background: rgba(14, 11, 31, 0.9);
-      font-weight: 700;
-      color: var(--neon-violet-light);
-      text-transform: uppercase;
-      font-size: 0.8125rem;
-      letter-spacing: 0.06em;
-      padding-top: 1.75rem;
-    }
-
-    .table-check {
-      color: #34d399;
-      font-weight: 700;
-      font-size: 1.15rem;
-    }
-
-    .table-cross {
+    th {
+      padding: 0.75rem 1.25rem;
       color: var(--text-dim);
-      font-weight: 400;
-      font-size: 1rem;
-    }
-
-    /* 6. Testimonials Section */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-
-    .testimonial-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 2.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(10px);
-      transition: var(--transition);
-    }
-
-    .testimonial-card:hover {
-      border-color: var(--border-glow);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(168, 85, 247, 0.12);
-    }
-
-    .testimonial-stars {
-      display: flex;
-      gap: 0.25rem;
-      color: #f59e0b;
-      margin-bottom: 1.25rem;
-      font-size: 1.1rem;
-    }
-
-    .testimonial-quote {
-      font-size: 1rem;
-      color: var(--text-highlight);
-      line-height: 1.65;
-      margin-bottom: 1.75rem;
-      font-style: italic;
-    }
-
-    .author-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .author-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid var(--neon-violet);
-      background: rgba(168, 85, 247, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #ffffff;
-      font-size: 1rem;
-    }
-
-    .author-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .author-name {
-      font-weight: 700;
-      color: #ffffff;
-      font-size: 0.9375rem;
-    }
-
-    .author-role {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-
-    .author-company {
       font-size: 0.75rem;
-      color: var(--electric-cyan);
-      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
     }
-
-    /* 7. CTA Banner & FAQ */
-    .cta-banner-wrapper {
-      position: relative;
-      margin: 4rem 0 2rem 0;
-      border-radius: var(--radius-lg);
-      padding: 4.5rem 3rem;
-      background: linear-gradient(135deg, rgba(31, 24, 71, 0.85) 0%, rgba(14, 11, 31, 0.95) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.35);
-      text-align: center;
-      overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 60px rgba(168, 85, 247, 0.2);
-    }
-
-    .cta-banner-glow {
-      position: absolute;
-      top: -50%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(6, 182, 212, 0.2) 50%, transparent 80%);
-      filter: blur(80px);
-      pointer-events: none;
-    }
-
-    .cta-banner-content {
-      position: relative;
-      z-index: 1;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .cta-title {
-      font-size: 2.75rem;
-      font-weight: 800;
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.02em;
-    }
-
-    .cta-desc {
-      font-size: 1.125rem;
+    td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       color: var(--text-muted);
-      margin-bottom: 2.5rem;
     }
-
-    .cta-actions {
+    .member-cell {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-
-    .cta-note {
-      font-size: 0.8125rem;
-      color: var(--text-dim);
-    }
-
-    /* Footer */
-    .site-footer {
-      background: rgba(8, 5, 20, 0.95);
-      border-top: 1px solid rgba(168, 85, 247, 0.15);
-      padding: 5rem 0 2.5rem 0;
-      position: relative;
-      z-index: 10;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
-      gap: 3rem;
-      margin-bottom: 4rem;
-    }
-
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .footer-brand p {
-      font-size: 0.9375rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .footer-col h4 {
-      font-size: 0.9375rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 1.25rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .footer-col ul {
-      display: flex;
-      flex-direction: column;
       gap: 0.75rem;
     }
-
-    .footer-col a {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    .footer-col a:hover {
-      color: var(--neon-violet-light);
-      padding-left: 4px;
-    }
-
-    .newsletter-form {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .newsletter-input {
-      flex: 1;
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-radius: var(--radius-sm);
-      color: #ffffff;
-      font-family: var(--font-sans);
-      font-size: 0.875rem;
-      outline: none;
-      transition: var(--transition);
-    }
-
-    .newsletter-input:focus {
-      border-color: var(--neon-violet);
-      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
-    }
-
-    .footer-bottom {
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.875rem;
-      color: var(--text-dim);
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.8rem;
     }
+    .badge-role {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .role-admin { background: rgba(147, 51, 234, 0.15); color: #d8b4fe; }
+    .role-editor { background: rgba(6, 182, 212, 0.15); color: #67e8f9; }
+    .role-viewer { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
 
-    .footer-bottom-links {
+    .section {
+      padding: 6rem 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .sec-tag {
+      color: var(--primary-hover);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .sec-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.25rem;
+      transition: all 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(147, 51, 234, 0.12);
       display: flex;
-      gap: 1.5rem;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-hover);
     }
 
-    /* Responsive Styles */
-    @media (max-width: 1024px) {
-      .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .pricing-grid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-        margin: 0 auto;
-      }
-      .pricing-card.featured {
-        transform: none;
-      }
-      .pricing-card.featured:hover {
-        transform: translateY(-5px);
-      }
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 2.5rem;
-      }
-      .preview-body {
-        grid-template-columns: 1fr;
-      }
+    .pricing-toggle-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      margin-top: 3rem;
+      text-align: center;
     }
+    .toggle-bar {
+      display: inline-flex;
+      background: var(--surface-elevated);
+      padding: 0.3rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+    .t-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .t-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      text-align: left;
+    }
+    .p-card {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+    .p-card.featured {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(147, 51, 234, 0.15);
+    }
+    .p-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .p-price { font-size: 2.5rem; font-weight: 800; font-family: 'JetBrains Mono', monospace; margin: 1rem 0; }
+    .p-price span { font-size: 0.85rem; color: var(--text-muted); font-weight: 400; }
+    .p-features { list-style: none; margin: 1.5rem 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem; color: var(--text-muted); }
+    .p-features li::before { content: "✓"; color: var(--emerald); font-weight: 800; margin-right: 0.5rem; }
 
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 76px;
-        left: 0;
-        right: 0;
-        background: rgba(14, 11, 31, 0.98);
-        border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-        flex-direction: column;
-        padding: 2rem 1.5rem;
-        gap: 1.5rem;
-        backdrop-filter: blur(20px);
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .mobile-menu-btn {
-        display: block;
-      }
-      .hero-stats-bar {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .stat-item:not(:last-child)::after {
-        display: none;
-      }
-      .features-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-      .footer-bottom {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-      .cta-title {
-        font-size: 2rem;
-      }
-      .section-title {
-        font-size: 2rem;
-      }
-      .cta-banner-wrapper {
-        padding: 3rem 1.5rem;
-      }
+    footer {
+      padding: 4rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Grid Background -->
-  <div class="bg-grid"></div>
+<header>
+  <div class="nav-container">
+    <div class="brand">
+      <div class="brand-icon">🚀</div>
+      <span>Nova SaaS</span>
+    </div>
 
-  <!-- 1. Top Navigation -->
-  <header class="site-header">
-    <div class="container nav-container">
-      <a href="#" class="logo">
-        <span class="logo-badge">☁️</span>
-        <span class="logo-text">CloudScale</span>
-      </a>
+    <div class="workspace-pill" id="workspaceBtn">
+      <span>🏢 Acme Global Workspace</span>
+      <span style="color: var(--primary-hover)">▾</span>
+    </div>
 
-      <nav class="nav-links" id="navLinks">
-        <a href="#platform" class="nav-link">Platform</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#pricing" class="nav-link">Pricing</a>
-        <a href="#comparison" class="nav-link">Matrix</a>
-        <a href="#testimonials" class="nav-link">Customers</a>
-        <a href="#docs" class="nav-link">Docs</a>
-      </nav>
+    <ul class="nav-links">
+      <li><a href="#features">Architecture</a></li>
+      <li><a href="#workspaces">Multi-Tenant</a></li>
+      <li><a href="#pricing">Enterprise Tiers</a></li>
+    </ul>
 
-      <div class="nav-actions">
-        <a href="#pricing" class="btn btn-primary btn-sm">Start Free Trial</a>
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+    <div class="nav-actions">
+      <button class="btn btn-ghost">Log In</button>
+      <button class="btn btn-primary">Start Free Trial</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="tag-badge">
+    <span class="pulsar"></span>
+    <span>Nova v4.8 Released — Native Multi-Tenant Workspaces</span>
+  </div>
+  <h1>Scalable B2B Infrastructure for <br><span class="gradient">High-Growth Teams</span></h1>
+  <p>Manage multiple organizations, enforce granular RBAC policies, and automate Stripe enterprise seat licensing with zero architectural overhead.</p>
+  <div class="hero-actions">
+    <a href="#preview" class="btn btn-primary">Launch Live Interactive Sandbox</a>
+    <a href="#pricing" class="btn btn-ghost">Explore Custom SLA Options</a>
+  </div>
+
+  <div class="dashboard-preview" id="preview">
+    <div class="preview-header">
+      <div class="browser-dots">
+        <div class="b-dot b-red"></div>
+        <div class="b-dot b-yellow"></div>
+        <div class="b-dot b-green"></div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">
+        app.novasaas.internal/workspace/acme-corp
+      </div>
+      <div style="font-size:0.75rem;color:var(--emerald);display:flex;align-items:center;gap:0.35rem">
+        <span>●</span> Live Telemetry Active
       </div>
     </div>
-  </header>
 
-  <!-- 2. Hero Section -->
-  <section class="hero-section" id="platform">
-    <div class="hero-glow-backdrop"></div>
-    <div class="container hero-content">
-      <div class="badge-pill">
-        <span>🚀 CloudScale Engine 3.0 Live</span>
-        <span style="opacity: 0.6;">•</span>
-        <span style="color: #38bdf8;">Sub-10ms Latency</span>
-      </div>
-
-      <h1 class="hero-title">
-        Scale Your Business<br>
-        <span class="text-gradient">to the Cloud</span>
-      </h1>
-
-      <p class="hero-subtitle">
-        Deploy, orchestrate, and autonomously scale enterprise microservices across 60+ global edge zones. Zero downtime rollouts with instant distributed telemetry.
-      </p>
-
-      <div class="hero-cta-group">
-        <a href="#pricing" class="btn btn-primary btn-lg">
-          Get Started Free
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-        <a href="#features" class="btn btn-secondary btn-lg">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          Request Demo
-        </a>
-      </div>
-
-      <!-- Stat Metrics Bar -->
-      <div class="hero-stats-bar">
-        <div class="stat-item">
-          <div class="stat-value">99.99%</div>
-          <div class="stat-label">Enterprise SLA Guaranteed</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value cyan">10x</div>
-          <div class="stat-label">Faster Deployment Cycle</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">50k+</div>
-          <div class="stat-label">Active Edge Clusters</div>
-        </div>
-      </div>
-
-      <!-- Cloud Interactive UI Preview -->
-      <div class="hero-preview">
-        <div class="preview-header">
-          <div class="preview-dots">
-            <span class="preview-dot red"></span>
-            <span class="preview-dot yellow"></span>
-            <span class="preview-dot green"></span>
-          </div>
-          <div class="preview-title">cloudscale-cli // cluster-us-east-prod</div>
-          <div class="preview-badge">
-            <span class="live-dot"></span>
-            SYSTEM OPTIMAL
-          </div>
-        </div>
-
-        <div class="preview-body">
-          <div class="preview-cluster-status">
-            <div class="status-card">
-              <div>
-                <div class="status-info-label">Active Pods</div>
-                <div class="status-info-val">
-                  <span style="color: #34d399;">●</span> 128 / 128 healthy
-                </div>
-              </div>
-              <span class="badge-pill cyan" style="margin: 0; padding: 0.2rem 0.6rem; font-size: 0.7rem;">Auto-scaling</span>
-            </div>
-
-            <div class="status-card">
-              <div>
-                <div class="status-info-label">Edge Ingress TTFB</div>
-                <div class="status-info-val">
-                  <span style="color: var(--neon-violet-light);">⚡</span> 11.4 ms avg
-                </div>
-              </div>
-              <span style="font-size: 0.8rem; color: #34d399; font-weight: 600;">-42% vs CDN</span>
-            </div>
-
-            <div class="status-card">
-              <div>
-                <div class="status-info-label">Deploy Strategy</div>
-                <div class="status-info-val">Canary v4.12.0 (100%)</div>
-              </div>
-              <span style="font-size: 0.8rem; color: var(--electric-cyan); font-weight: 600;">Zero Downtime</span>
-            </div>
-          </div>
-
-          <div class="terminal-code">
-            <div><span class="t-dim">$</span> cloudscale deploy --env production --traffic 100%</div>
-            <div><span class="t-purple">✔</span> Resolving 64 edge zones... <span class="t-green">[DONE]</span></div>
-            <div><span class="t-purple">✔</span> Provisioning auto-scaling ingress pools... <span class="t-cyan">[OK]</span></div>
-            <div><span class="t-purple">✔</span> Blue/Green health verified across 12,400 synthetic checks.</div>
-            <div><span class="t-green">➔ Success:</span> Production live at <span class="t-cyan">https://api.cloudscale.net</span></div>
-            <div><span class="t-dim">Telemetry: 0 dropped packets | 99.999% uptime | SSL cert auto-renewed</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. Cloud Architecture Feature Grid -->
-  <section class="section" id="features">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Enterprise Architecture</div>
-        <h2 class="section-title">Built for Massive Throughput &amp; Zero Latency</h2>
-        <p class="section-desc">
-          Engineered from the silicon up for distributed workloads, elastic compute, and mission-critical reliability.
-        </p>
-      </div>
-
-      <div class="features-grid">
-        <!-- Feature 1 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-              <rect x="2" y="3" width="20" height="18" rx="4"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">Auto-scaling Clusters</h3>
-          <p class="feature-description">
-            Expand from 1 to 10,000 nodes dynamically in sub-seconds during traffic spikes with predictive workload balancing.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">Elastic Scaling</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Feature 2 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="2" y1="12" x2="22" y2="12"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">Global CDN Edge</h3>
-          <p class="feature-description">
-            Cache and execute edge compute across 60+ points of presence worldwide with integrated Anycast routing and Brotli compression.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">Anycast Routing</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Feature 3 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">Zero-Downtime Rollouts</h3>
-          <p class="feature-description">
-            Instantaneous canary, blue-green, and shadow traffic deployments with automatic health-checked instant rollbacks.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">Canary Deploy</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Feature 4 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="20" x2="18" y2="10"/>
-              <line x1="12" y1="20" x2="12" y2="4"/>
-              <line x1="6" y1="20" x2="6" y2="14"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">Real-time Telemetry</h3>
-          <p class="feature-description">
-            High-cardinality distributed traces, unified OpenTelemetry metrics, and automated anomaly detection with zero performance overhead.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">OpenTelemetry</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Feature 5 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-              <polyline points="17 21 17 13 7 13 7 21"/>
-              <polyline points="7 3 7 8 15 8"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">Automated Backups</h3>
-          <p class="feature-description">
-            Continuous transactional point-in-time recovery, multi-region snapshot redundancy, and 1-click database rollbacks.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">1-Click Restore</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-
-        <!-- Feature 6 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3 class="feature-title">SOC2 Type II Compliant</h3>
-          <p class="feature-description">
-            Bank-grade AES-256 data encryption at rest and in-transit, granular RBAC permissions, and continuous automated compliance audits.
-          </p>
-          <div class="feature-meta">
-            <span class="feature-tag">ISO 27001 Certified</span>
-            <a href="#platform" class="feature-learn-link">Learn more &rarr;</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. Interactive Pricing Section -->
-  <section class="section" id="pricing" style="background: rgba(14, 11, 31, 0.4);">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill cyan">Transparent Pricing</div>
-        <h2 class="section-title">Scalable Plans for Teams of Every Size</h2>
-        <p class="section-desc">
-          No hidden fees or unexpected bandwidth surcharges. Switch or cancel anytime.
-        </p>
-
-        <!-- Billing Toggle -->
-        <div class="pricing-toggle-wrapper">
-          <span class="toggle-label active" id="monthlyLabel">Monthly</span>
-          <div class="toggle-switch" id="billingToggle" role="button" aria-label="Toggle annual or monthly billing">
-            <div class="toggle-thumb"></div>
-          </div>
-          <span class="toggle-label" id="annualLabel">Annual</span>
-          <span class="discount-pill">Save 20%</span>
-        </div>
-      </div>
-
-      <!-- Pricing Cards -->
-      <div class="pricing-grid">
-        <!-- Starter Plan -->
-        <div class="pricing-card">
-          <div class="plan-header">
-            <h3 class="plan-name">Starter</h3>
-            <p class="plan-desc">Perfect for agile development teams and launch-stage SaaS applications.</p>
-          </div>
-
-          <div class="plan-price-box">
-            <span class="plan-currency">$</span>
-            <span class="plan-amount" data-monthly="49" data-annual="39">49</span>
-            <span class="plan-period">/ month</span>
-          </div>
-
-          <ul class="plan-features-list">
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Up to 10 Microservice Clusters</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>15 Global Edge Zones</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Automated Daily Backups</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Community &amp; Email Support</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>99.9% Uptime Guarantee</span>
-            </li>
-          </ul>
-
-          <button class="btn btn-secondary plan-cta-btn">Start 14-Day Free Trial</button>
-        </div>
-
-        <!-- Pro Plan (Most Popular) -->
-        <div class="pricing-card featured">
-          <div class="popular-tag">Most Popular</div>
-          <div class="plan-header">
-            <h3 class="plan-name">Pro</h3>
-            <p class="plan-desc">For fast-growing companies demanding high performance &amp; automated scaling.</p>
-          </div>
-
-          <div class="plan-price-box">
-            <span class="plan-currency">$</span>
-            <span class="plan-amount" data-monthly="129" data-annual="99">129</span>
-            <span class="plan-period">/ month</span>
-          </div>
-
-          <ul class="plan-features-list">
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>Up to 50 Microservice Clusters</strong></span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>All 60+ Global Edge Zones</strong></span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Continuous Instant Point-in-time Backups</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Zero-Downtime Blue/Green Rollouts</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Priority 24/7 Slack &amp; Phone Support</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span><strong>99.99% Enterprise SLA</strong></span>
-            </li>
-          </ul>
-
-          <button class="btn btn-primary plan-cta-btn">Claim Pro Plan</button>
-        </div>
-
-        <!-- Enterprise Plan -->
-        <div class="pricing-card">
-          <div class="plan-header">
-            <h3 class="plan-name">Enterprise</h3>
-            <p class="plan-desc">For organizations with strict governance, compliance, and dedicated infrastructure.</p>
-          </div>
-
-          <div class="plan-price-box">
-            <span class="plan-currency">$</span>
-            <span class="plan-amount" data-monthly="299" data-annual="239">299</span>
-            <span class="plan-period">/ month</span>
-          </div>
-
-          <ul class="plan-features-list">
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Unlimited Dedicated Clusters</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Custom Edge Routing &amp; Hardware VPC</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>SOC2 Type II, HIPAA &amp; ISO Compliance</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>Dedicated Technical Account Manager</span>
-            </li>
-            <li class="plan-feature-item">
-              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-              <span>99.999% SLA with Financial Guarantee</span>
-            </li>
-          </ul>
-
-          <button class="btn btn-secondary plan-cta-btn">Contact Enterprise Sales</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Feature Comparison Matrix Table -->
-  <section class="section matrix-section" id="comparison">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Detailed Breakdown</div>
-        <h2 class="section-title">Feature Comparison Matrix</h2>
-        <p class="section-desc">
-          Compare core capabilities and technical limits across tiers to find the right fit for your tech stack.
-        </p>
-      </div>
-
-      <div class="table-responsive">
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th>Feature Capability</th>
-              <th>Starter</th>
-              <th class="featured-col">Pro (Recommended)</th>
-              <th>Enterprise</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Category: Compute & Infrastructure -->
-            <tr class="table-category-header">
-              <td colspan="4">Infrastructure &amp; Scaling</td>
-            </tr>
-            <tr>
-              <td>Auto-scaling nodes</td>
-              <td>Up to 10 nodes</td>
-              <td class="featured-col">Up to 100 nodes</td>
-              <td>Unlimited dedicated</td>
-            </tr>
-            <tr>
-              <td>Global Edge Locations</td>
-              <td>15 Locations</td>
-              <td class="featured-col">60+ Locations</td>
-              <td>60+ with Custom PoPs</td>
-            </tr>
-            <tr>
-              <td>Zero-downtime rollouts</td>
-              <td><span class="table-check">✓</span> (Blue/Green)</td>
-              <td class="featured-col"><span class="table-check">✓</span> (Canary + Blue/Green)</td>
-              <td><span class="table-check">✓</span> (Multi-Region Canary)</td>
-            </tr>
-            <tr>
-              <td>DDoS Protection &amp; WAF</td>
-              <td>Standard</td>
-              <td class="featured-col">Advanced L3/L4/L7</td>
-              <td>Custom AI Defense Rules</td>
-            </tr>
-
-            <!-- Category: Telemetry & Reliability -->
-            <tr class="table-category-header">
-              <td colspan="4">Telemetry &amp; Reliability</td>
-            </tr>
-            <tr>
-              <td>Metrics &amp; Traces Retention</td>
-              <td>7 Days</td>
-              <td class="featured-col">30 Days</td>
-              <td>365 Days + Cold Archive</td>
-            </tr>
-            <tr>
-              <td>Automated Backups</td>
-              <td>Daily Snapshots</td>
-              <td class="featured-col">Continuous Point-in-time</td>
-              <td>Real-time Multi-Region Sync</td>
-            </tr>
-            <tr>
-              <td>SLA Availability</td>
-              <td>99.9% SLA</td>
-              <td class="featured-col">99.99% SLA</td>
-              <td>99.999% SLA</td>
-            </tr>
-
-            <!-- Category: Security & Governance -->
-            <tr class="table-category-header">
-              <td colspan="4">Security &amp; Governance</td>
-            </tr>
-            <tr>
-              <td>Custom SSL/TLS Certificates</td>
-              <td><span class="table-check">✓</span></td>
-              <td class="featured-col"><span class="table-check">✓</span></td>
-              <td><span class="table-check">✓</span></td>
-            </tr>
-            <tr>
-              <td>SSO / SAML Authentication</td>
-              <td><span class="table-cross">—</span></td>
-              <td class="featured-col"><span class="table-check">✓</span></td>
-              <td><span class="table-check">✓</span> (Okta, Azure, Ping)</td>
-            </tr>
-            <tr>
-              <td>Role-based Access Control (RBAC)</td>
-              <td>Basic (3 Roles)</td>
-              <td class="featured-col">Advanced Custom Roles</td>
-              <td>Granular Attribute-based</td>
-            </tr>
-            <tr>
-              <td>SOC2 &amp; HIPAA Compliance</td>
-              <td><span class="table-cross">—</span></td>
-              <td class="featured-col"><span class="table-check">✓</span> (SOC2)</td>
-              <td><span class="table-check">✓</span> (SOC2 + HIPAA + BAA)</td>
-            </tr>
-
-            <!-- Category: Support -->
-            <tr class="table-category-header">
-              <td colspan="4">Support &amp; Advisory</td>
-            </tr>
-            <tr>
-              <td>Response Time Guarantee</td>
-              <td>&lt; 24 Hours</td>
-              <td class="featured-col">&lt; 1 Hour</td>
-              <td>&lt; 15 Minutes (24/7/365)</td>
-            </tr>
-            <tr>
-              <td>Dedicated Solutions Architect</td>
-              <td><span class="table-cross">—</span></td>
-              <td class="featured-col"><span class="table-cross">—</span></td>
-              <td><span class="table-check">✓</span> Dedicated Lead</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Testimonials Section -->
-  <section class="section" id="testimonials">
-    <div class="container">
-      <div class="section-header">
-        <div class="badge-pill">Proven at Scale</div>
-        <h2 class="section-title">Trusted by Leading CTOs &amp; DevOps Teams</h2>
-        <p class="section-desc">
-          Discover how modern engineering teams cut infrastructure latency by 60% and eliminate deployment outages.
-        </p>
-      </div>
-
-      <div class="testimonials-grid">
-        <!-- Testimonial 1 -->
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-quote">
-              "Migrating to CloudScale reduced our multi-region deployment times from 45 minutes to under 90 seconds. The zero-downtime rollouts gave our engineering leads absolute peace of mind on Black Friday."
-            </p>
-          </div>
-          <div class="author-info">
-            <div class="author-avatar">MK</div>
-            <div class="author-details">
-              <span class="author-name">Marcus Kowalski</span>
-              <span class="author-role">VP of Infrastructure</span>
-              <span class="author-company">FinFlow Global</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 2 -->
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-quote">
-              "The edge telemetry and instant canary cutover saved us hundreds of engineering hours during our architecture overhaul. It feels like having a dedicated 20-person SRE team on call 24/7."
-            </p>
-          </div>
-          <div class="author-info">
-            <div class="author-avatar">SL</div>
-            <div class="author-details">
-              <span class="author-name">Sophia Lin</span>
-              <span class="author-role">Chief Technology Officer</span>
-              <span class="author-company">Nexis AI Technologies</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 3 -->
-        <div class="testimonial-card">
-          <div>
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-quote">
-              "Their predictable pricing model alone saved us over $140,000 annually compared to AWS bandwidth and hidden ingress fees. Performance has been rock-solid without a single glitch."
-            </p>
-          </div>
-          <div class="author-info">
-            <div class="author-avatar">DA</div>
-            <div class="author-details">
-              <span class="author-name">David Albright</span>
-              <span class="author-role">Head of Cloud Operations</span>
-              <span class="author-company">Synthetix Cloud Labs</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. CTA Banner -->
-  <section class="section" style="padding-top: 0; padding-bottom: 4rem;">
-    <div class="container">
-      <div class="cta-banner-wrapper">
-        <div class="cta-banner-glow"></div>
-        <div class="cta-banner-content">
-          <div class="badge-pill" style="margin-bottom: 1.25rem;">Scale Without Limits</div>
-          <h2 class="cta-title">Ready to Modernize Your Cloud Infrastructure?</h2>
-          <p class="cta-desc">
-            Deploy your first production cluster in under 3 minutes. Test drive with our 14-day full feature trial — no credit card required.
-          </p>
-          <div class="cta-actions">
-            <a href="#pricing" class="btn btn-primary btn-lg">
-              Start Free Trial Now
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
-            <a href="#platform" class="btn btn-secondary btn-lg">Schedule Technical Demo</a>
-          </div>
-          <div class="cta-note">
-            ⚡ Instant provisioning • 99.99% SLA • Cancel anytime with 1-click
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Footer -->
-  <footer class="site-footer" id="docs">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="#" class="logo">
-            <span class="logo-badge">☁️</span>
-            <span class="logo-text">CloudScale</span>
-          </a>
-          <p>
-            Next-generation autonomic cloud orchestration platform built for ultra-low latency, elastic scaling, and mission-critical cloud-native services.
-          </p>
-          <div style="display: flex; gap: 1rem; color: var(--text-muted);">
-            <a href="#" aria-label="GitHub" style="color: var(--text-muted);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
-            <a href="#" aria-label="Twitter / X" style="color: var(--text-muted);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
-            <a href="#" aria-label="Discord" style="color: var(--text-muted);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h.01M16 12h.01M9 16c1.5 1 4.5 1 6 0"/></svg></a>
-          </div>
-        </div>
-
-        <div class="footer-col">
-          <h4>Platform</h4>
-          <ul>
-            <li><a href="#platform">Edge Compute</a></li>
-            <li><a href="#features">Cluster Autoscaler</a></li>
-            <li><a href="#features">Global Anycast CDN</a></li>
-            <li><a href="#features">Distributed Telemetry</a></li>
-            <li><a href="#pricing">Release Roadmap</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#docs">Documentation</a></li>
-            <li><a href="#docs">API Reference</a></li>
-            <li><a href="#docs">SDK Libraries</a></li>
-            <li><a href="#comparison">System Status</a></li>
-            <li><a href="#testimonials">Case Studies</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#platform">About Us</a></li>
-            <li><a href="#testimonials">Customers</a></li>
-            <li><a href="#platform">Careers <span style="font-size: 0.7rem; color: #34d399;">(Hiring)</span></a></li>
-            <li><a href="#docs">Security Center</a></li>
-            <li><a href="#docs">Contact Sales</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Stay Updated</h4>
-          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">
-            Subscribe to our weekly engineering dispatches and release logs.
-          </p>
-          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing to CloudScale updates!');">
-            <input type="email" class="newsletter-input" placeholder="you@company.com" required>
-            <button type="submit" class="btn btn-primary btn-sm" style="padding: 0 1rem;">Join</button>
-          </form>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>
-          &copy; 2026 CloudScale Technologies, Inc. All rights reserved.
-        </div>
-        <div class="footer-bottom-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Security &amp; Compliance</a>
-          <a href="#">Cookie Settings</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Interactive JavaScript -->
-  <script>
-    // 1. Mobile Menu Toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-
-    if (mobileMenuBtn && navLinks) {
-      mobileMenuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-      });
-
-      // Close menu when clicking link
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('active');
-        });
-      });
-    }
-
-    // 2. Interactive Pricing Toggle (Monthly vs Annual)
-    const billingToggle = document.getElementById('billingToggle');
-    const monthlyLabel = document.getElementById('monthlyLabel');
-    const annualLabel = document.getElementById('annualLabel');
-    const priceAmounts = document.querySelectorAll('.plan-amount');
-    let isAnnual = false;
-
-    function updateBilling() {
-      if (isAnnual) {
-        billingToggle.classList.add('annual');
-        annualLabel.classList.add('active');
-        monthlyLabel.classList.remove('active');
-      } else {
-        billingToggle.classList.remove('annual');
-        monthlyLabel.classList.add('active');
-        annualLabel.classList.remove('active');
-      }
-
-      priceAmounts.forEach(el => {
-        const targetVal = isAnnual ? el.getAttribute('data-annual') : el.getAttribute('data-monthly');
+    <div class="dash-body">
+      <div class="dash-sidebar">
+        <div class="side-group-title">Organization</div>
+        <div class="side-item active">📊 Metrics Overview</div>
+        <div class="side-item">👥 Team & Roles (6)</div>
+        <div class="side-item">🔑 API Keys & Webhooks</div>
+        <div class="side-item">💳 Seat Billing</div>
         
-        // Quick subtle scale transition
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(-6px)';
-        setTimeout(() => {
-          el.textContent = targetVal;
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        }, 120);
-      });
-    }
+        <div class="side-group-title" style="margin-top:2rem">Security</div>
+        <div class="side-item">🛡️ SSO / SAML 2.0</div>
+        <div class="side-item">📜 Audit Log Feed</div>
+      </div>
 
-    if (billingToggle) {
-      billingToggle.addEventListener('click', () => {
-        isAnnual = !isAnnual;
-        updateBilling();
-      });
+      <div class="dash-content">
+        <div class="dash-header-row">
+          <div>
+            <h2 style="font-size:1.4rem;font-weight:700">Acme Global Production Operations</h2>
+            <p style="font-size:0.8rem;color:var(--text-muted)">Cluster: eu-central-1 · 99.998% Uptime SLA</p>
+          </div>
+          <button class="btn btn-primary" style="font-size:0.8rem;padding:0.45rem 1rem">+ Invite Member</button>
+        </div>
 
-      monthlyLabel.addEventListener('click', () => {
-        if (isAnnual) {
-          isAnnual = false;
-          updateBilling();
-        }
-      });
+        <div class="dash-stats-row">
+          <div class="kpi-card">
+            <div class="kpi-label">Active Provisioned Seats</div>
+            <div class="kpi-value">48 / 50</div>
+            <div class="kpi-delta">▲ 4 added this week</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Monthly API Invocations</div>
+            <div class="kpi-value">12.4M</div>
+            <div class="kpi-delta">▲ 18.2% vs last cycle</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Median Latency</div>
+            <div class="kpi-value">24ms</div>
+            <div class="kpi-delta">✔ Within tier-1 SLO</div>
+          </div>
+        </div>
 
-      annualLabel.addEventListener('click', () => {
-        if (!isAnnual) {
-          isAnnual = true;
-          updateBilling();
-        }
-      });
-    }
-  </script>
+        <div class="table-container">
+          <div class="table-header">
+            <span style="font-weight:700;font-size:0.9rem">Workspace Roster</span>
+            <span style="font-size:0.75rem;color:var(--text-dim)">Showing 4 of 48 accounts</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Role</th>
+                <th>2FA Status</th>
+                <th>Last Active</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar">SJ</div>
+                    <div>
+                      <div style="color:#fff;font-weight:600">Sarah Jenkins</div>
+                      <div style="font-size:0.75rem;color:var(--text-dim)">sarah@acmeglobal.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge-role role-admin">Owner / Admin</span></td>
+                <td><span style="color:var(--emerald)">✔ Enforced (Hardware)</span></td>
+                <td>3 mins ago</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar" style="background:linear-gradient(135deg,var(--accent),#3b82f6)">DR</div>
+                    <div>
+                      <div style="color:#fff;font-weight:600">Devon Ross</div>
+                      <div style="font-size:0.75rem;color:var(--text-dim)">devon@acmeglobal.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge-role role-editor">Engineering Lead</span></td>
+                <td><span style="color:var(--emerald)">✔ Enforced (TOTP)</span></td>
+                <td>18 mins ago</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar" style="background:linear-gradient(135deg,var(--emerald),#059669)">MK</div>
+                    <div>
+                      <div style="color:#fff;font-weight:600">Mia Kowalska</div>
+                      <div style="font-size:0.75rem;color:var(--text-dim)">mia.k@acmeglobal.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge-role role-editor">Product Ops</span></td>
+                <td><span style="color:var(--emerald)">✔ Enforced (TOTP)</span></td>
+                <td>2 hours ago</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="member-cell">
+                    <div class="avatar" style="background:linear-gradient(135deg,#64748b,#475569)">AL</div>
+                    <div>
+                      <div style="color:#fff;font-weight:600">Alex Lin</div>
+                      <div style="font-size:0.75rem;color:var(--text-dim)">alex.auditor@external.io</div>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="badge-role role-viewer">External Auditor</span></td>
+                <td><span style="color:var(--emerald)">✔ Enforced</span></td>
+                <td>Yesterday</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <span class="sec-tag">Enterprise Architecture</span>
+  <h2 class="sec-title">Engineered for Complex Organizations</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🏢</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem">Strict Tenant Isolation</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted)">Encrypted at rest with separate tenant encryption keys, row-level security on PostgreSQL, and segregated redis queues.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔑</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem">Granular RBAC Simulator</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted)">Construct custom policies across 140+ fine-grained permissions. Test permissions in real-time before applying org-wide.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:0.5rem">Automated Seat Proration</h3>
+      <p style="font-size:0.875rem;color:var(--text-muted)">Stripe customer portal integrations handling automatic prorations, enterprise invoice generation, and cost-center allocations.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div style="text-align:center;max-width:640px;margin:0 auto">
+    <span class="sec-tag">Predictable Economics</span>
+    <h2 class="sec-title">Seat-Based & Consumption Pricing</h2>
+    <p style="color:var(--text-muted);font-size:0.95rem">Pay for the scale you need today, grow into enterprise volume discounts tomorrow.</p>
+  </div>
+
+  <div class="pricing-toggle-box">
+    <div class="toggle-bar">
+      <button class="t-btn active" id="btnMonthly">Monthly Billing</button>
+      <button class="t-btn" id="btnAnnual">Annual (Save 20%)</button>
+    </div>
+
+    <div class="pricing-cards">
+      <div class="p-card">
+        <div class="p-name">Scale Team</div>
+        <p style="font-size:0.8rem;color:var(--text-muted)">For fast moving product teams</p>
+        <div class="p-price"><span class="currency">$</span><span id="priceScale">49</span><span> / seat / mo</span></div>
+        <ul class="p-features">
+          <li>Up to 25 team members</li>
+          <li>Standard RBAC presets</li>
+          <li>14-day immutable audit logs</li>
+          <li>Community Slack & email support</li>
+        </ul>
+        <button class="btn btn-ghost" style="width:100%">Choose Scale</button>
+      </div>
+
+      <div class="p-card featured">
+        <div style="position:absolute;top:-12px;right:20px;background:var(--primary);color:#fff;padding:0.25rem 0.75rem;border-radius:999px;font-size:0.75rem;font-weight:700">
+          MOST POPULAR
+        </div>
+        <div class="p-name">Enterprise Suite</div>
+        <p style="font-size:0.8rem;color:var(--text-muted)">For established multi-tenant orgs</p>
+        <div class="p-price"><span class="currency">$</span><span id="priceEnt">129</span><span> / seat / mo</span></div>
+        <ul class="p-features">
+          <li>Unlimited multi-tenant workspaces</li>
+          <li>Custom RBAC policy engine</li>
+          <li>Real-time SOC2 audit log webhook stream</li>
+          <li>Dedicated Slack channel & 99.99% SLA</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%">Get Enterprise Access</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Nova SaaS Platform Inc. Production-Grade B2B Software Architecture.</p>
+</footer>
+
+<script>
+  const btnMonthly = document.getElementById('btnMonthly');
+  const btnAnnual = document.getElementById('btnAnnual');
+  const priceScale = document.getElementById('priceScale');
+  const priceEnt = document.getElementById('priceEnt');
+
+  btnMonthly.addEventListener('click', () => {
+    btnMonthly.classList.add('active');
+    btnAnnual.classList.remove('active');
+    priceScale.textContent = '49';
+    priceEnt.textContent = '129';
+  });
+
+  btnAnnual.addEventListener('click', () => {
+    btnAnnual.classList.add('active');
+    btnMonthly.classList.remove('active');
+    priceScale.textContent = '39';
+    priceEnt.textContent = '99';
+  });
+</script>
 </body>
 </html>

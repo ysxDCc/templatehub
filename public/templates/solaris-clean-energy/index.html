@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solaris Grid — Industrial Solar Microgrids & BESS Energy Storage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #021a15;
+      --surface: #042921;
+      --surface-card: #08382e;
+      --border: rgba(255, 255, 255, 0.08);
+      --emerald: #10b981;
+      --cyan: #06b6d4;
+      --sun: #f59e0b;
+      --text: #f8fafc;
+      --text-muted: #a7f3d0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.2rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(2, 26, 21, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { font-size: 1.35rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; }
+    .brand span { color: var(--emerald); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; }
+    .btn {
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-emerald {
+      background: linear-gradient(135deg, var(--emerald), #059669);
+      color: #021a15;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+    }
+    .hero {
+      padding: 7rem 6% 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #fff 30%, #6ee7b7 70%, var(--sun) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* TELEMETRY DASHBOARD */
+    .telemetry-card {
+      max-width: 1100px;
+      margin: 3.5rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
+      text-align: left;
+    }
+    .telemetry-bar {
+      background: var(--surface-card);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .telemetry-body {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .t-stat {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .t-lbl { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .t-val { font-size: 2.2rem; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; }
+    .t-status { font-size: 0.75rem; color: var(--emerald); margin-top: 0.25rem; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+    .f-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.25rem;
+    }
+    footer {
+      padding: 3.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">☀️ Solaris <span>Grid</span></div>
+  <ul class="nav-links">
+    <li><a href="#microgrid">Microgrid Tech</a></li>
+    <li><a href="#storage">BESS Battery</a></li>
+    <li><a href="#telemetry">Live Flow</a></li>
+  </ul>
+  <button class="btn btn-emerald">Connect Utility</button>
+</nav>
+
+<section class="hero">
+  <div class="pill">⚡ 480 MWh Utility BESS Online</div>
+  <h1>Autonomous Energy Storage & <br><span>Industrial Microgrid Control</span></h1>
+  <p>Algorithmic peak shaving, sub-cycle grid frequency regulation, and multi-megawatt battery energy storage for energy-intensive hyperscale facilities.</p>
+
+  <div class="telemetry-card">
+    <div class="telemetry-bar">
+      <span>bess-scada://facility-nevada-desert-01</span>
+      <span style="color:var(--emerald)">● 100% Self-Generation Mode</span>
+    </div>
+    <div class="telemetry-body">
+      <div class="t-stat">
+        <div class="t-lbl">Current Generation</div>
+        <div class="t-val">84.2 <span style="font-size:1rem;color:var(--sun)">MW</span></div>
+        <div class="t-status">▲ Bifacial tracker array optimal</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-lbl">Storage State of Charge</div>
+        <div class="t-val">96.8 <span style="font-size:1rem;color:var(--emerald)">%</span></div>
+        <div class="t-status">✔ Thermal balance stabilized at 21°C</div>
+      </div>
+      <div class="t-stat">
+        <div class="t-lbl">CO2 Avoided Today</div>
+        <div class="t-val">1,480 <span style="font-size:1rem;color:var(--emerald)">t</span></div>
+        <div class="t-status">✔ Equivalent to 62,000 trees</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="grid-3">
+  <div class="f-box">
+    <div style="font-size:2rem;margin-bottom:1rem">🔋</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">LFP Liquid-Cooled Storage</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Over 6,000 cycles to 80% capacity with UL 9540A certification for zero thermal runaway propagation.</p>
+  </div>
+  <div class="f-box">
+    <div style="font-size:2rem;margin-bottom:1rem">⚡</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Sub-Millisecond Grid Peaking</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Automated algorithmic dispatch responding to ISO frequency fluctuations faster than conventional gas turbines.</p>
+  </div>
+  <div class="f-box">
+    <div style="font-size:2rem;margin-bottom:1rem">🛰️</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Predictive Solar Forecasting</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Satellite cloud tracking paired with edge machine learning predicting irradiance 6 hours in advance with 97.4% precision.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Solaris Clean Energy Systems Inc. Zero Carbon Power Architecture.</p>
+</footer>
+
+</body>
+</html>

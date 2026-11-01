@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06231a" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <radialGradient id="glow" cx="75%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.6" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#bgGrad)" />
+  <circle cx="620" cy="150" r="280" fill="url(#glow)" />
+
+  <!-- Grid Pattern -->
+  <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+    <line x1="0" y1="100" x2="800" y2="100" />
+    <line x1="0" y1="200" x2="800" y2="200" />
+    <line x1="0" y1="300" x2="800" y2="300" />
+    <line x1="0" y1="400" x2="800" y2="400" />
+    <line x1="160" y1="0" x2="160" y2="500" />
+    <line x1="320" y1="0" x2="320" y2="500" />
+    <line x1="480" y1="0" x2="480" y2="500" />
+    <line x1="640" y1="0" x2="640" y2="500" />
+  </g>
+
+  <!-- Window Frame -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="50" width="680" height="400" rx="14" fill="url(#cardGrad)" stroke="rgba(255,255,255,0.14)" stroke-width="1.5" />
+    
+    <!-- Top Bar -->
+    <rect x="60" y="50" width="680" height="44" rx="14" fill="rgba(0,0,0,0.45)" />
+    <circle cx="86" cy="72" r="5.5" fill="#ef4444" />
+    <circle cx="104" cy="72" r="5.5" fill="#f59e0b" />
+    <circle cx="122" cy="72" r="5.5" fill="#10b981" />
+    <rect x="220" y="62" width="360" height="20" rx="6" fill="rgba(255,255,255,0.06)" />
+    <text x="400" y="76" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.4)" text-anchor="middle">templatehub.website/preview/verdant-eco</text>
+  </g>
+
+  <!-- Tag Badge -->
+  <g transform="translate(100, 130)">
+    <rect width="180" height="26" rx="13" fill="rgba(255,255,255,0.08)" stroke="#10b981" stroke-opacity="0.4" stroke-width="1" />
+    <text x="90" y="17" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="11" font-weight="700" fill="#10b981" text-anchor="middle" letter-spacing="0.5">CLIMATE TECH & ESG AUDITING</text>
+  </g>
+
+  <!-- Title & Subtitle -->
+  <text x="100" y="200" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="34" font-weight="800" fill="#ffffff" letter-spacing="-0.5">Verdant Eco</text>
+  <text x="100" y="235" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="14" font-weight="500" fill="rgba(255,255,255,0.65)">Scope 1-3 Telemetry & Circular Passports</text>
+
+  <!-- Buttons Row -->
+  <g transform="translate(100, 270)">
+    <rect width="130" height="36" rx="8" fill="#10b981" />
+    <text x="65" y="22" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="700" fill="#000000" text-anchor="middle">Live Preview →</text>
+
+    <rect x="145" width="110" height="36" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+    <text x="200" y="22" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="12" font-weight="600" fill="#ffffff" text-anchor="middle">Inspect Code</text>
+  </g>
+
+  <!-- Feature Cards Preview Mockup -->
+  <g transform="translate(100, 335)">
+    <rect width="180" height="85" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+    <circle cx="24" cy="24" r="12" fill="#10b981" fill-opacity="0.2" />
+    <text x="24" y="28" font-family="system-ui" font-size="12" text-anchor="middle">🌿</text>
+    <rect x="44" y="18" width="80" height="8" rx="4" fill="rgba(255,255,255,0.7)" />
+    <rect x="16" y="46" width="145" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
+    <rect x="16" y="58" width="110" height="6" rx="3" fill="rgba(255,255,255,0.15)" />
+
+    <rect x="195" width="180" height="85" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+    <circle cx="219" cy="24" r="12" fill="#10b981" fill-opacity="0.2" />
+    <text x="219" y="28" font-family="system-ui" font-size="12" text-anchor="middle">⚡</text>
+    <rect x="239" y="18" width="70" height="8" rx="4" fill="rgba(255,255,255,0.7)" />
+    <rect x="211" y="46" width="145" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
+    <rect x="211" y="58" width="100" height="6" rx="3" fill="rgba(255,255,255,0.15)" />
+
+    <rect x="390" width="180" height="85" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+    <circle cx="414" cy="24" r="12" fill="#10b981" fill-opacity="0.2" />
+    <text x="414" y="28" font-family="system-ui" font-size="12" text-anchor="middle">🛡️</text>
+    <rect x="434" y="18" width="85" height="8" rx="4" fill="rgba(255,255,255,0.7)" />
+    <rect x="406" y="46" width="145" height="6" rx="3" fill="rgba(255,255,255,0.25)" />
+    <rect x="406" y="58" width="90" height="6" rx="3" fill="rgba(255,255,255,0.15)" />
+  </g>
+
+  <!-- Large Embellished Graphic Icon on Right -->
+  <g transform="translate(620, 200)">
+    <circle cx="0" cy="0" r="65" fill="rgba(255,255,255,0.03)" stroke="#10b981" stroke-width="1.5" stroke-dasharray="6 6" />
+    <circle cx="0" cy="0" r="50" fill="url(#glow)" />
+    <text x="0" y="18" font-size="50" text-anchor="middle">🌿</text>
+  </g>
+</svg>

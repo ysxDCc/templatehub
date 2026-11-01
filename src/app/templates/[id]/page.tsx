@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { templates } from '@/data/templates';
 import DownloadButton from '@/components/DownloadButton';
+import InteractivePreviewFrame from '@/components/InteractivePreviewFrame';
 
 export default async function TemplateDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -59,39 +60,13 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
               </p>
             </div>
 
-            {/* In-Browser Interactive Sandbox Frame */}
+            {/* In-Browser Interactive Responsive Sandbox Frame with Viewport Switcher & Token Controls */}
             {template.livePreviewUrl !== '#' ? (
-              <div className="border border-white/10 rounded-xl overflow-hidden bg-zinc-950 shadow-2xl">
-                {/* Browser bar */}
-                <div className="bg-zinc-900 px-4 py-2.5 border-b border-white/[0.08] flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-zinc-700"></span>
-                    <span className="text-[11px] font-mono text-zinc-400 ml-2 truncate max-w-xs">
-                      https://templatehub.dev/preview/{template.id}
-                    </span>
-                  </div>
-                  <a
-                    href={template.livePreviewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-zinc-300 hover:text-white flex items-center gap-1 font-medium transition-colors"
-                  >
-                    <span>Full window</span>
-                    <span>↗</span>
-                  </a>
-                </div>
-
-                <div className="h-[560px] w-full bg-zinc-950">
-                  <iframe
-                    src={template.livePreviewUrl}
-                    title={`${template.name} preview`}
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
+              <InteractivePreviewFrame
+                templateId={template.id}
+                templateName={template.name}
+                livePreviewUrl={template.livePreviewUrl}
+              />
             ) : (
               <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-white/10 bg-zinc-950">
                 <Image

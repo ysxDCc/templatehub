@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanguard SecOps — Autonomous SOC, Threat Hunting & Attack Surface Defense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050608;
+      --surface: #0a0d14;
+      --surface-card: #101520;
+      --border: rgba(255, 255, 255, 0.08);
+      --red: #ef4444;
+      --emerald: #10b981;
+      --cyan: #06b6d4;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.2rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 6, 8, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { font-size: 1.35rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; letter-spacing: -0.02em; }
+    .brand span { color: var(--red); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; }
+    .btn-red {
+      background: linear-gradient(135deg, var(--red), #b91c1c);
+      color: #fff;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(239, 68, 68, 0.35);
+    }
+    .hero {
+      padding: 7rem 6% 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #fff 30%, #fca5a5 70%, var(--red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* SOC CONSOLE MOCKUP */
+    .soc-console {
+      max-width: 1100px;
+      margin: 3.5rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(239, 68, 68, 0.12);
+      text-align: left;
+    }
+    .soc-bar {
+      background: var(--surface-card);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .soc-body {
+      padding: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      line-height: 1.8;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+    .box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.25rem;
+    }
+    footer {
+      padding: 3.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🛡️ Vanguard <span>SecOps</span></div>
+  <ul class="nav-links">
+    <li><a href="#threats">Threat Intel</a></li>
+    <li><a href="#mesh">EDR Mesh</a></li>
+    <li><a href="#soc">SOC Console</a></li>
+  </ul>
+  <button class="btn-red">Deploy Agent</button>
+</nav>
+
+<section class="hero">
+  <div class="tag">⚡ Continuous Autonomous Incident Response</div>
+  <h1>Weaponized Attack Surface Defense for <br><span>Hostile Environments</span></h1>
+  <p>Defeat nation-state adversaries, automate lateral movement containment, and stream kernel-level eBPF telemetry across multi-cloud infrastructure.</p>
+
+  <div class="soc-console">
+    <div class="soc-bar">
+      <span>soc-telemetry-engine://eu-mesh-cluster-09</span>
+      <span style="color:var(--emerald)">● 0 Uncontained Vulnerabilities</span>
+    </div>
+    <div class="soc-body">
+      <div>[2026-11-01 20:25:12] <span style="color:var(--emerald)">[AUTONOMOUS_CONTAIN]</span> Blocked suspicious Kerberos ticket granting request (TGT replay detected).</div>
+      <div>[2026-11-01 20:25:12] Host isolated: ip-10-42-18-99.ec2.internal · Zero lateral drift to production tier.</div>
+      <div>[2026-11-01 20:25:13] <span style="color:var(--cyan)">[FORENSICS]</span> Memory dump acquired (SHA256: 8f3c...b12a) & sent to sandbox analyzer.</div>
+      <div>[2026-11-01 20:25:14] Mean Time To Contain (MTTC): <strong style="color:var(--red)">140ms</strong> (Industry average: 21 days).</div>
+    </div>
+  </div>
+</section>
+
+<div class="grid-3">
+  <div class="box">
+    <div style="font-size:2rem;margin-bottom:1rem">⚡</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Kernel-Level eBPF Probes</h3>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Real-time system call interceptors detecting rootkits, unlinked processes, and direct memory modifications with zero CPU degradation.</p>
+  </div>
+  <div class="box">
+    <div style="font-size:2rem;margin-bottom:1rem">🎯</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Automated Red Team Adversary Simulation</h3>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Continuous non-destructive payload generation testing your perimeter against MITRE ATT&CK tactics 24/7.</p>
+  </div>
+  <div class="box">
+    <div style="font-size:2rem;margin-bottom:1rem">🔒</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Zero-Trust Blast Radius Isolation</h3>
+    <p style="font-size:0.875rem;color:var(--text-muted)">Instantly revoke micro-segmentation tokens, sever compromised VPC peerings, and revoke service credentials in sub-second time.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Vanguard SecOps Defense Technologies. Defense-in-Depth for Critical Infrastructure.</p>
+</footer>
+
+</body>
+</html>

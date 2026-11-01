@@ -29,7 +29,7 @@ export default function Home() {
               href="/templates" 
               className="text-xs font-semibold text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
             >
-              <span>View all 24 templates</span>
+              <span>View all 30 templates</span>
               <span>→</span>
             </Link>
           </div>
@@ -45,7 +45,7 @@ export default function Home() {
               href="/templates" 
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white text-xs font-semibold rounded-lg border border-white/10 transition-colors"
             >
-              Browse entire catalog (24 templates) →
+              Browse entire catalog (30 templates) →
             </Link>
           </div>
         </div>

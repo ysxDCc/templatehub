@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Launchpad — Sub-Second Bonding Curves & Instant Token Factory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090314;
+      --surface: #120626;
+      --surface-card: #1c0a3d;
+      --border: rgba(255, 255, 255, 0.08);
+      --sol-purple: #9945ff;
+      --sol-green: #14f195;
+      --text: #f8fafc;
+      --text-muted: #c4b5fd;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1.2rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(9, 3, 20, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { font-size: 1.35rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; }
+    .brand span { color: var(--sol-green); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-weight: 500; }
+    .btn-wallet {
+      background: linear-gradient(135deg, var(--sol-purple), #7e22ce);
+      color: #fff;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(153, 69, 255, 0.4);
+    }
+    .hero {
+      padding: 7rem 6% 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      background: rgba(20, 241, 149, 0.12);
+      border: 1px solid rgba(20, 241, 149, 0.3);
+      color: var(--sol-green);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.75rem, 6vw, 4.75rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #fff 20%, var(--sol-green) 60%, var(--sol-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* TOKEN FACTORY WIDGET */
+    .factory-box {
+      max-width: 1000px;
+      margin: 3.5rem auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(153, 69, 255, 0.15);
+      text-align: left;
+    }
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .s-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .s-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .s-val { font-size: 1.8rem; font-weight: 800; color: #fff; font-family: 'JetBrains Mono', monospace; }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.25rem;
+    }
+    footer {
+      padding: 3.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">⚡ Solana <span>Launchpad</span></div>
+  <ul class="nav-links">
+    <li><a href="#factory">Token Factory</a></li>
+    <li><a href="#bonding">Bonding Curves</a></li>
+    <li><a href="#dex">Raydium AMM</a></li>
+  </ul>
+  <button class="btn-wallet">Connect Phantom ⚡</button>
+</nav>
+
+<section class="hero">
+  <div class="badge">✦ Sub-400ms Solana Slot Finality</div>
+  <h1>Fair Launch Tokens with <br><span>Zero Presale Rug-Pulls</span></h1>
+  <p>Automated bonding curves, immutable LP lockups to Raydium upon market cap graduation, and sub-cent transaction fees verified on-chain.</p>
+
+  <div class="factory-box">
+    <div class="stats-strip">
+      <div class="s-box">
+        <div class="s-lbl">Tokens Graduated Today</div>
+        <div class="s-val" style="color:var(--sol-green)">142</div>
+      </div>
+      <div class="s-box">
+        <div class="s-lbl">24h Solana Volume</div>
+        <div class="s-val">84,920 <span style="font-size:1rem;color:var(--sol-purple)">SOL</span></div>
+      </div>
+      <div class="s-box">
+        <div class="s-lbl">Average Migration Time</div>
+        <div class="s-val">4.2 <span style="font-size:1rem;color:var(--sol-green)">mins</span></div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:12px;padding:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+      <div>
+        <div style="font-weight:700;font-size:1.1rem">Deploy Instant Fair-Launch Token</div>
+        <div style="font-size:0.85rem;color:#94a3b8">Creation fee: 0.02 SOL · LP Auto-Burn on Raydium Migration</div>
+      </div>
+      <button class="btn-wallet" style="background:var(--sol-green);color:#090314;font-weight:800;border:none">Create Token Now →</button>
+    </div>
+  </div>
+</section>
+
+<div class="grid-3">
+  <div class="card">
+    <div style="font-size:2rem;margin-bottom:1rem">📈</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Mathematical Bonding Curve</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Every buyer climbs a transparent deterministic price curve. No insider sniper allocations, no pre-mined founder dev tokens.</p>
+  </div>
+  <div class="card">
+    <div style="font-size:2rem;margin-bottom:1rem">🔒</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Automated Liquidity Seed & Burn</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Once the $69,000 bonding curve threshold is met, $12,000 of SOL liquidity is automatically transferred and permanently burned on Raydium.</p>
+  </div>
+  <div class="card">
+    <div style="font-size:2rem;margin-bottom:1rem">⚡</div>
+    <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">MEV Protection Jito Tip Integration</h3>
+    <p style="font-size:0.875rem;color:#94a3b8">Native integration with Jito bundle validator engines preventing sandwich attacks and predatory front-running bot exploits.</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Solana Launchpad DEX. On-Chain Liquidity Infrastructure.</p>
+</footer>
+
+</body>
+</html>
