@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ClerkProvider } from '@clerk/nextjs';
+import { FavoritesProvider } from '@/context/FavoritesContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,11 +22,13 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${inter.className} bg-slate-950 text-white min-h-screen antialiased flex flex-col`}>
-          <Navbar />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <FavoritesProvider>
+            <Navbar />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </FavoritesProvider>
         </body>
       </html>
     </ClerkProvider>

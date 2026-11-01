@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { Show, UserButton } from '@clerk/nextjs';
+import { useFavorites } from '@/context/FavoritesContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { favoritesCount } = useFavorites();
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-[#09090b]/90 backdrop-blur-md border-b border-white/[0.08]">
@@ -30,6 +32,15 @@ export default function Navbar() {
               <Link href="/templates" className="text-zinc-400 hover:text-white transition-colors font-medium">
                 Templates
               </Link>
+              {favoritesCount > 0 && (
+                <Link
+                  href="/templates"
+                  className="text-rose-400 hover:text-rose-300 transition-colors font-medium flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-rose-500/10 border border-rose-500/20"
+                >
+                  <span>❤️</span>
+                  <span>Saved ({favoritesCount})</span>
+                </Link>
+              )}
               <Link 
                 href="/ai-generator" 
                 className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"

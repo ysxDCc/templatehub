@@ -8,7 +8,7 @@ export default function Hero() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-zinc-900/60 text-zinc-300 text-xs font-medium mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            <span>14 production-grade templates available</span>
+            <span>30 production-grade templates available</span>
             <span className="text-zinc-600">/</span>
             <span className="text-zinc-400">Commercial licenses included</span>
           </div>

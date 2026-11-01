@@ -3,12 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Template } from '@/types';
+import { useFavorites } from '@/context/FavoritesContext';
 
 interface TemplateCardProps {
   template: Template;
 }
 
 export default function TemplateCard({ template }: TemplateCardProps) {
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite(template.id);
+
   const tierBadge = 
     template.tier === 'free' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
     template.tier === 'basic' ? 'bg-zinc-800 text-zinc-300 border-zinc-700' :
@@ -28,7 +32,28 @@ export default function TemplateCard({ template }: TemplateCardProps) {
             className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           />
 
-          {/* Tier Badge */}
+          {/* Top Overlays: Favorite Button & Tier Badge */}
+          <div className="absolute top-2.5 left-2.5 z-10">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFavorite(template.id);
+              }}
+              title={favorited ? 'Remove from favorites' : 'Save to favorites'}
+              className={`w-7 h-7 rounded-full flex items-center justify-center transition-all backdrop-blur-md border ${
+                favorited
+                  ? 'bg-rose-500/20 border-rose-500/40 text-rose-400 scale-105'
+                  : 'bg-zinc-950/70 border-white/10 text-zinc-400 hover:text-white hover:bg-zinc-900/90'
+              }`}
+            >
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </button>
+          </div>
+
           <div className="absolute top-2.5 right-2.5 z-10">
             <span className={`px-2 py-0.5 text-[10px] font-semibold tracking-wide uppercase rounded-md border backdrop-blur-xs ${tierBadge}`}>
               {template.tier}
