@@ -60,13 +60,9 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
               </p>
             </div>
 
-            {/* In-Browser Interactive Responsive Sandbox Frame with Viewport Switcher & Token Controls */}
+            {/* In-Browser Interactive Responsive Sandbox Frame with Viewport Switcher, Auto-Editor & Code Inspector */}
             {template.livePreviewUrl !== '#' ? (
-              <InteractivePreviewFrame
-                templateId={template.id}
-                templateName={template.name}
-                livePreviewUrl={template.livePreviewUrl}
-              />
+              <InteractivePreviewFrame template={template} />
             ) : (
               <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-white/10 bg-zinc-950">
                 <Image
@@ -172,6 +168,9 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                 <div className="flex items-center gap-2 text-zinc-300 font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                   <span>Included with {template.tier.toUpperCase()} subscription</span>
+                </div>
+                <div className="p-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[11px] text-indigo-300">
+                  <span className="font-bold">🪄 Store Auto-Edit Enabled:</span> Switch to the Auto-Edit tab above to automatically populate this template with your store info, logo, and photos.
                 </div>
                 <p className="text-[11px] leading-relaxed text-zinc-500">
                   {template.tier === 'free' 
