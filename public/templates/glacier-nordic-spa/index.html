@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLACIER // Sub-Arctic Hydrothermal Sanctuary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ice-blue-light: #eaf4f8;
+      --ice-blue-glow: #d0e8f2;
+      --glacial-cyan: #38bdf8;
+      --glacial-cyan-glow: rgba(56, 189, 248, 0.35);
+      --volcanic-charcoal: #14171a;
+      --volcanic-subtle: #1c2127;
+      --volcanic-card: rgba(20, 23, 26, 0.85);
+      --mineral-steam: #fdfefe;
+      --mineral-steam-muted: rgba(253, 254, 254, 0.72);
+      --deep-slate: #1e293b;
+      --slate-border: rgba(234, 244, 248, 0.12);
+      --slate-border-hover: rgba(56, 189, 248, 0.4);
+      --font-display: 'Tenor Sans', serif;
+      --font-accent: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--volcanic-charcoal);
+      color: var(--ice-blue-light);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56, 189, 248, 0.18), transparent 70%),
+        radial-gradient(circle 900px at 10% 60%, rgba(30, 41, 59, 0.6), transparent 70%),
+        radial-gradient(circle 800px at 90% 85%, rgba(56, 189, 248, 0.08), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Subtle frosted ice noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(10, 12, 15, 0.6) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Ambient Mist Canvas */
+    #steam-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.65;
+    }
+
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(20, 23, 26, 0.82);
+      border-bottom: 1px solid var(--slate-border);
+      transition: var(--transition);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 84px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--mineral-steam);
+    }
+
+    .logo-symbol {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--glacial-cyan);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+
+    .logo-symbol::after {
+      content: '';
+      width: 14px;
+      height: 14px;
+      background: var(--mineral-steam);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+    }
+
+    .logo-tag {
+      font-family: var(--font-accent);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--glacial-cyan);
+      text-transform: uppercase;
+      margin-left: 8px;
+      padding: 2px 8px;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--mineral-steam-muted);
+      text-decoration: none;
+      font-family: var(--font-accent);
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--mineral-steam);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--glacial-cyan);
+      transition: var(--transition);
+      box-shadow: 0 0 8px var(--glacial-cyan);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .soundscape-btn {
+      background: rgba(234, 244, 248, 0.05);
+      border: 1px solid var(--slate-border);
+      color: var(--ice-blue-light);
+      padding: 10px 16px;
+      border-radius: 30px;
+      font-family: var(--font-accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .soundscape-btn:hover {
+      background: rgba(56, 189, 248, 0.12);
+      border-color: var(--glacial-cyan);
+      color: var(--mineral-steam);
+    }
+
+    .sound-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+      transition: var(--transition);
+    }
+
+    .sound-pulse.playing {
+      background: var(--glacial-cyan);
+      box-shadow: 0 0 10px var(--glacial-cyan);
+      animation: pulseAnim 1.6s infinite ease-in-out;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.4); opacity: 1; }
+    }
+
+    .cta-btn-primary {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(2, 132, 199, 0.4));
+      border: 1px solid var(--glacial-cyan);
+      color: var(--mineral-steam);
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-family: var(--font-accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cta-btn-primary:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(2, 132, 199, 0.65));
+      box-shadow: 0 6px 30px rgba(56, 189, 248, 0.45);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 110px 0 90px;
+      position: relative;
+    }
+
+    .hero-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 18px;
+      border-radius: 30px;
+      background: rgba(234, 244, 248, 0.05);
+      border: 1px solid var(--slate-border);
+      font-family: var(--font-accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--glacial-cyan);
+      margin-bottom: 28px;
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--glacial-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--glacial-cyan);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6.5vw, 5.8rem);
+      line-height: 1.08;
+      color: var(--mineral-steam);
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      max-width: 1050px;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #fdfefe 30%, #7dd3fc 70%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      font-size: 1.22rem;
+      color: var(--ice-blue-light);
+      max-width: 680px;
+      margin-bottom: 44px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 60px;
+      padding: 30px;
+      border-radius: 20px;
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat-item {
+      border-left: 2px solid rgba(56, 189, 248, 0.3);
+      padding-left: 20px;
+    }
+
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      color: var(--mineral-steam);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .stat-val small {
+      font-size: 1rem;
+      color: var(--glacial-cyan);
+      margin-left: 4px;
+    }
+
+    .stat-lbl {
+      font-family: var(--font-accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mineral-steam-muted);
+    }
+
+    /* Section Styling */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-header {
+      margin-bottom: 56px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-accent);
+      font-size: 0.8rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--glacial-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--glacial-cyan);
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--mineral-steam);
+      line-height: 1.18;
+      max-width: 800px;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--mineral-steam-muted);
+      max-width: 620px;
+      margin-top: 16px;
+      font-weight: 300;
+    }
+
+    /* Feature 1: Temperature Differential Calculator */
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 24px;
+      padding: 44px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .slider-control-group {
+      margin-bottom: 34px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .slider-title {
+      font-family: var(--font-accent);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--mineral-steam);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-cold {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--glacial-cyan);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-hot {
+      background: rgba(251, 146, 60, 0.15);
+      color: #fb923c;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(251, 146, 60, 0.3);
+    }
+
+    .slider-value-display {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--mineral-steam);
+    }
+
+    .range-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 6px;
+      background: #1e293b;
+      outline: none;
+      position: relative;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--mineral-steam);
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+      border: 2px solid var(--glacial-cyan);
+      transition: transform 0.15s ease;
+    }
+
+    .range-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .slider-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: #64748b;
+      font-family: var(--font-accent);
+    }
+
+    .calc-feedback-box {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .differential-metric {
+      text-align: center;
+      padding: 20px 0 24px;
+      border-bottom: 1px solid var(--slate-border);
+    }
+
+    .differential-val {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      line-height: 1;
+      color: var(--glacial-cyan);
+      text-shadow: 0 0 25px rgba(56, 189, 248, 0.45);
+    }
+
+    .differential-label {
+      font-family: var(--font-accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mineral-steam-muted);
+      margin-top: 8px;
+    }
+
+    .physiological-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .physio-card {
+      background: rgba(30, 41, 59, 0.5);
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(234, 244, 248, 0.05);
+    }
+
+    .physio-title {
+      font-size: 0.76rem;
+      color: #94a3b8;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .physio-value {
+      font-family: var(--font-accent);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--mineral-steam);
+    }
+
+    .physio-sub {
+      font-size: 0.72rem;
+      color: var(--glacial-cyan);
+      margin-top: 2px;
+    }
+
+    .protocol-advice {
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid var(--glacial-cyan);
+      padding: 16px;
+      border-radius: 0 12px 12px 0;
+      font-size: 0.88rem;
+      color: var(--ice-blue-light);
+      line-height: 1.5;
+    }
+
+    /* Feature 2: Sensory Ritual Itinerary Planner */
+    .ritual-planner-wrapper {
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 24px;
+      padding: 44px;
+      backdrop-filter: blur(16px);
+    }
+
+    .ritual-presets {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .preset-pill {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--slate-border);
+      color: var(--mineral-steam-muted);
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-family: var(--font-accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .preset-pill:hover,
+    .preset-pill.active {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: var(--glacial-cyan);
+      color: var(--mineral-steam);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+    }
+
+    .ritual-step-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      position: relative;
+    }
+
+    .ritual-card {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid var(--slate-border);
+      border-radius: 18px;
+      padding: 22px 18px;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .ritual-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--slate-border-hover);
+      background: rgba(30, 41, 59, 0.7);
+    }
+
+    .ritual-card.selected {
+      border-color: var(--glacial-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.15);
+    }
+
+    .ritual-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--glacial-cyan);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .ritual-step-title {
+      font-family: var(--font-accent);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--mineral-steam);
+      margin-bottom: 8px;
+    }
+
+    .ritual-step-temp {
+      font-size: 0.8rem;
+      color: var(--glacial-cyan);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ritual-step-desc {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .itinerary-summary-bar {
+      margin-top: 36px;
+      padding: 24px 30px;
+      background: rgba(30, 41, 59, 0.6);
+      border-radius: 16px;
+      border: 1px solid var(--slate-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .summary-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .sum-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sum-stat-val {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--mineral-steam);
+    }
+
+    .sum-stat-lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+    }
+
+    /* Feature 3: Hydrothermal Telemetry */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .telemetry-card {
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 24px;
+      padding: 36px;
+      backdrop-filter: blur(16px);
+    }
+
+    .telemetry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--slate-border);
+    }
+
+    .telemetry-title {
+      font-family: var(--font-accent);
+      font-size: 1.15rem;
+      color: var(--mineral-steam);
+      font-weight: 600;
+    }
+
+    .live-pulse-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: #4ade80;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 10px #4ade80;
+      animation: pulseAnim 1.4s infinite ease-in-out;
+    }
+
+    .telemetry-meters {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .meter-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--slate-border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .meter-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .meter-reading {
+      font-family: var(--font-display);
+      font-size: 2.1rem;
+      color: var(--mineral-steam);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .meter-sub {
+      font-size: 0.75rem;
+      color: var(--glacial-cyan);
+    }
+
+    .meter-progress-track {
+      width: 100%;
+      height: 4px;
+      background: #1e293b;
+      border-radius: 2px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .meter-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--glacial-cyan);
+      transition: width 0.8s ease;
+    }
+
+    /* Telemetry Visual Canvas Container */
+    .steam-chamber-view {
+      height: 280px;
+      width: 100%;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 120%, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.95));
+      border: 1px solid var(--slate-border);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+    }
+
+    #chamber-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .chamber-overlay-info {
+      position: relative;
+      z-index: 2;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 14px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--slate-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Feature 4: Sanctuary Private Suite Booking */
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+    }
+
+    .suites-carousel {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .suite-card {
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      padding: 24px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .suite-card:hover {
+      border-color: var(--slate-border-hover);
+      transform: translateY(-4px);
+    }
+
+    .suite-card.active {
+      border-color: var(--glacial-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.2);
+    }
+
+    .suite-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--glacial-cyan);
+      background: rgba(56, 189, 248, 0.12);
+      padding: 3px 8px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .suite-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--mineral-steam);
+      margin-bottom: 8px;
+    }
+
+    .suite-price {
+      font-family: var(--font-accent);
+      font-size: 1.4rem;
+      color: var(--mineral-steam);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .suite-price span {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #94a3b8;
+    }
+
+    .suite-amenities {
+      list-style: none;
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+
+    .suite-amenities li::before {
+      content: '⋄ ';
+      color: var(--glacial-cyan);
+    }
+
+    .booking-form-box {
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 24px;
+      padding: 36px;
+      backdrop-filter: blur(16px);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--slate-border);
+      color: var(--mineral-steam);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--glacial-cyan);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .addons-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .addon-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--slate-border);
+      padding: 12px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .addon-item:hover {
+      background: rgba(30, 41, 59, 0.6);
+    }
+
+    .addon-item input[type="checkbox"] {
+      accent-color: var(--glacial-cyan);
+      width: 16px;
+      height: 16px;
+    }
+
+    .addon-name {
+      flex: 1;
+      font-size: 0.85rem;
+      color: var(--mineral-steam);
+    }
+
+    .addon-cost {
+      font-size: 0.82rem;
+      color: var(--glacial-cyan);
+      font-weight: 600;
+    }
+
+    .booking-summary-receipt {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--slate-border);
+    }
+
+    .receipt-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.86rem;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .receipt-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--mineral-steam);
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--slate-border);
+    }
+
+    /* Sanctuary Architecture Highlights */
+    .sanctuary-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .showcase-card {
+      background: var(--volcanic-card);
+      border: 1px solid var(--slate-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .showcase-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--slate-border-hover);
+    }
+
+    .showcase-image-holder {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+      background: #141b22;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .showcase-svg-art {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .showcase-card:hover .showcase-svg-art {
+      transform: scale(1.05);
+    }
+
+    .showcase-content {
+      padding: 24px;
+    }
+
+    .showcase-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: var(--mineral-steam);
+      margin-bottom: 10px;
+    }
+
+    .showcase-p {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--slate-border);
+      background: rgba(10, 12, 15, 0.95);
+      padding: 70px 0 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-top: 16px;
+      max-width: 320px;
+      line-height: 1.6;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-accent);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--mineral-steam);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--glacial-cyan);
+      padding-left: 4px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(234, 244, 248, 0.06);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #64748b;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .calculator-grid,
+      .telemetry-grid,
+      .booking-grid { grid-template-columns: 1fr; }
+      .ritual-step-container { grid-template-columns: repeat(2, 1fr); }
+      .sanctuary-showcase { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .suites-carousel { grid-template-columns: 1fr; }
+      .ritual-step-container { grid-template-columns: 1fr; }
+      .sanctuary-showcase { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Steam Fog Canvas -->
+  <canvas id="steam-canvas"></canvas>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="container nav-inner">
+      <a href="#hero" class="logo">
+        <div class="logo-symbol"></div>
+        <div>
+          <span class="logo-text">GLACIER</span>
+          <span class="logo-tag">64°08'N 21°56'W</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#thermal-calc" class="active">Thermal Contrast</a></li>
+        <li><a href="#sensory-ritual">Sensory Rituals</a></li>
+        <li><a href="#telemetry">Steam Telemetry</a></li>
+        <li><a href="#sanctuary">Architecture</a></li>
+        <li><a href="#suites">Suites</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="soundscape-toggle" class="soundscape-btn" aria-label="Toggle Hydrothermal Soundscape">
+          <span class="sound-pulse" id="sound-indicator"></span>
+          <span id="sound-label">Sub-Zero Drone</span>
+        </button>
+        <a href="#booking" class="cta-btn-primary">Reserve Bath</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-meta">
+        <span class="hero-meta-dot"></span>
+        Icelandic Volcanic Rift &bull; Vatnajökull Glacial Runoff
+      </div>
+      <h1 class="hero-title">
+        Where Sub-Arctic Frost Meets <span>Geothermal Fire</span>.
+      </h1>
+      <p class="hero-lead">
+        Immerse within pure volcanic basalt hollows fed by 1,800-meter subterranean geothermal aquifers. Alternating cycles of 4°C glacial plunge and 42°C mineral steam recalibrate your vascular and neurological resilience.
+      </p>
+
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="#thermal-calc" class="cta-btn-primary">Calculate Contrast Ratio</a>
+        <a href="#suites" class="soundscape-btn" style="padding: 12px 24px; font-size: 0.85rem;">Explore Sanctuary</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-val">38<small>°C</small></div>
+          <div class="stat-lbl">Mean Thermal Gradient</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">99.4<small>%</small></div>
+          <div class="stat-lbl">Atmospheric Steam Purity</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">1,820<small>m</small></div>
+          <div class="stat-lbl">Aquifer Well Extraction</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">840<small>mg/L</small></div>
+          <div class="stat-lbl">Colloidal Silica Density</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Cold Plunge vs Geothermal Hot Spring Calculator -->
+  <section id="thermal-calc">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Hydrothermal Physiology</div>
+        <h2 class="section-heading">Contrast Bath Temperature Differential Simulator</h2>
+        <p class="section-desc">
+          Model the physiological shock-response and vasoconstriction ratio as you pivot between sub-arctic glacial runoff and geothermal basalt calderas.
+        </p>
+      </div>
+
+      <div class="calculator-grid">
+        <div class="calc-controls">
+          <!-- Cold Plunge Slider -->
+          <div class="slider-control-group">
+            <div class="slider-header">
+              <span class="slider-title">
+                Glacial Plunge Lagoon
+                <span class="badge-cold">Vasoconstriction</span>
+              </span>
+              <span class="slider-value-display" id="cold-val-display">4.0°C</span>
+            </div>
+            <input type="range" min="1.0" max="12.0" step="0.5" value="4.0" class="range-slider" id="cold-slider">
+            <div class="slider-scale">
+              <span>1.0°C (Ice Breaker)</span>
+              <span>6.0°C (Standard)</span>
+              <span>12.0°C (Temperate)</span>
+            </div>
+          </div>
+
+          <!-- Hot Spring Slider -->
+          <div class="slider-control-group">
+            <div class="slider-header">
+              <span class="slider-title">
+                Geothermal Basalt Caldera
+                <span class="badge-hot">Vasodilation</span>
+              </span>
+              <span class="slider-value-display" id="hot-val-display">41.5°C</span>
+            </div>
+            <input type="range" min="36.0" max="45.0" step="0.5" value="41.5" class="range-slider" id="hot-slider">
+            <div class="slider-scale">
+              <span>36.0°C (Gentle Soak)</span>
+              <span>40.5°C (Optimal)</span>
+              <span>45.0°C (Thermal Surge)</span>
+            </div>
+          </div>
+
+          <!-- Immersion Cycle Interval -->
+          <div class="slider-control-group">
+            <div class="slider-header">
+              <span class="slider-title">Recommended Plunge Duration</span>
+              <span class="slider-value-display" id="duration-val-display">90 sec</span>
+            </div>
+            <input type="range" min="30" max="300" step="15" value="90" class="range-slider" id="duration-slider">
+            <div class="slider-scale">
+              <span>30s (Beginner)</span>
+              <span>120s (Resilience)</span>
+              <span>300s (Nordic Master)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-feedback-box">
+          <div class="differential-metric">
+            <div class="differential-val" id="delta-val">&Delta; 37.5°C</div>
+            <div class="differential-label">Thermal Delta Shock Index</div>
+          </div>
+
+          <div class="physiological-metrics">
+            <div class="physio-card">
+              <div class="physio-title">Vascular Contraction</div>
+              <div class="physio-value" id="vascular-val">94.8%</div>
+              <div class="physio-sub">Max capillary tone</div>
+            </div>
+            <div class="physio-card">
+              <div class="physio-title">Norepinephrine Boost</div>
+              <div class="physio-value" id="norepi-val">+420%</div>
+              <div class="physio-sub">Neuro-endorphin surge</div>
+            </div>
+            <div class="physio-card">
+              <div class="physio-title">Immersion Cadence</div>
+              <div class="physio-value" id="cadence-val">3 : 15 min</div>
+              <div class="physio-sub">Cold-to-warm ratio</div>
+            </div>
+            <div class="physio-card">
+              <div class="physio-title">Heart Rate Fluctuation</div>
+              <div class="physio-value" id="hr-val">58 &rarr; 114 bpm</div>
+              <div class="physio-sub">Cardiovascular stretch</div>
+            </div>
+          </div>
+
+          <div class="protocol-advice" id="protocol-note">
+            Optimal bio-adaptive threshold active. Transition rapidly with deep nasal diaphragmatic breathing to minimize vagal nerve overdrive.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Sensory Ritual Itinerary Planner -->
+  <section id="sensory-ritual">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Seven-Stage Restoration</div>
+        <h2 class="section-heading">Sub-Arctic Sensory Ritual Itinerary Planner</h2>
+        <p class="section-desc">
+          Curate an individualized hydrothermal journey based on ancestral Nordic sauna customs, volcanic steam scrubbing, and glacial mineral dips.
+        </p>
+      </div>
+
+      <div class="ritual-planner-wrapper">
+        <div class="ritual-presets">
+          <button class="preset-pill active" data-preset="vitality">Vascular Vitality (High Contrast)</button>
+          <button class="preset-pill" data-preset="deep-sleep">Deep Somatic Sleep (Mineral Calm)</button>
+          <button class="preset-pill" data-preset="detox">Volcanic Silica Detox (Heat Intensive)</button>
+          <button class="preset-pill" data-preset="custom">Custom Atelier Build</button>
+        </div>
+
+        <div class="ritual-step-container" id="ritual-steps-grid">
+          <!-- Step 1 -->
+          <div class="ritual-card selected" data-index="0" data-duration="20" data-temp="85°C">
+            <div class="ritual-step-num">1</div>
+            <h3 class="ritual-step-title">Smoke Birch Sauna</h3>
+            <div class="ritual-step-temp">85°C &bull; 15% Humidity</div>
+            <p class="ritual-step-desc">Aromatic Icelandic silver birch laths infused with pine resin vapor to open bronchial pathways.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="ritual-card selected" data-index="1" data-duration="2" data-temp="3°C">
+            <div class="ritual-step-num">2</div>
+            <h3 class="ritual-step-title">Glacial Waterfall Plunge</h3>
+            <div class="ritual-step-temp">3°C &bull; Pure Runoff</div>
+            <p class="ritual-step-desc">Direct meltwater from Langjökull glacier falling over black basalt columns for instant vasoconstriction.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="ritual-card selected" data-index="2" data-duration="25" data-temp="41°C">
+            <div class="ritual-step-num">3</div>
+            <h3 class="ritual-step-title">Geothermal Silica Lagoon</h3>
+            <div class="ritual-step-temp">41°C &bull; Mineral Rich</div>
+            <p class="ritual-step-desc">Naturally milky geothermal waters saturated in colloidal silica and mineral salts for deep tissue release.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="ritual-card selected" data-index="3" data-duration="15" data-temp="46°C">
+            <div class="ritual-step-num">4</div>
+            <h3 class="ritual-step-title">Sulfur Steam Cavern</h3>
+            <div class="ritual-step-temp">46°C &bull; 99% Humidity</div>
+            <p class="ritual-step-desc">Subterranean hollow carved into lava bedrock with micro-droplet steam promoting cellular repair.</p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="ritual-card selected" data-index="4" data-duration="30" data-temp="21°C">
+            <div class="ritual-step-num">5</div>
+            <h3 class="ritual-step-title">Aurora Observation Solarium</h3>
+            <div class="ritual-step-temp">21°C &bull; Ambient Rest</div>
+            <p class="ritual-step-desc">Heated slate daybeds beneath frameless skylights framing the polar northern lights canopy.</p>
+          </div>
+        </div>
+
+        <div class="itinerary-summary-bar">
+          <div class="summary-stats">
+            <div class="sum-stat-item">
+              <div class="sum-stat-val" id="total-ritual-time">92 min</div>
+              <div class="sum-stat-lbl">Total Immersion Time</div>
+            </div>
+            <div class="sum-stat-item">
+              <div class="sum-stat-val" id="ritual-cycles">3.4</div>
+              <div class="sum-stat-lbl">Thermal Contrast Cycles</div>
+            </div>
+            <div class="sum-stat-item">
+              <div class="sum-stat-val" id="caloric-exp">460 kcal</div>
+              <div class="sum-stat-lbl">Metabolic Expenditure</div>
+            </div>
+          </div>
+          <button class="cta-btn-primary" id="save-ritual-btn">Lock Itinerary &amp; Sync Band</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Hydrothermal Steam Humidity Telemetry -->
+  <section id="telemetry">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Real-Time Atmosphere</div>
+        <h2 class="section-heading">Hydrothermal Cavern Telemetry &amp; Microclimate</h2>
+        <p class="section-desc">
+          Continuous telemetry streamed from sensor arrays embedded 12 meters into the subterranean basalt chamber.
+        </p>
+      </div>
+
+      <div class="telemetry-grid">
+        <!-- Visual Chamber Simulation -->
+        <div class="telemetry-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div class="telemetry-header">
+              <div class="telemetry-title">Sub-Basalt Chamber Steam Matrix</div>
+              <div class="live-pulse-badge">
+                <span class="live-dot"></span> Telemetry Active
+              </div>
+            </div>
+            <p style="font-size: 0.88rem; color: #94a3b8; margin-bottom: 20px;">
+              Live fluid-particle simulation representing micro-droplet steam condensation and negative ionization within the central geothermal dome.
+            </p>
+          </div>
+
+          <div class="steam-chamber-view">
+            <canvas id="chamber-canvas"></canvas>
+            <div class="chamber-overlay-info">
+              <div>
+                <span style="font-size: 0.72rem; text-transform: uppercase; color: var(--glacial-cyan); letter-spacing: 0.1em; display: block;">Cavity Static Pressure</span>
+                <strong style="color: var(--mineral-steam); font-family: var(--font-accent); font-size: 1.1rem;">1,018.4 hPa</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.72rem; text-transform: uppercase; color: var(--glacial-cyan); letter-spacing: 0.1em; display: block;">Air Exchange Rate</span>
+                <strong style="color: var(--mineral-steam); font-family: var(--font-accent); font-size: 1.1rem;">4.2 Vol/Hour</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Meters -->
+        <div class="telemetry-card">
+          <div class="telemetry-header">
+            <div class="telemetry-title">Sensor Array Readings</div>
+            <span style="font-size: 0.76rem; color: #64748b; font-family: var(--font-accent);">UPDATED 1.2s AGO</span>
+          </div>
+
+          <div class="telemetry-meters">
+            <div class="meter-box">
+              <div class="meter-label">Relative Humidity</div>
+              <div class="meter-reading" id="tele-humidity">98.6<small style="font-size: 1rem;">%</small></div>
+              <div class="meter-sub">Near saturation point</div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-bar" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-box">
+              <div class="meter-label">Silica Suspended PPM</div>
+              <div class="meter-reading" id="tele-silica">418<small style="font-size: 1rem;"> ppm</small></div>
+              <div class="meter-sub">Hydrated amorphous SiO2</div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-bar" style="width: 84%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-box">
+              <div class="meter-label">Negative Ion Density</div>
+              <div class="meter-reading" id="tele-ions">28.4<small style="font-size: 1rem;">k /cm³</small></div>
+              <div class="meter-sub">Alpine/waterfall grade</div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-bar" style="width: 92%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-box">
+              <div class="meter-label">Deep Aquifer Flow</div>
+              <div class="meter-reading" id="tele-flow">62.8<small style="font-size: 1rem;"> L/s</small></div>
+              <div class="meter-sub">Artesian pressure head</div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-bar" style="width: 76%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; padding: 18px; border-radius: 14px; background: rgba(30, 41, 59, 0.4); border: 1px solid var(--slate-border); display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <span style="font-size: 0.82rem; font-weight: 600; color: var(--mineral-steam); display: block;">Mineral Salt Purity Cert</span>
+              <span style="font-size: 0.74rem; color: #94a3b8;">ISO-14064 Certified Volcanic Spring Geothermal Source</span>
+            </div>
+            <span style="color: #4ade80; font-size: 0.8rem; font-weight: 600;">ACTIVE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sanctuary Architectural Highlights -->
+  <section id="sanctuary">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Elemental Design</div>
+        <h2 class="section-heading">Monolithic Basalt &amp; Glacial Glass Pavilions</h2>
+        <p class="section-desc">
+          Crafted to disappear seamlessly into the volcanic tundra, our subterranean pavilions maintain pure thermodynamic equilibrium.
+        </p>
+      </div>
+
+      <div class="sanctuary-showcase">
+        <div class="showcase-card">
+          <div class="showcase-image-holder">
+            <!-- Architectural Abstract Graphic: Basalt Grotto -->
+            <svg class="showcase-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="240" fill="#14171a"/>
+              <path d="M0 240L120 110L240 180L360 80L400 120V240H0Z" fill="#1e293b" opacity="0.6"/>
+              <circle cx="200" cy="120" r="70" fill="url(#cyanGlow)" opacity="0.3"/>
+              <path d="M40 240C90 190 160 170 200 170C240 170 310 190 360 240H40Z" fill="#38bdf8" opacity="0.25"/>
+              <path d="M160 80L240 80L200 140Z" fill="#eaf4f8" opacity="0.15"/>
+              <defs>
+                <radialGradient id="cyanGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(200 120) scale(70)">
+                  <stop stop-color="#38bdf8"/>
+                  <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="showcase-content">
+            <h3 class="showcase-title">The Basalt Caldera</h3>
+            <p class="showcase-p">
+              Naturally cooled hexagonal column stone pools where heated artesian water surges directly from the Atlantic tectonic faultline at 42.5°C.
+            </p>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="showcase-image-holder">
+            <!-- Architectural Abstract Graphic: Sub-Zero Solarium -->
+            <svg class="showcase-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="240" fill="#0f172a"/>
+              <line x1="80" y1="0" x2="200" y2="240" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3"/>
+              <line x1="320" y1="0" x2="200" y2="240" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3"/>
+              <line x1="200" y1="0" x2="200" y2="240" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.4"/>
+              <polygon points="200,40 280,180 120,180" fill="url(#prismGrad)" opacity="0.4"/>
+              <defs>
+                <linearGradient id="prismGrad" x1="200" y1="40" x2="200" y2="180" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fdfefe"/>
+                  <stop offset="1" stop-color="#38bdf8" stop-opacity="0.1"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="showcase-content">
+            <h3 class="showcase-title">Glacial Glass Solarium</h3>
+            <p class="showcase-p">
+              Triple-glazed thermo-isolated crystal canopy framing unobstructed views of winter snowdrifts and the undulating emerald aurora borealis.
+            </p>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="showcase-image-holder">
+            <!-- Architectural Abstract Graphic: Smoke Sauna -->
+            <svg class="showcase-svg-art" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="240" fill="#171210"/>
+              <circle cx="200" cy="140" r="85" fill="#f97316" opacity="0.15"/>
+              <path d="M120 200Q200 80 280 200" stroke="#fdba74" stroke-width="2" stroke-opacity="0.4" fill="none"/>
+              <circle cx="200" cy="170" r="30" fill="#ffedd5" opacity="0.1"/>
+              <rect x="185" y="155" width="30" height="30" fill="#f97316" opacity="0.3" transform="rotate(45 200 170)"/>
+            </svg>
+          </div>
+          <div class="showcase-content">
+            <h3 class="showcase-title">Birch Wood Smoke Sauna</h3>
+            <p class="showcase-p">
+              Smoldering Icelandic birchwood kiln producing velvety gentle löyly steam that detoxifies respiratory tissues and releases muscular fatigue.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: Sanctuary Private Suite Booking -->
+  <section id="suites">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Exclusive Sanctuary Access</div>
+        <h2 class="section-heading">Private Hydrothermal Suite Atelier</h2>
+        <p class="section-desc">
+          Select your private sanctuary lodge featuring secluded outdoor plunge ponds, private birch wood saunas, and geothermal butler service.
+        </p>
+      </div>
+
+      <div class="booking-grid" id="booking">
+        <!-- Suites Selector -->
+        <div>
+          <div class="suites-carousel">
+            <!-- Suite 1 -->
+            <div class="suite-card active" data-suite="aurora" data-base-price="780">
+              <span class="suite-tag">Signature Suite</span>
+              <h3 class="suite-title">Aurora Panorama Glass Igloo</h3>
+              <div class="suite-price">&euro;780 <span>/ night</span></div>
+              <ul class="suite-amenities">
+                <li>360° Heated polar glass roof</li>
+                <li>Private 39°C basalt lagoon</li>
+                <li>Sub-zero cold barrel plunge</li>
+                <li>Geothermal heated slate bed</li>
+              </ul>
+            </div>
+
+            <!-- Suite 2 -->
+            <div class="suite-card" data-suite="cavern" data-base-price="950">
+              <span class="suite-tag">Subterranean</span>
+              <h3 class="suite-title">Volcanic Basalt Cavern Lodge</h3>
+              <div class="suite-price">&euro;950 <span>/ night</span></div>
+              <ul class="suite-amenities">
+                <li>Direct private lava rift access</li>
+                <li>Dedicated birch smoke sauna</li>
+                <li>Silica mud hydro-suite</li>
+                <li>Private sommelier dining</li>
+              </ul>
+            </div>
+
+            <!-- Suite 3 -->
+            <div class="suite-card" data-suite="cliffside" data-base-price="1200">
+              <span class="suite-tag">Ultra Sanctuary</span>
+              <h3 class="suite-title">Glacial Cliffside Villa</h3>
+              <div class="suite-price">&euro;1,200 <span>/ night</span></div>
+              <ul class="suite-amenities">
+                <li>Cantilevered waterfall view pool</li>
+                <li>Unlimited private spa treatments</li>
+                <li>Dual cold-hot contrast ponds</li>
+                <li>Helicopter transit included</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid var(--slate-border); border-radius: 18px; padding: 24px;">
+            <h4 style="font-family: var(--font-accent); font-size: 0.95rem; color: var(--mineral-steam); margin-bottom: 8px;">Included Nordic Sanctuary Privileges</h4>
+            <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6;">
+              All accommodations include all-day access to the Seven-Stage Hydrothermal Circuit, artisanal Icelandic botanical infusions, bespoke cashmere plunge robes, and mineral silica body treatments.
+            </p>
+          </div>
+        </div>
+
+        <!-- Booking Calculator Form -->
+        <div class="booking-form-box">
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: var(--mineral-steam); margin-bottom: 20px;">
+            Sanctuary Reservation
+          </h3>
+
+          <form id="reservation-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Arrival Date</label>
+                <input type="date" class="form-control" id="checkin-date" value="2026-11-15">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nights</label>
+                <select class="form-control" id="nights-select">
+                  <option value="1">1 Night (Refresher)</option>
+                  <option value="2" selected>2 Nights (Recommended)</option>
+                  <option value="3">3 Nights (Deep Reset)</option>
+                  <option value="5">5 Nights (Nordic Immersion)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Guests</label>
+                <select class="form-control" id="guests-select">
+                  <option value="1">1 Guest</option>
+                  <option value="2" selected>2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="Astrid Lindqvist" value="Freja Sigurdardottir">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Atelier Add-On Enhancements</label>
+              <div class="addons-checklist">
+                <label class="addon-item">
+                  <input type="checkbox" class="addon-checkbox" data-cost="160" checked>
+                  <span class="addon-name">Icelandic Birch Whisking Massage (60 min)</span>
+                  <span class="addon-cost">+&euro;160</span>
+                </label>
+                <label class="addon-item">
+                  <input type="checkbox" class="addon-checkbox" data-cost="95" checked>
+                  <span class="addon-name">Colloidal Volcanic Mud Scrub Ritual</span>
+                  <span class="addon-cost">+&euro;95</span>
+                </label>
+                <label class="addon-item">
+                  <input type="checkbox" class="addon-checkbox" data-cost="210">
+                  <span class="addon-name">Sub-Arctic Midnight Geothermal Champagne Tasting</span>
+                  <span class="addon-cost">+&euro;210</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Receipt Breakdown -->
+            <div class="booking-summary-receipt">
+              <div class="receipt-line">
+                <span id="receipt-suite-name">Aurora Panorama Glass Igloo (2 nights)</span>
+                <span id="receipt-suite-cost">&euro;1,560</span>
+              </div>
+              <div class="receipt-line">
+                <span>Enhancements &amp; Spa Treatments</span>
+                <span id="receipt-addons-cost">&euro;255</span>
+              </div>
+              <div class="receipt-line">
+                <span>Geothermal Environmental Stewardship Levy</span>
+                <span>&euro;45</span>
+              </div>
+              <div class="receipt-total">
+                <span>Total Investment</span>
+                <span id="receipt-total-cost">&euro;1,860</span>
+              </div>
+            </div>
+
+            <button type="submit" class="cta-btn-primary" style="width: 100%; justify-content: center; margin-top: 24px; padding: 14px;">
+              Request Guaranteed Atelier Allocation
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="logo">
+            <div class="logo-symbol"></div>
+            <div>
+              <span class="logo-text">GLACIER</span>
+            </div>
+          </a>
+          <p>
+            An architectural sub-arctic hydrothermal sanctuary carved into the volcanic bedrock of Iceland. Where geothermal heat and glacial runoff converge in restorative harmony.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Sanctuary</h4>
+          <ul class="footer-links">
+            <li><a href="#thermal-calc">Thermal Calculator</a></li>
+            <li><a href="#sensory-ritual">Sensory Rituals</a></li>
+            <li><a href="#telemetry">Steam Telemetry</a></li>
+            <li><a href="#sanctuary">Basalt Architecture</a></li>
+            <li><a href="#suites">Private Lodges</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Wellness Science</h4>
+          <ul class="footer-links">
+            <li><a href="#thermal-calc">Vascular Contrast</a></li>
+            <li><a href="#telemetry">Silica Mineralogy</a></li>
+            <li><a href="#sensory-ritual">Norepinephrine Protocol</a></li>
+            <li><a href="#hero">Circadian Thermal Cycles</a></li>
+            <li><a href="#suites">Vagal Nerve Regulation</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Coordinates &amp; Inquiries</h4>
+          <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.6; margin-bottom: 12px;">
+            Geothermal Rift Valley, Postbox 412<br>
+            IS-801 Selfoss, Iceland<br>
+            Telephone: +354 580 8820
+          </p>
+          <div style="font-size: 0.78rem; color: var(--glacial-cyan);">
+            LAT 64.1355° N &bull; LONG 21.8954° W
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 GLACIER Hydrothermal Sanctuary HF. All rights reserved.</div>
+        <div>Engineered for pure thermodynamic restoration. Standalone Edition.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // ----------------------------------------------------
+    // 1. Ambient Web Audio API Generative Drone
+    // ----------------------------------------------------
+    let audioCtx = null;
+    let isPlayingAudio = false;
+    let masterGain = null;
+    let osc1 = null, osc2 = null, filter = null;
+
+    const soundToggle = document.getElementById('soundscape-toggle');
+    const soundIndicator = document.getElementById('sound-indicator');
+    const soundLabel = document.getElementById('sound-label');
+
+    function toggleAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        masterGain.connect(audioCtx.destination);
+
+        // Low resonant soothing drone (Sub-Zero Harmonic)
+        filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(220, audioCtx.currentTime);
+        filter.connect(masterGain);
+
+        osc1 = audioCtx.createOscillator();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(55, audioCtx.currentTime); // A1 note
+        osc1.connect(filter);
+
+        osc2 = audioCtx.createOscillator();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(110.5, audioCtx.currentTime); // Slight detuned harmonic
+        osc2.connect(filter);
+
+        osc1.start();
+        osc2.start();
+      }
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (!isPlayingAudio) {
+        masterGain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 2.5);
+        isPlayingAudio = true;
+        soundIndicator.classList.add('playing');
+        soundLabel.textContent = 'Mute Drone';
+      } else {
+        masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+        isPlayingAudio = false;
+        soundIndicator.classList.remove('playing');
+        soundLabel.textContent = 'Sub-Zero Drone';
+      }
+    }
+
+    soundToggle.addEventListener('click', toggleAudio);
+
+    // ----------------------------------------------------
+    // 2. Background Fog/Steam Particle Canvas
+    // ----------------------------------------------------
+    const bgCanvas = document.getElementById('steam-canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let width, height;
+    let steamParticles = [];
+
+    function resizeBg() {
+      width = bgCanvas.width = window.innerWidth;
+      height = bgCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
+
+    class SteamParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + Math.random() * 80;
+        this.radius = 40 + Math.random() * 80;
+        this.vy = -(0.3 + Math.random() * 0.7);
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.alpha = 0.02 + Math.random() * 0.05;
+        this.growth = 0.12 + Math.random() * 0.15;
+      }
+      update() {
+        this.y += this.vy;
+        this.x += this.vx;
+        this.radius += this.growth;
+        if (this.y < -150 || this.radius > 220) {
+          this.reset();
+        }
+      }
+      draw(ctx) {
+        ctx.save();
+        const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+        grad.addColorStop(0, `rgba(234, 244, 248, ${this.alpha})`);
+        grad.addColorStop(0.6, `rgba(56, 189, 248, ${this.alpha * 0.3})`);
+        grad.addColorStop(1, 'rgba(20, 23, 26, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 28; i++) {
+      const p = new SteamParticle();
+      p.y = Math.random() * height; // initial distribution
+      steamParticles.push(p);
+    }
+
+    function animateBg() {
+      bgCtx.clearRect(0, 0, width, height);
+      for (let p of steamParticles) {
+        p.update();
+        p.draw(bgCtx);
+      }
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+
+    // ----------------------------------------------------
+    // 3. Chamber View Simulation Canvas
+    // ----------------------------------------------------
+    const chamberCanvas = document.getElementById('chamber-canvas');
+    const chCtx = chamberCanvas.getContext('2d');
+    let chW, chH;
+    let chamberParticles = [];
+
+    function resizeChamber() {
+      chW = chamberCanvas.width = chamberCanvas.offsetWidth;
+      chH = chamberCanvas.height = chamberCanvas.offsetHeight;
+    }
+    window.addEventListener('resize', resizeChamber);
+    setTimeout(resizeChamber, 100);
+
+    class ChamberMist {
+      constructor() {
+        this.x = Math.random() * (chW || 400);
+        this.y = (chH || 250) + Math.random() * 40;
+        this.size = 15 + Math.random() * 35;
+        this.vy = -(0.5 + Math.random() * 1.2);
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.life = 0;
+        this.maxLife = 180 + Math.random() * 120;
+      }
+      update() {
+        this.y += this.vy;
+        this.x += this.vx;
+        this.size += 0.15;
+        this.life++;
+        if (this.life > this.maxLife || this.y < -50) {
+          this.x = Math.random() * chW;
+          this.y = chH + 20;
+          this.size = 15 + Math.random() * 35;
+          this.life = 0;
+        }
+      }
+      draw(ctx) {
+        const opacity = Math.sin((this.life / this.maxLife) * Math.PI) * 0.18;
+        ctx.fillStyle = `rgba(56, 189, 248, ${opacity})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 40; i++) {
+      chamberParticles.push(new ChamberMist());
+    }
+
+    function animateChamber() {
+      if (chW && chH) {
+        chCtx.clearRect(0, 0, chW, chH);
+        for (let p of chamberParticles) {
+          p.update();
+          p.draw(chCtx);
+        }
+      }
+      requestAnimationFrame(animateChamber);
+    }
+    animateChamber();
+
+    // ----------------------------------------------------
+    // 4. Feature 1: Temperature Differential Calculator Logic
+    // ----------------------------------------------------
+    const coldSlider = document.getElementById('cold-slider');
+    const hotSlider = document.getElementById('hot-slider');
+    const durationSlider = document.getElementById('duration-slider');
+
+    const coldValDisplay = document.getElementById('cold-val-display');
+    const hotValDisplay = document.getElementById('hot-val-display');
+    const durationValDisplay = document.getElementById('duration-val-display');
+
+    const deltaVal = document.getElementById('delta-val');
+    const vascularVal = document.getElementById('vascular-val');
+    const norepiVal = document.getElementById('norepi-val');
+    const cadenceVal = document.getElementById('cadence-val');
+    const hrVal = document.getElementById('hr-val');
+    const protocolNote = document.getElementById('protocol-note');
+
+    function updateCalculator() {
+      const cold = parseFloat(coldSlider.value);
+      const hot = parseFloat(hotSlider.value);
+      const durationSec = parseInt(durationSlider.value, 10);
+
+      coldValDisplay.textContent = cold.toFixed(1) + '°C';
+      hotValDisplay.textContent = hot.toFixed(1) + '°C';
+      durationValDisplay.textContent = durationSec + ' sec';
+
+      const diff = (hot - cold).toFixed(1);
+      deltaVal.innerHTML = `&Delta; ${diff}°C`;
+
+      // Physiological calculations
+      // Vascular tone 0 - 100% based on cold severity
+      const vascTone = Math.min(99, Math.max(50, 100 - (cold * 5.2))).toFixed(1);
+      vascularVal.textContent = `${vascTone}%`;
+
+      // Norepinephrine calculation
+      const coldFactor = (14 - cold) / 10;
+      const timeFactor = Math.sqrt(durationSec / 60);
+      const boost = Math.round(180 + coldFactor * timeFactor * 190);
+      norepiVal.textContent = `+${boost}%`;
+
+      // Recommended Cadence
+      const warmMin = Math.round((durationSec / 60) * 8);
+      cadenceVal.textContent = `${Math.round(durationSec / 60)} : ${warmMin} min`;
+
+      // Estimated HR
+      const lowHR = Math.round(62 - cold * 1.5);
+      const highHR = Math.round(98 + (hot - 38) * 4);
+      hrVal.innerHTML = `${lowHR} &rarr; ${highHR} <span style="font-size:0.8rem">bpm</span>`;
+
+      // Protocol advice text
+      if (diff > 38) {
+        protocolNote.textContent = "High Thermal Delta Shock: Intense neuro-vascular pumping activated. Limit cold plunge to under 90 seconds and allow 15 minutes of slow warm immersion to protect heart rhythms.";
+      } else if (diff > 30) {
+        protocolNote.textContent = "Optimal Bio-Adaptive Threshold: Balanced autonomic nervous system recalibration with rapid vascular flushing and endorphin release.";
+      } else {
+        protocolNote.textContent = "Gentle Recuperation Mode: Ideal for evening unwinding, lymphatic drainage, and promoting deep REM sleep stages.";
+      }
+    }
+
+    coldSlider.addEventListener('input', updateCalculator);
+    hotSlider.addEventListener('input', updateCalculator);
+    durationSlider.addEventListener('input', updateCalculator);
+    updateCalculator();
+
+    // ----------------------------------------------------
+    // 5. Feature 2: Sensory Ritual Itinerary Planner
+    // ----------------------------------------------------
+    const presetPills = document.querySelectorAll('.preset-pill');
+    const ritualCards = document.querySelectorAll('.ritual-card');
+    const totalRitualTimeEl = document.getElementById('total-ritual-time');
+    const ritualCyclesEl = document.getElementById('ritual-cycles');
+    const caloricExpEl = document.getElementById('caloric-exp');
+    const saveRitualBtn = document.getElementById('save-ritual-btn');
+
+    const presetsData = {
+      'vitality': [true, true, true, false, true],
+      'deep-sleep': [true, false, true, true, true],
+      'detox': [true, true, true, true, false],
+      'custom': [true, true, true, true, true]
+    };
+
+    function recalculateRitual() {
+      let totalMinutes = 0;
+      let activeCount = 0;
+      let coldSteps = 0;
+      let hotSteps = 0;
+
+      ritualCards.forEach(card => {
+        if (card.classList.contains('selected')) {
+          activeCount++;
+          const duration = parseInt(card.dataset.duration, 10);
+          totalMinutes += duration;
+          if (card.dataset.temp.includes('3°C') || card.dataset.temp.includes('4°C')) {
+            coldSteps++;
+          } else {
+            hotSteps++;
+          }
+        }
+      });
+
+      totalRitualTimeEl.textContent = `${totalMinutes} min`;
+      const cycles = (coldSteps > 0 && hotSteps > 0) ? (Math.min(coldSteps, hotSteps) * 1.7).toFixed(1) : '1.0';
+      ritualCyclesEl.textContent = cycles;
+      caloricExpEl.textContent = `${Math.round(totalMinutes * 5.2)} kcal`;
+    }
+
+    ritualCards.forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('selected');
+        // Unset preset pills to custom if manually toggling
+        presetPills.forEach(p => p.classList.remove('active'));
+        document.querySelector('[data-preset="custom"]').classList.add('active');
+        recalculateRitual();
+      });
+    });
+
+    presetPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        presetPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        const key = pill.dataset.preset;
+        const config = presetsData[key];
+        if (config) {
+          ritualCards.forEach((card, idx) => {
+            if (config[idx]) {
+              card.classList.add('selected');
+            } else {
+              card.classList.remove('selected');
+            }
+          });
+          recalculateRitual();
+        }
+      });
+    });
+
+    saveRitualBtn.addEventListener('click', () => {
+      saveRitualBtn.textContent = 'Synced with RFID Sanctuary Band ✓';
+      saveRitualBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+      setTimeout(() => {
+        saveRitualBtn.textContent = 'Lock Itinerary & Sync Band';
+        saveRitualBtn.style.background = '';
+      }, 3000);
+    });
+
+    recalculateRitual();
+
+    // ----------------------------------------------------
+    // 6. Feature 3: Live Telemetry Fluctuations
+    // ----------------------------------------------------
+    const teleHumidity = document.getElementById('tele-humidity');
+    const teleSilica = document.getElementById('tele-silica');
+    const teleIons = document.getElementById('tele-ions');
+    const teleFlow = document.getElementById('tele-flow');
+
+    setInterval(() => {
+      // Subtle realistic readings variation
+      const hVal = (98.2 + Math.random() * 0.9).toFixed(1);
+      const sVal = Math.round(414 + Math.random() * 8);
+      const iVal = (28.1 + Math.random() * 0.7).toFixed(1);
+      const fVal = (62.2 + Math.random() * 1.4).toFixed(1);
+
+      teleHumidity.innerHTML = `${hVal}<small style="font-size: 1rem;">%</small>`;
+      teleSilica.innerHTML = `${sVal}<small style="font-size: 1rem;"> ppm</small>`;
+      teleIons.innerHTML = `${iVal}<small style="font-size: 1rem;">k /cm³</small>`;
+      teleFlow.innerHTML = `${fVal}<small style="font-size: 1rem;"> L/s</small>`;
+    }, 2800);
+
+    // ----------------------------------------------------
+    // 7. Feature 4: Sanctuary Suite Booking System
+    // ----------------------------------------------------
+    const suiteCards = document.querySelectorAll('.suite-card');
+    const nightsSelect = document.getElementById('nights-select');
+    const guestsSelect = document.getElementById('guests-select');
+    const addonCheckboxes = document.querySelectorAll('.addon-checkbox');
+
+    const receiptSuiteName = document.getElementById('receipt-suite-name');
+    const receiptSuiteCost = document.getElementById('receipt-suite-cost');
+    const receiptAddonsCost = document.getElementById('receipt-addons-cost');
+    const receiptTotalCost = document.getElementById('receipt-total-cost');
+    const reservationForm = document.getElementById('reservation-form');
+
+    let currentBasePrice = 780;
+    let currentSuiteTitle = "Aurora Panorama Glass Igloo";
+
+    function updateBookingReceipt() {
+      const nights = parseInt(nightsSelect.value, 10);
+      const suiteCost = currentBasePrice * nights;
+
+      let addonsCost = 0;
+      addonCheckboxes.forEach(cb => {
+        if (cb.checked) {
+          addonsCost += parseInt(cb.dataset.cost, 10);
+        }
+      });
+
+      const stewardshipLevy = 45;
+      const total = suiteCost + addonsCost + stewardshipLevy;
+
+      receiptSuiteName.textContent = `${currentSuiteTitle} (${nights} night${nights > 1 ? 's' : ''})`;
+      receiptSuiteCost.textContent = `€${suiteCost.toLocaleString()}`;
+      receiptAddonsCost.textContent = `€${addonsCost.toLocaleString()}`;
+      receiptTotalCost.textContent = `€${total.toLocaleString()}`;
+    }
+
+    suiteCards.forEach(card => {
+      card.addEventListener('click', () => {
+        suiteCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentBasePrice = parseInt(card.dataset.basePrice, 10);
+        currentSuiteTitle = card.querySelector('.suite-title').textContent;
+        updateBookingReceipt();
+      });
+    });
+
+    nightsSelect.addEventListener('change', updateBookingReceipt);
+    guestsSelect.addEventListener('change', updateBookingReceipt);
+    addonCheckboxes.forEach(cb => cb.addEventListener('change', updateBookingReceipt));
+
+    reservationForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert(`Reservation inquiry received for ${currentSuiteTitle}. Our Sanctuary Concierge will confirm your subterranean allocation within 2 hours.`);
+    });
+
+    updateBookingReceipt();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VULCAN // Heavy Industrial Titanium Plasma Foundry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-iron: #111215;
+      --bg-darker: #0a0b0d;
+      --bg-surface: #18191f;
+      --bg-card: #20222b;
+      --bg-card-hover: #292b37;
+      --border-iron: rgba(255, 255, 255, 0.08);
+      --border-slag: rgba(255, 87, 34, 0.4);
+      --border-laser: rgba(0, 229, 255, 0.35);
+      --slag: #ff5722;
+      --slag-glow: rgba(255, 87, 34, 0.45);
+      --slag-light: #ff8a50;
+      --laser: #00e5ff;
+      --laser-glow: rgba(0, 229, 255, 0.35);
+      --laser-dim: rgba(0, 229, 255, 0.15);
+      --amber: #ffb300;
+      --text: #f0f2f5;
+      --text-muted: #9aa0a6;
+      --text-dim: #606770;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-iron);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 87, 34, 0.07), transparent 45%),
+        radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.05), transparent 45%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Telemetry Ticker */
+    .telemetry-ticker {
+      background: var(--bg-darker);
+      border-bottom: 1px solid var(--border-iron);
+      padding: 10px 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .ticker-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pulse-amber {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+      animation: pulseAnim 2s infinite ease-in-out;
+    }
+    .pulse-laser {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--laser);
+      box-shadow: 0 0 8px var(--laser);
+      animation: pulseAnim 1.6s infinite ease-in-out;
+    }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    /* Main Navigation */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(24px);
+      background: rgba(17, 18, 21, 0.92);
+      border-bottom: 1px solid var(--border-iron);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 84px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--slag), #d84315);
+      border: 1px solid var(--border-slag);
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 0 20px var(--slag-glow);
+    }
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .brand-text span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--laser);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--slag-light);
+      text-shadow: 0 0 10px var(--slag-glow);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+    .btn-slag {
+      background: linear-gradient(135deg, var(--slag), #d84315);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(255, 87, 34, 0.35);
+    }
+    .btn-slag:hover {
+      background: linear-gradient(135deg, #ff7043, #e64a19);
+      box-shadow: 0 6px 28px rgba(255, 87, 34, 0.6);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-laser);
+      color: var(--laser);
+    }
+    .btn-outline:hover {
+      background: var(--laser-dim);
+      box-shadow: 0 0 20px var(--laser-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 100px 0 80px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-iron);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: rgba(255, 87, 34, 0.12);
+      border: 1px solid var(--border-slag);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slag-light);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.2vw, 68px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero-title .highlight-slag {
+      color: var(--slag);
+      text-shadow: 0 0 25px var(--slag-glow);
+    }
+    .hero-title .highlight-laser {
+      color: var(--laser);
+      text-shadow: 0 0 25px var(--laser-glow);
+    }
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-iron);
+    }
+    .stat-number {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .stat-number span {
+      color: var(--slag);
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    /* Live Reactor Monitor Box */
+    .reactor-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+    .reactor-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--slag), var(--laser));
+    }
+    .reactor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .reactor-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text);
+    }
+    .reactor-status {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--laser);
+      background: var(--laser-dim);
+      padding: 4px 8px;
+      border-radius: 3px;
+      border: 1px solid var(--border-laser);
+    }
+    .plasma-core-visualizer {
+      height: 240px;
+      width: 100%;
+      border-radius: 6px;
+      background: #0d0e12;
+      border: 1px solid var(--border-iron);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    #heroPlasmaCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .telemetry-gauge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .gauge-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-iron);
+      padding: 12px 14px;
+      border-radius: 4px;
+    }
+    .gauge-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .gauge-val {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .gauge-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .gauge-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      background: var(--slag);
+      transition: width 0.4s ease;
+    }
+
+    /* Section Global Headers */
+    .section-wrap {
+      padding: 90px 0;
+      border-bottom: 1px solid var(--border-iron);
+    }
+    .section-head {
+      margin-bottom: 48px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--slag);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 42px);
+      text-transform: uppercase;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 650px;
+      margin-top: 10px;
+    }
+
+    /* Feature 1: Laser Sintering Heat Map Canvas */
+    .sintering-dashboard {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+    .canvas-container {
+      position: relative;
+      background: #08090b;
+      border: 1px solid var(--border-iron);
+      border-radius: 6px;
+      height: 460px;
+      overflow: hidden;
+    }
+    #sinteringCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: crosshair;
+    }
+    .canvas-overlay-ui {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(10, 11, 13, 0.85);
+      border: 1px solid var(--border-iron);
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: var(--laser);
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+    .canvas-legend {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(10, 11, 13, 0.85);
+      border: 1px solid var(--border-iron);
+      padding: 10px 14px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .legend-bar {
+      width: 120px;
+      height: 10px;
+      background: linear-gradient(90deg, #111215, #ff5722, #ffeb3b, #00e5ff, #ffffff);
+      border-radius: 2px;
+    }
+    .controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .control-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-iron);
+      border-radius: 6px;
+      padding: 18px;
+    }
+    .control-card h4 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .control-slider-group {
+      margin-bottom: 14px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .slider-header span:last-child {
+      color: var(--laser);
+      font-weight: 700;
+    }
+    input[type=range] {
+      width: 100%;
+      height: 5px;
+      border-radius: 2px;
+      background: #2a2c38;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--slag);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--slag-glow);
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .btn-sm {
+      padding: 8px 14px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid var(--border-iron);
+      background: var(--bg-surface);
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .btn-sm.active, .btn-sm:hover {
+      background: var(--slag);
+      color: #fff;
+      border-color: var(--slag);
+      box-shadow: 0 0 10px var(--slag-glow);
+    }
+
+    /* Feature 2: Yield Stress Calculator */
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .calc-input-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-select, .form-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-iron);
+      color: var(--text);
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-select:focus, .form-input:focus {
+      border-color: var(--laser);
+      box-shadow: 0 0 12px var(--laser-dim);
+    }
+    .calc-result-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .calc-result-panel::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 4px;
+      background: var(--laser);
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .result-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .badge-pass {
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid var(--laser);
+      color: var(--laser);
+    }
+    .badge-fail {
+      background: rgba(255, 87, 34, 0.2);
+      border: 1px solid var(--slag);
+      color: var(--slag);
+    }
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .calc-metric {
+      background: var(--bg-card);
+      border: 1px solid var(--border-iron);
+      padding: 16px;
+      border-radius: 4px;
+    }
+    .metric-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .metric-val {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 4px;
+    }
+    .metric-val small {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Feature 3: 3D Additive Toolpath Simulator */
+    .toolpath-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 30px;
+    }
+    .toolpath-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .toolpath-canvas-wrap {
+      width: 100%;
+      height: 380px;
+      background: #090a0d;
+      border: 1px solid var(--border-iron);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    #toolpathCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .toolpath-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .toolpath-progress {
+      flex: 1;
+      max-width: 400px;
+      height: 6px;
+      background: var(--bg-card);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .toolpath-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--slag), var(--laser));
+      width: 45%;
+      transition: width 0.3s;
+    }
+
+    /* Feature 4: Alloy Purity Matrix */
+    .alloy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .alloy-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 24px;
+      transition: transform 0.25s, border-color 0.25s;
+      position: relative;
+    }
+    .alloy-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-slag);
+    }
+    .alloy-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .alloy-code {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .alloy-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 3px 8px;
+      background: rgba(255, 87, 34, 0.15);
+      color: var(--slag-light);
+      border: 1px solid var(--border-slag);
+      border-radius: 2px;
+    }
+    .alloy-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      min-height: 40px;
+    }
+    .alloy-specs-list {
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      border-top: 1px solid var(--border-iron);
+      padding-top: 14px;
+    }
+    .alloy-specs-list li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+    }
+    .alloy-specs-list li strong {
+      color: var(--text);
+    }
+
+    /* Feature 5: Enterprise Manufacturing Order Request */
+    .rfq-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-iron);
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .rfq-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 36px;
+      position: relative;
+    }
+    .rfq-steps::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background: var(--border-iron);
+      z-index: 1;
+    }
+    .rfq-step-node {
+      position: relative;
+      z-index: 2;
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-iron);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .rfq-step-node.active .step-circle {
+      background: var(--slag);
+      border-color: var(--slag-light);
+      color: #fff;
+      box-shadow: 0 0 15px var(--slag-glow);
+    }
+    .step-name {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+    .rfq-step-node.active .step-name {
+      color: #fff;
+    }
+    .rfq-grid-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .rfq-full {
+      grid-column: span 2;
+    }
+    .pricing-summary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-iron);
+      border-radius: 6px;
+      padding: 24px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .estimate-val {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--laser);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--border-iron);
+      padding: 60px 0 30px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--slag);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border-iron);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 8, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-slag);
+      border-radius: 8px;
+      max-width: 550px;
+      width: 100%;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(255, 87, 34, 0.25);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .sintering-dashboard, .calculator-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .rfq-grid-form { grid-template-columns: 1fr; }
+      .rfq-full { grid-column: span 1; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Telemetry Ticker -->
+  <div class="telemetry-ticker">
+    <div class="container ticker-row">
+      <div class="ticker-item">
+        <span class="pulse-amber"></span>
+        <span>VAR FURNACE #04: 1,842°C</span>
+      </div>
+      <div class="ticker-item">
+        <span class="pulse-laser"></span>
+        <span>5-AXIS SINTERING HEAD: 12kW COHERENT BEAM ACTIVE</span>
+      </div>
+      <div class="ticker-item">
+        <span>CHAMBER VACUUM: 1.2 × 10⁻⁵ TORR</span>
+      </div>
+      <div class="ticker-item">
+        <span>INERT GAS PURGE: 99.999% ULTRA-PURE ARGON</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <div class="brand-mark">V</div>
+        <div class="brand-text">
+          <h1>Vulcan</h1>
+          <span>Heavy Titanium Plasma</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#sintering">Sintering Canvas</a></li>
+        <li><a href="#calculator">Yield Stress Calc</a></li>
+        <li><a href="#toolpath">Toolpath Slicer</a></li>
+        <li><a href="#alloys">Alloy Specs</a></li>
+        <li><a href="#rfq">Enterprise RFQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#rfq" class="btn btn-slag">Request Spec Run</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">Industrial Plasma Metrology // Tier-1 Aerospace Spec</div>
+        <h2 class="hero-title">
+          Monolithic <span class="highlight-slag">Titanium</span> Forged In <span class="highlight-laser">Plasma</span>
+        </h2>
+        <p class="hero-desc">
+          Ultra-high-density Electron Beam & Laser Powder Bed Fusion (E-PBF/L-PBF) manufacturing for hypersonic flight surfaces, deep-sea submersibles, and mission-critical rocketry turbines.
+        </p>
+        <div class="hero-cta">
+          <a href="#sintering" class="btn btn-slag">Launch Thermal Telemetry</a>
+          <a href="#calculator" class="btn btn-outline">Test Structural Yield</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-col">
+            <div class="stat-number">99.98<span>%</span></div>
+            <div class="stat-label">Ingot Core Density</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">1,420<span>MPa</span></div>
+            <div class="stat-label">Peak Tensile Strength</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">±5<span>µm</span></div>
+            <div class="stat-label">5-Axis Beam Precision</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Reactor Monitor Box -->
+      <div class="reactor-box">
+        <div class="reactor-header">
+          <div class="reactor-title">Core #01 Plasma Arc Crucible</div>
+          <div class="reactor-status">RUNNING // STABLE</div>
+        </div>
+        <div class="plasma-core-visualizer">
+          <canvas id="heroPlasmaCanvas"></canvas>
+        </div>
+        <div class="telemetry-gauge-grid">
+          <div class="gauge-pill">
+            <div class="gauge-label">Crucible Core Temp</div>
+            <div class="gauge-val" id="tempVal">1,780 °C</div>
+            <div class="gauge-bar"><div class="gauge-bar-fill" id="tempBar" style="width: 82%;"></div></div>
+          </div>
+          <div class="gauge-pill">
+            <div class="gauge-label">Beam Power Draw</div>
+            <div class="gauge-val" id="powerVal">48.2 kW</div>
+            <div class="gauge-bar"><div class="gauge-bar-fill" id="powerBar" style="width: 74%; background: var(--laser);"></div></div>
+          </div>
+          <div class="gauge-pill">
+            <div class="gauge-label">Argon Flow Rate</div>
+            <div class="gauge-val">42.5 L/min</div>
+            <div class="gauge-bar"><div class="gauge-bar-fill" style="width: 65%;"></div></div>
+          </div>
+          <div class="gauge-pill">
+            <div class="gauge-label">Oxygen Contamination</div>
+            <div class="gauge-val" style="color: var(--laser);">&lt; 14 ppm</div>
+            <div class="gauge-bar"><div class="gauge-bar-fill" style="width: 12%; background: var(--laser);"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Laser Sintering Heat Map Canvas -->
+  <section class="section-wrap" id="sintering">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Real-Time Metrology</span>
+        <h3 class="section-title">5-Axis Laser Sintering Thermal Canvas</h3>
+        <p class="section-subtitle">
+          Interactive real-time finite element thermal dispersion simulation. Drag across the powder bed to reposition the laser beam focus and observe melt pool dissipation.
+        </p>
+      </div>
+
+      <div class="sintering-dashboard">
+        <div class="canvas-container">
+          <canvas id="sinteringCanvas"></canvas>
+          <div class="canvas-overlay-ui">
+            <div>COORDINATES: <span id="beamCoords">X: 250.00 | Y: 180.00</span></div>
+            <div>PEAK MELT TEMP: <span id="peakMeltTemp">1,940 °C</span></div>
+            <div>DEFLECTION: 0.002 mm</div>
+          </div>
+          <div class="canvas-legend">
+            <span>200°C</span>
+            <div class="legend-bar"></div>
+            <span>2,200°C</span>
+          </div>
+        </div>
+
+        <div class="controls-panel">
+          <div class="control-card">
+            <h4>Laser Beam Parameters <span style="color: var(--laser);">● ACTIVE</span></h4>
+            <div class="control-slider-group">
+              <div class="slider-header">
+                <span>Beam Power</span>
+                <span id="sliderPowerVal">6,500 W</span>
+              </div>
+              <input type="range" id="beamPowerSlider" min="2000" max="12000" step="250" value="6500">
+            </div>
+            <div class="control-slider-group">
+              <div class="slider-header">
+                <span>Scan Velocity</span>
+                <span id="sliderSpeedVal">1,200 mm/s</span>
+              </div>
+              <input type="range" id="scanSpeedSlider" min="400" max="2500" step="50" value="1200">
+            </div>
+            <div class="control-slider-group">
+              <div class="slider-header">
+                <span>Spot Diameter</span>
+                <span id="sliderSpotVal">85 µm</span>
+              </div>
+              <input type="range" id="spotDiamSlider" min="30" max="200" step="5" value="85">
+            </div>
+          </div>
+
+          <div class="control-card">
+            <h4>Autonomous Raster Mode</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+              Select autonomous path generation mode for multi-track aerospace alloy deposition.
+            </p>
+            <div class="btn-row">
+              <button class="btn-sm active" id="btnSpiral">Spiral</button>
+              <button class="btn-sm" id="btnHatch">Cross-Hatch</button>
+              <button class="btn-sm" id="btnFreeform">Manual</button>
+            </div>
+          </div>
+
+          <div class="control-card" style="border-color: var(--border-laser);">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--laser); margin-bottom: 6px;">
+              ARGON VACUUM SHIELD STATUS
+            </div>
+            <div style="font-size: 13px; font-weight: 500;">
+              Laminar inert purge steady at 45.0 L/min. Zero oxidization risk detected.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Mechanical Yield Stress Calculator -->
+  <section class="section-wrap" id="calculator">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Structural Analysis Tool</span>
+        <h3 class="section-title">Mechanical Yield Stress & Safety Factor</h3>
+        <p class="section-subtitle">
+          Calculate Von Mises stress, thermal derating factors, and aerospace safety margins for structural titanium and superalloy components.
+        </p>
+      </div>
+
+      <div class="calculator-grid">
+        <div class="calc-input-panel">
+          <div class="form-group">
+            <label class="form-label" for="alloySelect">Selected Alloy Grade</label>
+            <select id="alloySelect" class="form-select">
+              <option value="ti64" data-yield="880" data-uts="950" data-density="4.43">Ti-6Al-4V Grade 5 (Aerospace Standard)</option>
+              <option value="ti5553" data-yield="1150" data-uts="1240" data-density="4.65">Ti-5Al-5Mo-5V-3Cr (High Strength Landing Gear)</option>
+              <option value="inconel718" data-yield="1100" data-uts="1375" data-density="8.19">Inconel 718 Nickel Superalloy</option>
+              <option value="ti6242" data-yield="830" data-uts="900" data-density="4.54">Ti-6Al-2Sn-4Zr-2Mo (High Temp Turbine)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="tensileLoad">Applied Tensile / Axial Load (kN)</label>
+            <input type="number" id="tensileLoad" class="form-input" value="145" min="1" max="5000">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="crossSection">Minimum Cross-Section Area (mm²)</label>
+            <input type="number" id="crossSection" class="form-input" value="220" min="5" max="10000">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="operatingTemp">Operating Temperature (°C)</label>
+            <input type="number" id="operatingTemp" class="form-input" value="350" min="-150" max="900">
+          </div>
+        </div>
+
+        <div class="calc-result-panel">
+          <div>
+            <div id="safetyBadge" class="result-badge badge-pass">SAFETY MARGIN PASS // AS9100D COMPLIANT</div>
+            <div class="metric-row">
+              <div class="calc-metric">
+                <div class="metric-title">Applied Stress</div>
+                <div class="metric-val" id="appliedStress">659.1 <small>MPa</small></div>
+              </div>
+              <div class="calc-metric">
+                <div class="metric-title">Effective Yield (Derated)</div>
+                <div class="metric-val" id="deratedYield">783.2 <small>MPa</small></div>
+              </div>
+              <div class="calc-metric">
+                <div class="metric-title">Calculated Safety Factor</div>
+                <div class="metric-val" id="safetyFactor" style="color: var(--laser);">1.19 <small>SF</small></div>
+              </div>
+              <div class="calc-metric">
+                <div class="metric-title">Thermal Knockdown</div>
+                <div class="metric-val" id="thermalKnockdown">-11.0 <small>%</small></div>
+              </div>
+            </div>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border-iron); padding-top: 14px;">
+            * Derating model derived from MIL-HDBK-5J aerospace material qualification charts for elevated temperature service.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: 3D Additive Toolpath Simulator -->
+  <section class="section-wrap" id="toolpath">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Additive Synthesis</span>
+        <h3 class="section-title">3D Additive Layer-by-Layer Toolpath Simulator</h3>
+        <p class="section-subtitle">
+          Slice preview of an axial turbine rotor blisk being sintered in 30µm layer increments. Control playback speed and visualize laser scanpaths.
+        </p>
+      </div>
+
+      <div class="toolpath-box">
+        <div class="toolpath-header">
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #fff;">
+              COMPONENT: VULCAN-BLISK-GEN4.SLI
+            </span>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              Layer: <span id="currentLayerDisplay" style="color: var(--laser); font-weight: 700;">142</span> / 1,200 | Z-Height: 4.26 mm
+            </div>
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-sm" id="btnPlayToolpath">Pause</button>
+            <button class="btn-sm" id="btnResetToolpath">Reset</button>
+          </div>
+        </div>
+
+        <div class="toolpath-canvas-wrap">
+          <canvas id="toolpathCanvas"></canvas>
+        </div>
+
+        <div class="toolpath-footer">
+          <div style="display: flex; align-items: center; gap: 16px; width: 100%;">
+            <span>PROGRESS:</span>
+            <div class="toolpath-progress">
+              <div class="toolpath-progress-fill" id="toolpathProgressBar"></div>
+            </div>
+            <span id="toolpathPercent">38%</span>
+            <span style="margin-left: auto; color: var(--laser);">EST. TIME TO COMPLETION: 18h 42m</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: Alloy Purity Matrix -->
+  <section class="section-wrap" id="alloys">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Certified Metallurgy</span>
+        <h3 class="section-title">Ultra-Pure Vacuum Arc Remelt (VAR) Alloys</h3>
+        <p class="section-subtitle">
+          Chemically verified ingots and spherical gas-atomized powders with controlled particle size distribution (15–53 µm).
+        </p>
+      </div>
+
+      <div class="alloy-grid">
+        <div class="alloy-card">
+          <div class="alloy-header">
+            <span class="alloy-code">Ti-6Al-4V ELI</span>
+            <span class="alloy-tag">GRADE 23</span>
+          </div>
+          <p class="alloy-desc">Extra Low Interstitial titanium with superior fracture toughness for cryogenic tanks and medical implants.</p>
+          <ul class="alloy-specs-list">
+            <li><span>Tensile Yield (0.2%)</span> <strong>860 MPa</strong></li>
+            <li><span>Ultimate Strength</span> <strong>930 MPa</strong></li>
+            <li><span>Elongation at Break</span> <strong>14 %</strong></li>
+            <li><span>Oxygen Content</span> <strong>&lt; 0.13 %</strong></li>
+          </ul>
+        </div>
+
+        <div class="alloy-card">
+          <div class="alloy-header">
+            <span class="alloy-code">Ti-5553</span>
+            <span class="alloy-tag">NEAR-BETA</span>
+          </div>
+          <p class="alloy-desc">High hardenability and deep section mechanical response. Engineered for heavy aircraft structural forgings.</p>
+          <ul class="alloy-specs-list">
+            <li><span>Tensile Yield (0.2%)</span> <strong>1,150 MPa</strong></li>
+            <li><span>Ultimate Strength</span> <strong>1,240 MPa</strong></li>
+            <li><span>Elongation at Break</span> <strong>10 %</strong></li>
+            <li><span>Modulus of Elasticity</span> <strong>112 GPa</strong></li>
+          </ul>
+        </div>
+
+        <div class="alloy-card">
+          <div class="alloy-header">
+            <span class="alloy-code">Ti-6242</span>
+            <span class="alloy-tag">HIGH-TEMP</span>
+          </div>
+          <p class="alloy-desc">Near-alpha alloy engineered for high creep resistance up to 540°C in jet engine compressor stages.</p>
+          <ul class="alloy-specs-list">
+            <li><span>Tensile Yield (0.2%)</span> <strong>830 MPa</strong></li>
+            <li><span>Ultimate Strength</span> <strong>900 MPa</strong></li>
+            <li><span>Creep Rupture (450°C)</span> <strong>&gt; 100 hrs @ 480MPa</strong></li>
+            <li><span>Density</span> <strong>4.54 g/cm³</strong></li>
+          </ul>
+        </div>
+
+        <div class="alloy-card">
+          <div class="alloy-header">
+            <span class="alloy-code">Inconel 718</span>
+            <span class="alloy-tag">SUPERALLOY</span>
+          </div>
+          <p class="alloy-desc">Precipitation-hardenable nickel-chromium superalloy for liquid rocket engines and severe hot-gas path parts.</p>
+          <ul class="alloy-specs-list">
+            <li><span>Tensile Yield (0.2%)</span> <strong>1,100 MPa</strong></li>
+            <li><span>Ultimate Strength</span> <strong>1,375 MPa</strong></li>
+            <li><span>Operating Range</span> <strong>-250°C to +700°C</strong></li>
+            <li><span>Density</span> <strong>8.19 g/cm³</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 5: Enterprise Manufacturing Order Request -->
+  <section class="section-wrap" id="rfq">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Production Intake</span>
+        <h3 class="section-title">Enterprise Manufacturing Request (RFQ)</h3>
+        <p class="section-subtitle">
+          Submit specifications for custom plasma furnace melting, E-PBF additive production runs, or ingot delivery.
+        </p>
+      </div>
+
+      <div class="rfq-box">
+        <div class="rfq-steps">
+          <div class="rfq-step-node active">
+            <div class="step-circle">01</div>
+            <span class="step-name">Material & Spec</span>
+          </div>
+          <div class="rfq-step-node active">
+            <div class="step-circle">02</div>
+            <span class="step-name">Geometry & Runs</span>
+          </div>
+          <div class="rfq-step-node">
+            <div class="step-circle">03</div>
+            <span class="step-name">NDT Inspection</span>
+          </div>
+          <div class="rfq-step-node">
+            <div class="step-circle">04</div>
+            <span class="step-name">ITAR Delivery</span>
+          </div>
+        </div>
+
+        <form id="rfqForm" onsubmit="event.preventDefault(); openQuoteModal();">
+          <div class="rfq-grid-form">
+            <div class="form-group">
+              <label class="form-label">Company / Prime Contractor</label>
+              <input type="text" class="form-input" placeholder="e.g. Lockheed Aero Propulsion Labs" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Authorized Contact Email</label>
+              <input type="email" class="form-input" placeholder="contracting@prime.gov" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Select Process Architecture</label>
+              <select id="rfqProcess" class="form-select">
+                <option value="epbf">5-Axis Laser Powder Bed Fusion (L-PBF)</option>
+                <option value="var">Vacuum Arc Remelt Ingot (Triple-Melt VAR)</option>
+                <option value="plasma">Plasma Atomized Spherical Powder (15-53µm)</option>
+                <option value="forging">Near-Net Shape Hot Isostatic Press (HIP)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Batch Volume (Units or Metric Tons)</label>
+              <input type="number" id="rfqVolume" class="form-input" value="12" min="1" max="1000">
+            </div>
+            <div class="form-group rfq-full">
+              <label class="form-label">Inspection & Certification Requirements</label>
+              <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 8px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: var(--font-mono);">
+                  <input type="checkbox" checked> Micro-CT Porosity Scan
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: var(--font-mono);">
+                  <input type="checkbox" checked> ASTM E1417 Fluorescent Penetrant
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: var(--font-mono);">
+                  <input type="checkbox"> ITAR Registered Facility Guard
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-family: var(--font-mono);">
+                  <input type="checkbox"> Hot Isostatic Pressing (HIP) Cycle
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="pricing-summary">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase;">
+                Estimated Base Production Run Cost
+              </div>
+              <div class="estimate-val" id="rfqEstimate">$148,500 <span style="font-size: 14px; color: var(--text-dim); font-weight: 400;">USD</span></div>
+            </div>
+            <button type="submit" class="btn btn-slag">Generate Engineering Proposal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="quoteModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeQuoteModal()">&times;</button>
+      <div style="font-family: var(--font-mono); font-size: 12px; color: var(--laser); margin-bottom: 8px;">
+        VULCAN FOUNDRY // RFQ DISPATCH CONFIRMED
+      </div>
+      <h3 style="font-family: var(--font-display); font-size: 24px; text-transform: uppercase; margin-bottom: 16px;">
+        Engineering Dossier Compiled
+      </h3>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px;">
+        Your technical parameters have been routed to our Lead Metallurgist and Facility Director. An ITAR-compliant encrypted spec packet has been queued for transmission.
+      </p>
+      <div style="background: var(--bg-card); padding: 16px; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; margin-bottom: 24px;">
+        <div>DOCKET ID: <span style="color: #fff;">VLC-2026-9481-B</span></div>
+        <div>ESTIMATED CYCLE: <span style="color: var(--slag);">14 Days</span></div>
+        <div>FURNACE ALLOCATION: <span style="color: #fff;">Bay 03 (VAR Crucible #4)</span></div>
+      </div>
+      <button class="btn btn-slag" style="width: 100%; justify-content: center;" onclick="closeQuoteModal()">Acknowledge & Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <div class="brand-mark" style="width: 32px; height: 32px; font-size: 14px;">V</div>
+          <span style="font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: 1px;">VULCAN FOUNDRY</span>
+        </div>
+        <p style="font-size: 13px; line-height: 1.6; max-width: 380px;">
+          Heavy industrial titanium plasma melting, vacuum arc refining, and autonomous 5-axis additive manufacturing for defense, spaceflight, and deep-sea extreme engineering.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Foundry Systems</h5>
+        <ul class="footer-links">
+          <li><a href="#sintering">5-Axis Laser Sintering</a></li>
+          <li><a href="#calculator">Yield Stress Engine</a></li>
+          <li><a href="#toolpath">Additive Slicer</a></li>
+          <li><a href="#alloys">VAR Alloys Matrix</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Certifications</h5>
+        <ul class="footer-links">
+          <li><a href="#">AS9100 Rev D Certified</a></li>
+          <li><a href="#">ISO 9001:2015 Registered</a></li>
+          <li><a href="#">ITAR Compliant Facility</a></li>
+          <li><a href="#">Nadcap Heat Treating</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Direct Foundry</h5>
+        <ul class="footer-links">
+          <li><span>Bay 12, Heavy Works Sector</span></li>
+          <li><span>Seattle Aerospace Corridor, WA</span></li>
+          <li><span>comms@vulcanfoundry.industrial</span></li>
+          <li><span>+1 (800) 555-PLAS</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Vulcan Heavy Industries Inc. All metallurgy and toolpath rights reserved.</div>
+      <div>CLASSIFICATION: UNRESTRICTED TECHNICAL DEMO</div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Canvas 1: Hero Plasma Core Arc Visualizer ---
+    const heroCanvas = document.getElementById('heroPlasmaCanvas');
+    const heroCtx = heroCanvas.getContext('2d');
+    let heroW, heroH;
+
+    function resizeHeroCanvas() {
+      heroW = heroCanvas.width = heroCanvas.parentElement.clientWidth;
+      heroH = heroCanvas.height = heroCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeHeroCanvas);
+    resizeHeroCanvas();
+
+    const particles = [];
+    for (let i = 0; i < 45; i++) {
+      particles.push({
+        x: Math.random() * 300,
+        y: Math.random() * 200,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: -Math.random() * 2 - 0.5,
+        size: Math.random() * 2.5 + 1,
+        life: Math.random() * 80 + 20,
+        maxLife: 100,
+        color: Math.random() > 0.3 ? '#ff5722' : '#00e5ff'
+      });
+    }
+
+    let coreAngle = 0;
+    function drawHeroPlasma() {
+      heroCtx.fillStyle = 'rgba(13, 14, 18, 0.25)';
+      heroCtx.fillRect(0, 0, heroW, heroH);
+
+      const cx = heroW / 2;
+      const cy = heroH / 2;
+
+      // Glow crucible base
+      const grad = heroCtx.createRadialGradient(cx, cy, 10, cx, cy, 110);
+      grad.addColorStop(0, 'rgba(255, 235, 59, 0.95)');
+      grad.addColorStop(0.2, 'rgba(255, 87, 34, 0.7)');
+      grad.addColorStop(0.6, 'rgba(0, 229, 255, 0.2)');
+      grad.addColorStop(1, 'rgba(13, 14, 18, 0)');
+      heroCtx.fillStyle = grad;
+      heroCtx.beginPath();
+      heroCtx.arc(cx, cy, 110, 0, Math.PI * 2);
+      heroCtx.fill();
+
+      // Plasma discharge lightning arcs
+      coreAngle += 0.05;
+      heroCtx.strokeStyle = '#00e5ff';
+      heroCtx.lineWidth = 1.5;
+      heroCtx.beginPath();
+      for (let a = 0; a < 6; a++) {
+        const theta = coreAngle + (a * Math.PI / 3);
+        const r1 = 15;
+        const r2 = 65 + Math.sin(coreAngle * 4 + a) * 20;
+        let px = cx + Math.cos(theta) * r1;
+        let py = cy + Math.sin(theta) * r1;
+        heroCtx.moveTo(px, py);
+        let midX = cx + Math.cos(theta + 0.2) * (r1 + r2) / 2 + (Math.random() - 0.5) * 12;
+        let midY = cy + Math.sin(theta + 0.2) * (r1 + r2) / 2 + (Math.random() - 0.5) * 12;
+        let endX = cx + Math.cos(theta) * r2;
+        let endY = cy + Math.sin(theta) * r2;
+        heroCtx.quadraticCurveTo(midX, midY, endX, endY);
+      }
+      heroCtx.stroke();
+
+      // Sparks rising
+      for (let p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+        if (p.life <= 0 || p.y < 0) {
+          p.x = cx + (Math.random() - 0.5) * 60;
+          p.y = cy + 20 + Math.random() * 20;
+          p.life = Math.random() * 80 + 20;
+        }
+        heroCtx.fillStyle = p.color;
+        heroCtx.beginPath();
+        heroCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        heroCtx.fill();
+      }
+
+      requestAnimationFrame(drawHeroPlasma);
+    }
+    drawHeroPlasma();
+
+    // Minor telemetry flicker
+    setInterval(() => {
+      const temp = 1775 + Math.floor(Math.random() * 25);
+      document.getElementById('tempVal').innerText = `${temp.toLocaleString()} °C`;
+      const power = (47.5 + Math.random() * 1.8).toFixed(1);
+      document.getElementById('powerVal').innerText = `${power} kW`;
+    }, 1800);
+
+
+    // --- Canvas 2: 5-Axis Sintering Heat Map Canvas ---
+    const sinterCanvas = document.getElementById('sinteringCanvas');
+    const sinterCtx = sinterCanvas.getContext('2d');
+    let sW, sH;
+
+    function resizeSinterCanvas() {
+      sW = sinterCanvas.width = sinterCanvas.parentElement.clientWidth;
+      sH = sinterCanvas.height = sinterCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeSinterCanvas);
+    resizeSinterCanvas();
+
+    let beamX = 250;
+    let beamY = 180;
+    let targetX = 250;
+    let targetY = 180;
+    let isUserDragging = false;
+    let rasterMode = 'spiral';
+    let rasterTime = 0;
+
+    const heatNodes = [];
+    const gridCols = 32;
+    const gridRows = 22;
+
+    for (let r = 0; r < gridRows; r++) {
+      for (let c = 0; c < gridCols; c++) {
+        heatNodes.push({
+          c, r,
+          temp: 200 // ambient powder bed temp
+        });
+      }
+    }
+
+    sinterCanvas.addEventListener('mousedown', (e) => {
+      isUserDragging = true;
+      rasterMode = 'manual';
+      updateModeButtons('btnFreeform');
+      updateBeamFromMouse(e);
+    });
+    window.addEventListener('mouseup', () => { isUserDragging = false; });
+    sinterCanvas.addEventListener('mousemove', (e) => {
+      if (isUserDragging) updateBeamFromMouse(e);
+    });
+
+    function updateBeamFromMouse(e) {
+      const rect = sinterCanvas.getBoundingClientRect();
+      targetX = e.clientX - rect.left;
+      targetY = e.clientY - rect.top;
+    }
+
+    function updateModeButtons(activeId) {
+      ['btnSpiral', 'btnHatch', 'btnFreeform'].forEach(id => {
+        document.getElementById(id).classList.toggle('active', id === activeId);
+      });
+    }
+
+    document.getElementById('btnSpiral').addEventListener('click', () => {
+      rasterMode = 'spiral';
+      updateModeButtons('btnSpiral');
+    });
+    document.getElementById('btnHatch').addEventListener('click', () => {
+      rasterMode = 'hatch';
+      updateModeButtons('btnHatch');
+    });
+    document.getElementById('btnFreeform').addEventListener('click', () => {
+      rasterMode = 'manual';
+      updateModeButtons('btnFreeform');
+    });
+
+    // Sliders
+    const powerSlider = document.getElementById('beamPowerSlider');
+    const speedSlider = document.getElementById('scanSpeedSlider');
+    const spotSlider = document.getElementById('spotDiamSlider');
+
+    powerSlider.addEventListener('input', (e) => {
+      document.getElementById('sliderPowerVal').innerText = `${parseInt(e.target.value).toLocaleString()} W`;
+    });
+    speedSlider.addEventListener('input', (e) => {
+      document.getElementById('sliderSpeedVal').innerText = `${parseInt(e.target.value).toLocaleString()} mm/s`;
+    });
+    spotSlider.addEventListener('input', (e) => {
+      document.getElementById('sliderSpotVal').innerText = `${e.target.value} µm`;
+    });
+
+    function drawSintering() {
+      sinterCtx.fillStyle = '#08090b';
+      sinterCtx.fillRect(0, 0, sW, sH);
+
+      // Mode automation
+      if (rasterMode === 'spiral') {
+        rasterTime += 0.03;
+        const rad = Math.min(sW, sH) * 0.32 * (0.4 + 0.5 * Math.sin(rasterTime * 0.5));
+        targetX = sW / 2 + Math.cos(rasterTime * 2) * rad;
+        targetY = sH / 2 + Math.sin(rasterTime * 2) * rad;
+      } else if (rasterMode === 'hatch') {
+        rasterTime += 0.05;
+        const boundsW = sW * 0.7;
+        const boundsH = sH * 0.6;
+        const startX = sW * 0.15;
+        const startY = sH * 0.2;
+        const row = Math.floor(rasterTime) % 10;
+        const ping = (rasterTime % 1);
+        targetX = startX + (row % 2 === 0 ? ping : (1 - ping)) * boundsW;
+        targetY = startY + (row / 10) * boundsH;
+      }
+
+      beamX += (targetX - beamX) * 0.2;
+      beamY += (targetY - beamY) * 0.2;
+
+      document.getElementById('beamCoords').innerText = `X: ${beamX.toFixed(2)} | Y: ${beamY.toFixed(2)}`;
+
+      const cellW = sW / gridCols;
+      const cellH = sH / gridRows;
+      const powerMultiplier = parseFloat(powerSlider.value) / 6500;
+
+      // Update grid heat
+      for (let node of heatNodes) {
+        const nx = node.c * cellW + cellW / 2;
+        const ny = node.r * cellH + cellH / 2;
+        const dist = Math.hypot(beamX - nx, beamY - ny);
+
+        if (dist < 70) {
+          const add = (1 - dist / 70) * 80 * powerMultiplier;
+          node.temp = Math.min(2200, node.temp + add);
+        } else {
+          node.temp = Math.max(200, node.temp - 6);
+        }
+
+        // Color mapper: 200 -> dark, 1000 -> orange, 1800 -> yellow, 2200 -> cyan/white
+        const t = (node.temp - 200) / 2000;
+        let rVal, gVal, bVal, aVal;
+
+        if (t < 0.25) {
+          // Low heat: dark iron to dull slag
+          const sub = t / 0.25;
+          rVal = Math.floor(25 + sub * 120);
+          gVal = Math.floor(25 + sub * 30);
+          bVal = 30;
+          aVal = 0.5;
+        } else if (t < 0.6) {
+          // Molten slag
+          const sub = (t - 0.25) / 0.35;
+          rVal = 255;
+          gVal = Math.floor(60 + sub * 140);
+          bVal = 20;
+          aVal = 0.8;
+        } else {
+          // Intense plasma melt
+          const sub = (t - 0.6) / 0.4;
+          rVal = Math.floor(255 - sub * 100);
+          gVal = Math.floor(200 + sub * 40);
+          bVal = Math.floor(50 + sub * 205);
+          aVal = 0.95;
+        }
+
+        sinterCtx.fillStyle = `rgba(${rVal}, ${gVal}, ${bVal}, ${aVal})`;
+        sinterCtx.fillRect(node.c * cellW + 1, node.r * cellH + 1, cellW - 2, cellH - 2);
+      }
+
+      // Draw Laser Beam Focus
+      sinterCtx.save();
+      // Outer halo
+      const beamGrad = sinterCtx.createRadialGradient(beamX, beamY, 2, beamX, beamY, 40);
+      beamGrad.addColorStop(0, '#ffffff');
+      beamGrad.addColorStop(0.2, '#00e5ff');
+      beamGrad.addColorStop(0.7, 'rgba(255, 87, 34, 0.5)');
+      beamGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sinterCtx.fillStyle = beamGrad;
+      sinterCtx.beginPath();
+      sinterCtx.arc(beamX, beamY, 40, 0, Math.PI * 2);
+      sinterCtx.fill();
+
+      // Precision crosshair
+      sinterCtx.strokeStyle = '#00e5ff';
+      sinterCtx.lineWidth = 1;
+      sinterCtx.beginPath();
+      sinterCtx.moveTo(beamX - 15, beamY);
+      sinterCtx.lineTo(beamX + 15, beamY);
+      sinterCtx.moveTo(beamX, beamY - 15);
+      sinterCtx.lineTo(beamX, beamY + 15);
+      sinterCtx.stroke();
+
+      sinterCtx.beginPath();
+      sinterCtx.arc(beamX, beamY, 8, 0, Math.PI * 2);
+      sinterCtx.stroke();
+      sinterCtx.restore();
+
+      requestAnimationFrame(drawSintering);
+    }
+    drawSintering();
+
+
+    // --- Feature 2: Yield Stress Calculator Logic ---
+    const alloySelect = document.getElementById('alloySelect');
+    const tensileLoad = document.getElementById('tensileLoad');
+    const crossSection = document.getElementById('crossSection');
+    const operatingTemp = document.getElementById('operatingTemp');
+
+    function calculateYield() {
+      const selectedOpt = alloySelect.options[alloySelect.selectedIndex];
+      const baseYield = parseFloat(selectedOpt.getAttribute('data-yield'));
+      const loadKN = parseFloat(tensileLoad.value) || 1;
+      const areaMM2 = parseFloat(crossSection.value) || 1;
+      const tempC = parseFloat(operatingTemp.value) || 20;
+
+      // Applied stress = Force (N) / Area (mm2) -> MPa
+      const applied = (loadKN * 1000) / areaMM2;
+
+      // Thermal knockdown factor
+      let tempFactor = 1.0;
+      if (tempC > 100) {
+        tempFactor = Math.max(0.35, 1.0 - ((tempC - 100) / 750) * 0.55);
+      }
+      const derated = baseYield * tempFactor;
+      const sf = derated / applied;
+      const knockdownPercent = ((1 - tempFactor) * 100).toFixed(1);
+
+      document.getElementById('appliedStress').innerHTML = `${applied.toFixed(1)} <small>MPa</small>`;
+      document.getElementById('deratedYield').innerHTML = `${derated.toFixed(1)} <small>MPa</small>`;
+      document.getElementById('safetyFactor').innerHTML = `${sf.toFixed(2)} <small>SF</small>`;
+      document.getElementById('thermalKnockdown').innerHTML = `-${knockdownPercent} <small>%</small>`;
+
+      const badge = document.getElementById('safetyBadge');
+      if (sf >= 1.5) {
+        badge.className = 'result-badge badge-pass';
+        badge.innerText = 'HIGH SAFETY FACTOR // MANNED AEROSPACE COMPLIANT';
+      } else if (sf >= 1.0) {
+        badge.className = 'result-badge badge-pass';
+        badge.innerText = 'MARGIN PASS // WITHIN NORMAL OPERATING LIMITS';
+      } else {
+        badge.className = 'result-badge badge-fail';
+        badge.innerText = 'CRITICAL OVERSTRESS // PLASTIC DEFORMATION DETECTED';
+      }
+    }
+
+    [alloySelect, tensileLoad, crossSection, operatingTemp].forEach(el => {
+      el.addEventListener('input', calculateYield);
+    });
+    calculateYield();
+
+
+    // --- Feature 3: Toolpath Slicer Visualizer ---
+    const toolCanvas = document.getElementById('toolpathCanvas');
+    const toolCtx = toolCanvas.getContext('2d');
+    let tW, tH;
+
+    function resizeToolCanvas() {
+      tW = toolCanvas.width = toolCanvas.parentElement.clientWidth;
+      tH = toolCanvas.height = toolCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeToolCanvas);
+    resizeToolCanvas();
+
+    let toolpathAngle = 0;
+    let toolpathLayer = 142;
+    let isToolpathPlaying = true;
+
+    document.getElementById('btnPlayToolpath').addEventListener('click', function() {
+      isToolpathPlaying = !isToolpathPlaying;
+      this.innerText = isToolpathPlaying ? 'Pause' : 'Resume';
+    });
+    document.getElementById('btnResetToolpath').addEventListener('click', function() {
+      toolpathLayer = 1;
+    });
+
+    function drawToolpath() {
+      toolCtx.fillStyle = '#090a0d';
+      toolCtx.fillRect(0, 0, tW, tH);
+
+      const cx = tW / 2;
+      const cy = tH / 2;
+
+      // Draw isometric slicing build grid
+      toolCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      toolCtx.lineWidth = 1;
+      const gridCount = 12;
+      const spacing = 28;
+      for (let i = -gridCount; i <= gridCount; i++) {
+        toolCtx.beginPath();
+        toolCtx.moveTo(cx + i * spacing, cy - 100);
+        toolCtx.lineTo(cx + i * spacing - 140, cy + 120);
+        toolCtx.stroke();
+
+        toolCtx.beginPath();
+        toolCtx.moveTo(cx - 250 + i * spacing, cy + 20);
+        toolCtx.lineTo(cx + 250 + i * spacing, cy + 20);
+        toolCtx.stroke();
+      }
+
+      if (isToolpathPlaying) {
+        toolpathAngle += 0.02;
+        if (Math.random() > 0.6) {
+          toolpathLayer = (toolpathLayer % 1200) + 1;
+        }
+      }
+
+      document.getElementById('currentLayerDisplay').innerText = toolpathLayer;
+      const progressPercent = Math.round((toolpathLayer / 1200) * 100);
+      document.getElementById('toolpathPercent').innerText = `${progressPercent}%`;
+      document.getElementById('toolpathProgressBar').style.width = `${progressPercent}%`;
+
+      // Sliced turbine blisk contour
+      const blades = 12;
+      const innerR = 40;
+      const outerR = 120;
+
+      // Past layers ghost
+      toolCtx.strokeStyle = 'rgba(0, 229, 255, 0.15)';
+      toolCtx.lineWidth = 1;
+      toolCtx.beginPath();
+      toolCtx.arc(cx, cy, innerR, 0, Math.PI * 2);
+      toolCtx.stroke();
+
+      // Active sintering layer path
+      toolCtx.strokeStyle = '#00e5ff';
+      toolCtx.lineWidth = 2;
+      toolCtx.shadowColor = '#00e5ff';
+      toolCtx.shadowBlur = 10;
+      toolCtx.beginPath();
+
+      for (let b = 0; b < blades; b++) {
+        const theta = (b * Math.PI * 2) / blades + toolpathAngle;
+        const x1 = cx + Math.cos(theta) * innerR;
+        const y1 = cy + Math.sin(theta) * innerR * 0.7; // perspective tilt
+        const x2 = cx + Math.cos(theta + 0.3) * outerR;
+        const y2 = cy + Math.sin(theta + 0.3) * outerR * 0.7;
+
+        toolCtx.moveTo(x1, y1);
+        toolCtx.lineTo(x2, y2);
+      }
+      toolCtx.stroke();
+      toolCtx.shadowBlur = 0;
+
+      // Current sintering laser tip
+      const activeTheta = toolpathAngle * 3;
+      const tipX = cx + Math.cos(activeTheta) * 90;
+      const tipY = cy + Math.sin(activeTheta) * 90 * 0.7;
+
+      toolCtx.fillStyle = '#ff5722';
+      toolCtx.shadowColor = '#ff5722';
+      toolCtx.shadowBlur = 15;
+      toolCtx.beginPath();
+      toolCtx.arc(tipX, tipY, 4, 0, Math.PI * 2);
+      toolCtx.fill();
+      toolCtx.shadowBlur = 0;
+
+      requestAnimationFrame(drawToolpath);
+    }
+    drawToolpath();
+
+
+    // --- Feature 5: RFQ Pricing Logic & Modal ---
+    const rfqVolume = document.getElementById('rfqVolume');
+    const rfqProcess = document.getElementById('rfqProcess');
+
+    function updateRFQPrice() {
+      const vol = parseInt(rfqVolume.value) || 1;
+      let unitCost = 9500;
+      if (rfqProcess.value === 'var') unitCost = 14200;
+      if (rfqProcess.value === 'plasma') unitCost = 6800;
+      if (rfqProcess.value === 'forging') unitCost = 18500;
+
+      const total = vol * unitCost;
+      document.getElementById('rfqEstimate').innerHTML = `$${total.toLocaleString()} <span style="font-size: 14px; color: var(--text-dim); font-weight: 400;">USD</span>`;
+    }
+    rfqVolume.addEventListener('input', updateRFQPrice);
+    rfqProcess.addEventListener('change', updateRFQPrice);
+
+    function openQuoteModal() {
+      document.getElementById('quoteModal').style.display = 'flex';
+    }
+    function closeQuoteModal() {
+      document.getElementById('quoteModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

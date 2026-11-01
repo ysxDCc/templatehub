@@ -16,7 +16,7 @@ export default function ShowcaseMarquee() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex items-center justify-between relative z-10">
         <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-purple-300">
           <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-ping"></span>
-          <span>Live Visual Archive // 46 Authentic Masterpieces</span>
+          <span>Live Visual Archive // 56 Authentic Masterpieces</span>
         </div>
         <Link
           href="/templates"

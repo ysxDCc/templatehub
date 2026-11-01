@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX HOROLOGY // Historical Vintage Watch Auctions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;0,6..96,700;0,6..96,900;1,6..96,400&family=Marcellus&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-green: #0b1a13;
+      --bg-darker: #060f0b;
+      --bg-surface: #10241b;
+      --bg-card: #162f23;
+      --bg-card-hover: #1e3d2e;
+      --border-brass: rgba(198, 146, 20, 0.35);
+      --border-dim: rgba(198, 146, 20, 0.15);
+      --brass: #c69214;
+      --brass-light: #e4b84b;
+      --brass-glow: rgba(198, 146, 20, 0.35);
+      --brass-dim: rgba(198, 146, 20, 0.12);
+      --vellum: #f7f4ec;
+      --vellum-muted: #dcd7ca;
+      --vellum-dim: #999487;
+      --patina: #5b7566;
+      --font-display: 'Bodoni Moda', serif;
+      --font-body: 'Marcellus', serif;
+      --font-mono: 'Syne', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-green);
+      color: var(--vellum);
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 70% 50% at 50% -10%, rgba(198, 146, 20, 0.08), transparent 60%),
+        radial-gradient(circle at 90% 80%, rgba(91, 117, 102, 0.1), transparent 50%),
+        linear-gradient(rgba(198, 146, 20, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(198, 146, 20, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* Top Auction Ticker */
+    .auction-ticker {
+      background: var(--bg-darker);
+      border-bottom: 1px solid var(--border-brass);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      color: var(--brass-light);
+    }
+    .ticker-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pulse-brass {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--brass);
+      box-shadow: 0 0 10px var(--brass);
+      animation: pulseBrass 2s infinite ease-in-out;
+    }
+    @keyframes pulseBrass {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    /* Main Navigation */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(11, 26, 19, 0.94);
+      border-bottom: 1px solid var(--border-brass);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 90px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--brass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--brass-light);
+      background: var(--bg-surface);
+      box-shadow: 0 0 18px var(--brass-glow);
+    }
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--vellum);
+    }
+    .brand-text span {
+      font-family: var(--font-body);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      color: var(--brass-light);
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--vellum-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover {
+      color: var(--brass-light);
+      text-shadow: 0 0 12px var(--brass-glow);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+    .btn-brass {
+      background: linear-gradient(135deg, var(--brass), #8f6707);
+      color: #060f0b;
+      font-weight: 800;
+      box-shadow: 0 4px 20px rgba(198, 146, 20, 0.35);
+    }
+    .btn-brass:hover {
+      background: linear-gradient(135deg, var(--brass-light), #a8790b);
+      box-shadow: 0 6px 30px rgba(198, 146, 20, 0.55);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-brass);
+      color: var(--brass-light);
+    }
+    .btn-outline:hover {
+      background: var(--brass-dim);
+      box-shadow: 0 0 20px var(--brass-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 100px 0 80px;
+      border-bottom: 1px solid var(--border-dim);
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 52px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: var(--brass-dim);
+      border: 1px solid var(--border-brass);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      color: var(--brass-light);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5.2vw, 68px);
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+    .hero-title .brass-italic {
+      font-style: italic;
+      color: var(--brass-light);
+      text-shadow: 0 0 25px var(--brass-glow);
+    }
+    .hero-desc {
+      font-size: 20px;
+      color: var(--vellum-muted);
+      max-width: 600px;
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-dim);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--brass-light);
+    }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--vellum-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Live Bidding Box */
+    .bidding-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-brass);
+      border-radius: 6px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .bidding-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brass), var(--brass-light), var(--brass));
+    }
+    .bidding-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .lot-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--brass-light);
+      background: var(--brass-dim);
+      border: 1px solid var(--border-brass);
+      padding: 4px 10px;
+    }
+    .lot-timer {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: #ff4757;
+      font-weight: 700;
+    }
+    .lot-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      margin-bottom: 12px;
+      line-height: 1.3;
+      color: #fff;
+    }
+    .current-bid-display {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .bid-amount {
+      font-family: var(--font-display);
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--brass-light);
+      line-height: 1;
+      margin: 8px 0;
+    }
+    .paddle-feed {
+      height: 110px;
+      overflow-y: auto;
+      background: #060f0b;
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .feed-entry {
+      display: flex;
+      justify-content: space-between;
+      color: var(--vellum-muted);
+    }
+    .feed-entry.highlight {
+      color: var(--brass-light);
+      font-weight: 700;
+    }
+
+    /* Section Global Headers */
+    .section-wrap {
+      padding: 90px 0;
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .section-head {
+      margin-bottom: 50px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--brass);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 3.8vw, 46px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+    }
+    .section-subtitle {
+      color: var(--vellum-muted);
+      font-size: 17px;
+      max-width: 680px;
+      margin-top: 10px;
+    }
+
+    /* Feature 1: Escapement Beating Visualizer */
+    .escapement-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-brass);
+      border-radius: 6px;
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .escapement-canvas-wrap {
+      height: 400px;
+      background: #060f0b;
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    #escapementCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .escapement-telemetry {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .telemetry-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      padding: 16px 20px;
+    }
+    .telemetry-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--vellum-dim);
+    }
+    .telemetry-val {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--brass-light);
+      margin-top: 4px;
+    }
+    .freq-selector-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .btn-freq {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      color: var(--vellum-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-freq.active, .btn-freq:hover {
+      border-color: var(--brass);
+      color: var(--brass-light);
+      background: var(--brass-dim);
+    }
+
+    /* Feature 2: Provenance History Timeline */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .provenance-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: 6px;
+      padding: 28px;
+      transition: transform 0.25s, border-color 0.25s;
+      position: relative;
+    }
+    .provenance-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-brass);
+    }
+    .provenance-year {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--brass);
+      margin-bottom: 6px;
+    }
+    .provenance-model {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+    .provenance-meta {
+      font-size: 15px;
+      color: var(--vellum-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .provenance-pedigree {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brass-light);
+      border-top: 1px solid var(--border-dim);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Feature 3: Consignments & Appraisal Valuation */
+    .appraisal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-brass);
+      border-radius: 6px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .appraisal-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass-light);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      color: var(--vellum);
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 17px;
+      border-radius: 3px;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--brass);
+      box-shadow: 0 0 15px var(--brass-dim);
+    }
+    .valuation-summary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-brass);
+      border-radius: 4px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .estimate-range {
+      font-family: var(--font-display);
+      font-size: 34px;
+      color: var(--brass-light);
+      margin: 12px 0;
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--border-brass);
+      padding: 60px 0 32px;
+      font-size: 14px;
+      color: var(--vellum-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 20px;
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--vellum-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--brass-light);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border-dim);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--vellum-dim);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 15, 11, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--brass);
+      border-radius: 4px;
+      max-width: 540px;
+      width: 100%;
+      padding: 34px;
+      position: relative;
+      box-shadow: 0 0 60px rgba(198, 146, 20, 0.35);
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--vellum-muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .escapement-box, .appraisal-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Auction Ticker -->
+  <div class="auction-ticker">
+    <div class="container ticker-row">
+      <div class="ticker-item">
+        <span class="pulse-brass"></span>
+        <span>GENEVA SALON // IMPORTANT WATCHES PART I LIVE</span>
+      </div>
+      <div class="ticker-item">
+        <span>CURRENT LOT: 142 OF 280</span>
+      </div>
+      <div class="ticker-item">
+        <span>ROOM BIDDERS: 184 ACTIVE PADDLES</span>
+      </div>
+      <div class="ticker-item">
+        <span>AUCTIONEER: AUREL LECLERC</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <div class="brand-mark">A</div>
+        <div class="brand-text">
+          <h1>Apex Horology</h1>
+          <span>Historical Watch Auctions</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#live-lot">Live Bidding</a></li>
+        <li><a href="#escapement">Escapement Engine</a></li>
+        <li><a href="#provenance">Provenance Archive</a></li>
+        <li><a href="#appraisal">Consignment Valuation</a></li>
+      </ul>
+      <div>
+        <a href="#appraisal" class="btn btn-brass">Consign Watch</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">Curated Horological Masterworks // 1780–1980</div>
+        <h2 class="hero-title">
+          The Art of <span class="brass-italic">Provenance</span> & Mechanical Precision
+        </h2>
+        <p class="hero-desc">
+          Specializing in ultra-rare vintage chronographs, grand complications, and museum-grade chronometers. Verified by independent watchmaker archival certificates.
+        </p>
+        <div class="hero-cta">
+          <a href="#live-lot" class="btn btn-brass">Enter Live Bidding Floor</a>
+          <a href="#escapement" class="btn btn-outline">Explore Escapement</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-col">
+            <div class="stat-number">CHF 48.2M</div>
+            <div class="stat-label">Season Hammer Total</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">99.4%</div>
+            <div class="stat-label">Provenance Authenticity</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">42</div>
+            <div class="stat-label">Countries Represented</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Bidding Box -->
+      <div class="bidding-box" id="live-lot">
+        <div class="bidding-header">
+          <span class="lot-badge">LOT 142 // GENEVA ROOM</span>
+          <span class="lot-timer" id="lotCountdown">02:18 REMAINING</span>
+        </div>
+        <h3 class="lot-title">
+          1968 Patek Philippe Ref. 2499 Perpetual Calendar Chronograph
+        </h3>
+        <p style="font-size: 14px; color: var(--vellum-muted); margin-bottom: 16px;">
+          Third Series, 18k Yellow Gold, Wenger Case, Round Pushers. Accompanied by Patek Philippe Extract from Archives.
+        </p>
+        <div class="current-bid-display">
+          <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--vellum-dim); text-transform: uppercase;">
+            Current High Bid (<span id="currencyCode">CHF</span>)
+          </div>
+          <div class="bid-amount" id="bidValueDisplay">2,450,000</div>
+          <div style="font-size: 13px; color: var(--brass-light); font-family: var(--font-mono);">
+            RESERVE MET // ON THE MARKET
+          </div>
+        </div>
+
+        <div class="paddle-feed" id="paddleFeed">
+          <div class="feed-entry"><span>Paddle #108 (Geneva Floor)</span> <span>CHF 2,350,000</span></div>
+          <div class="feed-entry"><span>Paddle #412 (Tokyo Phone)</span> <span>CHF 2,400,000</span></div>
+          <div class="feed-entry highlight"><span>Paddle #890 (New York Online)</span> <span>CHF 2,450,000</span></div>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-brass" id="btnPlaceBid" style="flex: 1; justify-content: center;">
+            Raise Paddle +CHF 50,000
+          </button>
+          <button class="btn btn-outline" id="btnCurrencyToggle" style="padding: 12px;">
+            Currency: CHF
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Chronometer Escapement Beating Visualizer -->
+  <section class="section-wrap" id="escapement">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Horological Mechanics</span>
+        <h3 class="section-title">Swiss Lever Escapement & Balance Oscillation</h3>
+        <p class="section-subtitle">
+          Real-time kinematic simulation of the balance wheel, Breguet overcoil hairspring, and pallet jewels beating at COSC chronometer frequency.
+        </p>
+      </div>
+
+      <div class="escapement-box">
+        <div class="escapement-canvas-wrap">
+          <canvas id="escapementCanvas"></canvas>
+        </div>
+
+        <div class="escapement-telemetry">
+          <div class="telemetry-card">
+            <div class="telemetry-label">Oscillation Frequency</div>
+            <div class="telemetry-val" id="freqDisplay">28,800 <small style="font-size: 14px; color: var(--vellum-dim);">vph (4 Hz)</small></div>
+            <div class="freq-selector-row">
+              <button class="btn-freq" onclick="setFrequency(18000, 2.5, this)">18,000 vph (Vintage)</button>
+              <button class="btn-freq" onclick="setFrequency(21600, 3.0, this)">21,600 vph (Classic)</button>
+              <button class="btn-freq active" onclick="setFrequency(28800, 4.0, this)">28,800 vph (Modern)</button>
+              <button class="btn-freq" onclick="setFrequency(36000, 5.0, this)">36,000 vph (Hi-Beat)</button>
+            </div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-label">Balance Amplitude</div>
+            <div class="telemetry-val" id="amplitudeDisplay">296° <small style="font-size: 14px; color: var(--vellum-dim);">Dial Up</small></div>
+            <div style="font-size: 13px; color: var(--vellum-muted); margin-top: 4px;">Optimal mainspring torque transmission. Zero re-banking detected.</div>
+          </div>
+
+          <div class="telemetry-card">
+            <div class="telemetry-label">Beat Error & Daily Rate</div>
+            <div class="telemetry-val" style="color: var(--brass-light);">0.1 ms <small style="font-size: 14px; color: var(--vellum-muted);">// +1.4 s/d</small></div>
+            <div style="font-size: 13px; color: var(--vellum-muted); margin-top: 4px;">Within official Swiss Chronometer testing institute (COSC) limits.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Rare Watch Provenance History Timeline -->
+  <section class="section-wrap" id="provenance">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Archival Provenance</span>
+        <h3 class="section-title">Milestone Auction Lots & Provenance Pedigree</h3>
+        <p class="section-subtitle">
+          Legendary historical wristwatches verified through original bill of sales, box sets, and manufacture heritage ledgers.
+        </p>
+      </div>
+
+      <div class="timeline-grid">
+        <div class="provenance-card">
+          <div class="provenance-year">1971</div>
+          <h4 class="provenance-model">Rolex Daytona Ref. 6263 "Paul Newman"</h4>
+          <p class="provenance-meta">
+            Exotic white 'Panda' art-deco step dial, Valjoux 727 manual movement. Owned continuously by a single private Alpine racing driver family.
+          </p>
+          <div class="provenance-pedigree">
+            <span>HAMMER: CHF 1,820,000</span>
+            <span style="color: var(--brass);">ARCHIVE VERIFIED</span>
+          </div>
+        </div>
+
+        <div class="provenance-card">
+          <div class="provenance-year">1957</div>
+          <h4 class="provenance-model">Omega Speedmaster Ref. CK 2915-1</h4>
+          <p class="provenance-meta">
+            First execution Broad Arrow hour hand with untouched chocolate tropical dial. Original steel engraved tachymètre bezel and caliber 321.
+          </p>
+          <div class="provenance-pedigree">
+            <span>HAMMER: CHF 3,115,000</span>
+            <span style="color: var(--brass);">MUSEUM RECORD</span>
+          </div>
+        </div>
+
+        <div class="provenance-card">
+          <div class="provenance-year">1969</div>
+          <h4 class="provenance-model">Audemars Piguet Royal Oak A-Series</h4>
+          <p class="provenance-meta">
+            Gérald Genta's landmark luxury steel design. Serial No. A26 with original small tapisserie dial and caliber 2121 rotor signed in 21k gold.
+          </p>
+          <div class="provenance-pedigree">
+            <span>HAMMER: CHF 1,058,000</span>
+            <span style="color: var(--brass);">PROVENANCE BOX</span>
+          </div>
+        </div>
+
+        <div class="provenance-card">
+          <div class="provenance-year">1944</div>
+          <h4 class="provenance-model">Patek Philippe Ref. 1518 Steel</h4>
+          <p class="provenance-meta">
+            One of only four known steel examples of the world's first serially produced perpetual calendar chronograph. Valued as the apex of mid-century horology.
+          </p>
+          <div class="provenance-pedigree">
+            <span>HAMMER: CHF 11,002,000</span>
+            <span style="color: var(--brass);">WORLD RECORD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Consignments & Appraisal Valuation -->
+  <section class="section-wrap" id="appraisal">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Private Consignments</span>
+        <h3 class="section-title">Valuation & Consignment Estimator</h3>
+        <p class="section-subtitle">
+          Calculate market auction estimates based on current international collector demand and historical hammer index prices.
+        </p>
+      </div>
+
+      <div class="appraisal-box">
+        <div class="appraisal-grid">
+          <form id="appraisalForm" onsubmit="event.preventDefault(); openConsignModal();">
+            <div class="form-group">
+              <label class="form-label">Manufacture Brand</label>
+              <select id="brandSelect" class="form-select">
+                <option value="patek" data-base="180000">Patek Philippe (Grand Complications / Vintage)</option>
+                <option value="rolex" data-base="75000">Rolex (Vintage Daytona / Submariner / GMT)</option>
+                <option value="audemars" data-base="55000">Audemars Piguet (Vintage Royal Oak / Complications)</option>
+                <option value="vacheron" data-base="42000">Vacheron Constantin (Les Historiques / 222)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Case Metal</label>
+              <select id="metalSelect" class="form-select">
+                <option value="steel" data-mult="1.4">Stainless Steel (Rare Collector Preference)</option>
+                <option value="ygold" data-mult="1.0">18k Yellow Gold</option>
+                <option value="rgold" data-mult="1.15">18k Pink / Rose Gold</option>
+                <option value="platinum" data-mult="1.6">950 Platinum</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Provenance Documents</label>
+              <div style="display: flex; gap: 18px; flex-wrap: wrap; margin-top: 6px; font-size: 15px;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="chkBox" checked> Original Presentation Box
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="chkPapers" checked> Manufacture Extract / Papers
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" id="chkUnpolished"> Unpolished Case Lugs
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Collector Contact Email</label>
+              <input type="email" class="form-input" placeholder="consignor@estate.ch" required>
+            </div>
+
+            <button type="submit" class="btn btn-brass" style="margin-top: 10px;">
+              Request Formal Specialist Consignment
+            </button>
+          </form>
+
+          <div class="valuation-summary">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px; color: var(--vellum-dim); text-transform: uppercase;">
+                Estimated Auction Hammer Range
+              </div>
+              <div class="estimate-range" id="estimateRangeDisplay">CHF 250,000 – 380,000</div>
+              <p style="font-size: 14px; color: var(--vellum-muted); line-height: 1.6;">
+                Based on recent private treaty transactions and international auction gavel averages. Subject to physical inspection by Apex Horology Geneva horologists.
+              </p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-dim); padding-top: 16px; margin-top: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--brass-light);">
+              * 0% Seller Commission for Museum Lots Exceeding CHF 1,000,000.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="consignModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeConsignModal()">&times;</button>
+      <div style="font-family: var(--font-mono); font-size: 10px; color: var(--brass); letter-spacing: 2px; margin-bottom: 8px;">
+        APEX HOROLOGY // CONSIGNMENT DOSSIER LOGGED
+      </div>
+      <h3 style="font-family: var(--font-display); font-size: 24px; color: #fff; margin-bottom: 14px;">
+        Specialist Inspection Requested
+      </h3>
+      <p style="color: var(--vellum-muted); font-size: 15px; margin-bottom: 20px; line-height: 1.6;">
+        Your timepiece particulars have been transmitted to our Head of Watches in Geneva and Zurich. An armored courier pickup protocol or private salon appointment will be arranged.
+      </p>
+      <div style="background: var(--bg-card); padding: 16px; border: 1px solid var(--border-brass); border-radius: 4px; font-family: var(--font-mono); font-size: 11px; margin-bottom: 22px;">
+        <div>CATALOGUE DOCKET: <span style="color: #fff;">APX-GEN-2026-784</span></div>
+        <div>APPOINTMENT SALON: <span style="color: var(--brass-light);">Rue du Rhône 42, Geneva</span></div>
+        <div>INSURANCE TRANSIT: <span style="color: #fff;">Full Lloyd's of London Specie Cover</span></div>
+      </div>
+      <button class="btn btn-brass" style="width: 100%; justify-content: center;" onclick="closeConsignModal()">Confirm & Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+          <div class="brand-mark" style="width: 32px; height: 32px; font-size: 15px;">A</div>
+          <span style="font-family: var(--font-display); font-size: 18px; letter-spacing: 2px; color: var(--vellum);">APEX HOROLOGY</span>
+        </div>
+        <p style="font-size: 15px; line-height: 1.7; max-width: 380px;">
+          The benchmark auction house for historical timepieces, royal chronometers, and pivotal wristwatches. Geneva, London, Hong Kong, New York.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Auctions</h5>
+        <ul class="footer-links">
+          <li><a href="#live-lot">Live Gavel Session</a></li>
+          <li><a href="#escapement">Escapement Kinematics</a></li>
+          <li><a href="#provenance">Archival Provenance</a></li>
+          <li><a href="#appraisal">Private Consignments</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Auction Salons</h5>
+        <ul class="footer-links">
+          <li><span>Rue du Rhône 42, Geneva</span></li>
+          <li><span>Old Bond Street, London</span></li>
+          <li><span>Madison Avenue, New York</span></li>
+          <li><span>Central, Hong Kong</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Direct Desk</h5>
+        <ul class="footer-links">
+          <li><span>bids@apexhorology.auction</span></li>
+          <li><span>+41 22 555-TIME</span></li>
+          <li><span>Vault Speci: D-Secured</span></li>
+          <li><span>SWIFT Escrow Services</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 2026 Apex Horology International AG. All horological marks and provenance rights reserved.</div>
+      <div>CLASSIFICATION: VINTAGE AUCTION HOUSE CATALOGUE</div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Feature 1: Escapement Beating Visualizer Canvas ---
+    const escCanvas = document.getElementById('escapementCanvas');
+    const escCtx = escCanvas.getContext('2d');
+    let eW, eH;
+
+    function resizeEsc() {
+      eW = escCanvas.width = escCanvas.parentElement.clientWidth;
+      eH = escCanvas.height = escCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeEsc);
+    resizeEsc();
+
+    let oscTime = 0;
+    let oscSpeed = 4.0; // 4 Hz = 28,800 vph
+
+    function drawEscapement() {
+      escCtx.fillStyle = '#060f0b';
+      escCtx.fillRect(0, 0, eW, eH);
+
+      const cx = eW / 2;
+      const cy = eH / 2;
+      const balanceR = Math.min(eW, eH) * 0.38;
+
+      oscTime += 0.05 * (oscSpeed / 4.0);
+      const angle = Math.sin(oscTime * Math.PI) * (296 * Math.PI / 180);
+
+      // Draw Glucydur Balance Wheel Rim
+      escCtx.save();
+      escCtx.translate(cx, cy);
+      escCtx.rotate(angle);
+
+      // Gold rim
+      escCtx.strokeStyle = '#c69214';
+      escCtx.lineWidth = 4;
+      escCtx.beginPath();
+      escCtx.arc(0, 0, balanceR, 0, Math.PI * 2);
+      escCtx.stroke();
+
+      // Poising screws on rim
+      escCtx.fillStyle = '#e4b84b';
+      for (let s = 0; s < 16; s++) {
+        const theta = (s * Math.PI * 2) / 16;
+        const sx = Math.cos(theta) * (balanceR + 4);
+        const sy = Math.sin(theta) * (balanceR + 4);
+        escCtx.fillRect(sx - 2, sy - 2, 4, 4);
+      }
+
+      // Three balance spokes
+      escCtx.strokeStyle = 'rgba(198, 146, 20, 0.7)';
+      escCtx.lineWidth = 3;
+      for (let sp = 0; sp < 3; sp++) {
+        const theta = (sp * Math.PI * 2) / 3;
+        escCtx.beginPath();
+        escCtx.moveTo(0, 0);
+        escCtx.lineTo(Math.cos(theta) * balanceR, Math.sin(theta) * balanceR);
+        escCtx.stroke();
+      }
+
+      // Balance staff center ruby jewel
+      escCtx.fillStyle = '#ff3366'; // synthetic ruby
+      escCtx.shadowColor = '#ff3366';
+      escCtx.shadowBlur = 8;
+      escCtx.beginPath();
+      escCtx.arc(0, 0, 8, 0, Math.PI * 2);
+      escCtx.fill();
+      escCtx.shadowBlur = 0;
+
+      escCtx.restore();
+
+      // Breguet Overcoil Hairspring (breathing spiral)
+      escCtx.strokeStyle = '#5b7566'; // blued steel
+      escCtx.lineWidth = 1.5;
+      escCtx.beginPath();
+      const coils = 6;
+      const springBreath = 1.0 + Math.sin(oscTime * Math.PI) * 0.12;
+
+      for (let a = 0; a < coils * Math.PI * 2; a += 0.1) {
+        const r = (a / (coils * Math.PI * 2)) * (balanceR * 0.6) * springBreath;
+        const x = cx + Math.cos(a + angle * 0.5) * r;
+        const y = cy + Math.sin(a + angle * 0.5) * r;
+        if (a === 0) escCtx.moveTo(x, y);
+        else escCtx.lineTo(x, y);
+      }
+      escCtx.stroke();
+
+      requestAnimationFrame(drawEscapement);
+    }
+    drawEscapement();
+
+    window.setFrequency = function(vph, hz, btnEl) {
+      document.querySelectorAll('.btn-freq').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+      oscSpeed = hz;
+      document.getElementById('freqDisplay').innerHTML = `${vph.toLocaleString()} <small style="font-size: 14px; color: var(--vellum-dim);">vph (${hz.toFixed(1)} Hz)</small>`;
+    };
+
+
+    // --- Live Bidding Floor Simulation ---
+    let currentBid = 2450000;
+    let currencyMode = 'CHF';
+    const rateMap = { 'CHF': 1, 'USD': 1.14, 'EUR': 1.05, 'GBP': 0.88 };
+
+    const bidDisplay = document.getElementById('bidValueDisplay');
+    const currencyCode = document.getElementById('currencyCode');
+    const paddleFeed = document.getElementById('paddleFeed');
+
+    function updateBidDisplay() {
+      const converted = Math.round(currentBid * rateMap[currencyMode]);
+      bidDisplay.innerText = converted.toLocaleString();
+      currencyCode.innerText = currencyMode;
+    }
+
+    document.getElementById('btnPlaceBid').addEventListener('click', () => {
+      currentBid += 50000;
+      updateBidDisplay();
+
+      // Add to feed
+      const paddleNum = Math.floor(Math.random() * 800) + 100;
+      const locations = ['London Phone', 'Paris Floor', 'Geneva Online', 'Zurich Room'];
+      const loc = locations[Math.floor(Math.random() * locations.length)];
+      const entry = document.createElement('div');
+      entry.className = 'feed-entry highlight';
+      entry.innerHTML = `<span>Paddle #${paddleNum} (${loc})</span> <span>${currencyMode} ${(Math.round(currentBid * rateMap[currencyMode])).toLocaleString()}</span>`;
+      paddleFeed.prepend(entry);
+    });
+
+    document.getElementById('btnCurrencyToggle').addEventListener('click', function() {
+      const currencies = ['CHF', 'USD', 'EUR', 'GBP'];
+      const nextIdx = (currencies.indexOf(currencyMode) + 1) % currencies.length;
+      currencyMode = currencies[nextIdx];
+      this.innerText = `Currency: ${currencyMode}`;
+      updateBidDisplay();
+    });
+
+
+    // --- Feature 3: Appraisal Estimator Logic ---
+    const brandSelect = document.getElementById('brandSelect');
+    const metalSelect = document.getElementById('metalSelect');
+    const chkBox = document.getElementById('chkBox');
+    const chkPapers = document.getElementById('chkPapers');
+    const chkUnpolished = document.getElementById('chkUnpolished');
+    const estimateRangeDisplay = document.getElementById('estimateRangeDisplay');
+
+    function calculateEstimate() {
+      const base = parseFloat(brandSelect.options[brandSelect.selectedIndex].getAttribute('data-base')) || 180000;
+      const metalMult = parseFloat(metalSelect.options[metalSelect.selectedIndex].getAttribute('data-mult')) || 1.0;
+      let docMult = 1.0;
+      if (chkBox.checked) docMult += 0.15;
+      if (chkPapers.checked) docMult += 0.25;
+      if (chkUnpolished.checked) docMult += 0.30;
+
+      const low = Math.round(base * metalMult * docMult);
+      const high = Math.round(low * 1.55);
+
+      estimateRangeDisplay.innerText = `CHF ${low.toLocaleString()} – ${high.toLocaleString()}`;
+    }
+
+    [brandSelect, metalSelect, chkBox, chkPapers, chkUnpolished].forEach(el => {
+      el.addEventListener('change', calculateEstimate);
+    });
+    calculateEstimate();
+
+    window.openConsignModal = function() {
+      document.getElementById('consignModal').style.display = 'flex';
+    };
+    window.closeConsignModal = function() {
+      document.getElementById('consignModal').style.display = 'none';
+    };
+  </script>
+</body>
+</html>

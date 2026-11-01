@@ -42,7 +42,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
   }, [isOpen, onClose]);
 
   const quickLinks: PaletteItem[] = [
-    { name: 'Browse All 46 Masterpieces', href: '/templates', icon: '💎', type: 'Archive' },
+    { name: 'Browse All 56 Masterpieces', href: '/templates', icon: '💎', type: 'Archive' },
     { name: 'Store Auto-Edit Studio', href: '/templates/astral-aerospace', icon: '🪄', type: 'Studio' },
     { name: 'AI Template Generator', href: '/ai-generator', icon: '🤖', type: 'AI' },
     { name: 'Side-by-Side Comparison', href: '/compare', icon: '⚖️', type: 'Tool' },
@@ -118,7 +118,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search all 46 templates, tools, or verticals... (e.g. 'f1', 'biotech', 'quantum', 'hypercar')"
+            placeholder="Search all 56 templates, tools, or verticals... (e.g. 'f1', 'biotech', 'arcade', 'spa')"
             className="w-full bg-transparent text-sm text-white placeholder-purple-300/40 focus:outline-none"
           />
           <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono bg-[#070314] text-purple-300 border border-purple-500/30 rounded">

@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="mt-6 flex items-center gap-3">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>All 46 Masterpieces Live</span>
+                <span>All 56 Masterpieces Live</span>
               </span>
               <span className="text-xs text-purple-400/70 font-mono">v3.0.0 Cyber</span>
             </div>
@@ -34,7 +34,7 @@ export default function Footer() {
               Templates
             </h4>
             <ul className="space-y-2.5 text-xs text-purple-200/70">
-              <li><Link href="/templates" className="hover:text-white transition-colors">All 46 Templates</Link></li>
+              <li><Link href="/templates" className="hover:text-white transition-colors">All 56 Templates</Link></li>
               <li><Link href="/templates/astral-aerospace" className="hover:text-white transition-colors">ASTRAL Aerospace</Link></li>
               <li><Link href="/templates/neo-tokyo-cyberpunk" className="hover:text-white transition-colors">Neo-Tokyo Cyberpunk</Link></li>
               <li><Link href="/templates/velox-f1-racing" className="hover:text-white transition-colors">VELOX F1 Racing</Link></li>

@@ -56,7 +56,16 @@ export type TemplateCategory =
   | 'audio'
   | 'space'
   | 'agriculture'
-  | 'cybersecurity';
+  | 'cybersecurity'
+  | 'industrial'
+  | 'oceanic'
+  | 'culture'
+  | 'auction'
+  | 'arcade'
+  | 'spa'
+  | 'astronomy'
+  | 'dining'
+  | 'bionics';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 

@@ -170,7 +170,7 @@ export default function Logo({ size = 'md', showText = true, className = '' }: L
           <span
             className={`${badge} font-mono uppercase font-extrabold tracking-wider rounded-lg bg-gradient-to-r from-purple-600/30 via-fuchsia-600/30 to-violet-600/30 border border-purple-400/50 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.35)] self-center`}
           >
-            46 LIVE
+            56 LIVE
           </span>
         </div>
       )}

@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IMPERIAL // Grand Philharmonic & Opera House</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-burgundy: #18040a;
+      --bg-darker: #0f0206;
+      --bg-surface: #240710;
+      --bg-card: #310c18;
+      --bg-card-hover: #421121;
+      --border-gold: rgba(212, 175, 55, 0.35);
+      --border-dim: rgba(212, 175, 55, 0.15);
+      --gold: #d4af37;
+      --gold-light: #f5e08b;
+      --gold-glow: rgba(212, 175, 55, 0.4);
+      --gold-dim: rgba(212, 175, 55, 0.12);
+      --velvet-cream: #faf5ee;
+      --cream-muted: #d8cdbf;
+      --cream-dim: #998c7e;
+      --crimson-accent: #8b0021;
+      --font-display: 'Cinzel', serif;
+      --font-serif: 'Playfair Display', serif;
+      --font-body: 'Cormorant Garamond', serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-burgundy);
+      color: var(--velvet-cream);
+      font-family: var(--font-body);
+      font-size: 19px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08), transparent 60%),
+        radial-gradient(circle at 90% 70%, rgba(139, 0, 33, 0.15), transparent 50%),
+        linear-gradient(rgba(212, 175, 55, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 54px 54px, 54px 54px;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    /* Announcement Banner */
+    .gilded-announcement {
+      background: var(--bg-darker);
+      border-bottom: 1px solid var(--border-gold);
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 10px 0;
+      color: var(--gold);
+      text-align: center;
+    }
+    .announcement-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* Header */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(24, 4, 10, 0.94);
+      border-bottom: 1px solid var(--border-gold);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 94px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-crest {
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--gold);
+      background: var(--bg-card);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: var(--gold-light);
+    }
+    .brand-text span {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--cream-muted);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--cream-muted);
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--gold-light);
+      text-shadow: 0 0 15px var(--gold-glow);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), #9e7d20);
+      color: #0f0206;
+      font-weight: 700;
+      box-shadow: 0 4px 25px rgba(212, 175, 55, 0.35);
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, var(--gold-light), #b89228);
+      box-shadow: 0 6px 35px rgba(212, 175, 55, 0.6);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-gold);
+      color: var(--gold);
+    }
+    .btn-outline:hover {
+      background: var(--gold-dim);
+      box-shadow: 0 0 20px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 110px 0 90px;
+      border-bottom: 1px solid var(--border-dim);
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 54px;
+      align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 16px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      border-radius: 2px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--gold-light);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(42px, 5.4vw, 70px);
+      line-height: 1.08;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+    .hero-title .gilded {
+      font-style: italic;
+      color: var(--gold);
+      text-shadow: 0 0 30px var(--gold-glow);
+    }
+    .hero-desc {
+      font-size: 21px;
+      color: var(--cream-muted);
+      max-width: 620px;
+      margin-bottom: 40px;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 50px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding-top: 36px;
+      border-top: 1px solid var(--border-dim);
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 30px;
+      color: var(--gold-light);
+    }
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 10px;
+      color: var(--cream-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Concert Hall Acoustics Card */
+    .acoustics-preview-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 6px;
+      padding: 30px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .acoustics-preview-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--crimson-accent), var(--gold));
+    }
+    .hall-preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .hall-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+    }
+    .hall-canvas-wrap {
+      height: 220px;
+      background: #110307;
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    #heroWaveCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .hall-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .meta-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 12px 16px;
+      border-radius: 3px;
+    }
+    .meta-label {
+      font-family: var(--font-display);
+      font-size: 9px;
+      color: var(--cream-dim);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .meta-val {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    /* Section Global Headers */
+    .section-wrap {
+      padding: 100px 0;
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .section-head {
+      margin-bottom: 54px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-display);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(32px, 3.8vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+    }
+    .section-subtitle {
+      color: var(--cream-muted);
+      font-size: 18px;
+      max-width: 680px;
+      margin-top: 12px;
+      font-style: italic;
+    }
+
+    /* Feature 1: Tiered Hall Acoustics Simulator */
+    .acoustics-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 6px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 40px;
+    }
+    .hall-seating-plan {
+      background: #110307;
+      border: 1px solid var(--border-dim);
+      border-radius: 6px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tier-button {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 16px 20px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: inherit;
+      text-align: left;
+    }
+    .tier-button:hover, .tier-button.active {
+      border-color: var(--gold);
+      background: var(--bg-card-hover);
+      box-shadow: 0 0 20px var(--gold-dim);
+    }
+    .tier-name {
+      font-family: var(--font-display);
+      font-size: 13px;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+    .tier-detail {
+      font-size: 14px;
+      color: var(--cream-muted);
+      margin-top: 2px;
+    }
+    .tier-badge {
+      font-family: var(--font-display);
+      font-size: 11px;
+      color: var(--gold);
+      border: 1px solid var(--border-gold);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .acoustics-telemetry-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .telemetry-graph-wrap {
+      height: 200px;
+      background: #110307;
+      border: 1px solid var(--border-dim);
+      border-radius: 4px;
+      position: relative;
+    }
+    #acousticsGraphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .acoustics-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .acoustics-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 16px;
+      border-radius: 4px;
+    }
+    .stat-eyebrow {
+      font-family: var(--font-display);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--cream-dim);
+      text-transform: uppercase;
+    }
+    .stat-main {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--gold-light);
+      margin-top: 4px;
+    }
+
+    /* Feature 2: Masterwork Repertoire Calendar */
+    .filter-bar {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 8px 18px;
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--cream-muted);
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      background: var(--bg-surface);
+    }
+    .repertoire-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 28px;
+    }
+    .opera-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: 6px;
+      padding: 30px;
+      transition: transform 0.3s, border-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .opera-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+    .opera-category {
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .opera-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: #fff;
+      margin: 8px 0 12px;
+      line-height: 1.2;
+    }
+    .opera-meta {
+      font-size: 15px;
+      color: var(--cream-muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .opera-footer {
+      border-top: 1px solid var(--border-dim);
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .opera-date {
+      font-family: var(--font-display);
+      font-size: 11px;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    /* Feature 3: Conductor Score Viewer */
+    .score-viewer-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 6px;
+      padding: 36px;
+    }
+    .score-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .score-canvas-wrap {
+      width: 100%;
+      height: 320px;
+      background: #faf5ee;
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.15);
+    }
+    #scoreCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .score-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Feature 4: VIP Royal Box Subscription Request */
+    .vip-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 6px;
+      padding: 44px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+    .vip-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .vip-full {
+      grid-column: span 2;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      color: var(--velvet-cream);
+      padding: 13px 18px;
+      font-family: var(--font-body);
+      font-size: 18px;
+      border-radius: 3px;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px var(--gold-dim);
+    }
+    .vip-summary-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: 4px;
+      padding: 28px;
+      margin-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .membership-val {
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--gold-light);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--bg-darker);
+      border-top: 1px solid var(--border-gold);
+      padding: 70px 0 36px;
+      font-size: 15px;
+      color: var(--cream-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      color: var(--cream-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--gold-light);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border-dim);
+      padding-top: 26px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--cream-dim);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 2, 6, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      max-width: 560px;
+      width: 100%;
+      padding: 36px;
+      position: relative;
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--cream-muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .acoustics-box, .vip-form-grid {
+        grid-template-columns: 1fr;
+      }
+      .vip-full { grid-column: span 1; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Banner -->
+  <div class="gilded-announcement">
+    <div class="container announcement-inner">
+      <div>SEASON 2026/2027 // THE BICENTENNIAL JUBILEE REPERTOIRE</div>
+      <div>MAESTRO GIOVANNI VON HELDEN DIRECTING</div>
+      <div>ROYAL BOX PRIVATE CONCIERGE: ACTIVE</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <div class="brand-crest">I</div>
+        <div class="brand-text">
+          <h1>Imperial</h1>
+          <span>Grand Philharmonic & Opera House</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#acoustics">Acoustics</a></li>
+        <li><a href="#repertoire">Repertoire</a></li>
+        <li><a href="#score">Score Viewer</a></li>
+        <li><a href="#patrons">Royal Box VIP</a></li>
+      </ul>
+      <div>
+        <a href="#repertoire" class="btn btn-gold">Reserve Salon</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">Est. 1824 // Architectural Acoustic Wonder</div>
+        <h2 class="hero-title">
+          Where Sound Becomes <span class="gilded">Sovereignty</span> & Grandeur
+        </h2>
+        <p class="hero-desc">
+          Two centuries of sublime orchestral resonance, hand-carved linden wood acoustics, and gilded horseshoe tiers hosting the world's most illustrious conductors and dramatic sopranos.
+        </p>
+        <div class="hero-cta">
+          <a href="#acoustics" class="btn btn-gold">Test Hall Acoustics</a>
+          <a href="#score" class="btn btn-outline">Examine Score</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-col">
+            <div class="stat-number">2.14<span>s</span></div>
+            <div class="stat-label">Optimal RT60 Reverberation</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">2,480</div>
+            <div class="stat-label">Velvet Tier Seats</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">120</div>
+            <div class="stat-label">Musicians in Full Tutti</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Concert Hall Acoustics Card -->
+      <div class="acoustics-preview-card">
+        <div class="hall-preview-header">
+          <div class="hall-title">Main Auditorium // Golden Horseshoe</div>
+          <span style="font-family: var(--font-display); font-size: 10px; color: var(--gold); border: 1px solid var(--border-gold); padding: 3px 8px;">LIVE HARMONICS</span>
+        </div>
+        <div class="hall-canvas-wrap">
+          <canvas id="heroWaveCanvas"></canvas>
+        </div>
+        <div class="hall-meta-grid">
+          <div class="meta-pill">
+            <div class="meta-label">Acoustic Clarity (C80)</div>
+            <div class="meta-val">+2.8 dB</div>
+          </div>
+          <div class="meta-pill">
+            <div class="meta-label">Bass Ratio Warmth</div>
+            <div class="meta-val">1.22 BR</div>
+          </div>
+          <div class="meta-pill">
+            <div class="meta-label">Direct-to-Reverberant</div>
+            <div class="meta-val">38 ms Gap</div>
+          </div>
+          <div class="meta-pill">
+            <div class="meta-label">Background Noise Floor</div>
+            <div class="meta-val">&lt; NR-14</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Tiered Hall Acoustics Simulator -->
+  <section class="section-wrap" id="acoustics">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Acoustic Engineering</span>
+        <h3 class="section-title">Tiered Auditorium Acoustic Spatial Simulator</h3>
+        <p class="section-subtitle">
+          Select any tier of the historic gilded horseshoe to calculate reverberation time, clarity index, and orchestral frequency diffusion.
+        </p>
+      </div>
+
+      <div class="acoustics-box">
+        <div class="hall-seating-plan">
+          <div class="tier-button active" onclick="selectTier('parterre', 2.12, 3.4, 98, 1.20, this)">
+            <div>
+              <div class="tier-name">Parterre Orchestra Stalls</div>
+              <div class="tier-detail">Direct sightline to maestro podium, intimate string intimacy.</div>
+            </div>
+            <span class="tier-badge">TIER A</span>
+          </div>
+
+          <div class="tier-button" onclick="selectTier('royal', 2.24, 2.8, 92, 1.24, this)">
+            <div>
+              <div class="tier-name">The Sovereign Royal Box</div>
+              <div class="tier-detail">Center acoustic balance, velvet drapes, private ante-salon.</div>
+            </div>
+            <span class="tier-badge">ROYAL VIP</span>
+          </div>
+
+          <div class="tier-button" onclick="selectTier('grand', 2.18, 3.1, 94, 1.18, this)">
+            <div>
+              <div class="tier-name">Grand First Balcony</div>
+              <div class="tier-detail">Superb orchestral blend, optimal vocal projection from proscenium.</div>
+            </div>
+            <span class="tier-badge">TIER B</span>
+          </div>
+
+          <div class="tier-button" onclick="selectTier('gallery', 2.05, 1.9, 88, 1.12, this)">
+            <div>
+              <div class="tier-name">Upper Amphitheatre Gallery</div>
+              <div class="tier-detail">Elevated acoustic halo, expansive choral reverberance.</div>
+            </div>
+            <span class="tier-badge">GALLERY</span>
+          </div>
+        </div>
+
+        <div class="acoustics-telemetry-panel">
+          <div class="telemetry-graph-wrap">
+            <canvas id="acousticsGraphCanvas"></canvas>
+          </div>
+
+          <div class="acoustics-stat-grid">
+            <div class="acoustics-stat-card">
+              <div class="stat-eyebrow">RT60 Reverberation</div>
+              <div class="stat-main" id="rt60Val">2.12 <span style="font-size: 14px; color: var(--cream-muted);">sec</span></div>
+            </div>
+            <div class="acoustics-stat-card">
+              <div class="stat-eyebrow">Musical Clarity C80</div>
+              <div class="stat-main" id="c80Val">+3.4 <span style="font-size: 14px; color: var(--cream-muted);">dB</span></div>
+            </div>
+            <div class="acoustics-stat-card">
+              <div class="stat-eyebrow">Tutti Peak Sound Pressure</div>
+              <div class="stat-main" id="splVal">98 <span style="font-size: 14px; color: var(--cream-muted);">dBA</span></div>
+            </div>
+            <div class="acoustics-stat-card">
+              <div class="stat-eyebrow">Bass Balance Ratio</div>
+              <div class="stat-main" id="brVal">1.20 <span style="font-size: 14px; color: var(--cream-muted);">BR</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Masterwork Repertoire Calendar -->
+  <section class="section-wrap" id="repertoire">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">2026/2027 Season</span>
+        <h3 class="section-title">Masterwork Repertoire & Subscriptions</h3>
+        <p class="section-subtitle">
+          Curated masterworks performed by the Imperial Philharmonic and world guest soloists.
+        </p>
+      </div>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterRepertoire('all', this)">All Masterworks</button>
+        <button class="filter-btn" onclick="filterRepertoire('opera', this)">Grand Opera</button>
+        <button class="filter-btn" onclick="filterRepertoire('symphony', this)">Symphonic Cycles</button>
+        <button class="filter-btn" onclick="filterRepertoire('choral', this)">Sacred Choral</button>
+      </div>
+
+      <div class="repertoire-grid">
+        <div class="opera-card" data-cat="opera">
+          <div>
+            <span class="opera-category">Grand Opera in Three Acts</span>
+            <h4 class="opera-title">Tristan und Isolde</h4>
+            <p class="opera-meta">
+              Richard Wagner. Featuring legendary dramatic soprano Elena Kostova and tenor Julian Vance. Uncut score with full Wagnerian brass.
+            </p>
+          </div>
+          <div class="opera-footer">
+            <span class="opera-date">NOV 14 — DEC 02, 2026</span>
+            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="openReservationModal('Tristan und Isolde')">Reserve Seats</button>
+          </div>
+        </div>
+
+        <div class="opera-card" data-cat="symphony">
+          <div>
+            <span class="opera-category">Symphonic Masterwork</span>
+            <h4 class="opera-title">Mahler: Symphony No. 2</h4>
+            <p class="opera-meta">
+              "Resurrection". 120-piece expanded orchestra with offstage brass choirs and 200-voice imperial festival chorus.
+            </p>
+          </div>
+          <div class="opera-footer">
+            <span class="opera-date">DEC 18 — DEC 23, 2026</span>
+            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="openReservationModal('Mahler: Symphony No. 2')">Reserve Seats</button>
+          </div>
+        </div>
+
+        <div class="opera-card" data-cat="opera">
+          <div>
+            <span class="opera-category">Dramma Lirico</span>
+            <h4 class="opera-title">Verdi: Otello</h4>
+            <p class="opera-meta">
+              Giuseppe Verdi's Shakespearean tragedy of jealousy and triumph. Directed by Sir Alistair Croft with period Venice staging.
+            </p>
+          </div>
+          <div class="opera-footer">
+            <span class="opera-date">JAN 10 — JAN 28, 2027</span>
+            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="openReservationModal('Verdi: Otello')">Reserve Seats</button>
+          </div>
+        </div>
+
+        <div class="opera-card" data-cat="symphony">
+          <div>
+            <span class="opera-category">Piano Concerto</span>
+            <h4 class="opera-title">Rachmaninoff: Concerto No. 2</h4>
+            <p class="opera-meta">
+              Sergei Rachmaninoff's lush romantic masterpiece in C minor. Guest piano virtuoso Clara Zhang with the Imperial Strings.
+            </p>
+          </div>
+          <div class="opera-footer">
+            <span class="opera-date">FEB 05 — FEB 19, 2027</span>
+            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="openReservationModal('Rachmaninoff: Concerto No. 2')">Reserve Seats</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Conductor Score Viewer -->
+  <section class="section-wrap" id="score">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Maestro Desk</span>
+        <h3 class="section-title">Interactive Full Orchestral Score Viewer</h3>
+        <p class="section-subtitle">
+          Observe live tempo playhead progression across woodwinds, brass, percussion, and string stems.
+        </p>
+      </div>
+
+      <div class="score-viewer-box">
+        <div class="score-header">
+          <div>
+            <div style="font-family: var(--font-display); font-size: 14px; color: var(--gold-light);">
+              BEETHOVEN: SYMPHONY NO. 9 IN D MINOR, OP. 125 — IV. PRESTO
+            </div>
+            <div style="font-size: 15px; color: var(--cream-muted); font-style: italic; margin-top: 4px;">
+              Movement IV: Ode to Joy // Bar 116 — 144
+            </div>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 11px; color: var(--gold); border: 1px solid var(--border-gold); padding: 6px 12px;">
+            TEMPO: ALLEGRO ASSAI // 132 BPM
+          </div>
+        </div>
+
+        <div class="score-canvas-wrap">
+          <canvas id="scoreCanvas"></canvas>
+        </div>
+
+        <div class="score-controls">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <button class="btn btn-gold" id="btnScorePlay" style="padding: 8px 18px;">Pause Playhead</button>
+            <button class="btn btn-outline" id="btnScoreRewind" style="padding: 8px 18px;">Rewind to Bar 1</button>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 12px; color: var(--cream-muted);">
+            ACTIVE BARS: <span id="barDisplay" style="color: var(--gold-light);">128 / 240</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: VIP Royal Box Subscription Request -->
+  <section class="section-wrap" id="patrons">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Patron Society</span>
+        <h3 class="section-title">The Sovereign Royal Box Subscription</h3>
+        <p class="section-subtitle">
+          Unrivaled salon hospitality, private imperial vestibule access, and bespoke vintage champagne pairings for benefactors of the opera.
+        </p>
+      </div>
+
+      <div class="vip-box">
+        <form id="vipForm" onsubmit="event.preventDefault(); openVipModal();">
+          <div class="vip-form-grid">
+            <div class="form-group">
+              <label class="form-label">Patron Full Name / Title</label>
+              <input type="text" class="form-input" placeholder="Baroness Eleanor von Habsburg" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Private Correspondence Email</label>
+              <input type="email" class="form-input" placeholder="patron@dynasty.eu" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Patronage Tier Membership</label>
+              <select id="vipTierSelect" class="form-select">
+                <option value="royal" data-price="45000">The Sovereign Royal Box (Annual 12-Opera Seat)</option>
+                <option value="founders" data-price="28000">Founders Grand Circle (8 Masterworks)</option>
+                <option value="maestro" data-price="16500">Maestro Society Tier (6 Premiere Evenings)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Champagne & Salon Concierge Pairing</label>
+              <select class="form-select">
+                <option>Dom Pérignon Vintage Reserve & Caviar Canapés</option>
+                <option>Krug Clos d'Ambonnay & Truffled Foie Gras</option>
+                <option>Taittinger Comtes de Champagne Rosé</option>
+              </select>
+            </div>
+
+            <div class="form-group vip-full">
+              <label class="form-label">Curated Society Privileges</label>
+              <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 6px; font-size: 16px;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked> Private Proscenium Carriage Entrance
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked> Maestro Greenroom Reception Access
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px;">
+                  <input type="checkbox" checked> Historical Archival Leather Score Gift
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="vip-summary-panel">
+            <div>
+              <div style="font-family: var(--font-display); font-size: 10px; color: var(--cream-dim); letter-spacing: 2px;">
+                ANNUAL PATRON CONTRIBUTION
+              </div>
+              <div class="membership-val" id="vipPriceDisplay">€45,000 <span style="font-size: 15px; color: var(--cream-muted);">EUR</span></div>
+            </div>
+            <button type="submit" class="btn btn-gold">Petition for Sovereign Patronage</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reservation Modal -->
+  <div class="modal-backdrop" id="reservationModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeReservationModal()">&times;</button>
+      <div style="font-family: var(--font-display); font-size: 10px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px;">
+        IMPERIAL PHILHARMONIC // CONCIERGE DOCKET
+      </div>
+      <h3 style="font-family: var(--font-serif); font-size: 26px; color: #fff; margin-bottom: 14px;" id="modalShowTitle">
+        Seat Allocation Requested
+      </h3>
+      <p style="color: var(--cream-muted); font-size: 16px; margin-bottom: 22px; line-height: 1.6;">
+        Your requested seats in the Imperial Golden Horseshoe have been placed on concierge hold. An inscribed gilded ticket dossier will be prepared at the royal will-call parlor.
+      </p>
+      <div style="background: var(--bg-card); padding: 18px; border-radius: 4px; border: 1px solid var(--border-gold); margin-bottom: 24px; font-family: var(--font-display); font-size: 11px; letter-spacing: 1.5px;">
+        <div>AUDITORIUM: <span style="color: #fff;">Imperial Hall Tier A</span></div>
+        <div>COCKTAIL RECEPTION: <span style="color: var(--gold-light);">18:30 in Mirror Vestibule</span></div>
+        <div>DRESS ATTIRE: <span style="color: #fff;">Black Tie / Formal Evening</span></div>
+      </div>
+      <button class="btn btn-gold" style="width: 100%; justify-content: center;" onclick="closeReservationModal()">Confirm Hold & Complete</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+          <div class="brand-crest" style="width: 36px; height: 36px; font-size: 16px;">I</div>
+          <span style="font-family: var(--font-display); font-size: 17px; letter-spacing: 3px; color: var(--gold-light);">IMPERIAL OPERA</span>
+        </div>
+        <p style="font-size: 16px; line-height: 1.7; max-width: 400px; font-style: italic;">
+          The sanctuary of classical mastery, orchestral sovereignty, and vocal virtuosity. Founded 1824 under royal charter.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Season Repertoire</h5>
+        <ul class="footer-links">
+          <li><a href="#repertoire">Grand Opera Works</a></li>
+          <li><a href="#repertoire">Symphonic Masterpieces</a></li>
+          <li><a href="#score">Score Telemetry</a></li>
+          <li><a href="#acoustics">Hall Spatial Acoustics</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Patronage</h5>
+        <ul class="footer-links">
+          <li><a href="#patrons">The Royal Box Society</a></li>
+          <li><a href="#patrons">Young Benefactors Guild</a></li>
+          <li><a href="#">Philharmonic Endowment</a></li>
+          <li><a href="#">Historical Instruments Care</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Grand Vestibule</h5>
+        <ul class="footer-links">
+          <li><span>Kaisergasse 14, Imperial Ring</span></li>
+          <li><span>Concierge: +43 1 555-OPERA</span></li>
+          <li><span>patrons@imperialphilharmonic.org</span></li>
+          <li><span>Dress: Black Tie Mandatory</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 1824–2026 Imperial Grand Philharmonic Foundation. All repertoire rights reserved.</div>
+      <div>CLASSIFICATION: IMPERIAL PATRON PRIVILEGE</div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Canvas 1: Hero Harmonics Wave Visualizer ---
+    const heroWaveCanvas = document.getElementById('heroWaveCanvas');
+    const heroWaveCtx = heroWaveCanvas.getContext('2d');
+    let hwW, hwH;
+
+    function resizeHeroWave() {
+      hwW = heroWaveCanvas.width = heroWaveCanvas.parentElement.clientWidth;
+      hwH = heroWaveCanvas.height = heroWaveCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeHeroWave);
+    resizeHeroWave();
+
+    let wavePhase = 0;
+    function drawHeroWave() {
+      heroWaveCtx.fillStyle = '#110307';
+      heroWaveCtx.fillRect(0, 0, hwW, hwH);
+
+      wavePhase += 0.04;
+      const cy = hwH / 2;
+
+      // Draw golden acoustic harmonic sine waves
+      const waves = [
+        { freq: 0.015, amp: 40, color: 'rgba(212, 175, 55, 0.75)', speed: 1.0 },
+        { freq: 0.03, amp: 25, color: 'rgba(245, 224, 139, 0.5)', speed: 1.4 },
+        { freq: 0.008, amp: 55, color: 'rgba(139, 0, 33, 0.45)', speed: 0.7 }
+      ];
+
+      for (let w of waves) {
+        heroWaveCtx.strokeStyle = w.color;
+        heroWaveCtx.lineWidth = 2;
+        heroWaveCtx.beginPath();
+        for (let x = 0; x < hwW; x += 2) {
+          const y = cy + Math.sin(x * w.freq + wavePhase * w.speed) * w.amp * Math.sin((x / hwW) * Math.PI);
+          if (x === 0) heroWaveCtx.moveTo(x, y);
+          else heroWaveCtx.lineTo(x, y);
+        }
+        heroWaveCtx.stroke();
+      }
+
+      requestAnimationFrame(drawHeroWave);
+    }
+    drawHeroWave();
+
+
+    // --- Feature 1: Hall Acoustics Simulator Logic & Canvas ---
+    const graphCanvas = document.getElementById('acousticsGraphCanvas');
+    const graphCtx = graphCanvas.getContext('2d');
+    let gW, gH;
+
+    function resizeGraph() {
+      gW = graphCanvas.width = graphCanvas.parentElement.clientWidth;
+      gH = graphCanvas.height = graphCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeGraph);
+    resizeGraph();
+
+    let currentRT60 = 2.12;
+    let decayAnim = 0;
+
+    function drawDecayGraph() {
+      graphCtx.fillStyle = '#110307';
+      graphCtx.fillRect(0, 0, gW, gH);
+
+      decayAnim += 0.03;
+
+      // Frequency labels: 125Hz, 500Hz, 1kHz, 2kHz, 4kHz
+      const freqs = ['125Hz', '250Hz', '500Hz', '1kHz', '2kHz', '4kHz'];
+      const barWidth = gW / (freqs.length * 2);
+
+      for (let i = 0; i < freqs.length; i++) {
+        const x = (i * 2 + 0.5) * barWidth;
+        // height tied to currentRT60
+        const barHeight = (currentRT60 / 2.5) * (gH * 0.6) * (0.8 + 0.2 * Math.sin(decayAnim + i));
+        const y = gH - 30 - barHeight;
+
+        // Gradient gold fill
+        const barGrad = graphCtx.createLinearGradient(0, y, 0, gH - 30);
+        barGrad.addColorStop(0, '#f5e08b');
+        barGrad.addColorStop(1, '#8b0021');
+        graphCtx.fillStyle = barGrad;
+        graphCtx.fillRect(x, y, barWidth, barHeight);
+
+        // Labels
+        graphCtx.fillStyle = '#faf5ee';
+        graphCtx.font = '10px "Cinzel"';
+        graphCtx.fillText(freqs[i], x - 4, gH - 12);
+      }
+
+      requestAnimationFrame(drawDecayGraph);
+    }
+    drawDecayGraph();
+
+    window.selectTier = function(tier, rt60, c80, spl, br, btnEl) {
+      document.querySelectorAll('.tier-button').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+
+      currentRT60 = rt60;
+      document.getElementById('rt60Val').innerHTML = `${rt60} <span style="font-size: 14px; color: var(--cream-muted);">sec</span>`;
+      document.getElementById('c80Val').innerHTML = `+${c80} <span style="font-size: 14px; color: var(--cream-muted);">dB</span>`;
+      document.getElementById('splVal').innerHTML = `${spl} <span style="font-size: 14px; color: var(--cream-muted);">dBA</span>`;
+      document.getElementById('brVal').innerHTML = `${br} <span style="font-size: 14px; color: var(--cream-muted);">BR</span>`;
+    };
+
+
+    // --- Feature 2: Masterwork Repertoire Filter ---
+    window.filterRepertoire = function(cat, btnEl) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+
+      const cards = document.querySelectorAll('.opera-card');
+      cards.forEach(c => {
+        if (cat === 'all' || c.getAttribute('data-cat') === cat) {
+          c.style.display = 'flex';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    };
+
+
+    // --- Feature 3: Conductor Score Viewer Canvas ---
+    const scoreCanvas = document.getElementById('scoreCanvas');
+    const scoreCtx = scoreCanvas.getContext('2d');
+    let scW, scH;
+
+    function resizeScore() {
+      scW = scoreCanvas.width = scoreCanvas.parentElement.clientWidth;
+      scH = scoreCanvas.height = scoreCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeScore);
+    resizeScore();
+
+    let playheadX = 50;
+    let isScorePlaying = true;
+    let activeBar = 128;
+
+    document.getElementById('btnScorePlay').addEventListener('click', function() {
+      isScorePlaying = !isScorePlaying;
+      this.innerText = isScorePlaying ? 'Pause Playhead' : 'Resume Playhead';
+    });
+    document.getElementById('btnScoreRewind').addEventListener('click', function() {
+      playheadX = 50;
+      activeBar = 116;
+      document.getElementById('barDisplay').innerText = `${activeBar} / 240`;
+    });
+
+    function drawScore() {
+      scoreCtx.fillStyle = '#faf5ee';
+      scoreCtx.fillRect(0, 0, scW, scH);
+
+      // Staves: 4 instrument families (Woodwinds, Brass, Percussion, Strings)
+      const staves = 4;
+      const staffSpacing = scH / 5;
+
+      scoreCtx.strokeStyle = '#240710';
+      scoreCtx.lineWidth = 1;
+
+      for (let s = 1; s <= staves; s++) {
+        const topY = s * staffSpacing - 20;
+        // 5 lines per staff
+        for (let l = 0; l < 5; l++) {
+          scoreCtx.beginPath();
+          scoreCtx.moveTo(40, topY + l * 8);
+          scoreCtx.lineTo(scW - 30, topY + l * 8);
+          scoreCtx.stroke();
+        }
+
+        // Draw note heads
+        scoreCtx.fillStyle = '#18040a';
+        for (let n = 80; n < scW - 60; n += 50) {
+          scoreCtx.beginPath();
+          scoreCtx.ellipse(n, topY + 16, 5, 4, -0.2, 0, Math.PI * 2);
+          scoreCtx.fill();
+
+          // stem
+          scoreCtx.beginPath();
+          scoreCtx.moveTo(n + 5, topY + 16);
+          scoreCtx.lineTo(n + 5, topY - 10);
+          scoreCtx.stroke();
+        }
+      }
+
+      // Bar lines
+      for (let bx = 120; bx < scW - 40; bx += 180) {
+        scoreCtx.strokeStyle = 'rgba(36, 7, 16, 0.4)';
+        scoreCtx.beginPath();
+        scoreCtx.moveTo(bx, 20);
+        scoreCtx.lineTo(bx, scH - 20);
+        scoreCtx.stroke();
+      }
+
+      // Playhead progression
+      if (isScorePlaying) {
+        playheadX += 1.2;
+        if (playheadX > scW - 40) {
+          playheadX = 50;
+          activeBar = (activeBar + 8 > 240) ? 116 : activeBar + 8;
+          document.getElementById('barDisplay').innerText = `${activeBar} / 240`;
+        }
+      }
+
+      // Glowing Golden Playhead Bar
+      scoreCtx.strokeStyle = '#d4af37';
+      scoreCtx.lineWidth = 3;
+      scoreCtx.shadowColor = '#d4af37';
+      scoreCtx.shadowBlur = 10;
+      scoreCtx.beginPath();
+      scoreCtx.moveTo(playheadX, 10);
+      scoreCtx.lineTo(playheadX, scH - 10);
+      scoreCtx.stroke();
+      scoreCtx.shadowBlur = 0;
+
+      requestAnimationFrame(drawScore);
+    }
+    drawScore();
+
+
+    // --- Feature 4: VIP Price Updater & Modals ---
+    const vipSelect = document.getElementById('vipTierSelect');
+    vipSelect.addEventListener('change', function() {
+      const price = parseFloat(this.options[this.selectedIndex].getAttribute('data-price'));
+      document.getElementById('vipPriceDisplay').innerHTML = `€${price.toLocaleString()} <span style="font-size: 15px; color: var(--cream-muted);">EUR</span>`;
+    });
+
+    window.openReservationModal = function(showTitle) {
+      document.getElementById('modalShowTitle').innerText = `${showTitle} — Seat Hold`;
+      document.getElementById('reservationModal').style.display = 'flex';
+    };
+    window.closeReservationModal = function() {
+      document.getElementById('reservationModal').style.display = 'none';
+    };
+
+    window.openVipModal = function() {
+      openReservationModal('Sovereign Royal Box Patronage');
+    };
+  </script>
+</body>
+</html>

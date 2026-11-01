@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHRONO-DRIFT // Neo-Retro Synthwave Outrun Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-crt: #07020d;
+      --bg-darker: #040108;
+      --bg-surface: #130624;
+      --bg-card: #1f0b38;
+      --bg-card-hover: #2e1152;
+      --magenta: #ff007f;
+      --magenta-glow: rgba(255, 0, 127, 0.55);
+      --cyan: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.55);
+      --amber: #ff9900;
+      --amber-glow: rgba(255, 153, 0, 0.5);
+      --border-magenta: rgba(255, 0, 127, 0.4);
+      --border-cyan: rgba(0, 240, 255, 0.35);
+      --text: #ffffff;
+      --text-muted: #bda6db;
+      --text-dim: #6c528f;
+      --font-pixel: 'Press Start 2P', monospace;
+      --font-crt: 'VT323', monospace;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-crt);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 90% 60% at 50% 0%, rgba(255, 0, 127, 0.12), transparent 70%),
+        radial-gradient(circle at 10% 90%, rgba(0, 240, 255, 0.08), transparent 50%),
+        linear-gradient(rgba(255, 0, 127, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+    }
+
+    /* CRT Scanline Filter Overlay */
+    body.crt-active::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+      z-index: 9999;
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Arcade Header Bar */
+    .arcade-top-bar {
+      background: var(--bg-darker);
+      border-bottom: 2px solid var(--magenta);
+      padding: 10px 0;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      color: var(--cyan);
+      box-shadow: 0 0 15px var(--magenta-glow);
+    }
+    .top-bar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .coin-display {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--amber);
+    }
+    .blink {
+      animation: blinkText 1s infinite steps(1);
+    }
+    @keyframes blinkText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Main Navigation */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(7, 2, 13, 0.94);
+      border-bottom: 1px solid var(--border-magenta);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 86px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-logo {
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      background: linear-gradient(135deg, var(--magenta), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px var(--magenta-glow);
+    }
+    .brand-sub {
+      font-family: var(--font-crt);
+      font-size: 18px;
+      color: var(--amber);
+      letter-spacing: 2px;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      letter-spacing: 1px;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--cyan);
+      text-shadow: 0 0 12px var(--cyan-glow);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      text-decoration: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-transform: uppercase;
+    }
+    .btn-magenta {
+      background: linear-gradient(135deg, var(--magenta), #c70062);
+      color: #fff;
+      box-shadow: 0 0 20px var(--magenta-glow);
+    }
+    .btn-magenta:hover {
+      background: linear-gradient(135deg, #ff3399, #e60073);
+      box-shadow: 0 0 30px var(--magenta-glow);
+      transform: translateY(-2px);
+    }
+    .btn-cyan {
+      background: transparent;
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
+    }
+    .btn-cyan:hover {
+      background: rgba(0, 240, 255, 0.15);
+      box-shadow: 0 0 25px var(--cyan-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 80px 0 70px;
+      border-bottom: 2px solid var(--border-magenta);
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: rgba(255, 0, 127, 0.15);
+      border: 1px solid var(--border-magenta);
+      border-radius: 2px;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      color: var(--magenta);
+      margin: 0 auto 20px;
+      box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+    }
+    .hero-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 1.3;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #ffffff 20%, var(--cyan) 60%, var(--magenta) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px var(--magenta-glow);
+    }
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 30px;
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Feature 1: Retro Wireframe Road Racing Canvas */
+    .arcade-cabinet-frame {
+      background: var(--bg-surface);
+      border: 3px solid var(--magenta);
+      border-radius: 10px;
+      padding: 24px;
+      margin-top: 40px;
+      position: relative;
+      box-shadow: 0 0 50px rgba(255, 0, 127, 0.3), inset 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+    .cabinet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      color: var(--amber);
+    }
+    .highway-canvas-wrap {
+      width: 100%;
+      height: 480px;
+      background: #020005;
+      border: 2px solid var(--cyan);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.25);
+    }
+    #highwayCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: none;
+    }
+    .dashboard-telemetry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+      color: #fff;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .hud-stat-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-cyan);
+      padding: 8px 16px;
+      border-radius: 3px;
+    }
+    .hud-stat-pill span {
+      color: var(--cyan);
+    }
+
+    /* Section Global Headers */
+    .section-wrap {
+      padding: 90px 0;
+      border-bottom: 2px solid var(--border-magenta);
+    }
+    .section-head {
+      margin-bottom: 48px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(20px, 2.5vw, 32px);
+      line-height: 1.4;
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 680px;
+      margin-top: 10px;
+    }
+
+    /* Feature 2: Playable Mini Synthesizer */
+    .synth-box {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-cyan);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+    }
+    .synth-controls-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .waveform-selector {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-wave {
+      background: var(--bg-card);
+      border: 1px solid var(--border-cyan);
+      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      padding: 8px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-wave.active, .btn-wave:hover {
+      background: var(--cyan);
+      color: #07020d;
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+    .piano-keyboard {
+      display: flex;
+      justify-content: center;
+      background: #090312;
+      border: 3px solid #1f0b38;
+      border-radius: 6px;
+      padding: 24px;
+      position: relative;
+      user-select: none;
+    }
+    .key-white {
+      width: 58px;
+      height: 200px;
+      background: #fdfdfd;
+      border: 1px solid #111;
+      border-radius: 0 0 5px 5px;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 12px;
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      color: #333;
+      box-shadow: inset 0 -4px 0 #bbb;
+    }
+    .key-white:active, .key-white.active {
+      background: var(--cyan);
+      box-shadow: 0 0 20px var(--cyan-glow);
+      color: #07020d;
+    }
+    .key-black {
+      width: 36px;
+      height: 125px;
+      background: #11031d;
+      border: 1px solid #000;
+      border-radius: 0 0 4px 4px;
+      position: absolute;
+      z-index: 2;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+      font-family: var(--font-pixel);
+      font-size: 8px;
+      color: var(--magenta);
+      box-shadow: inset 0 -3px 0 #333;
+    }
+    .key-black:active, .key-black.active {
+      background: var(--magenta);
+      box-shadow: 0 0 20px var(--magenta-glow);
+      color: #fff;
+    }
+    .synth-demo-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-cyan);
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      color: var(--amber);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* Feature 3: Global Arcade Leaderboard */
+    .leaderboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 36px;
+    }
+    .arcade-table-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border-magenta);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: 0 0 35px rgba(255, 0, 127, 0.2);
+    }
+    .retro-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-pixel);
+      font-size: 11px;
+    }
+    .retro-table th {
+      color: var(--amber);
+      padding: 12px;
+      border-bottom: 2px solid var(--magenta);
+      text-align: left;
+    }
+    .retro-table td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--bg-card);
+      color: #fff;
+    }
+    .retro-table tr:first-child td {
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .insert-coin-box {
+      background: var(--bg-surface);
+      border: 2px solid var(--amber);
+      border-radius: 8px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(255, 153, 0, 0.2);
+    }
+    .coin-slot {
+      width: 80px;
+      height: 12px;
+      background: #000;
+      border: 2px solid var(--amber);
+      border-radius: 6px;
+      margin: 20px 0;
+      box-shadow: inset 0 0 8px rgba(255, 153, 0, 0.5);
+    }
+    .credit-indicator {
+      font-family: var(--font-pixel);
+      font-size: 18px;
+      color: var(--magenta);
+      margin: 16px 0;
+      text-shadow: 0 0 15px var(--magenta-glow);
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--bg-darker);
+      border-top: 2px solid var(--magenta);
+      padding: 60px 0 30px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-pixel);
+      font-size: 10px;
+      color: var(--cyan);
+      margin-bottom: 18px;
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--magenta);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--bg-card);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-pixel);
+      font-size: 9px;
+      color: var(--text-dim);
+    }
+
+    /* Score Submission Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 1, 8, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 3px solid var(--magenta);
+      border-radius: 8px;
+      max-width: 500px;
+      width: 100%;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 60px var(--magenta-glow);
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-pixel);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .initials-input {
+      background: #020005;
+      border: 2px solid var(--cyan);
+      color: var(--amber);
+      font-family: var(--font-pixel);
+      font-size: 32px;
+      width: 180px;
+      text-align: center;
+      padding: 10px;
+      letter-spacing: 12px;
+      margin: 20px auto;
+      display: block;
+      outline: none;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+
+    @media (max-width: 1024px) {
+      .leaderboard-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .piano-keyboard { overflow-x: auto; justify-content: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="crt-active">
+
+  <!-- Top Arcade Header Bar -->
+  <div class="arcade-top-bar">
+    <div class="container top-bar-inner">
+      <div>1UP: 042,900</div>
+      <div class="blink">HIGH SCORE: 999,990</div>
+      <div class="coin-display">
+        <span>CREDIT:</span>
+        <span id="creditCount">01</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#" class="brand">
+        <div>
+          <span class="brand-logo">CHRONO-DRIFT</span>
+          <span class="brand-sub">// OUTRUN SYNTHWAVE</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#highway">Wireframe Road</a></li>
+        <li><a href="#synth">Retro Synth</a></li>
+        <li><a href="#leaderboard">Leaderboard</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn btn-cyan" id="btnCrtToggle">CRT: ON</button>
+        <button class="btn btn-magenta" onclick="insertCoin()">Insert Coin</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-badge">16-BIT VECTOR GRAPHICS // STEREO YM2612 FM SOUND</div>
+        <h2 class="hero-title">
+          Drift Across The Neon Horizon
+        </h2>
+        <p class="hero-desc">
+          High-octane outrun arcade simulation powered by endless pseudo-3D perspective wireframe shaders and playable analog FM synthesizer tracks.
+        </p>
+        <div class="hero-cta">
+          <button class="btn btn-magenta" onclick="document.getElementById('highway').scrollIntoView({behavior: 'smooth'})">
+            Start Turbo Engine
+          </button>
+          <button class="btn btn-cyan" onclick="document.getElementById('synth').scrollIntoView({behavior: 'smooth'})">
+            Play Synth Chip
+          </button>
+        </div>
+      </div>
+
+      <!-- Feature 1: Wireframe Road Canvas Cabinet -->
+      <div class="arcade-cabinet-frame" id="highway">
+        <div class="cabinet-header">
+          <span>COURSE: SUNSET HIGHWAY 101</span>
+          <span id="timeRemaining">TIME: 68.4s</span>
+        </div>
+
+        <div class="highway-canvas-wrap">
+          <canvas id="highwayCanvas"></canvas>
+        </div>
+
+        <div class="dashboard-telemetry">
+          <div class="hud-stat-pill">SPEED: <span id="speedDisplay">184 MPH</span></div>
+          <div class="hud-stat-pill">SCORE: <span id="scoreDisplay">42,900 PTS</span></div>
+          <div class="hud-stat-pill">STAGE: <span style="color: var(--amber);">PALM COAST</span></div>
+          <div class="hud-stat-pill">STEERING: <span style="color: var(--magenta);">MOUSE / ARROWS</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Playable Mini Synthesizer -->
+  <section class="section-wrap" id="synth">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Audio Processing Unit</span>
+        <h3 class="section-title">Playable 8-Bit Web Audio Synthesizer</h3>
+        <p class="section-subtitle">
+          Interactive FM synthesizer keyboard. Play via mouse or computer keyboard keys (A, S, D, F, G, H, J, K) with selectable vintage wave shapes.
+        </p>
+      </div>
+
+      <div class="synth-box">
+        <div class="synth-controls-top">
+          <div class="waveform-selector">
+            <button class="btn-wave active" onclick="setWave('sawtooth', this)">Sawtooth (Lead)</button>
+            <button class="btn-wave" onclick="setWave('square', this)">Square (8-Bit)</button>
+            <button class="btn-wave" onclick="setWave('triangle', this)">Triangle (Bass)</button>
+            <button class="btn-wave" onclick="setWave('sine', this)">Sine (Pure)</button>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn-wave" onclick="playSynthDemo('outrun')">▶ Riff: Outrun Horizon</button>
+            <button class="btn-wave" onclick="playSynthDemo('arpeggio')">▶ Riff: Cyber Drift</button>
+          </div>
+        </div>
+
+        <!-- Piano Keyboard -->
+        <div class="piano-keyboard" id="pianoKeys">
+          <div class="key-white" data-note="261.63" data-key="A">C4</div>
+          <div class="key-black" style="left: 65px;" data-note="277.18" data-key="W">C#</div>
+          <div class="key-white" data-note="293.66" data-key="S">D4</div>
+          <div class="key-black" style="left: 125px;" data-note="311.13" data-key="E">D#</div>
+          <div class="key-white" data-note="329.63" data-key="D">E4</div>
+          <div class="key-white" data-note="349.23" data-key="F">F4</div>
+          <div class="key-black" style="left: 245px;" data-note="369.99" data-key="T">F#</div>
+          <div class="key-white" data-note="392.00" data-key="G">G4</div>
+          <div class="key-black" style="left: 305px;" data-note="415.30" data-key="Y">G#</div>
+          <div class="key-white" data-note="440.00" data-key="H">A4</div>
+          <div class="key-black" style="left: 365px;" data-note="466.16" data-key="U">A#</div>
+          <div class="key-white" data-note="493.88" data-key="J">B4</div>
+          <div class="key-white" data-note="523.25" data-key="K">C5</div>
+        </div>
+
+        <div class="synth-demo-bar">
+          <div>KEYBOARD BINDINGS: [A] [W] [S] [E] [D] [F] [T] [G] [Y] [H] [U] [J] [K]</div>
+          <div>AUDIO ENGINE: REAL-TIME WEB AUDIO API</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Global Arcade Leaderboard -->
+  <section class="section-wrap" id="leaderboard">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Hall of Fame</span>
+        <h3 class="section-title">Worldwide Arcade High-Score Rankings</h3>
+        <p class="section-subtitle">
+          The fastest drift racers in neo-tokyo history. Insert credit to submit your initials.
+        </p>
+      </div>
+
+      <div class="leaderboard-grid">
+        <div class="arcade-table-card">
+          <table class="retro-table">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>INITIALS</th>
+                <th>SCORE</th>
+                <th>STAGE</th>
+              </tr>
+            </thead>
+            <tbody id="scoreTableBody">
+              <tr>
+                <td>1ST</td>
+                <td>DRI</td>
+                <td>999,990</td>
+                <td>FINAL CHASE</td>
+              </tr>
+              <tr>
+                <td>2ND</td>
+                <td>NEO</td>
+                <td>842,500</td>
+                <td>NEON PEAK</td>
+              </tr>
+              <tr>
+                <td>3RD</td>
+                <td>VNT</td>
+                <td>765,100</td>
+                <td>PALM COAST</td>
+              </tr>
+              <tr>
+                <td>4TH</td>
+                <td>SYN</td>
+                <td>690,400</td>
+                <td>GRID VALLEY</td>
+              </tr>
+              <tr>
+                <td>5TH</td>
+                <td>MAX</td>
+                <td>548,200</td>
+                <td>STAGE 02</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="insert-coin-box">
+          <div>
+            <div style="font-family: var(--font-pixel); font-size: 14px; color: var(--amber);">
+              INSERT 25¢ TOKEN
+            </div>
+            <div class="coin-slot"></div>
+            <div class="credit-indicator" id="coinStatusText">
+              INSERT COIN TO PLAY
+            </div>
+          </div>
+          <button class="btn btn-magenta" onclick="insertCoin()" style="width: 100%; justify-content: center;">
+            Push 25¢ Coin
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- High Score Modal -->
+  <div class="modal-backdrop" id="scoreModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeScoreModal()">&times;</button>
+      <div style="font-family: var(--font-pixel); font-size: 11px; color: var(--amber); margin-bottom: 12px;">
+        GREAT RECORD! YOU MADE THE TOP 5!
+      </div>
+      <h3 style="font-family: var(--font-pixel); font-size: 16px; color: var(--cyan); margin-bottom: 18px;">
+        ENTER YOUR INITIALS
+      </h3>
+      <input type="text" maxlength="3" class="initials-input" id="initialsInput" value="AAA">
+      <button class="btn btn-magenta" style="width: 100%; justify-content: center;" onclick="submitInitials()">
+        Register High Score
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <span style="font-family: var(--font-pixel); font-size: 14px; color: var(--magenta);">CHRONO-DRIFT</span>
+        </div>
+        <p style="font-size: 14px; line-height: 1.6; max-width: 380px;">
+          The purest homage to 1980s outrun aesthetics, FM synthesis, and arcade vector mechanics.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Arcade Cabinets</h5>
+        <ul class="footer-links">
+          <li><a href="#highway">Outrun Vector Highway</a></li>
+          <li><a href="#synth">FM Sound Synthesizer</a></li>
+          <li><a href="#leaderboard">All-Time Leaderboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Sound Chips</h5>
+        <ul class="footer-links">
+          <li><span>Yamaha YM2612 FM</span></li>
+          <li><span>Texas Inst. SN76489</span></li>
+          <li><span>Z80 Sound Co-Processor</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Cabinet Token</h5>
+        <ul class="footer-links">
+          <li><span>25¢ Per 3 Lives</span></li>
+          <li><span>DIP Switch: Normal Diff</span></li>
+          <li><span>crt@chronodrift.arcade</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <div>&copy; 1986–2026 Chrono-Drift Arcade Corp. All pixel and synthwave rights reserved.</div>
+      <div>CLASSIFICATION: RETRO ARCADE HARDWARE EMULATION</div>
+    </div>
+  </footer>
+
+  <script>
+    // --- Feature 1: Retro Wireframe Highway Canvas ---
+    const highwayCanvas = document.getElementById('highwayCanvas');
+    const hCtx = highwayCanvas.getContext('2d');
+    let hwW, hwH;
+
+    function resizeHighway() {
+      hwW = highwayCanvas.width = highwayCanvas.parentElement.clientWidth;
+      hwH = highwayCanvas.height = highwayCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeHighway);
+    resizeHighway();
+
+    let carX = 0;
+    let targetCarX = 0;
+    let roadOffset = 0;
+    let score = 42900;
+
+    // Track mouse on canvas for steering
+    highwayCanvas.addEventListener('mousemove', (e) => {
+      const rect = highwayCanvas.getBoundingClientRect();
+      const mouseRelX = (e.clientX - rect.left) / rect.width;
+      targetCarX = (mouseRelX - 0.5) * 2; // -1 to 1
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') targetCarX = Math.max(-1, targetCarX - 0.2);
+      if (e.key === 'ArrowRight') targetCarX = Math.min(1, targetCarX + 0.2);
+    });
+
+    const traffic = [
+      { z: 600, x: -0.4, color: '#00f0ff' },
+      { z: 1200, x: 0.3, color: '#ff9900' }
+    ];
+
+    function drawHighway() {
+      hCtx.fillStyle = '#07020d';
+      hCtx.fillRect(0, 0, hwW, hwH);
+
+      const horizonY = hwH * 0.45;
+      const cx = hwW / 2;
+
+      // Draw Retro Sunset Sun
+      const sunGrad = hCtx.createLinearGradient(0, horizonY - 140, 0, horizonY);
+      sunGrad.addColorStop(0, '#ff9900');
+      sunGrad.addColorStop(0.5, '#ff007f');
+      sunGrad.addColorStop(1, '#07020d');
+      hCtx.fillStyle = sunGrad;
+      hCtx.beginPath();
+      hCtx.arc(cx, horizonY, 80, Math.PI, 0, false);
+      hCtx.fill();
+
+      // Sun horizontal slice lines
+      hCtx.fillStyle = '#07020d';
+      for (let sl = 10; sl < 80; sl += 12) {
+        hCtx.fillRect(cx - 90, horizonY - sl, 180, 3 + (80 - sl) * 0.05);
+      }
+
+      // Distant neon mountain wireframe
+      hCtx.strokeStyle = 'rgba(255, 0, 127, 0.4)';
+      hCtx.lineWidth = 1.5;
+      hCtx.beginPath();
+      hCtx.moveTo(0, horizonY);
+      hCtx.lineTo(hwW * 0.2, horizonY - 45);
+      hCtx.lineTo(hwW * 0.35, horizonY - 15);
+      hCtx.lineTo(hwW * 0.5, horizonY - 60);
+      hCtx.lineTo(hwW * 0.65, horizonY - 20);
+      hCtx.lineTo(hwW * 0.8, horizonY - 50);
+      hCtx.lineTo(hwW, horizonY);
+      hCtx.stroke();
+
+      // Receding Perspective Highway Grid
+      roadOffset = (roadOffset + 8) % 60;
+      carX += (targetCarX - carX) * 0.1;
+
+      const roadW = hwW * 0.75;
+      const roadTopW = hwW * 0.08;
+
+      // Draw perspective grid floor
+      hCtx.strokeStyle = 'rgba(0, 240, 255, 0.45)';
+      hCtx.lineWidth = 1.5;
+
+      // Transverse lines
+      for (let y = horizonY; y < hwH; y += 4) {
+        const p = (y - horizonY) / (hwH - horizonY);
+        const z = 1 / p;
+        if ((z * 400 + roadOffset) % 60 < 15) {
+          const w = roadTopW + (roadW - roadTopW) * p;
+          const leftX = cx + (carX * -60 * p) - w / 2;
+          hCtx.beginPath();
+          hCtx.moveTo(leftX, y);
+          hCtx.lineTo(leftX + w, y);
+          hCtx.stroke();
+        }
+      }
+
+      // Longitudinal road edges and lanes
+      const lanes = [-0.5, -0.16, 0.16, 0.5];
+      for (let lane of lanes) {
+        hCtx.beginPath();
+        hCtx.moveTo(cx + lane * roadTopW, horizonY);
+        hCtx.lineTo(cx + lane * roadW + (carX * -60), hwH);
+        hCtx.stroke();
+      }
+
+      // Oncoming traffic
+      for (let t of traffic) {
+        t.z -= 6;
+        if (t.z < 20) {
+          t.z = 1400;
+          t.x = (Math.random() - 0.5) * 0.8;
+          score += 250;
+          document.getElementById('scoreDisplay').innerText = `${score.toLocaleString()} PTS`;
+        }
+        const p = 1400 / (1400 + t.z);
+        const ty = horizonY + (hwH - horizonY) * (1 - p);
+        const tw = 40 * p;
+        const tx = cx + (t.x * roadW * (1 - p)) + (carX * -60 * (1 - p));
+
+        hCtx.fillStyle = t.color;
+        hCtx.shadowColor = t.color;
+        hCtx.shadowBlur = 10;
+        hCtx.fillRect(tx - tw / 2, ty - tw * 0.6, tw, tw * 0.6);
+        hCtx.shadowBlur = 0;
+      }
+
+      // Player Car (Drift Supercar)
+      const playerCarX = cx + carX * (hwW * 0.28);
+      const playerCarY = hwH - 50;
+
+      // Taillight trails
+      hCtx.fillStyle = 'rgba(255, 0, 127, 0.3)';
+      hCtx.fillRect(playerCarX - 32, playerCarY + 10, 8, 30);
+      hCtx.fillRect(playerCarX + 24, playerCarY + 10, 8, 30);
+
+      // Car body
+      hCtx.fillStyle = '#ff007f';
+      hCtx.shadowColor = '#ff007f';
+      hCtx.shadowBlur = 20;
+      hCtx.fillRect(playerCarX - 36, playerCarY - 16, 72, 28);
+      hCtx.shadowBlur = 0;
+
+      // Cabin
+      hCtx.fillStyle = '#00f0ff';
+      hCtx.fillRect(playerCarX - 22, playerCarY - 26, 44, 14);
+
+      // Taillights
+      hCtx.fillStyle = '#ffffff';
+      hCtx.fillRect(playerCarX - 32, playerCarY + 2, 14, 6);
+      hCtx.fillRect(playerCarX + 18, playerCarY + 2, 14, 6);
+
+      requestAnimationFrame(drawHighway);
+    }
+    drawHighway();
+
+
+    // --- Feature 2: Playable Web Audio Synthesizer ---
+    let audioCtx = null;
+    let waveType = 'sawtooth';
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    window.setWave = function(type, btnEl) {
+      waveType = type;
+      document.querySelectorAll('.btn-wave').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    };
+
+    function playNote(freq) {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = waveType;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.6);
+    }
+
+    // Attach click listeners to piano keys
+    document.querySelectorAll('.key-white, .key-black').forEach(k => {
+      k.addEventListener('mousedown', () => {
+        const note = parseFloat(k.getAttribute('data-note'));
+        playNote(note);
+      });
+    });
+
+    // Keyboard bindings
+    const keyMap = {
+      'a': 261.63, 'w': 277.18, 's': 293.66, 'e': 311.13, 'd': 329.63,
+      'f': 349.23, 't': 369.99, 'g': 392.00, 'y': 415.30, 'h': 440.00,
+      'u': 466.16, 'j': 493.88, 'k': 523.25
+    };
+
+    window.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (keyMap[k]) {
+        playNote(keyMap[k]);
+        // Visual key active state
+        const keyEl = document.querySelector(`[data-key="${k.toUpperCase()}"]`);
+        if (keyEl) {
+          keyEl.classList.add('active');
+          setTimeout(() => keyEl.classList.remove('active'), 200);
+        }
+      }
+    });
+
+    window.playSynthDemo = function(riff) {
+      initAudio();
+      const notes = riff === 'outrun' 
+        ? [261.63, 293.66, 329.63, 392.00, 440.00, 392.00, 329.63, 293.66]
+        : [261.63, 329.63, 392.00, 523.25, 392.00, 329.63, 261.63, 196.00];
+
+      notes.forEach((freq, idx) => {
+        setTimeout(() => playNote(freq), idx * 160);
+      });
+    };
+
+
+    // --- Feature 3: CRT Scanlines Toggle ---
+    const crtBtn = document.getElementById('btnCrtToggle');
+    crtBtn.addEventListener('click', () => {
+      document.body.classList.toggle('crt-active');
+      const isOn = document.body.classList.contains('crt-active');
+      crtBtn.innerText = isOn ? 'CRT: ON' : 'CRT: OFF';
+    });
+
+
+    // --- Feature 4: Insert Coin & High Score Leaderboard ---
+    let credits = 1;
+    window.insertCoin = function() {
+      credits++;
+      document.getElementById('creditCount').innerText = credits < 10 ? `0${credits}` : credits;
+      document.getElementById('coinStatusText').innerText = `CREDIT ${credits} ACCEPTED!`;
+
+      // Play retro arcade coin chime
+      initAudio();
+      if (audioCtx) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(987.77, audioCtx.currentTime); // B5
+        osc.frequency.setValueAtTime(1318.51, audioCtx.currentTime + 0.1); // E6
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
+      }
+
+      openScoreModal();
+    };
+
+    window.openScoreModal = function() {
+      document.getElementById('scoreModal').style.display = 'flex';
+      document.getElementById('initialsInput').focus();
+    };
+
+    window.closeScoreModal = function() {
+      document.getElementById('scoreModal').style.display = 'none';
+    };
+
+    window.submitInitials = function() {
+      const init = (document.getElementById('initialsInput').value || 'AAA').toUpperCase();
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>NEW</td><td style="color: var(--amber);">${init}</td><td style="color: var(--cyan);">${score.toLocaleString()}</td><td>NEO TOKYO</td>`;
+      const tbody = document.getElementById('scoreTableBody');
+      tbody.prepend(tr);
+      closeScoreModal();
+    };
+  </script>
+</body>
+</html>

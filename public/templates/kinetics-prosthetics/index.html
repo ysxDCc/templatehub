@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KINETICS // Neural Bionic Prosthetics & Biomechanics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Epilogue:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pearl-white: #f8f9fa;
+      --pearl-surface: #ffffff;
+      --cyber-titanium: #2b2d42;
+      --titanium-dark: #1b1c2b;
+      --synapse-purple: #8d99ae;
+      --synapse-glow: rgba(141, 153, 174, 0.35);
+      --bio-blue: #4cc9f0;
+      --bio-blue-glow: rgba(76, 201, 240, 0.4);
+      --neon-cyan: #00f0ff;
+      --neon-cyan-glow: rgba(0, 240, 255, 0.45);
+      --obsidian-black: #111217;
+      --card-bg: rgba(27, 28, 43, 0.85);
+      --border-titanium: rgba(141, 153, 174, 0.2);
+      --border-hover: rgba(0, 240, 255, 0.5);
+      --font-display: 'Epilogue', sans-serif;
+      --font-accent: 'Archivo', sans-serif;
+      --font-code: 'Space Grotesk', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--obsidian-black);
+      color: var(--pearl-white);
+      font-family: var(--font-accent);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle 900px at 20% 10%, rgba(76, 201, 240, 0.12), transparent 70%),
+        radial-gradient(circle 800px at 85% 35%, rgba(0, 240, 255, 0.08), transparent 70%),
+        radial-gradient(circle 1000px at 50% 85%, rgba(141, 153, 174, 0.1), transparent 75%);
+      background-attachment: fixed;
+    }
+
+    /* Neural Synapse Circuit Background Lines */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(76, 201, 240, 0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(17, 18, 23, 0.88);
+      border-bottom: 1px solid var(--border-titanium);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 84px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .logo-synapse-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(76, 201, 240, 0.2), rgba(0, 240, 255, 0.1));
+      border: 1px solid var(--bio-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px var(--bio-blue-glow);
+    }
+
+    .logo-synapse-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--neon-cyan);
+    }
+
+    .logo-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+
+    .logo-sub {
+      font-family: var(--font-code);
+      font-size: 0.68rem;
+      color: var(--bio-blue);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--synapse-purple);
+      text-decoration: none;
+      font-family: var(--font-code);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: var(--transition);
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--neon-cyan);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .bionic-cta-btn {
+      background: linear-gradient(135deg, var(--bio-blue), #0ea5e9);
+      color: var(--obsidian-black);
+      font-family: var(--font-code);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 11px 22px;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px var(--bio-blue-glow);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bionic-cta-btn:hover {
+      background: var(--neon-cyan);
+      box-shadow: 0 6px 28px var(--neon-cyan-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 110px 0 85px;
+      position: relative;
+    }
+
+    .hero-clinical-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(76, 201, 240, 0.08);
+      border: 1px solid rgba(76, 201, 240, 0.25);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-family: var(--font-code);
+      font-size: 0.76rem;
+      color: var(--bio-blue);
+      margin-bottom: 24px;
+    }
+
+    .clinical-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+      animation: pulseBio 1.4s infinite;
+    }
+
+    @keyframes pulseBio {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5.8vw, 5.2rem);
+      line-height: 1.1;
+      font-weight: 800;
+      margin-bottom: 24px;
+      max-width: 1040px;
+    }
+
+    .hero-title .gradient-lead {
+      background: linear-gradient(135deg, #ffffff 30%, var(--bio-blue) 70%, var(--neon-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--synapse-purple);
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 44px;
+      font-weight: 400;
+    }
+
+    .hero-stats-panel {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-titanium);
+      border-radius: 12px;
+      padding: 28px;
+      backdrop-filter: blur(14px);
+    }
+
+    .stat-box {
+      border-left: 2px solid var(--bio-blue);
+      padding-left: 18px;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .stat-number small {
+      font-size: 1rem;
+      color: var(--bio-blue);
+      margin-left: 4px;
+    }
+
+    .stat-label {
+      font-family: var(--font-code);
+      font-size: 0.74rem;
+      color: var(--synapse-purple);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Section Global */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-code);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bio-blue);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--neon-cyan);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+      line-height: 1.18;
+      font-weight: 700;
+      margin-bottom: 16px;
+      max-width: 860px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--synapse-purple);
+      max-width: 660px;
+      margin-bottom: 50px;
+      font-weight: 400;
+    }
+
+    /* Feature 1: Bionic Grip Pattern Neural Selector */
+    .grip-selector-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-titanium);
+      border-radius: 14px;
+      padding: 38px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .hand-canvas-holder {
+      background: #090a10;
+      border: 1px solid rgba(76, 201, 240, 0.25);
+      border-radius: 10px;
+      aspect-ratio: 16 / 12;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #bionic-hand-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hand-hud-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(17, 18, 23, 0.85);
+      border: 1px solid var(--border-titanium);
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-family: var(--font-code);
+      font-size: 0.72rem;
+      color: var(--neon-cyan);
+    }
+
+    .grip-patterns-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .grip-btn {
+      background: rgba(43, 45, 66, 0.4);
+      border: 1px solid var(--border-titanium);
+      color: var(--pearl-white);
+      padding: 14px;
+      border-radius: 8px;
+      font-family: var(--font-code);
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .grip-btn:hover,
+    .grip-btn.active {
+      background: rgba(76, 201, 240, 0.15);
+      border-color: var(--bio-blue);
+      box-shadow: 0 0 15px var(--bio-blue-glow);
+    }
+
+    .grip-btn-title {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .grip-btn-sub {
+      font-size: 0.7rem;
+      color: var(--synapse-purple);
+    }
+
+    .kinematics-readout-box {
+      background: rgba(17, 18, 23, 0.6);
+      border: 1px solid var(--border-titanium);
+      border-radius: 8px;
+      padding: 18px;
+      font-family: var(--font-code);
+      font-size: 0.78rem;
+    }
+
+    .kinematics-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+      padding: 6px 0;
+    }
+
+    .kinematics-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Feature 2: Myoelectric Signal Decoder Graph */
+    .emg-decoder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-titanium);
+      border-radius: 14px;
+      padding: 38px;
+      backdrop-filter: blur(16px);
+    }
+
+    .emg-scope-view {
+      background: #090a10;
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      border-radius: 10px;
+      aspect-ratio: 16 / 10;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #emg-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .emg-metrics-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .confidence-meter-container {
+      background: rgba(17, 18, 23, 0.7);
+      border: 1px solid var(--border-titanium);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .confidence-val-big {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      color: var(--neon-cyan);
+      line-height: 1;
+      margin: 8px 0;
+      text-shadow: 0 0 20px var(--neon-cyan-glow);
+    }
+
+    .confidence-progress-track {
+      width: 100%;
+      height: 6px;
+      background: #1b1c2b;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .confidence-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--bio-blue), var(--neon-cyan));
+      border-radius: 3px;
+      box-shadow: 0 0 10px var(--neon-cyan);
+      transition: width 0.4s ease;
+    }
+
+    .electrode-slider-group {
+      margin-top: 16px;
+    }
+
+    .range-bio {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1b1c2b;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    .range-bio::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--neon-cyan);
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--neon-cyan-glow);
+      border: 2px solid #fff;
+    }
+
+    /* Feature 3: Lightweight Carbon Limb Weight Calculator */
+    .weight-calculator-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--border-titanium);
+      border-radius: 14px;
+      padding: 38px;
+      backdrop-filter: blur(16px);
+    }
+
+    .calc-controls-flex {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .calc-select-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .calc-label {
+      font-family: var(--font-code);
+      font-size: 0.76rem;
+      color: var(--synapse-purple);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .calc-dropdown {
+      background: rgba(17, 18, 23, 0.8);
+      border: 1px solid var(--border-titanium);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-family: var(--font-code);
+      font-size: 0.92rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .calc-dropdown:focus {
+      border-color: var(--bio-blue);
+      box-shadow: 0 0 15px var(--bio-blue-glow);
+    }
+
+    .weight-results-matrix {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      background: rgba(17, 18, 23, 0.6);
+      border: 1px solid var(--border-titanium);
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .weight-metric-card {
+      border-left: 2px solid var(--neon-cyan);
+      padding-left: 16px;
+    }
+
+    .weight-val {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .weight-val small {
+      font-size: 0.95rem;
+      color: var(--bio-blue);
+    }
+
+    .weight-sub {
+      font-family: var(--font-code);
+      font-size: 0.72rem;
+      color: var(--synapse-purple);
+      text-transform: uppercase;
+    }
+
+    /* Feature 4: Clinical Trial Patient Inquiry */
+    .clinical-inquiry-box {
+      background: linear-gradient(135deg, rgba(27, 28, 43, 0.95), rgba(17, 18, 23, 0.95));
+      border: 1px solid var(--border-titanium);
+      border-radius: 14px;
+      padding: 44px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .inquiry-input-group {
+      margin-bottom: 20px;
+    }
+
+    /* Technology Matrix */
+    .tech-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .tech-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-titanium);
+      border-radius: 12px;
+      padding: 28px;
+      transition: var(--transition);
+    }
+
+    .tech-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-hover);
+      box-shadow: 0 16px 36px rgba(0, 240, 255, 0.12);
+    }
+
+    .tech-tag {
+      font-family: var(--font-code);
+      font-size: 0.7rem;
+      color: var(--bio-blue);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .tech-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: #fff;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .tech-desc {
+      font-size: 0.9rem;
+      color: var(--synapse-purple);
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-titanium);
+      background: #0b0c10;
+      padding: 70px 0 35px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--synapse-purple);
+      text-decoration: none;
+      font-family: var(--font-code);
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-code);
+      font-size: 0.74rem;
+      color: #64748b;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-stats-panel,
+      .weight-results-matrix { grid-template-columns: repeat(2, 1fr); }
+      .grip-selector-grid,
+      .emg-decoder-grid,
+      .clinical-inquiry-box { grid-template-columns: 1fr; }
+      .calc-controls-flex,
+      .tech-cards-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-stats-panel,
+      .weight-results-matrix { grid-template-columns: 1fr; }
+      .calc-controls-flex,
+      .tech-cards-grid { grid-template-columns: 1fr; }
+      .grip-patterns-list { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav-inner">
+      <a href="#hero" class="logo">
+        <div class="logo-synapse-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="logo-brand">
+          <span class="logo-text">KINETICS</span>
+          <span class="logo-sub">NEURAL BIOMICS &bull; TRANSRADIAL WORKS</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#grip-simulator" class="active">Grip Kinematics</a></li>
+        <li><a href="#emg-decoder">EMG Decoder</a></li>
+        <li><a href="#weight-calc">Mass Calculator</a></li>
+        <li><a href="#technology">Neural Architecture</a></li>
+        <li><a href="#inquiry">Clinical Inquiry</a></li>
+      </ul>
+
+      <div>
+        <a href="#inquiry" class="bionic-cta-btn">Patient Trial Enrollment</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-clinical-tag">
+        <span class="clinical-pulse-dot"></span>
+        <span>FDA DE NOVO &bull; 64-CHANNEL SUBDERMAL MYOELECTRIC ARRAYS</span>
+      </div>
+
+      <h1 class="hero-title">
+        Restoring Intuitive Agency With <span class="gradient-lead">Sub-Millisecond Neural Fidelity</span>.
+      </h1>
+
+      <p class="hero-desc">
+        Next-generation multi-articulating bionic limbs driven by continuous neuromuscular machine learning decoders. Seamlessly translating intent into fluid multi-finger dexterity with haptic sensory restoration.
+      </p>
+
+      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="#grip-simulator" class="bionic-cta-btn">Simulate 6 Grip Modes</a>
+        <a href="#emg-decoder" class="calc-dropdown" style="padding: 11px 22px; text-decoration: none; display: inline-flex; align-items: center;">
+          Inspect Live EMG Scope
+        </a>
+      </div>
+
+      <div class="hero-stats-panel">
+        <div class="stat-box">
+          <div class="stat-number">14<small>ms</small></div>
+          <div class="stat-label">Neural Intention Latency</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">380<small>g</small></div>
+          <div class="stat-label">Carbon Chassis Mass</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">95<small>N</small></div>
+          <div class="stat-label">Maximum Grip Force</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">99.2<small>%</small></div>
+          <div class="stat-label">EMG Intent Classification</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 1: Bionic Grip Pattern Neural Selector -->
+  <section id="grip-simulator">
+    <div class="container">
+      <div class="section-eyebrow">Kinematic Actuation Engine</div>
+      <h2 class="section-title">Bionic Grip Pattern Neural Selector</h2>
+      <p class="section-subtitle">
+        Select between clinical grasp synergies. Watch the brushless micro-dc servomotors flex the digital phalanx joints with proportional speed and tactile feedback monitoring.
+      </p>
+
+      <div class="grip-selector-grid">
+        <div class="hand-canvas-holder">
+          <canvas id="bionic-hand-canvas"></canvas>
+          <div class="hand-hud-tag" id="hand-hud-mode">KINEMATICS: POWER GRASP ACTIVE</div>
+        </div>
+
+        <div>
+          <div class="grip-patterns-list">
+            <button class="grip-btn active" data-grip="power">
+              <span class="grip-btn-title">Power Grasp</span>
+              <span class="grip-btn-sub">Cylindrical high-force closure</span>
+            </button>
+
+            <button class="grip-btn" data-grip="pinch">
+              <span class="grip-btn-title">Precision Pinch</span>
+              <span class="grip-btn-sub">Index + Thumb pad fine grip</span>
+            </button>
+
+            <button class="grip-btn" data-grip="key">
+              <span class="grip-btn-title">Lateral Key</span>
+              <span class="grip-btn-sub">Thumb side lateral pressure</span>
+            </button>
+
+            <button class="grip-btn" data-grip="tripod">
+              <span class="grip-btn-title">Tripod Chuck</span>
+              <span class="grip-btn-sub">Thumb, Index, Middle stabilization</span>
+            </button>
+
+            <button class="grip-btn" data-grip="point">
+              <span class="grip-btn-title">Index Point</span>
+              <span class="grip-btn-sub">Touchscreen &amp; keyboard isolate</span>
+            </button>
+
+            <button class="grip-btn" data-grip="hook">
+              <span class="grip-btn-title">Hook Carry</span>
+              <span class="grip-btn-sub">Suspension load handle lock</span>
+            </button>
+          </div>
+
+          <div class="kinematics-readout-box">
+            <div class="kinematics-row">
+              <span>Active Phalange Motors:</span>
+              <strong style="color: var(--neon-cyan);" id="actuator-count">5 Brushless Coreless DC</strong>
+            </div>
+            <div class="kinematics-row">
+              <span>Grip Closure Force:</span>
+              <strong style="color: #fff;" id="grip-force-readout">88.5 Newtons</strong>
+            </div>
+            <div class="kinematics-row">
+              <span>Current Draw:</span>
+              <strong style="color: var(--bio-blue);" id="current-draw-readout">1.45 Amperes</strong>
+            </div>
+            <div class="kinematics-row">
+              <span>Tactile Pressure Sensor:</span>
+              <strong style="color: #4ade80;" id="haptic-status-readout">Piezo-Matrix Engaged</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 2: Myoelectric Muscle Signal Decoder Graph -->
+  <section id="emg-decoder">
+    <div class="container">
+      <div class="section-eyebrow">Neuromuscular Machine Learning</div>
+      <h2 class="section-title">Myoelectric Muscle Signal Decoder Oscilloscope</h2>
+      <p class="section-subtitle">
+        Real-time multi-electrode surface EMG stream from residual forearm flexor and extensor compartments. Our embedded neural net separates voluntary action potentials from motion artifacts.
+      </p>
+
+      <div class="emg-decoder-grid">
+        <div class="emg-scope-view">
+          <canvas id="emg-canvas"></canvas>
+        </div>
+
+        <div class="emg-metrics-column">
+          <div>
+            <div class="confidence-meter-container">
+              <span style="font-family: var(--font-code); font-size: 0.74rem; text-transform: uppercase; color: var(--synapse-purple);">
+                ML Pattern Recognition Confidence
+              </span>
+              <div class="confidence-val-big" id="confidence-readout">98.7%</div>
+              <div style="font-family: var(--font-code); font-size: 0.78rem; color: #fff;">
+                Classifier Status: <strong style="color: #4ade80;">INTENT LOCKED</strong>
+              </div>
+              <div class="confidence-progress-track">
+                <div class="confidence-progress-bar" id="confidence-bar" style="width: 98%;"></div>
+              </div>
+            </div>
+
+            <div class="electrode-slider-group">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-family: var(--font-code); font-size: 0.8rem;">
+                <span>Electrode Sensitivity Gain</span>
+                <span style="color: var(--neon-cyan);" id="gain-display">1,200x (&plusmn;50 &mu;V)</span>
+              </div>
+              <input type="range" min="400" max="2500" step="50" value="1200" class="range-bio" id="gain-slider">
+            </div>
+          </div>
+
+          <div style="background: rgba(17, 18, 23, 0.7); border-left: 3px solid var(--neon-cyan); padding: 16px; border-radius: 0 8px 8px 0; font-family: var(--font-code); font-size: 0.78rem; line-height: 1.6;">
+            <strong>TMR SYNERGY:</strong> Targeted Muscle Reinnervation transfers severed median, radial, and ulnar nerves to spare muscle groups, unlocking simultaneous proportional control without mode toggling.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 3: Lightweight Carbon Limb Weight Calculator -->
+  <section id="weight-calc">
+    <div class="container">
+      <div class="section-eyebrow">Biomechanics &amp; Ergonomics</div>
+      <h2 class="section-title">Lightweight Carbon Limb Mass &amp; Battery Calculator</h2>
+      <p class="section-subtitle">
+        Prosthetic balance requires aligning the center of mass with anatomical joints to eliminate shoulder strain and socket torque.
+      </p>
+
+      <div class="weight-calculator-wrapper">
+        <div class="calc-controls-flex">
+          <div class="calc-select-group">
+            <label class="calc-label">Amputation Level</label>
+            <select class="calc-dropdown" id="amp-level-select">
+              <option value="transradial" selected>Transradial (Below Elbow)</option>
+              <option value="transhumeral">Transhumeral (Above Elbow + Bionic Elbow)</option>
+              <option value="shoulder">Shoulder Disarticulation</option>
+            </select>
+          </div>
+
+          <div class="calc-select-group">
+            <label class="calc-label">Socket Structural Material</label>
+            <select class="calc-dropdown" id="socket-mat-select">
+              <option value="carbon" selected>Aerospace Pre-Preg Carbon Fiber</option>
+              <option value="titanium">3D Printed Titanium Trabecular Mesh</option>
+              <option value="thermoplastic">Flexible Inner Thermoplastic</option>
+            </select>
+          </div>
+
+          <div class="calc-select-group">
+            <label class="calc-label">Battery Power Pack</label>
+            <select class="calc-dropdown" id="battery-select">
+              <option value="ultra">Ultra-Slim 1,800 mAh (All-Day Light)</option>
+              <option value="extended" selected>Extended 3,200 mAh (48-Hour Heavy Duty)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="weight-results-matrix">
+          <div class="weight-metric-card">
+            <div class="weight-val" id="res-total-mass">485<small>g</small></div>
+            <div class="weight-sub">Total Distal Assembly Mass</div>
+          </div>
+
+          <div class="weight-metric-card">
+            <div class="weight-val" id="res-anatomical-ratio">58<small>%</small></div>
+            <div class="weight-sub">vs Biological Limb Weight</div>
+          </div>
+
+          <div class="weight-metric-card">
+            <div class="weight-val" id="res-battery-life">36<small>hrs</small></div>
+            <div class="weight-sub">Active Autonomy Battery Life</div>
+          </div>
+
+          <div class="weight-metric-card">
+            <div class="weight-val" id="res-socket-torque">3.2<small>Nm</small></div>
+            <div class="weight-sub">Socket Moment Offset</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Neural Technology Architecture Highlights -->
+  <section id="technology">
+    <div class="container">
+      <div class="section-eyebrow">Pioneering Neuro-Surgical Interfaces</div>
+      <h2 class="section-title">Bionic Biomechatronic Pillars</h2>
+      <p class="section-subtitle">
+        Bridging biological neural pathways directly into aerospace-grade micro-actuators.
+      </p>
+
+      <div class="tech-cards-grid">
+        <div class="tech-card">
+          <span class="tech-tag">Surgical Synergy</span>
+          <h3 class="tech-title">Targeted Muscle Reinnervation (TMR)</h3>
+          <p class="tech-desc">
+            Rerouting residual brachial plexus nerve endings into non-functional pectoral or brachialis muscles, multiplying clean surface EMG sites for independent finger control.
+          </p>
+        </div>
+
+        <div class="tech-card">
+          <span class="tech-tag">Skeletal Integration</span>
+          <h3 class="tech-title">Direct Osseointegration</h3>
+          <p class="tech-desc">
+            Surgically anchoring a titanium-alloy fixture directly into the humerus or radius bone, eliminating painful socket sweating, skin chafing, and maximizing mechanical stability.
+          </p>
+        </div>
+
+        <div class="tech-card">
+          <span class="tech-tag">Sensory Feedback</span>
+          <h3 class="tech-title">Haptic Subdermal Matrix</h3>
+          <p class="tech-desc">
+            High-density vibrotactile transconductance transducers delivering sensory texture, softness, and slip feedback directly back to residual reinnervated skin receptors.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature 4: Clinical Trial Patient Inquiry -->
+  <section id="inquiry">
+    <div class="container">
+      <div class="clinical-inquiry-box">
+        <div>
+          <div class="section-eyebrow">Clinical Trial Evaluation</div>
+          <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; margin-bottom: 16px;">
+            Inquire For Bionic Limb Candidate Trial
+          </h2>
+          <p style="font-size: 0.95rem; color: var(--synapse-purple); line-height: 1.7; margin-bottom: 24px;">
+            Our biomechanics clinics in Zurich, Boston, and Tokyo are accepting candidates for upcoming FDA De Novo multicenter clinical trials.
+          </p>
+
+          <div style="font-family: var(--font-code); font-size: 0.8rem; color: var(--bio-blue); line-height: 1.8;">
+            <div>&check; Private insurance &amp; worker's comp pre-authorization</div>
+            <div>&check; Pre-surgical TMR surgical consultation included</div>
+            <div>&check; Complete 3D optical residual limb volumetric scan</div>
+          </div>
+        </div>
+
+        <form id="clinical-form" onsubmit="event.preventDefault(); alert('Clinical trial evaluation questionnaire submitted. A clinical prosthetist will review your anatomy file within 24 hours.');">
+          <div class="inquiry-input-group">
+            <label class="calc-label">Patient Full Name</label>
+            <input type="text" class="calc-dropdown" style="width: 100%;" value="Marcus Aurelius Vance" required>
+          </div>
+
+          <div class="inquiry-input-group">
+            <label class="calc-label">Amputation Level &amp; Side</label>
+            <select class="calc-dropdown" style="width: 100%;">
+              <option>Right Transradial (Below Elbow)</option>
+              <option>Left Transradial (Below Elbow)</option>
+              <option>Right Transhumeral (Above Elbow)</option>
+              <option>Left Transhumeral (Above Elbow)</option>
+              <option>Bilateral Upper Limb</option>
+            </select>
+          </div>
+
+          <div class="inquiry-input-group">
+            <label class="calc-label">TMR Surgical Status</label>
+            <select class="calc-dropdown" style="width: 100%;">
+              <option>Completed TMR Surgery &gt; 6 months ago</option>
+              <option>Interested in concurrent TMR procedure</option>
+              <option>Conventional surface EMG (No TMR)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="bionic-cta-btn" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px;">
+            Submit Clinical Candidate Dossier
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="#hero" class="logo" style="margin-bottom: 16px;">
+            <div class="logo-synapse-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="logo-text">KINETICS</span>
+          </a>
+          <p style="font-size: 0.85rem; color: var(--synapse-purple); line-height: 1.6; max-width: 320px;">
+            Neural bionic prosthetics engineering laboratory. Restoring intuitive upper limb autonomy through myoelectric pattern decoding and advanced carbon biomechanics.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 16px; color: #fff;">Biomechatronics</h4>
+          <ul class="footer-links">
+            <li><a href="#grip-simulator">Grip Kinematics</a></li>
+            <li><a href="#emg-decoder">EMG Signal Scope</a></li>
+            <li><a href="#weight-calc">Mass Calculator</a></li>
+            <li><a href="#technology">Targeted Reinnervation</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 16px; color: #fff;">Clinical Affairs</h4>
+          <ul class="footer-links">
+            <li><a href="#inquiry">FDA Clinical Trials</a></li>
+            <li><a href="#technology">Osseointegration</a></li>
+            <li><a href="#inquiry">Reimbursement Codes</a></li>
+            <li><a href="#inquiry">Physician Referral</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-family: var(--font-display); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 16px; color: #fff;">Headquarters</h4>
+          <p style="font-size: 0.8rem; font-family: var(--font-code); color: var(--synapse-purple); line-height: 1.6;">
+            KINETICS BIOMEDICAL INC.<br>
+            750 Technology Square, Cambridge, MA 02139<br>
+            Clinical Desk: +1 (617) 555-0194
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 KINETICS BIOMECHANICS &amp; NEURAL WORKS. All rights reserved.</div>
+        <div>Engineered for biological neural integration. Standalone Edition.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // ----------------------------------------------------
+    // 1. Feature 1: Bionic Hand Kinematics Simulation Canvas
+    // ----------------------------------------------------
+    const handCanvas = document.getElementById('bionic-hand-canvas');
+    const hCtx = handCanvas.getContext('2d');
+    let hW, hH;
+
+    const gripBtns = document.querySelectorAll('.grip-btn');
+    const handHudMode = document.getElementById('hand-hud-mode');
+    const actuatorCount = document.getElementById('actuator-count');
+    const gripForceReadout = document.getElementById('grip-force-readout');
+    const currentDrawReadout = document.getElementById('current-draw-readout');
+
+    let currentGrip = 'power';
+    let fingerFlexProgress = 0; // 0 (open) to 1 (closed)
+    let targetFlex = 0.85;
+
+    function resizeHandCanvas() {
+      hW = handCanvas.width = handCanvas.parentElement.clientWidth;
+      hH = handCanvas.height = handCanvas.parentElement.clientHeight;
+      drawHand();
+    }
+    window.addEventListener('resize', resizeHandCanvas);
+    setTimeout(resizeHandCanvas, 100);
+
+    const gripConfigs = {
+      power: {
+        hud: 'KINEMATICS: POWER CYLINDRICAL GRASP',
+        motors: '5 Brushless Coreless DC',
+        force: '92.4 Newtons',
+        current: '1.65 Amperes',
+        flexes: [0.85, 0.85, 0.85, 0.85], // index, middle, ring, pinky
+        thumbFlex: 0.75
+      },
+      pinch: {
+        hud: 'KINEMATICS: PRECISION PINCH INDEX/THUMB',
+        motors: '2 Active Precision DC',
+        force: '24.0 Newtons',
+        current: '0.62 Amperes',
+        flexes: [0.65, 0.15, 0.1, 0.1],
+        thumbFlex: 0.65
+      },
+      key: {
+        hud: 'KINEMATICS: LATERAL KEY PAD PINCH',
+        motors: '2 Active Lateral Motors',
+        force: '45.0 Newtons',
+        current: '0.98 Amperes',
+        flexes: [0.8, 0.8, 0.8, 0.8],
+        thumbFlex: 0.3
+      },
+      tripod: {
+        hud: 'KINEMATICS: TRIPOD CHUCK 3-JAW',
+        motors: '3 Precision Coreless DC',
+        force: '38.5 Newtons',
+        current: '0.85 Amperes',
+        flexes: [0.6, 0.6, 0.15, 0.15],
+        thumbFlex: 0.6
+      },
+      point: {
+        hud: 'KINEMATICS: INDEX DIGIT ISOLATION',
+        motors: '4 Actuators (Index Locked Open)',
+        force: '12.0 Newtons',
+        current: '0.45 Amperes',
+        flexes: [0.05, 0.9, 0.9, 0.9],
+        thumbFlex: 0.8
+      },
+      hook: {
+        hud: 'KINEMATICS: HIGH LOAD SUSPENSION HOOK',
+        motors: '4 Locked Servos (Zero Power Hold)',
+        force: '140.0 Newtons (Structural)',
+        current: '0.12 Amperes (Magnetic Lock)',
+        flexes: [0.75, 0.75, 0.75, 0.75],
+        thumbFlex: 0.1
+      }
+    };
+
+    gripBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        gripBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentGrip = btn.dataset.grip;
+        const config = gripConfigs[currentGrip];
+        handHudMode.textContent = config.hud;
+        actuatorCount.textContent = config.motors;
+        gripForceReadout.textContent = config.force;
+        currentDrawReadout.textContent = config.current;
+      });
+    });
+
+    function drawHand() {
+      if (!hW || !hH) return;
+      hCtx.clearRect(0, 0, hW, hH);
+
+      const cfg = gripConfigs[currentGrip];
+      const cx = hW * 0.42;
+      const cy = hH * 0.75;
+
+      hCtx.save();
+      hCtx.translate(cx, cy);
+
+      // 1. Titanium Wrist & Forearm Socket
+      hCtx.fillStyle = '#1b1c2b';
+      hCtx.strokeStyle = '#4cc9f0';
+      hCtx.lineWidth = 2;
+      hCtx.beginPath();
+      hCtx.roundRect(-45, 10, 90, 70, 8);
+      hCtx.fill();
+      hCtx.stroke();
+
+      // Wrist Rotator Joint
+      hCtx.fillStyle = '#2b2d42';
+      hCtx.beginPath();
+      hCtx.arc(0, 10, 22, 0, Math.PI * 2);
+      hCtx.fill();
+      hCtx.strokeStyle = '#00f0ff';
+      hCtx.stroke();
+
+      // 2. Palm Core Plate (Metacarpal Chassis)
+      hCtx.fillStyle = '#111217';
+      hCtx.strokeStyle = 'rgba(76, 201, 240, 0.6)';
+      hCtx.lineWidth = 2;
+      hCtx.beginPath();
+      hCtx.moveTo(-40, 0);
+      hCtx.lineTo(40, 0);
+      hCtx.lineTo(35, -70);
+      hCtx.lineTo(-35, -70);
+      hCtx.closePath();
+      hCtx.fill();
+      hCtx.stroke();
+
+      // Synapse Indicator Light on Back of Hand
+      hCtx.fillStyle = '#00f0ff';
+      hCtx.beginPath();
+      hCtx.arc(0, -35, 6, 0, Math.PI * 2);
+      hCtx.fill();
+
+      // 3. Render 4 Fingers (Index to Pinky)
+      const fingerOffsets = [-26, -9, 9, 26];
+      const fingerLengths = [55, 62, 58, 48];
+
+      for (let i = 0; i < 4; i++) {
+        const fx = fingerOffsets[i];
+        const fy = -70;
+        const fLen = fingerLengths[i];
+        const flex = cfg.flexes[i]; // 0 to 1
+
+        drawArticulatedFinger(hCtx, fx, fy, fLen, flex);
+      }
+
+      // 4. Opposable Thumb
+      drawThumb(hCtx, -38, -20, cfg.thumbFlex);
+
+      hCtx.restore();
+    }
+
+    function drawArticulatedFinger(ctx, x, y, totalLen, flexAmount) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      const segmentLen = totalLen / 3;
+      const bendAngle = flexAmount * 0.95; // radians bend at each phalanx
+
+      // MCP Joint
+      ctx.fillStyle = '#00f0ff';
+      ctx.beginPath();
+      ctx.arc(0, 0, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Proximal Phalanx
+      ctx.rotate(-bendAngle * 0.5);
+      ctx.strokeStyle = '#8d99ae';
+      ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -segmentLen);
+      ctx.stroke();
+
+      // PIP Joint
+      ctx.translate(0, -segmentLen);
+      ctx.rotate(-bendAngle);
+      ctx.fillStyle = '#4cc9f0';
+      ctx.beginPath();
+      ctx.arc(0, 0, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Intermediate Phalanx
+      ctx.strokeStyle = '#f8f9fa';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -segmentLen * 0.85);
+      ctx.stroke();
+
+      // DIP Joint
+      ctx.translate(0, -segmentLen * 0.85);
+      ctx.rotate(-bendAngle * 0.8);
+      ctx.fillStyle = '#00f0ff';
+      ctx.beginPath();
+      ctx.arc(0, 0, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Distal Fingertip with Tactile Sensor Pad
+      ctx.strokeStyle = '#4cc9f0';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -segmentLen * 0.7);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawThumb(ctx, x, y, thumbFlex) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      // Thumb base orientation
+      ctx.rotate(-0.8 + thumbFlex * 0.7);
+
+      ctx.strokeStyle = '#8d99ae';
+      ctx.lineWidth = 8;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -28);
+      ctx.stroke();
+
+      ctx.translate(0, -28);
+      ctx.rotate(0.6 - thumbFlex * 0.8);
+      ctx.fillStyle = '#00f0ff';
+      ctx.beginPath();
+      ctx.arc(0, 0, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = '#f8f9fa';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -24);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function animateHandLoop() {
+      drawHand();
+      requestAnimationFrame(animateHandLoop);
+    }
+    animateHandLoop();
+
+    // ----------------------------------------------------
+    // 2. Feature 2: Myoelectric Signal Decoder Oscilloscope
+    // ----------------------------------------------------
+    const emgCanvas = document.getElementById('emg-canvas');
+    const eCtx = emgCanvas.getContext('2d');
+    let eW, eH;
+    let emgOffset = 0;
+
+    const gainSlider = document.getElementById('gain-slider');
+    const gainDisplay = document.getElementById('gain-display');
+    const confidenceReadout = document.getElementById('confidence-readout');
+    const confidenceBar = document.getElementById('confidence-bar');
+
+    function resizeEmgCanvas() {
+      eW = emgCanvas.width = emgCanvas.parentElement.clientWidth;
+      eH = emgCanvas.height = emgCanvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeEmgCanvas);
+    setTimeout(resizeEmgCanvas, 100);
+
+    gainSlider.addEventListener('input', () => {
+      gainDisplay.textContent = `${gainSlider.value}x (±50 μV)`;
+    });
+
+    function drawEmg() {
+      if (!eW || !eH) return;
+      eCtx.fillStyle = '#090a10';
+      eCtx.fillRect(0, 0, eW, eH);
+
+      const gain = parseFloat(gainSlider.value) / 1000;
+
+      // Grid background
+      eCtx.strokeStyle = 'rgba(141, 153, 174, 0.08)';
+      eCtx.lineWidth = 1;
+      for (let y = 0; y < eH; y += 20) {
+        eCtx.beginPath(); eCtx.moveTo(0, y); eCtx.lineTo(eW, y); eCtx.stroke();
+      }
+      for (let x = 0; x < eW; x += 30) {
+        eCtx.beginPath(); eCtx.moveTo(x, 0); eCtx.lineTo(x, eH); eCtx.stroke();
+      }
+
+      // Channel 1: Extensor Digitorum (Bio Blue)
+      drawWaveform(eCtx, eH * 0.3, '#4cc9f0', 0.04, 25 * gain, emgOffset);
+
+      // Channel 2: Flexor Digitorum Profundus (Neon Cyan)
+      drawWaveform(eCtx, eH * 0.7, '#00f0ff', 0.05, 32 * gain, emgOffset + 40);
+
+      emgOffset += 3;
+      requestAnimationFrame(drawEmg);
+    }
+
+    function drawWaveform(ctx, baselineY, color, freq, amp, offset) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      for (let x = 0; x < eW; x += 2) {
+        // Compound noise and simulated action potentials
+        const burst = Math.sin((x + offset) * 0.008) > 0.4 ? 1.8 : 0.25;
+        const noise = (Math.random() - 0.5) * 6;
+        const wave = Math.sin((x + offset) * freq) * Math.cos((x + offset) * (freq * 2.3)) * (amp * burst) + noise;
+        const y = baselineY + wave;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    drawEmg();
+
+    // Random slight confidence jitter to demonstrate live decoding
+    setInterval(() => {
+      const conf = (98.2 + Math.random() * 1.2).toFixed(1);
+      confidenceReadout.textContent = `${conf}%`;
+      confidenceBar.style.width = `${conf}%`;
+    }, 2400);
+
+    // ----------------------------------------------------
+    // 3. Feature 3: Lightweight Carbon Limb Weight Calculator
+    // ----------------------------------------------------
+    const ampLevelSelect = document.getElementById('amp-level-select');
+    const socketMatSelect = document.getElementById('socket-mat-select');
+    const batterySelect = document.getElementById('battery-select');
+
+    const resTotalMass = document.getElementById('res-total-mass');
+    const resAnatomicalRatio = document.getElementById('res-anatomical-ratio');
+    const resBatteryLife = document.getElementById('res-battery-life');
+    const resSocketTorque = document.getElementById('res-socket-torque');
+
+    function updateWeightCalc() {
+      const amp = ampLevelSelect.value;
+      const mat = socketMatSelect.value;
+      const bat = batterySelect.value;
+
+      // Base weights (hand chassis ~ 360g)
+      let baseHand = 360;
+      let socketWeight = 110;
+      if (mat === 'carbon') socketWeight = 95;
+      else if (mat === 'titanium') socketWeight = 145;
+      else socketWeight = 125;
+
+      let additionalJoints = 0;
+      let biologicalReference = 850; // standard forearm/hand mass grams
+
+      if (amp === 'transhumeral') {
+        additionalJoints = 420; // motorized bionic elbow
+        biologicalReference = 1900; // entire arm reference
+      } else if (amp === 'shoulder') {
+        additionalJoints = 780; // powered shoulder + elbow
+        biologicalReference = 3200;
+      }
+
+      let batteryWeight = (bat === 'ultra') ? 60 : 110;
+      let batteryHours = (bat === 'ultra') ? 20 : 38;
+
+      if (amp === 'transhumeral') batteryHours = Math.round(batteryHours * 0.65);
+      if (amp === 'shoulder') batteryHours = Math.round(batteryHours * 0.45);
+
+      const totalGrams = baseHand + socketWeight + additionalJoints + batteryWeight;
+      const ratio = Math.round((totalGrams / biologicalReference) * 100);
+      const torque = ((totalGrams / 1000) * 9.81 * (amp === 'transradial' ? 0.22 : 0.38)).toFixed(1);
+
+      resTotalMass.innerHTML = `${totalGrams}<small>g</small>`;
+      resAnatomicalRatio.innerHTML = `${ratio}<small>%</small>`;
+      resBatteryLife.innerHTML = `${batteryHours}<small>hrs</small>`;
+      resSocketTorque.innerHTML = `${torque}<small>Nm</small>`;
+    }
+
+    [ampLevelSelect, socketMatSelect, batterySelect].forEach(sel => {
+      sel.addEventListener('change', updateWeightCalc);
+    });
+    updateWeightCalc();
+  </script>
+</body>
+</html>
