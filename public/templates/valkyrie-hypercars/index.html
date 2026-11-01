@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VALKYRIE // Bespoke Electric Hypercar Works</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Oxanium:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #08080a;
+      --bg-surface: #101014;
+      --bg-card: rgba(18, 18, 24, 0.82);
+      --bg-card-hover: rgba(28, 28, 38, 0.95);
+      --scarlet: #ef4444;
+      --scarlet-glow: rgba(239, 68, 68, 0.45);
+      --titanium: #94a3b8;
+      --titanium-light: #e2e8f0;
+      --gold: #eab308;
+      --border-dark: rgba(255, 255, 255, 0.08);
+      --border-scarlet: rgba(239, 68, 68, 0.5);
+      --font-display: 'Oxanium', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--titanium-light);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(ellipse 90% 60% at 50% -15%, rgba(239, 68, 68, 0.15), transparent 70%),
+        radial-gradient(circle 800px at 90% 60%, rgba(239, 68, 68, 0.08), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Forged Carbon Fiber Mesh Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 16px 16px;
+      background-image: 
+        linear-gradient(45deg, rgba(255, 255, 255, 0.015) 25%, transparent 25%), 
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.015) 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.015) 75%), 
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.015) 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(8, 8, 10, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-dark);
+      z-index: 100;
+    }
+
+    .nav-wrap {
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid var(--scarlet);
+      transform: skewX(-12deg);
+      background: rgba(239, 68, 68, 0.1);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 15px var(--scarlet-glow);
+    }
+
+    .brand-icon-inner {
+      width: 14px;
+      height: 14px;
+      background: var(--scarlet);
+      transform: skewX(12deg) rotate(45deg);
+    }
+
+    .brand-text {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 900;
+      font-style: italic;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-text span {
+      color: var(--scarlet);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a {
+      color: var(--titanium);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--scarlet);
+    }
+
+    .btn-scarlet {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: none;
+      transform: skewX(-8deg);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-scarlet span {
+      transform: skewX(8deg);
+    }
+
+    .btn-scarlet:hover {
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.7);
+      transform: skewX(-8deg) translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+    }
+
+    .hero-top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--scarlet);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .hero-heading {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      max-width: 1080px;
+    }
+
+    .hero-heading .scarlet-text {
+      color: var(--scarlet);
+      text-shadow: 0 0 40px rgba(239, 68, 68, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(16px, 1.4vw, 20px);
+      color: var(--titanium);
+      max-width: 820px;
+      margin-bottom: 48px;
+    }
+
+    /* Key Metrics Telemetry Grid */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-left: 3px solid var(--scarlet);
+      padding: 22px;
+      border-radius: 6px;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--scarlet);
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.15);
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--titanium);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .metric-number {
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .metric-unit {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--scarlet);
+    }
+
+    .metric-detail {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* Section Styling */
+    .section-wrap {
+      margin-bottom: 100px;
+    }
+
+    .sec-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--scarlet);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-tag::before {
+      content: '';
+      width: 20px;
+      height: 2px;
+      background: var(--scarlet);
+    }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .sec-desc {
+      color: var(--titanium);
+      font-size: 16px;
+      max-width: 720px;
+      margin-bottom: 36px;
+    }
+
+    /* Aero Wing Simulator Section */
+    .aero-grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .aero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .aero-display-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .aero-canvas-box {
+      width: 100%;
+      height: 320px;
+      background: #060608;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    #aeroCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .aero-controls-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 28px;
+    }
+
+    .ctrl-group {
+      margin-bottom: 24px;
+    }
+
+    .ctrl-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .ctrl-label {
+      color: var(--titanium);
+      text-transform: uppercase;
+    }
+
+    .ctrl-val {
+      color: var(--scarlet);
+      font-weight: 700;
+    }
+
+    .custom-range {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--scarlet);
+      cursor: pointer;
+      box-shadow: 0 0 12px var(--scarlet);
+    }
+
+    .aero-modes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-mode {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-dark);
+      color: var(--titanium);
+      padding: 10px 14px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-mode.active, .btn-mode:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: var(--scarlet);
+      color: #fff;
+    }
+
+    /* Monocoque Engineering Breakdown */
+    .chassis-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .chassis-tab {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      color: var(--titanium);
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chassis-tab.active, .chassis-tab:hover {
+      border-color: var(--scarlet);
+      color: #fff;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .chassis-content-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .chassis-content-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chassis-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .chassis-desc {
+      color: var(--titanium);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .spec-table-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+
+    .spec-table-label {
+      color: var(--titanium);
+    }
+
+    .spec-table-val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .chassis-schematic-box {
+      background: #09090d;
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Atelier Configurator */
+    .configurator-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 16px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 36px;
+    }
+
+    @media (max-width: 1024px) {
+      .configurator-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .car-stage {
+      background: #050507;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 380px;
+      position: relative;
+    }
+
+    #carPreviewCanvas {
+      width: 100%;
+      height: 280px;
+      display: block;
+    }
+
+    .car-stage-badge {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--titanium);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+    }
+
+    .config-options-col {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .opt-group-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--titanium);
+      margin-bottom: 10px;
+    }
+
+    .color-swatches {
+      display: flex;
+      gap: 12px;
+    }
+
+    .swatch-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .swatch-btn.active, .swatch-btn:hover {
+      transform: scale(1.15);
+      border-color: #fff;
+    }
+
+    .swatch-carbon { background: #18181b; }
+    .swatch-scarlet { background: #ef4444; }
+    .swatch-titanium { background: #94a3b8; }
+    .swatch-verde { background: #15803d; }
+    .swatch-gold { background: #ca8a04; }
+
+    .wheel-pills {
+      display: flex;
+      gap: 10px;
+    }
+
+    .wheel-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--titanium);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .wheel-pill.active, .wheel-pill:hover {
+      border-color: var(--scarlet);
+      color: #fff;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .config-summary-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      padding: 18px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .config-code-txt {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--scarlet);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    /* Track Allocation Reservation Form */
+    .reservation-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-scarlet);
+      border-radius: 16px;
+      padding: 44px;
+      box-shadow: 0 0 50px rgba(239, 68, 68, 0.1);
+    }
+
+    .res-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .res-form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-field label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--titanium);
+    }
+
+    .input-field input, .input-field select {
+      background: #08080a;
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-field input:focus, .input-field select:focus {
+      border-color: var(--scarlet);
+    }
+
+    /* Footer */
+    footer {
+      background: #040405;
+      border-top: 1px solid var(--border-dark);
+      padding: 70px 0 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 800px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-desc {
+      color: var(--titanium);
+      font-size: 14px;
+      margin-top: 12px;
+      max-width: 360px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--titanium);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--scarlet);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-dark);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="#" class="brand-link">
+        <div class="brand-icon"><div class="brand-icon-inner"></div></div>
+        <div class="brand-text">VALKYRIE <span>// WORKS</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#powertrain">Powertrain</a></li>
+        <li><a href="#aero">Active Aero</a></li>
+        <li><a href="#chassis">Monocoque</a></li>
+        <li><a href="#atelier">Configurator</a></li>
+        <li><a href="#reserve">Allocation</a></li>
+      </ul>
+
+      <a href="#reserve" class="btn-scarlet">
+        <span>ALLOCATE CHASSIS</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero" id="powertrain">
+      <div class="hero-top-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Bespoke Atelier Prototype &bull; Chassis 001/025 Certified
+      </div>
+
+      <h1 class="hero-heading">
+        0–100 km/h in 1.74s // <span class="scarlet-text">2,200 HP</span> Quad-Motor Architecture
+      </h1>
+
+      <p class="hero-subtitle">
+        Four independent permanent magnet synchronous motors revving to 24,000 RPM. Torque vectoring every 0.2 milliseconds. Built without compromise in Sant'Agata Bolognese.
+      </p>
+
+      <!-- Key Metrics Row -->
+      <div class="metrics-bar">
+        <div class="metric-card">
+          <div class="metric-label">Acceleration 0–100 km/h</div>
+          <div class="metric-number">1.74 <span class="metric-unit">SEC</span></div>
+          <div class="metric-detail">Verified on Michelin Pilot Sport Cup 2R</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Peak Total Output</div>
+          <div class="metric-number">2,200 <span class="metric-unit">HP</span></div>
+          <div class="metric-detail">1,640 kW combined Silicon-Carbide power</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Peak Downforce</div>
+          <div class="metric-number">1,850 <span class="metric-unit">KG</span></div>
+          <div class="metric-detail">Generated @ 320 km/h in Track V-Max mode</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Lateral Grip Limit</div>
+          <div class="metric-number">2.45 <span class="metric-unit">G</span></div>
+          <div class="metric-detail">Active hydraulic ride-height suppression</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Active Aero Wing Simulator -->
+    <section class="section-wrap" id="aero">
+      <div class="sec-tag">Computational Aerodynamics</div>
+      <h2 class="sec-title">Active Morphing Aero & Venturi Simulation</h2>
+      <p class="sec-desc">Test real-time wing deflection angle and ground-effect suction. Adjust high-speed airflow parameters to visualize vortex breakdown and active airbrake deceleration.</p>
+
+      <div class="aero-grid">
+        <div class="aero-display-panel">
+          <div class="aero-canvas-box">
+            <canvas id="aeroCanvas"></canvas>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--titanium);">
+            <span>AIRFLOW VELOCITY VECTOR STREAMLINES</span>
+            <span id="aeroModeLabel" style="color: var(--scarlet);">CURRENT: HIGH DOWNFORCE MODE</span>
+          </div>
+        </div>
+
+        <div class="aero-controls-panel">
+          <div class="ctrl-group">
+            <div class="ctrl-label-row">
+              <span class="ctrl-label">Wing Angle of Attack</span>
+              <span class="ctrl-val" id="valWingAngle">24°</span>
+            </div>
+            <input type="range" class="custom-range" id="rangeWing" min="2" max="42" value="24" oninput="updateAeroSim()">
+          </div>
+
+          <div class="ctrl-group">
+            <div class="ctrl-label-row">
+              <span class="ctrl-label">Vehicle Track Speed</span>
+              <span class="ctrl-val" id="valVehicleSpeed">280 km/h</span>
+            </div>
+            <input type="range" class="custom-range" id="rangeSpeed" min="80" max="420" value="280" oninput="updateAeroSim()">
+          </div>
+
+          <div style="background: rgba(0,0,0,0.5); border: 1px solid var(--border-dark); padding: 16px; border-radius: 6px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--titanium);">Total Aero Downforce:</span>
+              <strong style="font-family: var(--font-display); font-size: 18px; color: #fff;" id="simDownforce">1,428 kg</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--titanium);">Drag Coefficient (Cd):</span>
+              <strong style="font-family: var(--font-mono); font-size: 14px; color: var(--scarlet);" id="simCd">0.384</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-size: 12px; color: var(--titanium);">Lift-to-Drag Ratio (L/D):</span>
+              <strong style="font-family: var(--font-mono); font-size: 14px; color: #22c55e;" id="simLd">3.72 : 1</strong>
+            </div>
+          </div>
+
+          <div class="aero-modes">
+            <button class="btn-mode active" onclick="setAeroPreset('track')">Track Attack</button>
+            <button class="btn-mode" onclick="setAeroPreset('drs')">DRS V-Max</button>
+            <button class="btn-mode" onclick="setAeroPreset('airbrake')">Airbrake Deploy</button>
+            <button class="btn-mode" onclick="setAeroPreset('street')">Street Cruise</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carbon Monocoque Chassis Breakdown -->
+    <section class="section-wrap" id="chassis">
+      <div class="sec-tag">Structural Integrity</div>
+      <h2 class="sec-title">Toray T1100G Carbon Monocoque Architecture</h2>
+      <p class="sec-desc">A single-piece carbon fiber safety cell weighing only 112 kg with 65,000 Nm/degree torsional stiffness, integrated with crash-absorbing aluminum honeycomb subframes.</p>
+
+      <div class="chassis-tabs">
+        <button class="chassis-tab active" onclick="switchChassisTab('tub')">01 // Carbon Safety Tub</button>
+        <button class="chassis-tab" onclick="switchChassisTab('inverters')">02 // 800V SiC Inverters</button>
+        <button class="chassis-tab" onclick="switchChassisTab('suspension')">03 // DSSV Pushrod Dampers</button>
+        <button class="chassis-tab" onclick="switchChassisTab('brakes')">04 // 420mm Carbon-Ceramic</button>
+      </div>
+
+      <div class="chassis-content-card" id="chassisCard">
+        <div>
+          <h3 class="chassis-title" id="chTitle">Autoclave Molded Carbon Monocoque</h3>
+          <p class="chassis-desc" id="chDesc">
+            Formed from 48 layers of high-modulus Toray T1100G and M46J pre-preg carbon fiber cured at 7 bar pressure and 180°C. Delivers unmatched cockpit crash protection surpassing FIA Formula 1 impact barrier standards.
+          </p>
+
+          <div class="spec-table-row">
+            <span class="spec-table-label">Torsional Rigidity</span>
+            <span class="spec-table-val" id="chSpec1">65,000 Nm / degree</span>
+          </div>
+          <div class="spec-table-row">
+            <span class="spec-table-label">Bare Tub Dry Mass</span>
+            <span class="spec-table-val" id="chSpec2">112.4 kg (247 lbs)</span>
+          </div>
+          <div class="spec-table-row">
+            <span class="spec-table-label">Tensile Elastic Modulus</span>
+            <span class="spec-table-val" id="chSpec3">324 GPa</span>
+          </div>
+          <div class="spec-table-row">
+            <span class="spec-table-label">FIA Crash Load Compliance</span>
+            <span class="spec-table-val" id="chSpec4">150 kN Lateral / 120 kN Frontal</span>
+          </div>
+        </div>
+
+        <div class="chassis-schematic-box">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--scarlet); margin-bottom: 12px;">CROSS-SECTION MODULUS SCHEMATIC</div>
+          <svg width="260" height="180" viewBox="0 0 260 180" style="margin: 0 auto; display: block;">
+            <polygon points="30,140 70,40 190,40 230,140" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,2"/>
+            <polygon points="50,130 80,60 180,60 210,130" fill="rgba(239, 68, 68, 0.15)" stroke="#94a3b8" stroke-width="1.5"/>
+            <circle cx="130" cy="95" r="28" fill="none" stroke="#ef4444" stroke-width="2"/>
+            <line x1="30" y1="140" x2="230" y2="140" stroke="#ef4444" stroke-width="2"/>
+            <text x="130" y="100" fill="#fff" font-family="'JetBrains Mono'" font-size="10" text-anchor="middle">COG: 285mm</text>
+          </svg>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: #64748b; margin-top: 10px;">50:50 Front/Rear Dynamic Weight Distribution</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bespoke Atelier Configurator Preview -->
+    <section class="section-wrap" id="atelier">
+      <div class="sec-tag">Individual Bespoke Craft</div>
+      <h2 class="sec-title">Atelier Specification Configurator</h2>
+      <p class="sec-desc">Tailor every carbon composite weave, anodized magnesium forging, and aniline leather hue. Each chassis is built exclusively to order with bespoke laser-etched VIN.</p>
+
+      <div class="configurator-wrap">
+        <div class="car-stage">
+          <canvas id="carPreviewCanvas"></canvas>
+          <div class="car-stage-badge">
+            <span id="configHueName">FINISH: RAW FORGED CARBON</span>
+            <span id="configTrimName">WHEELS: 21" AERO-DISC MAGNESIUM</span>
+          </div>
+        </div>
+
+        <div class="config-options-col">
+          <div>
+            <div class="opt-group-title">01 // Exterior Bodywork Finish</div>
+            <div class="color-swatches">
+              <button class="swatch-btn swatch-carbon active" onclick="setCarColor('#18181b', 'Raw Forged Carbon')"></button>
+              <button class="swatch-btn swatch-scarlet" onclick="setCarColor('#ef4444', 'Rosso Track Scarlet')"></button>
+              <button class="swatch-btn swatch-titanium" onclick="setCarColor('#94a3b8', 'Liquid Titanium')"></button>
+              <button class="swatch-btn swatch-verde" onclick="setCarColor('#15803d', 'Modena Racing Verde')"></button>
+              <button class="swatch-btn swatch-gold" onclick="setCarColor('#ca8a04', 'Solar Gold Accent')"></button>
+            </div>
+          </div>
+
+          <div>
+            <div class="opt-group-title">02 // Monobloc Wheel Architecture</div>
+            <div class="wheel-pills">
+              <button class="wheel-pill active" onclick="setWheels('Aero-Disc Magnesium')">20"/21" Aero-Disc</button>
+              <button class="wheel-pill" onclick="setWheels('Twin 5-Spoke Forged')">Twin 5-Spoke Carbon</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="opt-group-title">03 // Brake Caliper Ceramic Finish</div>
+            <div class="wheel-pills">
+              <button class="wheel-pill active" onclick="setCaliper('#ef4444')">Scarlet Red</button>
+              <button class="wheel-pill" onclick="setCaliper('#ca8a04')">Solar Gold</button>
+              <button class="wheel-pill" onclick="setCaliper('#06b6d4')">Acid Cyan</button>
+            </div>
+          </div>
+
+          <div class="config-summary-box">
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--titanium);">ESTIMATED BUILD SPECIFICATION CODE:</div>
+            <div class="config-code-txt" id="specCode">VLK-PHANTOM-RS-C01-W21-RED</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-top: 10px;">
+              <span style="font-size: 13px; color: var(--titanium);">Base Atelier MSRP:</span>
+              <strong style="font-family: var(--font-display); font-size: 22px; color: #fff;">€ 2,850,000</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Track Allocation Reservation Form -->
+    <section class="section-wrap" id="reserve">
+      <div class="reservation-card">
+        <div class="sec-tag">Chassis Allocation Queue</div>
+        <h2 class="sec-title">Reserve Project Valkyrie Production Slot</h2>
+        <p class="sec-desc">Strictly limited to 25 worldwide chassis builds. Priority given to FIA international competition license holders and verified private collectors.</p>
+
+        <form onsubmit="handleReservationSubmit(event)">
+          <div class="res-form-grid">
+            <div class="input-field">
+              <label>Applicant Full Legal Name</label>
+              <input type="text" placeholder="e.g. Sebastian Vance" required>
+            </div>
+
+            <div class="input-field">
+              <label>Private Atelier Email</label>
+              <input type="email" placeholder="vance@motorsport-syndicate.com" required>
+            </div>
+
+            <div class="input-field">
+              <label>FIA Racing License Grade</label>
+              <select>
+                <option>Grade A (International Prototype / GT3)</option>
+                <option>Grade B (National Competition)</option>
+                <option>Grade C (Amateur Track Day)</option>
+                <option>Collector / Non-Competition Reserve</option>
+              </select>
+            </div>
+
+            <div class="input-field">
+              <label>Factory Handover Circuit Choice</label>
+              <select>
+                <option>Nürburgring Nordschleife, Germany</option>
+                <option>Circuit de Spa-Francorchamps, Belgium</option>
+                <option>Silverstone GP Circuit, United Kingdom</option>
+                <option>WeatherTech Raceway Laguna Seca, USA</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 20px;">
+            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--titanium);">
+              &bull; 100% refundable escrow allocation deposit &bull; Delivery begins Q2 2027
+            </div>
+            <button type="submit" class="btn-scarlet">
+              <span>SUBMIT APPLICATION FOR CHASSIS</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-text">VALKYRIE <span>// WORKS</span></div>
+          <p class="footer-desc">
+            Bespoke Electric Hypercar Works. Engineering quad-motor architectures, dynamic active ground effect, and carbon safety cells in Sant'Agata Bolognese, Italy.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Engineering</div>
+          <ul class="footer-links">
+            <li><a href="#powertrain">Quad-Motor 2,200 HP</a></li>
+            <li><a href="#aero">Active Morphing Aero</a></li>
+            <li><a href="#chassis">Toray T1100G Tub</a></li>
+            <li><a href="#chassis">DSSV Spool Dampers</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Atelier Services</div>
+          <ul class="footer-links">
+            <li><a href="#atelier">Custom Paint-to-Sample</a></li>
+            <li><a href="#reserve">Track Day Logistics</a></li>
+            <li><a href="#reserve">Factory Driver Coaching</a></li>
+            <li><a href="#reserve">Telemetry Tele-Support</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Atelier Testing HQ</div>
+          <ul class="footer-links">
+            <li><a href="#">Via Modena 14, Bologna</a></li>
+            <li><a href="#">Nardò Ring High-Speed Bowl</a></li>
+            <li><a href="#">Wind Tunnel FIA Unit 7</a></li>
+            <li><a href="#">press@valkyrie-works.it</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 VALKYRIE AUTOMOBILI S.P.A. &bull; ALL RIGHTS RESERVED</div>
+        <div>CHASSIS PRODUCTION ALLOCATION: 18 / 25 REMAINING</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // 1. Aerodynamic Airflow Canvas Simulation
+    const aeroCanvas = document.getElementById('aeroCanvas');
+    const aeroCtx = aeroCanvas.getContext('2d');
+    let aeroAnimId;
+    let wingAngle = 24;
+    let vehicleSpeed = 280;
+
+    function resizeAeroCanvas() {
+      aeroCanvas.width = aeroCanvas.clientWidth * window.devicePixelRatio;
+      aeroCanvas.height = aeroCanvas.clientHeight * window.devicePixelRatio;
+      aeroCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeAeroCanvas);
+    resizeAeroCanvas();
+
+    // Streamline particles
+    const particles = [];
+    for (let i = 0; i < 90; i++) {
+      particles.push({
+        x: Math.random() * aeroCanvas.clientWidth,
+        y: Math.random() * aeroCanvas.clientHeight,
+        vx: 4 + Math.random() * 5,
+        length: 20 + Math.random() * 40,
+        alpha: 0.2 + Math.random() * 0.7
+      });
+    }
+
+    function renderAero() {
+      const w = aeroCanvas.clientWidth;
+      const h = aeroCanvas.clientHeight;
+      aeroCtx.clearRect(0, 0, w, h);
+
+      // Draw Airfoil Profile in center
+      aeroCtx.save();
+      aeroCtx.translate(w * 0.45, h * 0.52);
+      aeroCtx.rotate((-wingAngle * Math.PI) / 180);
+
+      // Aerodynamic Carbon Wing cross section
+      aeroCtx.fillStyle = '#ef4444';
+      aeroCtx.shadowColor = '#ef4444';
+      aeroCtx.shadowBlur = 12;
+      aeroCtx.beginPath();
+      aeroCtx.moveTo(-80, -8);
+      aeroCtx.bezierCurveTo(-40, -22, 50, -18, 80, -2);
+      aeroCtx.bezierCurveTo(85, 0, 80, 4, 75, 4);
+      aeroCtx.bezierCurveTo(40, 2, -30, -2, -80, -8);
+      aeroCtx.closePath();
+      aeroCtx.fill();
+      aeroCtx.restore();
+
+      // Draw Streamline flow
+      particles.forEach(p => {
+        p.x += p.vx * (vehicleSpeed / 150);
+        if (p.x > w + 50) {
+          p.x = -50;
+          p.y = Math.random() * h;
+        }
+
+        // Deflect particles around wing
+        const dx = p.x - (w * 0.45);
+        const dy = p.y - (h * 0.52);
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        let offsetY = 0;
+        if (dist < 110) {
+          offsetY = Math.sin((wingAngle * Math.PI) / 180) * (110 - dist) * 0.5;
+        }
+
+        aeroCtx.strokeStyle = `rgba(239, 68, 68, ${p.alpha})`;
+        aeroCtx.lineWidth = 1.6;
+        aeroCtx.beginPath();
+        aeroCtx.moveTo(p.x, p.y + offsetY);
+        aeroCtx.lineTo(p.x + p.length, p.y + offsetY);
+        aeroCtx.stroke();
+      });
+
+      aeroAnimId = requestAnimationFrame(renderAero);
+    }
+    renderAero();
+
+    function updateAeroSim() {
+      wingAngle = parseFloat(document.getElementById('rangeWing').value);
+      vehicleSpeed = parseFloat(document.getElementById('rangeSpeed').value);
+
+      document.getElementById('valWingAngle').innerText = wingAngle + '°';
+      document.getElementById('valVehicleSpeed').innerText = vehicleSpeed + ' km/h';
+
+      // Downforce equation: Fd ~ v^2 * sin(angle)
+      const v_mps = vehicleSpeed / 3.6;
+      const rad = (wingAngle * Math.PI) / 180;
+      const cl = (0.9 + Math.sin(rad) * 2.4).toFixed(3);
+      const cd = (0.24 + Math.pow(Math.sin(rad), 2) * 0.75).toFixed(3);
+      const downforceKg = Math.round(0.5 * 1.225 * v_mps * v_mps * 1.4 * cl);
+      const ld = (cl / cd).toFixed(2);
+
+      document.getElementById('simDownforce').innerText = downforceKg.toLocaleString() + ' kg';
+      document.getElementById('simCd').innerText = cd;
+      document.getElementById('simLd').innerText = `${ld} : 1`;
+    }
+
+    function setAeroPreset(preset) {
+      document.querySelectorAll('.btn-mode').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (preset === 'track') {
+        document.getElementById('rangeWing').value = 28;
+        document.getElementById('aeroModeLabel').innerText = 'CURRENT: TRACK ATTACK MODE';
+      } else if (preset === 'drs') {
+        document.getElementById('rangeWing').value = 4;
+        document.getElementById('aeroModeLabel').innerText = 'CURRENT: DRS LOW-DRAG V-MAX';
+      } else if (preset === 'airbrake') {
+        document.getElementById('rangeWing').value = 42;
+        document.getElementById('aeroModeLabel').innerText = 'CURRENT: HIGH-G ACTIVE AIRBRAKE';
+      } else if (preset === 'street') {
+        document.getElementById('rangeWing').value = 14;
+        document.getElementById('aeroModeLabel').innerText = 'CURRENT: STREET COMPLIANCE';
+      }
+      updateAeroSim();
+    }
+
+    // 2. Chassis Switcher
+    const chassisData = {
+      tub: {
+        title: 'Autoclave Molded Carbon Monocoque',
+        desc: 'Formed from 48 layers of high-modulus Toray T1100G and M46J pre-preg carbon fiber cured at 7 bar pressure and 180°C. Delivers unmatched cockpit crash protection surpassing FIA Formula 1 impact barrier standards.',
+        s1: '65,000 Nm / degree',
+        s2: '112.4 kg (247 lbs)',
+        s3: '324 GPa',
+        s4: '150 kN Lateral / 120 kN Frontal'
+      },
+      inverters: {
+        title: '800V Silicon-Carbide Dual Inverters',
+        desc: 'Custom liquid-glycol cooled SiC MOSFET power switches delivering 99.2% electrical-to-mechanical conversion efficiency up to 24,000 motor RPM with sub-millisecond torque vectoring per wheel.',
+        s1: '1,640 kW Continuous',
+        s2: '800V Architecture',
+        s3: '99.2% Inverter Efficiency',
+        s4: '0.2 ms Vector Latency'
+      },
+      suspension: {
+        title: 'DSSV Pushrod Double Wishbone',
+        desc: 'Machined 7075-T6 billet aluminum uprights paired with Multimatic spool-valve continuous variable damping. Third heave damper prevents aerodynamic bottoming under 1,850 kg downforce.',
+        s1: 'Pushrod Inboard Layout',
+        s2: 'Spool-Valve Multimatic Dampers',
+        s3: 'Hydraulic 40mm Ride Height Lift',
+        s4: 'Zero Camber Deflection Under 2.45G'
+      },
+      brakes: {
+        title: '420mm Carbon-Ceramic Matrix Rotors',
+        desc: 'Continuous chopped-carbon silicon carbide composite discs coupled with 10-piston forged monobloc front calipers. Withstands repetitive 350-to-0 km/h deceleration without thermal fade.',
+        s1: '420mm Front / 390mm Rear',
+        s2: '10-Piston Billet Caliper',
+        s3: '1,050°C Thermal Peak Limit',
+        s4: '100–0 km/h in 26.2 meters'
+      }
+    };
+
+    function switchChassisTab(key) {
+      document.querySelectorAll('.chassis-tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const d = chassisData[key];
+      document.getElementById('chTitle').innerText = d.title;
+      document.getElementById('chDesc').innerText = d.desc;
+      document.getElementById('chSpec1').innerText = d.s1;
+      document.getElementById('chSpec2').innerText = d.s2;
+      document.getElementById('chSpec3').innerText = d.s3;
+      document.getElementById('chSpec4').innerText = d.s4;
+    }
+
+    // 3. Atelier Car Configurator Canvas Render
+    const carCanvas = document.getElementById('carPreviewCanvas');
+    const carCtx = carCanvas.getContext('2d');
+    let currentCarColor = '#18181b';
+    let currentCaliperColor = '#ef4444';
+    let currentWheelStyle = 'Aero-Disc Magnesium';
+
+    function resizeCarCanvas() {
+      carCanvas.width = carCanvas.clientWidth * window.devicePixelRatio;
+      carCanvas.height = carCanvas.clientHeight * window.devicePixelRatio;
+      carCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      drawCarSilhouette();
+    }
+    window.addEventListener('resize', resizeCarCanvas);
+
+    function drawCarSilhouette() {
+      const w = carCanvas.clientWidth;
+      const h = carCanvas.clientHeight;
+      carCtx.clearRect(0, 0, w, h);
+
+      // Floor reflection glow
+      const grad = carCtx.createRadialGradient(w/2, h - 30, 20, w/2, h - 30, w * 0.45);
+      grad.addColorStop(0, 'rgba(239, 68, 68, 0.2)');
+      grad.addColorStop(1, 'transparent');
+      carCtx.fillStyle = grad;
+      carCtx.fillRect(0, h - 60, w, 60);
+
+      // Sleek Hypercar Side Silhouette
+      carCtx.save();
+      carCtx.translate(w * 0.08, h * 0.28);
+
+      // Car Body
+      carCtx.fillStyle = currentCarColor;
+      carCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      carCtx.lineWidth = 1.5;
+
+      carCtx.beginPath();
+      // Low nose
+      carCtx.moveTo(20, 100);
+      carCtx.bezierCurveTo(70, 95, 120, 75, 180, 48); // hood up to windshield
+      carCtx.bezierCurveTo(240, 22, 310, 22, 380, 45); // roofline
+      carCtx.bezierCurveTo(430, 60, 480, 78, 520, 80); // rear deck & active wing
+      carCtx.lineTo(540, 68); // rear wing endplate top
+      carCtx.lineTo(540, 98); // rear tail
+      carCtx.lineTo(500, 115); // rear diffuser
+      carCtx.lineTo(440, 115); // rear wheel arch
+      carCtx.arc(390, 115, 34, 0, Math.PI, true); // rear wheel cutout
+      carCtx.lineTo(210, 115); // side skirt
+      carCtx.arc(160, 115, 34, 0, Math.PI, true); // front wheel cutout
+      carCtx.lineTo(10, 115); // front splitter
+      carCtx.closePath();
+      carCtx.fill();
+      carCtx.stroke();
+
+      // Cockpit greenhouse glass
+      carCtx.fillStyle = '#0a0d18';
+      carCtx.beginPath();
+      carCtx.moveTo(190, 52);
+      carCtx.bezierCurveTo(240, 30, 300, 30, 360, 50);
+      carCtx.lineTo(350, 68);
+      carCtx.lineTo(210, 68);
+      carCtx.closePath();
+      carCtx.fill();
+
+      // Front Wheel
+      carCtx.fillStyle = '#111';
+      carCtx.beginPath();
+      carCtx.arc(160, 115, 32, 0, Math.PI * 2);
+      carCtx.fill();
+
+      // Rear Wheel
+      carCtx.beginPath();
+      carCtx.arc(390, 115, 32, 0, Math.PI * 2);
+      carCtx.fill();
+
+      // Caliper accent
+      carCtx.fillStyle = currentCaliperColor;
+      carCtx.fillRect(174, 104, 8, 18);
+      carCtx.fillRect(404, 104, 8, 18);
+
+      // Rim Spoke Ring
+      carCtx.strokeStyle = '#94a3b8';
+      carCtx.lineWidth = 2;
+      carCtx.beginPath();
+      carCtx.arc(160, 115, 20, 0, Math.PI * 2);
+      carCtx.arc(390, 115, 20, 0, Math.PI * 2);
+      carCtx.stroke();
+
+      carCtx.restore();
+    }
+    setTimeout(resizeCarCanvas, 100);
+
+    function setCarColor(hex, name) {
+      document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      currentCarColor = hex;
+      document.getElementById('configHueName').innerText = `FINISH: ${name.toUpperCase()}`;
+      drawCarSilhouette();
+    }
+
+    function setWheels(wheel) {
+      document.querySelectorAll('.wheel-pill').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      currentWheelStyle = wheel;
+      document.getElementById('configTrimName').innerText = `WHEELS: ${wheel.toUpperCase()}`;
+      drawCarSilhouette();
+    }
+
+    function setCaliper(hex) {
+      currentCaliperColor = hex;
+      drawCarSilhouette();
+    }
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      alert("Application received. Valkyrie Bespoke Atelier Concierge will contact you within 24 hours with your authenticated chassis build certificate.");
+    }
+  </script>
+</body>
+</html>

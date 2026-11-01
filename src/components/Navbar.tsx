@@ -30,7 +30,7 @@ export default function Navbar() {
                 >
                   <span>Templates</span>
                   <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300">
-                    36
+                    46
                   </span>
                 </Link>
 
@@ -158,7 +158,7 @@ export default function Navbar() {
             >
               <span>Explore Templates</span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold">
-                36 Total
+                46 Total
               </span>
             </Link>
             <Link 

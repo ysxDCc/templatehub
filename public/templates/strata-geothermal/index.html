@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRATA // Supercritical Deep Crust Geothermal Infrastructure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-basalt: #0c0705;
+      --bg-surface: #140b08;
+      --bg-card: rgba(26, 14, 10, 0.75);
+      --magma: #f97316;
+      --magma-glow: rgba(249, 115, 22, 0.35);
+      --amber: #fbbf24;
+      --terracotta: #c2410c;
+      --steam: #f8fafc;
+      --steam-dim: #94a3b8;
+      --border-magma: rgba(249, 115, 22, 0.3);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-basalt);
+      color: var(--steam);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(ellipse 90% 50% at 50% -10%, rgba(249, 115, 22, 0.18), transparent 70%),
+        radial-gradient(circle 800px at 90% 50%, rgba(194, 65, 12, 0.12), transparent 60%),
+        radial-gradient(circle 700px at 10% 85%, rgba(249, 115, 22, 0.08), transparent 60%);
+      background-attachment: fixed;
+    }
+
+    /* Crust Stratification Texture Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 24px 24px;
+      background-image: 
+        linear-gradient(to right, rgba(249, 115, 22, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(249, 115, 22, 0.03) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(12, 7, 5, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-magma);
+      z-index: 100;
+    }
+
+    .nav-wrap {
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-core {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--magma);
+      background: rgba(249, 115, 22, 0.12);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 16px var(--magma-glow);
+    }
+
+    .brand-core-inner {
+      width: 14px;
+      height: 14px;
+      background: var(--magma);
+      box-shadow: 0 0 10px var(--magma);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
+    }
+
+    .brand-title span {
+      color: var(--magma);
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid var(--border-magma);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--amber);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--magma);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--magma);
+      animation: magma-pulse 1.8s infinite;
+    }
+
+    @keyframes magma-pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.7); opacity: 0.4; }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links a {
+      color: var(--steam-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--magma);
+    }
+
+    .btn-magma {
+      background: linear-gradient(135deg, var(--magma), #c2410c);
+      color: #0c0705;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 10px 22px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px var(--magma-glow);
+      transition: all 0.25s;
+    }
+
+    .btn-magma:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--magma);
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid var(--border-magma);
+      padding: 6px 14px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5.5vw, 70px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      max-width: 1020px;
+    }
+
+    .hero-title .magma-glow {
+      color: var(--magma);
+      text-shadow: 0 0 35px rgba(249, 115, 22, 0.5);
+    }
+
+    .hero-desc {
+      font-size: clamp(16px, 1.3vw, 19px);
+      color: var(--steam-dim);
+      max-width: 820px;
+      margin-bottom: 50px;
+    }
+
+    /* Interactive Borehole Telemetry Simulator Box */
+    .borehole-viewer {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-magma);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 60px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+    }
+
+    @media (max-width: 950px) {
+      .borehole-viewer {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .borehole-diagram-canvas {
+      width: 100%;
+      height: 320px;
+      background: #080403;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    #boreholeCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .borehole-sidebar {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .depth-slider-box {
+      margin-bottom: 20px;
+    }
+
+    .depth-slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .custom-range {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--magma);
+      box-shadow: 0 0 12px var(--magma);
+      cursor: pointer;
+    }
+
+    .borehole-kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-magma);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .kpi-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+    }
+
+    .kpi-row:last-child {
+      border-bottom: none;
+    }
+
+    .kpi-lbl {
+      color: var(--steam-dim);
+    }
+
+    .kpi-num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Telemetry KPI Strip */
+    .telemetry-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+      margin-bottom: 90px;
+    }
+
+    .telemetry-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--magma);
+      padding: 24px;
+      border-radius: 8px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    }
+
+    .telemetry-card:hover {
+      border-color: var(--magma);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(249, 115, 22, 0.15);
+    }
+
+    .card-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--steam-dim);
+      margin-bottom: 6px;
+    }
+
+    .card-val {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .card-unit {
+      font-size: 14px;
+      color: var(--magma);
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: #78716c;
+    }
+
+    /* Section Styling */
+    .section-wrap {
+      margin-bottom: 100px;
+    }
+
+    .sec-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--magma);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sec-tag::before {
+      content: '';
+      width: 20px;
+      height: 2px;
+      background: var(--magma);
+    }
+
+    .sec-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .sec-desc {
+      color: var(--steam-dim);
+      font-size: 16px;
+      max-width: 720px;
+      margin-bottom: 36px;
+    }
+
+    /* Baseload Turbine Stats vs Intermittent Renewables */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .comp-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 28px;
+      position: relative;
+    }
+
+    .comp-card.highlight {
+      border-color: var(--border-magma);
+      background: rgba(30, 16, 11, 0.9);
+      box-shadow: 0 0 30px rgba(249, 115, 22, 0.15);
+    }
+
+    .comp-type {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--magma);
+      margin-bottom: 8px;
+    }
+
+    .comp-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .comp-stat-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+    }
+
+    .comp-stat-lbl {
+      color: var(--steam-dim);
+    }
+
+    .comp-stat-val {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Binary Cycle Heat Exchanger Loop Canvas */
+    .binary-loop-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-magma);
+      border-radius: 12px;
+      padding: 32px;
+      position: relative;
+    }
+
+    #cycleCanvas {
+      width: 100%;
+      height: 360px;
+      display: block;
+      background: #090504;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .cycle-legend {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--steam-dim);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-box {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    /* Environmental Carbon Offset Calculator */
+    .calc-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-magma);
+      border-radius: 12px;
+      padding: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 36px;
+    }
+
+    @media (max-width: 900px) {
+      .calc-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .calc-slider-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .calc-metrics-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .calc-kpi-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .calc-kpi-lbl {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--steam-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .calc-kpi-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--magma);
+    }
+
+    /* Grid Power Purchase Agreement (PPA) Portal */
+    .ppa-form-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-magma);
+      border-radius: 16px;
+      padding: 40px;
+    }
+
+    .ppa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .ppa-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ppa-field label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--steam-dim);
+    }
+
+    .ppa-field input, .ppa-field select {
+      background: #080403;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .ppa-field input:focus, .ppa-field select:focus {
+      border-color: var(--magma);
+    }
+
+    /* Footer */
+    footer {
+      background: #060302;
+      border-top: 1px solid var(--border-magma);
+      padding: 70px 0 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 800px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-desc {
+      color: var(--steam-dim);
+      font-size: 14px;
+      margin-top: 12px;
+      max-width: 360px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #fff;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: var(--steam-dim);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--magma);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #78716c;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="#" class="brand-wrap">
+        <div class="brand-core"><div class="brand-core-inner"></div></div>
+        <div class="brand-title">STRATA <span>// GEOTHERMAL</span></div>
+      </a>
+
+      <div class="status-chip">
+        <span class="pulse-dot"></span>
+        <span>BOREHOLE TX-09 &bull; 450°C SUPERCRITICAL &bull; 240 MW BASELOAD</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#borehole">Borehole</a></li>
+        <li><a href="#baseload">Baseload Stats</a></li>
+        <li><a href="#binary">Thermodynamic Loop</a></li>
+        <li><a href="#abatement">Carbon Abatement</a></li>
+        <li><a href="#ppa">PPA Portal</a></li>
+      </ul>
+
+      <a href="#ppa" class="btn-magma">
+        <span>CONTRACT BASELOAD MW</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        SUPERCRITICAL GEOTHERMAL INFRASTRUCTURE &bull; 10,000M CRUST ACCESS
+      </div>
+
+      <h1 class="hero-title">
+        Supercritical Deep Crust Geothermal with <span class="magma-glow">99.4% Capacity Factor</span>
+      </h1>
+
+      <p class="hero-desc">
+        Accessing supercritical water at 450°C and 300 bar from continental tectonic crust boundaries. True zero-carbon, non-intermittent 24/7 power for hyperscale AI datacenters and industrial grids.
+      </p>
+
+      <!-- Deep Borehole Depth & Temperature Visualizer -->
+      <div class="borehole-viewer" id="borehole">
+        <div class="borehole-diagram-canvas">
+          <canvas id="boreholeCanvas"></canvas>
+        </div>
+
+        <div class="borehole-sidebar">
+          <div class="depth-slider-box">
+            <div class="depth-slider-head">
+              <span style="color: var(--steam-dim);">DRILL DEPTH SCANNER:</span>
+              <span id="depthValText" style="color: var(--magma); font-weight: 700;">10,000 meters</span>
+            </div>
+            <input type="range" class="custom-range" id="depthRange" min="1000" max="10000" step="250" value="10000" oninput="updateBoreholeSim()">
+          </div>
+
+          <div class="borehole-kpi-card">
+            <div class="kpi-row">
+              <span class="kpi-lbl">Geological Strata</span>
+              <span class="kpi-num" id="strataName" style="color: var(--amber);">Supercritical Magma Boundary</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-lbl">Borehole Bottom Temp</span>
+              <span class="kpi-num" id="tempNum">452.4 °C</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-lbl">Hydrostatic Pressure</span>
+              <span class="kpi-num" id="pressNum">298.5 bar (30 MPa)</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-lbl">Thermodynamic State</span>
+              <span class="kpi-num" id="stateNum" style="color: var(--magma);">Supercritical Fluid</span>
+            </div>
+            <div class="kpi-row">
+              <span class="kpi-lbl">Enthalpy Energy Density</span>
+              <span class="kpi-num" id="enthalpyNum">3,120 kJ / kg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Strip -->
+      <div class="telemetry-row">
+        <div class="telemetry-card">
+          <div class="card-label">Grid Capacity Factor</div>
+          <div class="card-val">99.4 <span class="card-unit">%</span></div>
+          <div class="card-sub">Zero reliance on wind, cloud cover, or battery storage</div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="card-label">Fluid Wellhead Enthalpy</div>
+          <div class="card-val">3,120 <span class="card-unit">KJ/KG</span></div>
+          <div class="card-sub">Supercritical water carries 10x energy of conventional steam</div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="card-label">Binary Turbine Output</div>
+          <div class="card-val">240 <span class="card-unit">MW</span></div>
+          <div class="card-sub">Heavy synchronous inertia stabilizes regional grid frequency</div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="card-label">Land Footprint / MW</div>
+          <div class="card-val">0.12 <span class="card-unit">ACRES</span></div>
+          <div class="card-sub">1/70th the surface footprint of solar PV installations</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Baseload Stats vs Renewables -->
+    <section class="section-wrap" id="baseload">
+      <div class="sec-tag">Grid Reliability Architecture</div>
+      <h2 class="sec-title">Baseload Generation vs Weather-Dependent Renewables</h2>
+      <p class="sec-desc">Modern hyperscale artificial intelligence datacenters require constant flat 24/7 power curves. Supercritical geothermal eliminates the duck curve entirely without peaker gas plants.</p>
+
+      <div class="comparison-grid">
+        <div class="comp-card highlight">
+          <div class="comp-type">Continental Supercritical</div>
+          <div class="comp-name">STRATA Geothermal</div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Capacity Factor:</span>
+            <span class="comp-stat-val" style="color: var(--magma);">99.4% (Continuous)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Weather Intermittency:</span>
+            <span class="comp-stat-val" style="color: #22c55e;">Zero (Deep Earth Heat)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Land Area per 1,000 MW:</span>
+            <span class="comp-stat-val">120 Acres</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Lifespan / Well Integrity:</span>
+            <span class="comp-stat-val">50+ Years Continuous</span>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-type">Solar Photovoltaic + BESS</div>
+          <div class="comp-name">Utility Solar PV</div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Capacity Factor:</span>
+            <span class="comp-stat-val">23.8% (Sunlight Dependent)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Weather Intermittency:</span>
+            <span class="comp-stat-val" style="color: #ef4444;">Severe (Night / Clouds)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Land Area per 1,000 MW:</span>
+            <span class="comp-stat-val">8,200 Acres</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Battery Degrade Cycle:</span>
+            <span class="comp-stat-val">Replace Every 8–10 Years</span>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-type">Onshore / Offshore Wind</div>
+          <div class="comp-name">Wind Turbine Arrays</div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Capacity Factor:</span>
+            <span class="comp-stat-val">36.5% (Wind Dependent)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Weather Intermittency:</span>
+            <span class="comp-stat-val" style="color: #ef4444;">High (Calm Wind Droughts)</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Land Area per 1,000 MW:</span>
+            <span class="comp-stat-val">15,000+ Acres</span>
+          </div>
+          <div class="comp-stat-line">
+            <span class="comp-stat-lbl">Mechanical Maintenance:</span>
+            <span class="comp-stat-val">High Gearbox Wear</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closed-Loop Binary Cycle Heat Exchanger Loop -->
+    <section class="section-wrap" id="binary">
+      <div class="sec-tag">Thermodynamic Thermodynamics</div>
+      <h2 class="sec-title">Closed-Loop Supercritical Binary Rankine Cycle</h2>
+      <p class="sec-desc">Supercritical geothermal fluid never touches the atmosphere. 100% of minerals and water are reinjected into the subterranean reservoir in an airtight closed thermodynamic circuit.</p>
+
+      <div class="binary-loop-box">
+        <canvas id="cycleCanvas"></canvas>
+
+        <div class="cycle-legend">
+          <div class="legend-item">
+            <div class="legend-box" style="background: #f97316;"></div>
+            <span>Supercritical Production Loop (450°C, 300 bar)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #fbbf24;"></div>
+            <span>Organic Rankine Isobutane Vapor (High Enthalpy)</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #38bdf8;"></div>
+            <span>Condenser Recirculation Loop</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-box" style="background: #a855f7;"></div>
+            <span>Closed Deep Injection Well (100% Return)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carbon Abatement Calculator -->
+    <section class="section-wrap" id="abatement">
+      <div class="sec-tag">Impact Metrics</div>
+      <h2 class="sec-title">Baseload Clean Power & Carbon Abatement Calculator</h2>
+      <p class="sec-desc">Model how contracting supercritical geothermal baseload megawatt blocks directly eliminates greenhouse emissions and fossil peaker plant reliance.</p>
+
+      <div class="calc-card">
+        <div class="calc-slider-col">
+          <div style="font-family: var(--font-mono); font-size: 13px; color: var(--steam-dim); margin-bottom: 8px;">
+            SELECTED BASELOAD CAPACITY:
+          </div>
+          <div style="font-family: var(--font-display); font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 12px;">
+            <span id="mwText">120</span> <span style="font-size: 20px; color: var(--magma);">MW 24/7</span>
+          </div>
+          <input type="range" class="custom-range" id="mwSlider" min="10" max="500" step="10" value="120" oninput="updateAbatementCalc()">
+          <div style="font-family: var(--font-mono); font-size: 11px; color: #78716c; margin-top: 10px;">
+            Flat 8,760 hours/year baseline delivery
+          </div>
+        </div>
+
+        <div class="calc-metrics-col">
+          <div class="calc-kpi-tile">
+            <div class="calc-kpi-lbl">Annual MWh Generated</div>
+            <div class="calc-kpi-num" id="kpiMwh">1,051,200</div>
+          </div>
+          <div class="calc-kpi-tile">
+            <div class="calc-kpi-lbl">CO₂ Abated (vs Coal)</div>
+            <div class="calc-kpi-num" id="kpiCo2">1,024,920 t</div>
+          </div>
+          <div class="calc-kpi-tile">
+            <div class="calc-kpi-lbl">Hyperscale Racks Powered</div>
+            <div class="calc-kpi-num" id="kpiRacks">2,880 Racks</div>
+          </div>
+          <div class="calc-kpi-tile">
+            <div class="calc-kpi-lbl">Equivalent Homes 24/7</div>
+            <div class="calc-kpi-num" id="kpiHomes">114,000</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PPA Power Purchase Agreement Portal -->
+    <section class="section-wrap" id="ppa">
+      <div class="ppa-form-wrap">
+        <div class="sec-tag">Direct Corporate Interconnection</div>
+        <h2 class="sec-title">Power Purchase Agreement (PPA) Request Portal</h2>
+        <p class="sec-desc">Long-term flat fixed-price energy contracts for data centers, green hydrogen hubs, and electric utilities seeking firm 24/7 zero-carbon certification.</p>
+
+        <form onsubmit="handlePpaSubmit(event)">
+          <div class="ppa-grid">
+            <div class="ppa-field">
+              <label>Organization / Entity</label>
+              <input type="text" placeholder="e.g. Apex Compute Systems" required>
+            </div>
+
+            <div class="ppa-field">
+              <label>Procurement Officer Email</label>
+              <input type="email" placeholder="procurement@apex-compute.com" required>
+            </div>
+
+            <div class="ppa-field">
+              <label>Desired Offtake Volume</label>
+              <select>
+                <option>50 MW Block (438 GWh / year)</option>
+                <option>100 MW Block (876 GWh / year)</option>
+                <option>250 MW Hyperscale Block (2.19 TWh / year)</option>
+                <option>500 MW Regional Infrastructure Hub</option>
+              </select>
+            </div>
+
+            <div class="ppa-field">
+              <label>Target Grid Interconnection</label>
+              <select>
+                <option>ERCOT West Texas Transmission 345 kV</option>
+                <option>CAISO California Independent System Operator</option>
+                <option>PJM Interconnection (Mid-Atlantic)</option>
+                <option>Reykjanes Ridge European High Voltage DC</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div style="font-family: var(--font-mono); font-size: 12px; color: var(--steam-dim);">
+              &bull; 15 to 25 Year Indexed PPA Terms &bull; Zero Escalation Fuel Risk &bull; Dodd-Frank CFTC Registered
+            </div>
+            <button type="submit" class="btn-magma">
+              <span>GENERATE FORMAL PPA TERM SHEET</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-title">STRATA <span>// GEOTHERMAL</span></div>
+          <p class="footer-desc">
+            Supercritical Deep Crust Geothermal Infrastructure. Engineering multi-kilometer deep borehole energy extraction to provide round-the-clock zero carbon baseload power worldwide.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Technology</div>
+          <ul class="footer-links">
+            <li><a href="#borehole">10,000m Deep Borehole</a></li>
+            <li><a href="#binary">Closed Binary ORC Cycle</a></li>
+            <li><a href="#baseload">Capacity Factor Comparison</a></li>
+            <li><a href="#abatement">DAS Fiber Seismic Safety</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Offtake & PPA</div>
+          <ul class="footer-links">
+            <li><a href="#ppa">Corporate Clean PPAs</a></li>
+            <li><a href="#ppa">AI Hyperscale Colocation</a></li>
+            <li><a href="#ppa">Green Hydrogen Feedstock</a></li>
+            <li><a href="#ppa">Grid Interconnection Docs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Deep Borehole Sites</div>
+          <ul class="footer-links">
+            <li><a href="#">Reykjanes Supercritical Unit 1</a></li>
+            <li><a href="#">Salton Sea Crustal Project</a></li>
+            <li><a href="#">Taupo Continental Borehole</a></li>
+            <li><a href="#">geothermal@strata-infra.energy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 STRATA SUPERCRITICAL GEOTHERMAL INFRASTRUCTURE INC. &bull; ALL RIGHTS RESERVED</div>
+        <div>CONTINUOUS TELEMETRY MONITORED BY USGS &bull; INDUCED SEISMICITY MITIGATION LEVEL 0</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // 1. Borehole Depth Canvas Cross-Section Simulation
+    const bCanvas = document.getElementById('boreholeCanvas');
+    const bCtx = bCanvas.getContext('2d');
+    let currentDepth = 10000;
+
+    function resizeBorehole() {
+      bCanvas.width = bCanvas.clientWidth * window.devicePixelRatio;
+      bCanvas.height = bCanvas.clientHeight * window.devicePixelRatio;
+      bCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      drawBorehole();
+    }
+    window.addEventListener('resize', resizeBorehole);
+
+    function drawBorehole() {
+      const w = bCanvas.clientWidth;
+      const h = bCanvas.clientHeight;
+      bCtx.clearRect(0, 0, w, h);
+
+      // Geological strata layers
+      // Layer 1: Sedimentary (0-2000m)
+      bCtx.fillStyle = '#291811';
+      bCtx.fillRect(0, 0, w, h * 0.25);
+
+      // Layer 2: Basaltic Sheet (2000-5000m)
+      bCtx.fillStyle = '#1c100b';
+      bCtx.fillRect(0, h * 0.25, w, h * 0.35);
+
+      // Layer 3: Granitic Pluton (5000-8000m)
+      bCtx.fillStyle = '#130a07';
+      bCtx.fillRect(0, h * 0.6, w, h * 0.25);
+
+      // Layer 4: Magma Boundary (8000-10000m)
+      const magmaGrad = bCtx.createLinearGradient(0, h * 0.85, 0, h);
+      magmaGrad.addColorStop(0, '#7c2d12');
+      magmaGrad.addColorStop(1, '#f97316');
+      bCtx.fillStyle = magmaGrad;
+      bCtx.fillRect(0, h * 0.85, w, h * 0.15);
+
+      // Borehole Well Casing Pipe in center
+      const pipeX = w / 2;
+      const drillFraction = currentDepth / 10000;
+      const pipeEndY = h * drillFraction;
+
+      bCtx.strokeStyle = '#94a3b8';
+      bCtx.lineWidth = 6;
+      bCtx.beginPath();
+      bCtx.moveTo(pipeX - 5, 0);
+      bCtx.lineTo(pipeX - 5, pipeEndY);
+      bCtx.moveTo(pipeX + 5, 0);
+      bCtx.lineTo(pipeX + 5, pipeEndY);
+      bCtx.stroke();
+
+      // Fluid upward thermal stream inside pipe
+      bCtx.strokeStyle = '#f97316';
+      bCtx.lineWidth = 4;
+      bCtx.shadowColor = '#f97316';
+      bCtx.shadowBlur = 10;
+      bCtx.beginPath();
+      bCtx.moveTo(pipeX, pipeEndY);
+      bCtx.lineTo(pipeX, 0);
+      bCtx.stroke();
+      bCtx.shadowBlur = 0;
+
+      // Drill bit tip
+      bCtx.fillStyle = '#fbbf24';
+      bCtx.beginPath();
+      bCtx.arc(pipeX, pipeEndY, 7, 0, Math.PI * 2);
+      bCtx.fill();
+
+      // Depth indicators
+      bCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      bCtx.font = '10px "JetBrains Mono"';
+      bCtx.fillText("SURFACE 0m", 16, 20);
+      bCtx.fillText("2,500m BASALT", 16, h * 0.28);
+      bCtx.fillText("6,000m GRANITE", 16, h * 0.65);
+      bCtx.fillText("10,000m SUPERCRITICAL CRUST", 16, h * 0.92);
+    }
+    setTimeout(resizeBorehole, 100);
+
+    function updateBoreholeSim() {
+      currentDepth = parseInt(document.getElementById('depthRange').value);
+      document.getElementById('depthValText').innerText = currentDepth.toLocaleString() + ' meters';
+
+      // Calculations based on geothermal gradient
+      const temp = (20 + (currentDepth * 0.0432)).toFixed(1);
+      const press = (currentDepth * 0.02985).toFixed(1);
+      const enthalpy = (currentDepth > 8000) ? 3120 : Math.round(500 + currentDepth * 0.24);
+
+      let strata = 'Sedimentary Sandstone';
+      let state = 'Liquid Hydrothermal';
+
+      if (currentDepth > 8000) {
+        strata = 'Supercritical Magma Boundary';
+        state = 'Supercritical Fluid (Zero Surface Tension)';
+      } else if (currentDepth > 5000) {
+        strata = 'Crystalline Granitic Pluton';
+        state = 'Subcritical High-Pressure Steam';
+      } else if (currentDepth > 2000) {
+        strata = 'Basaltic Volcanic Sheet';
+        state = 'Pressurized Water';
+      }
+
+      document.getElementById('strataName').innerText = strata;
+      document.getElementById('tempNum').innerText = temp + ' °C';
+      document.getElementById('pressNum').innerText = `${press} bar (${(press * 0.1).toFixed(1)} MPa)`;
+      document.getElementById('stateNum').innerText = state;
+      document.getElementById('enthalpyNum').innerText = enthalpy.toLocaleString() + ' kJ / kg';
+
+      drawBorehole();
+    }
+
+    // 2. Closed-Loop Binary Cycle Canvas Animation
+    const cycleCanvas = document.getElementById('cycleCanvas');
+    const cCtx = cycleCanvas.getContext('2d');
+    let loopFlowOffset = 0;
+
+    function resizeCycle() {
+      cycleCanvas.width = cycleCanvas.clientWidth * window.devicePixelRatio;
+      cycleCanvas.height = cycleCanvas.clientHeight * window.devicePixelRatio;
+      cCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeCycle);
+    resizeCycle();
+
+    function renderCycleLoop() {
+      const w = cycleCanvas.clientWidth;
+      const h = cycleCanvas.clientHeight;
+      cCtx.clearRect(0, 0, w, h);
+
+      // Loop 1: Geothermal Production Well (Left)
+      cCtx.strokeStyle = '#f97316';
+      cCtx.lineWidth = 3;
+      cCtx.beginPath();
+      cCtx.moveTo(w * 0.15, h * 0.9);
+      cCtx.lineTo(w * 0.15, h * 0.25);
+      cCtx.lineTo(w * 0.38, h * 0.25);
+      cCtx.stroke();
+
+      // Heat Exchanger Vessel (Center Left)
+      cCtx.fillStyle = 'rgba(249, 115, 22, 0.2)';
+      cCtx.strokeStyle = '#f97316';
+      cCtx.strokeRect(w * 0.38, h * 0.18, 90, 80);
+      cCtx.fillRect(w * 0.38, h * 0.18, 90, 80);
+      cCtx.fillStyle = '#fff';
+      cCtx.font = '11px "JetBrains Mono"';
+      cCtx.fillText("HEAT EXCH", w * 0.39, h * 0.25);
+
+      // Binary Turbine (Center Right)
+      cCtx.fillStyle = 'rgba(251, 191, 36, 0.2)';
+      cCtx.strokeStyle = '#fbbf24';
+      cCtx.strokeRect(w * 0.62, h * 0.18, 90, 80);
+      cCtx.fillRect(w * 0.62, h * 0.18, 90, 80);
+      cCtx.fillStyle = '#fff';
+      cCtx.fillText("ORC TURBINE", w * 0.63, h * 0.25);
+
+      // Loop 2: Superheated Isobutane vapor to turbine
+      cCtx.strokeStyle = '#fbbf24';
+      cCtx.beginPath();
+      cCtx.moveTo(w * 0.38 + 90, h * 0.22);
+      cCtx.lineTo(w * 0.62, h * 0.22);
+      cCtx.stroke();
+
+      // Condenser (Bottom Right)
+      cCtx.strokeStyle = '#38bdf8';
+      cCtx.fillStyle = 'rgba(56, 189, 248, 0.15)';
+      cCtx.strokeRect(w * 0.62, h * 0.65, 90, 60);
+      cCtx.fillRect(w * 0.62, h * 0.65, 90, 60);
+      cCtx.fillStyle = '#fff';
+      cCtx.fillText("CONDENSER", w * 0.64, h * 0.72);
+
+      // Low pressure vapor down to condenser
+      cCtx.strokeStyle = '#38bdf8';
+      cCtx.beginPath();
+      cCtx.moveTo(w * 0.62 + 45, h * 0.18 + 80);
+      cCtx.lineTo(w * 0.62 + 45, h * 0.65);
+      cCtx.stroke();
+
+      // Liquid return to heat exchanger
+      cCtx.beginPath();
+      cCtx.moveTo(w * 0.62, h * 0.75);
+      cCtx.lineTo(w * 0.38 + 45, h * 0.75);
+      cCtx.lineTo(w * 0.38 + 45, h * 0.18 + 80);
+      cCtx.stroke();
+
+      // Loop 3: Reinjection Well back to earth (Purple)
+      cCtx.strokeStyle = '#a855f7';
+      cCtx.beginPath();
+      cCtx.moveTo(w * 0.38, h * 0.28);
+      cCtx.lineTo(w * 0.25, h * 0.28);
+      cCtx.lineTo(w * 0.25, h * 0.9);
+      cCtx.stroke();
+
+      // Flow pulse markers
+      cCtx.fillStyle = '#fff';
+      const p1 = (loopFlowOffset) % 100;
+      cCtx.beginPath();
+      cCtx.arc(w * 0.15, h * 0.9 - (p1 * 0.01 * (h * 0.65)), 4, 0, Math.PI * 2);
+      cCtx.fill();
+
+      loopFlowOffset += 0.8;
+      requestAnimationFrame(renderCycleLoop);
+    }
+    renderCycleLoop();
+
+    // 3. Carbon Abatement Calculator
+    function updateAbatementCalc() {
+      const mw = parseInt(document.getElementById('mwSlider').value);
+      document.getElementById('mwText').innerText = mw;
+
+      const mwh = mw * 8760;
+      const co2 = Math.round(mwh * 0.975);
+      const racks = mw * 24;
+      const homes = Math.round(mw * 950);
+
+      document.getElementById('kpiMwh').innerText = mwh.toLocaleString();
+      document.getElementById('kpiCo2').innerText = co2.toLocaleString() + ' t';
+      document.getElementById('kpiRacks').innerText = racks.toLocaleString() + ' Racks';
+      document.getElementById('kpiHomes').innerText = homes.toLocaleString();
+    }
+
+    function handlePpaSubmit(e) {
+      e.preventDefault();
+      alert("PPA Term Sheet Application submitted. Strata Energy Infrastructure Grid Interconnection team will issue a customized binding term sheet.");
+    }
+  </script>
+</body>
+</html>

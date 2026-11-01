@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TERRA // Autonomous Biosphere Vertical Agriculture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-forest: #050d08;
+      --bg-surface: #0b1a11;
+      --bg-card: #102619;
+      --bg-card-hover: #163422;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-emerald: rgba(16, 185, 129, 0.35);
+      --border-cyan: rgba(6, 182, 212, 0.3);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.3);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --violet: #c084fc;
+      --amber: #f59e0b;
+      --text: #f0fdf4;
+      --text-muted: #a7f3d0;
+      --text-dim: #6ee7b7;
+      --text-sub: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-forest);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(16, 185, 129, 0.1), transparent 60%),
+        radial-gradient(circle at 85% 35%, rgba(6, 182, 212, 0.06), transparent 50%),
+        linear-gradient(rgba(240, 253, 244, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240, 253, 244, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Environmental Telemetry Bar */
+    .top-telemetry-bar {
+      background: #030805;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 0;
+      color: var(--text-sub);
+    }
+    .telemetry-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .badge-bio-online {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--emerald);
+    }
+    .dot-emerald {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulseEmerald 2s infinite;
+    }
+    @keyframes pulseEmerald {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    /* Main Navigation */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 13, 8, 0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-flex {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--emerald), var(--cyan));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px var(--emerald-glow);
+    }
+    .brand-icon svg { width: 22px; height: 22px; fill: #050d08; }
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .brand-name span { color: var(--emerald); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--emerald); }
+
+    .btn-emerald {
+      background: var(--emerald);
+      color: #041008;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid var(--emerald);
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--emerald-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-emerald:hover {
+      background: #34d399;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--emerald);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 85px 0 65px;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 52px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid var(--border-emerald);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--emerald);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(38px, 4.6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 40%, #a7f3d0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--emerald) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 17px;
+      color: var(--text-sub);
+      margin-bottom: 36px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 26px;
+    }
+    .hm-box .val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .hm-box .val span { color: var(--emerald); font-size: 16px; }
+    .hm-box .label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Hero Vertical Tower Preview Frame */
+    .hero-tower-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-emerald);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
+    .htc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+    #heroTowerCanvas {
+      width: 100%;
+      height: 250px;
+      background: #020804;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .htc-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .htc-stat {
+      background: #09150e;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .htc-stat span { color: var(--text-sub); display: block; font-size: 9px; }
+    .htc-stat strong { color: var(--emerald); }
+
+    /* Common Section */
+    section {
+      padding: 95px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .section-head-wrap {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px;
+    }
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid var(--border-cyan);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 3.6vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      color: var(--text-sub);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* 1. Closed-Loop Nitrogen Cycle Section */
+    .nitro-layout {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .nitro-canvas-wrap {
+      position: relative;
+      background: #020704;
+      border-radius: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      overflow: hidden;
+    }
+    #nitroCanvas {
+      width: 100%;
+      height: 440px;
+      display: block;
+      cursor: pointer;
+    }
+    .nitro-stage-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+    }
+    .stage-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .stage-item:hover, .stage-item.active {
+      border-color: var(--emerald);
+      background: var(--bg-card-hover);
+    }
+    .stage-name {
+      font-weight: 700;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+    .stage-chem {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--emerald);
+      margin-top: 4px;
+    }
+
+    /* 2. Tunable LED Photosynthetic Spectrum Section */
+    .spectrum-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .canopy-visual-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-emerald);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    #canopyCanvas {
+      width: 100%;
+      height: 320px;
+      background: #020704;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .spectrum-control-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .spectrum-channel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ch-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .spec-range {
+      width: 100%;
+      accent-color: var(--emerald);
+      cursor: pointer;
+    }
+    .par-readout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .par-box {
+      background: #09150e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .par-box .pl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+    }
+    .par-box .pv {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--emerald);
+      margin-top: 4px;
+    }
+
+    /* 3. Automated Robotic Harvesting Gantry Specs */
+    .gantry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .gantry-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s;
+    }
+    .gantry-card:hover {
+      border-color: var(--emerald);
+      transform: translateY(-4px);
+    }
+    .gantry-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.08);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .gantry-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .gantry-desc {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .gantry-stats {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* 4. Municipal Food Security Subscription */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .plan-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 28px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .plan-card.featured {
+      border-color: var(--emerald);
+      background: linear-gradient(180deg, #11281b 0%, #0c1e14 100%);
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.15);
+    }
+    .ribbon-popular {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--emerald);
+      color: #041008;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .plan-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .plan-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 40px;
+      font-weight: 700;
+      margin: 16px 0;
+      color: #fff;
+    }
+    .plan-price span {
+      font-size: 14px;
+      color: var(--text-sub);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+    }
+    .plan-list {
+      list-style: none;
+      margin: 22px 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+    .plan-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plan-list li svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--emerald);
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer.main-footer {
+      background: #020604;
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-col h5 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--text-sub);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--emerald); }
+    .footer-bot {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .nitro-layout, .spectrum-grid, .gantry-grid, .plans-grid, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .nitro-stage-selector { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Environmental Telemetry Strip -->
+  <div class="top-telemetry-bar">
+    <div class="container telemetry-flex">
+      <div class="badge-bio-online">
+        <span class="dot-emerald"></span>
+        <span>BIOSPHERE STATUS: OPTIMAL // CLOSED-LOOP NITRIFICATION RUNNING AT 99.8% EFFICIENCY</span>
+      </div>
+      <div>
+        <span>DISSOLVED O2: 8.4 mg/L</span>
+        <span style="margin-left: 14px;">WATER pH: 6.82</span>
+        <span style="margin-left: 14px;">TEMP: 21.4°C</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="main-header">
+    <div class="container nav-flex">
+      <a href="#" class="brand-mark">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.23 19.58 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8l7.1 7.1c-.57.45-1.18.7-1.8.7zm4.3-3.2L9.2 7.7C10.03 7.25 10.99 7 12 7c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8z"/></svg>
+        </div>
+        <div class="brand-name">TERRA<span>//BIOSPHERE</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#nitrogen">Nitrogen Cycle</a></li>
+        <li><a href="#spectrum">Grow Spectrum</a></li>
+        <li><a href="#gantry">Robotic Gantry</a></li>
+        <li><a href="#subscription">Enterprise Ag</a></li>
+      </ul>
+
+      <a href="#subscription" class="btn-emerald">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        Deploy Biosphere Hub
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-left-pane">
+        <div class="hero-eyebrow">
+          Autonomous Biosphere Vertical Agriculture
+        </div>
+        <h1 class="hero-title">
+          98% Less Water // Zero Soil Depletion // <span>365-Day Yield Autonomy</span>
+        </h1>
+        <p class="hero-lead">
+          Industrial-scale symbiotic aquaponic ecosystems combining organic Nile Tilapia aquaculture with vertical aeroponic towers and tunable LED photosynthetic spectrums.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#nitrogen" class="btn-emerald">
+            Inspect Nitrogen Cycle
+          </a>
+          <a href="#spectrum" class="btn-outline">
+            Tune PAR Spectrum
+          </a>
+        </div>
+
+        <div class="hero-metrics-grid">
+          <div class="hm-box">
+            <div class="val">98.4<span>%</span></div>
+            <div class="label">Water Recirculation</div>
+          </div>
+          <div class="hm-box">
+            <div class="val">45<span>x</span></div>
+            <div class="label">Field Yield Density</div>
+          </div>
+          <div class="hm-box">
+            <div class="val">0.00<span>ppm</span></div>
+            <div class="label">Synthetic Pesticides</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual Vertical Tower Preview -->
+      <div class="hero-right-pane">
+        <div class="hero-tower-card">
+          <div class="htc-top">
+            <span>VERTICAL TOWER ARRAY // SECTOR C-4</span>
+            <span style="color: var(--emerald);">PPFD: 620 µmol/m²/s</span>
+          </div>
+
+          <canvas id="heroTowerCanvas" width="500" height="250"></canvas>
+
+          <div class="htc-metrics">
+            <div class="htc-stat">
+              <span>CANOPY TEMP</span>
+              <strong>22.1°C</strong>
+            </div>
+            <div class="htc-stat">
+              <span>VAPOR DEFICIT</span>
+              <strong>0.92 kPa</strong>
+            </div>
+            <div class="htc-stat">
+              <span>DAILY HARVEST</span>
+              <strong>1,850 kg</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Closed-Loop Nitrogen Nitrification Cycle -->
+  <section id="nitrogen">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Symbiotic Biological Loop</div>
+        <h2 class="section-title">Closed-Loop Nitrogen Nitrification Cycle</h2>
+        <p class="section-sub">Fish metabolites are biological catalysts. Beneficial Nitrosomonas and Nitrobacter bacterial cultures transform toxic ammonia into bio-available plant nutrients in real-time.</p>
+      </div>
+
+      <div class="nitro-layout">
+        <div class="nitro-canvas-wrap">
+          <canvas id="nitroCanvas" width="680" height="440"></canvas>
+        </div>
+
+        <div class="nitro-stage-selector">
+          <div class="stage-item active" data-stage="0">
+            <div class="stage-name">Stage 01 // Aquaculture Fish Basin</div>
+            <div class="stage-chem">NH3 / NH4+ AMMONIA PRODUCTION [1.8 ppm]</div>
+            <p style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">
+              High-density organic Nile Tilapia produce natural ammonia-rich effluent through gill respiration and bio-waste.
+            </p>
+          </div>
+
+          <div class="stage-item" data-stage="1">
+            <div class="stage-name">Stage 02 // Nitrosomonas Conversion</div>
+            <div class="stage-chem">NO2- NITRITE INTERMEDIARY [0.04 ppm]</div>
+            <p style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">
+              Fluidized bio-filter media colonizes autotrophic Nitrosomonas bacteria that rapidly oxidize ammonia into nitrite.
+            </p>
+          </div>
+
+          <div class="stage-item" data-stage="2">
+            <div class="stage-name">Stage 03 // Nitrobacter Oxygenation</div>
+            <div class="stage-chem">NO3- POTABLE NITRATE FERTILIZER [48.0 ppm]</div>
+            <p style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">
+              Second-stage aerobic reactors convert nitrites into non-toxic, highly absorbable nitrates for crop uptake.
+            </p>
+          </div>
+
+          <div class="stage-item" data-stage="3">
+            <div class="stage-name">Stage 04 // Vertical Crop Absorption</div>
+            <div class="stage-chem">PURE H2O RECIRCULATION [DO: 8.6 mg/L]</div>
+            <p style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">
+              Plant roots uptake purified nitrogen, polishing the water before gravity return cascades back to the fish habitats.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Tunable LED Photosynthetic Spectrum Manager -->
+  <section id="spectrum">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Quantum PAR Photobiology</div>
+        <h2 class="section-title">Tunable LED Photosynthetic Spectrum Manager</h2>
+        <p class="section-sub">Dynamically adjust narrow-band nanometer wavelengths to maximize photosynthesis, terpene development, and leaf surface density.</p>
+      </div>
+
+      <div class="spectrum-grid">
+        <div class="canopy-visual-card">
+          <canvas id="canopyCanvas" width="540" height="320"></canvas>
+          <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--emerald);">
+            LIVE CANOPY PHOTOMETRIC SIMULATION
+          </div>
+        </div>
+
+        <div class="spectrum-control-panel">
+          <div class="spectrum-channel">
+            <div class="ch-header">
+              <span style="color: #38bdf8;">450nm Deep Royal Blue (Chlorophyll A)</span>
+              <strong id="valBlue" style="color: #38bdf8;">65%</strong>
+            </div>
+            <input type="range" class="spec-range" min="0" max="100" value="65" id="sliderBlue">
+          </div>
+
+          <div class="spectrum-channel">
+            <div class="ch-header">
+              <span style="color: #f43f5e;">660nm Deep Hyper Red (Chlorophyll B)</span>
+              <strong id="valRed" style="color: #f43f5e;">85%</strong>
+            </div>
+            <input type="range" class="spec-range" min="0" max="100" value="85" id="sliderRed">
+          </div>
+
+          <div class="spectrum-channel">
+            <div class="ch-header">
+              <span style="color: #c084fc;">730nm Far-Red (Emerson Effect)</span>
+              <strong id="valFarRed" style="color: #c084fc;">40%</strong>
+            </div>
+            <input type="range" class="spec-range" min="0" max="100" value="40" id="sliderFarRed">
+          </div>
+
+          <div class="par-readout-grid">
+            <div class="par-box">
+              <div class="pl">Calculated PPFD Density</div>
+              <div class="pv" id="ppfdDisp">685 µmol</div>
+            </div>
+            <div class="par-box">
+              <div class="pl">Daily Light Integral (DLI)</div>
+              <div class="pv" id="dliDisp">32.4 mol/m²</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Automated Robotic Harvesting Gantry Specs -->
+  <section id="gantry">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Precision Ag-Robotics</div>
+        <h2 class="section-title">Automated Robotic Harvesting Gantry Specs</h2>
+        <p class="section-sub">Autonomous overhead 3-axis CNC gantries equipped with multi-spectral computer vision, suction pickers, and automated seeding carousels.</p>
+      </div>
+
+      <div class="gantry-grid">
+        <div class="gantry-card">
+          <div>
+            <span class="gantry-badge">HARVESTING ARM</span>
+            <h3 class="gantry-name">SoftGrip Pneuma-Picker</h3>
+            <p class="gantry-desc">Gentle micro-pneumatic suction effectors that harvest ripe butterhead lettuce and heirloom strawberries without bruising delicate skin.</p>
+          </div>
+          <div class="gantry-stats">
+            <span>PICK SPEED: 1.2s/PLANT</span>
+            <span>ACCURACY: 99.7%</span>
+          </div>
+        </div>
+
+        <div class="gantry-card">
+          <div>
+            <span class="gantry-badge">VISION & AI</span>
+            <h3 class="gantry-name">Spectral NDVI Scanner</h3>
+            <p class="gantry-desc">Hyperspectral imaging assessing chlorophyll saturation, fungal spore onset, and mineral deficiencies 72 hours before visible symptoms.</p>
+          </div>
+          <div class="gantry-stats">
+            <span>RESOLUTION: 0.1mm</span>
+            <span>LATENCY: 12ms</span>
+          </div>
+        </div>
+
+        <div class="gantry-card">
+          <div>
+            <span class="gantry-badge">SEEDING GANTRY</span>
+            <h3 class="gantry-name">AutoTransplant Carousel</h3>
+            <p class="gantry-desc">Automated plug tray robotic insertion transferring germinated seedlings directly into vertical grow columns with automated root hydration.</p>
+          </div>
+          <div class="gantry-stats">
+            <span>CAPACITY: 8,000/HR</span>
+            <span>SURVIVAL: 99.9%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Municipal Food Security Subscription -->
+  <section id="subscription">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Turnkey Infrastructure</div>
+        <h2 class="section-title">Enterprise & Municipal Biosphere Tiers</h2>
+        <p class="section-sub">Deploy commercial vertical agricultural hubs inside urban urban centers, cold climate zones, or remote sovereign islands.</p>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div>
+            <h3 class="plan-title">Urban Agri-Pod</h3>
+            <p style="color: var(--text-sub); font-size: 13px;">For luxury hotels, hospital campuses & culinary labs.</p>
+            <div class="plan-price">$4,500<span> / month</span></div>
+            <ul class="plan-list">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                5,000 sq ft Vertical Footprint
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                2,400 kg Fresh Greens / Month
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Closed-Loop Tilapia Aquaculture
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Automated Water Chemistry Probes
+              </li>
+            </ul>
+          </div>
+          <button class="btn-outline" style="width: 100%; justify-content: center;">Request Pod Specs</button>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="ribbon-popular">Most Popular</div>
+          <div>
+            <h3 class="plan-title">Metropolitan Biosphere</h3>
+            <p style="color: var(--text-sub); font-size: 13px;">For municipal food resilience & commercial grocery chains.</p>
+            <div class="plan-price">$16,500<span> / month</span></div>
+            <ul class="plan-list">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                25,000 sq ft Fully Automated Hub
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                18,000 kg Produce + 4 MT Fish / Mo
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Overhead Robotic 3-Axis Harvesting
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Full Turnkey Facility Management
+              </li>
+            </ul>
+          </div>
+          <button class="btn-emerald" style="width: 100%; justify-content: center;">Deploy Metro Biosphere</button>
+        </div>
+
+        <div class="plan-card">
+          <div>
+            <h3 class="plan-title">Sovereign Agri-Dome</h3>
+            <p style="color: var(--text-sub); font-size: 13px;">For sovereign islands, remote research bases & off-grid.</p>
+            <div class="plan-price">$48,000<span> / month</span></div>
+            <ul class="plan-list">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                100,000 sq ft Pressurized Dome
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Complete Self-Contained Caloric Autonomy
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Solar Microgrid & Desalination Tied
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Dedicated Agronomy Biological Team
+              </li>
+            </ul>
+          </div>
+          <button class="btn-outline" style="width: 100%; justify-content: center;">Contact Sovereign Ag</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-mark">
+            <div class="brand-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 19.4c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.9-1.9C9.23 19.58 10.57 20 12 20c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8l7.1 7.1c-.57.45-1.18.7-1.8.7zm4.3-3.2L9.2 7.7C10.03 7.25 10.99 7 12 7c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8z"/></svg>
+            </div>
+            <div class="brand-name">TERRA<span>//BIOSPHERE</span></div>
+          </a>
+          <p style="margin-top: 14px; max-width: 320px; line-height: 1.7;">
+            Pioneering closed-loop bio-regenerative vertical agriculture and ecological food security for a climate-uncertain world.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Technology</h5>
+          <ul>
+            <li><a href="#nitrogen">Nitrification Loop</a></li>
+            <li><a href="#spectrum">Grow Spectrum Photons</a></li>
+            <li><a href="#gantry">Robotics & CNC</a></li>
+            <li><a href="#subscription">Enterprise Deployments</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Crop Science</h5>
+          <ul>
+            <li><a href="#">Heirloom Leafy Greens</a></li>
+            <li><a href="#">High-Brix Strawberries</a></li>
+            <li><a href="#">Micro-Nutrient Herbs</a></li>
+            <li><a href="#">Tilapia Aquaculture</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Standards</h5>
+          <ul>
+            <li><a href="#">USDA 100% Organic</a></li>
+            <li><a href="#">Global GAP Certified</a></li>
+            <li><a href="#">Zero Wastewater Discharge</a></li>
+            <li><a href="#">Carbon Negative Standard</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bot">
+        <div>&copy; 2026 TERRA AUTONOMOUS BIOSPHERE SYSTEMS INC. ALL RIGHTS RESERVED.</div>
+        <div style="color: var(--emerald);">BIOSPHERE CORE: 100% STERILE RECIRCULATION NOMINAL</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // 1. Hero Tower Animation Canvas
+    const heroCanvas = document.getElementById('heroTowerCanvas');
+    const hctx = heroCanvas.getContext('2d');
+    let waterFlow = 0;
+
+    function renderHeroTower() {
+      const w = heroCanvas.width;
+      const h = heroCanvas.height;
+      hctx.clearRect(0, 0, w, h);
+
+      // Vertical Columns
+      const cols = 5;
+      const colW = 34;
+      const spacing = (w - (cols * colW)) / (cols + 1);
+
+      for (let i = 0; i < cols; i++) {
+        const x = spacing + i * (colW + spacing);
+
+        // Tower Column structure
+        hctx.fillStyle = '#0f2918';
+        hctx.fillRect(x, 20, colW, h - 50);
+        hctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
+        hctx.strokeRect(x, 20, colW, h - 50);
+
+        // Plant Pods stacked vertically
+        for (let j = 0; j < 7; j++) {
+          const y = 30 + j * 28;
+          // Leaf clumps
+          hctx.beginPath();
+          hctx.arc(x - 6, y, 9, 0, Math.PI * 2);
+          hctx.arc(x + colW + 6, y, 9, 0, Math.PI * 2);
+          hctx.fillStyle = '#10b981';
+          hctx.fill();
+
+          // Pod cup
+          hctx.fillStyle = '#064e3b';
+          hctx.fillRect(x + 6, y - 6, colW - 12, 12);
+        }
+
+        // Falling nutrient water drops
+        waterFlow += 0.05;
+        const dropY = 20 + ((waterFlow * 25 + i * 40) % (h - 70));
+        hctx.beginPath();
+        hctx.arc(x + colW / 2, dropY, 2.5, 0, Math.PI * 2);
+        hctx.fillStyle = '#06b6d4';
+        hctx.shadowColor = '#06b6d4';
+        hctx.shadowBlur = 8;
+        hctx.fill();
+        hctx.shadowBlur = 0;
+      }
+
+      // Reservoir at bottom
+      hctx.fillStyle = '#06b6d4';
+      hctx.fillRect(15, h - 25, w - 30, 15);
+
+      requestAnimationFrame(renderHeroTower);
+    }
+    renderHeroTower();
+
+    // 2. Closed-Loop Nitrogen Nitrification Canvas
+    const nitroCanvas = document.getElementById('nitroCanvas');
+    const nctx = nitroCanvas.getContext('2d');
+    let loopCycle = 0;
+
+    function renderNitrogenCycle() {
+      const w = nitroCanvas.width;
+      const h = nitroCanvas.height;
+      nctx.clearRect(0, 0, w, h);
+
+      // Node coordinates for the 4 stages
+      const nodes = [
+        { x: 120, y: 120, label: 'Fish Tank (NH3)', color: '#06b6d4' },
+        { x: 560, y: 120, label: 'Nitrosomonas (NO2-)', color: '#f59e0b' },
+        { x: 560, y: 340, label: 'Nitrobacter (NO3-)', color: '#10b981' },
+        { x: 120, y: 340, label: 'Vertical Grow Towers', color: '#c084fc' }
+      ];
+
+      // Draw Connection Pipes
+      nctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+      nctx.lineWidth = 4;
+      nctx.beginPath();
+      nctx.moveTo(nodes[0].x, nodes[0].y);
+      nctx.lineTo(nodes[1].x, nodes[1].y);
+      nctx.lineTo(nodes[2].x, nodes[2].y);
+      nctx.lineTo(nodes[3].x, nodes[3].y);
+      nctx.closePath();
+      nctx.stroke();
+
+      // Flowing particles along the loop
+      loopCycle += 0.015;
+      for (let p = 0; p < 8; p++) {
+        const t = (loopCycle + p * 0.125) % 1;
+        let px, py;
+        if (t < 0.25) {
+          const subT = t / 0.25;
+          px = nodes[0].x + subT * (nodes[1].x - nodes[0].x);
+          py = nodes[0].y;
+        } else if (t < 0.5) {
+          const subT = (t - 0.25) / 0.25;
+          px = nodes[1].x;
+          py = nodes[1].y + subT * (nodes[2].y - nodes[1].y);
+        } else if (t < 0.75) {
+          const subT = (t - 0.5) / 0.25;
+          px = nodes[2].x - subT * (nodes[2].x - nodes[3].x);
+          py = nodes[2].y;
+        } else {
+          const subT = (t - 0.75) / 0.25;
+          px = nodes[3].x;
+          py = nodes[3].y - subT * (nodes[3].y - nodes[0].y);
+        }
+
+        nctx.beginPath();
+        nctx.arc(px, py, 5, 0, Math.PI * 2);
+        nctx.fillStyle = '#10b981';
+        nctx.shadowColor = '#10b981';
+        nctx.shadowBlur = 10;
+        nctx.fill();
+        nctx.shadowBlur = 0;
+      }
+
+      // Draw Nodes
+      nodes.forEach(node => {
+        nctx.beginPath();
+        nctx.arc(node.x, node.y, 44, 0, Math.PI * 2);
+        nctx.fillStyle = '#0a1a10';
+        nctx.fill();
+        nctx.strokeStyle = node.color;
+        nctx.lineWidth = 2.5;
+        nctx.stroke();
+
+        nctx.font = '11px JetBrains Mono';
+        nctx.fillStyle = '#fff';
+        nctx.textAlign = 'center';
+        nctx.textBaseline = 'middle';
+        nctx.fillText(node.label, node.x, node.y);
+      });
+
+      requestAnimationFrame(renderNitrogenCycle);
+    }
+    renderNitrogenCycle();
+
+    // Stage Selector interactive highlights
+    document.querySelectorAll('.stage-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.stage-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // 3. Tunable LED Photosynthetic Spectrum Canvas
+    const canCanvas = document.getElementById('canopyCanvas');
+    const cctx = canCanvas.getContext('2d');
+    let bVal = 65;
+    let rVal = 85;
+    let frVal = 40;
+
+    function renderCanopy() {
+      const w = canCanvas.width;
+      const h = canCanvas.height;
+      cctx.clearRect(0, 0, w, h);
+
+      // Light color blend based on spectrum sliders
+      const redComponent = Math.round((rVal / 100) * 255);
+      const blueComponent = Math.round((bVal / 100) * 255);
+      const violetComponent = Math.round((frVal / 100) * 180);
+
+      // Ambient grow light glow
+      const glowGrad = cctx.createRadialGradient(w / 2, 0, 20, w / 2, h / 2, w / 1.5);
+      glowGrad.addColorStop(0, `rgba(${redComponent}, ${violetComponent}, ${blueComponent}, 0.35)`);
+      glowGrad.addColorStop(1, 'transparent');
+      cctx.fillStyle = glowGrad;
+      cctx.fillRect(0, 0, w, h);
+
+      // Hanging Grow LED Fixtures
+      cctx.fillStyle = '#334155';
+      cctx.fillRect(60, 20, w - 120, 16);
+      for (let i = 0; i < 8; i++) {
+        const lx = 80 + i * (w - 160) / 7;
+        cctx.beginPath();
+        cctx.arc(lx, 28, 5, 0, Math.PI * 2);
+        cctx.fillStyle = `rgb(${redComponent}, ${violetComponent}, ${blueComponent})`;
+        cctx.fill();
+      }
+
+      // Lush Plant Canopy at Bottom
+      for (let x = 30; x < w - 30; x += 35) {
+        cctx.beginPath();
+        cctx.arc(x, h - 50, 30, 0, Math.PI * 2);
+        cctx.fillStyle = '#10b981';
+        cctx.fill();
+
+        cctx.beginPath();
+        cctx.arc(x + 15, h - 70, 24, 0, Math.PI * 2);
+        cctx.fillStyle = '#059669';
+        cctx.fill();
+      }
+
+      requestAnimationFrame(renderCanopy);
+    }
+    renderCanopy();
+
+    // Spectrum Sliders
+    const sBlue = document.getElementById('sliderBlue');
+    const sRed = document.getElementById('sliderRed');
+    const sFarRed = document.getElementById('sliderFarRed');
+
+    function updateSpectrumTelemetry() {
+      bVal = parseInt(sBlue.value);
+      rVal = parseInt(sRed.value);
+      frVal = parseInt(sFarRed.value);
+
+      document.getElementById('valBlue').textContent = bVal + '%';
+      document.getElementById('valRed').textContent = rVal + '%';
+      document.getElementById('valFarRed').textContent = frVal + '%';
+
+      const totalPPFD = Math.round(250 + (bVal * 2.8) + (rVal * 3.4) + (frVal * 1.2));
+      const dli = (totalPPFD * 0.048).toFixed(1);
+
+      document.getElementById('ppfdDisp').textContent = totalPPFD + ' µmol';
+      document.getElementById('dliDisp').textContent = dli + ' mol/m²';
+    }
+
+    sBlue.addEventListener('input', updateSpectrumTelemetry);
+    sRed.addEventListener('input', updateSpectrumTelemetry);
+    sFarRed.addEventListener('input', updateSpectrumTelemetry);
+  </script>
+</body>
+</html>

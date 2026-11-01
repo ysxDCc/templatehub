@@ -47,7 +47,16 @@ export type TemplateCategory =
   | 'cyberpunk'
   | 'furniture'
   | 'motorsport'
-  | 'biotech';
+  | 'biotech'
+  | 'quantum'
+  | 'hypercar'
+  | 'spatial'
+  | 'geothermal'
+  | 'yachts'
+  | 'audio'
+  | 'space'
+  | 'agriculture'
+  | 'cybersecurity';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 

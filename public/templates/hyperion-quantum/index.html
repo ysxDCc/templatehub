@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYPERION // Superconducting Quantum Processor Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #020617;
+      --bg-surface: #0a0f24;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.35);
+      --violet: #a855f7;
+      --violet-glow: rgba(168, 85, 247, 0.3);
+      --emerald: #10b981;
+      --rose: #f43f5e;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-active: rgba(6, 182, 212, 0.5);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-display: 'Syne', sans-serif;
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 182, 212, 0.18), transparent 70%),
+        radial-gradient(circle 900px at 95% 40%, rgba(168, 85, 247, 0.12), transparent 70%),
+        radial-gradient(circle 800px at 5% 80%, rgba(6, 182, 212, 0.08), transparent 60%);
+      background-attachment: fixed;
+    
+    /* Grid Overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(2, 6, 23, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 100;
+      transition: border-color 0.3s;
+    
+    .header-nav {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    
+    .brand-logo-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--cyan);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: rgba(6, 182, 212, 0.08);
+      box-shadow: 0 0 15px var(--cyan-glow);
+      position: relative;
+    
+    .brand-logo-icon::after {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse-qubit 2.4s ease-in-out infinite alternate;
+    
+    @keyframes pulse-qubit {
+      0% { transform: scale(0.8); opacity: 0.7; }
+      100% { transform: scale(1.3); opacity: 1; }
+    
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    
+    .brand-title span {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 2px;
+    
+    .status-badge-chip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--emerald);
+    
+    .status-indicator-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--emerald);
+      animation: blink-dot 1.6s infinite ease-in-out;
+    
+    @keyframes blink-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    
+    .nav-links a:hover {
+      color: var(--cyan);
+    
+    .btn-sdk {
+      background: linear-gradient(135deg, var(--cyan), #0284c7);
+      color: #020617;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    
+    .btn-sdk:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.6);
+    
+    /* Hero */
+    .hero {
+      padding: 80px 0 50px;
+      position: relative;
+    
+    .hero-pre {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+      background: rgba(6, 182, 212, 0.1);
+      padding: 4px 12px;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+      max-width: 950px;
+    
+    .hero-title .glow-cyan {
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+    
+    .hero-title .glow-violet {
+      color: var(--violet);
+      text-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+    
+    .hero-desc {
+      font-size: clamp(16px, 1.3vw, 19px);
+      color: var(--text-muted);
+      max-width: 760px;
+      margin-bottom: 40px;
+    
+    .hero-canvas-wrap {
+      width: 100%;
+      height: 340px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 0 60px rgba(6, 182, 212, 0.05);
+      margin-bottom: 48px;
+    
+    #waveCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    
+    .canvas-overlay-ui {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    
+    .canvas-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: 4px;
+      color: var(--text-muted);
+    
+    /* Primary Telemetry Grid */
+    .telemetry-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-bottom: 80px;
+    
+    .telemetry-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s;
+    
+    .telemetry-card:hover {
+      border-color: var(--border-active);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.1);
+    
+    .telemetry-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    
+    .telemetry-card:hover::before {
+      opacity: 1;
+    
+    .telemetry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    
+    .telemetry-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    
+    .telemetry-symbol {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--cyan);
+    
+    .telemetry-val {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    
+    .telemetry-unit {
+      font-size: 14px;
+      color: var(--text-dim);
+      font-weight: 500;
+    
+    .telemetry-sub {
+      font-size: 12px;
+      color: var(--emerald);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    
+    /* Section Headers */
+    .section-head {
+      margin-bottom: 40px;
+      position: relative;
+    
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    
+    .section-tag::before {
+      content: '';
+      width: 16px;
+      height: 2px;
+      background: var(--cyan);
+    
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.2vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      color: #fff;
+      margin-bottom: 12px;
+    
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 680px;
+    
+    /* Qubit Matrix Section */
+    .qubit-section {
+      margin-bottom: 90px;
+    
+    .matrix-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      align-items: start;
+    
+    @media (max-width: 1024px) {
+      .matrix-layout {
+        grid-template-columns: 1fr;
+      }
+    
+    .matrix-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+    
+    .matrix-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+    
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+    
+    .filter-tab {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s;
+    
+    .filter-tab.active, .filter-tab:hover {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--cyan);
+      color: #fff;
+    
+    .qubit-grid-canvas {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 6px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 6px;
+    
+    .qubit-node {
+      aspect-ratio: 1;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      cursor: pointer;
+      color: var(--text-dim);
+      transition: all 0.2s;
+      position: relative;
+    
+    .qubit-node:hover {
+      transform: scale(1.15);
+      z-index: 10;
+      border-color: var(--cyan);
+      color: #fff;
+      box-shadow: 0 0 12px var(--cyan-glow);
+    
+    .qubit-node.active-selected {
+      border-color: var(--cyan);
+      background: rgba(6, 182, 212, 0.25);
+      color: #fff;
+      box-shadow: 0 0 16px var(--cyan);
+    
+    .qubit-node.state-optimal::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--emerald);
+    
+    .qubit-node.state-warning::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #eab308;
+    
+    .qubit-node.state-entangled {
+      border-color: rgba(168, 85, 247, 0.5);
+      background: rgba(168, 85, 247, 0.12);
+    
+    /* Qubit Inspector Sidebar */
+    .inspector-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+    
+    .inspector-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    
+    .inspector-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+    
+    .inspector-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: rgba(6, 182, 212, 0.15);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 3px 8px;
+      border-radius: 4px;
+    
+    .inspector-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+    
+    .stat-label {
+      color: var(--text-muted);
+    
+    .stat-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: #fff;
+    
+    .bloch-sphere-box {
+      margin-top: 20px;
+      height: 140px;
+      background: rgba(2, 6, 23, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    
+    #blochCanvas {
+      width: 100%;
+      height: 100%;
+    
+    /* Dilution Fridge Section */
+    .fridge-section {
+      margin-bottom: 90px;
+    
+    .fridge-stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 30px;
+    
+    .fridge-stage-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 18px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.25s;
+    
+    .fridge-stage-card:hover, .fridge-stage-card.stage-selected {
+      border-color: var(--cyan);
+      background: rgba(10, 20, 45, 0.9);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+    
+    .stage-level {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    
+    .stage-temp {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    
+    .stage-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    
+    .stage-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    
+    .stage-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+    
+    /* Interactive Quantum Gate Breakdown */
+    .gates-section {
+      margin-bottom: 90px;
+    
+    .circuit-designer-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 30px;
+    
+    .gates-palette {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    
+    .gate-btn {
+      width: 50px;
+      height: 50px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s;
+    
+    .gate-btn:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-glow);
+      transform: translateY(-2px);
+    
+    .gate-btn.btn-h { color: var(--cyan); border-color: rgba(6, 182, 212, 0.3); }
+    .gate-btn.btn-x { color: var(--rose); border-color: rgba(244, 63, 94, 0.3); }
+    .gate-btn.btn-z { color: #eab308; border-color: rgba(234, 179, 8, 0.3); }
+    .gate-btn.btn-cnot { color: var(--violet); border-color: rgba(168, 85, 247, 0.3); font-size: 14px; }
+    .gate-btn.btn-phase { color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); 
+    .circuit-wire-board {
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    
+    .wire-lane {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      height: 56px;
+      position: relative;
+    
+    .wire-lane::after {
+      content: '';
+      position: absolute;
+      left: 60px;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.15);
+      z-index: 0;
+    
+    .wire-label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-muted);
+      width: 50px;
+      z-index: 1;
+    
+    .wire-slots {
+      display: flex;
+      gap: 20px;
+      margin-left: 20px;
+      z-index: 1;
+    
+    .gate-slot {
+      width: 44px;
+      height: 44px;
+      background: var(--bg-surface);
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--cyan);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    
+    .circuit-stats-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    
+    .circuit-stat-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 14px;
+    
+    .stat-bar-box {
+      margin-top: 8px;
+    
+    .stat-bar-track {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+    
+    .stat-bar-val {
+      height: 100%;
+      background: var(--cyan);
+    
+    /* Cloud SDK Terminal */
+    .terminal-section {
+      margin-bottom: 100px;
+    
+    .terminal-window {
+      background: #050914;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(6, 182, 212, 0.15);
+      overflow: hidden;
+    
+    .terminal-header {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+    
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    
+    .window-circle {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    
+    .window-circle.red { background: #ef4444; }
+    .window-circle.yellow { background: #eab308; }
+    .window-circle.green { background: #22c55e; 
+    .terminal-tabs {
+      display: flex;
+      gap: 6px;
+    
+    .term-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    
+    .term-tab.active {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cyan);
+    
+    .terminal-body {
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: #e2e8f0;
+      min-height: 320px;
+    
+    .term-prompt {
+      color: var(--cyan);
+      user-select: none;
+    
+    .term-comment {
+      color: var(--text-dim);
+    
+    .term-keyword {
+      color: var(--violet);
+    
+    .term-func {
+      color: #38bdf8;
+    
+    .term-str {
+      color: #4ade80;
+    
+    .terminal-cli-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    
+    .term-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    
+    .btn-exec {
+      background: var(--cyan);
+      color: #020617;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 6px 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    
+    .btn-exec:hover {
+      background: #22d3ee;
+    
+    /* Footer */
+    footer {
+      background: #01040f;
+      border-top: 1px solid var(--border-subtle);
+      padding: 60px 0 40px;
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 50px;
+    
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    
+    .footer-brand-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 12px;
+      max-width: 320px;
+    
+    .footer-col h4 {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #fff;
+      margin-bottom: 16px;
+    
+    .footer-col ul {
+      list-style: none;
+    
+    .footer-col li {
+      margin-bottom: 10px;
+    
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    
+    .footer-col a:hover {
+      color: var(--cyan);
+    
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+      gap: 12px;
+    
+    .telemetry-strip {
+      display: flex;
+      gap: 20px;
+    
+    .telemetry-strip span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    
+    .telemetry-strip span::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container header-nav">
+      <a href="#" class="brand-wrap">
+        <div class="brand-logo-icon"></div>
+        <div class="brand-title">HYPERION <span>// QUANTUM LAB</span></div>
+      </a>
+
+      <div class="status-badge-chip">
+        <span class="status-indicator-dot"></span>
+        <span>1,024 TRANSMON QUBITS // 14.82 mK ONLINE</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#coherence">Telemetry</a></li>
+        <li><a href="#qubits">Qubit Matrix</a></li>
+        <li><a href="#cryogenics">Dilution Fridge</a></li>
+        <li><a href="#gates">Gate Simulator</a></li>
+        <li><a href="#terminal">Cloud SDK</a></li>
+      </ul>
+
+      <a href="#terminal" class="btn-sdk">
+        <span>CONNECT API</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="hero-pre">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        SURFACE CODE ARCHITECTURE // GEN-V PROCESSOR
+      </div>
+      <h1 class="hero-title">
+        Superconducting Quantum Processor at <span class="glow-cyan">15 milliKelvin</span> Coherence
+      </h1>
+      <p class="hero-desc">
+        HYPERION deploys 1,024 transmon qubits with tunable capacitive couplers, sub-microsecond two-qubit gate latency, and active real-time quantum error syndrome correction.
+      </p>
+
+      <!-- Animated Quantum Waveform Canvas -->
+      <div class="hero-canvas-wrap">
+        <canvas id="waveCanvas"></canvas>
+        <div class="canvas-overlay-ui">
+          <span class="canvas-badge">COHERENCE PHASE WAVEFORM &bull; DUAL-QUADRATURE IQ DEMODULATION</span>
+          <span class="canvas-badge" id="sweepFreq">SWEEP: 4.825 GHz &bull; SAMPLE RATE: 10 GS/s</span>
+        </div>
+      </div>
+
+      <!-- Live Telemetry KPI Cards -->
+      <div class="telemetry-row" id="coherence">
+        <div class="telemetry-card">
+          <div class="telemetry-header">
+            <span class="telemetry-label">T1 Relaxation Time</span>
+            <span class="telemetry-symbol">T₁</span>
+          </div>
+          <div class="telemetry-val" id="valT1">218.4 <span class="telemetry-unit">µs</span></div>
+          <div class="telemetry-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            +14.2% vs previous calibration cycle
+          </div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="telemetry-header">
+            <span class="telemetry-label">T2* Dephasing Time</span>
+            <span class="telemetry-symbol">T₂*</span>
+          </div>
+          <div class="telemetry-val" id="valT2">184.2 <span class="telemetry-unit">µs</span></div>
+          <div class="telemetry-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+            Pure dephasing suppressed by CPMG-64
+          </div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="telemetry-header">
+            <span class="telemetry-label">2-Qubit CZ Fidelity</span>
+            <span class="telemetry-symbol">F₂Q</span>
+          </div>
+          <div class="telemetry-val" id="valFid">99.94 <span class="telemetry-unit">%</span></div>
+          <div class="telemetry-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/></svg>
+            Interleaved Randomized Benchmarking
+          </div>
+        </div>
+
+        <div class="telemetry-card">
+          <div class="telemetry-header">
+            <span class="telemetry-label">Mixing Chamber Temp</span>
+            <span class="telemetry-symbol">T_base</span>
+          </div>
+          <div class="telemetry-val" id="valTemp">14.82 <span class="telemetry-unit">mK</span></div>
+          <div class="telemetry-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2v20M2 12h20"/></svg>
+            Dilution Unit 3He/4He Equilibrium
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1,024-Qubit Lattice Matrix Section -->
+    <section class="qubit-section" id="qubits">
+      <div class="section-head">
+        <div class="section-tag">Interactive Qubit Lattice</div>
+        <h2 class="section-title">1,024-Transmon Square-Octagon Lattice</h2>
+        <p class="section-desc">Select any transmon in the calibrated 32×32 planar lattice to inspect micro-architectural parameters, qubit frequency, anharmonicity, and single-shot dispersive readout fidelity.</p>
+      </div>
+
+      <div class="matrix-layout">
+        <div class="matrix-panel">
+          <div class="matrix-toolbar">
+            <div class="filter-tabs">
+              <button class="filter-tab active" onclick="setQubitFilter('all')">All Qubits (1024)</button>
+              <button class="filter-tab" onclick="setQubitFilter('optimal')">Fidelity &gt; 99.9%</button>
+              <button class="filter-tab" onclick="setQubitFilter('entangled')">Active Bell Pairs</button>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+              Coupling: Planar Resonator Bus
+            </div>
+          </div>
+
+          <!-- 256 Rendered Qubits Grid (Quadrant A sample of 1,024) -->
+          <div class="qubit-grid-canvas" id="qubitLatticeGrid"></div>
+        </div>
+
+        <!-- Selected Qubit Inspector -->
+        <div class="inspector-card">
+          <div class="inspector-head">
+            <div>
+              <div class="inspector-title" id="inspQubitName">Qubit #042</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Transmon Mode (Fixed Coupler)</div>
+            </div>
+            <span class="inspector-badge" id="inspStatus">ACTIVE</span>
+          </div>
+
+          <div class="inspector-stat-row">
+            <span class="stat-label">Transition Freq (ω₀₁)</span>
+            <span class="stat-value" id="inspFreq">4.842 GHz</span>
+          </div>
+          <div class="inspector-stat-row">
+            <span class="stat-label">Anharmonicity (α)</span>
+            <span class="stat-value" id="inspAnharm">-298.4 MHz</span>
+          </div>
+          <div class="inspector-stat-row">
+            <span class="stat-label">Readout Resonator (ωᵣ)</span>
+            <span class="stat-value" id="inspRes">7.140 GHz</span>
+          </div>
+          <div class="inspector-stat-row">
+            <span class="stat-label">Single Qubit Gate Error</span>
+            <span class="stat-value" id="insp1QErr">0.021 %</span>
+          </div>
+          <div class="inspector-stat-row">
+            <span class="stat-label">Dispersive Readout F</span>
+            <span class="stat-value" id="inspReadout">99.88 %</span>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <div style="font-size: 11px; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 6px;">STATE VECTOR PROJECTION // BLOCH SPHERE</div>
+            <div class="bloch-sphere-box">
+              <canvas id="blochCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cryogenic Dilution Refrigerator Visualizer -->
+    <section class="fridge-section" id="cryogenics">
+      <div class="section-head">
+        <div class="section-tag">Thermal Isolation Cascade</div>
+        <h2 class="section-title">Cryogenic Dilution Refrigerator Telemetry</h2>
+        <p class="section-desc">Six continuous thermal isolation stages isolating the superconducting titanium-nitride quantum chip from room temperature radiation and thermal photons.</p>
+      </div>
+
+      <div class="fridge-stack-grid">
+        <div class="fridge-stage-card" onclick="selectFridgeStage(300, 'Room Ambient Vacuum Shell', '0.00 W/m² (Reference)', 'Atmospheric outer barrier')">
+          <div class="stage-level">Stage 01</div>
+          <div class="stage-temp">295.1 <span style="font-size: 14px;">K</span></div>
+          <div class="stage-name">Room Ambient Shell</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 100%;"></div></div>
+        </div>
+
+        <div class="fridge-stage-card" onclick="selectFridgeStage(50, 'Pulse Tube Stage 1', '35.4 W Cooling Power', 'Gold-plated copper thermal shield')">
+          <div class="stage-level">Stage 02</div>
+          <div class="stage-temp">48.2 <span style="font-size: 14px;">K</span></div>
+          <div class="stage-name">Pulse Tube Cooler 1</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 65%;"></div></div>
+        </div>
+
+        <div class="fridge-stage-card" onclick="selectFridgeStage(4, 'Pulse Tube Stage 2', '1.50 W Cooling Power', 'Superconducting niobium magnetic shield')">
+          <div class="stage-level">Stage 03</div>
+          <div class="stage-temp">3.85 <span style="font-size: 14px;">K</span></div>
+          <div class="stage-name">Pulse Tube Cooler 2</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 40%;"></div></div>
+        </div>
+
+        <div class="fridge-stage-card" onclick="selectFridgeStage(0.8, 'Still Stage', '22 mW Distillation Power', '3He vapor phase extraction')">
+          <div class="stage-level">Stage 04</div>
+          <div class="stage-temp">840 <span style="font-size: 14px;">mK</span></div>
+          <div class="stage-name">Still Evaporator</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 25%;"></div></div>
+        </div>
+
+        <div class="fridge-stage-card" onclick="selectFridgeStage(0.1, 'Cold Plate Stage', '450 µW Continuous', 'Sintered silver heat exchangers')">
+          <div class="stage-level">Stage 05</div>
+          <div class="stage-temp">98 <span style="font-size: 14px;">mK</span></div>
+          <div class="stage-name">Intermediate Cold Plate</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 15%;"></div></div>
+        </div>
+
+        <div class="fridge-stage-card stage-selected" onclick="selectFridgeStage(0.015, 'Mixing Chamber Base', '25 µW at 15 mK', 'Dilute 3He/4He phase boundary')">
+          <div class="stage-level">Stage 06 &bull; QPU BASE</div>
+          <div class="stage-temp">14.82 <span style="font-size: 14px;">mK</span></div>
+          <div class="stage-name">Mixing Chamber</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width: 5%; background: var(--cyan);"></div></div>
+        </div>
+      </div>
+
+      <!-- Stage Detail Callout -->
+      <div id="fridgeDetailBox" style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <strong style="color: var(--cyan);" id="fridgeDetailName">Mixing Chamber Base (Stage 06)</strong>
+          <span style="margin: 0 10px; color: var(--border-subtle);">|</span>
+          <span id="fridgeDetailDesc">Dilute 3He/4He phase boundary cooling directly anchored to 1,024-transmon silicon interposer.</span>
+        </div>
+        <div style="color: var(--emerald);" id="fridgeDetailPower">Cooling Power: 25 µW @ 15 mK</div>
+      </div>
+    </section>
+
+    <!-- Interactive Quantum Logic Gate Simulator -->
+    <section class="gates-section" id="gates">
+      <div class="section-head">
+        <div class="section-tag">Universal Logic Synthesis</div>
+        <h2 class="section-title">Quantum Logic Gate Breakdown & Simulation</h2>
+        <p class="section-desc">Test unitary transformations on quantum state amplitudes. Click gate operators below to inject them into the qubit pipeline and watch the probability density collapse in real time.</p>
+      </div>
+
+      <div class="circuit-designer-box">
+        <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin-bottom: 12px;">AVAILABLE UNITARY OPERATORS (CLICK TO APPLY TO PIPELINE):</div>
+        <div class="gates-palette">
+          <button class="gate-btn btn-h" onclick="applyGate('H')" title="Hadamard: Creates equal superposition (|+> / |->)">H</button>
+          <button class="gate-btn btn-x" onclick="applyGate('X')" title="Pauli-X: Bit-flip / NOT gate">X</button>
+          <button class="gate-btn btn-z" onclick="applyGate('Z')" title="Pauli-Z: Phase-flip gate">Z</button>
+          <button class="gate-btn btn-phase" onclick="applyGate('S')" title="Phase S gate (π/2 rotation)">S</button>
+          <button class="gate-btn btn-cnot" onclick="applyGate('CX')" title="Controlled-NOT: Entangles Q0 and Q1">CX</button>
+          <button class="gate-btn" style="color: #94a3b8; font-size: 13px; width: auto; padding: 0 16px;" onclick="resetCircuit()">RESET CIRCUIT</button>
+        </div>
+
+        <div class="circuit-wire-board">
+          <div class="wire-lane">
+            <span class="wire-label">|q₀⟩ = |0⟩</span>
+            <div class="wire-slots" id="slotsQ0">
+              <div class="gate-slot" id="q0_s0">H</div>
+              <div class="gate-slot" id="q0_s1">&bull;</div>
+              <div class="gate-slot" id="q0_s2">-</div>
+              <div class="gate-slot" id="q0_s3">-</div>
+            </div>
+          </div>
+
+          <div class="wire-lane">
+            <span class="wire-label">|q₁⟩ = |0⟩</span>
+            <div class="wire-slots" id="slotsQ1">
+              <div class="gate-slot" id="q1_s0">-</div>
+              <div class="gate-slot" id="q1_s1">&#8853;</div>
+              <div class="gate-slot" id="q1_s2">-</div>
+              <div class="gate-slot" id="q1_s3">-</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output State Vector Probabilities -->
+        <div class="circuit-stats-panel">
+          <div class="circuit-stat-box">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px;">
+              <span>|00⟩ State</span>
+              <span id="prob00" style="color: var(--cyan); font-weight: 700;">50.0%</span>
+            </div>
+            <div class="stat-bar-box">
+              <div class="stat-bar-track"><div class="stat-bar-val" id="bar00" style="width: 50%;"></div></div>
+            </div>
+          </div>
+
+          <div class="circuit-stat-box">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px;">
+              <span>|01⟩ State</span>
+              <span id="prob01" style="color: var(--cyan); font-weight: 700;">0.0%</span>
+            </div>
+            <div class="stat-bar-box">
+              <div class="stat-bar-track"><div class="stat-bar-val" id="bar01" style="width: 0%;"></div></div>
+            </div>
+          </div>
+
+          <div class="circuit-stat-box">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px;">
+              <span>|10⟩ State</span>
+              <span id="prob10" style="color: var(--cyan); font-weight: 700;">0.0%</span>
+            </div>
+            <div class="stat-bar-box">
+              <div class="stat-bar-track"><div class="stat-bar-val" id="bar10" style="width: 0%;"></div></div>
+            </div>
+          </div>
+
+          <div class="circuit-stat-box">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px;">
+              <span>|11⟩ State</span>
+              <span id="prob11" style="color: var(--cyan); font-weight: 700;">50.0%</span>
+            </div>
+            <div class="stat-bar-box">
+              <div class="stat-bar-track"><div class="stat-bar-val" id="bar11" style="width: 50%;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--emerald);" id="entangleStatus">
+          &bull; CURRENT STATE: Bell State |Φ+⟩ = 1/√2(|00⟩ + |11⟩) &bull; Maximum Two-Qubit Entanglement Verified
+        </div>
+      </div>
+    </section>
+
+    <!-- Cloud SDK Access Terminal -->
+    <section class="terminal-section" id="terminal">
+      <div class="section-head">
+        <div class="section-tag">Cloud Native Execution</div>
+        <h2 class="section-title">Hyperion Cloud SDK & Runtime Terminal</h2>
+        <p class="section-desc">Submit quantum jobs directly over gRPC / WebSockets to the cryogenic scheduler. Live compilation down to AWG microwave drive pulses.</p>
+      </div>
+
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="window-controls">
+            <div class="window-circle red"></div>
+            <div class="window-circle yellow"></div>
+            <div class="window-circle green"></div>
+          </div>
+          <div class="terminal-tabs">
+            <button class="term-tab active" onclick="switchTermTab('python')">hyperion_qpu.py</button>
+            <button class="term-tab" onclick="switchTermTab('rust')">engine.rs</button>
+            <button class="term-tab" onclick="switchTermTab('bash')">qpu-cli</button>
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+            qpu-eu-west-1.hyperion.internal:443
+          </div>
+        </div>
+
+        <div class="terminal-body" id="termOutput">
+          <p><span class="term-comment"># HYPERION Superconducting QPU v5.4.1 Client</span></p>
+          <p><span class="term-keyword">import</span> hyperion <span class="term-keyword">as</span> hyp</p>
+          <p><span class="term-keyword">from</span> hyperion.circuit <span class="term-keyword">import</span> QuantumRegister, Circuit</p>
+          <br>
+          <p><span class="term-comment"># Connect to sub-15mK cryostat cluster</span></p>
+          <p>qpu = hyp.<span class="term-func">connect</span>(api_token=<span class="term-str">"hyp_live_9948ef201a"</span>, backend=<span class="term-str">"hyperion-1024-transmon"</span>)</p>
+          <p>print(qpu.<span class="term-func">telemetry</span>()) <span class="term-comment"># => { "t_base": "14.82 mK", "qubits_online": 1024, "fidelity_2q": 0.9994 }</span></p>
+          <br>
+          <p><span class="term-comment"># Compile and dispatch 4096-shot GHZ state circuit</span></p>
+          <p>circuit = Circuit(qubits=3)</p>
+          <p>circuit.h(0).cx(0, 1).cx(1, 2).measure_all()</p>
+          <p>job = qpu.<span class="term-func">execute</span>(circuit, shots=4096, error_mitigation=<span class="term-str">"richardson_zne"</span>)</p>
+          <p><span class="term-comment">&gt;&gt; Job dispatched. Quantum execution time: 1.24 ms | Active mitigation: Complete</span></p>
+          <p><span class="term-str">&gt;&gt; Results: {'000': 2049, '111': 2047, '001': 0, '010': 0}</span></p>
+        </div>
+
+        <div class="terminal-cli-input">
+          <span class="term-prompt">hyperion@qpu-lab:~$</span>
+          <input type="text" class="term-input" id="termInput" placeholder="Type 'help', 'status', 'calibrate', or 'run-benchmark'..." onkeydown="handleTerminalEnter(event)">
+          <button class="btn-exec" onclick="execTerminalCommand()">EXECUTE</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-title">HYPERION <span>// QUANTUM</span></div>
+          <p class="footer-brand-desc">
+            Superconducting Quantum Processor Laboratory. Advancing fault-tolerant surface-code quantum computing at the sub-15 milliKelvin thermodynamic limit.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Architecture</h4>
+          <ul>
+            <li><a href="#qubits">1024-Transmon Matrix</a></li>
+            <li><a href="#cryogenics">Dilution Cooling</a></li>
+            <li><a href="#gates">Unitary Gate Sets</a></li>
+            <li><a href="#coherence">Coherence Benchmarks</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Cloud Services</h4>
+          <ul>
+            <li><a href="#terminal">QPU REST & gRPC API</a></li>
+            <li><a href="#terminal">Qiskit Provider</a></li>
+            <li><a href="#terminal">Cirq Integration</a></li>
+            <li><a href="#terminal">Zero-Noise Extrapolation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Facility Status</h4>
+          <ul>
+            <li><a href="#">Cryo-Chamber B-4</a></li>
+            <li><a href="#">Shielded RF Lab</a></li>
+            <li><a href="#">Microwave AWG Rack</a></li>
+            <li><a href="#">He3/He4 Gas Purity 99.999%</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 HYPERION QUANTUM PROCESSOR LAB &bull; ISO-14644-1 CLASS 1 CLEANROOM SPECIFICATION</div>
+        <div class="telemetry-strip">
+          <span>CRYOSTAT UPTIME: 4,892H</span>
+          <span>CROSSTALK: &lt; -48 dB</span>
+          <span>ERROR SYNDROME LATENCY: 240 ns</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    // 1. Quantum Waveform Canvas Simulation
+    const waveCanvas = document.getElementById('waveCanvas');
+    const ctx = waveCanvas.getContext('2d');
+    let animationFrameId
+    function resizeCanvas() {
+      waveCanvas.width = waveCanvas.clientWidth * window.devicePixelRatio;
+      waveCanvas.height = waveCanvas.clientHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas()
+    let time = 0;
+    function renderWaveform() {
+      const width = waveCanvas.clientWidth;
+      const height = waveCanvas.clientHeight;
+      ctx.clearRect(0, 0, width, height)
+      // Draw subtle grid lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < width; x += 40) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += 40) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      
+      // Draw Wave 1: In-Phase (I) Component (Superconductor Cyan)
+      ctx.beginPath();
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2.5;
+      ctx.shadowColor = 'rgba(6, 182, 212, 0.6)';
+      ctx.shadowBlur = 12
+      for (let x = 0; x < width; x++) {
+        const freq = 0.015;
+        const decay = Math.exp(-0.0003 * Math.abs(x - width / 2));
+        const envelope = Math.sin((x * 0.005) + time * 0.5) * 40;
+        const y = height / 2 + Math.sin(x * freq + time) * envelope * decay;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke()
+      // Draw Wave 2: Quadrature (Q) Component (Electric Violet)
+      ctx.beginPath();
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = 'rgba(168, 85, 247, 0.5)';
+      ctx.shadowBlur = 10
+      for (let x = 0; x < width; x++) {
+        const freq = 0.018;
+        const envelope = Math.cos((x * 0.004) - time * 0.3) * 32;
+        const y = height / 2 + Math.cos(x * freq + time * 1.2) * envelope;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke()
+      // Draw Wave 3: Quantum Rabi Oscillations Envelope (Emerald Green)
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.shadowBlur = 0
+      for (let x = 0; x < width; x += 4) {
+        const y = height / 2 + Math.sin(x * 0.008 + time * 0.2) * 70;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke()
+      time += 0.025;
+      animationFrameId = requestAnimationFrame(renderWaveform);
+    }
+    renderWaveform()
+    // 2. Populate 1,024-Qubit Lattice Grid (Displaying 256 Quadrant Sample)
+    const latticeContainer = document.getElementById('qubitLatticeGrid');
+    const qubitsData = []
+    for (let i = 0; i < 256; i++) {
+      const qNum = i;
+      const isOptimal = (i % 7 !== 0);
+      const isEntangled = (i === 42 || i === 43 || i === 128 || i === 129);
+      const freq = (4.75 + (i * 0.0035)).toFixed(3);
+      const anharm = (-290 - (i % 18)).toFixed(1);
+      const readout = (99.80 + ((i % 15) * 0.012)).toFixed(2)
+      qubitsData.push({
+        id: qNum,
+        name: `Qubit #${String(qNum).padStart(4, '0')}`,
+        freq: `${freq} GHz`,
+        anharm: `${anharm} MHz`,
+        readout: `${readout} %`,
+        optimal: isOptimal,
+        entangled: isEntangled
+      })
+      const node = document.createElement('div');
+      node.className = `qubit-node ${isOptimal ? 'state-optimal' : 'state-warning'} ${isEntangled ? 'state-entangled' : ''}`;
+      node.innerText = i;
+      node.id = `qnode_${i}`;
+      node.onclick = () => selectQubit(i);
+      latticeContainer.appendChild(node);
+    
+    // Default select Qubit #42
+    selectQubit(42)
+    function selectQubit(index) {
+      document.querySelectorAll('.qubit-node').forEach(n => n.classList.remove('active-selected'));
+      const activeEl = document.getElementById(`qnode_${index}`);
+      if (activeEl) activeEl.classList.add('active-selected')
+      const q = qubitsData[index];
+      if (q) {
+        document.getElementById('inspQubitName').innerText = q.name;
+        document.getElementById('inspFreq').innerText = q.freq;
+        document.getElementById('inspAnharm').innerText = q.anharm;
+        document.getElementById('inspReadout').innerText = q.readout;
+        document.getElementById('inspStatus').innerText = q.entangled ? 'ENTANGLED' : (q.optimal ? 'CALIBRATED' : 'DRIFT CHECK');
+        drawBlochSphere(index);
+      }
+    
+    function setQubitFilter(type) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active')
+      qubitsData.forEach((q, idx) => {
+        const el = document.getElementById(`qnode_${idx}`);
+        if (!el) return;
+        if (type === 'all') {
+          el.style.opacity = '1';
+        } else if (type === 'optimal') {
+          el.style.opacity = q.optimal ? '1' : '0.15';
+        } else if (type === 'entangled') {
+          el.style.opacity = q.entangled ? '1' : '0.15';
+        }
+      });
+    
+    // 3. Mini 2D Bloch Sphere Visualization
+    const blochCanvas = document.getElementById('blochCanvas');
+    const blochCtx = blochCanvas.getContext('2d')
+    function drawBlochSphere(seed) {
+      blochCanvas.width = blochCanvas.clientWidth * window.devicePixelRatio;
+      blochCanvas.height = blochCanvas.clientHeight * window.devicePixelRatio;
+      blochCtx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      const w = blochCanvas.clientWidth;
+      const h = blochCanvas.clientHeight;
+      const cx = w / 2;
+      const cy = h / 2;
+      const r = Math.min(w, h) * 0.38
+      blochCtx.clearRect(0, 0, w, h)
+      // Sphere circle
+      blochCtx.strokeStyle = 'rgba(6, 182, 212, 0.4)';
+      blochCtx.lineWidth = 1.5;
+      blochCtx.beginPath();
+      blochCtx.arc(cx, cy, r, 0, Math.PI * 2);
+      blochCtx.stroke()
+      // Equator ellipse
+      blochCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+      blochCtx.beginPath();
+      blochCtx.ellipse(cx, cy, r, r * 0.35, 0, 0, Math.PI * 2);
+      blochCtx.stroke()
+      // Z-axis vertical line
+      blochCtx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      blochCtx.beginPath();
+      blochCtx.moveTo(cx, cy - r);
+      blochCtx.lineTo(cx, cy + r);
+      blochCtx.stroke()
+      // Labels |0> and |1>
+      blochCtx.fillStyle = '#f8fafc';
+      blochCtx.font = '10px "JetBrains Mono"';
+      blochCtx.fillText('|0⟩', cx + 4, cy - r + 10);
+      blochCtx.fillText('|1⟩', cx + 4, cy + r - 4)
+      // Vector arrow based on seed
+      const angle = (seed * 0.45) % (Math.PI * 2);
+      const vecX = cx + Math.cos(angle) * (r * 0.85);
+      const vecY = cy - Math.sin(angle) * (r * 0.7)
+      blochCtx.strokeStyle = '#06b6d4';
+      blochCtx.lineWidth = 2.5;
+      blochCtx.beginPath();
+      blochCtx.moveTo(cx, cy);
+      blochCtx.lineTo(vecX, vecY);
+      blochCtx.stroke()
+      // State point
+      blochCtx.fillStyle = '#a855f7';
+      blochCtx.shadowColor = '#a855f7';
+      blochCtx.shadowBlur = 8;
+      blochCtx.beginPath();
+      blochCtx.arc(vecX, vecY, 4.5, 0, Math.PI * 2);
+      blochCtx.fill();
+      blochCtx.shadowBlur = 0;
+    
+    // 4. Cryogenics Stage Selector
+    function selectFridgeStage(temp, name, power, desc) {
+      document.querySelectorAll('.fridge-stage-card').forEach(c => c.classList.remove('stage-selected'));
+      event.currentTarget.classList.add('stage-selected')
+      document.getElementById('fridgeDetailName').innerText = `${name} (${temp < 1 ? (temp * 1000).toFixed(0) + ' mK' : temp + ' K'})`;
+      document.getElementById('fridgeDetailDesc').innerText = desc;
+      document.getElementById('fridgeDetailPower').innerText = power;
+    
+    // 5. Quantum Logic Gate Simulator
+    let circuitHistory = ['H', 'CX']
+    function applyGate(gate) {
+      circuitHistory.push(gate);
+      if (circuitHistory.length > 4) circuitHistory.shift();
+      updateCircuitUI();
+    
+    function resetCircuit() {
+      circuitHistory = [];
+      updateCircuitUI();
+    
+    function updateCircuitUI() {
+      for (let i = 0; i < 4; i++) {
+        const slot0 = document.getElementById(`q0_s${i}`);
+        const slot1 = document.getElementById(`q1_s${i}`);
+        const g = circuitHistory[i] || '-'
+        if (g === 'CX') {
+          slot0.innerText = '•';
+          slot1.innerText = '⊕';
+        } else if (g === '-') {
+          slot0.innerText = '-';
+          slot1.innerText = '-';
+        } else {
+          slot0.innerText = g;
+          slot1.innerText = '-';
+        }
+      
+      // Recompute probabilities based on present gates
+      const hasH = circuitHistory.includes('H');
+      const hasCX = circuitHistory.includes('CX');
+      const hasX = circuitHistory.includes('X')
+      let p00 = 100, p01 = 0, p10 = 0, p11 = 0;
+      let stateLabel = 'Ground State |00⟩'
+      if (hasH && hasCX) {
+        p00 = 50; p01 = 0; p10 = 0; p11 = 50;
+        stateLabel = 'Bell State |Φ+⟩ = 1/√2(|00⟩ + |11⟩) • Entangled';
+      } else if (hasH && !hasCX) {
+        p00 = 50; p01 = 0; p10 = 50; p11 = 0;
+        stateLabel = 'Superposition State |+0⟩ = 1/√2(|00⟩ + |10⟩)';
+      } else if (hasX && !hasH) {
+        p00 = 0; p01 = 0; p10 = 100; p11 = 0;
+        stateLabel = 'Excited State |10⟩';
+      
+      document.getElementById('prob00').innerText = p00 + '%';
+      document.getElementById('bar00').style.width = p00 + '%';
+      document.getElementById('prob01').innerText = p01 + '%';
+      document.getElementById('bar01').style.width = p01 + '%';
+      document.getElementById('prob10').innerText = p10 + '%';
+      document.getElementById('bar10').style.width = p10 + '%';
+      document.getElementById('prob11').innerText = p11 + '%';
+      document.getElementById('bar11').style.width = p11 + '%';
+      document.getElementById('entangleStatus').innerHTML = `&bull; CURRENT STATE: ${stateLabel}`;
+    
+    // 6. Terminal Tabs and CLI Interactive Runner
+    const codeExamples = {
+      python: `<p><span class="term-comment"># HYPERION Superconducting QPU v5.4.1 Client</span></p>
+<p><span class="term-keyword">import</span> hyperion <span class="term-keyword">as</span> hyp</p>
+<p><span class="term-keyword">from</span> hyperion.circuit <span class="term-keyword">import</span> QuantumRegister, Circuit</p>
+<br>
+<p><span class="term-comment"># Connect to sub-15mK cryostat cluster</span></p>
+<p>qpu = hyp.<span class="term-func">connect</span>(api_token=<span class="term-str">"hyp_live_9948ef201a"</span>, backend=<span class="term-str">"hyperion-1024-transmon"</span>)</p>
+<p>print(qpu.<span class="term-func">telemetry</span>()) <span class="term-comment"># => { "t_base": "14.82 mK", "qubits_online": 1024, "fidelity_2q": 0.9994 }</span></p>
+<br>
+<p><span class="term-comment"># Compile and dispatch 4096-shot GHZ state circuit</span></p>
+<p>circuit = Circuit(qubits=3)</p>
+<p>circuit.h(0).cx(0, 1).cx(1, 2).measure_all()</p>
+<p>job = qpu.<span class="term-func">execute</span>(circuit, shots=4096, error_mitigation=<span class="term-str">"richardson_zne"</span>)</p>
+<p><span class="term-str">&gt;&gt; Job dispatched. Quantum execution time: 1.24 ms | Active mitigation: Complete</span></p>
+<p><span class="term-str">&gt;&gt; Results: {'000': 2049, '111': 2047, '001': 0, '010': 0}</span></p>`,
+
+      rust: `<p><span class="term-comment">// Hyperion Real-Time Pulse Synthesizer Core</span></p>
+<p><span class="term-keyword">use</span> hyperion_pulse::{AwgChannel, PulseEnvelope, MicrowaveDac};</p>
+<br>
+<p><span class="term-keyword">pub fn</span> <span class="term-func">synthesize_drag_pulse</span>(freq_ghz: f64, duration_ns: u32, amp: f64) -&gt; Vec&lt;i16&gt; {</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="term-keyword">let</span> envelope = PulseEnvelope::<span class="term-func">drag_gaussian</span>(amp, duration_ns, 0.5);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;MicrowaveDac::<span class="term-func">modulate_iq</span>(envelope, freq_ghz, 10_000_000_000)</p>
+<p>}</p>
+<br>
+<p><span class="term-comment">// Output: 10 GS/s 16-bit signed DAC stream streamed via PCIe Gen5 to AWG card</span></p>`,
+
+      bash: `<p><span class="term-comment"># Hyperion Global Lab Control CLI</span></p>
+<p>$ qpu cluster status --facility geneva-b4</p>
+<p><span class="term-str">[OK] Dilution Cryostat 04: 14.82 mK [NOMINAL]</span></p>
+<p><span class="term-str">[OK] SQUID Amplifiers: TWPA Pump 7.21 GHz [LOCKED]</span></p>
+<p><span class="term-str">[OK] Total Accessible Qubits: 1,024 / 1,024</span></p>
+<p>$ qpu job run --benchmark randomized-benchmarking --qubits 0,1,42,43</p>
+<p><span class="term-str">[RB] Average Clifford gate fidelity: 99.962% (std_err = 0.003%)</span></p>`
+    }
+    function switchTermTab(tab) {
+      document.querySelectorAll('.term-tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('termOutput').innerHTML = codeExamples[tab];
+    
+    function handleTerminalEnter(e) {
+      if (e.key === 'Enter') {
+        execTerminalCommand();
+      }
+    
+    function execTerminalCommand() {
+      const input = document.getElementById('termInput');
+      const val = input.value.trim().toLowerCase();
+      if (!val) return
+      const output = document.getElementById('termOutput');
+      let response = ''
+      if (val === 'help') {
+        response = '<span class="term-comment">Available commands: help, status, calibrate, run-benchmark, clear</span>';
+      } else if (val === 'status') {
+        response = '<span class="term-str">[STATUS] 1,024 Qubits Online &bull; Cryo Base: 14.82 mK &bull; Surface Code: Running (Syndrome Cycle: 240ns)</span>';
+      } else if (val === 'calibrate') {
+        response = '<span class="term-str">[CALIBRATE] Sweeping readout resonators... Dispersive shift χ = -1.4 MHz locked. Calibration converged.</span>';
+      } else if (val === 'run-benchmark') {
+        response = '<span class="term-str">[BENCHMARK] Executing 10,000 randomized Clifford sequences... 2Q Fidelity = 99.948%. All gates within fault tolerance threshold.</span>';
+      } else if (val === 'clear') {
+        output.innerHTML = '';
+        input.value = '';
+        return;
+      } else {
+        response = `<span style="color: var(--rose);">Unknown command: "${val}". Type 'help' for valid operations.</span>`;
+      
+      output.innerHTML += `<p><span class="term-prompt">hyperion@qpu-lab:~$</span> ${val}</p><p>${response}</p>`;
+      input.value = '';
+      output.scrollTop = output.scrollHeight;
+    
+    // Telemetry Live Value Micro-Jitter (to feel alive)
+    setInterval(() => {
+      const tempJitter = (14.80 + Math.random() * 0.05).toFixed(2);
+      document.getElementById('valTemp').innerHTML = `${tempJitter} <span class="telemetry-unit">mK</span>`;
+    }, 3000);
+  </script>
+</body>
+</html>

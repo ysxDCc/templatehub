@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORION // Asteroid Resource Logistics & Deep Space Propulsion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #02040a;
+      --bg-surface: #080d1a;
+      --bg-card: #0f172a;
+      --bg-card-hover: #162038;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-cyan: rgba(56, 189, 248, 0.3);
+      --border-amber: rgba(245, 158, 11, 0.3);
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.35);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.3);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --green: #10b981;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.08), transparent 60%),
+        radial-gradient(circle at 90% 40%, rgba(245, 158, 11, 0.05), transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 54px 54px, 54px 54px;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Orbital Top Telemetry Bar */
+    .top-telemetry-strip {
+      background: #010307;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 0;
+      color: var(--text-dim);
+    }
+    .strip-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .status-active-ion {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cyan);
+    }
+    .pulse-cyan {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulseCyan 2s infinite;
+    }
+    @keyframes pulseCyan {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    /* Header & Navigation */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(2, 4, 10, 0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-flex {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px var(--cyan-glow);
+    }
+    .brand-icon svg { width: 22px; height: 22px; fill: #02040a; }
+    .brand-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .brand-name span { color: var(--cyan); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .btn-cyan {
+      background: var(--cyan);
+      color: #02040a;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--cyan);
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--cyan-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-cyan:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.45);
+    }
+
+    .btn-amber {
+      background: var(--amber);
+      color: #02040a;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--amber);
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--amber-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-amber:hover {
+      background: #fbbf24;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--cyan);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 80px 0 60px;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid var(--border-cyan);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(36px, 4.5vw, 62px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--amber) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .hero-metrics-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 26px;
+    }
+    .h-metric .val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .h-metric .val span { color: var(--amber); font-size: 14px; }
+    .h-metric .label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Target Intercept Card */
+    .hero-intercept-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-cyan);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
+    .intercept-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .intercept-status {
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #heroTargetCanvas {
+      width: 100%;
+      height: 240px;
+      background: #020409;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .intercept-footer-data {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .if-box {
+      background: #0b1222;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .if-box span { color: var(--text-dim); display: block; font-size: 9px; }
+    .if-box strong { color: var(--cyan); }
+
+    /* Common Section */
+    section {
+      padding: 90px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .section-head-wrap {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px;
+    }
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid var(--border-cyan);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .section-headline {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(28px, 3.6vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .section-description {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* 1. Real-Time Asteroid Orbital Map Section */
+    .orbital-layout {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .orbital-canvas-wrap {
+      position: relative;
+      background: #020307;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      overflow: hidden;
+    }
+    #orbitalCanvas {
+      width: 100%;
+      height: 480px;
+      display: block;
+      cursor: crosshair;
+    }
+    .orbital-ctrls {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
+      gap: 8px;
+    }
+    .orbit-tag {
+      background: rgba(8, 13, 26, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .orbit-tag.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* Asteroid Telemetry Drawer */
+    .asteroid-telemetry-pane {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+    }
+    .target-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--border-amber);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .target-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .target-subtitle {
+      font-size: 13px;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 20px;
+    }
+    .composition-bar-wrap {
+      margin-bottom: 22px;
+    }
+    .comp-title {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .comp-bar {
+      height: 8px;
+      background: #111a2e;
+      border-radius: 4px;
+      display: flex;
+      overflow: hidden;
+    }
+    .comp-seg-pt { background: #38bdf8; width: 42%; }
+    .comp-seg-ni { background: #f59e0b; width: 38%; }
+    .comp-seg-fe { background: #10b981; width: 20%; }
+
+    .asteroid-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 24px;
+    }
+    .asteroid-data-table tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .asteroid-data-table td {
+      padding: 10px 0;
+      color: var(--text-dim);
+    }
+    .asteroid-data-table td.val {
+      text-align: right;
+      color: var(--text);
+    }
+
+    /* 2. Hall-Effect Ion Thruster Telemetry Section */
+    .thruster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .thruster-visual-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-cyan);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    #thrusterCanvas {
+      width: 100%;
+      height: 340px;
+      background: #010307;
+      border-radius: 10px;
+      display: block;
+      border: 1px solid rgba(56, 189, 248, 0.15);
+    }
+    .thruster-controls-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .slider-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slider-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .ion-range {
+      width: 100%;
+      accent-color: var(--cyan);
+      cursor: pointer;
+    }
+    .telemetry-readout-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .readout-box {
+      background: #0b1222;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .readout-box .rl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .readout-box .rv {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-top: 4px;
+    }
+
+    /* 3. Precious Metals Yield Calculator */
+    .calculator-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .calc-columns {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+    }
+    .calc-inputs-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+    .calc-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .calc-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+    .calc-slider {
+      width: 100%;
+      accent-color: var(--amber);
+      cursor: pointer;
+    }
+    .calc-output-pane {
+      background: #070c18;
+      border: 1px solid var(--border-amber);
+      border-radius: 14px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .total-valuation-header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .valuation-number {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--amber);
+      margin-top: 8px;
+      text-shadow: 0 0 25px var(--amber-glow);
+    }
+    .yield-breakdown-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .yield-breakdown-list li {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+    .yield-breakdown-list li strong { color: #fff; }
+
+    /* 4. Launch Manifest Booking Section */
+    .manifest-table-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow-x: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+    .manifest-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .manifest-table th {
+      background: #0e1628;
+      padding: 16px 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+    }
+    .manifest-table td {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .manifest-table tr:hover {
+      background: rgba(56, 189, 248, 0.04);
+    }
+    .slot-open {
+      color: var(--green);
+      font-weight: 700;
+    }
+    .slot-reserved {
+      color: var(--amber);
+    }
+
+    /* Footer */
+    footer.main-footer {
+      background: #010307;
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-col h5 {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--cyan); }
+    .footer-bot {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .orbital-layout, .thruster-grid, .calc-columns, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .asteroid-telemetry-pane { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Orbital Telemetry Strip -->
+  <div class="top-telemetry-strip">
+    <div class="container strip-flex">
+      <div class="status-active-ion">
+        <span class="pulse-cyan"></span>
+        <span>FLEET TELEMETRY: 4 CARRIERS NOMINAL // CIS-LUNAR RELAY LINK ESTABLISHED</span>
+      </div>
+      <div>
+        <span>DEEP SPACE DSN PING: 24.8s</span>
+        <span style="margin-left: 18px;">SOLAR FLUX: 1,361 W/m²</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <header class="main-header">
+    <div class="container nav-flex">
+      <a href="#" class="brand-mark">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        </div>
+        <div class="brand-name">ORION<span>//LOGISTICS</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#orbital-map">Orbital Map</a></li>
+        <li><a href="#propulsion">Ion Propulsion</a></li>
+        <li><a href="#yield-calc">Yield Engine</a></li>
+        <li><a href="#manifest">Launch Manifest</a></li>
+      </ul>
+
+      <a href="#manifest" class="btn-cyan">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Reserve Cargo Slot
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-left-col">
+        <div class="hero-tag">
+          Deep Space Propulsion & Resource Logistics
+        </div>
+        <h1 class="hero-title">
+          Autonomous Mineral Extraction Across The <span>Main Asteroid Belt</span>
+        </h1>
+        <p class="hero-lead">
+          Pioneering interplanetary raw ore extraction, autonomous robotic prospectors, and high-efficiency Hall-effect xenon propulsion to secure humanity's off-world industrial foundation.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#orbital-map" class="btn-cyan">
+            Explore Target Belts
+          </a>
+          <a href="#yield-calc" class="btn-outline">
+            Calculate Yields
+          </a>
+        </div>
+
+        <div class="hero-metrics-strip">
+          <div class="h-metric">
+            <div class="val">4,850<span>s</span></div>
+            <div class="label">Specific Impulse (Isp)</div>
+          </div>
+          <div class="h-metric">
+            <div class="val">10.8<span>$T</span></div>
+            <div class="label">Identified Reserves</div>
+          </div>
+          <div class="h-metric">
+            <div class="val">0.00<span>kg</span></div>
+            <div class="label">Terrestrial Footprint</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Real-Time Intercept Card -->
+      <div class="hero-right-col">
+        <div class="hero-intercept-card">
+          <div class="intercept-header">
+            <span>LIVE TRAJECTORY // ORION CARRIER-03</span>
+            <span class="intercept-status">
+              <span class="pulse-cyan" style="background:#10b981; box-shadow:0 0 10px #10b981;"></span>
+              ION BURN ENGAGED
+            </span>
+          </div>
+
+          <canvas id="heroTargetCanvas" width="500" height="240"></canvas>
+
+          <div class="intercept-footer-data">
+            <div class="if-box">
+              <span>TARGET INTERCEPT</span>
+              <strong>16 PSYCHE</strong>
+            </div>
+            <div class="if-box">
+              <span>DISTANCE</span>
+              <strong>2.87 AU</strong>
+            </div>
+            <div class="if-box">
+              <span>DELTA-V EXPENDED</span>
+              <strong>8.42 km/s</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Real-Time Asteroid Orbital Map -->
+  <section id="orbital-map">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-kicker">Heliocentric Trajectories</div>
+        <h2 class="section-headline">Real-Time Asteroid Target Orbital Map</h2>
+        <p class="section-description">Interactive heliocentric simulator mapping high-value M-type metallic and C-type volatile asteroids across the Mars-Jupiter resonance gaps.</p>
+      </div>
+
+      <div class="orbital-layout">
+        <div class="orbital-canvas-wrap">
+          <div class="orbital-ctrls">
+            <button class="orbit-tag active" data-target="psyche">16 Psyche (M-Type)</button>
+            <button class="orbit-tag" data-target="ryugu">162173 Ryugu (C-Type)</button>
+            <button class="orbit-tag" data-target="bennu">101955 Bennu (B-Type)</button>
+          </div>
+          <canvas id="orbitalCanvas" width="700" height="480"></canvas>
+        </div>
+
+        <div class="asteroid-telemetry-pane">
+          <div>
+            <span class="target-badge" id="tgtClass">SPECTRAL CLASS: M-TYPE (METALLIC)</span>
+            <h3 class="target-title" id="tgtName">16 Psyche</h3>
+            <div class="target-subtitle" id="tgtCoords">SEMI-MAJOR AXIS: 2.92 AU // INCLINATION: 3.1°</div>
+
+            <div class="composition-bar-wrap">
+              <div class="comp-title">
+                <span>Core Mineral Fractions</span>
+                <span id="tgtEstVal" style="color: var(--amber); font-weight:700;">Est. $10.8 Trillion</span>
+              </div>
+              <div class="comp-bar">
+                <div class="comp-seg-pt" title="Platinum Group"></div>
+                <div class="comp-seg-ni" title="Nickel-Iron Alloy"></div>
+                <div class="comp-seg-fe" title="Cobalt & Gold"></div>
+              </div>
+            </div>
+
+            <table class="asteroid-data-table">
+              <tr>
+                <td>Mean Diameter</td>
+                <td class="val" id="tgtDiam">226 km</td>
+              </tr>
+              <tr>
+                <td>Orbital Period</td>
+                <td class="val" id="tgtPeriod">4.99 Earth Years</td>
+              </tr>
+              <tr>
+                <td>Next Hohmann Transfer Window</td>
+                <td class="val" id="tgtWindow">August 2027</td>
+              </tr>
+              <tr>
+                <td>Estimated Platinum Content</td>
+                <td class="val" id="tgtPt">180,000 Metric Tons</td>
+              </tr>
+              <tr>
+                <td>Cis-Lunar Return Delta-V</td>
+                <td class="val" id="tgtDv">4.2 km/s</td>
+              </tr>
+            </table>
+          </div>
+
+          <button class="btn-amber" style="width: 100%; justify-content: center;" onclick="alert('Locking orbital rendezvous vector into flight computer navigation buffer...')">
+            Lock Intercept Vector
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. High-Efficiency Hall-Effect Ion Thruster Telemetry -->
+  <section id="propulsion">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-kicker">Magnetoplasmadynamic Drives</div>
+        <h2 class="section-headline">Hall-Effect Xenon Ion Thruster Telemetry</h2>
+        <p class="section-description">High-specific-impulse plasma propulsion enabling continuous low-thrust acceleration over multi-year interplanetary trajectories.</p>
+      </div>
+
+      <div class="thruster-grid">
+        <div class="thruster-visual-box">
+          <canvas id="thrusterCanvas" width="560" height="340"></canvas>
+          <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--cyan);">
+            MAGNETIC CONFINEMENT NOZZLE: PLASMOID STREAM ACTIVE
+          </div>
+        </div>
+
+        <div class="thruster-controls-card">
+          <div class="slider-row">
+            <div class="slider-label-row">
+              <span>THRUST THROTTLE LEVEL</span>
+              <strong id="thrustThrottleVal" style="color: var(--cyan);">85%</strong>
+            </div>
+            <input type="range" class="ion-range" min="10" max="100" value="85" id="throttleSlider">
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-label-row">
+              <span>XENON MASS FLOW RATE</span>
+              <strong id="massFlowVal" style="color: var(--amber);">18.2 mg/s</strong>
+            </div>
+            <input type="range" class="ion-range" min="5" max="30" value="18" id="massFlowSlider">
+          </div>
+
+          <div class="telemetry-readout-grid">
+            <div class="readout-box">
+              <div class="rl">Specific Impulse (Isp)</div>
+              <div class="rv" id="dispIsp">4,850 s</div>
+            </div>
+            <div class="readout-box">
+              <div class="rl">Exhaust Velocity</div>
+              <div class="rv" id="dispVex">47.6 km/s</div>
+            </div>
+            <div class="readout-box">
+              <div class="rl">Discharge Potential</div>
+              <div class="rv" id="dispVolt">650 V</div>
+            </div>
+            <div class="readout-box">
+              <div class="rl">Total Delta-V Margin</div>
+              <div class="rv" id="dispDv">16.4 km/s</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Precious Metals & Rare Earth Ore Yield Calculator -->
+  <section id="yield-calc">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-kicker">Economic Modeling</div>
+        <h2 class="section-headline">Asteroid Ore Extraction Yield Calculator</h2>
+        <p class="section-description">Project recovered resource volumes, cis-lunar smelting efficiencies, and return valuations based on current commodities spot benchmarks.</p>
+      </div>
+
+      <div class="calculator-card">
+        <div class="calc-columns">
+          <div class="calc-inputs-pane">
+            <div class="calc-input-group">
+              <div class="calc-label">
+                <span>RAW ORE EXTRACTION VOLUME</span>
+                <strong id="calcVolVal" style="color: #fff;">25,000 MT</strong>
+              </div>
+              <input type="range" class="calc-slider" min="1000" max="100000" step="1000" value="25000" id="sliderVol">
+            </div>
+
+            <div class="calc-input-group">
+              <div class="calc-label">
+                <span>IN-SITU REFINING PURITY</span>
+                <strong id="calcPurityVal" style="color: #fff;">94%</strong>
+              </div>
+              <input type="range" class="calc-slider" min="60" max="99" value="94" id="sliderPurity">
+            </div>
+
+            <div class="calc-input-group">
+              <div class="calc-label">
+                <span>TARGET ASTEROID CLASSIFICATION</span>
+              </div>
+              <select id="selectOreType" style="background: #0b1222; border: 1px solid var(--border); color: #fff; padding: 10px 14px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; outline: none;">
+                <option value="1">M-Type Metallic (High Platinum & Nickel)</option>
+                <option value="0.75">C-Type Carbonaceous (Volatiles, Carbon & Rare Earths)</option>
+                <option value="0.5">S-Type Stony (Silicates & Structural Iron)</option>
+              </select>
+            </div>
+
+            <p style="font-size: 12px; color: var(--text-dim); line-height: 1.6;">
+              Calculations assume cis-lunar Lagrange point L2 centrifugation and induction furnace smelting with zero atmosphere vaporization loss.
+            </p>
+          </div>
+
+          <div class="calc-output-pane">
+            <div class="total-valuation-header">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--amber); letter-spacing: 1.5px; text-transform: uppercase;">
+                ESTIMATED RETURN VALUATION
+              </span>
+              <div class="valuation-number" id="calcTotalVal">$4.42B</div>
+            </div>
+
+            <ul class="yield-breakdown-list">
+              <li>
+                <span>Platinum Group Metals:</span>
+                <strong id="calcPtYield">14,100 kg</strong>
+              </li>
+              <li>
+                <span>Industrial Nickel-Iron Alloy:</span>
+                <strong id="calcNiYield">17,670 MT</strong>
+              </li>
+              <li>
+                <span>Gold & Rare Volatiles:</span>
+                <strong id="calcAuYield">3,290 kg</strong>
+              </li>
+              <li>
+                <span>Propellant Water Equivalent:</span>
+                <strong id="calcH2oYield">2,350 MT</strong>
+              </li>
+            </ul>
+
+            <button class="btn-amber" style="width: 100%; justify-content: center; margin-top: 20px;" onclick="alert('Exporting economic yield prospectus and commodities forward contract...')">
+              Export Yield Prospectus
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Launch Manifest Booking Section -->
+  <section id="manifest">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-kicker">Trans-Martian Carrier Logistics</div>
+        <h2 class="section-headline">Mission Payload Launch Manifest</h2>
+        <p class="section-description">Secure commercial payload and extraction hardware slots aboard upcoming deep-space logistics convoys.</p>
+      </div>
+
+      <div class="manifest-table-box">
+        <table class="manifest-table">
+          <thead>
+            <tr>
+              <th>Mission Identifier</th>
+              <th>Destination</th>
+              <th>Window</th>
+              <th>Payload Capacity</th>
+              <th>Propulsion Bus</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ORION-EXP-08</td>
+              <td>16 Psyche</td>
+              <td>Q3 2027</td>
+              <td>4,200 kg</td>
+              <td>Quad Hall Ion Mk-IV</td>
+              <td><span class="slot-open">2 SLOTS OPEN</span></td>
+              <td><button class="btn-cyan" style="padding: 6px 14px; font-size: 11px;">Reserve Slot</button></td>
+            </tr>
+            <tr>
+              <td>ORION-EXP-09</td>
+              <td>162173 Ryugu</td>
+              <td>Q1 2028</td>
+              <td>6,800 kg</td>
+              <td>Nuclear-Electric Xenon</td>
+              <td><span class="slot-reserved">1 SLOT LEFT</span></td>
+              <td><button class="btn-cyan" style="padding: 6px 14px; font-size: 11px;">Reserve Slot</button></td>
+            </tr>
+            <tr>
+              <td>ORION-EXP-10</td>
+              <td>101955 Bennu</td>
+              <td>Q4 2028</td>
+              <td>5,500 kg</td>
+              <td>Quad Hall Ion Mk-IV</td>
+              <td><span class="slot-open">4 SLOTS OPEN</span></td>
+              <td><button class="btn-cyan" style="padding: 6px 14px; font-size: 11px;">Reserve Slot</button></td>
+            </tr>
+            <tr>
+              <td>ORION-EXP-11</td>
+              <td>Didymos-Dimorphos</td>
+              <td>Q2 2029</td>
+              <td>8,000 kg</td>
+              <td>Magnetoplasmadynamic</td>
+              <td><span class="slot-open">6 SLOTS OPEN</span></td>
+              <td><button class="btn-cyan" style="padding: 6px 14px; font-size: 11px;">Reserve Slot</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-mark">
+            <div class="brand-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </div>
+            <div class="brand-name">ORION<span>//LOGISTICS</span></div>
+          </a>
+          <p style="margin-top: 14px; max-width: 340px; line-height: 1.7;">
+            Industrial off-world resource recovery, interplanetary freight infrastructure, and advanced electric propulsion systems.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Logistics</h5>
+          <ul>
+            <li><a href="#orbital-map">Orbital Ephemeris</a></li>
+            <li><a href="#propulsion">Hall Ion Engines</a></li>
+            <li><a href="#yield-calc">Yield Projections</a></li>
+            <li><a href="#manifest">Launch Manifest</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Destinations</h5>
+          <ul>
+            <li><a href="#orbital-map">16 Psyche</a></li>
+            <li><a href="#orbital-map">162173 Ryugu</a></li>
+            <li><a href="#orbital-map">101955 Bennu</a></li>
+            <li><a href="#orbital-map">Cis-Lunar L2 Base</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Treaties & Legal</h5>
+          <ul>
+            <li><a href="#">Artemis Accords Compliance</a></li>
+            <li><a href="#">UN Outer Space Treaty 1967</a></li>
+            <li><a href="#">ITU Frequency Allocations</a></li>
+            <li><a href="#">Space Mining Rights Registry</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bot">
+        <div>&copy; 2026 ORION DEEP SPACE LOGISTICS CORP. ALL RIGHTS RESERVED.</div>
+        <div style="color: var(--cyan);">DEEP SPACE NETWORK: 34M CASSEGRAIN BEAM LOCKED</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // 1. Hero Trajectory Canvas
+    const heroCanvas = document.getElementById('heroTargetCanvas');
+    const hctx = heroCanvas.getContext('2d');
+    let shipAngle = 0;
+
+    function renderHeroTrajectory() {
+      const w = heroCanvas.width;
+      const h = heroCanvas.height;
+      hctx.clearRect(0, 0, w, h);
+
+      // Stars
+      hctx.fillStyle = '#ffffff';
+      for (let i = 0; i < 20; i++) {
+        const sx = (i * 37) % w;
+        const sy = (i * 53) % h;
+        hctx.fillRect(sx, sy, 1, 1);
+      }
+
+      // Earth origin
+      hctx.beginPath();
+      hctx.arc(60, h / 2, 14, 0, Math.PI * 2);
+      hctx.fillStyle = '#38bdf8';
+      hctx.fill();
+      hctx.font = '9px JetBrains Mono';
+      hctx.fillStyle = '#94a3b8';
+      hctx.fillText('EARTH', 45, h / 2 + 28);
+
+      // 16 Psyche Target
+      hctx.beginPath();
+      hctx.arc(w - 70, h / 2 - 20, 16, 0, Math.PI * 2);
+      hctx.fillStyle = '#f59e0b';
+      hctx.fill();
+      hctx.fillText('16 PSYCHE', w - 100, h / 2 + 16);
+
+      // Spiral Hohmann transfer arc
+      hctx.beginPath();
+      hctx.moveTo(60, h / 2);
+      hctx.bezierCurveTo(180, 20, 320, 220, w - 70, h / 2 - 20);
+      hctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+      hctx.lineWidth = 2;
+      hctx.setLineDash([4, 4]);
+      hctx.stroke();
+      hctx.setLineDash([]);
+
+      // Traveling Ship Node
+      shipAngle += 0.008;
+      const t = (Math.sin(shipAngle) + 1) / 2;
+      // Approximate point along curve
+      const sx = 60 + t * (w - 130);
+      const sy = (h / 2) + Math.sin(t * Math.PI) * -60;
+
+      // Ship thruster plume
+      hctx.beginPath();
+      hctx.arc(sx, sy, 5, 0, Math.PI * 2);
+      hctx.fillStyle = '#38bdf8';
+      hctx.shadowColor = '#38bdf8';
+      hctx.shadowBlur = 12;
+      hctx.fill();
+      hctx.shadowBlur = 0;
+
+      requestAnimationFrame(renderHeroTrajectory);
+    }
+    renderHeroTrajectory();
+
+    // 2. Real-Time Asteroid Orbital Map Canvas
+    const orbCanvas = document.getElementById('orbitalCanvas');
+    const octx = orbCanvas.getContext('2d');
+    let orbTime = 0;
+
+    const asteroidData = {
+      psyche: {
+        name: '16 Psyche',
+        cls: 'SPECTRAL CLASS: M-TYPE (METALLIC)',
+        coords: 'SEMI-MAJOR AXIS: 2.92 AU // INCLINATION: 3.1°',
+        val: 'Est. $10.8 Trillion',
+        diam: '226 km',
+        period: '4.99 Earth Years',
+        window: 'August 2027',
+        pt: '180,000 Metric Tons',
+        dv: '4.2 km/s',
+        radius: 175,
+        color: '#f59e0b',
+        speed: 0.007
+      },
+      ryugu: {
+        name: '162173 Ryugu',
+        cls: 'SPECTRAL CLASS: C-TYPE (CARBONACEOUS)',
+        coords: 'SEMI-MAJOR AXIS: 1.19 AU // INCLINATION: 5.9°',
+        val: 'Est. $82.7 Billion',
+        diam: '900 m',
+        period: '1.30 Earth Years',
+        window: 'March 2028',
+        pt: '1,200 Metric Tons',
+        dv: '3.6 km/s',
+        radius: 110,
+        color: '#38bdf8',
+        speed: 0.015
+      },
+      bennu: {
+        name: '101955 Bennu',
+        cls: 'SPECTRAL CLASS: B-TYPE (CARBONACEOUS VOLATILE)',
+        coords: 'SEMI-MAJOR AXIS: 1.13 AU // INCLINATION: 6.0°',
+        val: 'Est. $67.4 Billion',
+        diam: '490 m',
+        period: '1.20 Earth Years',
+        window: 'November 2028',
+        pt: '850 Metric Tons',
+        dv: '3.4 km/s',
+        radius: 95,
+        color: '#10b981',
+        speed: 0.018
+      }
+    };
+    let currentAsteroid = 'psyche';
+
+    function renderOrbits() {
+      const w = orbCanvas.width;
+      const h = orbCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      octx.clearRect(0, 0, w, h);
+
+      // Sun
+      octx.beginPath();
+      octx.arc(cx, cy, 14, 0, Math.PI * 2);
+      octx.fillStyle = '#fbbf24';
+      octx.shadowColor = '#fbbf24';
+      octx.shadowBlur = 25;
+      octx.fill();
+      octx.shadowBlur = 0;
+
+      // Concentric Planetary Orbit Rings
+      const orbits = [
+        { r: 50, name: 'Earth (1.0 AU)', color: '#38bdf8' },
+        { r: 85, name: 'Mars (1.52 AU)', color: '#ef4444' },
+        { r: 140, name: 'Main Belt Inner', color: 'rgba(255,255,255,0.08)' },
+        { r: 200, name: 'Jupiter (5.2 AU)', color: '#d97706' }
+      ];
+
+      orbits.forEach(o => {
+        octx.beginPath();
+        octx.arc(cx, cy, o.r, 0, Math.PI * 2);
+        octx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        octx.lineWidth = 1;
+        octx.stroke();
+      });
+
+      // Asteroid Belts Dense Particle Ring
+      octx.fillStyle = 'rgba(255, 255, 255, 0.18)';
+      for (let i = 0; i < 90; i++) {
+        const theta = (i * 0.07) + orbTime * 0.001;
+        const dist = 145 + ((i * 19) % 50);
+        const px = cx + Math.cos(theta) * dist;
+        const py = cy + Math.sin(theta) * dist;
+        octx.fillRect(px, py, 1.5, 1.5);
+      }
+
+      // Draw Selected Target Asteroid Orbit & Body
+      orbTime++;
+      const tgt = asteroidData[currentAsteroid];
+      octx.beginPath();
+      octx.arc(cx, cy, tgt.radius, 0, Math.PI * 2);
+      octx.strokeStyle = tgt.color + '44';
+      octx.lineWidth = 1.5;
+      octx.stroke();
+
+      const astAngle = orbTime * tgt.speed;
+      const ax = cx + Math.cos(astAngle) * tgt.radius;
+      const ay = cy + Math.sin(astAngle) * tgt.radius;
+
+      octx.beginPath();
+      octx.arc(ax, ay, 8, 0, Math.PI * 2);
+      octx.fillStyle = tgt.color;
+      octx.shadowColor = tgt.color;
+      octx.shadowBlur = 15;
+      octx.fill();
+      octx.shadowBlur = 0;
+
+      octx.font = '10px JetBrains Mono';
+      octx.fillStyle = '#fff';
+      octx.fillText(tgt.name, ax + 12, ay + 4);
+
+      requestAnimationFrame(renderOrbits);
+    }
+    renderOrbits();
+
+    // Orbit switcher
+    document.querySelectorAll('.orbit-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        document.querySelectorAll('.orbit-tag').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+        currentAsteroid = tag.dataset.target;
+
+        const info = asteroidData[currentAsteroid];
+        document.getElementById('tgtClass').textContent = info.cls;
+        document.getElementById('tgtName').textContent = info.name;
+        document.getElementById('tgtCoords').textContent = info.coords;
+        document.getElementById('tgtEstVal').textContent = info.val;
+        document.getElementById('tgtDiam').textContent = info.diam;
+        document.getElementById('tgtPeriod').textContent = info.period;
+        document.getElementById('tgtWindow').textContent = info.window;
+        document.getElementById('tgtPt').textContent = info.pt;
+        document.getElementById('tgtDv').textContent = info.dv;
+      });
+    });
+
+    // 3. Hall Thruster Plasma Animation Canvas
+    const thrCanvas = document.getElementById('thrusterCanvas');
+    const tctx = thrCanvas.getContext('2d');
+    let throttle = 85;
+
+    function renderThrusterPlume() {
+      const w = thrCanvas.width;
+      const h = thrCanvas.height;
+      tctx.clearRect(0, 0, w, h);
+
+      const midY = h / 2;
+      const nozzleX = 140;
+
+      // Thruster metal housing
+      tctx.fillStyle = '#1e293b';
+      tctx.fillRect(40, midY - 60, 100, 120);
+      tctx.fillStyle = '#0f172a';
+      tctx.fillRect(90, midY - 45, 50, 90);
+
+      // Anode Ring
+      tctx.strokeStyle = '#f59e0b';
+      tctx.lineWidth = 4;
+      tctx.beginPath();
+      tctx.moveTo(140, midY - 50);
+      tctx.lineTo(140, midY + 50);
+      tctx.stroke();
+
+      // Glowing Xenon Plasma Plume
+      const plumeLength = 120 + (throttle * 2.2);
+      const grad = tctx.createRadialGradient(nozzleX, midY, 10, nozzleX + plumeLength / 2, midY, plumeLength);
+      grad.addColorStop(0, '#ffffff');
+      grad.addColorStop(0.2, '#38bdf8');
+      grad.addColorStop(0.6, 'rgba(6, 182, 212, 0.4)');
+      grad.addColorStop(1, 'transparent');
+
+      tctx.save();
+      tctx.beginPath();
+      tctx.moveTo(nozzleX, midY - 45);
+      tctx.lineTo(nozzleX + plumeLength, midY);
+      tctx.lineTo(nozzleX, midY + 45);
+      tctx.closePath();
+      tctx.fillStyle = grad;
+      tctx.shadowColor = '#38bdf8';
+      tctx.shadowBlur = 30;
+      tctx.fill();
+      tctx.restore();
+
+      // Plume particles
+      tctx.fillStyle = '#7dd3fc';
+      for (let i = 0; i < 15; i++) {
+        const px = nozzleX + Math.random() * plumeLength;
+        const spread = (px - nozzleX) * 0.28;
+        const py = midY + (Math.random() - 0.5) * spread;
+        tctx.fillRect(px, py, 2, 2);
+      }
+
+      requestAnimationFrame(renderThrusterPlume);
+    }
+    renderThrusterPlume();
+
+    // Thruster Controls
+    const throttleSlider = document.getElementById('throttleSlider');
+    throttleSlider.addEventListener('input', (e) => {
+      throttle = parseInt(e.target.value);
+      document.getElementById('thrustThrottleVal').textContent = throttle + '%';
+      document.getElementById('dispIsp').textContent = Math.round(3800 + (throttle * 12)) + ' s';
+      document.getElementById('dispVex').textContent = (36 + (throttle * 0.14)).toFixed(1) + ' km/s';
+    });
+
+    const massFlowSlider = document.getElementById('massFlowSlider');
+    massFlowSlider.addEventListener('input', (e) => {
+      const v = e.target.value;
+      document.getElementById('massFlowVal').textContent = v + '.2 mg/s';
+    });
+
+    // 4. Ore Extraction Yield Calculator Engine
+    const sliderVol = document.getElementById('sliderVol');
+    const sliderPurity = document.getElementById('sliderPurity');
+    const selectOreType = document.getElementById('selectOreType');
+
+    function updateYields() {
+      const vol = parseFloat(sliderVol.value);
+      const purity = parseFloat(sliderPurity.value) / 100;
+      const typeMultiplier = parseFloat(selectOreType.value);
+
+      document.getElementById('calcVolVal').textContent = vol.toLocaleString() + ' MT';
+      document.getElementById('calcPurityVal').textContent = Math.round(purity * 100) + '%';
+
+      // Computations
+      const ptKg = Math.round(vol * 0.6 * purity * typeMultiplier);
+      const niMt = Math.round(vol * 0.75 * purity * typeMultiplier);
+      const auKg = Math.round(vol * 0.14 * purity * typeMultiplier);
+      const h2oMt = Math.round(vol * 0.1 * purity);
+
+      // Valuation ($40k/kg for Pt, $20k/MT for Ni, $75k/kg for Au)
+      const totalDollar = (ptKg * 42000) + (niMt * 22000) + (auKg * 78000);
+      const billions = (totalDollar / 1e9).toFixed(2);
+
+      document.getElementById('calcTotalVal').textContent = '$' + billions + 'B';
+      document.getElementById('calcPtYield').textContent = ptKg.toLocaleString() + ' kg';
+      document.getElementById('calcNiYield').textContent = niMt.toLocaleString() + ' MT';
+      document.getElementById('calcAuYield').textContent = auKg.toLocaleString() + ' kg';
+      document.getElementById('calcH2oYield').textContent = h2oMt.toLocaleString() + ' MT';
+    }
+
+    sliderVol.addEventListener('input', updateYields);
+    sliderPurity.addEventListener('input', updateYields);
+    selectOreType.addEventListener('change', updateYields);
+    updateYields();
+  </script>
+</body>
+</html>

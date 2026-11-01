@@ -16,7 +16,7 @@ export default function Home() {
   const [isCommandOpen, setIsCommandOpen] = useState(false);
 
   const filterChips = [
-    { id: 'all', label: 'All Masterpieces (36)', icon: '✦' },
+    { id: 'all', label: 'All Masterpieces (46)', icon: '✦' },
     { id: 'saas-ai', label: 'SaaS & AI Studios', icon: '🤖', match: ['saas', 'ai', 'cloud'] },
     { id: 'aerospace-defense', label: 'Aerospace & Cyber', icon: '🚀', match: ['aerospace', 'security', 'cyberpunk'] },
     { id: 'motorsport-gaming', label: 'Motorsport & Esports', icon: '🏎️', match: ['motorsport', 'gaming'] },
@@ -67,7 +67,7 @@ export default function Home() {
               href="/templates"
               className="text-xs font-bold text-white px-5 py-3 rounded-xl border border-purple-500/30 bg-[#0e0624] hover:bg-[#190b3b] hover:border-purple-400/50 transition-all flex items-center gap-2 self-start md:self-auto shrink-0 shadow-[0_4px_20px_rgba(7,3,20,0.6)]"
             >
-              <span>View All 36 Templates</span>
+              <span>View All 46 Templates</span>
               <span className="text-purple-400">→</span>
             </Link>
           </div>
@@ -105,7 +105,7 @@ export default function Home() {
               href="/templates"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white text-xs font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95 shimmer-active"
             >
-              <span>Explore Complete 36-Template Registry</span>
+              <span>Explore Complete 46-Template Registry</span>
               <span>→</span>
             </Link>
           </div>
@@ -208,7 +208,7 @@ export default function Home() {
                   href="/templates"
                   className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold text-xs rounded-xl shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all hover:scale-105 shimmer-active"
                 >
-                  Browse All 36 Templates →
+                  Browse All 46 Templates →
                 </Link>
                 <Link
                   href="/#pricing"

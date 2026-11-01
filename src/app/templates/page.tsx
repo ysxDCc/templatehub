@@ -40,7 +40,7 @@ export default function TemplatesPage() {
       {/* Header with Purple Aesthetic Glows */}
       <div className="relative text-center mb-16">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-xs font-semibold mb-4 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-          <span>✦ Explore 36 Hand-Crafted Production Masterpieces</span>
+          <span>✦ Explore 46 Hand-Crafted Production Masterpieces</span>
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4">
           Browse{' '}
@@ -65,7 +65,7 @@ export default function TemplatesPage() {
             </span>
             <input
               type="text"
-              placeholder="Search 36 templates by keyword, tags, or industry..."
+              placeholder="Search 46 templates by keyword, tags, or industry..."
               className="w-full bg-[#070314] border border-purple-500/30 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -142,7 +142,7 @@ export default function TemplatesPage() {
             }`}
           >
             <span>🎨</span>
-            <span>All Templates (36)</span>
+            <span>All Templates (46)</span>
           </button>
 
           {categories
@@ -217,7 +217,7 @@ export default function TemplatesPage() {
             onClick={() => setOnlyFavorites(false)}
             className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all hover:scale-105"
           >
-            Browse All 36 Templates
+            Browse All 46 Templates
           </button>
         </div>
       ) : (

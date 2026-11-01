@@ -43,7 +43,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-400"></span>
             </span>
-            <span className="font-bold text-white tracking-wide">36 SOVEREIGN MASTERPIECES</span>
+            <span className="font-bold text-white tracking-wide">46 SOVEREIGN MASTERPIECES</span>
             <span className="text-purple-500/70">/</span>
             <span className="text-purple-300 hidden sm:inline">ZERO RUNTIME NPM BLOAT</span>
             <span className="text-purple-500/70 hidden sm:inline">/</span>
@@ -72,7 +72,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
             href="/templates"
             className="w-full sm:w-auto px-8 py-3.5 text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 rounded-xl transition-all shadow-[0_0_30px_rgba(168,85,247,0.45)] hover:shadow-[0_0_40px_rgba(168,85,247,0.7)] hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-2 shimmer-active"
           >
-            <span>Explore All 36 Templates</span>
+            <span>Explore All 46 Templates</span>
             <span className="text-lg">→</span>
           </Link>
 
@@ -180,7 +180,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     ACTIVE COMPLIANCE HARNESS
                   </span>
-                  <span className="text-purple-300 text-[10px]">ALL 36 TEMPLATES VALIDATED</span>
+                  <span className="text-purple-300 text-[10px]">ALL 46 TEMPLATES VALIDATED</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
@@ -244,7 +244,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                   </div>
                 </div>
                 <div className="pt-4 border-t border-purple-500/20 flex items-center justify-between">
-                  <span className="text-[11px] text-purple-300/80 font-mono">Available on all 36 template pages</span>
+                  <span className="text-[11px] text-purple-300/80 font-mono">Available on all 46 template pages</span>
                   <Link
                     href="/templates/astral-aerospace"
                     className="px-4 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:scale-105 transition-transform"
@@ -260,7 +260,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
           <div className="px-6 py-3 bg-[#070314] border-t border-purple-500/20 flex flex-wrap items-center justify-between gap-3 text-xs text-purple-300/80">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-              <span>All 36 Masterpiece Codebases Ready for Deployment</span>
+              <span>All 46 Masterpiece Codebases Ready for Deployment</span>
             </div>
             <div className="flex items-center gap-4 text-[11px] font-mono">
               <span className="text-purple-400">STANDALONE HTML5</span>

@@ -10,139 +10,167 @@ interface LogoProps {
 
 export default function Logo({ size = 'md', showText = true, className = '' }: LogoProps) {
   const sizeMap = {
-    sm: { icon: 28, text: 'text-base', badge: 'text-[9px] px-1.5 py-0.2' },
-    md: { icon: 34, text: 'text-lg', badge: 'text-[10px] px-2 py-0.5' },
-    lg: { icon: 42, text: 'text-2xl', badge: 'text-xs px-2.5 py-0.5' },
-    xl: { icon: 54, text: 'text-3xl', badge: 'text-xs px-3 py-1' },
+    sm: { icon: 32, text: 'text-base', badge: 'text-[9px] px-1.5 py-0.2' },
+    md: { icon: 40, text: 'text-xl', badge: 'text-[10px] px-2 py-0.5' },
+    lg: { icon: 48, text: 'text-2xl', badge: 'text-xs px-2.5 py-0.5' },
+    xl: { icon: 64, text: 'text-3xl', badge: 'text-xs px-3 py-1' },
   };
 
   const { icon, text, badge } = sizeMap[size];
 
   return (
-    <div className={`flex items-center gap-3 group select-none ${className}`}>
-      {/* 3D Geometric Purple Cyber-Prism Icon */}
+    <div className={`flex items-center gap-3.5 group select-none ${className}`}>
+      {/* Cool Cybernetic Nexus Vortex Emblem */}
       <div className="relative shrink-0 flex items-center justify-center">
-        {/* Ambient Pulsing Purple Glow Behind Logo */}
-        <div 
-          className="absolute inset-0 rounded-xl bg-purple-600/40 blur-lg transition-all duration-500 group-hover:bg-fuchsia-500/60 group-hover:blur-xl group-hover:scale-125"
-        />
+        {/* Multi-layered Neon Ambient Aura */}
+        <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-500 to-violet-600 opacity-60 blur-md transition-all duration-500 group-hover:opacity-100 group-hover:blur-xl group-hover:scale-125" />
+        <div className="absolute -inset-0.5 rounded-xl bg-[#0a0319] border border-purple-500/40" />
 
         <svg
           width={icon}
           height={icon}
-          viewBox="0 0 64 64"
+          viewBox="0 0 80 80"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="relative transition-transform duration-500 ease-out group-hover:scale-110 group-hover:rotate-3 drop-shadow-[0_0_12px_rgba(168,85,247,0.7)]"
+          className="relative transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-6 drop-shadow-[0_0_16px_rgba(168,85,247,0.8)]"
         >
           <defs>
-            {/* Ambient Shadow & Neon Filter */}
-            <filter id="purpleGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
+            {/* Holographic Glow Filters */}
+            <filter id="hyperGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="3.5" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
+            <filter id="coreBlast" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="5" result="blur2" />
+              <feComposite in="SourceGraphic" in2="blur2" operator="over" />
+            </filter>
 
-            {/* Facet Gradients */}
-            <linearGradient id="prismTop" x1="16" y1="12" x2="48" y2="30" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#e9d5ff" />
-              <stop offset="50%" stopColor="#c084fc" />
-              <stop offset="100%" stopColor="#9333ea" />
+            {/* Kinetic Gradients */}
+            <linearGradient id="bladeGrad1" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#f472b6" />
+              <stop offset="45%" stopColor="#c084fc" />
+              <stop offset="100%" stopColor="#7c3aed" />
             </linearGradient>
 
-            <linearGradient id="prismLeft" x1="14" y1="28" x2="32" y2="54" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#a855f7" />
-              <stop offset="60%" stopColor="#6b21a8" />
-              <stop offset="100%" stopColor="#3b0764" />
-            </linearGradient>
-
-            <linearGradient id="prismRight" x1="32" y1="28" x2="52" y2="54" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#c084fc" />
-              <stop offset="50%" stopColor="#7e22ce" />
+            <linearGradient id="bladeGrad2" x1="70" y1="10" x2="10" y2="70" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="50%" stopColor="#818cf8" />
               <stop offset="100%" stopColor="#4c1d95" />
             </linearGradient>
 
-            <linearGradient id="prismCore" x1="26" y1="22" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+            <linearGradient id="bladeGrad3" x1="40" y1="0" x2="40" y2="80" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stopColor="#ffffff" />
-              <stop offset="40%" stopColor="#f472b6" />
-              <stop offset="100%" stopColor="#a855f7" />
+              <stop offset="35%" stopColor="#e879f9" />
+              <stop offset="100%" stopColor="#581c87" />
             </linearGradient>
 
-            <linearGradient id="ringGlow" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stopColor="#e879f9" />
-              <stop offset="100%" stopColor="#6366f1" />
+            <radialGradient id="fusionCore" cx="40" cy="40" r="16" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#ffffff" />
+              <stop offset="40%" stopColor="#f43f5e" />
+              <stop offset="70%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#1e0847" />
+            </radialGradient>
+
+            <linearGradient id="cyberBorder" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stopColor="#f472b6" stopOpacity="0.8" />
+              <stop offset="50%" stopColor="#a855f7" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.8" />
             </linearGradient>
           </defs>
 
-          {/* Exterior Orbit Ring with Cyber Cuts */}
-          <circle
-            cx="32"
-            cy="32"
-            r="28"
-            stroke="url(#ringGlow)"
-            strokeWidth="1.5"
-            strokeDasharray="4 6 12 6"
-            strokeOpacity="0.45"
+          {/* Outer Cyber Hexagonal Ring */}
+          <polygon
+            points="40,4 72,22 72,58 40,76 8,58 8,22"
+            stroke="url(#cyberBorder)"
+            strokeWidth="1.75"
+            strokeDasharray="6 4 14 4"
             className="animate-spin-slow origin-center"
           />
 
-          {/* Top Facet */}
+          {/* Inner Geometric Shield Shards */}
           <polygon
-            points="32,8 52,22 32,32 12,22"
-            fill="url(#prismTop)"
-            stroke="#ffffff"
-            strokeWidth="0.75"
-            strokeOpacity="0.5"
+            points="40,12 66,27 66,53 40,68 14,53 14,27"
+            fill="#090317"
+            stroke="url(#bladeGrad1)"
+            strokeWidth="1.2"
+            opacity="0.9"
           />
 
-          {/* Left Facet */}
-          <polygon
-            points="12,22 32,32 32,56 12,42"
-            fill="url(#prismLeft)"
+          {/* Kinetic Energy Blade A (Top-Left Angle) */}
+          <path
+            d="M40 16L60 28L40 40L20 28Z"
+            fill="url(#bladeGrad1)"
+            stroke="#ffffff"
+            strokeWidth="0.5"
+            strokeOpacity="0.7"
+          />
+
+          {/* Kinetic Energy Blade B (Bottom-Left Angle) */}
+          <path
+            d="M20 28L40 40L40 64L20 52Z"
+            fill="url(#bladeGrad2)"
             stroke="#a855f7"
             strokeWidth="0.5"
-            strokeOpacity="0.6"
+            strokeOpacity="0.8"
           />
 
-          {/* Right Facet */}
-          <polygon
-            points="32,32 52,22 52,42 32,56"
-            fill="url(#prismRight)"
-            stroke="#c084fc"
-            strokeWidth="0.5"
-            strokeOpacity="0.6"
-          />
-
-          {/* Inner Glowing Holographic Prism Core */}
-          <polygon
-            points="32,20 40,27 32,38 24,27"
-            fill="url(#prismCore)"
-            opacity="0.95"
-            filter="url(#purpleGlow)"
-          />
-
-          {/* Specular Highlight Glint */}
+          {/* Kinetic Energy Blade C (Right Angle) */}
           <path
-            d="M32 10L33.5 17L38 18.5L33.5 20L32 27L30.5 20L26 18.5L30.5 17L32 10Z"
+            d="M40 40L60 28L60 52L40 64Z"
+            fill="url(#bladeGrad3)"
+            stroke="#e879f9"
+            strokeWidth="0.5"
+            strokeOpacity="0.8"
+          />
+
+          {/* Central Reactor / Fusion Core */}
+          <circle
+            cx="40"
+            cy="40"
+            r="9"
+            fill="url(#fusionCore)"
+            filter="url(#hyperGlow)"
+          />
+
+          {/* Core White Pulse Center */}
+          <circle
+            cx="40"
+            cy="40"
+            r="3.5"
             fill="#ffffff"
-            opacity="0.85"
+            filter="url(#coreBlast)"
+          />
+
+          {/* Holographic Specular Cross Flare */}
+          <path
+            d="M40 18L41.5 35L47 38.5L41.5 42L40 59L38.5 42L33 38.5L38.5 35Z"
+            fill="#ffffff"
+            opacity="0.9"
           />
         </svg>
       </div>
 
-      {/* Typography */}
+      {/* Typography with Cyber Aesthetics */}
       {showText && (
-        <div className="flex items-center gap-2">
-          <span className={`${text} font-black tracking-tight text-white flex items-center`}>
-            <span>Template</span>
-            <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-violet-300 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-              Hub
+        <div className="flex items-center gap-2.5">
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5 leading-none">
+              <span className={`${text} font-black tracking-tight text-white flex items-center`}>
+                <span className="tracking-tight">TEMPLATE</span>
+                <span className="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent ml-1 drop-shadow-[0_0_18px_rgba(168,85,247,0.7)]">
+                  HUB
+                </span>
+              </span>
+            </div>
+            <span className="text-[9px] font-mono tracking-widest text-purple-400/80 uppercase font-bold mt-0.5">
+              SOVEREIGN REGISTRY
             </span>
-          </span>
+          </div>
 
           <span
-            className={`${badge} font-mono uppercase font-bold tracking-wider rounded-full bg-gradient-to-r from-purple-500/20 to-fuchsia-500/20 border border-purple-500/40 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)]`}
+            className={`${badge} font-mono uppercase font-extrabold tracking-wider rounded-lg bg-gradient-to-r from-purple-600/30 via-fuchsia-600/30 to-violet-600/30 border border-purple-400/50 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.35)] self-center`}
           >
-            V3.0
+            46 LIVE
           </span>
         </div>
       )}

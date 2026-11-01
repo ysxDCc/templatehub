@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEGIS // Autonomous Cyber Warfare & Zero-Trust Defense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-midnight: #060814;
+      --bg-surface: #0b1024;
+      --bg-card: #111736;
+      --bg-card-hover: #19224d;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-crimson: rgba(244, 63, 94, 0.35);
+      --border-green: rgba(34, 197, 94, 0.3);
+      --border-cyan: rgba(6, 182, 212, 0.3);
+      --crimson: #f43f5e;
+      --crimson-glow: rgba(244, 63, 94, 0.35);
+      --green: #22c55e;
+      --green-glow: rgba(34, 197, 94, 0.3);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-midnight);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 70% 40% at 50% -10%, rgba(244, 63, 94, 0.08), transparent 60%),
+        radial-gradient(circle at 90% 30%, rgba(34, 197, 94, 0.05), transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Threat Alert Bar */
+    .threat-alert-bar {
+      background: #04050d;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 0;
+      color: var(--text-dim);
+    }
+    .alert-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .defcon-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--crimson);
+      font-weight: 700;
+    }
+    .pulse-crimson {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--crimson);
+      box-shadow: 0 0 10px var(--crimson);
+      animation: pulseCrimson 1.8s infinite;
+    }
+    @keyframes pulseCrimson {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    /* Navigation */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(6, 8, 20, 0.88);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-row {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-shield {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--crimson), #be123c);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px var(--crimson-glow);
+    }
+    .brand-shield svg { width: 22px; height: 22px; fill: #fff; }
+    .brand-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .brand-name span { color: var(--crimson); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--crimson); }
+
+    .btn-crimson {
+      background: var(--crimson);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--crimson);
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--crimson-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-crimson:hover {
+      background: #fb7185;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(244, 63, 94, 0.45);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--crimson);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 85px 0 65px;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 52px;
+      align-items: center;
+    }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid var(--border-crimson);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--crimson);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(38px, 4.6vw, 64px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--crimson) 0%, var(--green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-lead {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .hero-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 26px;
+    }
+    .hm-stat .val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .hm-stat .val span { color: var(--green); font-size: 16px; }
+    .hm-stat .label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Hero Live Interception Telemetry Card */
+    .hero-telemetry-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-crimson);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
+    .htc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    #heroRadarCanvas {
+      width: 100%;
+      height: 250px;
+      background: #03050d;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .htc-footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .htc-box {
+      background: #060a18;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .htc-box span { color: var(--text-dim); display: block; font-size: 9px; }
+    .htc-box strong { color: var(--green); }
+
+    /* Common Section */
+    section {
+      padding: 95px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .section-head-wrap {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 56px;
+    }
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--crimson);
+      background: rgba(244, 63, 94, 0.08);
+      border: 1px solid var(--border-crimson);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: clamp(28px, 3.6vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* 1. Global Attack Surface Radar & Live Vector Stream */
+    .radar-layout {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 32px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .radar-canvas-wrap {
+      position: relative;
+      background: #02040b;
+      border-radius: 10px;
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      overflow: hidden;
+    }
+    #globalRadarCanvas {
+      width: 100%;
+      height: 460px;
+      display: block;
+      cursor: crosshair;
+    }
+    .radar-stream-pane {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px solid var(--border);
+      padding-left: 28px;
+    }
+    .stream-header {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .log-feed-box {
+      background: #040610;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      height: 340px;
+      overflow-y: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .log-entry {
+      line-height: 1.4;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: 6px;
+    }
+    .log-entry .time { color: var(--text-dim); }
+    .log-entry .cve { color: var(--crimson); font-weight: 700; }
+    .log-entry .status { color: var(--green); }
+
+    /* 2. Autonomous Kernel eBPF Exploit Neutralizing Engine */
+    .ebpf-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .ebpf-visual-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-green);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    #ebpfCanvas {
+      width: 100%;
+      height: 330px;
+      background: #03050e;
+      border-radius: 8px;
+      display: block;
+      border: 1px solid rgba(34, 197, 94, 0.15);
+    }
+    .ebpf-controls-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .exploit-selector-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .exploit-btn-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .exploit-chip {
+      background: #070b1a;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .exploit-chip.active, .exploit-chip:hover {
+      border-color: var(--crimson);
+      color: var(--crimson);
+      background: rgba(244, 63, 94, 0.1);
+    }
+    .engine-telemetry-readouts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .et-box {
+      background: #060a18;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .et-box .el {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .et-box .ev {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    /* 3. Quantum-Resistant HSM Specifications */
+    .hsm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+    .hsm-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s;
+    }
+    .hsm-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-4px);
+    }
+    .hsm-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.08);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .hsm-name {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hsm-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .hsm-specs {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* 4. Incident Command War Room Mobilization Trigger */
+    .warroom-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-crimson);
+      border-radius: 18px;
+      padding: 44px;
+      box-shadow: 0 30px 80px rgba(244, 63, 94, 0.15);
+      position: relative;
+    }
+    .warroom-top {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+    .warroom-controls-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 32px;
+    }
+    .action-trigger-btn {
+      background: #090e22;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .action-trigger-btn:hover {
+      border-color: var(--crimson);
+      background: rgba(244, 63, 94, 0.1);
+    }
+    .action-trigger-btn h4 {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .action-trigger-btn p {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* Footer */
+    footer.main-footer {
+      background: #020409;
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-col h5 {
+      font-family: 'Chakra Petch', sans-serif;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--crimson); }
+    .footer-bot {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .radar-layout, .ebpf-grid, .hsm-grid, .warroom-controls-row, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .radar-stream-pane { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 24px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Threat Alert Strip -->
+  <div class="threat-alert-bar">
+    <div class="container alert-row">
+      <div class="defcon-indicator">
+        <span class="pulse-crimson"></span>
+        <span>DEFCON 2 // CRITICAL ACTIVE INTERCEPTION PROTOCOL ENGAGED</span>
+      </div>
+      <div>
+        <span>eBPF KERNEL PROBES: 48/48 INTACT</span>
+        <span style="margin-left: 14px;">BGP ANOMALIES: 0 LEAKS</span>
+        <span style="margin-left: 14px;">PQC KYBER-1024 LOCKED</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="main-header">
+    <div class="container nav-row">
+      <a href="#" class="brand-mark">
+        <div class="brand-shield">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        </div>
+        <div class="brand-name">AEGIS<span>//WARFARE</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#radar">Attack Radar</a></li>
+        <li><a href="#ebpf">eBPF Neutralizer</a></li>
+        <li><a href="#hsm">Quantum HSM</a></li>
+        <li><a href="#warroom">War Room Trigger</a></li>
+      </ul>
+
+      <a href="#warroom" class="btn-crimson">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        Mobilize Incident Command
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-left-pane">
+        <div class="hero-kicker">
+          Zero-Downtime Autonomous Memory & BGP Defense
+        </div>
+        <h1 class="hero-title">
+          Autonomous Cyber Warfare & <span>Zero-Trust Kernel</span> Neutralization
+        </h1>
+        <p class="hero-lead">
+          Sub-microsecond kernel eBPF memory sandboxing, autonomous BGP route leak suppression, and quantum-resistant cryptographic hardware to eliminate advanced persistent threats.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#radar" class="btn-crimson">
+            View Live Attack Radar
+          </a>
+          <a href="#ebpf" class="btn-outline">
+            Test eBPF Interceptor
+          </a>
+        </div>
+
+        <div class="hero-metrics-grid">
+          <div class="hm-stat">
+            <div class="val">0.12<span>µs</span></div>
+            <div class="label">Kernel Exploit Kill Latency</div>
+          </div>
+          <div class="hm-stat">
+            <div class="val">100<span>%</span></div>
+            <div class="label">BGP Hijack Suppression</div>
+          </div>
+          <div class="hm-stat">
+            <div class="val">0.00<span>ms</span></div>
+            <div class="label">Downtime Under Warfare</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Real-Time Radar Preview -->
+      <div class="hero-right-pane">
+        <div class="hero-telemetry-card">
+          <div class="htc-header">
+            <span>TACTICAL THREAT VECTOR MAP</span>
+            <span style="color: var(--green);">eBPF ENGINE: ONLINE</span>
+          </div>
+
+          <canvas id="heroRadarCanvas" width="500" height="250"></canvas>
+
+          <div class="htc-footer">
+            <div class="htc-box">
+              <span>ACTIVE INTRUSIONS</span>
+              <strong style="color: var(--crimson);">3 MITIGATED</strong>
+            </div>
+            <div class="htc-box">
+              <span>BGP PREFIXES</span>
+              <strong>941,200 OK</strong>
+            </div>
+            <div class="htc-box">
+              <span>HSM ENCRYPT</span>
+              <strong>KYBER-1024</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Global Attack Surface Radar & Live Vector Stream -->
+  <section id="radar">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Real-Time Threat Vector Feed</div>
+        <h2 class="section-title">Global Attack Surface Radar & Vector Stream</h2>
+        <p class="section-sub">Autonomous telemetry scanning state-sponsored APT reconnaissance, unauthorized BGP route advertisements, and zero-day memory corruption exploits.</p>
+      </div>
+
+      <div class="radar-layout">
+        <div class="radar-canvas-wrap">
+          <canvas id="globalRadarCanvas" width="700" height="460"></canvas>
+        </div>
+
+        <div class="radar-stream-pane">
+          <div>
+            <div class="stream-header">
+              <span>LIVE MITIGATION TELEMETRY FEED</span>
+              <span style="color: var(--green);">AUTONOMOUS AUTO-DROP: ON</span>
+            </div>
+
+            <div class="log-feed-box" id="logFeed">
+              <div class="log-entry">
+                <span class="time">[21:48:02.194]</span> <span class="cve">CVE-2026-8812</span> [Heap Overflow] from 185.220.101.4 -> <span class="status">KILLED (0.11µs)</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">[21:48:01.810]</span> <span class="cve">BGP-HIJACK-ASN491</span> [Bogus /16 Prefix] -> <span class="status">FILTERED & DROPPED</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">[21:48:00.412]</span> <span class="cve">ROP-GADGET-INJECT</span> [PID 4192] -> <span class="status">MEMORY FROZEN</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">[21:47:58.901]</span> <span class="cve">SPECTRE-V5-PROBE</span> [L1 Cache Timing] -> <span class="status">ISOLATED VIA eBPF</span>
+              </div>
+              <div class="log-entry">
+                <span class="time">[21:47:55.220]</span> <span class="cve">DMA-CONTAINER-ESCAPE</span> [K8s Namespace] -> <span class="status">POD TERMINATED</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn-crimson" style="width: 100%; justify-content: center; margin-top: 18px;" onclick="alert('Exporting forensic threat intelligence PCAP and memory dump bundle...')">
+            Download Forensic PCAP Stream
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Autonomous Kernel eBPF Exploit Neutralizing Engine -->
+  <section id="ebpf">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Micro-Virtualization Defense</div>
+        <h2 class="section-title">Autonomous Kernel eBPF Neutralizing Engine</h2>
+        <p class="section-sub">Zero-trust Ring 0 memory protection. Aegis eBPF hooks intercept malicious system calls before execution registers can be overwritten.</p>
+      </div>
+
+      <div class="ebpf-grid">
+        <div class="ebpf-visual-card">
+          <canvas id="ebpfCanvas" width="540" height="330"></canvas>
+          <div style="margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green);">
+            KERNEL SPACE // USER SPACE // eBPF SANDBOX GATEWAY
+          </div>
+        </div>
+
+        <div class="ebpf-controls-panel">
+          <div class="exploit-selector-row">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); text-transform: uppercase;">
+              TEST SYNTHETIC ATTACK VECTOR INJECTION
+            </span>
+            <div class="exploit-btn-group">
+              <button class="exploit-chip active" data-exploit="heap">Heap Spray</button>
+              <button class="exploit-chip" data-exploit="rop">ROP Gadget</button>
+              <button class="exploit-chip" data-exploit="bgp">BGP Route Leak</button>
+            </div>
+          </div>
+
+          <button class="btn-crimson" id="btnInjectExploit" style="justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Trigger Exploit Injection Simulation
+          </button>
+
+          <div class="engine-telemetry-readouts">
+            <div class="et-box">
+              <div class="el">Interception Speed</div>
+              <div class="ev" id="dispIntercept">0.12 µs</div>
+            </div>
+            <div class="et-box">
+              <div class="el">Payload State</div>
+              <div class="ev" id="dispPayloadState">NEUTRALIZED</div>
+            </div>
+          </div>
+
+          <p style="font-size: 12px; color: var(--text-dim); line-height: 1.6;">
+            Aegis inserts dynamic JIT-compiled bytecode probes into Linux and BSD kernel tracepoints, enforcing strict memory bound invariants with zero context-switching penalty.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Quantum-Resistant HSM Specifications -->
+  <section id="hsm">
+    <div class="container">
+      <div class="section-head-wrap">
+        <div class="section-pill">Post-Quantum Cryptography</div>
+        <h2 class="section-title">Hardware Security Module (HSM) Specs</h2>
+        <p class="section-sub">FIPS 140-3 Level 4 certified physical silicon enclosures equipped with lattice-based quantum-resistant key generation and microsecond thermal zeroization.</p>
+      </div>
+
+      <div class="hsm-grid">
+        <div class="hsm-card">
+          <div>
+            <span class="hsm-badge">ALGORITHM</span>
+            <h3 class="hsm-name">ML-KEM / Kyber-1024</h3>
+            <p class="hsm-desc">NIST-standardized Module-Lattice Key Encapsulation Mechanism immune to Shor's algorithm on quantum computing arrays.</p>
+          </div>
+          <div class="hsm-specs">
+            <span>SECURITY: 256-BIT PQC</span>
+            <span>PUBLIC KEY: 1,568 B</span>
+          </div>
+        </div>
+
+        <div class="hsm-card">
+          <div>
+            <span class="hsm-badge">SIGNATURES</span>
+            <h3 class="hsm-name">ML-DSA / Dilithium-5</h3>
+            <p class="hsm-desc">High-entropy lattice digital signatures for BGP route authorization and kernel module cryptographically signed boot manifests.</p>
+          </div>
+          <div class="hsm-specs">
+            <span>PERF: 12,000 SIG/S</span>
+            <span>STRENGTH: TOP SECRET</span>
+          </div>
+        </div>
+
+        <div class="hsm-card">
+          <div>
+            <span class="hsm-badge">TAMPER PROTECTION</span>
+            <h3 class="hsm-name">Zeroization Bus</h3>
+            <p class="hsm-desc">Multi-sensor grid detecting laser drilling, thermal fluctuation, or de-capping, triggering sub-microsecond electrical flash erasure.</p>
+          </div>
+          <div class="hsm-specs">
+            <span>RESPONSE: &lt; 50 ns</span>
+            <span>FIPS: 140-3 LVL 4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Incident Command War Room Mobilization Trigger -->
+  <section id="warroom">
+    <div class="container">
+      <div class="warroom-card">
+        <div class="warroom-top">
+          <div class="section-pill">Emergency Response Protocol</div>
+          <h2 class="section-title" style="font-size: 32px;">Incident Command War Room Mobilization</h2>
+          <p class="section-sub">Execute pre-authorized autonomous countermeasures across global infrastructure nodes in under 2 seconds.</p>
+        </div>
+
+        <div class="warroom-controls-row">
+          <div class="action-trigger-btn" onclick="alert('AIR-GAP PROTOCOL ENGAGED: Isolating external ingress transit providers.');">
+            <h4>1. Deploy Air-Gap</h4>
+            <p>Sever WAN peering interfaces while keeping internal mesh intact.</p>
+          </div>
+
+          <div class="action-trigger-btn" onclick="alert('CIDR ISOLATION: 18 target subnet blocks quarantined.');">
+            <h4>2. Quarantine CIDR</h4>
+            <p>Blackhole compromised IP ranges at line-rate upstream.</p>
+          </div>
+
+          <div class="action-trigger-btn" onclick="alert('CRYPTO ROTATION: All Kyber-1024 session keys regenerated.');">
+            <h4>3. Rotate All Keys</h4>
+            <p>Broadcast quantum HSM epoch rollover to all nodes.</p>
+          </div>
+
+          <div class="action-trigger-btn" onclick="alert('COUNTERMEASURES: Autonomous threat deflection mesh active.');">
+            <h4>4. Countermeasures</h4>
+            <p>Deploy active honey-tokens and synthetic routing loops.</p>
+          </div>
+        </div>
+
+        <button class="btn-crimson" style="width: 100%; justify-content: center; padding: 18px; font-size: 14px;" onclick="alert('CRITICAL WAR ROOM BRIEFING: Dialing encrypted defense conference line (SIP PQC)...');">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          INITIATE RED-LEVEL WAR ROOM MOBILIZATION
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand-mark">
+            <div class="brand-shield">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+            </div>
+            <div class="brand-name">AEGIS<span>//WARFARE</span></div>
+          </a>
+          <p style="margin-top: 14px; max-width: 340px; line-height: 1.7;">
+            Next-generation autonomous zero-trust cyber defense systems safeguarding critical national infrastructure and global defense networks.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Architecture</h5>
+          <ul>
+            <li><a href="#radar">Threat Radar Map</a></li>
+            <li><a href="#ebpf">Kernel eBPF Engine</a></li>
+            <li><a href="#hsm">Post-Quantum HSM</a></li>
+            <li><a href="#warroom">War Room Protocol</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Certifications</h5>
+          <ul>
+            <li><a href="#">DoD CMMC Level 3</a></li>
+            <li><a href="#">FIPS 140-3 Level 4</a></li>
+            <li><a href="#">FedRAMP High Ready</a></li>
+            <li><a href="#">NATO STANAG Compliant</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Operations</h5>
+          <ul>
+            <li><a href="#">Classified Incident Response</a></li>
+            <li><a href="#">Air-Gapped Sovereign Cloud</a></li>
+            <li><a href="#">Forensic Cryptanalysis</a></li>
+            <li><a href="#">Zero-Day Bounty Network</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bot">
+        <div>&copy; 2026 AEGIS AUTONOMOUS CYBER DEFENSE CORP. ALL RIGHTS RESERVED.</div>
+        <div style="color: var(--green);">SYSTEM INTEGRITY: 100% NOMINAL // ZERO UNAUTHORIZED EXECUTIONS</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Scripts -->
+  <script>
+    // 1. Hero Radar Canvas
+    const heroCanvas = document.getElementById('heroRadarCanvas');
+    const hctx = heroCanvas.getContext('2d');
+    let heroSweep = 0;
+
+    function renderHeroRadar() {
+      const w = heroCanvas.width;
+      const h = heroCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      hctx.clearRect(0, 0, w, h);
+
+      // Rings
+      [40, 80, 110].forEach(r => {
+        hctx.beginPath();
+        hctx.arc(cx, cy, r, 0, Math.PI * 2);
+        hctx.strokeStyle = 'rgba(244, 63, 94, 0.15)';
+        hctx.lineWidth = 1;
+        hctx.stroke();
+      });
+
+      // Crosshairs
+      hctx.beginPath();
+      hctx.moveTo(cx, 15); hctx.lineTo(cx, h - 15);
+      hctx.moveTo(30, cy); hctx.lineTo(w - 30, cy);
+      hctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+      hctx.stroke();
+
+      // Sweep
+      heroSweep += 0.025;
+      hctx.beginPath();
+      hctx.moveTo(cx, cy);
+      hctx.arc(cx, cy, 115, heroSweep, heroSweep + 0.35);
+      hctx.closePath();
+      const grad = hctx.createRadialGradient(cx, cy, 5, cx, cy, 115);
+      grad.addColorStop(0, 'rgba(244, 63, 94, 0.3)');
+      grad.addColorStop(1, 'transparent');
+      hctx.fillStyle = grad;
+      hctx.fill();
+
+      // Intercepted threat blips
+      const blips = [
+        { x: cx + 60, y: cy - 40, color: '#f43f5e' },
+        { x: cx - 75, y: cy + 30, color: '#22c55e' },
+        { x: cx + 45, y: cy + 55, color: '#06b6d4' }
+      ];
+      blips.forEach(b => {
+        hctx.beginPath();
+        hctx.arc(b.x, b.y, 4, 0, Math.PI * 2);
+        hctx.fillStyle = b.color;
+        hctx.shadowColor = b.color;
+        hctx.shadowBlur = 10;
+        hctx.fill();
+        hctx.shadowBlur = 0;
+      });
+
+      requestAnimationFrame(renderHeroRadar);
+    }
+    renderHeroRadar();
+
+    // 2. Global Attack Surface Radar Canvas
+    const globCanvas = document.getElementById('globalRadarCanvas');
+    const gctx = globCanvas.getContext('2d');
+    let globSweep = 0;
+    const threatNodes = [
+      { x: 180, y: 160, label: 'NA-EAST [BGP SPOOF]', state: 'mitigated' },
+      { x: 380, y: 140, label: 'EU-CENTRAL [MEM INJECT]', state: 'isolated' },
+      { x: 540, y: 220, label: 'APAC-SOUTH [HEAP OVERFLOW]', state: 'mitigated' },
+      { x: 260, y: 310, label: 'SA-BRAZIL [PORT SPRAY]', state: 'dropped' }
+    ];
+
+    function renderGlobalRadar() {
+      const w = globCanvas.width;
+      const h = globCanvas.height;
+      gctx.clearRect(0, 0, w, h);
+
+      // Grid
+      gctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      gctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        gctx.beginPath(); gctx.moveTo(x, 0); gctx.lineTo(x, h); gctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        gctx.beginPath(); gctx.moveTo(0, y); gctx.lineTo(w, y); gctx.stroke();
+      }
+
+      // World outline mockup points
+      gctx.fillStyle = 'rgba(6, 182, 212, 0.15)';
+      for (let i = 0; i < 40; i++) {
+        const px = 100 + ((i * 31) % (w - 200));
+        const py = 80 + ((i * 47) % (h - 160));
+        gctx.fillRect(px, py, 3, 3);
+      }
+
+      // Sweep Beam
+      globSweep = (globSweep + 2) % w;
+      const beamGrad = gctx.createLinearGradient(globSweep - 60, 0, globSweep, 0);
+      beamGrad.addColorStop(0, 'transparent');
+      beamGrad.addColorStop(1, 'rgba(244, 63, 94, 0.2)');
+      gctx.fillStyle = beamGrad;
+      gctx.fillRect(globSweep - 60, 0, 60, h);
+
+      // Threat Nodes
+      threatNodes.forEach(node => {
+        gctx.beginPath();
+        gctx.arc(node.x, node.y, 6, 0, Math.PI * 2);
+        gctx.fillStyle = '#f43f5e';
+        gctx.shadowColor = '#f43f5e';
+        gctx.shadowBlur = 12;
+        gctx.fill();
+        gctx.shadowBlur = 0;
+
+        gctx.beginPath();
+        gctx.arc(node.x, node.y, 14, 0, Math.PI * 2);
+        gctx.strokeStyle = 'rgba(244, 63, 94, 0.4)';
+        gctx.stroke();
+
+        gctx.font = '10px JetBrains Mono';
+        gctx.fillStyle = '#fff';
+        gctx.fillText(node.label, node.x + 18, node.y + 4);
+      });
+
+      requestAnimationFrame(renderGlobalRadar);
+    }
+    renderGlobalRadar();
+
+    // 3. Autonomous eBPF Kernel Exploit Neutralizer Canvas
+    const ebpfCanvas = document.getElementById('ebpfCanvas');
+    const ectx = ebpfCanvas.getContext('2d');
+    let exploitPulse = 0;
+    let isAttacking = false;
+
+    function renderEbpf() {
+      const w = ebpfCanvas.width;
+      const h = ebpfCanvas.height;
+      ectx.clearRect(0, 0, w, h);
+
+      // Ring 3: User Space Box
+      ectx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ectx.fillStyle = '#080d22';
+      ectx.fillRect(40, 40, w - 80, 70);
+      ectx.strokeRect(40, 40, w - 80, 70);
+      ectx.font = 'bold 11px JetBrains Mono';
+      ectx.fillStyle = '#94a3b8';
+      ectx.fillText('RING 3 // USER APPLICATION SPACE (PID 4192)', 55, 65);
+
+      // eBPF Sandboxed Hook Gateway
+      ectx.strokeStyle = '#22c55e';
+      ectx.fillStyle = 'rgba(34, 197, 94, 0.08)';
+      ectx.fillRect(40, 130, w - 80, 60);
+      ectx.strokeRect(40, 130, w - 80, 60);
+      ectx.fillStyle = '#22c55e';
+      ectx.fillText('AEGIS eBPF PROBE INTERCEPTOR GATEWAY [VERIFIER ACTIVE]', 55, 165);
+
+      // Ring 0: Protected Kernel Memory
+      ectx.strokeStyle = 'rgba(6, 182, 212, 0.3)';
+      ectx.fillStyle = '#050a1a';
+      ectx.fillRect(40, 210, w - 80, 80);
+      ectx.strokeRect(40, 210, w - 80, 80);
+      ectx.fillStyle = '#06b6d4';
+      ectx.fillText('RING 0 // PROTECTED KERNEL SYSTEM CALLS & REGISTERS', 55, 240);
+
+      // Exploit Beam simulation when active
+      if (isAttacking) {
+        exploitPulse += 0.08;
+        const beamY = 90 + Math.min(60, exploitPulse * 30);
+        ectx.beginPath();
+        ectx.arc(w / 2, beamY, 8, 0, Math.PI * 2);
+        ectx.fillStyle = '#f43f5e';
+        ectx.shadowColor = '#f43f5e';
+        ectx.shadowBlur = 18;
+        ectx.fill();
+        ectx.shadowBlur = 0;
+
+        // Barrier effect in eBPF layer
+        if (beamY >= 150) {
+          ectx.beginPath();
+          ectx.arc(w / 2, 160, 24, 0, Math.PI * 2);
+          ectx.strokeStyle = '#22c55e';
+          ectx.lineWidth = 3;
+          ectx.stroke();
+        }
+      }
+
+      requestAnimationFrame(renderEbpf);
+    }
+    renderEbpf();
+
+    // Exploit Trigger Simulation
+    const btnInject = document.getElementById('btnInjectExploit');
+    btnInject.addEventListener('click', () => {
+      isAttacking = true;
+      exploitPulse = 0;
+      document.getElementById('dispPayloadState').textContent = 'INTERCEPTING...';
+      document.getElementById('dispPayloadState').style.color = '#f43f5e';
+
+      setTimeout(() => {
+        isAttacking = false;
+        document.getElementById('dispPayloadState').textContent = 'NEUTRALIZED';
+        document.getElementById('dispPayloadState').style.color = '#22c55e';
+
+        // Add to log feed
+        const feed = document.getElementById('logFeed');
+        const now = new Date().toTimeString().split(' ')[0] + '.' + Math.floor(Math.random() * 900 + 100);
+        const newEntry = document.createElement('div');
+        newEntry.className = 'log-entry';
+        newEntry.innerHTML = `<span class="time">[${now}]</span> <span class="cve">SIMULATED-INJECT</span> [Synthetic Exploit] -> <span class="status">NEUTRALIZED (0.09µs)</span>`;
+        feed.prepend(newEntry);
+      }, 1200);
+    });
+
+    // Exploit Chips
+    document.querySelectorAll('.exploit-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.exploit-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SYNAPSE // Generative Neural Audio Workstation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0a0a0e;
+      --bg-surface: #111118;
+      --bg-card: #161622;
+      --bg-card-hover: #1c1c2c;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(132, 204, 22, 0.35);
+      --lime: #84cc16;
+      --lime-glow: rgba(132, 204, 22, 0.3);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --danger: #f43f5e;
+      --warning: #f59e0b;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(132, 204, 22, 0.06), transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.05), transparent 45%),
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    }
+
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Top Utility Bar */
+    .top-telemetry-bar {
+      background: #08080b;
+      border-bottom: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 0;
+      color: var(--text-dim);
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .telemetry-badges {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--lime);
+    }
+    .dot-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 10px var(--lime);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+
+    /* Navigation */
+    header.main-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(10, 10, 14, 0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand-logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--lime), var(--cyan));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px var(--lime-glow);
+    }
+    .brand-logo-icon svg { width: 22px; height: 22px; fill: #0a0a0e; }
+    .brand-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .brand-name span { color: var(--lime); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--lime); }
+
+    /* Transport Controls Mini */
+    .mini-transport {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(22, 22, 34, 0.8);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .transport-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .transport-btn:hover { color: #fff; }
+    .transport-btn.active { color: var(--lime); }
+    .bpm-badge {
+      color: var(--cyan);
+      font-weight: 700;
+      border-left: 1px solid var(--border);
+      padding-left: 12px;
+    }
+
+    .btn-lime {
+      background: var(--lime);
+      color: #0d0d11;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      border: 1px solid var(--lime);
+      cursor: pointer;
+      box-shadow: 0 0 20px var(--lime-glow);
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-lime:hover {
+      background: #9ae61c;
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(132, 204, 22, 0.45);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      position: relative;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(132, 204, 22, 0.08);
+      border: 1px solid var(--border-accent);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(38px, 4.8vw, 68px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--lime) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+      line-height: 1.7;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+    .metric-item .val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .metric-item .val span { color: var(--lime); font-size: 16px; }
+    .metric-item .label {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    /* Master Spectrum Equalizer Card */
+    .spectrum-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .card-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--cyan);
+    }
+    .eq-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .eq-preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .eq-preset-btn.active, .eq-preset-btn:hover {
+      background: rgba(132, 204, 22, 0.15);
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+    #spectrumCanvas {
+      width: 100%;
+      height: 220px;
+      background: #09090d;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      display: block;
+    }
+    .eq-faders {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .fader-box {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .fader-label {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .fader-input {
+      width: 100%;
+      accent-color: var(--lime);
+      cursor: pointer;
+    }
+    .fader-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      margin-top: 4px;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 90px 0;
+      border-top: 1px solid var(--border);
+      position: relative;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+    }
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--cyan);
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* AI Neural Timbre Synthesis Section */
+    .synth-workspace {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .prompt-box-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .prompt-input-wrapper {
+      position: relative;
+    }
+    .prompt-textarea {
+      width: 100%;
+      background: #09090e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      resize: vertical;
+      min-height: 110px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .prompt-textarea:focus {
+      border-color: var(--lime);
+      box-shadow: 0 0 15px rgba(132, 204, 22, 0.15);
+    }
+    .prompt-quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag-chip {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tag-chip:hover {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .generation-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px;
+      background: #0b0b10;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .synth-param-group {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    .param-unit {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .param-unit span { color: var(--text-dim); display: block; margin-bottom: 2px; }
+    .param-unit select {
+      background: #14141e;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    /* Waveform Audition Output */
+    .waveform-preview-box {
+      background: #08080c;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .wf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    #waveCanvas {
+      width: 100%;
+      height: 90px;
+      background: #040406;
+      border-radius: 6px;
+      display: block;
+    }
+    .wf-footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: #1a1a24;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-bar-fill {
+      width: 68%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--lime), var(--cyan));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    /* XY Latent Pad */
+    .latent-xy-card {
+      background: #0b0b11;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+    }
+    .xy-canvas-wrapper {
+      position: relative;
+      margin: 16px 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    #latentCanvas {
+      width: 100%;
+      height: 230px;
+      background: radial-gradient(circle at 50% 50%, #151522 0%, #07070b 100%);
+      display: block;
+      cursor: crosshair;
+    }
+    .xy-axes-labels {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+    .xy-coords-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      display: flex;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Dolby Atmos Spatial Panner Section */
+    .spatial-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .spatial-canvas-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      position: relative;
+      text-align: center;
+    }
+    #atmosCanvas {
+      width: 100%;
+      max-width: 440px;
+      height: 440px;
+      margin: 0 auto;
+      background: #09090f;
+      border-radius: 50%;
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      box-shadow: inset 0 0 40px rgba(6, 182, 212, 0.05), 0 0 30px rgba(0,0,0,0.5);
+      cursor: pointer;
+      display: block;
+    }
+    .atmos-nodes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .node-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+    .node-item:hover, .node-item.selected {
+      border-color: var(--cyan);
+      background: var(--bg-card-hover);
+    }
+    .node-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .node-color-tag {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .node-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .node-telemetry {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* DAW Timeline & Tracks Section */
+    .daw-console {
+      background: #0e0e14;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    }
+    .daw-toolbar {
+      background: #15151f;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .daw-tools {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .tool-btn.active {
+      background: var(--lime);
+      color: #0b0b0f;
+      font-weight: 700;
+      border-color: var(--lime);
+    }
+    .timeline-ruler {
+      background: #09090d;
+      border-bottom: 1px solid var(--border);
+      height: 28px;
+      display: flex;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      padding-left: 200px;
+      align-items: center;
+    }
+    .ruler-mark {
+      flex: 1;
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+      padding-left: 6px;
+    }
+
+    .track-row {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      height: 72px;
+      background: #0c0c12;
+      transition: background 0.2s;
+    }
+    .track-row:hover { background: #101018; }
+    .track-header {
+      width: 200px;
+      background: #12121a;
+      border-right: 1px solid var(--border);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .track-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .track-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .track-buttons {
+      display: flex;
+      gap: 4px;
+    }
+    .tb-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: #1c1c28;
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+    .tb-btn.m:hover, .tb-btn.m.active { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .tb-btn.s:hover, .tb-btn.s.active { background: var(--warning); color: #000; border-color: var(--warning); }
+    .tb-btn.r:hover, .tb-btn.r.active { background: var(--cyan); color: #000; border-color: var(--cyan); }
+
+    .track-lane {
+      flex: 1;
+      position: relative;
+      padding: 6px 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .audio-clip {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      border-radius: 6px;
+      background: rgba(132, 204, 22, 0.12);
+      border: 1px solid var(--lime);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: #fff;
+    }
+    .audio-clip.clip-cyan {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: var(--cyan);
+    }
+    .audio-clip.clip-amber {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--warning);
+    }
+
+    /* Plugin Suite Grid */
+    .plugin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .plugin-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .plugin-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--lime);
+    }
+    .plugin-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--lime);
+      background: rgba(132, 204, 22, 0.08);
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+    .plugin-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .plugin-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .plugin-specs {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Pricing Section */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .pricing-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 34px 28px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pricing-card.featured {
+      border-color: var(--lime);
+      background: linear-gradient(180deg, #161822 0%, #10111a 100%);
+      box-shadow: 0 0 40px rgba(132, 204, 22, 0.12);
+    }
+    .featured-ribbon {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--lime);
+      color: #0b0b0f;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .plan-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 44px;
+      font-weight: 800;
+      margin: 16px 0;
+      color: #fff;
+    }
+    .plan-price span {
+      font-size: 15px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+    .plan-features {
+      list-style: none;
+      margin: 24px 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .plan-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plan-features li svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--lime);
+      flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer.main-footer {
+      background: #07070a;
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-brand p {
+      margin-top: 12px;
+      max-width: 320px;
+      line-height: 1.6;
+    }
+    .footer-col h5 {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--lime); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid, .synth-workspace, .spatial-grid, .pricing-grid, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .mini-transport { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Live Telemetry Topbar -->
+  <div class="top-telemetry-bar">
+    <div class="container telemetry-row">
+      <div class="telemetry-badges">
+        <span class="badge-live"><span class="dot-pulse"></span> DSP CORE: ONLINE [96.0 kHz // 32-BIT FLOAT]</span>
+        <span>LATENCY: 0.38ms</span>
+        <span>ENGINE: SYNAPSE-NEURAL-V4</span>
+      </div>
+      <div>
+        <span>AVAILABLE VRAM: 18.4 GB</span>
+        <span style="margin-left: 14px;">BUFFERS: 64 SAMPLES</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="main-header">
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+        </div>
+        <div class="brand-name">SYNAPSE<span>//DAW</span></div>
+      </a>
+
+      <!-- Transport Controls in Nav -->
+      <div class="mini-transport">
+        <button class="transport-btn active" id="btnPlay" title="Play / Pause">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="transport-btn" id="btnRecord" title="Record Stem">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8"/></svg>
+        </button>
+        <button class="transport-btn" id="btnLoop" title="Cycle Region">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+        </button>
+        <div class="bpm-badge" id="bpmDisplay">128.0 BPM</div>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#spectrum">Spectrum EQ</a></li>
+        <li><a href="#neural-timbre">Neural Timbre</a></li>
+        <li><a href="#spatial-atmos">Dolby Atmos</a></li>
+        <li><a href="#tracks">Timeline</a></li>
+        <li><a href="#plugins">Plugins</a></li>
+        <li><a href="#pricing">License</a></li>
+      </ul>
+
+      <a href="#download" class="btn-lime">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+        Download v4.8
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span>Neural Sound Synthesis Engine</span>
+        </div>
+        <h1 class="hero-title">
+          The Generative Audio Workstation For <span>Hyper-Producers</span>
+        </h1>
+        <p class="hero-desc">
+          Compose, synthesize, and spatial-mix with zero harmonic artifacts. Powered by transformer-based diffusion diffusion timbre models and realtime 7.1.4 Dolby Atmos coordinate rendering.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#neural-timbre" class="btn-lime">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Generate Stems Live
+          </a>
+          <a href="#tracks" class="btn-outline">
+            Open Interactive DAW
+          </a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <div class="val">0.38<span>ms</span></div>
+            <div class="label">Zero Latency DSP</div>
+          </div>
+          <div class="metric-item">
+            <div class="val">7.1.4<span>ch</span></div>
+            <div class="label">Native Atmos Bed</div>
+          </div>
+          <div class="metric-item">
+            <div class="val">100<span>%</span></div>
+            <div class="label">Lossless Synthesis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Realtime Animated 32-Band Equalizer -->
+      <div class="hero-right" id="spectrum">
+        <div class="spectrum-card">
+          <div class="card-topbar">
+            <div class="card-title">REALTIME 32-BAND FFT SPECTRUM</div>
+            <div class="eq-controls">
+              <button class="eq-preset-btn active" data-preset="cyber">Cyberpunk</button>
+              <button class="eq-preset-btn" data-preset="bass">Sub 808</button>
+              <button class="eq-preset-btn" data-preset="air">Vocal Air</button>
+            </div>
+          </div>
+
+          <canvas id="spectrumCanvas" width="560" height="220"></canvas>
+
+          <div class="eq-faders">
+            <div class="fader-box">
+              <div class="fader-label">Sub (40Hz)</div>
+              <input type="range" class="fader-input" min="-12" max="12" value="4" id="eqSub">
+              <div class="fader-val" id="eqSubVal">+4.0 dB</div>
+            </div>
+            <div class="fader-box">
+              <div class="fader-label">Low Mid</div>
+              <input type="range" class="fader-input" min="-12" max="12" value="-2" id="eqLowMid">
+              <div class="fader-val" id="eqLowMidVal">-2.0 dB</div>
+            </div>
+            <div class="fader-box">
+              <div class="fader-label">High Mid</div>
+              <input type="range" class="fader-input" min="-12" max="12" value="3" id="eqHighMid">
+              <div class="fader-val" id="eqHighMidVal">+3.0 dB</div>
+            </div>
+            <div class="fader-box">
+              <div class="fader-label">Air (16k)</div>
+              <input type="range" class="fader-input" min="-12" max="12" value="6" id="eqAir">
+              <div class="fader-val" id="eqAirVal">+6.0 dB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Neural Timbre Synthesis & Sample Gen -->
+  <section id="neural-timbre">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Latent Timbre Morphing</div>
+        <h2 class="section-title">Prompt-to-Stem Neural Synthesis</h2>
+        <p class="section-sub">Describe acoustic properties, synthetic textures, or emotional resonance. Synapse renders isolated, multi-layered WAV stems in seconds.</p>
+      </div>
+
+      <div class="synth-workspace">
+        <div class="prompt-box-area">
+          <div class="prompt-input-wrapper">
+            <textarea class="prompt-textarea" id="promptText" placeholder="e.g. Granular modular sub-bass with metallic tape flutter, resonant low-pass cutoff decaying into dark cinematic reverb at 128 BPM...">Cybernetic Reese Bass morphing into iridescent glass bells with heavy analog saturation and stereo chorus</textarea>
+          </div>
+
+          <div class="prompt-quick-tags">
+            <span class="tag-chip">+ Dark Industrial Reese</span>
+            <span class="tag-chip">+ Liquid Neurofunk D&B</span>
+            <span class="tag-chip">+ Ethereal Hyperpop Vocal</span>
+            <span class="tag-chip">+ Modular 909 Groove</span>
+            <span class="tag-chip">+ Braam Brass Impact</span>
+          </div>
+
+          <div class="generation-controls">
+            <div class="synth-param-group">
+              <div class="param-unit">
+                <span>Model Base</span>
+                <select id="modelSelect">
+                  <option>Synapse-Diffusion-Pro (2.1B)</option>
+                  <option>NeuroWave-LowLatency (0.8B)</option>
+                  <option>GranularAtmos-HD (3.4B)</option>
+                </select>
+              </div>
+              <div class="param-unit">
+                <span>Key / Scale</span>
+                <select id="keySelect">
+                  <option>F Minor</option>
+                  <option>D Minor</option>
+                  <option>C Harmonic Min</option>
+                  <option>A Lydian</option>
+                </select>
+              </div>
+              <div class="param-unit">
+                <span>Length</span>
+                <select>
+                  <option>4 Bars (8.0s)</option>
+                  <option>8 Bars (16.0s)</option>
+                  <option>16 Bars (32.0s)</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="btn-lime" id="btnSynthesize">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.03 5.49l-2.12-2.12 2.44-2.44 2.12 2.12-2.44 2.44z"/></svg>
+              Synthesize Waveform
+            </button>
+          </div>
+
+          <!-- Generated Waveform Player -->
+          <div class="waveform-preview-box">
+            <div class="wf-header">
+              <span id="stemTitle">SYNAPSE_REESE_F_MIN_128BPM_LOSSLESS.WAV</span>
+              <span style="color: var(--lime);" id="synthStatus">READY FOR PREVIEW</span>
+            </div>
+            <canvas id="waveCanvas" width="650" height="90"></canvas>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="synthProgressBar"></div>
+            </div>
+            <div class="wf-footer-actions">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim);">
+                32-BIT FLOAT // 96 kHz // 24.6 MB
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button class="btn-outline" style="padding: 6px 14px; font-size: 11px;" id="btnPlaySample">Play Preview</button>
+                <button class="btn-lime" style="padding: 6px 14px; font-size: 11px;" id="btnExportSample">Export Stem</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2D Latent Vector Exploration Pad -->
+        <div class="latent-xy-card">
+          <div class="card-title">LATENT MORPH SPACE</div>
+          <div class="xy-canvas-wrapper">
+            <canvas id="latentCanvas" width="340" height="230"></canvas>
+            <div class="xy-axes-labels">
+              <div style="display: flex; justify-content: space-between;">
+                <span>METALLIC</span>
+                <span>ORGANIC</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>HARMONIC</span>
+                <span>SPECTRAL NOISE</span>
+              </div>
+            </div>
+          </div>
+          <div class="xy-coords-display">
+            <span>VECTOR X: <strong id="vecX" style="color:#fff;">0.64</strong></span>
+            <span>VECTOR Y: <strong id="vecY" style="color:#fff;">0.32</strong></span>
+            <span>DENSITY: <strong style="color:var(--cyan);">98.4%</strong></span>
+          </div>
+          <p style="font-size: 12px; color: var(--text-dim); margin-top: 14px; line-height: 1.5;">
+            Click or drag the locator node across the latent vector space to morph physical acoustic characteristics before synthesis.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dolby Atmos 7.1.4 Spatial Audio Canvas -->
+  <section id="spatial-atmos">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Immersive 3D Soundfield</div>
+        <h2 class="section-title">Dolby Atmos 7.1.4 Spatial Panner</h2>
+        <p class="section-sub">Drag sound objects freely across 360° azimuth and elevation. Experience true holographic sound staging calibrated for multi-speaker arrays and binaural headphones.</p>
+      </div>
+
+      <div class="spatial-grid">
+        <div class="spatial-canvas-container">
+          <canvas id="atmosCanvas" width="440" height="440"></canvas>
+          <div style="margin-top: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-dim);">
+            TOP-DOWN ACOUSTIC SOUNDSTAGE [LISTENER AT CENTER]
+          </div>
+        </div>
+
+        <div class="atmos-nodes-list">
+          <div class="node-item selected" data-node="0">
+            <div class="node-info">
+              <div class="node-color-tag" style="background: var(--lime);"></div>
+              <div>
+                <div class="node-name">Object 1: Lead Neural Synth</div>
+                <div class="node-telemetry">AZ: 45° // ELEV: +12° // SPREAD: 85%</div>
+              </div>
+            </div>
+            <span class="tag-chip" style="color: var(--lime); border-color: var(--lime);">Active</span>
+          </div>
+
+          <div class="node-item" data-node="1">
+            <div class="node-info">
+              <div class="node-color-tag" style="background: var(--cyan);"></div>
+              <div>
+                <div class="node-name">Object 2: Sub 808 Transients</div>
+                <div class="node-telemetry">AZ: 0° // ELEV: -4° // SPREAD: 20%</div>
+              </div>
+            </div>
+            <span class="tag-chip">Centered</span>
+          </div>
+
+          <div class="node-item" data-node="2">
+            <div class="node-info">
+              <div class="node-color-tag" style="background: #eab308;"></div>
+              <div>
+                <div class="node-name">Object 3: Granular Vocal Air</div>
+                <div class="node-telemetry">AZ: -120° // ELEV: +35° // SPREAD: 95%</div>
+              </div>
+            </div>
+            <span class="tag-chip">Rear Left</span>
+          </div>
+
+          <div class="node-item" data-node="3">
+            <div class="node-info">
+              <div class="node-color-tag" style="background: #ec4899;"></div>
+              <div>
+                <div class="node-name">Object 4: Shimmer Reverb Tail</div>
+                <div class="node-telemetry">AZ: 135° // ELEV: +40° // SPREAD: 100%</div>
+              </div>
+            </div>
+            <span class="tag-chip">Height R</span>
+          </div>
+
+          <div style="background: var(--bg-card); padding: 18px; border-radius: 10px; border: 1px solid var(--border); margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace;">
+              <span>BINAURAL HEADPHONE RENDERING</span>
+              <span style="color: var(--lime);">HRTF ENABLED</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-dim);">
+              Calibrated with individualized head-related transfer functions to eliminate phase cancellation across stereo monitors.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Multi-Track DAW Timeline -->
+  <section id="tracks">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Interactive Multi-Track Arrangement</div>
+        <h2 class="section-title">Production Timeline & Stem Exporter</h2>
+        <p class="section-sub">Seamless multitrack sequencing. Mute, solo, and scrub the live playhead directly in the browser.</p>
+      </div>
+
+      <div class="daw-console">
+        <div class="daw-toolbar">
+          <div class="daw-tools">
+            <button class="tool-btn active">Pointer</button>
+            <button class="tool-btn">Cut [C]</button>
+            <button class="tool-btn">Slip [S]</button>
+            <button class="tool-btn">Quantize [Q]</button>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim);">SNAP: 1/16 GRID</span>
+            <button class="btn-lime" style="padding: 6px 16px; font-size: 12px;" id="btnExportStems">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Export All 5 Stems
+            </button>
+          </div>
+        </div>
+
+        <div class="timeline-ruler">
+          <div class="ruler-mark">BAR 01</div>
+          <div class="ruler-mark">BAR 02</div>
+          <div class="ruler-mark">BAR 03</div>
+          <div class="ruler-mark">BAR 04</div>
+          <div class="ruler-mark">BAR 05</div>
+          <div class="ruler-mark">BAR 06</div>
+          <div class="ruler-mark">BAR 07</div>
+          <div class="ruler-mark">BAR 08</div>
+        </div>
+
+        <!-- Track 1 -->
+        <div class="track-row">
+          <div class="track-header">
+            <div class="track-meta">
+              <span class="track-title">01 // Neural Kick & Perc</span>
+              <div class="track-buttons">
+                <button class="tb-btn m">M</button>
+                <button class="tb-btn s">S</button>
+                <button class="tb-btn r">R</button>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim);">-0.2 dB // PAN C</div>
+          </div>
+          <div class="track-lane">
+            <div class="audio-clip" style="left: 0; width: 48%;">NEURAL_CYBER_KIT_A_LOOP.WAV</div>
+            <div class="audio-clip" style="left: 52%; width: 44%;">NEURAL_CYBER_KIT_A_ROLL.WAV</div>
+          </div>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="track-row">
+          <div class="track-header">
+            <div class="track-meta">
+              <span class="track-title">02 // Sub Zero 808</span>
+              <div class="track-buttons">
+                <button class="tb-btn m">M</button>
+                <button class="tb-btn s">S</button>
+                <button class="tb-btn r active">R</button>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim);">-1.4 dB // MONO</div>
+          </div>
+          <div class="track-lane">
+            <div class="audio-clip clip-cyan" style="left: 0; width: 94%;">GLIDE_808_F_MIN_MONSTER.WAV</div>
+          </div>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="track-row">
+          <div class="track-header">
+            <div class="track-meta">
+              <span class="track-title">03 // Latent Morph Synth</span>
+              <div class="track-buttons">
+                <button class="tb-btn m">M</button>
+                <button class="tb-btn s">S</button>
+                <button class="tb-btn r">R</button>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim);">-3.8 dB // PAN L18</div>
+          </div>
+          <div class="track-lane">
+            <div class="audio-clip" style="left: 12%; width: 38%;">DIFFUSION_LEAD_SOLO.WAV</div>
+            <div class="audio-clip" style="left: 56%; width: 40%;">DIFFUSION_LEAD_CHOP.WAV</div>
+          </div>
+        </div>
+
+        <!-- Track 4 -->
+        <div class="track-row">
+          <div class="track-header">
+            <div class="track-meta">
+              <span class="track-title">04 // Granular Atmos Pad</span>
+              <div class="track-buttons">
+                <button class="tb-btn m">M</button>
+                <button class="tb-btn s">S</button>
+                <button class="tb-btn r">R</button>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim);">-6.0 dB // DOLBY BED</div>
+          </div>
+          <div class="track-lane">
+            <div class="audio-clip clip-amber" style="left: 0; width: 98%;">HYPERSPACE_REVERB_TEXTURE_HD.WAV</div>
+          </div>
+        </div>
+
+        <!-- Track 5 -->
+        <div class="track-row">
+          <div class="track-header">
+            <div class="track-meta">
+              <span class="track-title">05 // Vocal Stems Resyn</span>
+              <div class="track-buttons">
+                <button class="tb-btn m">M</button>
+                <button class="tb-btn s">S</button>
+                <button class="tb-btn r">R</button>
+              </div>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim);">-2.0 dB // WIDE 120%</div>
+          </div>
+          <div class="track-lane">
+            <div class="audio-clip clip-cyan" style="left: 24%; width: 30%;">VOCAL_GLITCH_OCTAVE.WAV</div>
+            <div class="audio-clip clip-cyan" style="left: 64%; width: 32%;">VOCAL_WHISPER_REVERSE.WAV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Neural Plugin Suite Showcase -->
+  <section id="plugins">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Cross-Platform VST3 / AU / AAX</div>
+        <h2 class="section-title">Integrated Neural Audio Plugins</h2>
+        <p class="section-sub">Load Synapse algorithms inside Ableton Live, Logic Pro, Pro Tools, or FL Studio with zero buffer penalty.</p>
+      </div>
+
+      <div class="plugin-grid">
+        <div class="plugin-card">
+          <div>
+            <span class="plugin-badge">SYNTHESIZER</span>
+            <h3 class="plugin-name">Synapse Brain V4</h3>
+            <p class="plugin-desc">Dual latent vector oscillators with continuous morphing, 64-voice polyphony, and hardware MIDI MPE polyphonic expression.</p>
+          </div>
+          <div>
+            <div class="plugin-specs">
+              <span>LATENCY: 0.2ms</span>
+              <span>CPU: 1.8%</span>
+              <span>VST3 / AU</span>
+            </div>
+            <button class="btn-outline" style="width: 100%; justify-content: center;">Download Plugin</button>
+          </div>
+        </div>
+
+        <div class="plugin-card">
+          <div>
+            <span class="plugin-badge">SPATIALIZER</span>
+            <h3 class="plugin-name">Atmos Halo 3D</h3>
+            <p class="plugin-desc">Object-based positioning rack supporting up to 128 discrete audio channels with certified Dolby Atmos renderer export.</p>
+          </div>
+          <div>
+            <div class="plugin-specs">
+              <span>LATENCY: 0.1ms</span>
+              <span>CPU: 0.9%</span>
+              <span>7.1.4 BED</span>
+            </div>
+            <button class="btn-outline" style="width: 100%; justify-content: center;">Download Plugin</button>
+          </div>
+        </div>
+
+        <div class="plugin-card">
+          <div>
+            <span class="plugin-badge">REVERB DYNAMICS</span>
+            <h3 class="plugin-name">NeuroVerb Infinite</h3>
+            <p class="plugin-desc">Deep neural impulse response synthesis recreating non-linear acoustic cavities from deep caves to pressurized titanium chambers.</p>
+          </div>
+          <div>
+            <div class="plugin-specs">
+              <span>LATENCY: 0.3ms</span>
+              <span>CPU: 2.1%</span>
+              <span>DECAY: 60s</span>
+            </div>
+            <button class="btn-outline" style="width: 100%; justify-content: center;">Download Plugin</button>
+          </div>
+        </div>
+
+        <div class="plugin-card">
+          <div>
+            <span class="plugin-badge">SATURATION</span>
+            <h3 class="plugin-name">TapeFlux Harmonics</h3>
+            <p class="plugin-desc">Physical modeling of half-inch reel tape saturation, transformer hysteresis, and flutter modulated by generative noise algorithms.</p>
+          </div>
+          <div>
+            <div class="plugin-specs">
+              <span>LATENCY: 0.0ms</span>
+              <span>CPU: 1.2%</span>
+              <span>30 IPS TAPE</span>
+            </div>
+            <button class="btn-outline" style="width: 100%; justify-content: center;">Download Plugin</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creator License & Pricing -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-pill">Commercial Licensing</div>
+        <h2 class="section-title">Simple Royalty-Free Creator Tiers</h2>
+        <p class="section-sub">100% ownership of every synthesized stem, loop, and master. No royalties or platform splits ever.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Tier 1 -->
+        <div class="pricing-card">
+          <div>
+            <h3 class="plan-title">Indie Producer</h3>
+            <p style="color: var(--text-dim); font-size: 13px;">For solo beatmakers & electronic musicians.</p>
+            <div class="plan-price">$29<span> / month</span></div>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                500 Neural Stem Generations/mo
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                24-bit 48kHz WAV Export
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Synapse Brain VST3/AU
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Commercial Streaming Clearance
+              </li>
+            </ul>
+          </div>
+          <button class="btn-outline" style="width: 100%; justify-content: center;">Start 14-Day Trial</button>
+        </div>
+
+        <!-- Tier 2 Featured -->
+        <div class="pricing-card featured">
+          <div class="featured-ribbon">Most Popular</div>
+          <div>
+            <h3 class="plan-title">Studio Pro</h3>
+            <p style="color: var(--text-dim); font-size: 13px;">For professional engineers, mix houses & DAWs.</p>
+            <div class="plan-price">$69<span> / month</span></div>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Unlimited Neural Stem Generation
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                32-Bit Float 96kHz Lossless Master
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Full 4-Plugin VST3/AU/AAX Suite
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Dolby Atmos 7.1.4 Object Pan Export
+              </li>
+            </ul>
+          </div>
+          <button class="btn-lime" style="width: 100%; justify-content: center;">Get Studio Pro</button>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="pricing-card">
+          <div>
+            <h3 class="plan-title">Enterprise & Games</h3>
+            <p style="color: var(--text-dim); font-size: 13px;">For AAA game studios & film scoring stages.</p>
+            <div class="plan-price">$249<span> / month</span></div>
+            <ul class="plan-features">
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Dedicated On-Premise GPU Cluster
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Custom Model Fine-Tuning
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                Wwise & FMOD Engine Integration
+              </li>
+              <li>
+                <svg viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+                24/7 Audio DSP Engineer Support
+              </li>
+            </ul>
+          </div>
+          <button class="btn-outline" style="width: 100%; justify-content: center;">Contact Licensing</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer" id="download">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="brand">
+            <div class="brand-logo-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+            </div>
+            <div class="brand-name">SYNAPSE<span>//DAW</span></div>
+          </a>
+          <p>
+            The next-generation neural audio production platform designed for producers pushing the frontiers of sonic geometry.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#spectrum">Spectrum Analyzer</a></li>
+            <li><a href="#neural-timbre">Prompt Synthesizer</a></li>
+            <li><a href="#spatial-atmos">Dolby Atmos Panning</a></li>
+            <li><a href="#tracks">Multi-Track DAW</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Plugins</h5>
+          <ul>
+            <li><a href="#plugins">Synapse Brain VST3</a></li>
+            <li><a href="#plugins">Atmos Halo 3D</a></li>
+            <li><a href="#plugins">NeuroVerb Infinite</a></li>
+            <li><a href="#plugins">TapeFlux Saturation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>System</h5>
+          <ul>
+            <li><a href="#">macOS Apple Silicon</a></li>
+            <li><a href="#">Windows 11 ASIO</a></li>
+            <li><a href="#">Linux ALSA / PipeWire</a></li>
+            <li><a href="#">WebAssembly SDK</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 SYNAPSE AUDIO SYSTEMS INC. ALL RIGHTS RESERVED.</div>
+        <div style="color: var(--lime);">STATUS: ALL CLOUD CLUSTERS NOMINAL (0 ERRORS)</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Logic -->
+  <script>
+    // 1. Equalizer Spectrum Canvas Animation (32-Bands)
+    const specCanvas = document.getElementById('spectrumCanvas');
+    const specCtx = specCanvas.getContext('2d');
+    const BANDS = 32;
+    let bandValues = new Array(BANDS).fill(0);
+    let peakValues = new Array(BANDS).fill(0);
+
+    // Preset configurations
+    const presets = {
+      cyber: [40, 65, 80, 75, 60, 45, 55, 70, 85, 90, 80, 70, 60, 50, 55, 65, 75, 85, 90, 85, 75, 65, 55, 50, 60, 70, 80, 85, 75, 65, 50, 40],
+      bass:  [95, 98, 92, 88, 80, 65, 50, 40, 35, 30, 25, 20, 20, 22, 25, 28, 30, 32, 35, 30, 25, 20, 18, 15, 12, 10, 8, 8, 6, 5, 5, 4],
+      air:   [25, 28, 30, 32, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 82, 85, 88, 90, 92, 95, 96, 98, 97, 95, 94, 92, 90, 88, 85, 80, 75, 70]
+    };
+    let currentPreset = 'cyber';
+
+    function initSpectrum() {
+      specCanvas.width = specCanvas.parentElement.clientWidth - 48;
+      specCanvas.height = 220;
+    }
+    window.addEventListener('resize', initSpectrum);
+    initSpectrum();
+
+    function renderSpectrum() {
+      specCtx.clearRect(0, 0, specCanvas.width, specCanvas.height);
+      const w = specCanvas.width;
+      const h = specCanvas.height;
+      const barWidth = (w / BANDS) - 4;
+      const targetProfile = presets[currentPreset];
+
+      // Draw subtle frequency grid lines
+      specCtx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      specCtx.lineWidth = 1;
+      for (let i = 1; i <= 4; i++) {
+        const y = (h / 5) * i;
+        specCtx.beginPath();
+        specCtx.moveTo(0, y);
+        specCtx.lineTo(w, y);
+        specCtx.stroke();
+      }
+
+      for (let i = 0; i < BANDS; i++) {
+        // dynamic jitter simulating live audio feed
+        const jitter = (Math.random() - 0.5) * 16;
+        const targetH = Math.max(8, Math.min(h - 10, (targetProfile[i] / 100) * (h - 20) + jitter));
+        
+        // smooth decay
+        bandValues[i] += (targetH - bandValues[i]) * 0.25;
+        if (bandValues[i] > peakValues[i]) {
+          peakValues[i] = bandValues[i];
+        } else {
+          peakValues[i] = Math.max(0, peakValues[i] - 0.7);
+        }
+
+        const x = i * (barWidth + 4) + 2;
+        const barH = bandValues[i];
+        const y = h - barH;
+
+        // Gradient for bars
+        const grad = specCtx.createLinearGradient(0, y, 0, h);
+        grad.addColorStop(0, '#84cc16');
+        grad.addColorStop(0.5, '#06b6d4');
+        grad.addColorStop(1, '#0f172a');
+
+        specCtx.fillStyle = grad;
+        specCtx.fillRect(x, y, barWidth, barH);
+
+        // Peak line
+        specCtx.fillStyle = '#ffffff';
+        specCtx.fillRect(x, h - peakValues[i] - 2, barWidth, 2);
+      }
+
+      requestAnimationFrame(renderSpectrum);
+    }
+    renderSpectrum();
+
+    // EQ Preset Buttons
+    document.querySelectorAll('.eq-preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.eq-preset-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPreset = btn.dataset.preset;
+      });
+    });
+
+    // EQ Faders interactive display
+    const faders = [
+      { id: 'eqSub', valId: 'eqSubVal' },
+      { id: 'eqLowMid', valId: 'eqLowMidVal' },
+      { id: 'eqHighMid', valId: 'eqHighMidVal' },
+      { id: 'eqAir', valId: 'eqAirVal' }
+    ];
+    faders.forEach(f => {
+      const el = document.getElementById(f.id);
+      const valEl = document.getElementById(f.valId);
+      if (el && valEl) {
+        el.addEventListener('input', (e) => {
+          const v = parseFloat(e.target.value);
+          valEl.textContent = (v > 0 ? '+' : '') + v.toFixed(1) + ' dB';
+        });
+      }
+    });
+
+    // 2. Waveform Canvas
+    const waveCanvas = document.getElementById('waveCanvas');
+    const waveCtx = waveCanvas.getContext('2d');
+    function drawStaticWaveform() {
+      waveCanvas.width = waveCanvas.parentElement.clientWidth - 40;
+      waveCanvas.height = 90;
+      const w = waveCanvas.width;
+      const h = waveCanvas.height;
+      waveCtx.clearRect(0, 0, w, h);
+
+      const mid = h / 2;
+      waveCtx.strokeStyle = '#84cc16';
+      waveCtx.lineWidth = 1.5;
+      waveCtx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const norm = x / w;
+        const env = Math.sin(norm * Math.PI);
+        const freq1 = Math.sin(norm * 65);
+        const freq2 = Math.cos(norm * 140) * 0.4;
+        const amp = (freq1 + freq2) * (h * 0.42) * env;
+        if (x === 0) waveCtx.moveTo(x, mid + amp);
+        else waveCtx.lineTo(x, mid + amp);
+      }
+      waveCtx.stroke();
+    }
+    window.addEventListener('resize', drawStaticWaveform);
+    drawStaticWaveform();
+
+    // Synthesize Progress Animation Trigger
+    const btnSynth = document.getElementById('btnSynthesize');
+    const synthProgress = document.getElementById('synthProgressBar');
+    const synthStatus = document.getElementById('synthStatus');
+    let isSynthesizing = false;
+
+    btnSynth.addEventListener('click', () => {
+      if (isSynthesizing) return;
+      isSynthesizing = true;
+      synthStatus.textContent = 'DIFFUSION PASS 1/64...';
+      synthStatus.style.color = '#06b6d4';
+      synthProgress.style.width = '0%';
+
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 4;
+        synthProgress.style.width = progress + '%';
+        if (progress > 50 && progress < 80) {
+          synthStatus.textContent = 'NEURAL PHASE RECONSTRUCTION...';
+        }
+        if (progress >= 100) {
+          clearInterval(interval);
+          isSynthesizing = false;
+          synthStatus.textContent = 'GENERATION COMPLETE (0.42s)';
+          synthStatus.style.color = '#84cc16';
+          drawStaticWaveform();
+        }
+      }, 50);
+    });
+
+    // 3. Latent Morph XY Pad Canvas
+    const latentCanvas = document.getElementById('latentCanvas');
+    const latentCtx = latentCanvas.getContext('2d');
+    let puckX = 170;
+    let puckY = 115;
+    let isDraggingPuck = false;
+
+    function renderLatentPad() {
+      const w = latentCanvas.width;
+      const h = latentCanvas.height;
+      latentCtx.clearRect(0, 0, w, h);
+
+      // Radial density heat grid
+      const grad = latentCtx.createRadialGradient(puckX, puckY, 10, puckX, puckY, 130);
+      grad.addColorStop(0, 'rgba(132, 204, 22, 0.45)');
+      grad.addColorStop(0.5, 'rgba(6, 182, 212, 0.15)');
+      grad.addColorStop(1, 'transparent');
+      latentCtx.fillStyle = grad;
+      latentCtx.fillRect(0, 0, w, h);
+
+      // Crosshairs
+      latentCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      latentCtx.lineWidth = 1;
+      latentCtx.beginPath();
+      latentCtx.moveTo(w / 2, 0); latentCtx.lineTo(w / 2, h);
+      latentCtx.moveTo(0, h / 2); latentCtx.lineTo(w, h / 2);
+      latentCtx.stroke();
+
+      // Puck
+      latentCtx.beginPath();
+      latentCtx.arc(puckX, puckY, 9, 0, Math.PI * 2);
+      latentCtx.fillStyle = '#84cc16';
+      latentCtx.shadowColor = '#84cc16';
+      latentCtx.shadowBlur = 15;
+      latentCtx.fill();
+      latentCtx.shadowBlur = 0;
+
+      // Outer ring
+      latentCtx.beginPath();
+      latentCtx.arc(puckX, puckY, 18, 0, Math.PI * 2);
+      latentCtx.strokeStyle = '#06b6d4';
+      latentCtx.lineWidth = 2;
+      latentCtx.stroke();
+    }
+    renderLatentPad();
+
+    latentCanvas.addEventListener('mousedown', (e) => {
+      isDraggingPuck = true;
+      updatePuck(e);
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isDraggingPuck) updatePuck(e);
+    });
+    window.addEventListener('mouseup', () => { isDraggingPuck = false; });
+
+    function updatePuck(e) {
+      const rect = latentCanvas.getBoundingClientRect();
+      const x = Math.max(15, Math.min(latentCanvas.width - 15, e.clientX - rect.left));
+      const y = Math.max(15, Math.min(latentCanvas.height - 15, e.clientY - rect.top));
+      puckX = x;
+      puckY = y;
+      document.getElementById('vecX').textContent = (x / latentCanvas.width).toFixed(2);
+      document.getElementById('vecY').textContent = (1 - (y / latentCanvas.height)).toFixed(2);
+      renderLatentPad();
+    }
+
+    // 4. Dolby Atmos 7.1.4 Interactive Canvas
+    const atmosCanvas = document.getElementById('atmosCanvas');
+    const atmosCtx = atmosCanvas.getContext('2d');
+    const atmosObjects = [
+      { name: 'Lead', x: 280, y: 150, color: '#84cc16', r: 10 },
+      { name: 'Sub', x: 220, y: 220, color: '#06b6d4', r: 10 },
+      { name: 'Air', x: 120, y: 320, color: '#eab308', r: 9 },
+      { name: 'Verb', x: 340, y: 300, color: '#ec4899', r: 9 }
+    ];
+    let activeObj = null;
+
+    function renderAtmos() {
+      const w = atmosCanvas.width;
+      const h = atmosCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      atmosCtx.clearRect(0, 0, w, h);
+
+      // Rings (Speaker layout concentric circles)
+      [60, 110, 160, 195].forEach((radius, idx) => {
+        atmosCtx.beginPath();
+        atmosCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+        atmosCtx.strokeStyle = idx === 3 ? 'rgba(6, 182, 212, 0.4)' : 'rgba(255, 255, 255, 0.08)';
+        atmosCtx.lineWidth = 1;
+        atmosCtx.stroke();
+      });
+
+      // Crosshairs
+      atmosCtx.beginPath();
+      atmosCtx.moveTo(cx, 15); atmosCtx.lineTo(cx, h - 15);
+      atmosCtx.moveTo(15, cy); atmosCtx.lineTo(w - 15, cy);
+      atmosCtx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+      atmosCtx.stroke();
+
+      // Listener Center Node
+      atmosCtx.beginPath();
+      atmosCtx.arc(cx, cy, 14, 0, Math.PI * 2);
+      atmosCtx.fillStyle = '#1e293b';
+      atmosCtx.fill();
+      atmosCtx.strokeStyle = '#94a3b8';
+      atmosCtx.stroke();
+      atmosCtx.fillStyle = '#fff';
+      atmosCtx.font = '9px JetBrains Mono';
+      atmosCtx.textAlign = 'center';
+      atmosCtx.textBaseline = 'middle';
+      atmosCtx.fillText('LISTENER', cx, cy);
+
+      // Draw Audio Objects
+      atmosObjects.forEach((obj, idx) => {
+        // Line to center
+        atmosCtx.beginPath();
+        atmosCtx.moveTo(cx, cy);
+        atmosCtx.lineTo(obj.x, obj.y);
+        atmosCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        atmosCtx.setLineDash([3, 4]);
+        atmosCtx.stroke();
+        atmosCtx.setLineDash([]);
+
+        // Node Glow
+        atmosCtx.beginPath();
+        atmosCtx.arc(obj.x, obj.y, obj.r + 4, 0, Math.PI * 2);
+        atmosCtx.fillStyle = obj.color + '33';
+        atmosCtx.fill();
+
+        // Node Solid
+        atmosCtx.beginPath();
+        atmosCtx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
+        atmosCtx.fillStyle = obj.color;
+        atmosCtx.fill();
+
+        // Label
+        atmosCtx.font = '10px JetBrains Mono';
+        atmosCtx.fillStyle = '#f8fafc';
+        atmosCtx.fillText(obj.name, obj.x, obj.y - 14);
+      });
+    }
+    renderAtmos();
+
+    atmosCanvas.addEventListener('mousedown', (e) => {
+      const rect = atmosCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      atmosObjects.forEach(obj => {
+        const dist = Math.hypot(obj.x - x, obj.y - y);
+        if (dist <= obj.r + 8) {
+          activeObj = obj;
+        }
+      });
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (activeObj) {
+        const rect = atmosCanvas.getBoundingClientRect();
+        activeObj.x = Math.max(30, Math.min(atmosCanvas.width - 30, e.clientX - rect.left));
+        activeObj.y = Math.max(30, Math.min(atmosCanvas.height - 30, e.clientY - rect.top));
+        renderAtmos();
+      }
+    });
+
+    window.addEventListener('mouseup', () => { activeObj = null; });
+
+    // Node items selector highlight
+    document.querySelectorAll('.node-item').forEach((item, idx) => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.node-item').forEach(i => i.classList.remove('selected'));
+        item.classList.add('selected');
+      });
+    });
+
+    // Simple Transport buttons toggle
+    const btnPlay = document.getElementById('btnPlay');
+    let isPlaying = false;
+    btnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      btnPlay.classList.toggle('active', isPlaying);
+    });
+
+    // Tag chip fill prompt
+    document.querySelectorAll('.tag-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const area = document.getElementById('promptText');
+        area.value = chip.textContent.replace('+ ', '') + ' // ' + area.value;
+      });
+    });
+
+    // Export stems alert
+    document.getElementById('btnExportStems')?.addEventListener('click', () => {
+      alert('Packaging 5 Lossless 32-bit Float FLAC stems into SYNAPSE_PROJECT_EXPORT.ZIP...');
+    });
+    document.getElementById('btnExportSample')?.addEventListener('click', () => {
+      alert('Downloading SYNAPSE_REESE_F_MIN_128BPM_LOSSLESS.WAV (24.6 MB)...');
+    });
+    document.getElementById('btnPlaySample')?.addEventListener('click', () => {
+      alert('Auditioning neural stem buffer through WebAudio DSP engine.');
+    });
+  </script>
+</body>
+</html>
