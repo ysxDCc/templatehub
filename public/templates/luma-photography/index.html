@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luma Photography — Visual Storytelling</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#0a0a0a;--gold:#d4a843;--gold-light:#e8c06a;--cream:#f5f0e8;--muted:#888;--border:rgba(255,255,255,0.08)}
+body{font-family:'Inter',sans-serif;background:var(--black);color:#fff;overflow-x:hidden}
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;letter-spacing:0.08em}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.82rem;letter-spacing:0.08em;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:0.55rem 1.3rem;border-radius:3px;font-size:0.8rem;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s}
+.nav-btn:hover{background:var(--gold);color:#000}
+/* HERO */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#1a1208 50%,#0a0a0a 100%)}
+.hero-glow{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(212,168,67,0.12) 0%,transparent 70%);border-radius:50%}
+.hero-content{position:relative;z-index:2;text-align:center;padding:2rem}
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,8vw,7rem);font-weight:700;line-height:0.95;margin-bottom:1.5rem;color:#fff}
+.hero h1 em{display:block;font-style:italic;color:var(--gold);font-size:0.75em}
+.hero p{color:rgba(255,255,255,0.55);font-size:1rem;max-width:480px;margin:0 auto 3rem;line-height:1.8;font-weight:300;letter-spacing:0.02em}
+.hero-line{width:60px;height:1px;background:var(--gold);margin:2rem auto;opacity:0.6}
+.hero-actions{display:flex;gap:1rem;justify-content:center}
+.btn-gold{background:var(--gold);color:#000;padding:0.9rem 2.2rem;border:none;border-radius:3px;font-size:0.85rem;font-weight:600;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:opacity 0.2s}
+.btn-gold:hover{opacity:0.85}
+.btn-ghost{background:transparent;color:#fff;padding:0.9rem 2.2rem;border:1px solid rgba(255,255,255,0.25);border-radius:3px;font-size:0.85rem;cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:border-color 0.2s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+/* GALLERY */
+.section{padding:6rem 5%}
+.section-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;color:#fff;line-height:1.2;margin-bottom:1rem}
+.masonry{columns:3;column-gap:1rem;margin-top:3rem}
+@media(max-width:768px){.masonry{columns:2}}
+@media(max-width:480px){.masonry{columns:1}}
+.masonry-item{break-inside:avoid;margin-bottom:1rem;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.3s}
+.masonry-item:hover{transform:scale(1.02)}
+.masonry-item:hover .masonry-overlay{opacity:1}
+.masonry-img{width:100%;display:block;border-radius:6px}
+.masonry-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);opacity:0;transition:opacity 0.3s;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.photo-block{background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:3rem;border-radius:6px}
+/* SERVICES */
+.services-section{padding:6rem 5%;background:#0d0d0d}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
+.service-card{border:1px solid var(--border);border-radius:8px;padding:2.5rem 2rem;transition:border-color 0.3s,transform 0.3s}
+.service-card:hover{border-color:var(--gold);transform:translateY(-4px)}
+.service-icon{font-size:2.5rem;margin-bottom:1.5rem;display:block}
+.service-card h3{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:0.8rem}
+.service-card p{font-size:0.85rem;color:var(--muted);line-height:1.7}
+.service-price{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--border);font-size:0.8rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
+/* PRICING */
+.pricing-section{padding:6rem 5%}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:3rem}
+.pricing-card{border:1px solid var(--border);border-radius:10px;padding:2.5rem;transition:all 0.3s}
+.pricing-card.featured{border-color:var(--gold);background:rgba(212,168,67,0.05)}
+.pricing-tier{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem}
+.pricing-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:#fff;margin-bottom:0.5rem}
+.pricing-price{font-size:2.5rem;font-weight:700;color:#fff;margin:1rem 0}
+.pricing-price span{font-size:0.9rem;color:var(--muted);font-weight:400}
+.pricing-features{list-style:none;space-y:0.5rem;margin:1.5rem 0}
+.pricing-features li{font-size:0.82rem;color:rgba(255,255,255,0.7);padding:0.3rem 0;display:flex;gap:0.6rem;align-items:center}
+.pricing-features li::before{content:"✓";color:var(--gold);font-weight:700;font-size:0.75rem}
+.pricing-btn{width:100%;margin-top:2rem;padding:0.85rem;border-radius:4px;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-weight:600;transition:all 0.2s}
+.pricing-btn.outline{background:transparent;border:1px solid var(--border);color:#fff}
+.pricing-btn.outline:hover{border-color:var(--gold);color:var(--gold)}
+.pricing-btn.filled{background:var(--gold);border:1px solid var(--gold);color:#000}
+.pricing-btn.filled:hover{opacity:0.85}
+/* CONTACT */
+.contact-section{padding:6rem 5%;background:#0d0d0d}
+.contact-inner{max-width:600px;margin:0 auto;text-align:center}
+.contact-form{text-align:left;margin-top:3rem;display:flex;flex-direction:column;gap:1rem}
+.contact-form input,.contact-form textarea,.contact-form select{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:4px;padding:0.9rem 1.2rem;color:#fff;font-size:0.9rem;font-family:'Inter',sans-serif;transition:border-color 0.2s}
+.contact-form textarea{height:130px;resize:vertical}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{outline:none;border-color:var(--gold)}
+.contact-form select option{background:#111;color:#fff}
+.contact-submit{background:var(--gold);color:#000;border:none;padding:1rem;border-radius:4px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:opacity 0.2s}
+.contact-submit:hover{opacity:0.85}
+/* FOOTER */
+footer{padding:2.5rem 5%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--gold)}
+footer p{font-size:0.78rem;color:var(--muted)}
+.footer-social{display:flex;gap:1rem}
+.footer-social a{color:var(--muted);text-decoration:none;font-size:0.78rem;transition:color 0.2s}
+.footer-social a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Luma<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Book a Session</a></li>
+  </ul>
+  <button class="nav-btn">Enquire</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ Visual Storytelling ✦</div>
+    <h1>Light.<br><em>Captured.</em></h1>
+    <div class="hero-line"></div>
+    <p>Award-winning photography for weddings, brands, and moments worth remembering. Based in Milan, available worldwide.</p>
+    <div class="hero-actions">
+      <button class="btn-gold">View Portfolio</button>
+      <button class="btn-ghost">Book a Session</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <span class="section-label">✦ Portfolio</span>
+  <h2 class="section-title">Selected Works</h2>
+  <p style="color:var(--muted);max-width:480px;line-height:1.7;font-size:0.9rem">A curated selection of images spanning weddings, commercial campaigns, and artistic personal projects.</p>
+  <div class="masonry" style="margin-top:2.5rem">
+    <div class="masonry-item"><div class="photo-block" style="height:320px">🌅</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:200px;background:linear-gradient(135deg,#2d1b69,#11998e)">💒</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:260px;background:linear-gradient(135deg,#1a0533,#c31432)">🌹</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:220px;background:linear-gradient(135deg,#0f2027,#203a43)">🏙️</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:360px;background:linear-gradient(135deg,#0d0d0d,#434343)">👗</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:180px;background:linear-gradient(135deg,#1a2a3a,#2980b9)">🌊</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:280px;background:linear-gradient(135deg,#1a1a1a,#8B4513)">🍃</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:240px;background:linear-gradient(135deg,#2c3e50,#e74c3c)">🕯️</div><div class="masonry-overlay">↗</div></div>
+    <div class="masonry-item"><div class="photo-block" style="height:200px;background:linear-gradient(135deg,#0a3d2e,#27ae60)">🌿</div><div class="masonry-overlay">↗</div></div>
+  </div>
+</section>
+
+<section class="services-section" id="services">
+  <span class="section-label">✦ Services</span>
+  <h2 class="section-title">What I Offer</h2>
+  <div class="services-grid">
+    <div class="service-card"><span class="service-icon">💍</span><h3>Wedding Photography</h3><p>Full-day documentary coverage of your wedding day, from preparation to late-night celebrations, with natural, unposed storytelling.</p><div class="service-price">FROM €2,400 / FULL DAY</div></div>
+    <div class="service-card"><span class="service-icon">👤</span><h3>Portrait Sessions</h3><p>Personal branding, headshots, and artistic portrait sessions in-studio or on location. Ideal for executives, creatives, and artists.</p><div class="service-price">FROM €350 / 2 HOURS</div></div>
+    <div class="service-card"><span class="service-icon">🏢</span><h3>Commercial & Brand</h3><p>Product photography, campaign imagery, and editorial work for brands who understand the power of compelling visual identity.</p><div class="service-price">FROM €800 / HALF DAY</div></div>
+    <div class="service-card"><span class="service-icon">🎨</span><h3>Fine Art Prints</h3><p>Limited-edition archival prints from the personal fine art collection, available in multiple sizes with certificate of authenticity.</p><div class="service-price">FROM €280 / PRINT</div></div>
+  </div>
+</section>
+
+<section class="pricing-section" id="pricing">
+  <span class="section-label">✦ Packages</span>
+  <h2 class="section-title">Simple, Transparent Pricing</h2>
+  <div class="pricing-grid">
+    <div class="pricing-card"><div class="pricing-tier">Essential</div><h3>Portrait</h3><div class="pricing-price">€350<span> /session</span></div><ul class="pricing-features"><li>2 hours on location</li><li>50 edited images</li><li>Online gallery</li><li>Commercial usage rights</li></ul><button class="pricing-btn outline">Book Session</button></div>
+    <div class="pricing-card featured"><div class="pricing-tier">Most Popular</div><h3>Wedding Day</h3><div class="pricing-price">€2,400<span> /day</span></div><ul class="pricing-features"><li>Full 10-hour coverage</li><li>350+ edited images</li><li>Engagement session included</li><li>Luxury album option</li><li>Second photographer</li></ul><button class="pricing-btn filled">Book Now</button></div>
+    <div class="pricing-card"><div class="pricing-tier">Commercial</div><h3>Brand Campaign</h3><div class="pricing-price">€1,600<span> /day</span></div><ul class="pricing-features"><li>Full day production</li><li>Art direction included</li><li>Unlimited usage rights</li><li>Retouching included</li></ul><button class="pricing-btn outline">Get Quote</button></div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-inner">
+    <span class="section-label" style="text-align:center;display:block">✦ Get In Touch</span>
+    <h2 class="section-title" style="text-align:center">Let's Create Something<br><em style="font-style:italic;color:var(--gold)">Beautiful Together</em></h2>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name">
+      <input type="email" placeholder="Email Address">
+      <select><option>Wedding Photography</option><option>Portrait Session</option><option>Commercial / Brand</option><option>Fine Art Print Enquiry</option></select>
+      <input type="date" placeholder="Preferred Date">
+      <textarea placeholder="Tell me about your vision..."></textarea>
+      <button type="submit" class="contact-submit">Send Enquiry →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Luma.</div>
+  <p>© 2024 Luma Photography. All rights reserved.</p>
+  <div class="footer-social">
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSpark Academy — Next-Gen Interactive Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --accent:#f59e0b;
+  --bg:#0b0f19;
+  --card-bg:#111827;
+  --card-border:rgba(255,255,255,0.08);
+  --text:#f3f4f6;
+  --text-muted:#9ca3af;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;padding:1.2rem 6%;display:flex;justify-content:space-between;align-items:center;background:rgba(11,15,25,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);z-index:1000}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:#fff;display:flex;align-items:center;gap:0.5rem}
+.logo span{color:var(--primary)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:#fff}
+.nav-btn{background:var(--primary);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:8px;font-size:0.875rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.nav-btn:hover{background:var(--primary-dark)}
+
+.hero{min-height:90vh;display:flex;align-items:center;justify-content:center;padding:7rem 6% 4rem;position:relative;background:radial-gradient(circle at 50% 20%,rgba(99,102,241,0.18) 0%,transparent 70%)}
+.hero-content{max-width:860px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.3);border-radius:999px;color:#a5b4fc;font-size:0.8rem;font-weight:600;margin-bottom:1.5rem}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(2.5rem,5.5vw,4.5rem);font-weight:700;line-height:1.15;letter-spacing:-0.02em;margin-bottom:1.5rem}
+.hero h1 span{background:linear-gradient(135deg,#a5b4fc 0%,#6366f1 50%,#f59e0b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.125rem;color:var(--text-muted);max-width:640px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--primary);color:#fff;padding:0.85rem 2rem;border-radius:8px;font-weight:600;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;display:inline-block}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px -5px rgba(99,102,241,0.5)}
+.btn-secondary{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);color:#fff;padding:0.85rem 2rem;border-radius:8px;font-weight:600;text-decoration:none;transition:background 0.2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;max-width:1100px;margin:3rem auto 0;padding:2rem;background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px}
+.stat-box{text-align:center}
+.stat-val{font-size:2.25rem;font-weight:800;color:#fff;font-family:'Space Grotesk',sans-serif}
+.stat-lbl{font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem}
+
+.section{padding:5rem 6%;max-width:1200px;margin:0 auto}
+.sec-header{text-align:center;max-width:600px;margin:0 auto 3rem}
+.sec-tag{color:var(--primary);font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;display:block}
+.sec-title{font-family:'Space Grotesk',sans-serif;font-size:2.25rem;font-weight:700;color:#fff;margin-bottom:0.75rem}
+.sec-desc{color:var(--text-muted);font-size:0.95rem}
+
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+.course-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:14px;overflow:hidden;transition:transform 0.2s,border-color 0.2s}
+.course-card:hover{transform:translateY(-5px);border-color:rgba(99,102,241,0.4)}
+.course-thumb{height:180px;background:linear-gradient(135deg,#1e1b4b,#312e81);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.course-body{padding:1.5rem}
+.course-tag{display:inline-block;padding:0.25rem 0.6rem;background:rgba(99,102,241,0.15);color:#a5b4fc;border-radius:6px;font-size:0.75rem;font-weight:600;margin-bottom:0.75rem}
+.course-title{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
+.course-desc{color:var(--text-muted);font-size:0.875rem;margin-bottom:1.25rem}
+.course-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--card-border)}
+.course-price{font-size:1.25rem;font-weight:700;color:var(--accent)}
+
+.instructors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.inst-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:1.5rem;text-align:center}
+.inst-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;background:linear-gradient(135deg,#4f46e5,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:1.75rem}
+.inst-name{font-weight:700;color:#fff;font-size:1rem}
+.inst-role{font-size:0.8rem;color:var(--primary);margin-top:0.25rem}
+
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem}
+.price-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:2.5rem 2rem;position:relative}
+.price-card.featured{border-color:var(--primary);background:linear-gradient(180deg,rgba(99,102,241,0.08) 0%,var(--card-bg) 100%)}
+.price-tag{position:absolute;top:-12px;right:24px;background:var(--primary);color:#fff;padding:0.25rem 0.75rem;border-radius:999px;font-size:0.75rem;font-weight:700}
+.plan-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
+.plan-price{font-size:2.5rem;font-weight:800;color:#fff;font-family:'Space Grotesk',sans-serif;margin:1rem 0}
+.plan-price span{font-size:0.9rem;color:var(--text-muted);font-weight:400}
+.plan-features{list-style:none;margin:1.5rem 0;display:flex;flex-direction:column;gap:0.75rem}
+.plan-features li{font-size:0.875rem;color:var(--text-muted);display:flex;align-items:center;gap:0.5rem}
+.plan-features li::before{content:"✓";color:var(--primary);font-weight:700}
+
+footer{padding:3rem 6%;border-top:1px solid var(--card-border);text-align:center;color:var(--text-muted);font-size:0.85rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Edu<span>Spark</span> 🎓</div>
+  <ul class="nav-links">
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#instructors">Instructors</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <button class="nav-btn">Start Learning</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">🚀 Revolutionizing Online Tech Mastery</div>
+    <h1>Master Tech Skills with <span>Interactive Cohorts</span></h1>
+    <p>Hands-on projects, industry mentors, and an ultra-modern syllabus designed to land you top tier roles in engineering and AI.</p>
+    <div class="hero-cta">
+      <a href="#courses" class="btn-primary">Explore 40+ Courses</a>
+      <a href="#pricing" class="btn-secondary">View Tuition Tiers</a>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-val">48,000+</div><div class="stat-lbl">Active Students</div></div>
+      <div class="stat-box"><div class="stat-val">94.2%</div><div class="stat-lbl">Placement Rate</div></div>
+      <div class="stat-box"><div class="stat-val">120+</div><div class="stat-lbl">Expert Mentors</div></div>
+      <div class="stat-box"><div class="stat-val">4.9 / 5</div><div class="stat-lbl">Satisfaction Score</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="courses">
+  <div class="sec-header">
+    <span class="sec-tag">Trending Tracks</span>
+    <h2 class="sec-title">Engineered for High-Impact Careers</h2>
+    <p class="sec-desc">Choose from production-oriented curricula tested by staff engineers from Silicon Valley and Europe.</p>
+  </div>
+
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-thumb">🤖</div>
+      <div class="course-body">
+        <span class="course-tag">Artificial Intelligence</span>
+        <h3 class="course-title">Fullstack LLM & Autonomous Agent Ops</h3>
+        <p class="course-desc">Build multi-agent frameworks, vector search systems, and fine-tune open-weights models for enterprise deployment.</p>
+        <div class="course-footer">
+          <div class="course-price">$180</div>
+          <button class="nav-btn">Enroll</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">⚡</div>
+      <div class="course-body">
+        <span class="course-tag">Modern Web</span>
+        <h3 class="course-title">Distributed Systems & Next.js 15</h3>
+        <p class="course-desc">Master server actions, edge computing, high-load PostgreSQL partitioning, and real-time WebSockets.</p>
+        <div class="course-footer">
+          <div class="course-price">$140</div>
+          <button class="nav-btn">Enroll</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-thumb">🛡️</div>
+      <div class="course-body">
+        <span class="course-tag">Security & DevOps</span>
+        <h3 class="course-title">Cloud Native Zero-Trust Architecture</h3>
+        <p class="course-desc">Kubernetes hardening, eBPF telemetry, multi-region failover, and CI/CD security gating.</p>
+        <div class="course-footer">
+          <div class="course-price">$160</div>
+          <button class="nav-btn">Enroll</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="instructors">
+  <div class="sec-header">
+    <span class="sec-tag">Faculty</span>
+    <h2 class="sec-title">Taught by Practicing Leaders</h2>
+    <p class="sec-desc">Learn directly from staff architects, founders, and principal engineers.</p>
+  </div>
+  <div class="instructors-grid">
+    <div class="inst-card">
+      <div class="inst-avatar">👨‍💻</div>
+      <div class="inst-name">Elena Rostova</div>
+      <div class="inst-role">Principal ML Architect @ VectorLabs</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-avatar">👩‍💼</div>
+      <div class="inst-name">Marcus Vance</div>
+      <div class="inst-role">Staff Engineer @ CloudScale</div>
+    </div>
+    <div class="inst-card">
+      <div class="inst-avatar">🧑‍🔬</div>
+      <div class="inst-name">Dr. Sophia Ahn</div>
+      <div class="inst-role">Distributed Systems Researcher</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="sec-header">
+    <span class="sec-tag">Membership</span>
+    <h2 class="sec-title">Predictable, Transparent Tuition</h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-name">Self-Paced Starter</div>
+      <div class="plan-price">$29<span>/month</span></div>
+      <ul class="plan-features">
+        <li>Access to 40+ fundamental modules</li>
+        <li>Interactive browser playgrounds</li>
+        <li>Community forum access</li>
+      </ul>
+      <button class="btn-secondary" style="width:100%">Join Starter</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-tag">MOST POPULAR</div>
+      <div class="plan-name">Pro Cohort Track</div>
+      <div class="plan-price">$79<span>/month</span></div>
+      <ul class="plan-features">
+        <li>All 40+ courses & future releases</li>
+        <li>Weekly 1-on-1 code reviews with staff engineers</li>
+        <li>Private Discord channel with instructors</li>
+        <li>Verified graduation credentials & career referral</li>
+      </ul>
+      <button class="btn-primary" style="width:100%">Enroll in Pro Cohort</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 EduSpark Academy Inc. Built for ambitious technical builders.</p>
+</footer>
+</body>
+</html>

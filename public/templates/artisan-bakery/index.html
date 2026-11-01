@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Petit Artisan — Boutique French Patisserie & Bakery</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#fdfbf7;
+  --espresso:#291811;
+  --warm-brown:#5c3a21;
+  --gold:#c59b27;
+  --gold-light:#e9cf87;
+  --card-bg:#ffffff;
+  --border:#ebdccb;
+  --text-muted:#786960;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--cream);color:var(--espresso);line-height:1.6;overflow-x:hidden}
+nav{position:sticky;top:0;width:100%;z-index:100;padding:1.4rem 6%;display:flex;justify-content:space-between;align-items:center;background:rgba(253,251,247,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:700;color:var(--espresso);display:flex;align-items:center;gap:0.5rem}
+.logo span{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--warm-brown);text-decoration:none;font-size:0.875rem;font-weight:500;letter-spacing:0.04em;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-btn{background:var(--espresso);color:var(--cream);border:none;padding:0.65rem 1.6rem;border-radius:999px;font-size:0.85rem;font-weight:600;cursor:pointer;transition:background 0.2s;letter-spacing:0.04em}
+.nav-btn:hover{background:var(--warm-brown)}
+
+.hero{padding:7rem 6% 5rem;max-width:1150px;margin:0 auto;text-align:center}
+.badge{display:inline-block;padding:0.4rem 1.2rem;background:#f3e8db;border:1px solid var(--border);border-radius:999px;font-size:0.8rem;font-weight:600;color:var(--warm-brown);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6.5vw,5.25rem);font-weight:700;line-height:1.1;margin-bottom:1.5rem;color:var(--espresso)}
+.hero h1 em{font-style:italic;color:var(--gold);font-weight:400}
+.hero p{font-size:1.15rem;color:var(--text-muted);max-width:620px;margin:0 auto 2.5rem;font-weight:300}
+.hero-cta{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:var(--gold);color:#fff;padding:0.9rem 2.2rem;border-radius:999px;font-weight:600;text-decoration:none;transition:all 0.2s;box-shadow:0 8px 20px -4px rgba(197,155,39,0.35)}
+.btn-gold:hover{background:#b0881e;transform:translateY(-2px)}
+.btn-outline{background:transparent;border:1px solid var(--warm-brown);color:var(--warm-brown);padding:0.9rem 2.2rem;border-radius:999px;font-weight:600;text-decoration:none;transition:background 0.2s}
+.btn-outline:hover{background:#f3e8db}
+
+.section{padding:5rem 6%;max-width:1200px;margin:0 auto}
+.sec-header{text-align:center;max-width:600px;margin:0 auto 3.5rem}
+.sec-tag{color:var(--gold);font-size:0.8rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:0.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--espresso)}
+
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.menu-card{background:var(--card-bg);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s}
+.menu-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(41,24,17,0.06)}
+.menu-img{height:200px;background:linear-gradient(135deg,#eed8c5,#e0c3a8);display:flex;align-items:center;justify-content:center;font-size:4rem}
+.menu-body{padding:1.75rem}
+.menu-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;margin-bottom:0.4rem;display:flex;justify-content:space-between;align-items:baseline}
+.menu-price{font-family:'Plus Jakarta Sans',sans-serif;color:var(--gold);font-size:1.15rem;font-weight:700}
+.menu-desc{color:var(--text-muted);font-size:0.875rem;line-height:1.6}
+
+.story-box{background:#f5ecdf;border-radius:24px;border:1px solid var(--border);padding:4rem 3rem;margin:4rem auto;max-width:1100px;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center}
+@media(max-width:850px){.story-box{grid-template-columns:1fr}}
+.story-text h3{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--espresso);margin-bottom:1.25rem;line-height:1.2}
+.story-text p{color:var(--text-muted);font-size:0.95rem;line-height:1.8;margin-bottom:1.5rem}
+.story-badge{display:flex;gap:2rem}
+.sb-item div:first-child{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--gold)}
+.sb-item div:last-child{font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em}
+
+footer{padding:3.5rem 6%;border-top:1px solid var(--border);text-align:center;color:var(--text-muted);font-size:0.85rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">🥐 Le Petit <span>Artisan</span></div>
+  <ul class="nav-links">
+    <li><a href="#menu">Daily Bakes</a></li>
+    <li><a href="#story">Our Sourdough Legacy</a></li>
+    <li><a href="#order">Pre-Order Box</a></li>
+  </ul>
+  <button class="nav-btn">Order Online</button>
+</nav>
+
+<section class="hero">
+  <div class="badge">✦ Handcrafted in Small Batches Everyday ✦</div>
+  <h1>Baked with <em>Slow Fermentation</em> & Pure Passion</h1>
+  <p>Wild yeast cultures nurtured since 1984, organic stoneground grain from small French mills, and butter straight from Normandy pastures.</p>
+  <div class="hero-cta">
+    <a href="#menu" class="btn-gold">View Today’s Batch</a>
+    <a href="#story" class="btn-outline">The Sourdough Craft</a>
+  </div>
+</section>
+
+<section class="section" id="menu">
+  <div class="sec-header">
+    <span class="sec-tag">Fresh From The Hearth</span>
+    <h2 class="sec-title">Signature Pastries & Breads</h2>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-img">🥖</div>
+      <div class="menu-body">
+        <div class="menu-title">Country Levain Boule <span class="menu-price">€6.50</span></div>
+        <p class="menu-desc">48-hour cold fermented sourdough with a dark caramelized blistering crust and an open, airy, tender crumb.</p>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-img">🥐</div>
+      <div class="menu-body">
+        <div class="menu-title">AOP Butter Croissant <span class="menu-price">€3.80</span></div>
+        <p class="menu-desc">Layered with Charentes-Poitou AOP butter. 27 delicate folds resulting in honeycomb interior perfection.</p>
+      </div>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-img">🥧</div>
+      <div class="menu-body">
+        <div class="menu-title">Valrhona Pain au Chocolat <span class="menu-price">€4.20</span></div>
+        <p class="menu-desc">Double batons of 70% dark Valrhona Guanaja single-origin chocolate encased in laminated golden viennoiserie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="story-box" id="story">
+  <div class="story-text">
+    <h3>Forty Years of Untamed Wild Levain</h3>
+    <p>Our mother starter was begun four decades ago in the countryside outside Lyon. Fed every dawn with organic stone-milled spelt and filtered spring water, it imparts a fragrant lactic sweetness that no commercial yeast could ever replicate.</p>
+    <div class="story-badge">
+      <div class="sb-item"><div>48h</div><div>Fermentation</div></div>
+      <div class="sb-item"><div>100%</div><div>Organic Mills</div></div>
+      <div class="sb-item"><div>Zero</div><div>Additives</div></div>
+    </div>
+  </div>
+  <div style="background:#eed8c5;border-radius:16px;height:320px;display:flex;align-items:center;justify-content:center;font-size:5rem">
+    🌾
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Le Petit Artisan Bakery. Handcrafted with reverence for tradition.</p>
+</footer>
+</body>
+</html>

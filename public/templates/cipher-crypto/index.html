@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cipher — DeFi Trading Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #000;
+      --bg2: #060a06;
+      --bg3: #0a100a;
+      --surface: #0d140d;
+      --border: rgba(0,255,136,.1);
+      --border2: rgba(0,255,136,.25);
+      --green: #00ff88;
+      --green-dim: #00cc6a;
+      --green-glow: rgba(0,255,136,.2);
+      --red: #ff4466;
+      --text: #e8f5ee;
+      --muted: #5a7a6a;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+    /* TICKER */
+    .ticker-bar {
+      background: var(--bg3); border-bottom: 1px solid var(--border);
+      padding: .4rem 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-track { display: inline-flex; gap: 3rem; animation: ticker 28s linear infinite; }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ticker-item { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--mono); font-size: .78rem; }
+    .ticker-sym { color: var(--green); font-weight: 700; }
+    .ticker-price { color: var(--text); }
+    .ticker-change.up { color: var(--green); }
+    .ticker-change.dn { color: var(--red); }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 66px;
+      background: rgba(0,0,0,.92); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono); font-weight: 700; font-size: 1.3rem;
+      color: var(--green); letter-spacing: -.02em;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--green); }
+    .nav-actions { display: flex; gap: .8rem; }
+    .btn-outline {
+      padding: .5rem 1.1rem; border-radius: 8px; font-size: .85rem; font-weight: 600;
+      border: 1px solid var(--border2); background: transparent; color: var(--green);
+      cursor: pointer; transition: background .2s, box-shadow .2s; font-family: 'Space Grotesk', sans-serif;
+    }
+    .btn-outline:hover { background: var(--green-glow); box-shadow: 0 0 20px var(--green-glow); }
+    .btn-green {
+      padding: .5rem 1.2rem; border-radius: 8px; font-size: .85rem; font-weight: 700;
+      border: none; background: var(--green); color: #000;
+      cursor: pointer; transition: box-shadow .2s, transform .2s; font-family: 'Space Grotesk', sans-serif;
+    }
+    .btn-green:hover { box-shadow: 0 0 25px var(--green-glow); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 92vh; padding: 80px 5% 60px;
+      display: flex; align-items: center; justify-content: space-between; gap: 4rem;
+      background: radial-gradient(ellipse 60% 70% at 55% 50%, rgba(0,255,136,.06) 0%, transparent 70%);
+      position: relative;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(0,255,136,0.04)' stroke-width='1'%3E%3Cpath d='M0 30h60M30 0v60'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-left { max-width: 580px; position: relative; z-index: 1; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: .75rem; color: var(--green);
+      border: 1px solid var(--border2); padding: .3rem .9rem; border-radius: 6px;
+      margin-bottom: 1.5rem; background: rgba(0,255,136,.05);
+    }
+    h1 {
+      font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 800;
+      line-height: 1.05; letter-spacing: -.03em; margin-bottom: 1.2rem;
+    }
+    h1 .green { color: var(--green); text-shadow: 0 0 40px rgba(0,255,136,.4); }
+    .hero-sub { color: var(--muted); font-size: 1.05rem; max-width: 430px; line-height: 1.7; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .hero-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .metric-cell { background: var(--bg3); padding: 1rem 1.2rem; }
+    .metric-val { font-family: var(--mono); font-size: 1.4rem; font-weight: 700; color: var(--green); }
+    .metric-lbl { font-size: .75rem; color: var(--muted); margin-top: .25rem; }
+
+    /* TRADE WIDGET */
+    .trade-widget {
+      flex: 0 0 400px; max-width: 400px; position: relative; z-index: 1;
+      background: var(--surface); border: 1px solid var(--border2); border-radius: 16px;
+      padding: 1.8rem; box-shadow: 0 0 60px rgba(0,255,136,.07);
+    }
+    .tw-tabs { display: flex; gap: .3rem; margin-bottom: 1.5rem; background: var(--bg3); padding: .3rem; border-radius: 10px; }
+    .tw-tab {
+      flex: 1; padding: .5rem; text-align: center; border-radius: 7px;
+      font-size: .85rem; font-weight: 600; cursor: pointer; border: none;
+      background: transparent; color: var(--muted); transition: all .2s;
+    }
+    .tw-tab.active { background: var(--green); color: #000; }
+    .tw-tab.sell { color: var(--muted); }
+    .tw-tab.sell.active { background: var(--red); color: #fff; }
+    .tw-row { margin-bottom: 1rem; }
+    .tw-label { font-size: .75rem; color: var(--muted); margin-bottom: .4rem; font-family: var(--mono); }
+    .tw-input-wrap { position: relative; }
+    .tw-input {
+      width: 100%; padding: .75rem 3.5rem .75rem 1rem;
+      background: var(--bg3); border: 1px solid var(--border2); border-radius: 9px;
+      color: var(--green); font-family: var(--mono); font-size: 1rem; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .tw-input:focus { border-color: var(--green); box-shadow: 0 0 15px var(--green-glow); }
+    .tw-currency {
+      position: absolute; right: .8rem; top: 50%; transform: translateY(-50%);
+      font-size: .75rem; font-weight: 700; color: var(--green); font-family: var(--mono);
+    }
+    .tw-pair-select {
+      display: flex; gap: .4rem; margin-bottom: 1.2rem;
+    }
+    .pair-btn {
+      padding: .35rem .7rem; border-radius: 6px; font-size: .75rem; font-weight: 700;
+      border: 1px solid var(--border); background: var(--bg3); color: var(--muted);
+      cursor: pointer; transition: all .2s; font-family: var(--mono);
+    }
+    .pair-btn.active, .pair-btn:hover { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+    .tw-price-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: .8rem; color: var(--muted); margin-bottom: .5rem; }
+    .tw-price-row span:last-child { color: var(--green); }
+    .trade-btn {
+      width: 100%; padding: .9rem; border-radius: 10px; border: none;
+      background: var(--green); color: #000; font-weight: 800; font-size: 1rem;
+      cursor: pointer; margin-top: .5rem; transition: box-shadow .2s, transform .2s;
+      font-family: 'Space Grotesk', sans-serif; letter-spacing: .02em;
+    }
+    .trade-btn:hover { box-shadow: 0 0 30px rgba(0,255,136,.4); transform: translateY(-2px); }
+
+    /* PORTFOLIO STATS */
+    .stats-section { background: var(--bg2); padding: 80px 5%; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-top: 3rem; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .stat-card:hover { border-color: var(--border2); box-shadow: 0 0 30px rgba(0,255,136,.08); }
+    .stat-card-label { font-size: .75rem; color: var(--muted); font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .8rem; }
+    .stat-card-val { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--green); margin-bottom: .3rem; }
+    .stat-card-sub { font-size: .78rem; color: var(--muted); }
+    .stat-card-sub .up { color: var(--green); }
+    .stat-card-sub .dn { color: var(--red); }
+
+    /* FEATURES */
+    .features { padding: 100px 5%; }
+    .feat-header { text-align: center; margin-bottom: 4rem; }
+    .section-label { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .12em; color: var(--green); margin-bottom: .8rem; }
+    .section-title { font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 800; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); max-width: 480px; margin: 0 auto; }
+    .feat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .feat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 2rem; position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .feat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .feat-card:hover { border-color: var(--border2); transform: translateY(-4px); }
+    .feat-card:hover::before { opacity: 1; }
+    .feat-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+    .feat-title { font-size: 1.1rem; font-weight: 700; margin-bottom: .6rem; }
+    .feat-desc { color: var(--muted); font-size: .88rem; line-height: 1.7; }
+
+    /* TOKENOMICS */
+    .tokenomics { background: var(--bg2); padding: 100px 5%; }
+    .token-layout { display: flex; align-items: center; gap: 5rem; flex-wrap: wrap; }
+    .token-left { flex: 1 1 360px; }
+    .token-chart { flex: 0 0 280px; max-width: 280px; position: relative; }
+    .token-donut {
+      width: 260px; height: 260px; border-radius: 50%;
+      background: conic-gradient(
+        var(--green) 0deg 126deg,
+        rgba(0,200,100,.5) 126deg 198deg,
+        rgba(0,150,80,.4) 198deg 252deg,
+        rgba(0,100,60,.3) 252deg 306deg,
+        rgba(0,50,30,.4) 306deg 360deg
+      );
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .token-donut-inner {
+      width: 160px; height: 160px; border-radius: 50%;
+      background: var(--bg2); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .token-donut-val { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--green); }
+    .token-donut-lbl { font-size: .72rem; color: var(--muted); }
+    .token-legend { margin-top: 2rem; display: flex; flex-direction: column; gap: .7rem; }
+    .token-item { display: flex; align-items: center; gap: 1rem; }
+    .token-dot { width: 12px; height: 12px; border-radius: 3px; }
+    .token-name { font-size: .85rem; flex: 1; }
+    .token-pct { font-family: var(--mono); font-size: .85rem; color: var(--green); }
+
+    /* CTA */
+    .cta-section {
+      padding: 100px 5%; text-align: center;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,255,136,.06) 0%, transparent 70%);
+    }
+    .cta-title { font-size: clamp(2rem,4vw,3.5rem); font-weight: 800; margin-bottom: 1rem; }
+    .cta-sub { color: var(--muted); max-width: 440px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 60px 5% 30px; font-family: 'Space Grotesk', sans-serif;
+    }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin-top: 1rem; max-width: 240px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .footer-col ul a { color: var(--muted); text-decoration: none; font-size: .83rem; transition: color .2s; }
+    .footer-col ul a:hover { color: var(--green); }
+    .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .footer-bottom p { color: var(--muted); font-size: .78rem; }
+
+    @media(max-width:900px){
+      .hero { flex-direction: column; }
+      .trade-widget { flex: unset; max-width: 100%; width: 100%; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .token-layout { flex-direction: column; }
+    }
+    @media(max-width:600px){
+      nav .nav-links { display: none; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CIPHER<span>.fi</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Trade</a></li>
+    <li><a href="#">Markets</a></li>
+    <li><a href="#">DeFi</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Learn</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-outline">Log In</button>
+    <button class="btn-green">Launch App</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">⚡ Now live — Cipher V3 Protocol</div>
+    <h1>Trade the Future.<br/>Own the <span class="green">Chain.</span></h1>
+    <p class="hero-sub">The most powerful DeFi trading platform. Sub-second execution, institutional liquidity, and real-time analytics — in one seamless interface.</p>
+    <div class="hero-cta">
+      <button class="btn-green" style="font-size:1rem;padding:.85rem 2rem">Start Trading Free</button>
+      <button class="btn-outline" style="font-size:1rem;padding:.85rem 2rem">Explore DeFi</button>
+    </div>
+    <div class="hero-metrics">
+      <div class="metric-cell">
+        <div class="metric-val">$48B+</div>
+        <div class="metric-lbl">Total Volume Traded</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-val">2.1M</div>
+        <div class="metric-lbl">Active Traders</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-val">99.99%</div>
+        <div class="metric-lbl">Uptime SLA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRADE WIDGET -->
+  <div class="trade-widget">
+    <div class="tw-tabs">
+      <button class="tw-tab active">Buy</button>
+      <button class="tw-tab sell">Sell</button>
+      <button class="tw-tab">Swap</button>
+    </div>
+    <div class="tw-pair-select">
+      <button class="pair-btn active">BTC/USDT</button>
+      <button class="pair-btn">ETH/USDT</button>
+      <button class="pair-btn">SOL/USDT</button>
+    </div>
+    <div class="tw-price-row">
+      <span>Market Price</span><span>$68,420.50</span>
+    </div>
+    <div class="tw-row">
+      <div class="tw-label">// AMOUNT</div>
+      <div class="tw-input-wrap">
+        <input class="tw-input" type="text" value="0.05" />
+        <span class="tw-currency">BTC</span>
+      </div>
+    </div>
+    <div class="tw-row">
+      <div class="tw-label">// TOTAL</div>
+      <div class="tw-input-wrap">
+        <input class="tw-input" type="text" value="3,421.03" />
+        <span class="tw-currency">USDT</span>
+      </div>
+    </div>
+    <div class="tw-price-row">
+      <span>Trading Fee (0.05%)</span><span>$1.71</span>
+    </div>
+    <div class="tw-price-row">
+      <span>Estimated Total</span><span style="color:var(--green);font-weight:700">$3,422.74</span>
+    </div>
+    <button class="trade-btn">⚡ Buy BTC Instantly</button>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="section-label">Live Portfolio</div>
+  <div class="section-title">Market Overview</div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-label">// BTC/USDT</div>
+      <div class="stat-card-val">$68,420</div>
+      <div class="stat-card-sub"><span class="up">▲ +2.34%</span> last 24h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">// ETH/USDT</div>
+      <div class="stat-card-val">$3,812</div>
+      <div class="stat-card-sub"><span class="up">▲ +1.87%</span> last 24h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">// SOL/USDT</div>
+      <div class="stat-card-val">$184.60</div>
+      <div class="stat-card-sub"><span class="dn">▼ -0.41%</span> last 24h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">// MATIC/USDT</div>
+      <div class="stat-card-val">$0.9821</div>
+      <div class="stat-card-sub"><span class="up">▲ +4.12%</span> last 24h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">// Total Market Cap</div>
+      <div class="stat-card-val">$2.46T</div>
+      <div class="stat-card-sub"><span class="up">▲ +1.2%</span> last 24h</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-label">// BTC Dominance</div>
+      <div class="stat-card-val">52.4%</div>
+      <div class="stat-card-sub"><span class="dn">▼ -0.3%</span> last 24h</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="feat-header">
+    <div class="section-label">Why Cipher</div>
+    <div class="section-title">Built for Serious Traders</div>
+    <p class="section-sub">Everything you need to trade, earn, and build wealth in the decentralized economy.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🔐</div>
+      <div class="feat-title">Military-Grade Security</div>
+      <div class="feat-desc">Multi-sig cold storage, hardware security modules, and real-time threat monitoring protect every transaction.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Sub-Second Execution</div>
+      <div class="feat-desc">Our custom matching engine processes 1.2 million orders per second. No lag, no slippage, no excuses.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌐</div>
+      <div class="feat-title">True DeFi Access</div>
+      <div class="feat-desc">Trade directly from your wallet on Ethereum, Solana, Polygon, and 12 other chains — no wrapping, no bridges.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">Professional Analytics</div>
+      <div class="feat-desc">Advanced charting, on-chain analytics, sentiment indicators, and whale tracking — all in one dashboard.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💰</div>
+      <div class="feat-title">Earn While You Hold</div>
+      <div class="feat-desc">Provide liquidity and earn up to 18.5% APY on blue-chip assets with our audited DeFi yield vaults.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-title">Algorithmic Trading</div>
+      <div class="feat-desc">Connect your strategy via REST or WebSocket API. Build, backtest, and deploy bots without server infrastructure.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section class="tokenomics">
+  <div class="token-layout">
+    <div class="token-left">
+      <div class="section-label">Tokenomics</div>
+      <div class="section-title">CIPH Token<br/>Distribution</div>
+      <p style="color:var(--muted);margin:1rem 0 2rem;line-height:1.7">CIPH powers governance, fee discounts, and platform rewards. Total supply: 100,000,000 CIPH — no inflation, no surprises.</p>
+      <div class="token-legend">
+        <div class="token-item"><div class="token-dot" style="background:var(--green)"></div><span class="token-name">Community & Ecosystem</span><span class="token-pct">35%</span></div>
+        <div class="token-item"><div class="token-dot" style="background:rgba(0,200,100,.5)"></div><span class="token-name">Treasury & Development</span><span class="token-pct">20%</span></div>
+        <div class="token-item"><div class="token-dot" style="background:rgba(0,150,80,.4)"></div><span class="token-name">Team & Advisors</span><span class="token-pct">15%</span></div>
+        <div class="token-item"><div class="token-dot" style="background:rgba(0,100,60,.3)"></div><span class="token-name">Early Investors</span><span class="token-pct">15%</span></div>
+        <div class="token-item"><div class="token-dot" style="background:rgba(0,50,30,.4)"></div><span class="token-name">Liquidity & Exchange</span><span class="token-pct">15%</span></div>
+      </div>
+    </div>
+    <div class="token-chart">
+      <div class="token-donut">
+        <div class="token-donut-inner">
+          <div class="token-donut-val">100M</div>
+          <div class="token-donut-lbl">Total CIPH</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-label">Get Started</div>
+  <div class="cta-title">Trade Smarter.<br/>Earn More. <span style="color:var(--green)">Now.</span></div>
+  <p class="cta-sub">Join 2.1 million traders on the most advanced DeFi platform in the world. No KYC required for spot trading.</p>
+  <div class="cta-btns">
+    <button class="btn-green" style="font-size:1rem;padding:.9rem 2.2rem">Create Free Account</button>
+    <button class="btn-outline" style="font-size:1rem;padding:.9rem 2.2rem">Read the Docs</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo">CIPHER<span style="color:var(--muted)">.fi</span></div>
+      <p>The most powerful decentralized trading platform. Built for the next generation of finance.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#">Spot Trading</a></li>
+        <li><a href="#">DeFi Vaults</a></li>
+        <li><a href="#">NFT Market</a></li>
+        <li><a href="#">API Access</a></li>
+        <li><a href="#">Mobile App</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Whitepaper</a></li>
+        <li><a href="#">Security Audit</a></li>
+        <li><a href="#">Bug Bounty</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Cipher Finance Ltd. Not financial advice. Crypto assets are high-risk investments.</p>
+    <p style="font-family:var(--mono);font-size:.72rem;color:var(--green)">// contract: 0x4a8b...f29c verified ✓</p>
+  </div>
+</footer>
+
+<script>
+  const coins = [
+    {sym:'BTC', price:'68,420.50', chg:'+2.34%', up:true},
+    {sym:'ETH', price:'3,812.30', chg:'+1.87%', up:true},
+    {sym:'SOL', price:'184.60', chg:'-0.41%', up:false},
+    {sym:'BNB', price:'412.80', chg:'+0.92%', up:true},
+    {sym:'MATIC', price:'0.9821', chg:'+4.12%', up:true},
+    {sym:'AVAX', price:'38.14', chg:'-1.23%', up:false},
+    {sym:'LINK', price:'18.72', chg:'+2.80%', up:true},
+    {sym:'ARB', price:'1.24', chg:'+5.41%', up:true},
+    {sym:'OP', price:'2.18', chg:'-0.67%', up:false},
+    {sym:'CIPH', price:'4.82', chg:'+12.3%', up:true},
+  ];
+  const track = document.getElementById('ticker');
+  // duplicate for seamless loop
+  [coins, coins].forEach(arr => arr.forEach(c => {
+    const el = document.createElement('span');
+    el.className = 'ticker-item';
+    el.innerHTML = `<span class="ticker-sym">${c.sym}</span><span class="ticker-price">$${c.price}</span><span class="ticker-change ${c.up?'up':'dn'}">${c.chg}</span>`;
+    track.appendChild(el);
+  }));
+
+  // Tab switching
+  document.querySelectorAll('.tw-tab').forEach(tab => {
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tw-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.pair-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.pair-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

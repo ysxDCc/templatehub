@@ -60,9 +60,22 @@ export default function TemplateCard({ template }: TemplateCardProps) {
               <span>•</span>
               <span>{template.downloads.toLocaleString()} downloads</span>
             </div>
-            <span className="text-zinc-400 group-hover:text-white font-medium transition-colors">
-              Preview →
-            </span>
+            <div className="flex items-center gap-2">
+              {template.accessibilityScore && (
+                <span className={`px-1.5 py-0.5 text-[9px] font-bold tracking-wide rounded border ${
+                  template.accessibilityScore === 'AAA'
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                    : template.accessibilityScore === 'AA'
+                    ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                    : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                }`}>
+                  WCAG {template.accessibilityScore}
+                </span>
+              )}
+              <span className="text-zinc-400 group-hover:text-white font-medium transition-colors">
+                Preview →
+              </span>
+            </div>
           </div>
         </div>
       </div>

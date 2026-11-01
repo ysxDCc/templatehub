@@ -27,7 +27,7 @@ export default function TemplatesPage() {
       {/* Header with aesthetic glows */}
       <div className="relative text-center mb-16">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-semibold mb-4 backdrop-blur-md">
-          <span>Explore 14 Hand-Crafted Designs</span>
+          <span>Explore 24 Hand-Crafted Designs</span>
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4">
           Browse <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-violet-300 to-cyan-300">Template Library</span>
@@ -88,7 +88,7 @@ export default function TemplatesPage() {
             }`}
           >
             <span>🎨</span>
-            <span>All Templates (14)</span>
+            <span>All Templates (24)</span>
           </button>
           {categories.filter(c => c.id !== 'all').map(category => {
             const isSelected = activeCategory === category.id;

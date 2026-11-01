@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { templates } from '@/data/templates';
+import DownloadButton from '@/components/DownloadButton';
 
 export default async function TemplateDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -177,22 +178,7 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                   <span>Customize in No-Code Editor</span>
                 </Link>
 
-                {template.livePreviewUrl !== '#' ? (
-                  <a
-                    href={template.livePreviewUrl}
-                    download
-                    className="w-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    <span>Download standalone code</span>
-                  </a>
-                ) : (
-                  <button className="w-full bg-zinc-800 text-zinc-400 font-medium py-2.5 px-4 rounded-lg text-xs cursor-not-allowed">
-                    Release in progress
-                  </button>
-                )}
+                <DownloadButton template={template} />
 
                 {template.livePreviewUrl !== '#' && (
                   <a

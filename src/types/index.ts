@@ -12,6 +12,7 @@ export interface Template {
   createdAt: string;
   downloads: number;
   rating: number;
+  accessibilityScore?: string;
 }
 
 export type TemplateCategory = 
@@ -26,7 +27,17 @@ export type TemplateCategory =
   | 'real-estate'
   | 'agency'
   | 'ai'
-  | 'beauty';
+  | 'beauty'
+  | 'podcast'
+  | 'crypto'
+  | 'travel'
+  | 'photography'
+  | 'gaming'
+  | 'healthcare'
+  | 'education'
+  | 'green'
+  | 'food'
+  | 'fintech';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 

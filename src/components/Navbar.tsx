@@ -31,6 +31,15 @@ export default function Navbar() {
                 Templates
               </Link>
               <Link 
+                href="/ai-generator" 
+                className="text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+              >
+                <span>AI Generator</span>
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">
+                  New
+                </span>
+              </Link>
+              <Link 
                 href="/builder" 
                 className="text-white hover:text-zinc-200 transition-colors font-medium flex items-center gap-1.5"
               >
@@ -91,6 +100,9 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-[#09090b] border-b border-white/[0.08] px-4 pt-3 pb-5 space-y-3">
           <Link href="/templates" className="block text-sm text-zinc-300 hover:text-white py-1">Templates</Link>
+          <Link href="/ai-generator" className="block text-sm text-zinc-300 hover:text-white py-1 flex items-center gap-1.5">
+            AI Generator <span className="px-1.5 rounded-full text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold">New</span>
+          </Link>
           <Link href="/builder" className="block text-sm text-zinc-300 hover:text-white py-1">Visual Customizer</Link>
           <Link href="/#pricing" className="block text-sm text-zinc-300 hover:text-white py-1">Pricing</Link>
           <Link href="/#license" className="block text-sm text-zinc-300 hover:text-white py-1">Licensing</Link>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Fintech — Institutional Banking Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07090e;
+  --surface:#0e131f;
+  --border:rgba(255,255,255,0.08);
+  --gold:#f59e0b;
+  --gold-glow:rgba(245,158,11,0.15);
+  --emerald:#10b981;
+  --text:#f8fafc;
+  --text-muted:#94a3b8;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;padding:1.2rem 6%;display:flex;justify-content:space-between;align-items:center;background:rgba(7,9,14,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);z-index:1000}
+.logo{font-size:1.4rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:0.5rem;letter-spacing:-0.02em}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.875rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:#fff}
+.nav-btn{background:var(--gold);color:#07090e;border:none;padding:0.6rem 1.4rem;border-radius:6px;font-size:0.875rem;font-weight:700;cursor:pointer;transition:all 0.2s}
+.nav-btn:hover{background:#fbbf24;box-shadow:0 0 20px rgba(245,158,11,0.4)}
+
+.hero{min-height:92vh;display:flex;align-items:center;justify-content:center;padding:7.5rem 6% 4rem;position:relative;background:radial-gradient(ellipse at 50% 0%,var(--gold-glow) 0%,transparent 60%)}
+.hero-content{max-width:920px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.4rem 1rem;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:999px;color:var(--gold);font-size:0.8rem;font-weight:600;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.75rem,5.75vw,4.75rem);font-weight:800;line-height:1.15;letter-spacing:-0.03em;margin-bottom:1.5rem}
+.hero h1 span{background:linear-gradient(135deg,#fff 30%,var(--gold) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.15rem;color:var(--text-muted);max-width:680px;margin:0 auto 2.5rem}
+.hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#07090e;padding:0.9rem 2.2rem;border-radius:6px;font-weight:700;text-decoration:none;transition:all 0.2s}
+.btn-primary:hover{background:#fbbf24;transform:translateY(-2px);box-shadow:0 8px 25px -4px rgba(245,158,11,0.5)}
+.btn-secondary{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:#fff;padding:0.9rem 2.2rem;border-radius:6px;font-weight:600;text-decoration:none;transition:background 0.2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.1)}
+
+.terminal{background:#04060a;border:1px solid var(--border);border-radius:14px;max-width:900px;margin:3.5rem auto 0;overflow:hidden;box-shadow:0 25px 50px -12px rgba(0,0,0,0.8)}
+.term-bar{background:#0e131f;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--border)}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot-red{background:#ef4444}.dot-yellow{background:#f59e0b}.dot-green{background:#10b981}
+.term-title{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);margin-left:0.5rem}
+.term-body{padding:1.5rem;font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:#cbd5e1;text-align:left;line-height:1.7}
+.term-green{color:var(--emerald)}
+.term-gold{color:var(--gold)}
+
+.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1100px;margin:5rem auto 0;padding:2rem;background:var(--surface);border:1px solid var(--border);border-radius:14px}
+.metric-box{text-align:center}
+.metric-num{font-size:2.5rem;font-weight:800;color:#fff;letter-spacing:-0.02em}
+.metric-num span{color:var(--gold)}
+.metric-lbl{font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem}
+
+.section{padding:5rem 6%;max-width:1200px;margin:0 auto}
+.sec-header{text-align:center;max-width:640px;margin:0 auto 3.5rem}
+.sec-tag{color:var(--gold);font-size:0.8rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;display:block}
+.sec-title{font-size:2.4rem;font-weight:800;letter-spacing:-0.02em}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2.25rem;transition:all 0.2s}
+.feat-card:hover{border-color:rgba(245,158,11,0.3);transform:translateY(-4px)}
+.feat-icon{font-size:2rem;margin-bottom:1.25rem}
+.feat-title{font-size:1.25rem;font-weight:700;margin-bottom:0.5rem}
+.feat-desc{color:var(--text-muted);font-size:0.9rem;line-height:1.7}
+
+.compliance{background:#0e131f;border:1px solid var(--border);border-radius:16px;padding:3rem;text-align:center;margin:4rem auto;max-width:1100px}
+.comp-badges{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;margin-top:2rem}
+.badge-item{font-family:'JetBrains Mono',monospace;font-size:0.9rem;font-weight:600;padding:0.75rem 1.5rem;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;color:#e2e8f0}
+
+footer{padding:3.5rem 6%;border-top:1px solid var(--border);text-align:center;color:var(--text-muted);font-size:0.85rem}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">⚡ QUANTUM <span>FINTECH</span></div>
+  <ul class="nav-links">
+    <li><a href="#core">Ledger Core</a></li>
+    <li><a href="#compliance">Certifications</a></li>
+    <li><a href="#docs">API Specs</a></li>
+  </ul>
+  <button class="nav-btn">Request Sandbox Key</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge">🛡️ Bank-Grade Distributed Core Banking Engine</div>
+    <h1>Institutional Financial Rail for <span>Global Transactions</span></h1>
+    <p>Sub-millisecond clearing, multi-currency ledger routing, and deterministic settlement trusted by tier-1 neo-banks and asset managers.</p>
+    <div class="hero-cta">
+      <a href="#core" class="btn-primary">View Technical Architecture</a>
+      <a href="#docs" class="btn-secondary">Explore API Reference</a>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <div class="term-title">quantum-telemetry-cluster://node-eu-west-1</div>
+      </div>
+      <div class="term-body">
+        <div><span class="term-gold">$</span> quantum ledger:stream --channel=swift_iso20022 --env=production</div>
+        <div>[2026-11-01T20:04:12Z] <span class="term-green">✔ Connected to 42 Tier-1 Central Banks</span></div>
+        <div>[2026-11-01T20:04:12Z] Engine State: DETERMINISTIC_RAFT_QUORUM (5/5 replicas healthy)</div>
+        <div>[2026-11-01T20:04:13Z] Throughput: <span class="term-gold">482,900 tx/sec</span> | p99 Latency: <span class="term-green">0.42ms</span></div>
+        <div>[2026-11-01T20:04:13Z] Zero failed reconciliations across 14,200,000 ledger postings.</div>
+      </div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric-box"><div class="metric-num">$140B<span>+</span></div><div class="metric-lbl">Annualized Volume</div></div>
+      <div class="metric-box"><div class="metric-num">&lt;0.5<span>ms</span></div><div class="metric-lbl">p99 Settlement Latency</div></div>
+      <div class="metric-box"><div class="metric-num">99.999<span>%</span></div><div class="metric-lbl">Verified SLA Uptime</div></div>
+      <div class="metric-box"><div class="metric-num">64</div><div class="metric-lbl">Sovereign Currencies</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="core">
+  <div class="sec-header">
+    <span class="sec-tag">Enterprise Core</span>
+    <h2 class="sec-title">Engineered for Zero Failure Tolerance</h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <h3 class="feat-title">Immutable Double-Entry Ledger</h3>
+      <p class="feat-desc">Every account mutation is strictly audited, cryptographically sealed via hash-chaining, and fully reversible through counter-transactions.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🌐</div>
+      <h3 class="feat-title">Real-Time ISO 20022 Interop</h3>
+      <p class="feat-desc">Native parsing and validation of pacs.008, pain.001, and camt.053 message topologies across SEPA, FedNow, and CHAPS.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <h3 class="feat-title">Hardware HSM Key Custody</h3>
+      <p class="feat-desc">FIPS 140-3 Level 4 hardware security module clustering ensuring end-to-end payload signature authorization.</p>
+    </div>
+  </div>
+</section>
+
+<div class="compliance" id="compliance">
+  <h3 style="font-size:1.75rem;font-weight:800">Audited to Highest Global Banking Standards</h3>
+  <p style="color:var(--text-muted);margin-top:0.5rem">Continuous compliance scans and physical isolation across all regions.</p>
+  <div class="comp-badges">
+    <div class="badge-item">🛡️ SOC2 Type II Certified</div>
+    <div class="badge-item">💳 PCI-DSS Level 1</div>
+    <div class="badge-item">🏛️ ISO 27001 Accredited</div>
+    <div class="badge-item">🇪🇺 GDPR & DORA Ready</div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Quantum Fintech Infrastructure Corp. Tier-1 Institutional Financial Technology.</p>
+</footer>
+</body>
+</html>

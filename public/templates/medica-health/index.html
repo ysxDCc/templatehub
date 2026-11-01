@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medica Health — Expert Care You Can Trust</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0a2540;--blue:#0066cc;--green:#00a86b;--light:#f4f7fc;--white:#fff;--text:#1a2332;--muted:#64748b;--border:#e2e8f0}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;padding:1rem 5%;display:flex;justify-content:space-between;align-items:center;background:var(--white);border-bottom:1px solid var(--border);box-shadow:0 1px 20px rgba(0,0,0,0.06)}
+.logo{display:flex;align-items:center;gap:0.6rem;font-weight:700;font-size:1.4rem;color:var(--navy)}
+.logo-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--green));border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--navy)}
+.nav-actions{display:flex;gap:0.8rem}
+.btn-nav{background:var(--blue);color:#fff;padding:0.6rem 1.3rem;border-radius:6px;border:none;font-size:0.82rem;font-weight:600;cursor:pointer;transition:opacity 0.2s}
+.btn-nav:hover{opacity:0.85}
+.btn-nav-outline{background:transparent;color:var(--navy);padding:0.6rem 1.3rem;border-radius:6px;border:1px solid var(--border);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-nav-outline:hover{border-color:var(--blue);color:var(--blue)}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0d3566 100%);padding:6rem 5% 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-5%;top:-20%;width:60%;height:140%;background:radial-gradient(ellipse,rgba(0,168,107,0.15) 0%,transparent 60%)}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr}}
+.hero-content{position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.9);font-size:0.75rem;padding:0.4rem 0.9rem;border-radius:20px;margin-bottom:1.5rem;font-weight:500}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 em{font-style:italic;color:#4ade80}
+.hero p{color:rgba(255,255,255,0.7);font-size:1rem;line-height:1.7;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-green{background:var(--green);color:#fff;padding:0.9rem 2rem;border-radius:8px;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;transition:opacity 0.2s}
+.btn-green:hover{opacity:0.85}
+.btn-white-outline{background:transparent;color:#fff;padding:0.9rem 2rem;border-radius:8px;border:1px solid rgba(255,255,255,0.35);font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-white-outline:hover{background:rgba(255,255,255,0.1)}
+.hero-card{background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:2rem;position:relative;z-index:2}
+.hero-card-title{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:1.5rem}
+.cert-row{display:flex;flex-direction:column;gap:1rem}
+.cert-item{display:flex;align-items:center;gap:0.8rem;background:rgba(255,255,255,0.08);border-radius:8px;padding:0.8rem}
+.cert-icon{font-size:1.3rem}
+.cert-name{color:#fff;font-size:0.85rem;font-weight:600}
+.cert-desc{color:rgba(255,255,255,0.55);font-size:0.75rem}
+/* SERVICES */
+.section{padding:5rem 5%}
+.section-center{text-align:center;max-width:580px;margin:0 auto 3rem}
+.section-center span{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue);font-weight:600}
+.section-center h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--navy);margin-top:0.5rem;line-height:1.2}
+.section-center p{color:var(--muted);margin-top:0.7rem;line-height:1.7;font-size:0.9rem}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.service-card{background:var(--light);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:all 0.3s;cursor:pointer}
+.service-card:hover{border-color:var(--blue);background:#fff;box-shadow:0 8px 32px rgba(0,102,204,0.1);transform:translateY(-4px)}
+.service-icon{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,rgba(0,102,204,0.1),rgba(0,168,107,0.1));display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.2rem}
+.service-card h3{font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:0.5rem}
+.service-card p{font-size:0.82rem;color:var(--muted);line-height:1.6}
+.service-badge{display:inline-block;margin-top:1rem;font-size:0.7rem;font-weight:600;color:var(--blue);letter-spacing:0.05em}
+/* DOCTORS */
+.doctors-section{padding:5rem 5%;background:var(--light)}
+.doctors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:3rem}
+.doctor-card{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow 0.3s}
+.doctor-card:hover{box-shadow:0 8px 32px rgba(0,0,0,0.1)}
+.doctor-photo{height:180px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;font-size:4rem}
+.doctor-info{padding:1.5rem}
+.doctor-dept{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:0.3rem}
+.doctor-name{font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:0.3rem}
+.doctor-title{font-size:0.8rem;color:var(--muted)}
+.doctor-rating{margin-top:0.8rem;font-size:0.78rem;color:var(--muted);display:flex;align-items:center;gap:0.3rem}
+.doctor-rating span{color:#f59e0b}
+/* APPOINTMENT */
+.appt-section{padding:5rem 5%;background:var(--navy)}
+.appt-inner{max-width:700px;margin:0 auto;text-align:center}
+.appt-inner h2{font-family:'DM Serif Display',serif;font-size:2.5rem;color:#fff;margin-bottom:0.8rem}
+.appt-inner p{color:rgba(255,255,255,0.6);margin-bottom:2.5rem}
+.appt-form{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;text-align:left}
+.appt-form input,.appt-form select{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:0.8rem 1rem;color:#fff;font-size:0.88rem;font-family:'DM Sans',sans-serif;transition:border-color 0.2s}
+.appt-form input::placeholder{color:rgba(255,255,255,0.4)}
+.appt-form input:focus,.appt-form select:focus{outline:none;border-color:var(--green)}
+.appt-form select option{background:var(--navy);color:#fff}
+.appt-submit{grid-column:1/-1;background:var(--green);color:#fff;border:none;padding:1rem;border-radius:8px;font-size:0.9rem;font-weight:700;cursor:pointer;transition:opacity 0.2s}
+.appt-submit:hover{opacity:0.85}
+/* TESTIMONIALS */
+.testimonials{padding:5rem 5%}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.test-card{background:var(--light);border-radius:12px;padding:2rem;border:1px solid var(--border)}
+.test-stars{color:#f59e0b;margin-bottom:1rem;font-size:1rem}
+.test-text{font-size:0.88rem;color:var(--text);line-height:1.7;font-style:italic;margin-bottom:1.2rem}
+.test-author{display:flex;align-items:center;gap:0.8rem}
+.test-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.test-name{font-weight:700;color:var(--navy);font-size:0.85rem}
+.test-info{font-size:0.75rem;color:var(--muted)}
+/* FAQ */
+.faq-section{padding:5rem 5%;background:var(--light)}
+.faq-list{max-width:700px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:1rem}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.5rem;cursor:pointer;transition:border-color 0.2s}
+.faq-item:hover{border-color:var(--blue)}
+.faq-q{font-weight:600;color:var(--navy);font-size:0.9rem;display:flex;justify-content:space-between;align-items:center}
+.faq-a{font-size:0.82rem;color:var(--muted);margin-top:0.8rem;line-height:1.7;display:none}
+.faq-item.open .faq-a{display:block}
+/* FOOTER */
+footer{background:var(--navy);padding:3rem 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+footer .f-logo{font-weight:700;font-size:1.3rem;color:#fff}
+footer p{font-size:0.78rem;color:rgba(255,255,255,0.5)}
+footer nav{background:none;border:none;padding:0;position:static;box-shadow:none;display:flex;gap:1.5rem}
+footer nav a{color:rgba(255,255,255,0.5);font-size:0.78rem;text-decoration:none;transition:color 0.2s}
+footer nav a:hover{color:#fff}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><div class="logo-icon">⚕</div> Medica</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#doctors">Our Doctors</a></li>
+    <li><a href="#appointment">Appointment</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-nav-outline">Patient Portal</button>
+    <button class="btn-nav">Book Now</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">✦ Accredited Excellence in Healthcare</div>
+      <h1>Expert Care,<br><em>Every Step</em><br>of the Way</h1>
+      <p>World-class specialists. Cutting-edge diagnostics. Patient-centered treatment plans built around your health goals, not just your symptoms.</p>
+      <div class="hero-actions">
+        <button class="btn-green">Book an Appointment</button>
+        <button class="btn-white-outline">Our Services</button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">Accreditations & Certifications</div>
+      <div class="cert-row">
+        <div class="cert-item"><div class="cert-icon">🏥</div><div><div class="cert-name">JCI Accredited</div><div class="cert-desc">Joint Commission International</div></div></div>
+        <div class="cert-item"><div class="cert-icon">⭐</div><div><div class="cert-name">ISO 9001:2015</div><div class="cert-desc">Quality Management Certified</div></div></div>
+        <div class="cert-item"><div class="cert-icon">🔬</div><div><div class="cert-name">CAP Accredited Laboratory</div><div class="cert-desc">College of American Pathologists</div></div></div>
+        <div class="cert-item"><div class="cert-icon">🛡️</div><div><div class="cert-name">HIPAA Compliant</div><div class="cert-desc">Patient Data Protection</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="section-center">
+    <span>Our Departments</span>
+    <h2>Comprehensive Medical Services</h2>
+    <p>From routine check-ups to complex procedures — all under one roof with world-class specialists.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-icon">❤️</div><h3>Cardiology</h3><p>Heart disease prevention, diagnosis, and treatment by board-certified cardiologists.</p><div class="service-badge">Book Consultation →</div></div>
+    <div class="service-card"><div class="service-icon">🧠</div><h3>Neurology</h3><p>Advanced neurological care including diagnostics, epilepsy management, and stroke care.</p><div class="service-badge">Book Consultation →</div></div>
+    <div class="service-card"><div class="service-icon">🦷</div><h3>Orthopaedics</h3><p>Joint replacement, sports injuries, and musculoskeletal disorder treatment.</p><div class="service-badge">Book Consultation →</div></div>
+    <div class="service-card"><div class="service-icon">👁️</div><h3>Ophthalmology</h3><p>Comprehensive eye exams, cataract surgery, and advanced vision correction.</p><div class="service-badge">Book Consultation →</div></div>
+    <div class="service-card"><div class="service-icon">🫁</div><h3>Pulmonology</h3><p>Lung function assessment, respiratory therapy, and chronic disease management.</p><div class="service-badge">Book Consultation →</div></div>
+    <div class="service-card"><div class="service-icon">🔬</div><h3>Oncology</h3><p>Multidisciplinary cancer care with state-of-the-art radiation and chemotherapy.</p><div class="service-badge">Book Consultation →</div></div>
+  </div>
+</section>
+
+<section class="doctors-section" id="doctors">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="section-center">
+      <span>Medical Team</span>
+      <h2>Meet Our Specialists</h2>
+    </div>
+    <div class="doctors-grid">
+      <div class="doctor-card"><div class="doctor-photo">👨‍⚕️</div><div class="doctor-info"><div class="doctor-dept">Cardiology</div><div class="doctor-name">Dr. James Patterson</div><div class="doctor-title">MD, FACC — 18 years experience</div><div class="doctor-rating"><span>★★★★★</span> 4.9 (312 reviews)</div></div></div>
+      <div class="doctor-card"><div class="doctor-photo">👩‍⚕️</div><div class="doctor-info"><div class="doctor-dept">Neurology</div><div class="doctor-name">Dr. Anika Sharma</div><div class="doctor-title">MD, PhD — 14 years experience</div><div class="doctor-rating"><span>★★★★★</span> 4.95 (248 reviews)</div></div></div>
+      <div class="doctor-card"><div class="doctor-photo">🧑‍⚕️</div><div class="doctor-info"><div class="doctor-dept">Orthopaedics</div><div class="doctor-name">Dr. Marcus Hoffmann</div><div class="doctor-title">MD, FRCS — 22 years experience</div><div class="doctor-rating"><span>★★★★★</span> 4.87 (419 reviews)</div></div></div>
+      <div class="doctor-card"><div class="doctor-photo">👩‍⚕️</div><div class="doctor-info"><div class="doctor-dept">Oncology</div><div class="doctor-name">Dr. Clara Reyes</div><div class="doctor-title">MD, FASCO — 16 years experience</div><div class="doctor-rating"><span>★★★★★</span> 4.98 (187 reviews)</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="appt-section" id="appointment">
+  <div class="appt-inner">
+    <h2>Book an Appointment</h2>
+    <p>Request a consultation with one of our specialists. We'll confirm within 2 hours.</p>
+    <div class="appt-form">
+      <input type="text" placeholder="First Name">
+      <input type="text" placeholder="Last Name">
+      <input type="email" placeholder="Email Address">
+      <input type="tel" placeholder="Phone Number">
+      <select><option>Select Department</option><option>Cardiology</option><option>Neurology</option><option>Orthopaedics</option><option>Ophthalmology</option><option>Oncology</option></select>
+      <input type="date">
+      <button class="appt-submit">Request Appointment →</button>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="section-center">
+      <span>Patient Stories</span>
+      <h2>Trusted by Thousands</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-text">"Dr. Patterson's team identified my heart condition early and the treatment plan was explained with genuine care. I feel completely confident in their hands."</p><div class="test-author"><div class="test-avatar">👨</div><div><div class="test-name">Robert Klein</div><div class="test-info">Cardiology Patient — Feb 2024</div></div></div></div>
+      <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-text">"After years of misdiagnosis elsewhere, Dr. Sharma finally found the root cause of my migraines. The whole team was thorough, empathetic, and brilliant."</p><div class="test-author"><div class="test-avatar">👩</div><div><div class="test-name">Laura Benton</div><div class="test-info">Neurology Patient — Apr 2024</div></div></div></div>
+      <div class="test-card"><div class="test-stars">★★★★★</div><p class="test-text">"My knee replacement with Dr. Hoffmann was seamless. The recovery support and physiotherapy integration was exceptional. Back to running at 62."</p><div class="test-author"><div class="test-avatar">🧑</div><div><div class="test-name">Georg Weber</div><div class="test-info">Orthopaedics Patient — Jan 2024</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section" id="faq">
+  <div class="section-center">
+    <span>FAQ</span>
+    <h2>Common Questions</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q">Do you accept international patients? <span>+</span></div><div class="faq-a">Yes. We have a dedicated International Patient Services team that assists with travel, accommodation, medical visa letters, and language interpretation in 24 languages.</div></div>
+    <div class="faq-item"><div class="faq-q">What insurance plans do you accept? <span>+</span></div><div class="faq-a">We are in-network with major insurance providers including Bupa, AXA, Allianz, and most national health insurance plans. Contact us to verify your specific coverage.</div></div>
+    <div class="faq-item"><div class="faq-q">How quickly can I get an appointment? <span>+</span></div><div class="faq-a">Routine consultations are typically available within 48 hours. Emergency same-day appointments are available — call our priority line or use the booking form.</div></div>
+    <div class="faq-item"><div class="faq-q">Are telemedicine consultations available? <span>+</span></div><div class="faq-a">Yes. Video consultations are available for follow-up appointments, second opinions, and non-emergency conditions through our secure patient portal.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">⚕ Medica Health</div>
+  <p>© 2024 Medica Health Group. All rights reserved.</p>
+  <nav>
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Careers</a>
+    <a href="#">Contact</a>
+  </nav>
+</footer>
+<script>
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.addEventListener('click', () => {
+    item.classList.toggle('open');
+    item.querySelector('.faq-q span').textContent = item.classList.contains('open') ? '−' : '+';
+  });
+});
+</script>
+</body>
+</html>
