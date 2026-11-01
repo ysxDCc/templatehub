@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONOLITH Atelier — Brutalist Architecture & Spatial Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0e11;
+      --concrete: #e4e4e7;
+      --charcoal: #18181b;
+      --raw-ochre: #d97706;
+      --border: rgba(255, 255, 255, 0.14);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    /* Architectural Blueprint Grid Background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 60px 60px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .wrapper { max-width: 1360px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+    
+    /* Top Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(14, 14, 17, 0.9);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-bar {
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .brand-ochre { color: var(--raw-ochre); }
+    .header-nav { display: flex; gap: 40px; list-style: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; }
+    .header-nav a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .header-nav a:hover { color: #fff; }
+    .btn-brutalist {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 12px 24px;
+      background: #ffffff;
+      color: #000000;
+      border: 1px solid #ffffff;
+      border-radius: 0px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-brutalist:hover {
+      background: transparent;
+      color: #ffffff;
+    }
+
+    /* Asymmetric Hero */
+    .hero {
+      padding: 100px 0 80px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: end;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--raw-ochre);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-num::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 6.5vw, 92px);
+      font-weight: 900;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: #ffffff;
+      margin-bottom: 30px;
+    }
+    .hero-right {
+      padding-bottom: 10px;
+    }
+    .hero-p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+    }
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* Interactive Blueprint Canvas Viewer */
+    .blueprint-section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 40px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .blueprint-toggle {
+      display: flex;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .toggle-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 8px 20px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .toggle-btn.active {
+      background: var(--concrete);
+      color: #000;
+      font-weight: 700;
+    }
+    .stage-container {
+      height: 480px;
+      border: 1px solid var(--border);
+      background: #141418;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .blueprint-render {
+      position: absolute;
+      inset: 40px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      padding: 30px;
+    }
+    .plan-box {
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+    }
+    .plan-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--raw-ochre);
+    }
+    .crosshair {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-left: 1px solid var(--raw-ochre);
+      border-top: 1px solid var(--raw-ochre);
+    }
+
+    /* Architectural Works Grid */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 36px;
+      padding: 80px 0;
+    }
+    .work-card {
+      border: 1px solid var(--border);
+      background: #111114;
+      padding: 36px;
+      transition: all 0.3s;
+    }
+    .work-card:hover {
+      border-color: #fff;
+      transform: translateY(-4px);
+    }
+    .work-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--raw-ochre);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .work-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .work-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .spec-table {
+      width: 100%;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .spec-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+    .spec-row span:last-child { color: #fff; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0;
+      background: #09090b;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrapper header-bar">
+      <a href="#" class="brand">MONOLITH<span class="brand-ochre">.</span>ATELIER</a>
+      <ul class="header-nav">
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#blueprints">Blueprints</a></li>
+        <li><a href="#materials">Materiality</a></li>
+        <li><a href="#monographs">Monographs</a></li>
+      </ul>
+      <button class="btn-brutalist" onclick="alert('Commission Portfolio Request Transmitted')">Commission Project</button>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <!-- Asymmetric Brutalist Hero -->
+    <section class="hero" id="overview">
+      <div>
+        <div class="hero-num">PROJECT TAXONOMY // REF: 2026-ARCH-IX</div>
+        <h1>Heavy Concrete. Unforgiving Geometry.</h1>
+      </div>
+      <div class="hero-right">
+        <p class="hero-p">
+          We reject decorative facadeism. We engineer monolithic public infrastructure, brutalist private pavilions, and reinforced cantilevers that endure seismic centuries.
+        </p>
+        <div class="stats-row">
+          <div>
+            <div class="stat-val">42</div>
+            <div class="stat-lbl">Built Monuments</div>
+          </div>
+          <div>
+            <div class="stat-val">8.4</div>
+            <div class="stat-lbl">Seismic Scale M</div>
+          </div>
+          <div>
+            <div class="stat-val">300y</div>
+            <div class="stat-lbl">Design Lifespan</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Blueprint vs Realization -->
+    <section class="blueprint-section" id="blueprints">
+      <div class="section-header">
+        <h2 class="section-title">Structural Elevations & Floorplans</h2>
+        <div class="blueprint-toggle">
+          <button class="toggle-btn active" id="btn-blueprint" onclick="setMode('blueprint')">Vector Blueprint</button>
+          <button class="toggle-btn" id="btn-elevation" onclick="setMode('elevation')">Cantilever Elevation</button>
+        </div>
+      </div>
+
+      <div class="stage-container" id="stage">
+        <div class="blueprint-render" id="render-box">
+          <div class="plan-box">
+            <div class="crosshair" style="top: 0; left: 0;"></div>
+            <div class="crosshair" style="top: 0; right: 0; transform: rotate(90deg);"></div>
+            <span class="plan-tag">LEVEL 01 // MAIN GALLERY CANTILEVER [SPAN: 24.5M]</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #fff;">
+              POST-TENSIONED HIGH-STRENGTH SLAB C50/60 · CAST-IN-PLACE BOARD FORM
+            </div>
+            <span class="plan-tag" style="text-align: right;">LOAD CAPACITY: 12.5 kN/m²</span>
+          </div>
+          <div class="plan-box" style="background: rgba(217, 119, 6, 0.05); border-color: var(--raw-ochre);">
+            <span class="plan-tag" style="color: var(--raw-ochre);">SHEAR CORE STABILITY SHAFT</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #fff;">
+              WALL THICKNESS: 600mm<br>REBAR DENSITY: 380 kg/m³
+            </div>
+            <span class="plan-tag" style="color: #fff;">AZIMUTH 312° BEARING</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Works Catalog -->
+    <section class="works-grid">
+      <div class="work-card">
+        <span class="work-code">PROJECT 01 // REYKJAVIK OBS</span>
+        <h3 class="work-title">The Basalt Monolith Pavilion</h3>
+        <p class="work-desc">Cut into Icelandic volcanic stone using wire saws. A subterranean meditation gallery enclosed by raw aggregate concrete and zinc roof plates.</p>
+        <div class="spec-table">
+          <div class="spec-row"><span>Location:</span><span>Grindavik Ridge</span></div>
+          <div class="spec-row"><span>Area:</span><span>2,850 m²</span></div>
+          <div class="spec-row"><span>Material:</span><span>Volcanic Basalt / C60 Concrete</span></div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <span class="work-code">PROJECT 02 // VALPARAISO TOWER</span>
+        <h3 class="work-title">The Pacific Cantilever Atelier</h3>
+        <p class="work-desc">A 32-meter balanced beam extending over coastal Pacific cliffs without intermediate columns. Utilizing internal hydraulic counter-masses.</p>
+        <div class="spec-table">
+          <div class="spec-row"><span>Location:</span><span>Valparaíso Coast, Chile</span></div>
+          <div class="spec-row"><span>Span:</span><span>32.0m Unsupported</span></div>
+          <div class="spec-row"><span>Material:</span><span>Corten Steel & Exposed Concrete</span></div>
+        </div>
+      </div>
+
+      <div class="work-card">
+        <span class="work-code">PROJECT 03 // KYOTO ARCHIVE</span>
+        <h3 class="work-title">Higashiyama Manuscript Vault</h3>
+        <p class="work-desc">Thermal-inertia brutalist archive maintaining constant 18°C and 45% relative humidity through 800mm thick rammed stone wall assemblies.</p>
+        <div class="spec-table">
+          <div class="spec-row"><span>Location:</span><span>Kyoto Eastern Hills</span></div>
+          <div class="spec-row"><span>Capacity:</span><span>140,000 Scroll Volumes</span></div>
+          <div class="spec-row"><span>Material:</span><span>Granite Ashlar / Cedar Formwork</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrapper footer-grid">
+      <div>MONOLITH ATELIER // ARCHITECTURAL ENGINEERS ASSOCIATION LICENSE #99402</div>
+      <div>ZÜRICH · REYKJAVIK · TOKYO · VALPARAÍSO</div>
+    </div>
+  </footer>
+
+  <script>
+    function setMode(mode) {
+      const btnB = document.getElementById('btn-blueprint');
+      const btnE = document.getElementById('btn-elevation');
+      const render = document.getElementById('render-box');
+      if (mode === 'blueprint') {
+        btnB.classList.add('active');
+        btnE.classList.remove('active');
+        render.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        render.innerHTML = `
+          <div class="plan-box">
+            <span class="plan-tag">LEVEL 01 // MAIN GALLERY CANTILEVER [SPAN: 24.5M]</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #fff;">
+              POST-TENSIONED HIGH-STRENGTH SLAB C50/60 · CAST-IN-PLACE BOARD FORM
+            </div>
+            <span class="plan-tag" style="text-align: right;">LOAD CAPACITY: 12.5 kN/m²</span>
+          </div>
+          <div class="plan-box" style="background: rgba(217, 119, 6, 0.05); border-color: var(--raw-ochre);">
+            <span class="plan-tag" style="color: var(--raw-ochre);">SHEAR CORE STABILITY SHAFT</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #fff;">
+              WALL THICKNESS: 600mm<br>REBAR DENSITY: 380 kg/m³
+            </div>
+            <span class="plan-tag" style="color: #fff;">AZIMUTH 312° BEARING</span>
+          </div>
+        `;
+      } else {
+        btnE.classList.add('active');
+        btnB.classList.remove('active');
+        render.style.borderColor = '#d97706';
+        render.innerHTML = `
+          <div class="plan-box" style="grid-column: span 2; border-color: #d97706; background: rgba(0,0,0,0.6);">
+            <span class="plan-tag" style="color: #d97706;">EAST-FACING VERTICAL SECTION ELEVATION +48.0M</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; line-height: 2;">
+              ▲ ROOF LEVEL: +48.200m [ZINC FLASHING]<br>
+              ■ CANTILEVER LEVEL: +32.000m [TENSION TIE-BACK RODS Ø90mm]<br>
+              ▼ GROUND DATUM: ±0.000m [BEDROCK SOCKET FOUNDATION -8.500m]
+            </div>
+            <span class="plan-tag" style="color: #fff;">WIND LOAD COEF: 1.85 (HURRICANE CLASS IV RATED)</span>
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

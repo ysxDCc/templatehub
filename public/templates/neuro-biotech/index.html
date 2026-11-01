@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEURO-SYNTH // Deep Synthetic Biology &amp; Neural Interface Laboratory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070e18;
+      --card-bg: rgba(13, 25, 42, 0.8);
+      --teal: #06b6d4;
+      --emerald: #10b981;
+      --border: rgba(6, 182, 212, 0.2);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 20% 10%, rgba(6, 182, 212, 0.15), transparent 45%),
+        radial-gradient(circle at 80% 90%, rgba(16, 185, 129, 0.12), transparent 40%);
+    }
+    .container { max-width: 1220px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(7, 14, 24, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .nav {
+      height: 76px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--teal); font-family: 'Fira Code', monospace; }
+    .nav-links { display: flex; gap: 32px; list-style: none; font-size: 13px; font-weight: 600; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal); }
+    .btn-teal {
+      background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+      color: #041019;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-teal:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); }
+
+    /* Hero */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+    .clinical-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      color: var(--teal);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 5.5vw, 72px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto 40px;
+    }
+
+    /* Live DNA Stream Bar */
+    .dna-stream {
+      background: rgba(4, 16, 25, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: var(--emerald);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 70px;
+      overflow-x: auto;
+    }
+
+    /* Clinical Trial Pipeline Cards */
+    .pipeline-section {
+      padding-bottom: 80px;
+    }
+    .pipeline-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .pipeline-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .pipeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 30px;
+      transition: all 0.2s;
+    }
+    .pipeline-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--teal);
+      box-shadow: 0 15px 35px rgba(6, 182, 212, 0.15);
+    }
+    .phase-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'Fira Code', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      margin-bottom: 16px;
+    }
+    .drug-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .drug-target {
+      font-size: 13px;
+      color: var(--teal);
+      font-family: 'Fira Code', monospace;
+      margin-bottom: 14px;
+    }
+    .drug-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .progress-bar-bg {
+      background: rgba(255, 255, 255, 0.1);
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--emerald));
+    }
+    .phase-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: 'Fira Code', monospace;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      background: #040910;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-flex { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo">NEURO<span>&lt;SYNTH&gt;</span>LAB</a>
+      <ul class="nav-links">
+        <li><a href="#pipeline">Clinical Pipeline</a></li>
+        <li><a href="#optogenetics">Optogenetics</a></li>
+        <li><a href="#genomics">mRNA Delivery</a></li>
+        <li><a href="#whitepapers">Publications</a></li>
+      </ul>
+      <button class="btn-teal" onclick="alert('Laboratory Portal Authenticated: Accessing Gene Sequencing Node')">Investigator Portal</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="clinical-pill">
+        <span>● CRISPR-Cas14 EPIGENETIC EDITING // PHASE II READY</span>
+      </div>
+      <h1>Direct Neural Translation &amp; Synthetic Proteomics</h1>
+      <p>Pioneering 4,096-channel intracortical neural mesh electrodes and targeted lipid nanoparticle gene therapeutics for neurodegenerative reversal.</p>
+      <div style="display: flex; justify-content: center; gap: 16px;">
+        <button class="btn-teal" onclick="mutateSequence()">Simulate Base Mutation</button>
+        <button class="btn-teal" style="background: transparent; border: 1px solid var(--border); color: #fff;" onclick="alert('Whitepaper Archived: 100kHz Multi-Electrode Array')">Read Nature Whitepaper</button>
+      </div>
+    </section>
+
+    <!-- DNA Stream Bar -->
+    <div class="dna-stream" id="dna-bar">
+      <span>BASE SEQUENCE // CHROMOSOME 19:</span>
+      <span id="dna-seq" style="letter-spacing: 2px;">ATCG-GCAT-TAGC-CGAT-ATTA-CGGC-ATCG-TAAC-CCGA-TTAG-CGTA</span>
+      <span>ACCURACY: 99.998%</span>
+    </div>
+
+    <!-- Clinical Pipeline -->
+    <section class="pipeline-section" id="pipeline">
+      <div class="pipeline-header">
+        <h2 class="pipeline-title">Clinical Therapeutic Pipeline</h2>
+        <p style="color: var(--text-muted); font-size: 15px;">Targeted genetic and neural therapies in active human clinical trials.</p>
+      </div>
+
+      <div class="pipeline-grid">
+        <div class="pipeline-card">
+          <span class="phase-badge">Phase IIb Clinical</span>
+          <h3 class="drug-name">NS-804 Protease Inhibitor</h3>
+          <div class="drug-target">TARGET: Amyloid-Beta Oligomers</div>
+          <p class="drug-desc">Engineered synthetic antibody conjugate crossing the blood-brain barrier via receptor-mediated transcytosis to halt synaptic degradation.</p>
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width: 70%;"></div>
+          </div>
+          <div class="phase-labels">
+            <span>Pre-Clinical</span>
+            <span>Phase I</span>
+            <span style="color: var(--teal); font-weight: 700;">Phase IIb</span>
+            <span>Phase III</span>
+          </div>
+        </div>
+
+        <div class="pipeline-card">
+          <span class="phase-badge">Phase I Clinical</span>
+          <h3 class="drug-name">SynapseMesh Cortical Array</h3>
+          <div class="drug-target">TARGET: Motor Cortex Layer V</div>
+          <p class="drug-desc">Biocompatible 4,096-channel flexible polyimide grid providing wireless 100 kHz telemetry for direct neural prosthesis control.</p>
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width: 45%;"></div>
+          </div>
+          <div class="phase-labels">
+            <span>Pre-Clinical</span>
+            <span style="color: var(--teal); font-weight: 700;">Phase I</span>
+            <span>Phase II</span>
+            <span>Phase III</span>
+          </div>
+        </div>
+
+        <div class="pipeline-card">
+          <span class="phase-badge" style="background: rgba(6,182,212,0.15); color: var(--teal);">Pre-IND Regulatory</span>
+          <h3 class="drug-name">CRISPR-Exo Gene Replacement</h3>
+          <div class="drug-target">TARGET: SMN1 Exon 7 Splice</div>
+          <p class="drug-desc">Engineered exosome delivery vector mediating single-dose base editing for permanent correction of spinal muscular atrophy alleles.</p>
+          <div class="progress-bar-bg">
+            <div class="progress-fill" style="width: 25%;"></div>
+          </div>
+          <div class="phase-labels">
+            <span style="color: var(--teal); font-weight: 700;">Pre-IND</span>
+            <span>Phase I</span>
+            <span>Phase II</span>
+            <span>Phase III</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container footer-flex">
+      <div>NEURO-SYNTH BIOTECH LABS // CAMBRIDGE BIOMEDICAL CAMPUS · BASEL</div>
+      <div style="font-family: 'Fira Code', monospace; font-size: 11px;">FDA IND #78902 · GLP &amp; GMP CERTIFIED FACILITY</div>
+    </div>
+  </footer>
+
+  <script>
+    function mutateSequence() {
+      const bases = ['A', 'T', 'C', 'G'];
+      let s = '';
+      for (let i = 0; i < 44; i++) {
+        s += bases[Math.floor(Math.random() * 4)];
+        if ((i + 1) % 4 === 0 && i !== 43) s += '-';
+      }
+      document.getElementById('dna-seq').innerText = s;
+    }
+  </script>
+</body>
+</html>

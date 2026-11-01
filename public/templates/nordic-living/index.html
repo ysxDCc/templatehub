@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKAGEN & CO. — Scandinavian Organic Interiors & Crafted Living</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --card-bg: #f3efe6;
+      --walnut: #231c16;
+      --sage: #58684d;
+      --terracotta: #b4533c;
+      --border: rgba(35, 28, 22, 0.12);
+      --text: #231c16;
+      --text-muted: #6b635b;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .wrapper { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+    /* Top Announcement */
+    .top-strip {
+      background: var(--walnut);
+      color: #faf7f2;
+      text-align: center;
+      padding: 9px 0;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* Navigation */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(250, 247, 242, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+    .nav-row {
+      height: 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--walnut);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-menu { display: flex; gap: 36px; list-style: none; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.2px; }
+    .nav-menu a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-menu a:hover { color: var(--walnut); }
+    .btn-minimal {
+      background: var(--walnut);
+      color: #faf7f2;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 1px solid var(--walnut);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-minimal:hover {
+      background: transparent;
+      color: var(--walnut);
+    }
+
+    /* Editorial Hero */
+    .hero {
+      padding: 90px 0 80px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--sage);
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 6vw, 84px);
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--walnut);
+      margin-bottom: 28px;
+    }
+    .hero h1 em { font-style: italic; font-weight: 500; color: var(--terracotta); }
+    .hero p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    
+    /* Interactive Swatch Finishes */
+    .swatch-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 20px 40px -15px rgba(35, 28, 22, 0.08);
+    }
+    .swatch-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--walnut);
+    }
+    .swatch-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .swatches-row { display: flex; gap: 14px; margin-bottom: 28px; }
+    .swatch-item {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .swatch-item.active { border-color: var(--walnut); transform: scale(1.15); }
+    .finish-details {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+    .finish-details strong { color: var(--walnut); }
+
+    /* Furniture Collection Grid */
+    .section-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 12px;
+      color: var(--walnut);
+    }
+    .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 60px;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 36px;
+      margin-bottom: 100px;
+    }
+    .product-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px;
+      transition: all 0.3s;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 50px -15px rgba(35, 28, 22, 0.1);
+    }
+    .product-wood-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--sage);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--walnut);
+      margin-bottom: 10px;
+    }
+    .product-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+    .product-price {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--walnut);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0;
+      background: #f4efe6;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-row { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <div class="top-strip">
+    SUSTAINABLY HARVESTED DANISH FSC®-CERTIFIED TIMBER · COMPLIMENTARY WORLDWIDE ARCHITECTURAL FREIGHT
+  </div>
+
+  <header>
+    <div class="wrapper nav-row">
+      <a href="#" class="brand-logo">SKAGEN &amp; CO.</a>
+      <ul class="nav-menu">
+        <li><a href="#living">Seating</a></li>
+        <li><a href="#tables">Joinery</a></li>
+        <li><a href="#craft">Atelier Story</a></li>
+        <li><a href="#archive">Catalog</a></li>
+      </ul>
+      <button class="btn-minimal" onclick="alert('Trade Catalog Dispatched to Registered Architect Email')">Trade Inquiries</button>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <div class="hero-eyebrow">
+          <span>●</span>
+          <span>COPENHAGEN ATELIER // AUTUMN ARCHIVE</span>
+        </div>
+        <h1>Sculpted from <em>solid timber</em>, softened by morning light.</h1>
+        <p>
+          We build quiet furniture. Pieces crafted with traditional mortise and tenon joinery, finished with cold-pressed natural linseed oils that deepen in character across generations.
+        </p>
+        <button class="btn-minimal" onclick="alert('Viewing 2026 Architectural Catalog')">Explore The 2026 Collection</button>
+      </div>
+
+      <!-- Live Finish Swatch Card -->
+      <div class="swatch-box">
+        <h3 class="swatch-title" id="finish-title">Smoked Danish Oak</h3>
+        <p class="swatch-desc" id="finish-desc">Tannin-reactive fuming brings out deep slate charcoal veining without opaque stains.</p>
+        
+        <div class="swatches-row">
+          <div class="swatch-item active" style="background: #3e3228;" onclick="pickFinish('Smoked Danish Oak', 'Tannin-reactive fuming brings out deep slate charcoal veining without opaque stains.', 'Smoked European Quercus Robur', 'Matte Wax 05%', this)"></div>
+          <div class="swatch-item" style="background: #d8c3a5;" onclick="pickFinish('Natural White Ash', 'Light-reflective blonde grain harvested from certified Gotland forests.', 'Bleached Fraxinus Excelsior', 'Linseed Soap Finish', this)"></div>
+          <div class="swatch-item" style="background: #5a3d28;" onclick="pickFinish('Oiled Walnut', 'Rich chocolate undertones hand-rubbed with organic beeswax and orange oil.', 'American Juglans Nigra', 'Satin Hand-Rubbed Oil', this)"></div>
+          <div class="swatch-item" style="background: #1a1a1a;" onclick="pickFinish('Charred Shou Sugi Ban', 'Surface torched and brushed to seal open wood pores with carbon crust.', 'Fire-Hardened Siberian Larch', 'Carbonized Lacquer', this)"></div>
+        </div>
+
+        <div class="finish-details">
+          <span>Species: <strong id="spec-species">Smoked European Quercus Robur</strong></span>
+          <span>Topcoat: <strong id="spec-topcoat">Matte Wax 05%</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Collection -->
+    <section id="living" style="padding-bottom: 80px;">
+      <h2 class="section-headline">Signature Architectural Releases</h2>
+      <p class="section-sub">Individually numbered masterworks produced in limited runs of 120 pieces.</p>
+
+      <div class="products-grid">
+        <div class="product-card">
+          <span class="product-wood-tag">Solid Ash &amp; Saddle Leather</span>
+          <h3 class="product-name">The Holte Lounge Chair</h3>
+          <p class="product-desc">Cantilevered solid wood frame shaped with continuous steam bending. Upholstered with vegetable-tanned Swedish Tärnsjö bridle leather.</p>
+          <div class="product-footer">
+            <span class="product-price">€ 2,450</span>
+            <button class="btn-minimal" style="padding: 8px 18px; font-size: 11px;" onclick="alert('Spec Sheet Downloaded')">View Blueprint</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-wood-tag">Solid Smoked Oak</span>
+          <h3 class="product-name">Klampenborg Dining Refectory</h3>
+          <p class="product-desc">A 3.4-meter single-slab dining table resting upon angled cross-trestle timber legs. Seats 12 guests with zero structural deflection.</p>
+          <div class="product-footer">
+            <span class="product-price">€ 4,800</span>
+            <button class="btn-minimal" style="padding: 8px 18px; font-size: 11px;" onclick="alert('Spec Sheet Downloaded')">View Blueprint</button>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <span class="product-wood-tag">Oiled Walnut &amp; Brass</span>
+          <h3 class="product-name">The Bornholm Credenza</h3>
+          <p class="product-desc">Sliding tambour doors constructed from 72 individual solid walnut slats running upon silent waxed wooden tracks. Concealed cable raceways.</p>
+          <div class="product-footer">
+            <span class="product-price">€ 3,650</span>
+            <button class="btn-minimal" style="padding: 8px 18px; font-size: 11px;" onclick="alert('Spec Sheet Downloaded')">View Blueprint</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrapper footer-row">
+      <div>SKAGEN &amp; CO. MØBELFABRIK // COPENHAGEN · AARHUS · STOCKHOLM</div>
+      <div>ROYAL GUILD OF CABINETMAKERS CERTIFICATE NO. 44109</div>
+    </div>
+  </footer>
+
+  <script>
+    function pickFinish(name, desc, species, topcoat, el) {
+      document.querySelectorAll('.swatch-item').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('finish-title').innerText = name;
+      document.getElementById('finish-desc').innerText = desc;
+      document.getElementById('spec-species').innerText = species;
+      document.getElementById('spec-topcoat').innerText = topcoat;
+    }
+  </script>
+</body>
+</html>

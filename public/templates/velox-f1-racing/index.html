@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VELOX SCUDERIA — Formula Telemetry & Grand Prix Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(18, 20, 29, 0.85);
+      --red: #ef233c;
+      --yellow: #f9c74f;
+      --purple: #c084fc;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      --text-muted: #8d99ae;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Titillium Web', sans-serif;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(239, 35, 60, 0.18), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(249, 199, 79, 0.12), transparent 40%);
+    }
+    /* Carbon Fiber Weave Texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-size: 8px 8px;
+      background-image: 
+        linear-gradient(45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%), 
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.02) 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%), 
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.02) 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .wrapper { max-width: 1240px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    /* Nav */
+    header {
+      border-bottom: 2px solid var(--red);
+      background: rgba(9, 10, 15, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav {
+      height: 76px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      font-size: 26px;
+      font-weight: 900;
+      font-style: italic;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-red { color: var(--red); }
+    .nav-links { display: flex; gap: 32px; list-style: none; font-size: 14px; font-weight: 700; text-transform: uppercase; font-style: italic; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--red); }
+    .btn-race {
+      background: var(--red);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(239, 35, 60, 0.5);
+      transition: all 0.2s;
+    }
+    .btn-race:hover { transform: skewX(-6deg); box-shadow: 0 0 30px var(--red); }
+
+    /* Hero */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+    .gp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      background: rgba(239, 35, 60, 0.12);
+      border: 1px solid rgba(239, 35, 60, 0.35);
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(44px, 6.5vw, 84px);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.0;
+      text-transform: uppercase;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* Live Telemetry Timing Table */
+    .telemetry-board {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+      margin-bottom: 80px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .board-header {
+      background: rgba(255, 255, 255, 0.04);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+    .leaderboard-table th {
+      padding: 12px 24px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+    }
+    .leaderboard-table td {
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .fastest-lap {
+      color: var(--purple);
+      font-weight: 700;
+    }
+    .tyre-badge {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 800;
+      color: #000;
+    }
+    .tyre-soft { background: #ef233c; }
+    .tyre-med { background: #f9c74f; }
+    .tyre-hard { background: #ffffff; }
+
+    /* Race Specs Grid */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 80px;
+    }
+    .spec-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 30px;
+      border-left: 4px solid var(--red);
+      transition: all 0.2s;
+    }
+    .spec-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(239, 35, 60, 0.2);
+    }
+    .spec-title {
+      font-size: 22px;
+      font-weight: 800;
+      font-style: italic;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .spec-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+    .spec-metrics {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .metric-val { color: var(--yellow); font-weight: 700; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      background: #06070a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-flex { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrapper nav">
+      <a href="#" class="brand">VELOX<span class="brand-red">.RACING</span></a>
+      <ul class="nav-links">
+        <li><a href="#telemetry">Live Timing</a></li>
+        <li><a href="#powertrain">1.6L Hybrid V6</a></li>
+        <li><a href="#aerodynamics">Ground Effect</a></li>
+        <li><a href="#drivers">Pit Wall</a></li>
+      </ul>
+      <button class="btn-race" onclick="alert('Pit Wall Audio Channel: Box this lap for Softs (C5)')">Pit Wall Radio</button>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="gp-pill">
+        <span>● LIVE FP2 // CIRCUIT DE MONACO · TRACK TEMP 44.2°C</span>
+      </div>
+      <h1>Sub-Second Lap Delta. Pure Ground Effect Downforce.</h1>
+      <p>Precision CFD telemetry, 15,000 RPM turbo-hybrid energy recovery, and carbon-monocoque chassis tuned for qualifying trim.</p>
+      <div style="display: flex; justify-content: center; gap: 16px;">
+        <button class="btn-race" onclick="simLap()">Simulate Sector Push</button>
+        <button class="btn-race" style="background: transparent; border: 1px solid var(--border); color: #fff;" onclick="alert('Telemetry Sync Verified: 1,000 Hz CAN-Bus Log')">Download Telemetry</button>
+      </div>
+    </section>
+
+    <!-- Telemetry Timing Table -->
+    <section class="telemetry-board" id="telemetry">
+      <div class="board-header">
+        <span>FIA OFFICIAL SECTOR TIMING DATA // MONACO GP</span>
+        <span>STATUS: GREEN FLAG</span>
+      </div>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Driver</th>
+            <th>Team</th>
+            <th>Tyre</th>
+            <th>Sector 1</th>
+            <th>Sector 2</th>
+            <th>Sector 3</th>
+            <th>Lap Time</th>
+            <th>Delta</th>
+          </tr>
+        </thead>
+        <tbody id="timing-rows">
+          <tr>
+            <td><strong>1</strong></td>
+            <td><strong>L. Vance (#07)</strong></td>
+            <td>VELOX SCUDERIA</td>
+            <td><span class="tyre-badge tyre-soft">S</span></td>
+            <td>18.421s</td>
+            <td>32.109s</td>
+            <td>19.892s</td>
+            <td class="fastest-lap">1:10.422</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>C. Leclerc (#16)</td>
+            <td>Scuderia Ferrari</td>
+            <td><span class="tyre-badge tyre-soft">S</span></td>
+            <td>18.490s</td>
+            <td>32.180s</td>
+            <td>19.920s</td>
+            <td>1:10.590</td>
+            <td>+0.168s</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>M. Verstappen (#01)</td>
+            <td>Red Bull Racing</td>
+            <td><span class="tyre-badge tyre-med">M</span></td>
+            <td>18.512s</td>
+            <td>32.204s</td>
+            <td>20.001s</td>
+            <td>1:10.717</td>
+            <td>+0.295s</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Powertrain Specs -->
+    <section class="specs-grid" id="powertrain">
+      <div class="spec-card">
+        <h3 class="spec-title">MGU-K 120kW Kinetic Harvester</h3>
+        <p class="spec-desc">Recovers kinetic braking energy from the rear axle directly into 400V lithium-ion cells. Delivers 160 hp instantaneous overtakes.</p>
+        <div class="spec-metrics">
+          <span>Deployment:</span>
+          <span class="metric-val">4.0 MJ / Lap</span>
+        </div>
+      </div>
+
+      <div class="spec-card">
+        <h3 class="spec-title">Venturi Floor Venting</h3>
+        <p class="spec-desc">Twin underfloor tunnels creating low-pressure ground effect suction. Generates 2,400 kg downforce at 250 km/h with zero wake turbulence.</p>
+        <div class="spec-metrics">
+          <span>Downforce Ratio:</span>
+          <span class="metric-val">4.8 : 1 L/D</span>
+        </div>
+      </div>
+
+      <div class="spec-card">
+        <h3 class="spec-title">Pre-Chamber Jet Ignition</h3>
+        <p class="spec-desc">Ultra-lean fuel stratification achieving 52% thermal efficiency at 15,000 RPM. Sustainable E100 synthetic bio-fuel certified.</p>
+        <div class="spec-metrics">
+          <span>Peak Power:</span>
+          <span class="metric-val">1,050+ HP</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrapper footer-flex">
+      <div>VELOX SCUDERIA FORMULA 1 TEAM // MARANELLO ENGINEERING HQ</div>
+      <div>TELEMETRY COMPLIANT FIA FORMULA 1 TECHNICAL REGULATIONS</div>
+    </div>
+  </footer>
+
+  <script>
+    function simLap() {
+      alert("Telemetry Alert: Vance Sector 2 Purple (-0.084s)! New Overall Session Benchmark: 1:10.338.");
+    }
+  </script>
+</body>
+</html>

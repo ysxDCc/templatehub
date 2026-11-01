@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASTRAL Aerospace — Deep Space Exploration & Orbital Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --border: rgba(255, 255, 255, 0.12);
+      --gold: #f6d365;
+      --gold-glow: rgba(246, 211, 101, 0.35);
+      --cyan: #38bdf8;
+      --indigo: #6366f1;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(circle at 80% 20%, rgba(246, 211, 101, 0.12), transparent 40%),
+        radial-gradient(circle at 10% 80%, rgba(56, 189, 248, 0.1), transparent 35%);
+    }
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)), radial-gradient(1px 1px at 80px 120px, #ffffff, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 150px 220px, #f6d365, rgba(0,0,0,0)), radial-gradient(1px 1px at 240px 80px, #38bdf8, rgba(0,0,0,0));
+      background-size: 300px 300px;
+      opacity: 0.6;
+      z-index: 0;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+    
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      backdrop-blur: 16px;
+      background: rgba(3, 7, 18, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 32px; list-style: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .btn-gold {
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      color: #030712;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 25px var(--gold-glow);
+      transition: all 0.2s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 35px var(--gold-glow); }
+    
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+    }
+    .mission-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 999px;
+      background: rgba(246, 211, 101, 0.1);
+      border: 1px solid rgba(246, 211, 101, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(38px, 6vw, 76px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-actions { display: flex; justify-content: center; gap: 16px; margin-bottom: 60px; }
+    .btn-outline {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.3); }
+
+    /* Live Telemetry Panel */
+    .telemetry-deck {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      margin-bottom: 80px;
+    }
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .countdown-display {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      text-align: left;
+    }
+    .tel-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .tel-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .tel-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .tel-sub { font-size: 12px; color: #10b981; font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+    /* Spacecraft & Missions */
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 50px;
+      font-size: 15px;
+    }
+    .missions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 90px;
+    }
+    .mission-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--cyan));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .mission-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(246, 211, 101, 0.4);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
+    }
+    .mission-card:hover::before { opacity: 1; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+    .mission-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+    .mission-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+    .specs-row {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    .specs-val { color: var(--gold); font-weight: 700; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 50px 0 30px;
+      background: rgba(3, 7, 18, 0.9);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 20px; }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo">ASTRAL<span>//</span>SYSTEMS</a>
+      <ul class="nav-links">
+        <li><a href="#telemetry">Telemetry</a></li>
+        <li><a href="#payloads">Heavy Vehicles</a></li>
+        <li><a href="#missions">Orbital Fleet</a></li>
+        <li><a href="#manifest">Flight Manifest</a></li>
+      </ul>
+      <button class="btn-gold" onclick="alert('Telemetry Stream Active · Encrypted Link 2.4 GHz')">Deploy Mission</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="mission-pill">
+        <span class="pulse-dot"></span>
+        <span>ARES-VII // MARS ORBITAL INSERTION WINDOW OPEN</span>
+      </div>
+      <h1>Heavy Launch Architecture & Deep Void Propulsion</h1>
+      <p>Engineering autonomous reusable rocket stages, deep-space optical communication relays, and cryogenic upper-stage propulsion systems for commercial exploration.</p>
+      <div class="hero-actions">
+        <button class="btn-gold" onclick="startSimulatedCountdown()">Launch Simulation</button>
+        <a href="#telemetry" class="btn-outline">Inspect Telemetry Feed ↓</a>
+      </div>
+
+      <!-- Live Telemetry Deck -->
+      <div id="telemetry" class="telemetry-deck">
+        <div class="deck-header">
+          <span>MISSION DIRECTORY // VEHICLE: TITAN-HEAVY V3</span>
+          <div>
+            <span>T-MINUS COUNTDOWN: </span>
+            <span class="countdown-display" id="countdown">04:18:22</span>
+          </div>
+          <span>PAD: LC-39A (CAPE CANAVERAL)</span>
+        </div>
+        <div class="telemetry-grid">
+          <div class="tel-card">
+            <div class="tel-label">Stage 1 Velocity</div>
+            <div class="tel-value" id="velocity">7,420 km/h</div>
+            <div class="tel-sub">↑ Mach 6.1 nominal</div>
+          </div>
+          <div class="tel-card">
+            <div class="tel-label">Orbital Apogee</div>
+            <div class="tel-value">428.6 km</div>
+            <div class="tel-sub">Low Earth Orbit (LEO)</div>
+          </div>
+          <div class="tel-card">
+            <div class="tel-label">Chamber Pressure</div>
+            <div class="tel-value">280 bar</div>
+            <div class="tel-sub">Full-Flow Staged Cryo</div>
+          </div>
+          <div class="tel-card">
+            <div class="tel-label">Payload Capacity</div>
+            <div class="tel-value">64,000 kg</div>
+            <div class="tel-sub">To Trans-Lunar Injection</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Missions Section -->
+    <section id="missions" style="padding-bottom: 80px;">
+      <h2 class="section-title">Active Planetary Flight Architecture</h2>
+      <p class="section-subtitle">Multi-mission certified orbital assets deployed across cis-lunar space and high-energy interplanetary trajectories.</p>
+
+      <div class="missions-grid">
+        <div class="mission-card">
+          <span class="badge">Heavy Cargo Transporter</span>
+          <h3 class="mission-title">Titan-IX Orbital Booster</h3>
+          <p class="mission-desc">Methane-oxygen staged combustion with 9 vacuum-optimized gimbal engines, rapid aerodynamic grid fins, and hot-staging interstage ring.</p>
+          <div class="specs-row">
+            <span>Thrust at Sea Level:</span>
+            <span class="specs-val">22,800 kN</span>
+          </div>
+          <div class="specs-row" style="margin-top: 8px;">
+            <span>Reusability Index:</span>
+            <span class="specs-val">35 Flights</span>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <span class="badge" style="color: var(--gold); background: rgba(246,211,101,0.15);">Deep Space Telemetry</span>
+          <h3 class="mission-title">Helios Laser Relay Array</h3>
+          <p class="mission-desc">Sub-nanoradian optical pointing telescope mesh enabling 10 Gbps deep-space optical laser communications between Earth and Jupiter Trojan probes.</p>
+          <div class="specs-row">
+            <span>Laser Frequency:</span>
+            <span class="specs-val">1550 nm Fiber</span>
+          </div>
+          <div class="specs-row" style="margin-top: 8px;">
+            <span>Effective Range:</span>
+            <span class="specs-val">4.2 AU</span>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <span class="badge" style="color: #a855f7; background: rgba(168,85,247,0.15);">Autonomous Lander</span>
+          <h3 class="mission-title">Valkyrie Lunar Surface Lander</h3>
+          <p class="mission-desc">Terrain-relative navigation lidar guidance with hazard avoidance sensors and throttleable pintle engines for soft polar crater descents.</p>
+          <div class="specs-row">
+            <span>Surface Payload:</span>
+            <span class="specs-val">12,500 kg</span>
+          </div>
+          <div class="specs-row" style="margin-top: 8px;">
+            <span>Landing Precision:</span>
+            <span class="specs-val">&lt; 5 Meters CEP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="container footer-content">
+      <div>© 2026 ASTRAL Aerospace Corp. Spacecraft telemetry simulated for demonstration.</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px;">ITU & FAA Space Flight Compliant · Telemetry 2.4 GHz</div>
+    </div>
+  </footer>
+
+  <script>
+    // Live countdown update
+    let secondsLeft = 15502;
+    function updateCountdown() {
+      secondsLeft--;
+      if (secondsLeft < 0) secondsLeft = 15500;
+      const h = Math.floor(secondsLeft / 3600).toString().padStart(2, '0');
+      const m = Math.floor((secondsLeft % 3600) / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      document.getElementById('countdown').innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateCountdown, 1000);
+
+    function startSimulatedCountdown() {
+      alert("ARES-VII Main Engine Ignition Sequence: Cryogenic chilldown confirmed. Pressure 280 bar steady.");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEO-TOKYO 2099 // Cybernetic Underground & Neural Arcade</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06060c;
+      --magenta: #ff007f;
+      --cyan: #00f0ff;
+      --yellow: #ffe600;
+      --card-bg: rgba(14, 14, 28, 0.85);
+      --border: rgba(255, 0, 127, 0.35);
+      --text: #ffffff;
+      --text-muted: #8b9bb4;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 127, 0.15), transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15), transparent 45%);
+    }
+    /* CRT Scanlines Overlay */
+    .crt::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+      z-index: 999;
+      background-size: 100% 3px, 4px 100%;
+      pointer-events: none;
+    }
+    .wrapper { max-width: 1240px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+
+    /* Top bar */
+    header {
+      border-bottom: 2px solid var(--magenta);
+      background: rgba(6, 6, 12, 0.95);
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.25);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-bar {
+      height: 74px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-cyber {
+      font-family: 'Audiowide', cursive;
+      font-size: 22px;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px var(--magenta), 0 0 20px var(--magenta);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-kanji {
+      font-size: 14px;
+      padding: 2px 8px;
+      background: var(--magenta);
+      color: #000;
+      font-weight: 900;
+      border-radius: 2px;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; transition: all 0.2s; }
+    .nav-links a:hover { color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
+    
+    .btn-neon {
+      font-family: 'Audiowide', cursive;
+      font-size: 11px;
+      padding: 10px 22px;
+      background: transparent;
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+    .btn-neon:hover {
+      background: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 30px var(--cyan);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 90px 0 60px;
+      text-align: center;
+    }
+    .cyber-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 18px;
+      border: 1px solid var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      color: var(--cyan);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    }
+    .hero h1 {
+      font-family: 'Audiowide', cursive;
+      font-size: clamp(38px, 6.5vw, 84px);
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(255, 0, 127, 0.8), 0 0 40px rgba(0, 240, 255, 0.6);
+    }
+    .hero p {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    .hero-btn-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 60px; }
+    .btn-magenta {
+      font-family: 'Audiowide', cursive;
+      font-size: 13px;
+      padding: 14px 34px;
+      background: var(--magenta);
+      color: #fff;
+      border: none;
+      box-shadow: 0 0 25px var(--magenta);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      transition: all 0.2s;
+    }
+    .btn-magenta:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--magenta); }
+
+    /* Interactive Cyber Terminal */
+    .terminal-container {
+      background: #080811;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 35px rgba(255, 0, 127, 0.2);
+      border-radius: 8px;
+      margin-bottom: 80px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .terminal-header {
+      background: rgba(255, 0, 127, 0.15);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--cyan);
+    }
+    .terminal-body {
+      padding: 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #a3e635;
+      min-height: 220px;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 20px;
+      background: #040408;
+    }
+    .terminal-prompt { color: var(--magenta); font-family: 'Share Tech Mono', monospace; font-size: 14px; }
+    .terminal-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      outline: none;
+    }
+
+    /* Cyber Catalog Grid */
+    .grid-section-title {
+      font-family: 'Audiowide', cursive;
+      font-size: 32px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 16px;
+      text-shadow: 0 0 15px var(--cyan);
+    }
+    .grid-section-sub {
+      text-align: center;
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 50px;
+    }
+    .cyber-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 80px;
+    }
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(0, 240, 255, 0.25);
+      border-radius: 4px;
+      padding: 28px;
+      position: relative;
+      transition: all 0.2s;
+    }
+    .cyber-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+      transform: translateY(-4px);
+    }
+    .card-kanji {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.1);
+      font-weight: 900;
+    }
+    .card-title {
+      font-family: 'Audiowide', cursive;
+      font-size: 20px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .card-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .price-tag {
+      font-family: 'Audiowide', cursive;
+      font-size: 18px;
+      color: var(--yellow);
+      text-shadow: 0 0 10px rgba(255, 230, 0, 0.5);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 2px solid var(--cyan);
+      padding: 40px 0;
+      background: #030306;
+      box-shadow: 0 -10px 25px rgba(0, 240, 255, 0.15);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-flex { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body class="crt" id="body-root">
+  <header>
+    <div class="wrapper nav-bar">
+      <a href="#" class="logo-cyber">
+        <span>NEO-TOKYO</span>
+        <span class="logo-kanji">電脳</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#rigs">Cyber-Rigs</a></li>
+        <li><a href="#arcade">Holo-Arcade</a></li>
+        <li><a href="#console">Terminal</a></li>
+      </ul>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button class="btn-neon" onclick="toggleCRT()" id="crt-toggle">CRT: ON</button>
+        <button class="btn-neon" onclick="alert('Neural Jack Uplink Synced // Baud 1.2 TB/s')">Connect Rig</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrapper">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="cyber-badge">⚡ SHINJUKU SUB-LEVEL 04 // PROTOCOL ACTIVE ⚡</div>
+      <h1>Subsurface Neural Gear & Synthetic Arcade</h1>
+      <p>High-baud neural coprocessors, holographic optics, and custom bio-chips forged in underground Akihabara fabrication labs.</p>
+      <div class="hero-btn-row">
+        <button class="btn-magenta" onclick="runDiagnostic()">Run Cyber Diagnostic</button>
+        <a href="#console" class="btn-neon" style="padding: 14px 28px; text-decoration: none;">Access Terminal</a>
+      </div>
+    </section>
+
+    <!-- Interactive Console Terminal -->
+    <section class="terminal-container" id="console">
+      <div class="terminal-header">
+        <span>NEO_NET PROTOCOL // CYBER TERMINAL v4.88 [SHINJUKU]</span>
+        <span>STATUS: ROOT GRANTED</span>
+      </div>
+      <div class="terminal-body" id="term-log">
+        [SYSTEM INITIALIZING]...<br>
+        [OK] Quantum Encryption Handshake Verified.<br>
+        [OK] Synaptic Latency: 0.12 ms.<br>
+        Type 'help' for available hacker commands (e.g. 'mods', 'status', 'overclock', 'clear').
+      </div>
+      <div class="terminal-input-row">
+        <span class="terminal-prompt">root@neo-tokyo:~#</span>
+        <input type="text" id="term-input" class="terminal-input" placeholder="Type command and press Enter..." onkeydown="handleTerm(event)">
+      </div>
+    </section>
+
+    <!-- Gear Cards -->
+    <section id="rigs">
+      <h2 class="grid-section-title">Class-A Neural Augmentations</h2>
+      <p class="grid-section-sub">Military-spec cyberware calibrated for illegal street racing and net-dive operations.</p>
+      
+      <div class="cyber-grid">
+        <div class="cyber-card">
+          <span class="card-kanji">光</span>
+          <h3 class="card-title">Sandevistan Mk.IV</h3>
+          <p class="card-desc">Spinal neuro-accelerator slowing subjective sensory perception by 85% for 16-second combat bursts. Overheat protection included.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="price-tag">¥ 145,000 ED</span>
+            <button class="btn-neon" onclick="alert('Rig Added to Neural Loadout')">Acquire</button>
+          </div>
+        </div>
+
+        <div class="cyber-card">
+          <span class="card-kanji">瞳</span>
+          <h3 class="card-title">Kiroshi Optics V9</h3>
+          <p class="card-desc">Sub-dermal bionic retina with integrated real-time threat analysis, bullet-trajectory predictive HUD, and thermal x-ray spectrum.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="price-tag">¥ 88,000 ED</span>
+            <button class="btn-neon" onclick="alert('Optics Initialized')">Acquire</button>
+          </div>
+        </div>
+
+        <div class="cyber-card">
+          <span class="card-kanji">電</span>
+          <h3 class="card-title">Militech Sub-Dermal Mesh</h3>
+          <p class="card-desc">Titanium-graphene weave bonded directly underneath the epidermis. Deflects small-arms kinetic fire and high-voltage arc charges.</p>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="price-tag">¥ 210,000 ED</span>
+            <button class="btn-neon" onclick="alert('Mesh Hardening Verified')">Acquire</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="wrapper footer-flex">
+      <div>NEO-TOKYO UNDERGROUND CYBERNETICS // ALL RIGHTS UNDER GHOST PROTOCOL</div>
+      <div>NEO_SHINJUKU · AKIHABARA CORE · CHIBASAKI DOCKS</div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleCRT() {
+      const b = document.getElementById('body-root');
+      const btn = document.getElementById('crt-toggle');
+      if (b.classList.contains('crt')) {
+        b.classList.remove('crt');
+        btn.innerText = 'CRT: OFF';
+      } else {
+        b.classList.add('crt');
+        btn.innerText = 'CRT: ON';
+      }
+    }
+
+    function runDiagnostic() {
+      alert("Diagnostic: Synaptic impedance 0.04 ohms · Core frequency 4.8 GHz · Neural sync 99.98% nominal.");
+    }
+
+    function handleTerm(e) {
+      if (e.key === 'Enter') {
+        const input = document.getElementById('term-input');
+        const log = document.getElementById('term-log');
+        const cmd = input.value.trim().toLowerCase();
+        input.value = '';
+
+        log.innerHTML += `<br><span style="color: #ff007f;">root@neo-tokyo:~# ${cmd}</span><br>`;
+
+        if (cmd === 'help') {
+          log.innerHTML += `COMMANDS: 'mods', 'status', 'overclock', 'clear'<br>`;
+        } else if (cmd === 'mods') {
+          log.innerHTML += `INSTALLED: Sandevistan Mk.IV, Kiroshi Optics V9, Militech Mesh.<br>`;
+        } else if (cmd === 'status') {
+          log.innerHTML += `STATUS: Synapses clean. ICE intrusion defense active.<br>`;
+        } else if (cmd === 'overclock') {
+          log.innerHTML += `<span style="color: #ffe600;">[WARN] NEURAL FREQUENCY FORCED TO 6.2 GHz. TEMPERATURE SPIKE.</span><br>`;
+        } else if (cmd === 'clear') {
+          log.innerHTML = `[TERMINAL CLEARED]<br>`;
+        } else {
+          log.innerHTML += `Unknown command: ${cmd}. Type 'help' for index.<br>`;
+        }
+        log.scrollTop = log.scrollHeight;
+      }
+    }
+  </script>
+</body>
+</html>

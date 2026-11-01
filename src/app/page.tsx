@@ -1,156 +1,226 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
-import FeaturesSection from '@/components/FeaturesSection';
+import ShowcaseMarquee from '@/components/ShowcaseMarquee';
+import MasterpieceBentoGrid from '@/components/MasterpieceBentoGrid';
 import TemplateCard from '@/components/TemplateCard';
 import PricingCard from '@/components/PricingCard';
+import CommandPalette from '@/components/CommandPalette';
 import { templates } from '@/data/templates';
 import { pricingPlans } from '@/data/pricing';
 
 export default function Home() {
-  const featuredTemplates = templates.slice(0, 8);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [isCommandOpen, setIsCommandOpen] = useState(false);
+
+  const filterChips = [
+    { id: 'all', label: 'All Masterpieces (36)', icon: '✦' },
+    { id: 'saas-ai', label: 'SaaS & AI Studios', icon: '🤖', match: ['saas', 'ai', 'cloud'] },
+    { id: 'aerospace-defense', label: 'Aerospace & Cyber', icon: '🚀', match: ['aerospace', 'security', 'cyberpunk'] },
+    { id: 'motorsport-gaming', label: 'Motorsport & Esports', icon: '🏎️', match: ['motorsport', 'gaming'] },
+    { id: 'architecture-luxury', label: 'Architecture & Living', icon: '🏛️', match: ['architecture', 'furniture', 'luxury', 'real-estate'] },
+    { id: 'biotech-fintech', label: 'Biotech & Fintech', icon: '🧬', match: ['biotech', 'fintech', 'crypto'] },
+  ];
+
+  const filteredTemplates = templates.filter((t) => {
+    if (activeCategory === 'all') return true;
+    const chip = filterChips.find((c) => c.id === activeCategory);
+    return chip && chip.match ? chip.match.includes(t.category) : true;
+  }).slice(0, 8);
 
   return (
-    <div className="flex flex-col bg-[#09090b]">
-      <Hero />
+    <div className="flex flex-col bg-[#060609] min-h-screen">
+      {/* 1. Atmospheric Masterpiece Hero */}
+      <Hero onOpenCommandPalette={() => setIsCommandOpen(true)} />
 
-      {/* Featured Templates Section */}
-      <section className="py-20 border-b border-white/[0.08]">
+      {/* 2. Infinite Continuous Showcase Marquee */}
+      <ShowcaseMarquee />
+
+      {/* 3. Interactive Masterpiece Bento Grid */}
+      <MasterpieceBentoGrid />
+
+      {/* 4. Live Curated Masterpiece Showcase with Instant Category Switcher */}
+      <section className="py-24 border-b border-white/[0.08] bg-[#07070b] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2">
-                Featured Templates
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-indigo-400 mb-2 font-bold">
+                <span>●</span>
+                <span>CURATED ARCHIVE</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2">
+                Featured Production Masterpieces
               </h2>
-              <p className="text-sm text-zinc-400">
-                Curated designs across SaaS, dashboards, e-commerce, and portfolios.
+              <p className="text-sm text-zinc-400 max-w-xl leading-relaxed">
+                Filter by specialized vertical. Every template includes 100% responsive testing, WCAG AAA accessibility, and zero external build tooling.
               </p>
             </div>
-            <Link 
-              href="/templates" 
-              className="text-xs font-semibold text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
+
+            <Link
+              href="/templates"
+              className="text-xs font-semibold text-white px-4 py-2.5 rounded-xl border border-white/15 bg-zinc-900/80 hover:bg-zinc-800 transition-colors flex items-center gap-2 self-start md:self-auto shrink-0 shadow-lg"
             >
-              <span>View all 30 templates</span>
+              <span>View All 36 Templates</span>
               <span>→</span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-            {featuredTemplates.map(template => (
+          {/* Quick Filter Category Chips */}
+          <div className="flex overflow-x-auto pb-4 gap-2 mb-10 hide-scrollbar">
+            {filterChips.map((chip) => {
+              const isSelected = activeCategory === chip.id;
+              return (
+                <button
+                  key={chip.id}
+                  onClick={() => setActiveCategory(chip.id)}
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border ${
+                    isSelected
+                      ? 'bg-white text-zinc-950 border-white shadow-lg shadow-white/10 font-bold scale-[1.02]'
+                      : 'bg-zinc-950/80 border-white/10 text-zinc-400 hover:text-white hover:border-white/20'
+                  }`}
+                >
+                  <span>{chip.icon}</span>
+                  <span>{chip.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Masterpiece Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {filteredTemplates.map((template) => (
               <TemplateCard key={template.id} template={template} />
             ))}
           </div>
 
-          <div className="text-center">
-            <Link 
-              href="/templates" 
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white text-xs font-semibold rounded-lg border border-white/10 transition-colors"
+          <div className="text-center pt-4">
+            <Link
+              href="/templates"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 hover:bg-zinc-800 text-zinc-100 text-xs font-bold rounded-xl border border-white/15 transition-all shadow-xl hover:scale-[1.02]"
             >
-              Browse entire catalog (30 templates) →
+              <span>Explore Complete 36-Template Registry</span>
+              <span>→</span>
             </Link>
           </div>
         </div>
       </section>
 
-      <FeaturesSection />
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 border-b border-white/[0.08]">
+      {/* 5. Pricing Section */}
+      <section id="pricing" className="py-24 border-b border-white/[0.08] bg-[#060609]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2">
-              Transparent, flat pricing
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-mono uppercase tracking-wider mb-3">
+              <span>✦ TRANSPARENT MEMBERSHIP</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
+              Developer-First Flat Subscriptions
             </h2>
-            <p className="text-sm text-zinc-400">
-              Pick the tier that fits your workflow. Cancel anytime, keep downloaded template files forever.
+            <p className="text-sm text-zinc-400 leading-relaxed">
+              Cancel anytime. Downloaded template files and commercial rights remain yours forever in perpetuity.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-7xl">
-            {pricingPlans.map(plan => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {pricingPlans.map((plan) => (
               <PricingCard key={plan.id} plan={plan} />
             ))}
           </div>
 
-          {/* Supported payment badges */}
-          <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-400">
+          {/* Supported Global Payment Rails */}
+          <div className="mt-12 pt-8 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-400">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Encrypted global checkout via Dodo Payments</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>256-bit TLS Encrypted Global Checkout via Dodo Payments</span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-zinc-500">Supported methods:</span>
-              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium flex items-center gap-1.5">
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 170 170">
-                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.97-9.13-10.66-19.43-14.07-30.89-3.41-11.46-5.12-22.18-5.12-32.16 0-14.12 3.65-25.79 10.96-35.01 7.31-9.23 16.32-13.93 27.04-14.12 5.02 0 10.53 1.29 16.53 3.88 6 2.58 10.02 3.93 12.06 4.06 1.7.01 5.92-1.39 12.66-4.18 6.74-2.79 12.51-4.06 17.3-3.8 12.44.75 22.22 5.37 29.35 13.88-10.88 6.58-16.2 15.54-15.96 26.89.26 8.84 3.73 16.14 10.41 21.9 6.69 5.76 14.54 9.17 23.57 10.23-2.22 6.89-5.1 14.28-8.64 22.16zM119.22 33.64c0-7.29 2.65-14.18 7.96-20.67 5.31-6.5 11.9-10.74 19.78-12.72.33 1.15.5 2.27.5 3.36 0 7.2-2.75 14.17-8.24 20.91-5.49 6.74-12.16 10.87-20 12.39z"/>
-                </svg>
-                Apple Pay
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">
-                Google Pay
-              </span>
-              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">
-                Visa / Mastercard
-              </span>
+              <span className="text-zinc-500">Supported Rails:</span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">Apple Pay</span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">Google Pay</span>
+              <span className="px-2.5 py-1 rounded-md bg-zinc-900 border border-white/10 text-zinc-200 font-medium">Visa &amp; Mastercard</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Commercial License & FAQ callout */}
-      <section id="license" className="py-20 border-b border-white/[0.08] bg-zinc-950/40">
+      {/* 6. Commercial License & Technical FAQ */}
+      <section id="license" className="py-24 border-b border-white/[0.08] bg-[#07070b]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-xl border border-white/[0.06] bg-zinc-900/30">
-              <h3 className="text-sm font-semibold text-white mb-2">What format are templates in?</h3>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl font-extrabold text-white tracking-tight mb-3">
+              Technical Architecture &amp; Licensing FAQ
+            </h2>
+            <p className="text-sm text-zinc-400">Everything developers need to know about code ownership, licenses, and tooling.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="p-6 rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-md">
+              <div className="text-indigo-400 text-lg mb-2 font-mono">01 // Delivery Format</div>
+              <h3 className="text-sm font-bold text-white mb-2">How are the templates delivered?</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Templates are delivered as clean standalone HTML files with embedded, modern CSS and semantic layout structures. No required toolchain to preview or deploy.
+                As clean, production-ready standalone HTML5 files with embedded, modern CSS variables and vanilla JavaScript. Also available as instant full-project `.zip` archives with README, configs, and license terms.
               </p>
             </div>
-            <div className="p-6 rounded-xl border border-white/[0.06] bg-zinc-900/30">
-              <h3 className="text-sm font-semibold text-white mb-2">Can I use templates for clients?</h3>
+
+            <div className="p-6 rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-md">
+              <div className="text-emerald-400 text-lg mb-2 font-mono">02 // Commercial Rights</div>
+              <h3 className="text-sm font-bold text-white mb-2">Can I ship client websites?</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Yes. Both Basic (€3/mo) and Pro (€10/mo) tiers grant full commercial rights to customize and ship finished websites for paying clients without attribution.
+                Yes. Active Basic (€3/mo) and Pro (€10/mo) subscriptions grant unlimited worldwide commercial deployment rights for client projects and SaaS apps with zero attribution required.
               </p>
             </div>
-            <div className="p-6 rounded-xl border border-white/[0.06] bg-zinc-900/30">
-              <h3 className="text-sm font-semibold text-white mb-2">What happens if I cancel?</h3>
+
+            <div className="p-6 rounded-2xl border border-white/10 bg-zinc-900/40 backdrop-blur-md">
+              <div className="text-amber-400 text-lg mb-2 font-mono">03 // Perpetual Ownership</div>
+              <h3 className="text-sm font-bold text-white mb-2">What happens if I cancel?</h3>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                All templates downloaded during your active subscription remain yours to keep and use in perpetuity. No recurring lock-in.
+                Any template code downloaded while subscribed remains yours to use and deploy forever. There are zero recurring runtime license gates or call-home verification checks.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Clean Call To Action Section */}
-      <section className="py-20">
+      {/* 7. Bottom High-Impact Call To Action */}
+      <section className="py-24 bg-[#060609]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="p-10 md:p-14 rounded-2xl border border-white/10 bg-zinc-900/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <div className="max-w-xl">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-2">
-                Start building with TemplateHub today.
+          <div className="p-10 md:p-16 rounded-3xl border border-white/15 bg-gradient-to-b from-zinc-900/80 to-zinc-950/90 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="max-w-xl relative z-10">
+              <span className="text-[11px] font-mono text-indigo-400 uppercase tracking-widest font-bold block mb-2">
+                START BUILDING TODAY
+              </span>
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white mb-3">
+                Claim your starter template and deploy in minutes.
               </h2>
-              <p className="text-sm text-zinc-400">
-                Create a free account to claim your starter template and explore interactive live sandboxes for every design.
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Join thousands of engineers and studios shipping high-converting websites without framework drag. Free starter tier included.
               </p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
-              <Link 
-                href="/signup" 
-                className="px-5 py-2.5 bg-white text-zinc-950 font-semibold text-xs rounded-lg hover:bg-zinc-200 transition-colors shadow-xs"
+
+            <div className="flex items-center gap-3 shrink-0 relative z-10">
+              <Link
+                href="/signup"
+                className="px-6 py-3.5 bg-white text-zinc-950 font-bold text-xs rounded-xl hover:bg-zinc-200 transition-all shadow-xl hover:scale-105"
               >
-                Create free account
+                Create Free Account
               </Link>
-              <Link 
-                href="/templates" 
-                className="px-5 py-2.5 text-zinc-300 hover:text-white border border-white/10 rounded-lg text-xs font-medium hover:bg-zinc-800 transition-colors"
+              <Link
+                href="/templates"
+                className="px-6 py-3.5 text-zinc-300 hover:text-white border border-white/15 rounded-xl text-xs font-semibold hover:bg-zinc-800 transition-colors"
               >
-                Browse catalog
+                Browse All 36
               </Link>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Command Palette */}
+      <CommandPalette isOpen={isCommandOpen} onClose={() => setIsCommandOpen(false)} />
     </div>
   );
 }

@@ -41,7 +41,13 @@ export type TemplateCategory =
   | 'security'
   | 'energy'
   | 'luxury'
-  | 'cloud';
+  | 'cloud'
+  | 'aerospace'
+  | 'architecture'
+  | 'cyberpunk'
+  | 'furniture'
+  | 'motorsport'
+  | 'biotech';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 
