@@ -226,15 +226,15 @@ export default function AIGeneratorPage() {
         {state === 'success' && generatedHtml && (
           <div className="space-y-4">
             {/* Action bar */}
-            <div className="flex items-center justify-between bg-[#0d0622]/90 border border-purple-500/25 rounded-xl px-4 py-3 backdrop-blur-xl">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#0d0622]/90 border border-purple-500/25 rounded-xl px-4 py-3 backdrop-blur-xl">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="text-xs font-bold text-white">Template generated</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <button
                   onClick={handleCopy}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 hover:text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 hover:text-white text-xs font-semibold rounded-lg transition-colors flex-1 sm:flex-none justify-center"
                 >
                   {copied ? (
                     <>
@@ -254,12 +254,12 @@ export default function AIGeneratorPage() {
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm shadow-purple-500/30 hover:scale-105"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm shadow-purple-500/30 active:scale-95 flex-1 sm:flex-none justify-center"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                  Download Template
+                  Download
                 </button>
               </div>
             </div>

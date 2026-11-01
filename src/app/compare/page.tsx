@@ -195,31 +195,31 @@ export default function ComparePage() {
             </div>
 
             {/* Action Row */}
-            <div className="grid grid-cols-2 divide-x divide-white/[0.08] p-6 bg-zinc-950/60">
-              <div className="px-4 flex gap-3">
+            <div className="grid grid-cols-2 divide-x divide-white/[0.08] p-3 sm:p-6 bg-zinc-950/60">
+              <div className="px-1.5 sm:px-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Link
                   href={`/templates/${templateA.id}`}
-                  className="flex-1 text-center py-2.5 px-4 bg-white text-zinc-950 font-semibold rounded-lg text-xs hover:bg-zinc-200 transition-colors"
+                  className="flex-1 text-center py-2.5 px-2 sm:px-4 bg-white text-zinc-950 font-semibold rounded-lg text-[11px] sm:text-xs hover:bg-zinc-200 transition-colors"
                 >
-                  View Details & Sandbox →
+                  View Details →
                 </Link>
                 <Link
                   href={`/builder?template=${templateA.id}`}
-                  className="py-2.5 px-3 bg-zinc-800 text-zinc-300 hover:text-white rounded-lg text-xs border border-white/10"
+                  className="text-center py-2 sm:py-2.5 px-2.5 sm:px-3 bg-zinc-800 text-zinc-300 hover:text-white rounded-lg text-[11px] sm:text-xs border border-white/10"
                 >
                   Editor
                 </Link>
               </div>
-              <div className="px-4 flex gap-3">
+              <div className="px-1.5 sm:px-4 flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <Link
                   href={`/templates/${templateB.id}`}
-                  className="flex-1 text-center py-2.5 px-4 bg-white text-zinc-950 font-semibold rounded-lg text-xs hover:bg-zinc-200 transition-colors"
+                  className="flex-1 text-center py-2.5 px-2 sm:px-4 bg-white text-zinc-950 font-semibold rounded-lg text-[11px] sm:text-xs hover:bg-zinc-200 transition-colors"
                 >
-                  View Details & Sandbox →
+                  View Details →
                 </Link>
                 <Link
                   href={`/builder?template=${templateB.id}`}
-                  className="py-2.5 px-3 bg-zinc-800 text-zinc-300 hover:text-white rounded-lg text-xs border border-white/10"
+                  className="text-center py-2 sm:py-2.5 px-2.5 sm:px-3 bg-zinc-800 text-zinc-300 hover:text-white rounded-lg text-[11px] sm:text-xs border border-white/10"
                 >
                   Editor
                 </Link>

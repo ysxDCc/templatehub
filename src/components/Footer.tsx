@@ -72,9 +72,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-purple-500/20 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-purple-300/60 font-mono">
+        <div className="pt-8 border-t border-purple-500/20 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-purple-300/60 font-mono text-center md:text-left">
           <p>© 2026 TemplateHub Inc. Built with Next.js, React &amp; Tailwind CSS.</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
             <span className="hover:text-purple-200 cursor-pointer">Privacy Policy</span>
             <span className="hover:text-purple-200 cursor-pointer">Cookie Settings</span>
             <span className="text-emerald-400 flex items-center gap-1.5">

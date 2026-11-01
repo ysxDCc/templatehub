@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Show, UserButton } from '@clerk/nextjs';
 import { useFavorites } from '@/context/FavoritesContext';
 import CommandPalette from '@/components/CommandPalette';
@@ -11,6 +11,18 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const { favoritesCount } = useFavorites();
+
+  // Prevent background body scroll when mobile menu is active
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -121,10 +133,10 @@ export default function Navbar() {
             </div>
 
             {/* Mobile hamburger & search */}
-            <div className="md:hidden flex items-center gap-2">
+            <div className="md:hidden flex items-center gap-1.5">
               <button
                 onClick={() => setIsCommandOpen(true)}
-                className="p-2 text-purple-300 hover:text-white border border-purple-500/30 rounded-xl bg-[#0e0624]"
+                className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white border border-purple-500/30 rounded-xl bg-[#0e0624] active:scale-95 transition-transform"
                 aria-label="Open search palette"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -133,14 +145,14 @@ export default function Navbar() {
               </button>
               <button 
                 onClick={() => setIsOpen(!isOpen)} 
-                className="p-2 text-purple-300 hover:text-white focus:outline-none border border-purple-500/20 rounded-xl bg-[#0e0624]"
+                className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white focus:outline-none border border-purple-500/30 rounded-xl bg-[#0e0624] active:scale-95 transition-transform"
                 aria-label="Toggle navigation menu"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {isOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M6 18L18 6M6 6l12 12" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h16M4 12h16M4 18h16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   )}
                 </svg>
               </button>
@@ -148,80 +160,119 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile dropdown menu */}
+        {/* Mobile dropdown menu with smooth touch scrolling */}
         {isOpen && (
-          <div className="md:hidden bg-[#070314]/95 backdrop-blur-2xl border-b border-purple-500/25 px-4 pt-3 pb-6 space-y-3">
+          <div className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[#070314]/98 backdrop-blur-3xl border-b border-purple-500/25 px-5 pt-4 pb-12 overflow-y-auto space-y-2 z-50">
             <Link 
               href="/templates" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              <span>Explore Templates</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold">
+              <span className="flex items-center gap-2.5">
+                <span>💎</span>
+                <span>Explore Templates</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold">
                 56 Total
               </span>
             </Link>
+
+            {favoritesCount > 0 && (
+              <Link 
+                href="/templates" 
+                onClick={() => setIsOpen(false)}
+                className="px-3.5 py-3 rounded-xl text-sm font-semibold text-rose-300 hover:text-white hover:bg-rose-950/30 flex items-center justify-between border border-rose-500/20 active:bg-rose-900/30 transition-colors"
+              >
+                <span className="flex items-center gap-2.5">
+                  <span>❤️</span>
+                  <span>Saved Templates</span>
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-200 font-bold">
+                  {favoritesCount}
+                </span>
+              </Link>
+            )}
+
             <Link 
               href="/ai-generator" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              <span>AI Template Studio</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
+              <span className="flex items-center gap-2.5">
+                <span>🤖</span>
+                <span>AI Template Studio</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30 font-bold">
                 PRO
               </span>
             </Link>
+
             <Link 
               href="/compare" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              Compare Specifications
+              <span className="flex items-center gap-2.5">
+                <span>⚖️</span>
+                <span>Compare Specifications</span>
+              </span>
             </Link>
+
             <Link 
               href="/builder" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5 flex items-center justify-between"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              <span>Visual Customizer</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span className="flex items-center gap-2.5">
+                <span>✏️</span>
+                <span>Visual Customizer</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">
                 Live
               </span>
             </Link>
+
             <Link 
               href="/#pricing" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              Subscription Tiers
+              <span className="flex items-center gap-2.5">
+                <span>💳</span>
+                <span>Subscription Tiers</span>
+              </span>
             </Link>
+
             <Link 
               href="/#license" 
               onClick={() => setIsOpen(false)}
-              className="block text-sm font-semibold text-purple-200 hover:text-white py-1.5"
+              className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
-              Commercial License
+              <span className="flex items-center gap-2.5">
+                <span>📜</span>
+                <span>Commercial License</span>
+              </span>
             </Link>
 
-            <div className="pt-4 border-t border-purple-500/20 flex flex-col gap-2">
+            <div className="pt-6 border-t border-purple-500/20 flex flex-col gap-3">
               <Show when="signed-out">
                 <Link
                   href="/login"
                   onClick={() => setIsOpen(false)}
-                  className="w-full text-center py-2.5 rounded-xl border border-purple-500/30 bg-[#0e0624] text-xs font-semibold text-purple-200"
+                  className="w-full text-center py-3 rounded-xl border border-purple-500/30 bg-[#0e0624] text-xs font-semibold text-purple-200 active:bg-purple-900/40"
                 >
                   Log in
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setIsOpen(false)}
-                  className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                  className="w-full text-center py-3 rounded-xl bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_20px_rgba(168,85,247,0.4)] active:scale-98 transition-transform"
                 >
-                  Get Started Free
+                  Get Started Free →
                 </Link>
               </Show>
               <Show when="signed-in">
-                <div className="flex items-center justify-between py-2">
+                <div className="flex items-center justify-between py-2 px-3 bg-[#0e0624] border border-purple-500/20 rounded-xl">
                   <span className="text-xs text-purple-300">Account Session</span>
                   <UserButton />
                 </div>

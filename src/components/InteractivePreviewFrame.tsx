@@ -24,6 +24,7 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   const [viewport, setViewport] = useState<ViewportMode>('desktop');
   const [primaryColor, setPrimaryColor] = useState('#a855f7');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isIframeInteractive, setIsIframeInteractive] = useState(false);
 
   // Raw Code state (only loaded if user has access)
   const [rawCode, setRawCode] = useState<string>('');
@@ -203,18 +204,19 @@ Deploy directly to Vercel, Netlify, or any static web host.
   return (
     <div className="border border-purple-500/25 rounded-2xl overflow-hidden bg-[#0a041b] shadow-2xl transition-all">
       {/* Primary Tab Switcher Bar */}
-      <div className="bg-[#0e0624] px-4 py-2 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1 bg-[#070314] p-1 rounded-xl border border-purple-500/25">
+      <div className="bg-[#0e0624] px-3 sm:px-4 py-2 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-2.5">
+        <div className="flex items-center gap-1 bg-[#070314] p-1 rounded-xl border border-purple-500/25 overflow-x-auto hide-scrollbar max-w-full">
           <button
             onClick={() => setViewMode('preview')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               viewMode === 'preview'
                 ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]'
                 : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
             }`}
           >
             <span>👁️</span>
-            <span>Interactive Viewport</span>
+            <span className="hidden xs:inline">Interactive </span>
+            <span>Viewport</span>
             {appliedCustom && (
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Customized Store Active" />
             )}
@@ -223,14 +225,15 @@ Deploy directly to Vercel, Netlify, or any static web host.
           {/* AUTO-EDIT STUDIO TAB */}
           <button
             onClick={() => setViewMode('autoedit')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               viewMode === 'autoedit'
                 ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(232,121,249,0.4)]'
                 : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
             }`}
           >
             <span>🪄</span>
-            <span>Auto-Edit with Store Info</span>
+            <span className="hidden sm:inline">Auto-Edit with </span>
+            <span>Store Auto-Edit</span>
             <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
               Pro
             </span>
@@ -239,14 +242,15 @@ Deploy directly to Vercel, Netlify, or any static web host.
           {/* CODE INSPECTOR TAB */}
           <button
             onClick={() => setViewMode('code')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
               viewMode === 'code'
                 ? 'bg-zinc-800 text-white shadow-xs'
                 : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
             }`}
           >
             <span>{hasAccess ? '⟨/⟩' : '🔒'}</span>
-            <span>Source Code</span>
+            <span className="hidden xs:inline">Source </span>
+            <span>Code</span>
             {!hasAccess && (
               <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">
                 Locked
@@ -257,9 +261,9 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
         {/* Viewport Top Right Actions */}
         {appliedCustom && viewMode === 'preview' && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs text-emerald-400 font-mono flex items-center gap-1">
-              <span>✓ Custom Store Applied</span>
+              <span>✓ Store Applied</span>
             </span>
             <button
               onClick={handleResetAutoEdit}
@@ -271,7 +275,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
               onClick={handleDownloadCustomHtml}
               className="text-xs font-semibold text-zinc-950 bg-white hover:bg-zinc-200 px-3 py-1 rounded-md"
             >
-              Download My Site
+              Download
             </button>
           </div>
         )}
@@ -279,15 +283,15 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
       {/* Subheader Toolbar */}
       {viewMode === 'preview' && (
-        <div className="bg-zinc-900/90 backdrop-blur-md px-4 py-3 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-zinc-900/90 backdrop-blur-md px-3 sm:px-4 py-2.5 sm:py-3 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-2.5">
           {/* Left: Simulated URL */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 mr-1">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-1.5 mr-1 shrink-0">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
             </div>
-            <span className="text-[11px] font-mono text-zinc-400 truncate max-w-xs bg-zinc-950 px-2.5 py-1 rounded-md border border-white/[0.06]">
+            <span className="text-[11px] font-mono text-zinc-400 truncate max-w-[140px] xs:max-w-xs bg-zinc-950 px-2.5 py-1 rounded-md border border-white/[0.06]">
               {appliedCustom
                 ? `https://${storeData.storeName.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`
                 : `https://templatehub.website/sandbox/${template.id}`}
@@ -299,11 +303,14 @@ Deploy directly to Vercel, Netlify, or any static web host.
             {(Object.keys(viewports) as ViewportMode[]).map((mode) => {
               const vp = viewports[mode];
               const isActive = viewport === mode;
+              const isDesktopOrMobile = mode === 'desktop' || mode === 'mobile';
               return (
                 <button
                   key={mode}
                   onClick={() => setViewport(mode)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-all flex items-center gap-1.5 ${
+                  className={`px-2 sm:px-2.5 py-1 text-xs font-semibold rounded-md transition-all items-center gap-1.5 ${
+                    isDesktopOrMobile ? 'flex' : 'hidden sm:flex'
+                  } ${
                     isActive
                       ? 'bg-zinc-800 text-white shadow-xs'
                       : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
@@ -349,7 +356,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
       {/* Optional Theme Tokens Drawer in Preview Mode */}
       {viewMode === 'preview' && isDrawerOpen && (
         <div className="bg-zinc-900/95 border-b border-white/[0.08] px-4 py-3 flex flex-wrap items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <span className="font-semibold text-zinc-300">Live Brand Palette:</span>
             <div className="flex items-center gap-1.5">
               {colorPresets.map((p) => (
@@ -376,12 +383,29 @@ Deploy directly to Vercel, Netlify, or any static web host.
         </div>
       )}
 
-      {/* VIEWPORT MODE */}
+      {/* VIEWPORT MODE WITH MOBILE TOUCH TRAP PREVENTION */}
       {viewMode === 'preview' && (
-        <div className="bg-zinc-950/80 p-2 sm:p-4 flex justify-center items-center overflow-x-auto min-h-[580px]">
+        <div className="bg-zinc-950/80 p-2 sm:p-4 flex flex-col justify-center items-center overflow-x-hidden min-h-[460px] sm:min-h-[580px] relative">
+          {/* Mobile Sandbox Touch Activation Banner */}
+          <div className="sm:hidden w-full mb-2 flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#0e0624] border border-purple-500/25 text-[11px] text-purple-200">
+            <span>{isIframeInteractive ? '🎮 Sandbox Touch Active' : '📜 Scroll Mode Active'}</span>
+            <button
+              onClick={() => setIsIframeInteractive(!isIframeInteractive)}
+              className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+                isIframeInteractive
+                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                  : 'bg-purple-600 text-white shadow-xs'
+              }`}
+            >
+              {isIframeInteractive ? 'Exit Touch' : 'Tap to Interact'}
+            </button>
+          </div>
+
           <div
             style={{ width: viewports[viewport].width }}
-            className="h-[580px] bg-zinc-950 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300"
+            className={`max-w-full h-[450px] sm:h-[580px] bg-zinc-950 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300 relative ${
+              !isIframeInteractive ? 'pointer-events-none sm:pointer-events-auto' : 'pointer-events-auto'
+            }`}
             onContextMenu={(e) => e.preventDefault()}
           >
             {customHtml ? (

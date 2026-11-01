@@ -22,7 +22,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Keyboard shortcut listener for Cmd+K / Ctrl+K
+  // Keyboard shortcut listener for Cmd+K / Ctrl+K and escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -40,6 +40,18 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
+
+  // Lock body scroll when modal is active
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const quickLinks: PaletteItem[] = [
     { name: 'Browse All 56 Masterpieces', href: '/templates', icon: '💎', type: 'Archive' },
@@ -100,17 +112,17 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/80 backdrop-blur-md transition-all"
+      className="fixed inset-0 z-50 flex items-start justify-center pt-10 sm:pt-20 px-3 sm:px-4 bg-black/80 backdrop-blur-md transition-all overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-[#0d0622] border border-purple-500/35 rounded-2xl shadow-[0_0_60px_rgba(168,85,247,0.35)] overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+        className="w-full max-w-2xl bg-[#0d0622] border border-purple-500/35 rounded-2xl shadow-[0_0_60px_rgba(168,85,247,0.35)] overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto sm:my-0"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleModalKeyDown}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-purple-500/20 bg-[#140838]/80">
-          <svg className="w-5 h-5 text-purple-400 shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="flex items-center gap-2.5 sm:gap-3 px-3.5 sm:px-4 py-3 sm:py-3.5 border-b border-purple-500/20 bg-[#140838]/80">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 shrink-0 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -118,12 +130,19 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search all 56 templates, tools, or verticals... (e.g. 'f1', 'biotech', 'arcade', 'spa')"
-            className="w-full bg-transparent text-sm text-white placeholder-purple-300/40 focus:outline-none"
+            placeholder="Search all 56 templates, tools, or verticals..."
+            className="w-full bg-transparent text-xs sm:text-sm text-white placeholder-purple-300/40 focus:outline-none"
           />
           <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono bg-[#070314] text-purple-300 border border-purple-500/30 rounded">
             ESC
           </kbd>
+          <button
+            onClick={onClose}
+            className="sm:hidden p-1.5 text-purple-300 hover:text-white rounded-lg bg-[#070314] border border-purple-500/30 text-xs shrink-0"
+            aria-label="Close search"
+          >
+            ✕
+          </button>
         </div>
 
         {/* Results List */}

@@ -134,16 +134,16 @@ export default function Home() {
           </div>
 
           {/* Supported Global Payment Rails */}
-          <div className="mt-14 pt-8 border-t border-purple-500/20 flex flex-wrap items-center justify-between gap-4 text-xs text-purple-300/80">
+          <div className="mt-14 pt-8 border-t border-purple-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-purple-300/80">
             <div className="flex items-center gap-2.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
               <span>256-bit TLS Encrypted Global Checkout via Dodo Payments</span>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-purple-400 font-mono">Accepted Rails:</span>
-              <span className="px-3 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium">Apple Pay</span>
-              <span className="px-3 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium">Google Pay</span>
-              <span className="px-3 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium">Visa &amp; Mastercard</span>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <span className="text-purple-400 font-mono text-[11px]">Accepted Rails:</span>
+              <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Apple Pay</span>
+              <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Google Pay</span>
+              <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Visa &amp; Mastercard</span>
             </div>
           </div>
         </div>

@@ -13,14 +13,14 @@ export default function ShowcaseMarquee() {
       {/* Background ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-purple-600/10 blur-[90px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex items-center justify-between relative z-10">
-        <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-widest text-purple-300">
-          <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-ping"></span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 relative z-10">
+        <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono uppercase tracking-widest text-purple-300">
+          <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-ping shrink-0"></span>
           <span>Live Visual Archive // 56 Authentic Masterpieces</span>
         </div>
         <Link
           href="/templates"
-          className="text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5"
+          className="text-xs font-bold text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1.5 self-start sm:self-auto"
         >
           <span>Explore Entire Catalog</span>
           <span>→</span>
@@ -29,12 +29,12 @@ export default function ShowcaseMarquee() {
 
       {/* Infinite scrolling track container with purple mask fade */}
       <div className="relative w-full overflow-hidden mask-fade-purple">
-        <div className="flex w-max gap-5 animate-marquee hover:pause">
+        <div className="flex w-max gap-4 sm:gap-5 animate-marquee hover:pause">
           {[...showcaseList, ...showcaseList].map((t, idx) => (
             <Link
               key={`${t.id}-${idx}`}
               href={`/templates/${t.id}`}
-              className="group relative w-72 sm:w-80 shrink-0 rounded-2xl overflow-hidden border border-purple-500/25 bg-[#0e0624] transition-all duration-300 hover:border-purple-400/80 hover:scale-[1.03] hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] block"
+              className="group relative w-64 sm:w-80 shrink-0 rounded-2xl overflow-hidden border border-purple-500/25 bg-[#0e0624] transition-all duration-300 hover:border-purple-400/80 hover:scale-[1.02] hover:shadow-[0_0_35px_rgba(168,85,247,0.35)] block"
             >
               <div className="relative aspect-[16/10] w-full bg-[#070314] overflow-hidden">
                 <Image
@@ -85,6 +85,7 @@ export default function ShowcaseMarquee() {
           animation-play-state: paused;
         }
         .mask-fade-purple {
+          -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
           mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
         }
       `}</style>
