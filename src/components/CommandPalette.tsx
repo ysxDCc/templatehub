@@ -15,7 +15,15 @@ interface PaletteItem {
   href: string;
   icon: string;
   type: string;
+  logoUrl?: string;
 }
+
+const VERIFIED_LOGOS = new Set([
+  'solaris-fusion', 'velvet-atelier', 'aether-neuro', 'obsidian-terminal', 'valkyrie-aero',
+  'horology-complication', 'arcane-distillery', 'hyperion-robotics', 'magma-deepcore', 'apex-endurance',
+  'monolith-acoustics', 'terra-mycelium', 'helios-orbital', 'kaiseki-sanctuary', 'vanguard-quant',
+  'hydros-foil', 'solarium-conservatory', 'sentinel-swarm', 'brutalist-sanctuary', 'pulselab-crispr'
+]);
 
 export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const router = useRouter();
@@ -81,6 +89,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
         href: `/templates/${t.id}`,
         icon: t.logo?.split(' ')[0] || '⚡',
         type: 'Template',
+        logoUrl: VERIFIED_LOGOS.has(t.id) ? `/logos/${t.id}.svg` : undefined,
       }))
     : quickLinks;
 
@@ -166,7 +175,13 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-base">{item.icon}</span>
+                    {item.logoUrl ? (
+                      <span className="w-5 h-5 flex items-center justify-center p-0.5 rounded bg-zinc-900 border border-white/10 shrink-0">
+                        <img src={item.logoUrl} alt="" className="w-full h-full object-contain" />
+                      </span>
+                    ) : (
+                      <span className="text-base">{item.icon}</span>
+                    )}
                     <div>
                       <div className="font-semibold text-white">{item.name}</div>
                       {item.sub && <div className="text-[10px] text-purple-300/60 font-mono mt-0.5">{item.sub}</div>}

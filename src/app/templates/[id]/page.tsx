@@ -7,6 +7,7 @@ import InteractivePreviewFrame from '@/components/InteractivePreviewFrame';
 import SinglePurchaseButton from '@/components/SinglePurchaseButton';
 import ReviewsSection from '@/components/ReviewsSection';
 import MasterBundleDownloadButton from '@/components/MasterBundleDownloadButton';
+import TemplateLogo from '@/components/TemplateLogo';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -153,9 +154,12 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
-                {template.name}
-              </h1>
+              <div className="flex items-center gap-3 mb-3">
+                <TemplateLogo template={template} size={40} />
+                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+                  {template.name}
+                </h1>
+              </div>
 
               <p className="text-sm sm:text-base text-purple-200/80 leading-relaxed max-w-2xl">
                 {template.description}

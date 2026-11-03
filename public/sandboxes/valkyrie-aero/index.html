@@ -549,12 +549,25 @@
 
   <!-- NAVIGATION -->
   <header class="aero-nav">
-    <a href="#" class="brand-group">
-      <div class="brand-chevron">
+    <a href="#" class="brand-group"><svg style="vertical-align: middle; margin-right: 10px; display: inline-block; flex-shrink: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" fill="none">
+    <defs>
+      <linearGradient id="vaMach" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff4500" />
+        <stop offset="50%" stop-color="#ff8c00" />
+        <stop offset="100%" stop-color="#38bdf8" />
+      </linearGradient>
+    </defs>
+    <!-- Mach Shockwave Cones -->
+    <path d="M24 4 L42 42 L24 34 L6 42 Z" stroke="url(#vaMach)" stroke-width="1.8" fill="#070b12" />
+    <path d="M24 12 L35 37 L24 31 L13 37 Z" fill="url(#vaMach)" opacity="0.25" />
+    <!-- Scramjet Intake Spine -->
+    <line x1="24" y1="6" x2="24" y2="33" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
+    <!-- Mach 7 Thrust Plume -->
+    <polygon points="24,35 27,45 24,43 21,45" fill="#ff4500" />
+  </svg><span><div class="brand-chevron">
         <svg viewBox="0 0 24 24"><polygon points="12 2 22 22 12 17 2 22 12 2"/></svg>
       </div>
-      <div class="brand-name">VALKYRIE<span>.AERO</span></div>
-    </a>
+      <div class="brand-name">VALKYRIE<span>.AERO</span></div></span></a>
 
     <nav class="aero-links">
       <a href="#telemetry">Flight HUD</a>

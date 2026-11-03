@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Template } from '@/types';
 import { useFavorites } from '@/context/FavoritesContext';
 import { cyberSound } from '@/lib/sound';
+import TemplateLogo from '@/components/TemplateLogo';
 
 interface TemplateCardProps {
   template: Template;
@@ -107,10 +108,13 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
         <div className="p-4 flex flex-col flex-grow">
           {/* Brand tag + category */}
           <div className="flex items-center justify-between gap-2 mb-2">
-            <span className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">
-              {template.name}
-            </span>
-            <span className="text-[10px] uppercase tracking-wider text-purple-400 font-mono">
+            <div className="flex items-center gap-2 truncate">
+              <TemplateLogo template={template} size={20} />
+              <span className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors truncate">
+                {template.name}
+              </span>
+            </div>
+            <span className="text-[10px] uppercase tracking-wider text-purple-400 font-mono shrink-0">
               {template.category}
             </span>
           </div>

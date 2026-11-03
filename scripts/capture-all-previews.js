@@ -3,7 +3,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-const templatesDir = path.join(__dirname, '..', 'public', 'templates');
+const templatesDir = path.join(__dirname, '..', 'public', 'sandboxes');
 const outDir = path.join(__dirname, '..', 'public', 'previews');
 
 if (!fs.existsSync(outDir)) {
@@ -25,6 +25,10 @@ for (let i = 0; i < templateIds.length; i++) {
   const htmlPath = path.join(templatesDir, id, 'index.html');
   const fileUrl = 'file:///' + htmlPath.replace(/\\/g, '/');
   const outPath = path.join(outDir, `${id}.png`);
+
+  if (fs.existsSync(outPath) && fs.statSync(outPath).size > 1000) {
+    continue;
+  }
 
   console.log(`[${i + 1}/${templateIds.length}] Capturing ${id}...`);
 

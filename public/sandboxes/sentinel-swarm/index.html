@@ -714,13 +714,29 @@
   <!-- Navbar -->
   <header>
     <nav class="navbar">
-      <a href="#" class="brand">
-        <div class="brand-mark"></div>
+      <a href="#" class="brand"><svg style="vertical-align: middle; margin-right: 10px; display: inline-block; flex-shrink: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" fill="none">
+    <defs>
+      <linearGradient id="ssSonar" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#34d399" />
+        <stop offset="100%" stop-color="#059669" />
+      </linearGradient>
+    </defs>
+    <!-- Tactical Radar Sweep Reticle -->
+    <circle cx="24" cy="24" r="19" stroke="url(#ssSonar)" stroke-width="1.8" opacity="0.7" />
+    <circle cx="24" cy="24" r="12" stroke="url(#ssSonar)" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.5" />
+    <circle cx="24" cy="24" r="5" stroke="url(#ssSonar)" stroke-width="1" opacity="0.4" />
+    <!-- Radar Crosshairs -->
+    <line x1="24" y1="5" x2="24" y2="43" stroke="url(#ssSonar)" stroke-width="1" opacity="0.4" />
+    <line x1="5" y1="24" x2="43" y2="24" stroke="url(#ssSonar)" stroke-width="1" opacity="0.4" />
+    <!-- Autonomous Swarm Triad Deltas -->
+    <polygon points="24,14 27,19 24,18 21,19" fill="#10b981" />
+    <polygon points="33,28 36,33 33,32 30,33" fill="#10b981" />
+    <polygon points="15,28 18,33 15,32 12,33" fill="#10b981" />
+  </svg><span><div class="brand-mark"></div>
         <div class="brand-text">
           <h1>AEGIS // SWARM</h1>
           <span>Autonomous Naval Defense Systems</span>
-        </div>
-      </a>
+        </div></span></a>
       <ul class="nav-links">
         <li><a href="#swarm">Swarm Mesh</a></li>
         <li><a href="#intercept">Kinetic Specs</a></li>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+    <defs>
+      <linearGradient id="bsConcrete" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#e7e5e4" />
+        <stop offset="50%" stop-color="#a8a29e" />
+        <stop offset="100%" stop-color="#44403c" />
+      </linearGradient>
+    </defs>
+    <!-- Cantilevered Monolithic Concrete Volumes -->
+    <polygon points="8,36 40,36 40,30 8,30" fill="#292524" stroke="url(#bsConcrete)" stroke-width="1.5" />
+    <polygon points="14,30 34,30 34,22 14,22" fill="#44403c" stroke="url(#bsConcrete)" stroke-width="1.5" />
+    <polygon points="10,22 38,22 38,12 10,12" fill="#78716c" stroke="url(#bsConcrete)" stroke-width="1.5" />
+    <polygon points="18,12 30,12 30,6 18,6" fill="#a8a29e" stroke="url(#bsConcrete)" stroke-width="1.5" />
+    <!-- Strict Architectural Void Slit -->
+    <rect x="22" y="16" width="4" height="6" fill="#0c0a09" />
+  </svg>

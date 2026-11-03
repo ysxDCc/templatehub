@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+    <defs>
+      <linearGradient id="adCopper" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#fbbf24" />
+        <stop offset="50%" stop-color="#d97706" />
+        <stop offset="100%" stop-color="#78350f" />
+      </linearGradient>
+    </defs>
+    <!-- Copper Alembic Still Silhouette -->
+    <path d="M24 6 C28 6 30 10 30 14 C30 18 36 22 36 28 C36 36 30 42 24 42 C18 42 12 36 12 28 C12 22 18 18 18 14 C18 10 20 6 24 6 Z" stroke="url(#adCopper)" stroke-width="2" fill="none" />
+    <!-- Swan Neck Condenser Vapor Tube -->
+    <path d="M24 6 C24 4 28 3 32 4 C36 5 39 8 39 12 V18" stroke="url(#adCopper)" stroke-width="1.5" stroke-linecap="round" fill="none" />
+    <!-- Oak Cask Hoops -->
+    <line x1="15" y1="28" x2="33" y2="28" stroke="url(#adCopper)" stroke-width="1.5" opacity="0.6" />
+    <line x1="17" y1="34" x2="31" y2="34" stroke="url(#adCopper)" stroke-width="1.5" opacity="0.6" />
+    <circle cx="24" cy="22" r="3" fill="#fbbf24" opacity="0.8" />
+  </svg>

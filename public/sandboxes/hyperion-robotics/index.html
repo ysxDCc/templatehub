@@ -626,10 +626,23 @@
   <!-- Header -->
   <header>
     <div class="header-inner">
-      <a href="#" class="brand-group">
-        <div class="brand-icon">H</div>
-        <div class="brand-name">HYPERION <span>ROBOTICS</span></div>
-      </a>
+      <a href="#" class="brand-group"><svg style="vertical-align: middle; margin-right: 10px; display: inline-block; flex-shrink: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" fill="none">
+    <defs>
+      <linearGradient id="hrHazard" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#facc15" />
+        <stop offset="50%" stop-color="#eab308" />
+        <stop offset="100%" stop-color="#06b6d4" />
+      </linearGradient>
+    </defs>
+    <!-- Actuator Ring Housing -->
+    <circle cx="24" cy="24" r="19" stroke="url(#hrHazard)" stroke-width="2" stroke-dasharray="4 2" />
+    <polygon points="24,9 37,16 37,32 24,39 11,32 11,16" stroke="#06b6d4" stroke-width="1.5" fill="none" />
+    <!-- Humanoid Bionic Iris Aperture -->
+    <circle cx="24" cy="24" r="7" stroke="#eab308" stroke-width="2" fill="#0b0b10" />
+    <circle cx="24" cy="24" r="3" fill="#06b6d4" />
+    <circle cx="25.5" cy="22.5" r="1" fill="#ffffff" />
+  </svg><span><div class="brand-icon">H</div>
+        <div class="brand-name">HYPERION <span>ROBOTICS</span></div></span></a>
       <nav>
         <ul>
           <li><a href="#kinematics">Kinematics</a></li>

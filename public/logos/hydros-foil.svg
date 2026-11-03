@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+    <defs>
+      <linearGradient id="hfTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2dd4bf" />
+        <stop offset="50%" stop-color="#14b8a6" />
+        <stop offset="100%" stop-color="#0f766e" />
+      </linearGradient>
+    </defs>
+    <!-- Aerodynamic Hull Line -->
+    <path d="M8 20 C18 19 32 18 42 16" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Dual Surface Piercing T-Foils -->
+    <path d="M16 20 V34 H24" stroke="url(#hfTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M30 19 V34 H38" stroke="url(#hfTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Oceanic Wave Surface (Zero Wake) -->
+    <path d="M6 38 C12 36 18 40 24 38 C30 36 36 40 42 38" stroke="url(#hfTeal)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.6" />
+  </svg>

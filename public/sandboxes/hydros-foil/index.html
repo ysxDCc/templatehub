@@ -523,14 +523,27 @@
 
   <!-- Main Navigation -->
   <nav>
-    <a href="#" class="brand-mark">
-      <div class="brand-fin">
+    <a href="#" class="brand-mark"><svg style="vertical-align: middle; margin-right: 10px; display: inline-block; flex-shrink: 0;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30" height="30" fill="none">
+    <defs>
+      <linearGradient id="hfTeal" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#2dd4bf" />
+        <stop offset="50%" stop-color="#14b8a6" />
+        <stop offset="100%" stop-color="#0f766e" />
+      </linearGradient>
+    </defs>
+    <!-- Aerodynamic Hull Line -->
+    <path d="M8 20 C18 19 32 18 42 16" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Dual Surface Piercing T-Foils -->
+    <path d="M16 20 V34 H24" stroke="url(#hfTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M30 19 V34 H38" stroke="url(#hfTeal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Oceanic Wave Surface (Zero Wake) -->
+    <path d="M6 38 C12 36 18 40 24 38 C30 36 36 40 42 38" stroke="url(#hfTeal)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3" opacity="0.6" />
+  </svg><span><div class="brand-fin">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#031326" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M2 12h20M2 16h20M7 8l5-5 5 5"/>
         </svg>
       </div>
-      HYDROS // FOIL
-    </a>
+      HYDROS // FOIL</span></a>
     <ul class="nav-links">
       <li><a href="#flight-control">Flight Stabilization</a></li>
       <li><a href="#efficiency">80% Energy Cut</a></li>

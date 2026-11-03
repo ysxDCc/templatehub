@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+    <defs>
+      <linearGradient id="anSynapse" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#a855f7" />
+        <stop offset="50%" stop-color="#8b5cf6" />
+        <stop offset="100%" stop-color="#06b6d4" />
+      </linearGradient>
+    </defs>
+    <!-- Cortical Electrode Mesh -->
+    <polygon points="24,6 38,14 38,34 24,42 10,34 10,14" stroke="url(#anSynapse)" stroke-width="1.5" fill="none" opacity="0.4" />
+    <!-- Neural Axon Connectors -->
+    <line x1="24" y1="6" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <line x1="38" y1="14" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <line x1="38" y1="34" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <line x1="24" y1="42" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <line x1="10" y1="34" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <line x1="10" y1="14" x2="24" y2="24" stroke="url(#anSynapse)" stroke-width="1.5" />
+    <!-- Synaptic Nodes -->
+    <circle cx="24" cy="6" r="2.5" fill="#06b6d4" />
+    <circle cx="38" cy="14" r="2.5" fill="#8b5cf6" />
+    <circle cx="38" cy="34" r="2.5" fill="#06b6d4" />
+    <circle cx="24" cy="42" r="2.5" fill="#8b5cf6" />
+    <circle cx="10" cy="34" r="2.5" fill="#06b6d4" />
+    <circle cx="10" cy="14" r="2.5" fill="#8b5cf6" />
+    <!-- Central Cortical Core -->
+    <circle cx="24" cy="24" r="5" fill="url(#anSynapse)" />
+    <circle cx="24" cy="24" r="2" fill="#ffffff" />
+  </svg>

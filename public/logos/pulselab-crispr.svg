@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+    <defs>
+      <linearGradient id="pcHelix" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ec4899" />
+        <stop offset="50%" stop-color="#8b5cf6" />
+        <stop offset="100%" stop-color="#06b6d4" />
+      </linearGradient>
+    </defs>
+    <!-- Microfluidic Cartridge Chip Chamber -->
+    <rect x="8" y="8" width="32" height="32" rx="6" stroke="url(#pcHelix)" stroke-width="1.8" fill="#090d16" />
+    <!-- CRISPR Cas12 DNA Double-Helix Loop -->
+    <path d="M16 16 C20 20 28 20 32 16" stroke="#ec4899" stroke-width="2" stroke-linecap="round" fill="none" />
+    <path d="M16 32 C20 28 28 28 32 32" stroke="#06b6d4" stroke-width="2" stroke-linecap="round" fill="none" />
+    <!-- RNA Guide & Cleavage Base Pairs -->
+    <line x1="20" y1="18" x2="20" y2="30" stroke="url(#pcHelix)" stroke-width="1.5" />
+    <line x1="24" y1="19" x2="24" y2="29" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+    <line x1="28" y1="18" x2="28" y2="30" stroke="url(#pcHelix)" stroke-width="1.5" />
+    <circle cx="24" cy="24" r="2.5" fill="#ec4899" />
+  </svg>
