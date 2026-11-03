@@ -25,10 +25,10 @@ export async function POST(req: Request) {
 
     const client = new DodoPayments({
       bearerToken: apiKey,
-      environment: (process.env.DODO_PAYMENTS_ENVIRONMENT as 'test_mode' | 'live_mode') || 'test_mode',
+      environment: (process.env.DODO_PAYMENTS_ENVIRONMENT as 'test_mode' | 'live_mode') || 'live_mode',
     });
 
-    const origin = req.headers.get('origin') || 'https://templatehub-gold.vercel.app';
+    const origin = req.headers.get('origin') || 'https://www.templatehub.website';
 
     const sessionPayload: any = {
       product_cart: [
