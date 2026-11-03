@@ -7,11 +7,13 @@ import { useFavorites } from '@/context/FavoritesContext';
 import CommandPalette from '@/components/CommandPalette';
 import Logo from '@/components/Logo';
 import { cyberSound } from '@/lib/sound';
+import ReferralModal from '@/components/ReferralModal';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const [isSoundActive, setIsSoundActive] = useState(false);
+  const [isReferralOpen, setIsReferralOpen] = useState(false);
   const { favoritesCount } = useFavorites();
 
   useEffect(() => {
@@ -136,6 +138,22 @@ export default function Navbar() {
                 <kbd className="px-1.5 py-0.5 text-[9px] font-mono bg-[#070314] text-purple-300 border border-purple-500/30 rounded shadow-xs">
                   ⌘K
                 </kbd>
+              </button>
+
+              {/* Creator Partner / Affiliate Trigger */}
+              <button
+                onClick={() => {
+                  cyberSound.playClick();
+                  setIsReferralOpen(true);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-purple-500/25 bg-[#0e0624]/90 hover:bg-[#1a0b3b] text-xs text-purple-200 hover:text-white transition-all shadow-sm"
+                title="30% Creator Partner Program"
+              >
+                <span>💸</span>
+                <span className="hidden xl:inline">Affiliate</span>
+                <span className="text-[10px] px-1 py-0.2 rounded font-mono font-bold bg-purple-500/20 text-purple-300">
+                  30%
+                </span>
               </button>
 
               <Show when="signed-out">
@@ -323,6 +341,9 @@ export default function Navbar() {
 
       {/* Global Command Palette */}
       <CommandPalette isOpen={isCommandOpen} onClose={() => setIsCommandOpen(false)} />
+
+      {/* Creator Partner / Referral Modal */}
+      <ReferralModal isOpen={isReferralOpen} onClose={() => setIsReferralOpen(false)} />
     </>
   );
 }

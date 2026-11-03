@@ -10,6 +10,8 @@ import { createZipArchive } from '@/lib/zip';
 import { cyberSound } from '@/lib/sound';
 import MobileQRCodeModal from '@/components/MobileQRCodeModal';
 import CssTokensModal from '@/components/CssTokensModal';
+import SocialCardGeneratorModal from '@/components/SocialCardGeneratorModal';
+import { convertHtmlToReact, convertHtmlToAstro, convertHtmlToVue, CodeFormat } from '@/lib/transpiler';
 
 interface IndustryPreset {
   name: string;
@@ -150,6 +152,8 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   const [codeLoading, setCodeLoading] = useState(false);
   const [codeSearch, setCodeSearch] = useState('');
   const [copiedCode, setCopiedCode] = useState(false);
+  const [codeFormat, setCodeFormat] = useState<CodeFormat | 'forms'>('html');
+  const [showSocialCardModal, setShowSocialCardModal] = useState(false);
 
   // Auto-Edit Studio state
   const [storeData, setStoreData] = useState<StoreData>(DEFAULT_STORE_DATA);
@@ -207,9 +211,49 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
     }
   };
 
+  const getActiveCode = () => {
+    if (codeFormat === 'jsx') {
+      return convertHtmlToReact(rawCode, template.name);
+    }
+    if (codeFormat === 'astro') {
+      return convertHtmlToAstro(rawCode, template.name);
+    }
+    if (codeFormat === 'vue') {
+      return convertHtmlToVue(rawCode, template.name);
+    }
+    if (codeFormat === 'forms') {
+      return `<!-- Sovereign Working Contact Form Endpoint -->
+<!-- Submissions are routed directly through TemplateHub Form Gateway -->
+<form action="https://www.templatehub.website/api/forms/submit?to=${encodeURIComponent(storeData.contactEmail || 'user@example.com')}" method="POST" class="space-y-4">
+  <div>
+    <label for="name" class="block text-sm font-medium">Your Name</label>
+    <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border" />
+  </div>
+
+  <div>
+    <label for="email" class="block text-sm font-medium">Email Address</label>
+    <input type="email" id="email" name="email" required class="w-full px-4 py-2 rounded-lg border" />
+  </div>
+
+  <div>
+    <label for="message" class="block text-sm font-medium">Message</label>
+    <textarea id="message" name="message" rows="4" required class="w-full p-4 rounded-lg border"></textarea>
+  </div>
+
+  <button type="submit" class="px-6 py-2.5 rounded-lg bg-purple-600 text-white font-bold">
+    Send Message
+  </button>
+</form>`;
+    }
+    return rawCode;
+  };
+
   const handleCopyCode = () => {
-    if (!hasAccess || !rawCode) return;
-    navigator.clipboard.writeText(rawCode);
+    if (!hasAccess) return;
+    const activeCode = getActiveCode();
+    if (!activeCode) return;
+    cyberSound.playClick();
+    navigator.clipboard.writeText(activeCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 2000);
   };
@@ -315,7 +359,8 @@ Deploy directly to Vercel, Netlify, or any static web host.
     }));
   };
 
-  const codeLines = rawCode ? rawCode.split('\n') : [];
+  const activeCode = getActiveCode();
+  const codeLines = activeCode ? activeCode.split('\n') : [];
   const filteredLines = codeSearch
     ? codeLines.map((line, idx) => ({ line, idx, match: line.toLowerCase().includes(codeSearch.toLowerCase()) }))
     : codeLines.map((line, idx) => ({ line, idx, match: false }));
@@ -623,6 +668,17 @@ Deploy directly to Vercel, Netlify, or any static web host.
                   >
                     <span>✨</span>
                     <span>Apply &amp; Preview</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      cyberSound.playClick();
+                      setShowSocialCardModal(true);
+                    }}
+                    className="px-3.5 py-2 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-purple-200 hover:text-white font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm"
+                    title="Generate 1200x630 Social Banner"
+                  >
+                    <span>📸</span>
+                    <span>Social Card</span>
                   </button>
                   <button
                     onClick={handleExportCustomZip}
@@ -942,6 +998,35 @@ Deploy directly to Vercel, Netlify, or any static web host.
           ) : (
             /* Unlocked Source Code Inspector */
             <div className="space-y-3">
+              {/* Multi-Format Transpiler Tabs */}
+              <div className="flex items-center gap-1.5 bg-zinc-900/90 p-1.5 rounded-xl border border-white/[0.08] overflow-x-auto hide-scrollbar text-xs">
+                <span className="text-[11px] font-mono text-purple-400 font-semibold px-2 shrink-0">
+                  Target Framework:
+                </span>
+                {[
+                  { id: 'html', label: 'HTML5 (Vanilla)' },
+                  { id: 'jsx', label: 'React / Next.js (TSX)' },
+                  { id: 'astro', label: 'Astro (.astro)' },
+                  { id: 'vue', label: 'Vue 3 (SFC)' },
+                  { id: 'forms', label: '⚡ Working Form' },
+                ].map((fmt) => (
+                  <button
+                    key={fmt.id}
+                    onClick={() => {
+                      cyberSound.playClick();
+                      setCodeFormat(fmt.id as any);
+                    }}
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
+                      codeFormat === fmt.id
+                        ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-sm'
+                        : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                    }`}
+                  >
+                    {fmt.label}
+                  </button>
+                ))}
+              </div>
+
               <div className="bg-zinc-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2 flex-1 max-w-sm">
                   <span className="text-zinc-500">🔍</span>
@@ -962,7 +1047,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 <div className="flex items-center gap-2 font-mono text-[11px] text-zinc-400">
                   <span>{codeLines.length} Lines</span>
                   <span>·</span>
-                  <span>{(rawCode.length / 1024).toFixed(1)} KB</span>
+                  <span>{(activeCode.length / 1024).toFixed(1)} KB</span>
                 </div>
 
                 <button
@@ -970,7 +1055,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                   className="px-3 py-1 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-all flex items-center gap-1.5"
                 >
                   <span>{copiedCode ? '✓' : '📋'}</span>
-                  <span>{copiedCode ? 'Copied Code!' : 'Copy Entire HTML'}</span>
+                  <span>{copiedCode ? 'Copied Code!' : `Copy ${codeFormat.toUpperCase()}`}</span>
                 </button>
               </div>
 
@@ -1015,6 +1100,18 @@ Deploy directly to Vercel, Netlify, or any static web host.
           template={template}
           isOpen={showCssTokensModal}
           onClose={() => setShowCssTokensModal(false)}
+        />
+      )}
+
+      {showSocialCardModal && (
+        <SocialCardGeneratorModal
+          isOpen={showSocialCardModal}
+          onClose={() => setShowSocialCardModal(false)}
+          templateName={template.name}
+          storeName={storeData.storeName}
+          tagline={storeData.tagline}
+          category={template.category}
+          primaryColor={primaryColor}
         />
       )}
     </div>

@@ -5,6 +5,8 @@ import { templates } from '@/data/templates';
 import DownloadButton from '@/components/DownloadButton';
 import InteractivePreviewFrame from '@/components/InteractivePreviewFrame';
 import SinglePurchaseButton from '@/components/SinglePurchaseButton';
+import ReviewsSection from '@/components/ReviewsSection';
+import MasterBundleDownloadButton from '@/components/MasterBundleDownloadButton';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -221,6 +223,13 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                 </div>
               </div>
             </div>
+
+            {/* Verified Community Reviews Section */}
+            <ReviewsSection
+              templateId={template.id}
+              templateName={template.name}
+              initialRating={template.rating}
+            />
           </div>
 
           {/* Sidebar CTA Area (4 cols) */}
@@ -294,6 +303,14 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                     <span>Netlify</span>
                   </a>
                 </div>
+              </div>
+
+              {/* Agency Master Pack Bulk Download */}
+              <div className="pt-4 border-t border-purple-500/20">
+                <span className="text-[11px] text-purple-400 font-mono block mb-2 font-semibold">
+                  Agency Benefit:
+                </span>
+                <MasterBundleDownloadButton />
               </div>
 
               {/* Plan note */}
