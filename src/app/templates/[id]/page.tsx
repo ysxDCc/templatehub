@@ -4,10 +4,46 @@ import { notFound } from 'next/navigation';
 import { templates } from '@/data/templates';
 import DownloadButton from '@/components/DownloadButton';
 import InteractivePreviewFrame from '@/components/InteractivePreviewFrame';
+import SinglePurchaseButton from '@/components/SinglePurchaseButton';
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const template = templates.find((t) => t.id === id);
+  if (!template) return { title: 'Template Not Found | TemplateHub' };
+
+  const title = `${template.name} — Premium ${template.category.toUpperCase()} Website Template | TemplateHub`;
+  const description = `${template.description} Responsive standalone HTML5/CSS codebase with commercial client rights and instant in-browser sandbox preview.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.templatehub.website/templates/${template.id}`,
+      siteName: 'TemplateHub',
+      images: [
+        {
+          url: `https://www.templatehub.website${template.previewImage}`,
+          width: 1200,
+          height: 630,
+          alt: `${template.name} Preview`,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`https://www.templatehub.website${template.previewImage}`],
+    },
+  };
+}
 
 export default async function TemplateDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const template = templates.find(t => t.id === id);
+  const template = templates.find((t) => t.id === id);
 
   if (!template) {
     notFound();
@@ -19,8 +55,72 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
     template.tier === 'pro' ? 'bg-fuchsia-900/50 text-fuchsia-200 border-fuchsia-500/40 shadow-[0_0_8px_rgba(232,121,249,0.3)]' :
     'bg-amber-500/15 text-amber-300 border-amber-500/30';
 
+  const schemaJsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Product',
+        name: template.name,
+        description: template.description,
+        image: `https://www.templatehub.website${template.previewImage}`,
+        category: template.category,
+        brand: {
+          '@type': 'Brand',
+          name: 'TemplateHub',
+        },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: template.rating.toFixed(1),
+          reviewCount: Math.max(14, Math.floor(template.downloads / 18)),
+        },
+        offers: {
+          '@type': 'AggregateOffer',
+          priceCurrency: 'EUR',
+          lowPrice: '3.00',
+          highPrice: '9.00',
+          offerCount: '2',
+          offers: [
+            {
+              '@type': 'Offer',
+              name: 'Single Template Lifetime License',
+              price: '9.00',
+              priceCurrency: 'EUR',
+              availability: 'https://schema.org/InStock',
+              url: `https://www.templatehub.website/templates/${template.id}`,
+            },
+            {
+              '@type': 'Offer',
+              name: 'TemplateHub All-Access Plan',
+              price: '3.00',
+              priceCurrency: 'EUR',
+              availability: 'https://schema.org/InStock',
+              url: 'https://www.templatehub.website/#pricing',
+            },
+          ],
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: template.name,
+        applicationCategory: 'DesignApplication',
+        operatingSystem: 'All modern web browsers',
+        offers: {
+          '@type': 'Offer',
+          price: '9.00',
+          priceCurrency: 'EUR',
+        },
+      },
+    ],
+  };
+
   return (
     <div className="bg-[#070314] min-h-screen py-10 text-purple-100">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Breadcrumb nav */}
@@ -125,10 +225,10 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
 
           {/* Sidebar CTA Area (4 cols) */}
           <div className="lg:col-span-4">
-            <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-6 sticky top-24 space-y-6 shadow-2xl">
+            <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-6 sticky top-24 space-y-5 shadow-2xl">
               
               {/* Metric counters */}
-              <div className="grid grid-cols-2 gap-4 pb-6 border-b border-purple-500/20">
+              <div className="grid grid-cols-2 gap-4 pb-5 border-b border-purple-500/20">
                 <div>
                   <div className="text-xl font-bold text-white">★ {template.rating.toFixed(1)}</div>
                   <div className="text-[11px] text-purple-400/80 mt-0.5">Community rating</div>
@@ -141,9 +241,15 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
 
               {/* Action buttons */}
               <div className="space-y-2.5">
+                {/* 1-Off Lifetime Buy (€9) */}
+                <SinglePurchaseButton
+                  templateId={template.id}
+                  templateName={template.name}
+                />
+
                 <Link
                   href={`/builder?template=${template.id}`}
-                  className="w-full bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.35)] hover:scale-[1.02]"
+                  className="w-full bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.35)] hover:scale-[1.01]"
                 >
                   <span>✏️</span>
                   <span>Customize in No-Code Editor</span>
@@ -163,6 +269,33 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                 )}
               </div>
 
+              {/* Quick Deploy Options */}
+              <div className="pt-4 border-t border-purple-500/20">
+                <span className="text-[11px] text-purple-400 font-mono block mb-2 font-semibold">
+                  1-Click Cloud Deployment:
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href="https://vercel.com/new"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-black hover:bg-zinc-900 border border-white/20 text-white text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>▲</span>
+                    <span>Vercel</span>
+                  </a>
+                  <a
+                    href="https://app.netlify.com/drop"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-[#00ad9f]/15 hover:bg-[#00ad9f]/25 border border-[#00ad9f]/40 text-[#2eeadc] text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                  >
+                    <span>◆</span>
+                    <span>Netlify</span>
+                  </a>
+                </div>
+              </div>
+
               {/* Plan note */}
               <div className="pt-4 border-t border-purple-500/20 text-xs text-purple-200/70 space-y-2">
                 <div className="flex items-center gap-2 text-purple-200 font-medium">
@@ -170,12 +303,12 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
                   <span>Included with {template.tier.toUpperCase()} subscription</span>
                 </div>
                 <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/25 text-[11px] text-purple-200 leading-relaxed">
-                  <span className="font-bold text-white">🪄 Store Auto-Edit Enabled:</span> Switch to the Auto-Edit tab above to automatically populate this template with your store info, logo, and photos.
+                  <span className="font-bold text-white">🪄 Auto-Edit Studio:</span> Pre-load realistic industry presets with 1 click in the Auto-Edit tab to customize this template for your business.
                 </div>
                 <p className="text-[11px] leading-relaxed text-purple-300/60">
                   {template.tier === 'free' 
                     ? 'Free to download for registered users.' 
-                    : `Requires an active ${template.tier} plan (€${template.tier === 'basic' ? '3' : '10'}/mo) or all-access pass.`}
+                    : `Buy individual license for €9 or unlock all templates with Pro (€10/mo).`}
                 </p>
               </div>
             </div>

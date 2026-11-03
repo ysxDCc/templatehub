@@ -3,15 +3,52 @@
 import { useState } from 'react';
 import { templates, categories } from '@/data/templates';
 import TemplateCard from '@/components/TemplateCard';
+import QuickViewModal from '@/components/QuickViewModal';
 import { useFavorites } from '@/context/FavoritesContext';
+import { cyberSound } from '@/lib/sound';
+import { Template } from '@/types';
+
+type PaletteHue = 'all' | 'purple' | 'cyan' | 'emerald' | 'amber' | 'fuchsia' | 'slate';
+
+const PALETTE_FILTERS: { id: PaletteHue; label: string; dotClass: string }[] = [
+  { id: 'all', label: 'All Hues', dotClass: 'bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400' },
+  { id: 'purple', label: 'Amethyst', dotClass: 'bg-purple-500 shadow-[0_0_8px_#a855f7]' },
+  { id: 'cyan', label: 'Cyan / Aqua', dotClass: 'bg-cyan-400 shadow-[0_0_8px_#22d3ee]' },
+  { id: 'emerald', label: 'Emerald', dotClass: 'bg-emerald-400 shadow-[0_0_8px_#34d399]' },
+  { id: 'amber', label: 'Gold / Amber', dotClass: 'bg-amber-400 shadow-[0_0_8px_#fbbf24]' },
+  { id: 'fuchsia', label: 'Fuchsia / Rose', dotClass: 'bg-fuchsia-400 shadow-[0_0_8px_#e879f9]' },
+  { id: 'slate', label: 'Dark / Mono', dotClass: 'bg-slate-400 shadow-[0_0_8px_#94a3b8]' },
+];
+
+function getTemplatePalette(template: { category: string }): PaletteHue {
+  const cat = template.category.toLowerCase();
+  if (['crypto', 'cyberpunk', 'quantum', 'space', 'spatial', 'security', 'cybersecurity', 'oceanic'].includes(cat)) {
+    return 'cyan';
+  }
+  if (['green', 'agriculture', 'geothermal', 'biotech', 'fitness', 'healthcare'].includes(cat)) {
+    return 'emerald';
+  }
+  if (['luxury', 'auction', 'motorsport', 'dining', 'food', 'yachts', 'hypercar'].includes(cat)) {
+    return 'amber';
+  }
+  if (['beauty', 'podcast', 'culture', 'arcade', 'spa', 'bionics'].includes(cat)) {
+    return 'fuchsia';
+  }
+  if (['portfolio', 'blog', 'architecture', 'industrial', 'furniture'].includes(cat)) {
+    return 'slate';
+  }
+  return 'purple';
+}
 
 export default function TemplatesPage() {
   const { favorites, favoritesCount } = useFavorites();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTier, setActiveTier] = useState('All');
+  const [activePalette, setActivePalette] = useState<PaletteHue>('all');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [sortBy, setSortBy] = useState<'popular' | 'rating' | 'newest'>('popular');
+  const [quickViewTemplate, setQuickViewTemplate] = useState<Template | null>(null);
 
   const filteredTemplates = templates
     .filter((template) => {
@@ -20,6 +57,7 @@ export default function TemplatesPage() {
       }
       const matchesCategory = activeCategory === 'all' || template.category === activeCategory;
       const matchesTier = activeTier === 'All' || template.tier.toLowerCase() === activeTier.toLowerCase();
+      const matchesPalette = activePalette === 'all' || getTemplatePalette(template) === activePalette;
 
       const searchLower = searchQuery.toLowerCase();
       const matchesSearch =
@@ -27,7 +65,7 @@ export default function TemplatesPage() {
         template.description.toLowerCase().includes(searchLower) ||
         template.tags.some((tag) => tag.toLowerCase().includes(searchLower));
 
-      return matchesCategory && matchesTier && matchesSearch;
+      return matchesCategory && matchesTier && matchesPalette && matchesSearch;
     })
     .sort((a, b) => {
       if (sortBy === 'rating') return b.rating - a.rating;
@@ -49,11 +87,11 @@ export default function TemplatesPage() {
           </span>
         </h1>
         <p className="text-purple-200/75 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          Find the ideal sovereign codebase for your startup, agency, SaaS, or client project. Filter by category, subscription tier, or bookmarked favorites.
+          Find the ideal sovereign codebase for your startup, agency, SaaS, or client project. Filter by industry, accent palette, or subscription tier.
         </p>
       </div>
 
-      <div className="flex flex-col gap-6 mb-12">
+      <div className="flex flex-col gap-5 mb-12">
         {/* Search, Tier & Sort Controls Bar */}
         <div className="flex flex-col lg:flex-row gap-3 sm:gap-4 justify-between items-stretch lg:items-center bg-[#0d0622]/90 backdrop-blur-xl p-3 sm:p-3.5 rounded-2xl border border-purple-500/25 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
           {/* Search Input */}
@@ -78,7 +116,10 @@ export default function TemplatesPage() {
               <span className="text-purple-400 font-medium">Sort:</span>
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'popular' | 'rating' | 'newest')}
+                onChange={(e) => {
+                  cyberSound.playClick();
+                  setSortBy(e.target.value as 'popular' | 'rating' | 'newest');
+                }}
                 className="bg-transparent text-purple-200 font-semibold focus:outline-none cursor-pointer text-xs"
               >
                 <option value="popular" className="bg-[#0e0624] text-white">Most Popular</option>
@@ -94,7 +135,10 @@ export default function TemplatesPage() {
                 return (
                   <button
                     key={tier}
-                    onClick={() => setActiveTier(tier)}
+                    onClick={() => {
+                      cyberSound.playClick();
+                      setActiveTier(tier);
+                    }}
                     className={`px-2.5 sm:px-3 py-1 text-xs font-bold rounded-lg transition-all capitalize whitespace-nowrap ${
                       isSelected
                         ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]'
@@ -109,11 +153,42 @@ export default function TemplatesPage() {
           </div>
         </div>
 
+        {/* Palette / Accent Color Filters */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 hide-scrollbar bg-[#0d0622]/60 backdrop-blur-md p-2 rounded-2xl border border-purple-500/20 text-xs">
+          <span className="text-purple-400/90 font-mono text-[11px] uppercase tracking-wider pl-2 pr-1 font-semibold flex items-center gap-1 shrink-0">
+            <span>🎨</span>
+            <span>Palette:</span>
+          </span>
+          <div className="flex items-center gap-1.5">
+            {PALETTE_FILTERS.map((palette) => {
+              const isSelected = activePalette === palette.id;
+              return (
+                <button
+                  key={palette.id}
+                  onClick={() => {
+                    cyberSound.playClick();
+                    setActivePalette(palette.id);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border whitespace-nowrap ${
+                    isSelected
+                      ? 'bg-purple-600/30 border-purple-400 text-white shadow-[0_0_15px_rgba(168,85,247,0.3)]'
+                      : 'bg-[#070314] border-purple-500/20 text-purple-300/75 hover:text-white hover:border-purple-400/50'
+                  }`}
+                >
+                  <span className={`w-2.5 h-2.5 rounded-full ${palette.dotClass} shrink-0`} />
+                  <span>{palette.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Category Pills Bar & Favorites Filter */}
         <div className="flex overflow-x-auto pb-2 gap-2 hide-scrollbar py-1">
           {/* Saved / Bookmarked filter pill */}
           <button
             onClick={() => {
+              cyberSound.playClick();
               setOnlyFavorites(!onlyFavorites);
               if (!onlyFavorites) setActiveCategory('all');
             }}
@@ -132,6 +207,7 @@ export default function TemplatesPage() {
 
           <button
             onClick={() => {
+              cyberSound.playClick();
               setOnlyFavorites(false);
               setActiveCategory('all');
             }}
@@ -141,8 +217,8 @@ export default function TemplatesPage() {
                 : 'bg-[#0e0624] border border-purple-500/20 text-purple-200 hover:border-purple-400 hover:text-white'
             }`}
           >
-            <span>🎨</span>
-            <span>All Templates (56)</span>
+            <span>✨</span>
+            <span>All Categories ({templates.length})</span>
           </button>
 
           {categories
@@ -154,6 +230,7 @@ export default function TemplatesPage() {
                 <button
                   key={category.id}
                   onClick={() => {
+                    cyberSound.playClick();
                     setOnlyFavorites(false);
                     setActiveCategory(category.id);
                   }}
@@ -183,13 +260,20 @@ export default function TemplatesPage() {
         <span className="text-purple-300/80 font-medium">
           Showing <span className="text-white font-bold">{filteredTemplates.length}</span> curated masterworks
           {onlyFavorites && <span className="ml-2 text-rose-300 font-bold">(Saved in your favorites)</span>}
+          {activePalette !== 'all' && (
+            <span className="ml-2 text-purple-300 font-semibold capitalize">
+              • {activePalette} Palette
+            </span>
+          )}
         </span>
-        {(searchQuery || activeCategory !== 'all' || activeTier !== 'All' || onlyFavorites) && (
+        {(searchQuery || activeCategory !== 'all' || activeTier !== 'All' || activePalette !== 'all' || onlyFavorites) && (
           <button
             onClick={() => {
+              cyberSound.playClick();
               setSearchQuery('');
               setActiveCategory('all');
               setActiveTier('All');
+              setActivePalette('all');
               setOnlyFavorites(false);
             }}
             className="text-xs text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1 cursor-pointer"
@@ -203,7 +287,11 @@ export default function TemplatesPage() {
       {filteredTemplates.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredTemplates.map((template) => (
-            <TemplateCard key={template.id} template={template} />
+            <TemplateCard
+              key={template.id}
+              template={template}
+              onQuickView={(t) => setQuickViewTemplate(t)}
+            />
           ))}
         </div>
       ) : onlyFavorites ? (
@@ -214,10 +302,13 @@ export default function TemplatesPage() {
             Click the heart button on any template card in the catalog to pin it to your personal favorites collection.
           </p>
           <button
-            onClick={() => setOnlyFavorites(false)}
+            onClick={() => {
+              cyberSound.playClick();
+              setOnlyFavorites(false);
+            }}
             className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all hover:scale-105"
           >
-            Browse All 56 Templates
+            Browse All {templates.length} Templates
           </button>
         </div>
       ) : (
@@ -229,9 +320,11 @@ export default function TemplatesPage() {
           </p>
           <button
             onClick={() => {
+              cyberSound.playClick();
               setSearchQuery('');
               setActiveCategory('all');
               setActiveTier('All');
+              setActivePalette('all');
               setOnlyFavorites(false);
             }}
             className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all hover:scale-105"
@@ -240,6 +333,13 @@ export default function TemplatesPage() {
           </button>
         </div>
       )}
+
+      {/* Quick View Interactive Drawer Modal */}
+      <QuickViewModal
+        template={quickViewTemplate}
+        isOpen={!!quickViewTemplate}
+        onClose={() => setQuickViewTemplate(null)}
+      />
     </div>
   );
 }

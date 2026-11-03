@@ -7,6 +7,123 @@ import type { Template, SubscriptionTier } from '@/types';
 import { hasTierAccess } from '@/lib/auth-tier';
 import { injectStoreDataIntoHtml, DEFAULT_STORE_DATA, StoreData, StoreProduct } from '@/lib/auto-edit';
 import { createZipArchive } from '@/lib/zip';
+import { cyberSound } from '@/lib/sound';
+import MobileQRCodeModal from '@/components/MobileQRCodeModal';
+import CssTokensModal from '@/components/CssTokensModal';
+
+interface IndustryPreset {
+  name: string;
+  badge: string;
+  storeData: StoreData;
+}
+
+const INDUSTRY_PRESETS: IndustryPreset[] = [
+  {
+    name: '🤖 AI Agent SaaS',
+    badge: 'AI & Cloud',
+    storeData: {
+      storeName: 'OmniAI Platform',
+      industry: 'Artificial Intelligence & Cloud Automation',
+      tagline: 'Autonomous AI Multi-Agent Infrastructure & Low-Latency Inference',
+      subheadline: 'Empowering engineering organizations to run self-healing agent pipelines with sub-50ms execution and verifiable safety.',
+      primaryColor: '#a855f7',
+      contactEmail: 'enterprise@omniai.sh',
+      contactPhone: '+1 (555) 019-2831',
+      physicalAddress: '742 Evergreen Terrace, Palo Alto, CA 94301',
+      products: [
+        { name: 'OmniCluster Autonomous Node', price: '€49/mo', description: 'Dedicated AI inference pod with auto-scaling vector memory.' },
+        { name: 'Sovereign Agent Gateway', price: '€199/mo', description: 'Zero-latency multi-model routing with end-to-end auditability.' },
+        { name: 'Enterprise Cluster Mesh', price: '€599/mo', description: 'Full air-gapped deployment with SLA-backed 99.99% uptime.' },
+      ],
+      logoUrl: '',
+      heroImageUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&auto=format&fit=crop&q=80',
+    },
+  },
+  {
+    name: '☕ Specialty Coffee',
+    badge: 'Artisan F&B',
+    storeData: {
+      storeName: 'Aura Roasters',
+      industry: 'Artisan Coffee Roasting & Botanical Sourcing',
+      tagline: 'Single-Origin Geisha Beans & Micro-Batch Precision Roasting',
+      subheadline: 'Directly trading with heritage growers in Panama and Ethiopia to bring unadulterated botanical complexity to your cup.',
+      primaryColor: '#f59e0b',
+      contactEmail: 'roastery@auracoffee.co',
+      contactPhone: '+44 20 7946 0912',
+      physicalAddress: '14 Shoreditch High St, London E1 6PG',
+      products: [
+        { name: 'Panama Geisha Natural 250g', price: '€28.00', description: 'Jasmine, bergamot, and sweet apricot tasting notes.' },
+        { name: 'Yirgacheffe Heirloom Washed', price: '€16.50', description: 'Bright citrus acidity with honeyed floral finish.' },
+        { name: 'Monthly Cupping Reserve Sub', price: '€39/mo', description: 'Two exclusive micro-lot roasts delivered freshly unsealed.' },
+      ],
+      logoUrl: '',
+      heroImageUrl: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&auto=format&fit=crop&q=80',
+    },
+  },
+  {
+    name: '⌚ Haute Horology',
+    badge: 'Ultra Luxury',
+    storeData: {
+      storeName: 'Kronos Geneva',
+      industry: 'Haute Horology & Fine Complications',
+      tagline: 'Hand-Crafted Flying Tourbillons & Mechanical Complications',
+      subheadline: 'Preserving four centuries of Swiss watchmaking excellence through hand-finished titanium calibers and bespoke commissions.',
+      primaryColor: '#fbbf24',
+      contactEmail: 'concierge@kronosgeneva.ch',
+      contactPhone: '+41 22 819 9000',
+      physicalAddress: 'Rue du Rhône 42, 1204 Genève, Switzerland',
+      products: [
+        { name: 'Monarch Double Tourbillon', price: '€14,800', description: 'Grade 5 titanium skeletonized case with 72-hour power reserve.' },
+        { name: 'Astralis Perpetual Calendar', price: '€22,500', description: 'Astronomical moonphase complication with rose gold bezel.' },
+        { name: 'Custom Bespoke Commission', price: 'Inquire', description: 'One-of-one private horological commission with master watchmaker.' },
+      ],
+      logoUrl: '',
+      heroImageUrl: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1200&auto=format&fit=crop&q=80',
+    },
+  },
+  {
+    name: '🛡️ Cyber Defense',
+    badge: 'Security',
+    storeData: {
+      storeName: 'Aegis Sentinel',
+      industry: 'Cybersecurity & Kernel Defense',
+      tagline: 'Kernel-Level Threat Detection & Autonomous EDR Orchestration',
+      subheadline: 'Stopping nation-state intrusions in memory before code executes. Zero compromises, zero false positives.',
+      primaryColor: '#06b6d4',
+      contactEmail: 'soc@aegissentinel.io',
+      contactPhone: '+1 (800) 555-0199',
+      physicalAddress: '500 Technology Square, Cambridge, MA 02139',
+      products: [
+        { name: 'Sentinel Endpoint Defense', price: '€8/endpoint', description: 'Zero-overhead ring-0 telemetry and memory hook neutralization.' },
+        { name: 'Autonomous SOC Mesh', price: '€450/mo', description: 'Real-time red-team emulation and automated incident triage.' },
+        { name: 'Hardware Security Key Bundle', price: '€120', description: 'FIDO2 WebAuthn cryptographic keys with custom firmware.' },
+      ],
+      logoUrl: '',
+      heroImageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&auto=format&fit=crop&q=80',
+    },
+  },
+  {
+    name: '⚡ Liquid Staking DeFi',
+    badge: 'Fintech',
+    storeData: {
+      storeName: 'Nexus Vault',
+      industry: 'Decentralized Finance & Yield Optimization',
+      tagline: 'Institutional Grade Non-Custodial Liquid Staking & Yield Routing',
+      subheadline: 'Maximizing capital efficiency across decentralized networks with mathematically verified automated yield hedges.',
+      primaryColor: '#e879f9',
+      contactEmail: 'ops@nexusvault.fi',
+      contactPhone: '+65 6712 3456',
+      physicalAddress: 'Marina Bay Financial Centre, Singapore 018981',
+      products: [
+        { name: 'stETH Algorithmic Yield Pool', price: '4.8% APY', description: 'Compounded daily with zero lockup and flash-loan protection.' },
+        { name: 'Institutional Prime Gateway', price: '€1,500/mo', description: 'KYC-isolated liquidity pools for sovereign funds and desks.' },
+        { name: 'Audited Smart Vault Contract', price: '€99.00', description: 'Single-deploy immutable vault codebase with formal verification.' },
+      ],
+      logoUrl: '',
+      heroImageUrl: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&auto=format&fit=crop&q=80',
+    },
+  },
+];
 
 interface InteractivePreviewFrameProps {
   template: Template;
@@ -25,6 +142,8 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   const [primaryColor, setPrimaryColor] = useState('#a855f7');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isIframeInteractive, setIsIframeInteractive] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [showCssTokensModal, setShowCssTokensModal] = useState(false);
 
   // Raw Code state (only loaded if user has access)
   const [rawCode, setRawCode] = useState<string>('');
@@ -327,22 +446,47 @@ Deploy directly to Vercel, Netlify, or any static web host.
           {/* Right Actions */}
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-              className={`px-2.5 py-1 text-xs font-semibold rounded-md border transition-all flex items-center gap-1.5 ${
-                isDrawerOpen
-                  ? 'bg-indigo-600 border-indigo-500 text-white'
-                  : 'bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800'
-              }`}
+              onClick={() => {
+                cyberSound.playClick();
+                setShowQRModal(true);
+              }}
+              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1.5"
+              title="Scan QR to test on phone"
+            >
+              <span>📱</span>
+              <span className="hidden md:inline">Phone QR</span>
+            </button>
+
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowCssTokensModal(true);
+              }}
+              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1.5"
+              title="Inspect CSS Design Tokens"
             >
               <span>🎨</span>
               <span className="hidden md:inline">Tokens</span>
             </button>
+
+            <a
+              href="https://vercel.com/new"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => cyberSound.playClick()}
+              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-black hover:bg-zinc-900 border border-white/20 text-white transition-all"
+              title="1-Click Deploy on Vercel"
+            >
+              <span>▲</span>
+              <span>Deploy</span>
+            </a>
 
             {!appliedCustom && (
               <a
                 href={template.livePreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => cyberSound.playClick()}
                 className="text-xs text-zinc-300 hover:text-white px-2.5 py-1 rounded-md bg-zinc-950 border border-white/10 hover:bg-zinc-800 flex items-center gap-1 font-medium transition-colors"
               >
                 <span>Full Window</span>
@@ -488,6 +632,52 @@ Deploy directly to Vercel, Netlify, or any static web host.
                     <span>📦</span>
                     <span>{downloadingCustom ? 'Exporting...' : 'Export ZIP'}</span>
                   </button>
+                </div>
+              </div>
+
+              {/* 1-Click Industry Presets Banner */}
+              <div className="p-4 rounded-2xl bg-[#0e0624] border border-purple-500/25 mb-4">
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">⚡</span>
+                    <span className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+                      1-Click Industry Presets
+                    </span>
+                    <span className="text-[10px] text-purple-300 bg-purple-500/15 border border-purple-500/30 px-2 py-0.5 rounded-full font-mono">
+                      Instant Load
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-purple-400/70 hidden sm:inline">
+                    Select a niche to populate tailored copy, pricing &amp; products
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                  {INDUSTRY_PRESETS.map((preset) => {
+                    const isSelected = storeData.storeName === preset.storeData.storeName;
+                    return (
+                      <button
+                        key={preset.name}
+                        type="button"
+                        onClick={() => {
+                          cyberSound.playSuccess();
+                          setStoreData(preset.storeData);
+                        }}
+                        className={`p-2.5 rounded-xl border text-left transition-all group ${
+                          isSelected
+                            ? 'bg-purple-600/30 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.35)]'
+                            : 'bg-[#070314] border-purple-500/20 hover:border-purple-400/50 hover:bg-[#140838]'
+                        }`}
+                      >
+                        <div className="text-xs font-bold text-white group-hover:text-purple-300 truncate">
+                          {preset.name}
+                        </div>
+                        <div className="text-[10px] text-purple-400 font-mono mt-0.5">
+                          {preset.badge}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -809,6 +999,23 @@ Deploy directly to Vercel, Netlify, or any static web host.
             </div>
           )}
         </div>
+      )}
+
+      {showQRModal && (
+        <MobileQRCodeModal
+          isOpen={showQRModal}
+          onClose={() => setShowQRModal(false)}
+          templateName={template.name}
+          templateId={template.id}
+        />
+      )}
+
+      {showCssTokensModal && (
+        <CssTokensModal
+          template={template}
+          isOpen={showCssTokensModal}
+          onClose={() => setShowCssTokensModal(false)}
+        />
       )}
     </div>
   );

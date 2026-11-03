@@ -4,12 +4,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Template } from '@/types';
 import { useFavorites } from '@/context/FavoritesContext';
+import { cyberSound } from '@/lib/sound';
 
 interface TemplateCardProps {
   template: Template;
+  onQuickView?: (template: Template) => void;
 }
 
-export default function TemplateCard({ template }: TemplateCardProps) {
+export default function TemplateCard({ template, onQuickView }: TemplateCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(template.id);
 
@@ -34,12 +36,13 @@ export default function TemplateCard({ template }: TemplateCardProps) {
           />
 
           {/* Top Overlays: Favorite Button & Tier Badge */}
-          <div className="absolute top-3 left-3 z-10">
+          <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5">
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                cyberSound.playClick();
                 toggleFavorite(template.id);
               }}
               title={favorited ? 'Remove from saved' : 'Save to favorites'}
@@ -53,6 +56,22 @@ export default function TemplateCard({ template }: TemplateCardProps) {
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
               </svg>
             </button>
+
+            {onQuickView && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  cyberSound.playOpen();
+                  onQuickView(template);
+                }}
+                title="Quick View Live Sandbox"
+                className="w-7 h-7 rounded-full flex items-center justify-center transition-all backdrop-blur-md border bg-[#070314]/80 border-purple-500/30 text-purple-300 hover:text-white hover:bg-[#1a0b3b] shadow-md"
+              >
+                <span className="text-xs">👁️</span>
+              </button>
+            )}
           </div>
 
           <div className="absolute top-3 right-3 z-10">
@@ -61,10 +80,25 @@ export default function TemplateCard({ template }: TemplateCardProps) {
             </span>
           </div>
 
-          {/* Hover Overlay Hint */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#070314] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-            <span className="text-[11px] font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 px-2.5 py-1 rounded-md shadow-md">
-              View Specs &amp; Sandbox ↗
+          {/* Hover Overlay Buttons */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070314] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-3">
+            {onQuickView && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  cyberSound.playOpen();
+                  onQuickView(template);
+                }}
+                className="text-[11px] font-bold text-white bg-[#0f0728]/90 hover:bg-[#1f0d4d] border border-purple-500/40 px-2.5 py-1 rounded-md shadow-md backdrop-blur-sm transition-all flex items-center gap-1"
+              >
+                <span>👁️</span>
+                <span>Quick View</span>
+              </button>
+            )}
+            <span className="text-[11px] font-bold text-white bg-gradient-to-r from-purple-600 to-fuchsia-600 px-2.5 py-1 rounded-md shadow-md ml-auto">
+              View Specs ↗
             </span>
           </div>
         </div>

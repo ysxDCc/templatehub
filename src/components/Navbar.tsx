@@ -6,11 +6,22 @@ import { Show, UserButton } from '@clerk/nextjs';
 import { useFavorites } from '@/context/FavoritesContext';
 import CommandPalette from '@/components/CommandPalette';
 import Logo from '@/components/Logo';
+import { cyberSound } from '@/lib/sound';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommandOpen, setIsCommandOpen] = useState(false);
+  const [isSoundActive, setIsSoundActive] = useState(false);
   const { favoritesCount } = useFavorites();
+
+  useEffect(() => {
+    setIsSoundActive(cyberSound.isEnabled());
+  }, []);
+
+  const handleToggleSound = () => {
+    const active = cyberSound.toggle();
+    setIsSoundActive(active);
+  };
 
   // Prevent background body scroll when mobile menu is active
   useEffect(() => {
@@ -95,9 +106,26 @@ export default function Navbar() {
 
             {/* Right Action buttons */}
             <div className="hidden md:flex items-center space-x-3 text-sm font-medium">
+              {/* Subtle Cyber Audio Engine Toggle */}
+              <button
+                onClick={handleToggleSound}
+                className={`p-1.5 rounded-xl border text-xs transition-all flex items-center justify-center w-8 h-8 ${
+                  isSoundActive
+                    ? 'border-purple-400/60 bg-purple-950/80 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.4)]'
+                    : 'border-purple-500/20 bg-[#0e0624]/70 text-purple-400/60 hover:text-purple-300'
+                }`}
+                title={isSoundActive ? 'Cyber Sound FX: Active' : 'Cyber Sound FX: Muted'}
+                aria-label="Toggle cyber audio effects"
+              >
+                {isSoundActive ? '🔊' : '🔇'}
+              </button>
+
               {/* Purple-Glow Search Command Trigger */}
               <button
-                onClick={() => setIsCommandOpen(true)}
+                onClick={() => {
+                  cyberSound.playClick();
+                  setIsCommandOpen(true);
+                }}
                 className="flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl border border-purple-500/25 bg-[#0e0624]/90 hover:bg-[#1a0b3b] text-xs text-purple-200/90 hover:text-white transition-all shadow-[0_0_15px_-3px_rgba(168,85,247,0.25)] hover:border-purple-400/50"
                 title="Search templates (Cmd+K)"
               >
@@ -134,6 +162,17 @@ export default function Navbar() {
 
             {/* Mobile hamburger & search */}
             <div className="md:hidden flex items-center gap-1.5">
+              <button
+                onClick={handleToggleSound}
+                className={`w-10 h-10 flex items-center justify-center border rounded-xl text-xs transition-transform active:scale-95 ${
+                  isSoundActive
+                    ? 'border-purple-400/60 bg-purple-950/80 text-purple-200'
+                    : 'border-purple-500/20 bg-[#0e0624] text-purple-400/70'
+                }`}
+                aria-label="Toggle cyber audio"
+              >
+                {isSoundActive ? '🔊' : '🔇'}
+              </button>
               <button
                 onClick={() => setIsCommandOpen(true)}
                 className="w-10 h-10 flex items-center justify-center text-purple-300 hover:text-white border border-purple-500/30 rounded-xl bg-[#0e0624] active:scale-95 transition-transform"

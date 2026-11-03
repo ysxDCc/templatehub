@@ -1,5 +1,8 @@
 import { PricingPlan } from '@/types';
 
+export const SINGLE_TEMPLATE_PRODUCT_ID = 'pdt_0NrAVl49cJx0ieQvv8P07';
+export const SINGLE_TEMPLATE_PRICE = 9;
+
 export const pricingPlans: PricingPlan[] = [
   {
     id: 'free',

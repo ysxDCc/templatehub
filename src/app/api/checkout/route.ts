@@ -1,18 +1,27 @@
 import { NextResponse } from 'next/server';
 import DodoPayments from 'dodopayments';
-import { pricingPlans } from '@/data/pricing';
+import { pricingPlans, SINGLE_TEMPLATE_PRODUCT_ID } from '@/data/pricing';
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { planId, customerEmail, customerName } = body;
+    const { planId, templateId, customerEmail, customerName } = body;
 
-    const plan = pricingPlans.find(p => p.id === planId);
-    if (!plan || !plan.dodoProductId) {
-      return NextResponse.json(
-        { error: 'Invalid plan or product not found' },
-        { status: 400 }
-      );
+    let productId = '';
+    let isSingle = false;
+
+    if (planId === 'single' || planId === 'single-template') {
+      productId = SINGLE_TEMPLATE_PRODUCT_ID;
+      isSingle = true;
+    } else {
+      const plan = pricingPlans.find(p => p.id === planId);
+      if (!plan || !plan.dodoProductId) {
+        return NextResponse.json(
+          { error: 'Invalid plan or product not found' },
+          { status: 400 }
+        );
+      }
+      productId = plan.dodoProductId;
     }
 
     const apiKey = process.env.DODO_PAYMENTS_API_KEY;
@@ -33,12 +42,18 @@ export async function POST(req: Request) {
     const sessionPayload: any = {
       product_cart: [
         {
-          product_id: plan.dodoProductId,
+          product_id: productId,
           quantity: 1,
         },
       ],
       allowed_payment_method_types: ['credit', 'debit', 'apple_pay', 'google_pay'],
-      return_url: `${origin}/checkout/success?plan=${plan.id}`,
+      return_url: isSingle
+        ? `${origin}/checkout/success?template=${templateId || ''}&type=single`
+        : `${origin}/checkout/success?plan=${planId}`,
+      metadata: {
+        planId: isSingle ? 'single-template' : planId,
+        ...(templateId ? { templateId } : {}),
+      },
     };
 
     if (customerEmail) {
