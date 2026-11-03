@@ -60,7 +60,7 @@ export async function GET(req: Request) {
     const templateFilePath = path.join(
       process.cwd(),
       'public',
-      'templates',
+      'sandboxes',
       templateId,
       'index.html'
     );
@@ -156,7 +156,7 @@ is strictly prohibited.
 
   // Sufficient tier & HTML format — return JSON with download URL
   return NextResponse.json({
-    downloadUrl: `/templates/${templateId}/index.html`,
+    downloadUrl: `/sandboxes/${templateId}/index.html`,
     templateName: template.name,
   });
 }

@@ -96,7 +96,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
   };
 
   const handleCopyEmbed = () => {
-    const embedCode = `<iframe src="https://www.templatehub.website/templates/${template.id}/index.html" width="100%" height="800" frameborder="0" loading="lazy"></iframe>`;
+    const embedCode = `<iframe src="https://www.templatehub.website/sandboxes/${template.id}/index.html" width="100%" height="800" frameborder="0" loading="lazy"></iframe>`;
     navigator.clipboard.writeText(embedCode);
     setCopiedEmbed(true);
     setTimeout(() => setCopiedEmbed(false), 2000);
