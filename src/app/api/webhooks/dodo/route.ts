@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs/server';
 
 const PRODUCT_TO_TIER: Record<string, string> = {
+  // Live mode products
+  'pdt_0NrADRDfp8T2zDVsEGRI1': 'basic',
+  'pdt_0NrADRIRwLn8v87737eXX': 'pro',
+  'pdt_0NrADRKsIRfzGl1RtXlG7': 'enterprise',
+  // Test mode fallback
   'pdt_0NpgItSPPrLwWxL1VNu5h': 'basic',
   'pdt_0NpgIuba73JMfBWvtkFHg': 'pro',
   'pdt_0NpgIueDKNSywrCSEg3EN': 'enterprise',

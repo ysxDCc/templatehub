@@ -19,7 +19,7 @@ export const pricingPlans: PricingPlan[] = [
     name: 'Basic',
     price: 3,
     interval: 'month',
-    dodoProductId: 'pdt_0NpgItSPPrLwWxL1VNu5h',
+    dodoProductId: 'pdt_0NrADRDfp8T2zDVsEGRI1',
     description: 'Affordable entry plan for creators, blogs, and freelancers.',
     features: [
       'Access to all Basic & Free templates',
@@ -34,7 +34,7 @@ export const pricingPlans: PricingPlan[] = [
     name: 'Pro',
     price: 10,
     interval: 'month',
-    dodoProductId: 'pdt_0NpgIuba73JMfBWvtkFHg',
+    dodoProductId: 'pdt_0NrADRIRwLn8v87737eXX',
     description: 'Unlock our entire template library, updates, and commercial usage.',
     features: [
       'Unlimited access to ALL templates',
@@ -50,7 +50,7 @@ export const pricingPlans: PricingPlan[] = [
     name: 'Enterprise',
     price: 29.99,
     interval: 'month',
-    dodoProductId: 'pdt_0NpgIueDKNSywrCSEg3EN',
+    dodoProductId: 'pdt_0NrADRKsIRfzGl1RtXlG7',
     description: 'For design agencies and teams needing custom source files and 24/7 support.',
     features: [
       'Everything in Pro tier',
