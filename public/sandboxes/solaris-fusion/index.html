@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solaris Fusion — Magnetic Confinement Plasma Clean Energy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #030108;
+      --card-bg: rgba(18, 9, 36, 0.7);
+      --plasma: #ff5722;
+      --plasma-glow: rgba(255, 87, 34, 0.45);
+      --cyan: #00f2fe;
+      --cyan-glow: rgba(0, 242, 254, 0.4);
+      --gold: #ffb300;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 87, 34, 0.25);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -20%, var(--plasma-glow), transparent 70%),
+        radial-gradient(circle at 85% 35%, var(--cyan-glow), transparent 45%),
+        radial-gradient(circle at 10% 75%, rgba(255, 179, 0, 0.15), transparent 40%);
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2; }
+    
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(20px);
+      background: rgba(3, 1, 8, 0.85);
+      border-bottom: 1px solid var(--border);
+      z-index: 50;
+    }
+    .nav { height: 74px; display: flex; align-items: center; justify-content: space-between; }
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-core {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--plasma);
+      box-shadow: 0 0 16px var(--plasma);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse { 0%, 100% { transform: scale(0.9); opacity: 0.8; } 50% { transform: scale(1.2); opacity: 1; } }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-family: 'JetBrains Mono', monospace; transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+    .cta-btn {
+      padding: 10px 22px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--plasma), #e64a19);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      box-shadow: 0 0 25px var(--plasma-glow);
+      transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 0 35px var(--plasma); }
+
+    /* Hero */
+    .hero { padding: 120px 0 80px; text-align: center; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(255, 87, 34, 0.12);
+      border: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #ff8a65;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+    }
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #ffccbc 0%, #ff5722 50%, #ffab00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 40px rgba(255, 87, 34, 0.4);
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* Telemetry HUD */
+    .hud {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 60px 0;
+    }
+    .hud-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: left;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+    .hud-label { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+    .hud-value { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 800; color: #fff; margin: 8px 0 4px; }
+    .hud-sub { font-size: 0.75rem; color: #ff8a65; font-family: 'JetBrains Mono', monospace; }
+
+    /* Bento Grid */
+    .section-title { text-align: center; margin: 100px 0 50px; }
+    .section-title h2 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; text-transform: uppercase; }
+    .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .bento-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s;
+    }
+    .bento-card:hover { border-color: var(--plasma); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255, 87, 34, 0.2); }
+    .bento-8 { grid-column: span 8; }
+    .bento-4 { grid-column: span 4; }
+    .bento-6 { grid-column: span 6; }
+    .bento-icon { font-size: 2rem; margin-bottom: 16px; }
+    .bento-card h3 { font-family: 'Orbitron', sans-serif; font-size: 1.35rem; margin-bottom: 10px; }
+    .bento-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 60px 0; margin-top: 120px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+    @media (max-width: 850px) {
+      .bento-8, .bento-4, .bento-6 { grid-column: span 12; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo">
+        <span class="logo-core"></span>
+        <span>SOLARIS // FUSION</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#containment">Containment</a></li>
+        <li><a href="#telemetry">Telemetry</a></li>
+        <li><a href="#grid">Grid Coupling</a></li>
+        <li><a href="#safety">Physics</a></li>
+      </ul>
+      <a href="#action" class="cta-btn">Deploy Core →</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge">
+        <span>⚡</span>
+        <span>MAGNETIC TOKAMAK PLASMA REACTOR // NET Q &gt; 12.4</span>
+      </div>
+      <h1>Sovereign Power at <span>150,000,000°C</span></h1>
+      <p>Harvesting continuous stellar nucleosynthesis on Earth. Zero carbon footprint, zero long-lived radioactive waste, mathematically infinite baseload power.</p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="#reactor" class="cta-btn" style="padding: 14px 32px; font-size: 0.95rem;">Request Grid Interconnect</a>
+        <a href="#specs" class="cta-btn" style="background: rgba(255,255,255,0.06); box-shadow: none;">Inspect Plasma Diagnostics ↗</a>
+      </div>
+    </section>
+
+    <!-- Telemetry HUD -->
+    <div class="hud">
+      <div class="hud-card">
+        <div class="hud-label">Plasma Core Heat</div>
+        <div class="hud-value">154.2 MK</div>
+        <div class="hud-sub">10x Core of the Sun</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Confinement Field</div>
+        <div class="hud-value">22.4 T</div>
+        <div class="hud-sub">High-Temp REBCO Coils</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Energy Gain Factor</div>
+        <div class="hud-value">Q = 14.2</div>
+        <div class="hud-sub">Net Electricity Positive</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Baseload Capacity</div>
+        <div class="hud-value">1.8 GW</div>
+        <div class="hud-sub">Continuous 24/7 Output</div>
+      </div>
+    </div>
+
+    <!-- Bento Architecture -->
+    <div class="section-title">
+      <h2>Engineering The Stellar Core</h2>
+    </div>
+    <div class="bento">
+      <div class="bento-card bento-8">
+        <div class="bento-icon">🧲</div>
+        <h3>REBCO High-Temperature Superconductors</h3>
+        <p>Generating 22.4 Tesla toroidal magnetic fields using rare-earth barium copper oxide tape. Sustains ultra-dense deuterium-tritium plasma equilibria with zero thermal leakage into the cryostat vacuum jacket.</p>
+      </div>
+      <div class="bento-card bento-4">
+        <div class="bento-icon">🛡️</div>
+        <h3>Passive Meltdown Immunity</h3>
+        <p>Physics-enforced failsafe: any containment perturbation instantly cools plasma within 2.4 milliseconds. Impossible to runaway.</p>
+      </div>
+      <div class="bento-card bento-4">
+        <div class="bento-icon">💧</div>
+        <h3>Tritium Breeding Blanket</h3>
+        <p>Liquid lithium-lead eutectic blankets harvest neutrons, generating tritium to sustain a closed-loop fuel cycle with zero external replenishment.</p>
+      </div>
+      <div class="bento-card bento-8">
+        <div class="bento-icon">🌐</div>
+        <h3>Direct High-Voltage DC Grid Coupling</h3>
+        <p>Integrated supercritical CO2 Brayton thermodynamic cycles achieve 52% thermal-to-electric conversion efficiency, feeding municipal high-voltage lines with sub-cycle frequency stability.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Solaris Fusion Energy Corporation. Sovereign Clean Baseload Infrastructure.</p>
+    </div>
+  </footer>
+</body>
+</html>

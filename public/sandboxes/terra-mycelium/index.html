@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terra Mycelium — High-Performance Bio-Fabricated Packaging Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d12;
+      --bg-card: #0d131a;
+      --bg-card-hover: #121a24;
+      --mycelium-ivory: #f4f2e9;
+      --mycelium-beige: #e5deb3;
+      --spore-green: #10b981;
+      --spore-glow: rgba(16, 185, 129, 0.28);
+      --earth-slate: #1f2937;
+      --border-subtle: rgba(229, 222, 179, 0.12);
+      --border-active: rgba(16, 185, 129, 0.45);
+      --text-muted: #94a3b8;
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--mycelium-ivory);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient spore background glow */
+    .ambient-glow {
+      position: fixed;
+      top: -15%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(9, 13, 18, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Sustainability Telemetry Bar */
+    .top-telemetry {
+      background: rgba(13, 19, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 0.6rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .telemetry-group {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .telemetry-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--spore-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--spore-green);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .telemetry-val {
+      color: var(--spore-green);
+      font-weight: 700;
+    }
+
+    /* Navigation */
+    nav {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--mycelium-ivory);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--spore-green), #059669);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--spore-green);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--spore-green);
+      color: #042416;
+      box-shadow: 0 4px 20px var(--spore-glow);
+    }
+
+    .btn-primary:hover {
+      background: #34d399;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(245, 242, 233, 0.05);
+      border-color: var(--border-subtle);
+      color: var(--mycelium-ivory);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(245, 242, 233, 0.1);
+      border-color: var(--border-active);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-container {
+      max-width: 1300px;
+      margin: 2rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--border-active);
+      color: var(--spore-green);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title span.accent {
+      background: linear-gradient(135deg, var(--mycelium-beige) 0%, var(--spore-green) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.12rem;
+      max-width: 540px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-stats-strip {
+      display: flex;
+      gap: 2.5rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 2rem;
+    }
+
+    .stat-number {
+      font-size: 1.85rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--mycelium-ivory);
+      line-height: 1.1;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* Hyphae Canvas Card */
+    .canvas-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .canvas-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    #hyphaeCanvas {
+      width: 100%;
+      height: 380px;
+      background: #080c10;
+      border-radius: 16px;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .canvas-footnote {
+      margin-top: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Comparison Section: Tensile & Mechanical */
+    .section-wrap {
+      max-width: 1300px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-mono);
+      color: var(--spore-green);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .comp-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 2.2rem;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+    }
+
+    .comp-card.featured {
+      border-color: var(--border-active);
+      background: linear-gradient(180deg, rgba(16, 185, 129, 0.05) 0%, var(--bg-card) 100%);
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.08);
+    }
+
+    .comp-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    .comp-badge.green {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--spore-green);
+      border: 1px solid var(--border-active);
+    }
+
+    .comp-badge.gray {
+      background: rgba(148, 163, 184, 0.1);
+      color: var(--text-muted);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .comp-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .comp-metric-row {
+      margin-top: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .metric-row-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+    }
+
+    .metric-bar-bg {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .metric-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 1s ease-out;
+    }
+
+    .fill-green {
+      background: linear-gradient(90deg, #10b981, #34d399);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .fill-gray {
+      background: #64748b;
+    }
+
+    /* Circular 30-Day Biodegradation Telemetry */
+    .telemetry-interactive-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-top: 2rem;
+    }
+
+    .timeline-scrubber {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 2.5rem 0 3rem;
+    }
+
+    .timeline-scrubber::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 20px;
+      right: 20px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+
+    .scrub-node {
+      background: var(--bg-dark);
+      border: 2px solid var(--border-subtle);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: all 0.25s ease;
+    }
+
+    .scrub-node:hover, .scrub-node.active {
+      border-color: var(--spore-green);
+      color: var(--mycelium-ivory);
+      background: #042416;
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.4);
+      transform: scale(1.12);
+    }
+
+    .degrade-detail-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 2.5rem;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 18px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .degrade-status-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--mycelium-ivory);
+      margin-bottom: 0.5rem;
+    }
+
+    .degrade-data-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--spore-green);
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+
+    .soil-chart-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .soil-stat {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    /* Industrial Line Specs Grid */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .spec-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.8rem;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .spec-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-active);
+    }
+
+    .spec-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.1);
+      display: grid;
+      place-items: center;
+      margin-bottom: 1.25rem;
+      color: var(--spore-green);
+    }
+
+    .spec-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .spec-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Quote Request Form Section */
+    .quote-section {
+      background: linear-gradient(180deg, var(--bg-card) 0%, #06090c 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--mycelium-ivory);
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--mycelium-ivory);
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--spore-green);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .calculator-preview {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 18px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .calc-stat-header {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--spore-green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .calc-large-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--mycelium-ivory);
+      line-height: 1;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 4rem 2rem 2.5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .cert-pills {
+      display: flex;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .cert-pill {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-container, .quote-section {
+        grid-template-columns: 1fr;
+      }
+      .specs-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid, .specs-grid, .degrade-detail-grid {
+        grid-template-columns: 1fr;
+      }
+      .top-telemetry {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-stats-strip {
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .nav-links {
+        display: none;
+      }
+      .hero-title {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Live Sustainability Telemetry -->
+  <div class="top-telemetry">
+    <div class="telemetry-group">
+      <div class="telemetry-item">
+        <div class="pulse-dot"></div>
+        <span>GLOBAL BIO-FABRICATION NETWORK:</span>
+        <span class="telemetry-val">ONLINE (ROTTERDAM / PORTLAND / NAGOYA)</span>
+      </div>
+      <div class="telemetry-item">
+        <span>NET CARBON ABSORPTION:</span>
+        <span class="telemetry-val">-0.42 kg CO₂e / kg</span>
+      </div>
+    </div>
+    <div class="telemetry-group">
+      <div class="telemetry-item">
+        <span>DECOMPOSITION CYCLE:</span>
+        <span class="telemetry-val">30.0 DAYS (SOIL ACTIVE)</span>
+      </div>
+      <div class="telemetry-item">
+        <span>STANDARD:</span>
+        <span class="telemetry-val">CRADLE-TO-CRADLE PLATINUM</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav>
+    <a href="#" class="brand">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#042416" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 0 0-10 10c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
+        </svg>
+      </div>
+      TERRA // MYCELIUM
+    </a>
+    <ul class="nav-links">
+      <li><a href="#materials">Material Science</a></li>
+      <li><a href="#telemetry">Circular Telemetry</a></li>
+      <li><a href="#industrial">Industrial Line</a></li>
+      <li><a href="#quote">Custom Tooling</a></li>
+    </ul>
+    <a href="#quote" class="btn btn-primary">Request Fabrication Quote</a>
+  </nav>
+
+  <!-- Hero Section with Canvas Simulator -->
+  <section class="hero-container">
+    <div>
+      <div class="hero-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+        </svg>
+        BIO-ENGINEERED FUNGAL COMPOSITES
+      </div>
+      <h1 class="hero-title">
+        Living Architecture.<br>
+        <span class="accent">Zero-Petroleum Packaging.</span>
+      </h1>
+      <p class="hero-desc">
+        We replace expanded polystyrene (EPS) with pure agricultural hemp byproducts and active fungal mycelium networks. Self-binding in 5 days, marine safe in 2 hours, fully home-compostable in 30 days.
+      </p>
+      <div class="hero-cta">
+        <a href="#quote" class="btn btn-primary">Deploy Custom Molds</a>
+        <a href="#materials" class="btn btn-secondary">Mechanical Datasheet (PDF)</a>
+      </div>
+      <div class="hero-stats-strip">
+        <div>
+          <div class="stat-number">0.65 MPa</div>
+          <div class="stat-label">Compressive Strength</div>
+        </div>
+        <div>
+          <div class="stat-number">30 Days</div>
+          <div class="stat-label">100% Soil Return</div>
+        </div>
+        <div>
+          <div class="stat-number">-0.42 kg</div>
+          <div class="stat-label">CO₂ Captured per kg</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas Card -->
+    <div class="canvas-card">
+      <div class="canvas-header">
+        <span>HYPHAE_GROWTH_SIMULATOR // v4.2</span>
+        <span>INTERACTIVE: CLICK TO SEED SPORES</span>
+      </div>
+      <canvas id="hyphaeCanvas" width="480" height="380"></canvas>
+      <div class="canvas-footnote">
+        <span>COLONY DENSITY: <strong id="densityVal" style="color:var(--spore-green)">12,480 hyphae/mm³</strong></span>
+        <span>SUBSTRATE: ORGANIC HEMP HURD</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mechanical Tensile Strength vs EPS -->
+  <section id="materials" class="section-wrap">
+    <div class="section-header">
+      <div class="section-subtitle">Empirical Benchmark</div>
+      <h2 class="section-title">Engineered to Surpass Fossil Polymers</h2>
+      <p class="section-desc">
+        Tested across ASTM standards for drop cushioning, compressive strength, thermal insulation, and flame retardation.
+      </p>
+    </div>
+
+    <div class="comparison-grid">
+      <!-- Terra Mycelium -->
+      <div class="comp-card featured">
+        <span class="comp-badge green">TERRA MYCELIUM COMPOSITE</span>
+        <h3 class="comp-title">Pure Fungal Mycelium + Hemp</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Grown into precision molds using low-temperature biological binding. Hydrophobic and flame-retardant naturally.</p>
+        
+        <div class="comp-metric-row">
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Compressive Yield Strength</span>
+              <strong style="color:var(--spore-green);">0.65 MPa</strong>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-green" style="width: 85%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Dynamic Shock Cushioning (Drop Index G)</span>
+              <strong style="color:var(--spore-green);">42 G (Superior Damping)</strong>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-green" style="width: 92%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Thermal Conductivity (k-value)</span>
+              <strong style="color:var(--spore-green);">0.040 W/m·K</strong>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-green" style="width: 78%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Carbon Footprint per Metric Ton</span>
+              <strong style="color:var(--spore-green);">-420 kg CO₂e (Carbon Sink)</strong>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-green" style="width: 98%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conventional EPS -->
+      <div class="comp-card">
+        <span class="comp-badge gray">CONVENTIONAL FOSSIL STANDARD</span>
+        <h3 class="comp-title">Expanded Polystyrene (EPS)</h3>
+        <p style="color:var(--text-muted); font-size:0.9rem;">Styrene petroleum monomer expanded with pentane gas. Non-biodegradable, toxic breakdown into marine microplastics.</p>
+        
+        <div class="comp-metric-row">
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Compressive Yield Strength</span>
+              <span>0.22 MPa</span>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-gray" style="width: 45%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Dynamic Shock Cushioning (Drop Index G)</span>
+              <span>68 G (Higher Impact Transmission)</span>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-gray" style="width: 55%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Thermal Conductivity (k-value)</span>
+              <span>0.038 W/m·K</span>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill fill-gray" style="width: 80%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row-item">
+            <div class="metric-header">
+              <span>Carbon Footprint per Metric Ton</span>
+              <strong style="color:#ef4444;">+3,250 kg CO₂e (Net Emissive)</strong>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" style="background:#ef4444; width: 95%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30-Day Circular Soil Biodegradation Telemetry -->
+  <section id="telemetry" class="section-wrap">
+    <div class="section-header">
+      <div class="section-subtitle">Real-World Environmental Lifecycle</div>
+      <h2 class="section-title">The 30-Day Soil Degradation Telemetry</h2>
+      <p class="section-desc">
+        Unlike PLA or oxo-degradable bioplastics requiring 70°C commercial digesters, Terra Mycelium breaks down in natural home soil in 30 days, enriching surrounding microbiome flora.
+      </p>
+    </div>
+
+    <div class="telemetry-interactive-card">
+      <div style="text-align:center; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">
+        SELECT LIFECYCLE CHECKPOINT (DAYS IN SOIL):
+      </div>
+
+      <div class="timeline-scrubber">
+        <div class="scrub-node active" onclick="selectDay(1)">D1</div>
+        <div class="scrub-node" onclick="selectDay(7)">D7</div>
+        <div class="scrub-node" onclick="selectDay(14)">D14</div>
+        <div class="scrub-node" onclick="selectDay(21)">D21</div>
+        <div class="scrub-node" onclick="selectDay(30)">D30</div>
+      </div>
+
+      <div class="degrade-detail-grid">
+        <div>
+          <div class="degrade-data-pill" id="degradePill">STAGE 01: STRUCTURAL INTEGRITY UNBROKEN</div>
+          <h3 class="degrade-status-title" id="degradeTitle">Day 01 — Post-Consumer Disposal</h3>
+          <p id="degradeDesc" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem;">
+            Package disposed in garden soil or backyard compost. Hydrophobic wax layer prevents immediate water absorption while soil microbes begin initial colonization.
+          </p>
+          <div style="display:flex; gap:2rem; font-family:var(--font-mono); font-size:0.85rem;">
+            <div>
+              <span style="color:var(--text-muted); display:block;">MASS RETENTION:</span>
+              <strong id="massVal" style="color:var(--mycelium-ivory); font-size:1.2rem;">99.8%</strong>
+            </div>
+            <div>
+              <span style="color:var(--text-muted); display:block;">MICROBIAL ACTIVITY:</span>
+              <strong id="microbialVal" style="color:var(--spore-green); font-size:1.2rem;">Basal Baseline</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="soil-chart-container">
+          <div class="soil-stat">
+            <span>SOIL NITROGEN (N) ENRICHMENT</span>
+            <strong id="nitrogenVal" style="color:var(--spore-green);">+0.2%</strong>
+          </div>
+          <div class="soil-stat">
+            <span>SOIL CARBON BALANCE</span>
+            <strong id="carbonVal" style="color:var(--spore-green);">+4.1%</strong>
+          </div>
+          <div class="soil-stat">
+            <span>TOXIC RESIDUE / PFAS / HEAVY METALS</span>
+            <strong style="color:var(--spore-green);">0.000 PPM</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industrial Line Specs -->
+  <section id="industrial" class="section-wrap">
+    <div class="section-header">
+      <div class="section-subtitle">Scalable Manufacturing Architecture</div>
+      <h2 class="section-title">Automated High-Throughput Bio-Foundry</h2>
+      <p class="section-desc">
+        Engineered for global consumer electronics, enterprise hardware, and luxury goods packaging lines with ISO 9001 certified consistency.
+      </p>
+    </div>
+
+    <div class="specs-grid">
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">1.4M Units / Month Capacity</h4>
+        <p class="spec-card-desc">Continuous growth tunnels with automated humidity, spore aeration, and dual thermal stabilization racks.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">72-Hour Rapid Mold Tooling</h4>
+        <p class="spec-card-desc">Direct-to-CNC aluminum molding matrices engineered from customer CAD models with tolerances within ±0.35mm.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">ASTM E84 Class A Fire Rated</h4>
+        <p class="spec-card-desc">Natural chitin in fungal cell walls carbonizes upon flame exposure, self-extinguishing without synthetic halogen fire retardants.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">Zero-VOC Inert Curing</h4>
+        <p class="spec-card-desc">Convective dehydration kilns deactivate fungal spores permanently at 85°C. Safe for sensitive medical & optical goods.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M16.2 7.8l-2 6.3-6.4 2 2-6.3z"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">Marine Biodegradation</h4>
+        <p class="spec-card-desc">Dissolves harmlessly in saltwater within 90 days. Non-toxic to marine organisms; consumable as natural fiber.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="spec-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h4 class="spec-card-title">Automated Drop-Testing QA</h4>
+        <p class="spec-card-desc">Every batch audited via ISTA 3A vibration and transit impact testing protocols prior to shipping release.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Quote Form & Dynamic Carbon Offset Calculator -->
+  <section id="quote" class="section-wrap">
+    <div class="quote-section">
+      <div>
+        <div class="section-subtitle">Scale Your Sustainable Transition</div>
+        <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:1rem; letter-spacing:-0.03em;">Request Custom Bio-Fabrication</h2>
+        <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:2rem;">
+          Submit your product dimensions and annual volume requirements. Our materials engineering team delivers custom CAD tooling specs and unit pricing within 24 hours.
+        </p>
+
+        <form id="quoteForm" onsubmit="handleQuoteSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-control" placeholder="Dr. Elena Rostova" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company / Enterprise</label>
+              <input type="text" class="form-control" placeholder="AeroDynamics Corp" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Corporate Email</label>
+            <input type="email" class="form-control" placeholder="elena@aerodynamics.io" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Packaging Application</label>
+              <select class="form-control" id="packageType" onchange="updateCalc()">
+                <option value="electronics">Consumer Electronics Enclosure</option>
+                <option value="server">Server Hardware Rack Shippers</option>
+                <option value="bottles">Wine & Spirits Glass Armor</option>
+                <option value="pharma">Cold-Chain Biomedical Insulation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monthly Volume (Units)</label>
+              <input type="number" class="form-control" id="unitVolume" value="25000" min="1000" step="1000" oninput="updateCalc()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Target Outer Dimensions (L × W × H in mm)</label>
+            <input type="text" class="form-control" placeholder="320 × 240 × 85 mm">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:0.95rem; margin-top:0.5rem;">
+            Submit Specs for Engineering Review
+          </button>
+        </form>
+      </div>
+
+      <!-- Live Calculation Card -->
+      <div class="calculator-preview">
+        <div>
+          <div class="calc-stat-header">ANNUAL CARBON EMISSIONS SAVED VS EPS</div>
+          <div class="calc-large-number" id="carbonSavedDisplay">-110.2 MT</div>
+          <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">
+            Equivalent to removing <strong id="carEquivalent" style="color:var(--mycelium-ivory);">24 passenger cars</strong> from highways annually.
+          </p>
+        </div>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:1.5rem; margin-top:1.5rem;">
+          <div class="calc-stat-header">ESTIMATED PRODUCTION CYCLE</div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:0.4rem;">
+            <span style="font-size:1.8rem; font-weight:800; font-family:var(--font-mono); color:var(--spore-green);">5.5 Days</span>
+            <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">INOCULATION TO CURE</span>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:1.5rem; margin-top:1.5rem;">
+          <div class="calc-stat-header">CERTIFICATION CONFORMANCE</div>
+          <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--mycelium-ivory); margin-top:0.5rem; display:flex; flex-direction:column; gap:0.35rem;">
+            <div>✔ ASTM D6400 (Solid Material Compostability)</div>
+            <div>✔ EN 13432 (Packaging Biodegradability Standard)</div>
+            <div>✔ ISTA 3A Certified Drop Resistance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong>TERRA MYCELIUM BIOMATERIALS GROUP</strong> — Bio-fabricated in Rotterdam, OR & Nagoya
+      <div style="margin-top:0.3rem; color:var(--text-muted); font-size:0.75rem;">© 2026 Terra Mycelium Inc. All rights reserved. Zero petroleum used in manufacture.</div>
+    </div>
+
+    <div class="cert-pills">
+      <span class="cert-pill">CRADLE-TO-CRADLE PLATINUM</span>
+      <span class="cert-pill">ASTM D6400</span>
+      <span class="cert-pill">ISO 14044 LCA</span>
+    </div>
+  </footer>
+
+  <!-- Hyphae Growth Simulation Script -->
+  <script>
+    // Canvas Growth Simulation
+    const canvas = document.getElementById('hyphaeCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = canvas.offsetWidth;
+    let height = canvas.height = canvas.offsetHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+      resetSimulation();
+    });
+
+    let branches = [];
+    const maxBranches = 350;
+
+    class HyphaNode {
+      constructor(x, y, angle, depth = 0) {
+        this.x = x;
+        this.y = y;
+        this.prevX = x;
+        this.prevY = y;
+        this.angle = angle;
+        this.depth = depth;
+        this.speed = Math.random() * 1.4 + 0.8;
+        this.life = 0;
+        this.maxLife = Math.random() * 80 + 40;
+        this.branchChance = 0.038 - depth * 0.006;
+        this.color = depth === 0 ? '#10b981' : (depth % 2 === 0 ? '#34d399' : '#e5deb3');
+        this.width = Math.max(0.6, 2.8 - depth * 0.5);
+      }
+
+      step() {
+        if (this.life >= this.maxLife) return;
+        this.prevX = this.x;
+        this.prevY = this.y;
+        this.angle += (Math.random() - 0.5) * 0.45;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.life++;
+
+        // Draw segment
+        ctx.beginPath();
+        ctx.moveTo(this.prevX, this.prevY);
+        ctx.lineTo(this.x, this.y);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.width;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // Little spore emission
+        if (Math.random() < 0.08) {
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.45)';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, Math.random() * 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Branching
+        if (Math.random() < this.branchChance && branches.length < maxBranches && this.depth < 5) {
+          const forkAngle = this.angle + (Math.random() > 0.5 ? 0.6 : -0.6) + (Math.random() - 0.5) * 0.3;
+          branches.push(new HyphaNode(this.x, this.y, forkAngle, this.depth + 1));
+        }
+      }
+    }
+
+    function resetSimulation() {
+      ctx.fillStyle = '#080c10';
+      ctx.fillRect(0, 0, width, height);
+      branches = [];
+      const seeds = 5;
+      for (let i = 0; i < seeds; i++) {
+        const cx = width / 2 + (Math.random() - 0.5) * 100;
+        const cy = height / 2 + (Math.random() - 0.5) * 80;
+        const count = 6;
+        for (let j = 0; j < count; j++) {
+          const ang = (Math.PI * 2 / count) * j + (Math.random() - 0.5) * 0.5;
+          branches.push(new HyphaNode(cx, cy, ang, 0));
+        }
+      }
+    }
+
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      for (let i = 0; i < 8; i++) {
+        const ang = (Math.PI * 2 / 8) * i + (Math.random() - 0.5);
+        branches.push(new HyphaNode(clickX, clickY, ang, 0));
+      }
+      document.getElementById('densityVal').innerText = (12480 + branches.length * 35).toLocaleString() + ' hyphae/mm³';
+    });
+
+    function animate() {
+      for (let i = 0; i < branches.length; i++) {
+        branches[i].step();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    resetSimulation();
+    animate();
+
+    // 30-Day Biodegradation Scrubber Data
+    const dayData = {
+      1: {
+        pill: "STAGE 01: STRUCTURAL INTEGRITY UNBROKEN",
+        title: "Day 01 — Post-Consumer Disposal",
+        desc: "Package placed into natural topsoil. Hydrophobic chitin surface layer resists direct ambient rain. Soil microbes begin baseline biofilm formation.",
+        mass: "99.8%",
+        microbial: "Basal Baseline",
+        nitrogen: "+0.2%",
+        carbon: "+4.1%"
+      },
+      7: {
+        pill: "STAGE 02: CELLULAR REHYDRATION & SUBSTRATE PERFORATION",
+        title: "Day 07 — Natural Microbial Infiltration",
+        desc: "Indigenous soil bacteria and actinomycetes permeate the hemp-hurd matrix. Tensile strength softens safely by 30%, releasing initial organic moisture.",
+        mass: "88.4%",
+        microbial: "Rapid Escalation",
+        nitrogen: "+4.8%",
+        carbon: "+22.5%"
+      },
+      14: {
+        pill: "STAGE 03: ENZYMATIC DEPOLYMERIZATION",
+        title: "Day 14 — Active Fungal Assimilation",
+        desc: "Chitinase enzymes secrete naturally from soil fauna, hydrolyzing complex fungal glucans into bio-available sugars. Structural fragmentation begins.",
+        mass: "58.1%",
+        microbial: "Peak Biological Turnover",
+        nitrogen: "+11.4%",
+        carbon: "+58.0%"
+      },
+      21: {
+        pill: "STAGE 04: COLLAPSE TO ORGANIC COMPOST",
+        title: "Day 21 — Micro-Particulate Dispersion",
+        desc: "Packaging form factors break down into rich crumbly humus. Earthworms and micro-arthropods digest agricultural hemp remnants without toxicity.",
+        mass: "22.6%",
+        microbial: "Stabilizing Nutrient Loop",
+        nitrogen: "+16.2%",
+        carbon: "+81.3%"
+      },
+      30: {
+        pill: "STAGE 05: 100% CLOSED CIRCULAR REGENERATION",
+        title: "Day 30 — Complete Return to Earth",
+        desc: "Zero synthetic residue remains. Soil shows measurable fertility uplift with boosted microbial density, carbon sponge retention, and nitrogen bioavailability.",
+        mass: "0.0%",
+        microbial: "Nutrient Enhanced Soil",
+        nitrogen: "+18.9%",
+        carbon: "+94.2%"
+      }
+    };
+
+    function selectDay(day) {
+      document.querySelectorAll('.scrub-node').forEach(node => node.classList.remove('active'));
+      event.target.classList.add('active');
+      const data = dayData[day];
+      document.getElementById('degradePill').innerText = data.pill;
+      document.getElementById('degradeTitle').innerText = data.title;
+      document.getElementById('degradeDesc').innerText = data.desc;
+      document.getElementById('massVal').innerText = data.mass;
+      document.getElementById('microbialVal').innerText = data.microbial;
+      document.getElementById('nitrogenVal').innerText = data.nitrogen;
+      document.getElementById('carbonVal').innerText = data.carbon;
+    }
+
+    // Dynamic Carbon Calculator
+    function updateCalc() {
+      const units = parseInt(document.getElementById('unitVolume').value) || 25000;
+      // Approx 0.367 kg CO2 saved per unit vs expanded polystyrene
+      const co2MetricTons = ((units * 12 * 0.367) / 1000).toFixed(1);
+      const cars = Math.round(co2MetricTons / 4.6);
+      document.getElementById('carbonSavedDisplay').innerText = `-${co2MetricTons} MT`;
+      document.getElementById('carEquivalent').innerText = `${cars} passenger cars`;
+    }
+
+    function handleQuoteSubmit(e) {
+      e.preventDefault();
+      alert('Specification received by Terra Bio-Foundry Systems. Our materials engineering team will contact you within 24 hours with custom mold schematics and tooling quotes.');
+    }
+  </script>
+</body>
+</html>

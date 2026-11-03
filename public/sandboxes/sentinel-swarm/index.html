@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEGIS-SWARM // Autonomous Naval Perimeter Defense</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Share+Tech+Mono&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-carbon: #080c14;
+      --bg-slate: #0d1422;
+      --bg-card: rgba(13, 20, 34, 0.7);
+      --border-tactical: rgba(16, 185, 129, 0.25);
+      --border-dim: rgba(255, 255, 255, 0.08);
+      --sonar-green: #10b981;
+      --sonar-green-bright: #34d399;
+      --sonar-glow: rgba(16, 185, 129, 0.35);
+      --amber-alert: #f59e0b;
+      --red-threat: #ef4444;
+      --text-white: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-carbon);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      overflow-x: hidden;
+      background-image: 
+        linear-gradient(rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    ::selection {
+      background: var(--sonar-green);
+      color: var(--bg-carbon);
+    }
+
+    /* Scanline Overlay */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      opacity: 0.45;
+    }
+
+    /* TOP ACTIVE TACTICAL RIBBON */
+    .tactical-ribbon {
+      background: rgba(8, 12, 20, 0.95);
+      border-bottom: 1px solid var(--border-tactical);
+      padding: 0.5rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .ribbon-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .ribbon-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--sonar-green-bright);
+      font-weight: 600;
+    }
+
+    .beacon-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--sonar-green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--sonar-green);
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    .ribbon-data {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--text-dim);
+    }
+
+    .ribbon-data span {
+      color: var(--text-white);
+    }
+
+    .nato-tag {
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--amber-alert);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.7rem;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--text-white);
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--sonar-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 185, 129, 0.08);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--sonar-green);
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      color: var(--text-white);
+      line-height: 1.1;
+    }
+
+    .brand-text span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--sonar-green);
+      letter-spacing: 0.18em;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--sonar-green-bright);
+    }
+
+    .nav-action-btn {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      padding: 0.65rem 1.4rem;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--sonar-green);
+      color: var(--sonar-green-bright);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.25s;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-action-btn:hover {
+      background: var(--sonar-green);
+      color: var(--bg-carbon);
+      box-shadow: 0 0 20px var(--sonar-glow);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      padding: 4rem 1.5rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: center;
+      min-height: 82vh;
+    }
+
+    .hero-pre {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--sonar-green);
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--border-tactical);
+      background: rgba(16, 185, 129, 0.06);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      line-height: 1.05;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title .glow-word {
+      color: var(--sonar-green-bright);
+      text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 580px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-tactical {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      padding: 0.9rem 2rem;
+      background: var(--sonar-green);
+      color: var(--bg-carbon);
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.25s;
+      border: 1px solid var(--sonar-green);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .btn-tactical:hover {
+      background: var(--sonar-green-bright);
+      box-shadow: 0 0 30px var(--sonar-glow);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost-tactical {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      padding: 0.9rem 2rem;
+      background: transparent;
+      color: var(--text-white);
+      border: 1px solid var(--border-dim);
+      text-decoration: none;
+      transition: all 0.25s;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .btn-ghost-tactical:hover {
+      border-color: var(--sonar-green);
+      color: var(--sonar-green);
+    }
+
+    /* RADAR CONTAINER */
+    .radar-card {
+      background: var(--bg-slate);
+      border: 1px solid var(--border-tactical);
+      border-radius: 8px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    }
+
+    .radar-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      border-bottom: 1px solid var(--border-dim);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1.2rem;
+      color: var(--text-dim);
+    }
+
+    .radar-canvas-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 440px;
+      margin: 0 auto;
+      background: #040810;
+      border-radius: 50%;
+      border: 1px solid var(--border-tactical);
+      overflow: hidden;
+      box-shadow: inset 0 0 60px rgba(16, 185, 129, 0.15);
+    }
+
+    #radar-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .radar-telemetry-hud {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.2rem;
+      border-top: 1px solid var(--border-dim);
+      padding-top: 1rem;
+      font-family: var(--font-mono);
+    }
+
+    .hud-unit {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .hud-unit strong {
+      display: block;
+      color: var(--sonar-green-bright);
+      font-size: 1rem;
+      margin-top: 0.15rem;
+    }
+
+    /* SECTION: SWARM MESH ARCHITECTURE */
+    .section {
+      padding: 6rem 1.5rem;
+      border-top: 1px solid var(--border-dim);
+      position: relative;
+    }
+
+    .section-head {
+      max-width: 1400px;
+      margin: 0 auto 3.5rem;
+      text-align: left;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--sonar-green);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .bento-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .bento-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 2.2rem;
+      position: relative;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .bento-card:hover {
+      border-color: var(--border-tactical);
+      transform: translateY(-4px);
+    }
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: transparent;
+      transition: background 0.3s;
+    }
+
+    .bento-card:hover::before {
+      background: var(--sonar-green);
+    }
+
+    .bento-card.col-2 {
+      grid-column: span 2;
+    }
+
+    .bento-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--sonar-green);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .bento-h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.8rem;
+      color: var(--text-white);
+    }
+
+    .bento-p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .spec-table {
+      width: 100%;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      border-collapse: collapse;
+    }
+
+    .spec-table tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .spec-table td {
+      padding: 0.6rem 0;
+    }
+
+    .spec-table td:last-child {
+      text-align: right;
+      color: var(--sonar-green-bright);
+    }
+
+    /* NATO INTEROPERABILITY STRIP */
+    .nato-strip {
+      background: #05080e;
+      border-top: 1px solid var(--border-tactical);
+      border-bottom: 1px solid var(--border-tactical);
+      padding: 3rem 1.5rem;
+    }
+
+    .nato-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .nato-item {
+      border-left: 2px solid var(--sonar-green);
+      padding-left: 1.2rem;
+    }
+
+    .nato-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--amber-alert);
+      letter-spacing: 0.1em;
+    }
+
+    .nato-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      margin: 0.3rem 0;
+      font-weight: 600;
+    }
+
+    .nato-desc {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* RFP CLEARANCE FORM */
+    .section-rfp {
+      padding: 7rem 1.5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .rfp-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-tactical);
+      padding: 3.5rem;
+      position: relative;
+    }
+
+    .rfp-box::after {
+      content: 'RESTRICTED DISTRIBUTION // ITAR CONTROLLED';
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--bg-carbon);
+      padding: 0 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--amber-alert);
+      letter-spacing: 0.12em;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .rfp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-top: 2.5rem;
+    }
+
+    .form-col-full {
+      grid-column: span 2;
+    }
+
+    .rfp-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .rfp-input, .rfp-select, .rfp-textarea {
+      width: 100%;
+      background: rgba(8, 12, 20, 0.8);
+      border: 1px solid var(--border-dim);
+      padding: 0.85rem 1rem;
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      outline: none;
+      transition: all 0.25s;
+    }
+
+    .rfp-input:focus, .rfp-select:focus, .rfp-textarea:focus {
+      border-color: var(--sonar-green);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+    }
+
+    .rfp-submit {
+      width: 100%;
+      background: var(--sonar-green);
+      color: var(--bg-carbon);
+      border: none;
+      padding: 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.25s;
+    }
+
+    .rfp-submit:hover {
+      background: var(--sonar-green-bright);
+      box-shadow: 0 0 25px var(--sonar-glow);
+    }
+
+    /* FOOTER */
+    .tactical-footer {
+      border-top: 1px solid var(--border-dim);
+      padding: 4rem 1.5rem 2.5rem;
+      background: #04060a;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .footer-wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    @media (max-width: 992px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+      .bento-card.col-2 {
+        grid-column: span 1;
+      }
+      .nato-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .rfp-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-col-full {
+        grid-column: span 1;
+      }
+      .nato-container {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .ribbon-data {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scanlines"></div>
+
+  <!-- Tactical Active Ribbon -->
+  <aside class="tactical-ribbon">
+    <div class="ribbon-container">
+      <div class="ribbon-left">
+        <span class="status-badge">
+          <span class="beacon-dot"></span>
+          DEFCON 3 &middot; THEATER PERIMETER ACTIVE
+        </span>
+        <div class="ribbon-data">
+          <div>THEATER: <span>SECTOR 7 (NORTH ATLANTIC / GIUK)</span></div>
+          <div>SWARM NODES: <span id="swarm-node-count">48 ACTIVE / 0 COMPROMISED</span></div>
+          <div>COMMS: <span>AES-256-GCM / FREQ-HOP</span></div>
+        </div>
+      </div>
+      <div>
+        <span class="nato-tag">NATO RESTRICTED // STANAG 4586</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <a href="#" class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">
+          <h1>AEGIS // SWARM</h1>
+          <span>Autonomous Naval Defense Systems</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#swarm">Swarm Mesh</a></li>
+        <li><a href="#intercept">Kinetic Specs</a></li>
+        <li><a href="#interop">NATO Interop</a></li>
+        <li><a href="#clearance">Contractor RFP</a></li>
+      </ul>
+      <a href="#clearance" class="nav-action-btn">
+        REQUEST CLEARANCE BRIEFING
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION WITH LIVE HTML5 RADAR -->
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-pre">
+          <span>// OPERATION: AEGIS CORRIDOR</span>
+          <span>&bull;</span>
+          <span>AUTONOMY LEVEL V</span>
+        </div>
+        <h2 class="hero-title">
+          Autonomous naval swarms. <span class="glow-word">Total maritime denial.</span>
+        </h2>
+        <p class="hero-desc">
+          Uncrewed semi-submersible drone swarms engineered for persistent littoral defense, deep anti-submarine screening, and coordinated acoustic-to-surface kinetic interception without satellite link dependency.
+        </p>
+        <div class="hero-ctas">
+          <a href="#clearance" class="btn-tactical">INITIALIZE DEFENSE BRIEFING</a>
+          <a href="#swarm" class="btn-ghost-tactical">VIEW MESH ARCHITECTURE</a>
+        </div>
+      </div>
+
+      <!-- RADAR CARD HUD -->
+      <div class="radar-card">
+        <div class="radar-card-header">
+          <span>SONAR PPI &middot; HYDRO-ACOUSTIC SWEEP</span>
+          <span style="color: var(--sonar-green-bright);" id="radar-angle">AZ: 042&deg;</span>
+          <span>RNG: 64 NM</span>
+        </div>
+
+        <div class="radar-canvas-container">
+          <canvas id="radar-canvas" width="440" height="440"></canvas>
+        </div>
+
+        <div class="radar-telemetry-hud">
+          <div class="hud-unit">
+            TRACKS ACQUIRED
+            <strong id="hud-tracks">07 SURFACE / 02 SUB</strong>
+          </div>
+          <div class="hud-unit">
+            ACOUSTIC SIGNATURE
+            <strong>SSK CLASS IDENTIFIED</strong>
+          </div>
+          <div class="hud-unit">
+            SWARM CONVERGENCE
+            <strong id="hud-eta">ETA 04:12 MIN</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: SWARM INTELLIGENCE & SPECS -->
+    <section id="swarm" class="section">
+      <div class="section-head">
+        <span class="section-eyebrow">Distributed Autonomous Doctrine</span>
+        <h2 class="section-title">Decentralized Mesh Intelligence</h2>
+      </div>
+
+      <div class="bento-grid">
+        <article class="bento-card col-2">
+          <span class="bento-num">01 // TACTICAL ARCHITECTURE</span>
+          <h3 class="bento-h3">Byzantine Fault-Tolerant Swarm Consensus</h3>
+          <p class="bento-p">
+            In severe electronic warfare (EW) environments with jammed GPS and severed satellite links, the Aegis Swarm transitions to decentralized ultra-high-frequency (UHF) burst line-of-sight and directional underwater acoustic modems. Each drone acts as a relay node, running local consensus to agree on targeting solutions without a single master drone or vulnerable mothership.
+          </p>
+          <table class="spec-table">
+            <tr>
+              <td>SWARM DIVERSITY LIMIT</td>
+              <td>UP TO 128 UNITS PER THEATER CLUSTER</td>
+            </tr>
+            <tr>
+              <td>LATENCY PER CONSENSUS ROUND</td>
+              <td>&lt; 38 MILLISECONDS (RF) / 120ms (ACOUSTIC)</td>
+            </tr>
+            <tr>
+              <td>ANTI-SPOOFING PROTOCOL</td>
+              <td>QUANTUM-RESISTANT POST-ENCRYPTION LATTICE</td>
+            </tr>
+          </table>
+        </article>
+
+        <article class="bento-card">
+          <span class="bento-num">02 // SENSOR INTEGRATION</span>
+          <h3 class="bento-h3">Towed Array Synthetic Sonar</h3>
+          <p class="bento-p">
+            Each hull deploys a 120-meter neutral-buoyancy low-frequency active/passive towed array. Combined across 12 swarm nodes, they form a distributed aperture acoustic array capable of detecting ultra-quiet diesel-electric submarines running on battery power.
+          </p>
+        </article>
+
+        <article class="bento-card">
+          <span class="bento-num">03 // KINETIC INTERCEPT</span>
+          <h3 class="bento-h3">Pincer Hull Design</h3>
+          <p class="bento-p">
+            Carbon-fiber radar-absorbent hull with semi-submersible low-profile draft (0.28m radar cross-section signature). Equipped with hybrid diesel-electric waterjets capable of sprint speeds in excess of 52 knots during final engagement phases.
+          </p>
+        </article>
+
+        <article class="bento-card col-2">
+          <span class="bento-num">04 // ENDURANCE &amp; LOITER</span>
+          <h3 class="bento-h3">Continuous 96-Hour Chokepoint Screening</h3>
+          <p class="bento-p">
+            Deployable from standard NATO 20ft ISO sea containers or aerial heavy drop. Solar-assisted trickle regeneration and wave-energy micro-harvesting allow extended silent loitering in critical maritime chokepoints and economic exclusion zones.
+          </p>
+          <table class="spec-table">
+            <tr>
+              <td>MAX SPRINT RANGE</td>
+              <td>650 NAUTICAL MILES @ 45 KNOTS</td>
+            </tr>
+            <tr>
+              <td>SILENT DRIFT SURVEILLANCE</td>
+              <td>14 DAYS PERSISTENT SURVEILLANCE</td>
+            </tr>
+            <tr>
+              <td>CREW / OPERATOR RATIO</td>
+              <td>1 REMOTE OPERATOR PER 32 DRONES</td>
+            </tr>
+          </table>
+        </article>
+      </div>
+    </section>
+
+    <!-- NATO INTEROPERABILITY STRIP -->
+    <section id="interop" class="nato-strip">
+      <div class="nato-container">
+        <div class="nato-item">
+          <span class="nato-code">STANAG 4586</span>
+          <h4 class="nato-title">Standard UAS Control</h4>
+          <p class="nato-desc">Seamless integration into Aegis Weapon System, CMS 330, and Combat Direction Systems.</p>
+        </div>
+        <div class="nato-item">
+          <span class="nato-code">LINK 16 &amp; LINK 22</span>
+          <h4 class="nato-title">Tactical Datalink</h4>
+          <p class="nato-desc">Real-time target track broadcast via J-series messages into allied common operating picture.</p>
+        </div>
+        <div class="nato-item">
+          <span class="nato-code">MIL-STD-810H</span>
+          <h4 class="nato-title">Harsh Environment</h4>
+          <p class="nato-desc">Tested through Sea State 6, Arctic icing, and explosive shock mitigation.</p>
+        </div>
+        <div class="nato-item">
+          <span class="nato-code">ITAR / EAR COMPLIANT</span>
+          <h4 class="nato-title">Defense Export Ready</h4>
+          <p class="nato-desc">Restricted to NATO Member Nations, Five Eyes, and Major Non-NATO Allies (MNNA).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLEARANCE RFP FORM -->
+    <section id="clearance" class="section-rfp">
+      <div class="rfp-box">
+        <span class="section-eyebrow">Defense Procurement Portal</span>
+        <h2 style="font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; text-transform: uppercase;">
+          Defense Contractor Clearance &amp; RFP Submission
+        </h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+          To request full technical data packages (TDP), combat simulator telemetry, and live demonstration schedules, verified CAGE / NCAGE credentials are required.
+        </p>
+
+        <form class="rfp-grid" onsubmit="event.preventDefault(); alert('CLEARANCE TRANSMITTED. Secure verification handshake dispatched to designated defense registry.');">
+          <div>
+            <label class="rfp-label" for="org-name">Defense Ministry or Prime Contractor</label>
+            <input type="text" id="org-name" class="rfp-input" placeholder="e.g. BAE Systems / Naval Surface Warfare" required>
+          </div>
+
+          <div>
+            <label class="rfp-label" for="cage-code">CAGE / NCAGE Entity Code</label>
+            <input type="text" id="cage-code" class="rfp-input" placeholder="e.g. 1A2B3" required>
+          </div>
+
+          <div>
+            <label class="rfp-label" for="clearance-level">Required Security Clearance Tier</label>
+            <select id="clearance-level" class="rfp-select">
+              <option value="secret">NATO Secret // National Secret</option>
+              <option value="top-secret">NATO Top Secret // CTS</option>
+              <option value="special">Special Access Program (SAP) / SCI</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="rfp-label" for="theater">Intended Theater of Operations</label>
+            <select id="theater" class="rfp-select">
+              <option value="baltic">Baltic &amp; High North Bastion</option>
+              <option value="black-sea">Black Sea &amp; Eastern Mediterranean</option>
+              <option value="indo-pacific">Indo-Pacific First Island Chain</option>
+              <option value="hormuz">Arabian Gulf &amp; Strait of Hormuz</option>
+            </select>
+          </div>
+
+          <div class="form-col-full">
+            <label class="rfp-label" for="procurement-scope">Deployment Scale &amp; Intercept Requisites</label>
+            <textarea id="procurement-scope" rows="3" class="rfp-textarea" placeholder="Detail required node count (standard cluster: 32 hulls), payload specs, and surface-to-air integration needs..."></textarea>
+          </div>
+
+          <div class="form-col-full">
+            <button type="submit" class="rfp-submit">TRANSMIT ENCRYPTED CLEARANCE APPLICATION &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Tactical Footer -->
+  <footer class="tactical-footer">
+    <div class="footer-wrap">
+      <div>
+        <div style="color: var(--text-white); font-weight: 700; margin-bottom: 0.4rem; letter-spacing: 0.1em;">
+          AEGIS DEFENSE SYSTEMS // UNCREWED MARITIME DIVISION
+        </div>
+        <div>CLASSIFICATION: FOR OFFICIAL USE ONLY (FOUO) // UNLESS MARKED OTHERWISE</div>
+        <div>DUNS: 94-821-4402 &middot; CAGE: 4K9L1 &middot; SYSTEM HASH: 0x8F9B2A4C</div>
+      </div>
+      <div style="text-align: right;">
+        <div>ALL RIGHTS RESERVED &copy; 2026 AEGIS MARITIME CONSORTIUM</div>
+        <div style="color: var(--amber-alert); margin-top: 0.4rem;">WARNING: UNAUTHORIZED EXPORT IS A VIOLATION OF 22 U.S.C. 2778</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Radar Canvas JavaScript -->
+  <script>
+    const canvas = document.getElementById('radar-canvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    const center = width / 2;
+    const radius = center - 15;
+
+    let angle = 0;
+    const blips = [
+      { r: radius * 0.45, a: 1.2, decay: 0, type: 'surface', label: 'T-01 [FFG]' },
+      { r: radius * 0.72, a: 3.4, decay: 0, type: 'sub', label: 'T-02 [SSK]' },
+      { r: radius * 0.28, a: 5.1, decay: 0, type: 'swarm', label: 'SWARM-04' },
+      { r: radius * 0.58, a: 2.1, decay: 0, type: 'surface', label: 'T-03 [CORV]' },
+      { r: radius * 0.85, a: 0.4, decay: 0, type: 'sub', label: 'T-04 [UUV]' },
+    ];
+
+    function drawRadar() {
+      // Clear with slight trailing persistence
+      ctx.fillStyle = 'rgba(4, 8, 16, 0.15)';
+      ctx.fillRect(0, 0, width, height);
+
+      // Range Rings
+      ctx.lineWidth = 1;
+      for (let r = 1; r <= 4; r++) {
+        ctx.beginPath();
+        ctx.arc(center, center, (radius / 4) * r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.2)';
+        ctx.stroke();
+      }
+
+      // Crosshairs
+      ctx.beginPath();
+      ctx.moveTo(center - radius, center);
+      ctx.lineTo(center + radius, center);
+      ctx.moveTo(center, center - radius);
+      ctx.lineTo(center, center + radius);
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.25)';
+      ctx.stroke();
+
+      // Heading Compass Ticks
+      for (let i = 0; i < 360; i += 30) {
+        const rad = (i * Math.PI) / 180;
+        const x1 = center + Math.cos(rad) * radius;
+        const y1 = center + Math.sin(rad) * radius;
+        const x2 = center + Math.cos(rad) * (radius - 8);
+        const y2 = center + Math.sin(rad) * (radius - 8);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+        ctx.stroke();
+      }
+
+      // Radar Sweep Cone
+      const sweepGradient = ctx.createRadialGradient(center, center, 0, center, center, radius);
+      sweepGradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+      sweepGradient.addColorStop(1, 'rgba(16, 185, 129, 0.05)');
+
+      ctx.beginPath();
+      ctx.moveTo(center, center);
+      ctx.arc(center, center, radius, angle - 0.4, angle);
+      ctx.lineTo(center, center);
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.12)';
+      ctx.fill();
+
+      // Sweep Beam Line
+      const sweepX = center + Math.cos(angle) * radius;
+      const sweepY = center + Math.sin(angle) * radius;
+      ctx.beginPath();
+      ctx.moveTo(center, center);
+      ctx.lineTo(sweepX, sweepY);
+      ctx.strokeStyle = 'rgba(52, 211, 153, 0.9)';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+
+      // Blips update and draw
+      blips.forEach(blip => {
+        // Detect if sweep hit blip
+        const diff = Math.abs(angle - blip.a) % (Math.PI * 2);
+        if (diff < 0.06) {
+          blip.decay = 1.0;
+        }
+
+        if (blip.decay > 0.01) {
+          const bx = center + Math.cos(blip.a) * blip.r;
+          const by = center + Math.sin(blip.a) * blip.r;
+
+          ctx.beginPath();
+          ctx.arc(bx, by, blip.type === 'sub' ? 4 : 3, 0, Math.PI * 2);
+
+          if (blip.type === 'sub') {
+            ctx.fillStyle = `rgba(245, 158, 11, ${blip.decay})`;
+            ctx.strokeStyle = `rgba(245, 158, 11, ${blip.decay * 0.6})`;
+          } else {
+            ctx.fillStyle = `rgba(52, 211, 153, ${blip.decay})`;
+            ctx.strokeStyle = `rgba(52, 211, 153, ${blip.decay * 0.6})`;
+          }
+          ctx.fill();
+
+          // Target tag
+          ctx.font = '9px "Share Tech Mono"';
+          ctx.fillStyle = `rgba(241, 245, 249, ${blip.decay * 0.8})`;
+          ctx.fillText(blip.label, bx + 7, by + 3);
+
+          blip.decay -= 0.004; // Fade out slowly
+        }
+      });
+
+      // Advance sweep angle
+      angle += 0.025;
+      if (angle >= Math.PI * 2) angle = 0;
+
+      // Update HUD angle display
+      const deg = Math.floor((angle * 180) / Math.PI);
+      const angleElem = document.getElementById('radar-angle');
+      if (angleElem) {
+        angleElem.innerText = `AZ: ${deg.toString().padStart(3, '0')}°`;
+      }
+
+      requestAnimationFrame(drawRadar);
+    }
+
+    drawRadar();
+  </script>
+</body>
+</html>

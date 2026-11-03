@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAUGELAS & CIE — Haute Horlogerie Suisse · Calibre 8802 Tourbillon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@200;300;400;500;600&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-anthracite: #0c0e12;
+      --bg-slate: #13171f;
+      --bg-card: #181d27;
+      --rose-gold: #e2a07f;
+      --rose-gold-light: #f7cfb8;
+      --rose-gold-glow: rgba(226, 160, 127, 0.25);
+      --gold-seal: #d4af37;
+      --platinum-white: #f5f4ef;
+      --platinum-muted: #b8b7b2;
+      --border-subtle: rgba(226, 160, 127, 0.12);
+      --border-rose: rgba(226, 160, 127, 0.35);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-cinzel: 'Cinzel', serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --ease-watch: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-anthracite);
+      color: var(--platinum-white);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      background: radial-gradient(circle at 50% 0%, #1a1e29 0%, var(--bg-anthracite) 80%);
+    }
+
+    /* TYPOGRAPHY */
+    h1, h2, h3, h4, .serif {
+      font-family: var(--font-serif);
+      font-weight: 400;
+    }
+
+    .horology-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-cinzel);
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--rose-gold);
+      padding: 0.4rem 0.9rem;
+      background: rgba(226, 160, 127, 0.08);
+      border: 1px solid var(--border-rose);
+    }
+
+    /* HEADER */
+    header.watch-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.5rem 4rem;
+      background: rgba(12, 14, 18, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s;
+    }
+    header.watch-nav.scrolled {
+      padding: 1.1rem 4rem;
+      background: rgba(12, 14, 18, 0.96);
+      border-bottom-color: var(--border-rose);
+    }
+
+    .brand-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      color: var(--platinum-white);
+    }
+    .brand-mark .name {
+      font-family: var(--font-cinzel);
+      font-size: 1.4rem;
+      letter-spacing: 0.25em;
+      font-weight: 600;
+      color: var(--platinum-white);
+    }
+    .brand-mark .tag {
+      font-family: var(--font-cinzel);
+      font-size: 0.55rem;
+      letter-spacing: 0.38em;
+      color: var(--rose-gold);
+      margin-top: -2px;
+    }
+
+    nav.watch-links {
+      display: flex;
+      gap: 2.75rem;
+      align-items: center;
+    }
+    nav.watch-links a {
+      font-family: var(--font-cinzel);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--platinum-muted);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    nav.watch-links a:hover {
+      color: var(--rose-gold);
+    }
+
+    .geneva-seal {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--gold-seal);
+      background: rgba(212, 175, 55, 0.08);
+    }
+    .geneva-seal svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--gold-seal);
+    }
+    .geneva-seal span {
+      font-family: var(--font-cinzel);
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: var(--gold-seal);
+    }
+
+    .btn-rose {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.85rem;
+      font-family: var(--font-cinzel);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #0c0e12;
+      background: linear-gradient(135deg, #f7cfb8 0%, #e2a07f 50%, #b87352 100%);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 20px var(--rose-gold-glow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .btn-rose:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(226, 160, 127, 0.45);
+    }
+    .btn-outline-rose {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.85rem;
+      font-family: var(--font-cinzel);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--platinum-white);
+      background: transparent;
+      border: 1px solid var(--border-rose);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-outline-rose:hover {
+      background: rgba(226, 160, 127, 0.1);
+      border-color: var(--rose-gold);
+      color: var(--rose-gold);
+    }
+
+    /* HERO */
+    section.hero {
+      padding: 8.5rem 4rem 4rem 4rem;
+      min-height: 96vh;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-editorial h1 {
+      font-size: 4.8rem;
+      line-height: 1.04;
+      font-weight: 300;
+      margin: 1.5rem 0 1.75rem 0;
+    }
+    .hero-editorial h1 em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--rose-gold);
+      font-weight: 400;
+    }
+    .hero-editorial p.lead {
+      font-size: 1.05rem;
+      color: var(--platinum-muted);
+      line-height: 1.7;
+      margin-bottom: 2.75rem;
+      max-width: 520px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    /* TOURBILLON CANVAS FRAME */
+    .tourbillon-viewport {
+      background: radial-gradient(circle at 50% 50%, #1e2430 0%, #0d0f14 85%);
+      border: 1px solid var(--border-rose);
+      padding: 2.5rem;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), 0 0 50px rgba(226, 160, 127, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tourbillon-viewport::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--border-subtle);
+      pointer-events: none;
+    }
+    canvas#watchCanvas {
+      width: 100%;
+      height: 380px;
+      display: block;
+    }
+    .canvas-caption {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-family: var(--font-cinzel);
+      font-size: 0.68rem;
+      color: var(--platinum-muted);
+      letter-spacing: 0.18em;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1rem;
+    }
+
+    /* CALIBER SPECS */
+    section.caliber {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #0f1218;
+    }
+    .sec-head {
+      max-width: 600px;
+      margin-bottom: 3.5rem;
+    }
+    .sec-head h2 {
+      font-size: 3.2rem;
+      margin: 0.75rem 0;
+    }
+
+    .caliber-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.75rem;
+    }
+    .spec-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .spec-block:hover {
+      border-color: var(--rose-gold);
+      transform: translateY(-4px);
+    }
+    .spec-num {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      color: var(--rose-gold);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .spec-block h4 {
+      font-family: var(--font-cinzel);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.75rem;
+      color: var(--platinum-white);
+    }
+    .spec-block p {
+      color: var(--platinum-muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    /* HAND-FINISHING ANGLAGE */
+    section.finishing {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .finishing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .craft-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .craft-card:hover {
+      border-color: var(--border-rose);
+    }
+    .craft-illustration {
+      height: 240px;
+      background: radial-gradient(circle at 50% 50%, #202735 0%, #0d0f14 90%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+    }
+    .craft-illustration svg {
+      width: 70%;
+      height: 70%;
+      stroke: var(--rose-gold);
+    }
+    .craft-body {
+      padding: 2rem;
+    }
+    .craft-body .tag {
+      font-family: var(--font-cinzel);
+      font-size: 0.65rem;
+      color: var(--rose-gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .craft-body h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+    }
+    .craft-body p {
+      color: var(--platinum-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* BESPOKE COMMISSION CONFIGURATOR */
+    section.configurator {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #0d0f14;
+    }
+    .config-box {
+      border: 1px solid var(--border-rose);
+      background: var(--bg-card);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      padding: 3.5rem;
+      gap: 3.5rem;
+    }
+    .config-dial-preview {
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 50% 50%, #1e2533 0%, #090a0d 85%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      position: relative;
+    }
+    .dial-circle {
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 8px solid #c88665;
+      background: radial-gradient(circle at 50% 50%, #192130 0%, #0a0d14 100%);
+      position: relative;
+      box-shadow: 0 0 35px rgba(226, 160, 127, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.5s;
+    }
+    .dial-circle .dial-inner-pattern {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 1px dashed rgba(226, 160, 127, 0.4);
+    }
+    .dial-circle .hand-hour {
+      position: absolute;
+      width: 4px;
+      height: 60px;
+      background: var(--rose-gold);
+      top: 50px;
+      border-radius: 2px;
+      transform-origin: bottom center;
+      transform: rotate(45deg);
+    }
+    .dial-circle .hand-minute {
+      position: absolute;
+      width: 2.5px;
+      height: 85px;
+      background: var(--platinum-white);
+      top: 25px;
+      border-radius: 2px;
+      transform-origin: bottom center;
+      transform: rotate(190deg);
+    }
+    .dial-circle .center-cap {
+      width: 14px;
+      height: 14px;
+      background: var(--rose-gold);
+      border-radius: 50%;
+      z-index: 10;
+      border: 2px solid #fff;
+    }
+
+    .config-form-pane h3 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .config-form-pane p {
+      color: var(--platinum-muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .config-group {
+      margin-bottom: 1.5rem;
+    }
+    .config-group label {
+      display: block;
+      font-family: var(--font-cinzel);
+      font-size: 0.72rem;
+      color: var(--rose-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .config-chips {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .config-chip {
+      padding: 0.6rem 1.1rem;
+      background: var(--bg-slate);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      color: var(--platinum-white);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .config-chip.active, .config-chip:hover {
+      border-color: var(--rose-gold);
+      background: rgba(226, 160, 127, 0.12);
+      color: var(--rose-gold);
+    }
+
+    /* CONCIERGE BOOKING */
+    section.concierge {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at 50% 100%, #1c222e 0%, var(--bg-anthracite) 80%);
+    }
+    .concierge-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .concierge-wrap h2 {
+      font-size: 3.4rem;
+      margin: 0.75rem 0 1rem 0;
+    }
+    .concierge-wrap p.desc {
+      color: var(--platinum-muted);
+      font-size: 1rem;
+      margin-bottom: 3rem;
+    }
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      text-align: left;
+    }
+    .b-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .b-item label {
+      font-family: var(--font-cinzel);
+      font-size: 0.7rem;
+      color: var(--rose-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .b-item input, .b-item select, .b-item textarea {
+      padding: 0.9rem 1.1rem;
+      background: #0f1218;
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .b-item input:focus, .b-item select:focus, .b-item textarea:focus {
+      border-color: var(--rose-gold);
+    }
+
+    /* FOOTER */
+    footer.watch-footer {
+      padding: 5rem 4rem 3rem 4rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #08090c;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+    }
+    .footer-col h5 {
+      font-family: var(--font-cinzel);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--rose-gold);
+      margin-bottom: 1.25rem;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .footer-col ul li a {
+      color: var(--platinum-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover {
+      color: var(--platinum-white);
+    }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-cinzel);
+      font-size: 0.7rem;
+      color: var(--platinum-muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      header.watch-nav { padding: 1.2rem 2rem; }
+      section.hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem 2rem; }
+      .caliber-grid { grid-template-columns: 1fr 1fr; }
+      .finishing-grid { grid-template-columns: 1fr; }
+      .config-box { grid-template-columns: 1fr; padding: 2rem; }
+      .booking-grid { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="watch-nav" id="watchNav">
+    <a href="#" class="brand-mark">
+      <span class="name">VAUGELAS &amp; CIE</span>
+      <span class="tag">Genève · Horlogerie d'Exception</span>
+    </a>
+
+    <nav class="watch-links">
+      <a href="#tourbillon">Complication</a>
+      <a href="#caliber">Calibre 8802</a>
+      <a href="#finishing">Anglage</a>
+      <a href="#bespoke">Bespoke</a>
+    </nav>
+
+    <div style="display:flex; align-items:center; gap:1.25rem;">
+      <div class="geneva-seal">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span>Poinçon de Genève</span>
+      </div>
+      <a href="#concierge" class="btn-rose">Private Allocation</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="tourbillon">
+    <div class="hero-editorial">
+      <div class="horology-badge">Pièce Unique · 60-Second Flying Tourbillon</div>
+      <h1>Mechanical Gravitational <em>Equilibrium.</em></h1>
+      <p class="lead">
+        Hand-crafted in the Vallée de Joux. The Calibre 8802 suspends a 0.28-gram titanium carriage executing one full rotation every sixty seconds, neutralizing the earth's gravitational pull on the hairspring with microscopic poise.
+      </p>
+      <div class="hero-ctas">
+        <a href="#caliber" class="btn-rose">Examine Movement</a>
+        <a href="#bespoke" class="btn-outline-rose">Configure Dial</a>
+      </div>
+    </div>
+
+    <!-- LIVE HTML5 ESCAPEMENT & TOURBILLON SIMULATION -->
+    <div class="tourbillon-viewport">
+      <canvas id="watchCanvas" width="480" height="380"></canvas>
+      <div class="canvas-caption">
+        <span>ESCAPE WHEEL: 21,600 VPH</span>
+        <span>CARRIAGE: 0.28g TITANIUM GRADE 5</span>
+        <span>RATE: +1.2 SEC / DAY</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALIBRE 8802 SPECS -->
+  <section class="caliber" id="caliber">
+    <div class="sec-head">
+      <div class="horology-badge">Manufacture In-House</div>
+      <h2>The Anatomy of Calibre 8802</h2>
+      <p style="color: var(--platinum-muted);">Every bridge, pinion, and jewel is machined from raw solid German silver and hand-finished across sixty days of atelier benchwork.</p>
+    </div>
+
+    <div class="caliber-grid">
+      <div class="spec-block">
+        <div class="spec-num">21,600</div>
+        <h4>Vibrations Per Hour (3 Hz)</h4>
+        <p>The classical frequency balance offering optimal chronometric stability and gentle wear on ruby pallet stones over generations.</p>
+      </div>
+
+      <div class="spec-block">
+        <div class="spec-num">72<span style="font-size:1.8rem">h</span></div>
+        <h4>Twin Barrel Power Reserve</h4>
+        <p>Parallel dual mainspring barrels deliver constant torque output from full wind down to hour seventy-two.</p>
+      </div>
+
+      <div class="spec-block">
+        <div class="spec-num">43</div>
+        <h4>Synthetic Corundum Jewels</h4>
+        <p>Polished olive-hole jewels set in solid 18k rose gold chatons secured with flame-blued heat-treated steel screws.</p>
+      </div>
+
+      <div class="spec-block">
+        <div class="spec-num">0.05<span style="font-size:1.8rem">mm</span></div>
+        <h4>Hand-Chamfered Bevels</h4>
+        <p>Mirror-polished anglage à la main executed using traditional gentian wood pegs and diamond micro-pastes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HAND-FINISHING ANGLAGE GALLERY -->
+  <section class="finishing" id="finishing">
+    <div class="sec-head">
+      <div class="horology-badge">Métiers d'Art Horloger</div>
+      <h2>Uncompromising Genevan Finishes</h2>
+      <p style="color: var(--platinum-muted);">In adherence to the Poinçon de Genève criteria, every surface—including hidden underside plates—must bear flawless artisan decoration.</p>
+    </div>
+
+    <div class="finishing-grid">
+      <!-- Card 1 -->
+      <div class="craft-card">
+        <div class="craft-illustration">
+          <!-- Côtes de Genève SVG Art -->
+          <svg viewBox="0 0 200 160" fill="none">
+            <line x1="20" y1="20" x2="180" y2="20" stroke="#e2a07f" stroke-width="2"/>
+            <line x1="20" y1="40" x2="180" y2="40" stroke="#e2a07f" stroke-width="2" stroke-opacity="0.6"/>
+            <line x1="20" y1="60" x2="180" y2="60" stroke="#e2a07f" stroke-width="2"/>
+            <line x1="20" y1="80" x2="180" y2="80" stroke="#e2a07f" stroke-width="2" stroke-opacity="0.6"/>
+            <line x1="20" y1="100" x2="180" y2="100" stroke="#e2a07f" stroke-width="2"/>
+            <line x1="20" y1="120" x2="180" y2="120" stroke="#e2a07f" stroke-width="2" stroke-opacity="0.6"/>
+            <line x1="20" y1="140" x2="180" y2="140" stroke="#e2a07f" stroke-width="2"/>
+            <circle cx="100" cy="80" r="30" stroke="#f5f4ef" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="craft-body">
+          <div class="tag">Surface Decoration</div>
+          <h3>Côtes de Genève</h3>
+          <p>Delicate parallel wave ribs applied with wooden boxwood laps, reflecting ambient candlelight with holographic depth.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="craft-card">
+        <div class="craft-illustration">
+          <!-- Black Polish Poli Noir SVG Art -->
+          <svg viewBox="0 0 200 160" fill="none">
+            <rect x="40" y="40" width="120" height="80" rx="8" fill="#141720" stroke="#e2a07f" stroke-width="2"/>
+            <path d="M50 50 L150 110" stroke="#fff" stroke-width="1" stroke-dasharray="3 3"/>
+            <circle cx="100" cy="80" r="15" fill="#e2a07f" fill-opacity="0.2"/>
+          </svg>
+        </div>
+        <div class="craft-body">
+          <div class="tag">Mirror Finish</div>
+          <h3>Poli Noir (Black Polish)</h3>
+          <p>The pinnacle of watchmaking: flat steel components polished on zinc plates with diamond flour until light reflects as pure pitch black or brilliant white.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="craft-card">
+        <div class="craft-illustration">
+          <!-- Perlage circular graining -->
+          <svg viewBox="0 0 200 160" fill="none">
+            <circle cx="60" cy="60" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+            <circle cx="90" cy="60" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+            <circle cx="120" cy="60" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+            <circle cx="75" cy="90" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+            <circle cx="105" cy="90" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+            <circle cx="135" cy="90" r="18" stroke="#e2a07f" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="craft-body">
+          <div class="tag">Mainplate Texture</div>
+          <h3>Perlage Circular Graining</h3>
+          <p>Concentric overlapping bead swirls applied by hand to the dial baseplate to trap dust micro-particles away from the gear train.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BESPOKE COMMISSION CONFIGURATOR -->
+  <section class="configurator" id="bespoke">
+    <div class="config-box">
+      <div class="config-dial-preview">
+        <div class="dial-circle" id="dialPreview">
+          <div class="dial-inner-pattern" id="dialPattern"></div>
+          <div class="hand-hour"></div>
+          <div class="hand-minute"></div>
+          <div class="center-cap"></div>
+        </div>
+        <div style="margin-top: 2rem; text-align: center;">
+          <h4 id="previewCaseTitle" style="font-family: var(--font-cinzel); font-size: 1.1rem; color: var(--rose-gold);">18K Rose Gold · Clous de Paris Dial</h4>
+          <p id="previewCaseSubtitle" style="font-size: 0.8rem; color: var(--platinum-muted); margin-top: 0.3rem;">Diameter: 40.5mm · Thickness: 9.8mm</p>
+        </div>
+      </div>
+
+      <div class="config-form-pane">
+        <h3>Bespoke Configuration</h3>
+        <p>Every Vaugelas timepiece is tailored to the patron's exact aesthetic preference. Select case metallurgy and hand-guilloché motifs.</p>
+
+        <div class="config-group">
+          <label>Case Metal Metallurgy</label>
+          <div class="config-chips">
+            <div class="config-chip active" onclick="setMetal('18k Rose Gold', '#c88665', 'radial-gradient(circle at 50% 50%, #192130 0%, #0a0d14 100%)')">18K Rose Gold</div>
+            <div class="config-chip" onclick="setMetal('950 Platinum', '#d4d8de', 'radial-gradient(circle at 50% 50%, #171b24 0%, #08090d 100%)')">950 Platinum</div>
+            <div class="config-chip" onclick="setMetal('Grade 5 Titanium', '#8a929e', 'radial-gradient(circle at 50% 50%, #1a202c 0%, #0a0c10 100%)')">Grade 5 Titanium</div>
+            <div class="config-chip" onclick="setMetal('Tantalum Noir', '#4a4f5c', 'radial-gradient(circle at 50% 50%, #0f131a 0%, #050608 100%)')">Tantalum Noir</div>
+          </div>
+        </div>
+
+        <div class="config-group">
+          <label>Dial Guilloché Geometry</label>
+          <div class="config-chips">
+            <div class="config-chip active" onclick="setGuilloche('Clous de Paris', 'dashed')">Clous de Paris</div>
+            <div class="config-chip" onclick="setGuilloche('Sunburst Côte', 'dotted')">Sunburst Radial</div>
+            <div class="config-chip" onclick="setGuilloche('Grand Feu Enamel', 'solid')">Grand Feu Enamel Noir</div>
+          </div>
+        </div>
+
+        <div class="config-group">
+          <label>Alligator Strap Selection</label>
+          <div class="config-chips">
+            <div class="config-chip active">Semi-Matte Black Alligator</div>
+            <div class="config-chip">Chestnut Brown Patina</div>
+            <div class="config-chip">Midnight Navy Silk</div>
+          </div>
+        </div>
+
+        <button class="btn-rose" style="width: 100%; justify-content: center; margin-top: 1rem;" onclick="document.getElementById('concierge').scrollIntoView({behavior: 'smooth'})">
+          Reserve Atelier Waiting List Position
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATELIER CONCIERGE BOOKING -->
+  <section class="concierge" id="concierge">
+    <div class="concierge-wrap">
+      <div class="horology-badge">Sur Invitation Privée</div>
+      <h2>Join the Atelier Waiting Ledger</h2>
+      <p class="desc">Vaugelas &amp; Cie crafts fewer than thirty numbered timepieces annually. Consultation takes place at our private salon overlooking Lake Geneva.</p>
+
+      <form onsubmit="event.preventDefault(); alert('Your commission dossier has been received by Master Watchmaker Jean-Luc Vaugelas. The concierge will dispatch an encrypted invitation.');">
+        <div class="booking-grid">
+          <div class="b-item">
+            <label>Title &amp; Full Name</label>
+            <input type="text" placeholder="Dr. Arthur Sterling" required>
+          </div>
+          <div class="b-item">
+            <label>Personal Direct Email</label>
+            <input type="email" placeholder="sterling@private-estate.ch" required>
+          </div>
+          <div class="b-item">
+            <label>Consultation Location</label>
+            <select>
+              <option>Geneva Atelier (Quai du Mont-Blanc)</option>
+              <option>Zurich Private Bank Suite</option>
+              <option>London Mayfair Salon</option>
+              <option>Master Horologist Private Visit to Residence</option>
+            </select>
+          </div>
+          <div class="b-item">
+            <label>Delivery Timeline Horizon</label>
+            <select>
+              <option>Standard Manufacture (12 - 16 Months)</option>
+              <option>Expedited Anniversary Commission (8 Months)</option>
+              <option>Unique Bespoke Piece (24 Months)</option>
+            </select>
+          </div>
+          <div class="b-item" style="grid-column: span 2;">
+            <label>Custom Engraving or Personal Complication Requests</label>
+            <textarea rows="4" placeholder="Detail custom caseback coat of arms, secret signature, or customized gear ratio requirements..."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-rose" style="margin-top: 2rem; padding: 1.15rem 3rem;">
+          Submit Horological Commission Dossier
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- LUXURY FOOTER -->
+  <footer class="watch-footer">
+    <div class="footer-top">
+      <div style="max-width: 320px;">
+        <div class="brand-mark">
+          <span class="name">VAUGELAS &amp; CIE</span>
+          <span class="tag">GENÈVE · FONDÉE EN 1894</span>
+        </div>
+        <p style="color: var(--platinum-muted); font-size: 0.85rem; margin-top: 1.25rem; line-height: 1.7;">
+          Guardian of traditional Swiss hand-finishing, perpetual calendars, and high-frequency flying tourbillons.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Manufacture</h5>
+        <ul>
+          <li><a href="#">Calibre 8802 Tourbillon</a></li>
+          <li><a href="#">Calibre 9100 Perpetual</a></li>
+          <li><a href="#">Silicon Escapement Lab</a></li>
+          <li><a href="#">Vallée de Joux Workshop</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Heritage</h5>
+        <ul>
+          <li><a href="#">Poinçon de Genève Seal</a></li>
+          <li><a href="#">Historic Archive Ledger</a></li>
+          <li><a href="#">Restoration of Antique Clocks</a></li>
+          <li><a href="#">Apprenticeship Foundation</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Private Salons</h5>
+        <ul>
+          <li><a href="#">Geneva: Quai du Mont-Blanc 12</a></li>
+          <li><a href="#">Zurich: Bahnhofstrasse 24</a></li>
+          <li><a href="#">Tokyo: Ginza Chuo-ku</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 VAUGELAS &amp; CIE HORLOGERIE S.A. TOUS DROITS RÉSERVÉS.</div>
+      <div>SWISS MADE · POINÇON DE GENÈVE N° 0482</div>
+    </div>
+  </footer>
+
+  <!-- CANVAS ESCAPEMENT SCRIPT -->
+  <script>
+    const canvas = document.getElementById('watchCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width;
+    let height = canvas.height;
+
+    let angle = 0;
+    let balanceAngle = 0;
+
+    function renderTourbillon() {
+      ctx.fillStyle = '#10131a';
+      ctx.fillRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+
+      // Outer Tourbillon Cage Ring (Stationary outer gear)
+      ctx.strokeStyle = 'rgba(226, 160, 127, 0.25)';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 140, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Gear teeth on outer ring
+      for (let i = 0; i < 48; i++) {
+        const a = (i / 48) * Math.PI * 2;
+        const x1 = cx + Math.cos(a) * 135;
+        const y1 = cy + Math.sin(a) * 135;
+        const x2 = cx + Math.cos(a) * 145;
+        const y2 = cy + Math.sin(a) * 145;
+        ctx.strokeStyle = 'rgba(226, 160, 127, 0.4)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+
+      // Rotating Tourbillon Cage (Rotates once every 60 seconds)
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+
+      // Cage bridge in titanium (three-arm arch)
+      ctx.strokeStyle = '#e2a07f';
+      ctx.lineWidth = 3;
+      for (let arm = 0; arm < 3; arm++) {
+        const armAngle = (arm / 3) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(armAngle) * 125, Math.sin(armAngle) * 125);
+        ctx.stroke();
+      }
+
+      // Central ruby capstone
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath();
+      ctx.arc(0, 0, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#f5f4ef';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Oscillating Balance Wheel inside the cage (3 Hz rapid oscillation)
+      ctx.save();
+      ctx.rotate(balanceAngle);
+
+      ctx.strokeStyle = '#f7cfb8';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, 85, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Poising adjustment screws along balance rim
+      for (let s = 0; s < 16; s++) {
+        const sa = (s / 16) * Math.PI * 2;
+        const sx = Math.cos(sa) * 85;
+        const sy = Math.sin(sa) * 85;
+        ctx.fillStyle = '#d4af37';
+        ctx.fillRect(sx - 2, sy - 2, 4, 4);
+      }
+
+      // Breguet hairspring spiral
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.65)'; // Silicon blue spring
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let theta = 0; theta < Math.PI * 8; theta += 0.1) {
+        const r = (theta / (Math.PI * 8)) * 55;
+        const hx = Math.cos(theta) * r;
+        const hy = Math.sin(theta) * r;
+        if (theta === 0) ctx.moveTo(hx, hy);
+        else ctx.lineTo(hx, hy);
+      }
+      ctx.stroke();
+
+      ctx.restore(); // restore from balance wheel
+
+      ctx.restore(); // restore from tourbillon cage
+
+      angle += 0.008; // slow continuous cage rotation
+      balanceAngle = Math.sin(angle * 32) * 1.8; // rapid back-and-forth oscillation
+
+      requestAnimationFrame(renderTourbillon);
+    }
+    renderTourbillon();
+
+    // Configurator helpers
+    function setMetal(name, border, bg) {
+      document.querySelectorAll('.config-chip').forEach(c => {
+        if (c.textContent.includes(name.split(' ')[0])) c.classList.add('active');
+        else if (['18K', '950', 'Grade', 'Tantalum'].some(m => c.textContent.includes(m))) c.classList.remove('active');
+      });
+      const dial = document.getElementById('dialPreview');
+      dial.style.borderColor = border;
+      dial.style.background = bg;
+      document.getElementById('previewCaseTitle').textContent = `${name} · Custom Dial`;
+    }
+
+    function setGuilloche(name, borderStyle) {
+      const pattern = document.getElementById('dialPattern');
+      pattern.style.borderStyle = borderStyle;
+    }
+  </script>
+</body>
+</html>

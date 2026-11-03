@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hydros Foil — Autonomous Electric Hydrofoil Ferries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ocean-navy: #030b1e;
+      --ocean-deep: #071633;
+      --card-navy: #0a1b3d;
+      --teal-marine: #14b8a6;
+      --teal-glow: rgba(20, 184, 166, 0.35);
+      --teal-light: #5eead4;
+      --foam-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-ocean: rgba(20, 184, 166, 0.2);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --font-main: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ocean-navy);
+      color: var(--foam-white);
+      font-family: var(--font-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.08) 0%, transparent 60%);
+    }
+
+    /* Sea State Ticker Bar */
+    .sea-state-bar {
+      background: rgba(3, 11, 30, 0.95);
+      border-bottom: 1px solid var(--border-ocean);
+      backdrop-filter: blur(12px);
+      padding: 0.6rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .telemetry-node {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .teal-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--teal-marine);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--teal-marine);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.8); opacity: 0.4; }
+    }
+
+    /* Main Navigation */
+    nav {
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 20;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-fin {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--teal-marine), #0d9488);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 15px var(--teal-glow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--teal-light);
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-teal {
+      background: var(--teal-marine);
+      color: #031326;
+      box-shadow: 0 4px 20px var(--teal-glow);
+    }
+
+    .btn-teal:hover {
+      background: var(--teal-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(20, 184, 166, 0.45);
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--border-ocean);
+      color: #fff;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--teal-marine);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-container {
+      max-width: 1350px;
+      margin: 2rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .badge-foil {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--teal-marine);
+      background: rgba(20, 184, 166, 0.1);
+      border: 1px solid var(--border-ocean);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title span.teal-gradient {
+      background: linear-gradient(135deg, #ffffff 0%, var(--teal-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      max-width: 540px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .spec-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1.8rem;
+    }
+
+    .spec-val {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    .spec-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Hydrofoil Flight Canvas Card */
+    .flight-card {
+      background: var(--card-navy);
+      border: 1px solid var(--border-ocean);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+
+    .flight-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--teal-marine);
+    }
+
+    #foilCanvas {
+      width: 100%;
+      height: 380px;
+      background: #020713;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .flight-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Computer-Stabilized Flight Control */
+    .section-wrap {
+      max-width: 1350px;
+      margin: 7rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--teal-marine);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .control-card {
+      background: var(--card-navy);
+      border: 1px solid var(--border-ocean);
+      border-radius: 16px;
+      padding: 2.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .control-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(20, 184, 166, 0.15);
+      border-color: var(--teal-light);
+    }
+
+    .control-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(20, 184, 166, 0.12);
+      color: var(--teal-marine);
+      display: grid;
+      place-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .control-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .control-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* 80% Energy Reduction Matrix */
+    .energy-box {
+      background: linear-gradient(180deg, var(--card-navy) 0%, var(--ocean-deep) 100%);
+      border: 1px solid var(--border-ocean);
+      border-radius: 24px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .chart-bar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bar-label-wrap {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+    }
+
+    .bar-track {
+      height: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    /* Fleet Specifications Grid */
+    .fleet-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .fleet-card {
+      background: var(--card-navy);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.8rem;
+    }
+
+    .fleet-val {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--teal-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .fleet-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Coastal Transit RFP Form */
+    .rfp-box {
+      background: linear-gradient(135deg, #071530 0%, #0c234a 100%);
+      border: 1px solid var(--border-ocean);
+      border-radius: 24px;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.45rem;
+    }
+
+    .form-control {
+      width: 100%;
+      background: rgba(3, 11, 30, 0.7);
+      border: 1px solid var(--border-ocean);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--teal-light);
+      box-shadow: 0 0 15px var(--teal-glow);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 4rem 2rem 2.5rem;
+      max-width: 1350px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-container, .energy-box, .rfp-box {
+        grid-template-columns: 1fr;
+      }
+      .control-grid, .fleet-specs-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .control-grid, .fleet-specs-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .hero-title {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sea State Operational Status -->
+  <div class="sea-state-bar">
+    <div class="telemetry-node">
+      <div class="teal-dot"></div>
+      <span>VESSEL: <strong>HYDROS-X150 // OSLO FJORD ROUTE</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>FLIGHT STATUS: <strong style="color:var(--teal-marine)">FOILBORNE @ 36.4 KNOTS</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>SEA STATE: <strong>SS4 (WAVE HT 2.2M) // ZERO ROLL DETECTED</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>ENERGY DRAW: <strong style="color:var(--teal-marine)">18.2 kWh / NM</strong></span>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav>
+    <a href="#" class="brand-mark">
+      <div class="brand-fin">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#031326" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 12h20M2 16h20M7 8l5-5 5 5"/>
+        </svg>
+      </div>
+      HYDROS // FOIL
+    </a>
+    <ul class="nav-links">
+      <li><a href="#flight-control">Flight Stabilization</a></li>
+      <li><a href="#efficiency">80% Energy Cut</a></li>
+      <li><a href="#fleet">Fleet Architecture</a></li>
+      <li><a href="#rfp">Transit RFP</a></li>
+    </ul>
+    <a href="#rfp" class="btn-action btn-teal">Deploy Fleet RFP</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-container">
+    <div>
+      <div class="badge-foil">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+        NEXT-GEN COMMERCIAL HYDROFOIL WATERCRAFT
+      </div>
+      <h1 class="hero-title">
+        Fly Above the Waves.<br>
+        <span class="teal-gradient">Zero Wake. Zero Emissions.</span>
+      </h1>
+      <p class="hero-lead">
+        Commercial electric passenger ferries that lift clean out of the water at 16 knots on carbon-fiber submerged wings. Slashing hydrodynamic drag by 80%, neutralizing seasickness, and flying silently through city harbors.
+      </p>
+      <div class="hero-actions">
+        <a href="#rfp" class="btn-action btn-teal">Submit Route RFP</a>
+        <a href="#efficiency" class="btn-action btn-outline">Maritime Efficiency Whitepaper</a>
+      </div>
+      <div class="spec-strip">
+        <div>
+          <div class="spec-val">38 KTS</div>
+          <div class="spec-label">CRUISE SPEED</div>
+        </div>
+        <div>
+          <div class="spec-val">-80%</div>
+          <div class="spec-label">ENERGY PER PASSENGER</div>
+        </div>
+        <div>
+          <div class="spec-val">0.0 CM</div>
+          <div class="spec-label">SHORELINE WAKE EROSION</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hydrofoil Canvas Simulation -->
+    <div class="flight-card">
+      <div class="flight-header">
+        <span>DYNAMIC_FOIL_TELEMETRY // LIVE VIRTUAL TEST TANK</span>
+        <span style="color:var(--teal-marine)">FLIGHT CONTROLLER: 100 HZ ACTIVE</span>
+      </div>
+      <canvas id="foilCanvas" width="500" height="380"></canvas>
+      <div class="flight-footer">
+        <span>RIDE HEIGHT: 1.45 M ABOVE WATER</span>
+        <span style="color:var(--teal-light)">ATTACK ANGLE: +2.8° OPTIMAL</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Computer Stabilized Flight Control -->
+  <section id="flight-control" class="section-wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Flight-By-Wire Marine Avionics</div>
+      <h2 class="section-title">Zero Seasickness Guarantee</h2>
+      <p style="color:var(--text-muted); font-size:1.05rem; margin-top:0.8rem;">
+        Using aerospace flight algorithms developed for supersonic jets, our hydrofoils adjust their wing trim 100 times every second to counter wave motion before passengers can perceive it.
+      </p>
+    </div>
+
+    <div class="control-grid">
+      <div class="control-card">
+        <div class="control-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/>
+          </svg>
+        </div>
+        <h3 class="control-title">100-Hz Active Trim Actuators</h3>
+        <p class="control-desc">
+          High-torque brushless servo motors constantly modulate the trailing edge flaps on both main foil and aft rudder, maintaining pitch and roll within ±0.15 degrees.
+        </p>
+      </div>
+
+      <div class="control-card">
+        <div class="control-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <h3 class="control-title">Forward Looking Wave LiDAR</h3>
+        <p class="control-desc">
+          Pulsed laser radar mounted on the bow scans the incoming wave profile 50 meters ahead, pre-computing foil elevation adjustments before the hull encounters swell.
+        </p>
+      </div>
+
+      <div class="control-card">
+        <div class="control-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h3 class="control-title">Triple-Redundant Avionics</h3>
+        <p class="control-desc">
+          DNV-certified marine classification. Triple-redundant flight computers with autonomous fallback: if power is lost, the vessel glides safely and softly into hullborne displacement mode.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 80% Energy Reduction Matrix -->
+  <section id="efficiency" class="section-wrap">
+    <div class="energy-box">
+      <div>
+        <div class="section-eyebrow" style="text-align:left;">Physics of Water Resistance</div>
+        <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:1rem;">Breaking the Water Drag Barrier</h2>
+        <p style="color:var(--text-muted); font-size:1.02rem; line-height:1.7; margin-bottom:2rem;">
+          Water is 800 times denser than air. Traditional displacement ferries push hundreds of tons of seawater out of their way, burning hundreds of liters of marine diesel every nautical mile. By lifting the hull, Hydros cuts frictional resistance by 80%.
+        </p>
+
+        <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--teal-marine); display:flex; flex-direction:column; gap:0.5rem;">
+          <div>✔ 100% Zero Direct CO₂, NOx, &amp; Particulate Emissions</div>
+          <div>✔ Zero Harbor Speed Restrictions (No-Wake Exemption)</div>
+          <div>✔ 75% Lower Maintenance Costs via Electric Pod Drives</div>
+        </div>
+      </div>
+
+      <!-- Comparative Bars -->
+      <div class="chart-bar-group">
+        <div class="bar-row">
+          <div class="bar-label-wrap">
+            <strong style="color:var(--teal-light);">HYDROS-X150 ELECTRIC FOIL</strong>
+            <span style="font-family:var(--font-mono); color:var(--teal-marine);">0.18 kWh / Pax-NM</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 20%; background: linear-gradient(90deg, #14b8a6, #5eead4);"></div>
+          </div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label-wrap">
+            <span>Electric Non-Foiling Catamaran</span>
+            <span style="font-family:var(--font-mono); color:var(--text-muted);">0.68 kWh / Pax-NM</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 60%; background: #64748b;"></div>
+          </div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label-wrap">
+            <span style="color:#ef4444;">Conventional Diesel Catamaran</span>
+            <span style="font-family:var(--font-mono); color:#ef4444;">1.05 kWh Equivalent / Pax-NM</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 95%; background: #ef4444;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Commercial Fleet Specifications -->
+  <section id="fleet" class="section-wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Specifications</div>
+      <h2 class="section-title">The Hydros-X150 Platform</h2>
+      <p style="color:var(--text-muted); font-size:1.05rem; margin-top:0.8rem;">
+        Engineered specifically for commuter waterways, archipelagos, and urban coastal transit networks.
+      </p>
+    </div>
+
+    <div class="fleet-specs-grid">
+      <div class="fleet-card">
+        <div class="fleet-val">150</div>
+        <div class="fleet-label">PASSENGER CAPACITY (+ 20 BICYCLES)</div>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-val">38 KTS</div>
+        <div class="fleet-label">SERVICE CRUISE SPEED (70 KM/H)</div>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-val">65 NM</div>
+        <div class="fleet-label">RANGE PER CHARGE (1.2 MWH LFP PACK)</div>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-val">28 MIN</div>
+        <div class="fleet-label">MCS FAST CHARGE (MEGAWATT DOCK CHARGE)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coastal Transit RFP Form -->
+  <section id="rfp" class="section-wrap">
+    <div class="rfp-box">
+      <div>
+        <div class="section-eyebrow" style="text-align:left;">Municipal &amp; Fleet Operators</div>
+        <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:1rem;">Request Fleet Deployment RFP</h2>
+        <p style="color:var(--text-muted); font-size:1.02rem; line-height:1.7; margin-bottom:2rem;">
+          Connect your waterways. Submit your route coordinates and operational timetable. Our marine transit architects will deliver full route simulation data, charging infrastructure feasibility, and vessel CAPEX/OPEX modeling.
+        </p>
+
+        <form onsubmit="handleRFPSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contact Officer</label>
+              <input type="text" class="form-control" placeholder="Admiral Lars Lindqvist" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Transit Authority / Operator</label>
+              <input type="text" class="form-control" placeholder="Nordic Fjord Rapid Transit" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Institutional Direct Email</label>
+            <input type="email" class="form-control" placeholder="lars@nordictransit.no" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Route Distance (Nautical Miles)</label>
+              <input type="number" class="form-control" placeholder="18 NM" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Daily Commuter Volume</label>
+              <select class="form-control">
+                <option value="1">1,000 - 3,000 Passengers / Day</option>
+                <option value="2">3,000 - 8,000 Passengers / Day</option>
+                <option value="3">10,000+ Passengers / Day</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-action btn-teal" style="width:100%; justify-content:center; padding:1rem; font-weight:700; margin-top:0.5rem;">
+            Submit Route RFP for Turnkey Analysis
+          </button>
+        </form>
+      </div>
+
+      <!-- Docking & Infrastructure Telemetry Display -->
+      <div style="background:rgba(3,11,30,0.6); border:1px solid var(--border-ocean); border-radius:16px; padding:2.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--teal-marine); margin-bottom:0.5rem;">DEPLOYMENT STATUS // 2026 FLEET EXPANSION</div>
+          <div style="font-size:1.8rem; font-weight:800; color:#fff; margin-bottom:1rem;">Certified by DNV GL &amp; IMO High-Speed Craft Code</div>
+          <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.7;">
+            Commercial routes launching in Stockholm Archipelago, Lake Geneva, San Francisco Bay, and Auckland Harbor.
+          </p>
+        </div>
+
+        <div style="border-top:1px solid var(--border-subtle); padding-top:1.5rem; font-family:var(--font-mono); font-size:0.8rem; color:var(--teal-light); display:flex; flex-direction:column; gap:0.4rem;">
+          <div>• CHARGING: MCS (Megawatt Charging System) up to 2.5 MW</div>
+          <div>• AUTOMATION: Level 4 Autonomous Collision Avoidance</div>
+          <div>• NOISE SIGNATURE: &lt; 62 dB(A) at 100 meters</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong style="color:#fff;">HYDROS FOIL MARINE MOBILITY GROUP</strong> // Oslo &amp; Seattle
+      <div style="margin-top:0.3rem; font-size:0.75rem;">© 2026 Hydros Marine Technologies AS. Zero marine wake. High speed electric flight.</div>
+    </div>
+    <div style="font-family:var(--font-mono); font-size:0.8rem;">
+      <span>IMO REGULATION // DNV 1A HSLC PASSENGER</span>
+    </div>
+  </footer>
+
+  <!-- Dynamic Hydrofoil Canvas Animation -->
+  <script>
+    const canvas = document.getElementById('foilCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = canvas.offsetWidth;
+    let height = canvas.height = canvas.offsetHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    });
+
+    let waveOffset = 0;
+
+    function renderFoil() {
+      ctx.fillStyle = '#020713';
+      ctx.fillRect(0, 0, width, height);
+
+      const waterLine = height * 0.65;
+
+      // Draw Water Waves
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+      for (let x = 0; x <= width; x += 10) {
+        const y = waterLine + Math.sin((x * 0.02) + waveOffset) * 8 + Math.cos((x * 0.04) + waveOffset * 0.5) * 4;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(width, height);
+      ctx.closePath();
+      const waterGrad = ctx.createLinearGradient(0, waterLine, 0, height);
+      waterGrad.addColorStop(0, '#0a2540');
+      waterGrad.addColorStop(1, '#020b1e');
+      ctx.fillStyle = waterGrad;
+      ctx.fill();
+
+      // Water surface highlight line
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += 10) {
+        const y = waterLine + Math.sin((x * 0.02) + waveOffset) * 8 + Math.cos((x * 0.04) + waveOffset * 0.5) * 4;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = '#14b8a6';
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+
+      // Vessel coordinates (flying above water)
+      const vesselX = width * 0.42;
+      const flyHeight = waterLine - 55 + Math.sin(waveOffset * 0.8) * 2; // Stabilized glide!
+
+      // Draw Foils (Struts & Submerged Wings)
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 3.5;
+
+      // Front Foil Strut
+      ctx.beginPath();
+      ctx.moveTo(vesselX + 85, flyHeight + 10);
+      ctx.lineTo(vesselX + 95, waterLine + 22);
+      ctx.stroke();
+
+      // Front Submerged Wing (T-Foil)
+      ctx.fillStyle = '#14b8a6';
+      ctx.fillRect(vesselX + 75, waterLine + 20, 42, 6);
+
+      // Rear Foil Strut with Rudder
+      ctx.beginPath();
+      ctx.moveTo(vesselX - 70, flyHeight + 10);
+      ctx.lineTo(vesselX - 75, waterLine + 24);
+      ctx.stroke();
+
+      // Rear Submerged Wing + Propeller Pod
+      ctx.fillRect(vesselX - 95, waterLine + 22, 38, 6);
+      // Pod motor
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(vesselX - 80, waterLine + 19, 12, 10);
+
+      // Micro-bubbles from pod propulsion
+      for (let b = 0; b < 6; b++) {
+        const bx = (vesselX - 95) - ((waveOffset * 25 + b * 20) % 120);
+        const by = waterLine + 24 + (Math.sin(b * 12) * 5);
+        ctx.fillStyle = 'rgba(20, 184, 166, 0.4)';
+        ctx.beginPath();
+        ctx.arc(bx, by, Math.random() * 2 + 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw Sleek Aerodynamic Ferry Hull
+      ctx.save();
+      ctx.translate(vesselX, flyHeight);
+
+      // Hull path
+      ctx.beginPath();
+      ctx.moveTo(-110, 8);
+      ctx.lineTo(95, 8);
+      ctx.lineTo(130, -5);
+      ctx.lineTo(110, -20);
+      ctx.lineTo(-80, -22);
+      ctx.lineTo(-110, -10);
+      ctx.closePath();
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      // Dark panoramic passenger window ribbon
+      ctx.beginPath();
+      ctx.moveTo(-65, -15);
+      ctx.lineTo(90, -15);
+      ctx.lineTo(105, -7);
+      ctx.lineTo(-70, -7);
+      ctx.closePath();
+      ctx.fillStyle = '#071633';
+      ctx.fill();
+
+      // Teal accent stripe along hull
+      ctx.beginPath();
+      ctx.moveTo(-100, 2);
+      ctx.lineTo(115, 2);
+      ctx.strokeStyle = '#14b8a6';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      ctx.restore();
+
+      // HUD overlay elements
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      ctx.font = '10px "Space Mono"';
+      ctx.fillText('STABILIZED FOIL FLIGHT (ALTITUDE: 1.45M)', vesselX - 80, flyHeight - 35);
+
+      waveOffset += 0.04;
+      requestAnimationFrame(renderFoil);
+    }
+
+    renderFoil();
+
+    function handleRFPSubmit(e) {
+      e.preventDefault();
+      alert('RFP Submission Logged. Hydros Marine Engineering will compile an initial route hydrodynamics study and operational financial prospectus within 48 hours.');
+    }
+  </script>
+</body>
+</html>

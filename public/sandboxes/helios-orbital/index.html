@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helios Orbital — Space-Based Solar Power & Directed Beaming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void-bg: #020617;
+      --card-bg: #070d21;
+      --card-border: rgba(56, 189, 248, 0.16);
+      --card-border-gold: rgba(245, 158, 11, 0.35);
+      --solar-gold: #f59e0b;
+      --solar-flare: #fbbf24;
+      --ion-cyan: #38bdf8;
+      --ion-glow: rgba(56, 189, 248, 0.3);
+      --text-white: #f8fafc;
+      --text-slate: #94a3b8;
+      --text-dim: #64748b;
+      --font-display: 'Orbitron', -apple-system, sans-serif;
+      --font-body: 'Rajdhani', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--void-bg);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 120px 80px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 240px 180px, #38bdf8, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 380px 240px, #f59e0b, rgba(0,0,0,0));
+      background-size: 550px 550px;
+    }
+
+    /* Cosmic HUD Grid background */
+    .hud-grid {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Orbital Telemetry Top Bar */
+    .telemetry-ticker {
+      background: rgba(4, 9, 26, 0.95);
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(14px);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 0.6rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      letter-spacing: 0.08em;
+    }
+
+    .telemetry-node {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .telemetry-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ion-cyan);
+      box-shadow: 0 0 10px var(--ion-cyan);
+      animation: blink 1.6s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    .metric-gold {
+      color: var(--solar-gold);
+      font-weight: 700;
+    }
+
+    .metric-cyan {
+      color: var(--ion-cyan);
+      font-weight: 700;
+    }
+
+    /* Main Navigation */
+    header {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 50;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.12em;
+    }
+
+    .brand-ring {
+      width: 34px;
+      height: 34px;
+      border: 2px solid var(--solar-gold);
+      border-radius: 50%;
+      position: relative;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
+    }
+
+    .brand-ring::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--ion-cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--ion-cyan);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-menu a {
+      color: var(--text-slate);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-menu a:hover {
+      color: var(--ion-cyan);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.6rem;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #020617;
+      border: 1px solid var(--solar-flare);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: rgba(56, 189, 248, 0.06);
+      color: var(--ion-cyan);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: var(--ion-cyan);
+      box-shadow: 0 0 20px var(--ion-glow);
+    }
+
+    /* Hero Section with Canvas */
+    .hero-wrap {
+      max-width: 1400px;
+      margin: 1.5rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .badge-orbital {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ion-cyan);
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: 3.6rem;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .title-highlight {
+      background: linear-gradient(135deg, #fff 0%, var(--solar-flare) 50%, var(--ion-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-lead {
+      color: var(--text-slate);
+      font-size: 1.22rem;
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 2.2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 2rem;
+    }
+
+    .strip-val {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .strip-sub {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-slate);
+      letter-spacing: 0.05em;
+      margin-top: 0.2rem;
+    }
+
+    /* Orbital Simulator Card */
+    .orbital-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.1);
+    }
+
+    .card-hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ion-cyan);
+    }
+
+    #orbitalCanvas {
+      width: 100%;
+      height: 420px;
+      background: #010410;
+      border-radius: 8px;
+      display: block;
+      cursor: crosshair;
+    }
+
+    .hud-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-slate);
+    }
+
+    /* Microwave Power Beaming Section */
+    .section-shell {
+      max-width: 1400px;
+      margin: 7rem auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--solar-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtext {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 3.5rem;
+      color: var(--text-slate);
+      font-size: 1.1rem;
+    }
+
+    .beam-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .beam-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .beam-card:hover {
+      border-color: var(--ion-cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
+    }
+
+    .card-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ion-cyan);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .beam-card-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    .beam-card-desc {
+      color: var(--text-slate);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Baseload Comparison Matrix */
+    .matrix-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow-x: auto;
+      margin-top: 2rem;
+    }
+
+    .table-matrix {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+
+    .table-matrix th {
+      background: rgba(4, 9, 26, 0.9);
+      padding: 1.25rem 1.5rem;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--text-slate);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .table-matrix td {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.08);
+      font-family: var(--font-body);
+      font-weight: 500;
+    }
+
+    .table-matrix tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-row {
+      background: rgba(245, 158, 11, 0.06);
+    }
+
+    .highlight-row td {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .badge-win {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Ground Rectenna Specs */
+    .rectenna-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: linear-gradient(180deg, var(--card-bg) 0%, #030717 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 3.5rem;
+    }
+
+    .spec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.8rem;
+    }
+
+    .spec-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .spec-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--card-border-gold);
+      display: grid;
+      place-items: center;
+      color: var(--solar-gold);
+      flex-shrink: 0;
+    }
+
+    .spec-item-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .spec-item-desc {
+      color: var(--text-slate);
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+    }
+
+    /* Sovereign Consortium Form */
+    .consortium-box {
+      background: linear-gradient(135deg, #050b1d 0%, #08112e 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      box-shadow: 0 0 50px rgba(56, 189, 248, 0.08);
+    }
+
+    .form-field {
+      margin-bottom: 1.3rem;
+    }
+
+    .field-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      color: var(--text-slate);
+      margin-bottom: 0.45rem;
+    }
+
+    .field-input {
+      width: 100%;
+      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+
+    .field-input:focus {
+      outline: none;
+      border-color: var(--ion-cyan);
+      box-shadow: 0 0 15px var(--ion-glow);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3.5rem 2rem 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-slate);
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-wrap, .rectenna-layout, .consortium-box {
+        grid-template-columns: 1fr;
+      }
+      .beam-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hud-grid"></div>
+
+  <!-- Telemetry Bar -->
+  <div class="telemetry-ticker">
+    <div class="telemetry-node">
+      <div class="telemetry-dot"></div>
+      <span>CONSTELLATION: <strong class="metric-cyan">HELIOS-ALPHA // GEO 35,786 KM</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>FREQUENCY: <strong class="metric-gold">5.800 GHz (ISM BAND)</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>RETRODIRECTIVE ACCURACY: <strong class="metric-cyan">0.00010 RAD</strong></span>
+    </div>
+    <div class="telemetry-node">
+      <span>ATMOSPHERIC PENETRATION: <strong class="metric-gold">98.4% (HEAVY PRECIP)</strong></span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a href="#" class="brand-logo">
+      <div class="brand-ring"></div>
+      HELIOS // ORBITAL
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#beaming">Microwave Physics</a></li>
+      <li><a href="#baseload">Baseload Matrix</a></li>
+      <li><a href="#rectenna">Ground Rectenna</a></li>
+      <li><a href="#consortium">Consortium Access</a></li>
+    </ul>
+    <a href="#consortium" class="cta-btn btn-gold">Sovereign Grid Access</a>
+  </header>
+
+  <!-- Hero Section with Canvas Orbit Visualizer -->
+  <section class="hero-wrap">
+    <div>
+      <div class="badge-orbital">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="12" cy="12" r="10"/><path d="m12 6 4 6h-8z"/>
+        </svg>
+        SPACE-BASED SOLAR POWER (SBSP) ARCHITECTURE
+      </div>
+      <h1 class="hero-title">
+        Infinite Sun.<br>
+        <span class="title-highlight">Continuous Terrestrial Power.</span>
+      </h1>
+      <p class="hero-lead">
+        Geostationary solar-collecting arrays capturing uninterrupted 1,361 W/m² solar irradiance, safely beaming continuous gigawatt-scale microwave baseload directly to terrestrial receiving stations 24 hours a day, 365 days a year.
+      </p>
+      <div class="hero-actions">
+        <a href="#consortium" class="cta-btn btn-gold">Initiate Grid Interconnect</a>
+        <a href="#beaming" class="cta-btn btn-ghost">Review Waveguide Specs</a>
+      </div>
+      <div class="telemetry-strip">
+        <div>
+          <div class="strip-val">2.4 GW</div>
+          <div class="strip-sub">ORBITAL BEAM CAPACITY</div>
+        </div>
+        <div>
+          <div class="strip-val">99.4%</div>
+          <div class="strip-sub">ANNUAL CAPACITY FACTOR</div>
+        </div>
+        <div>
+          <div class="strip-val">0.000</div>
+          <div class="strip-sub">STORAGE DEPENDENCY</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Orbital Projection Canvas Card -->
+    <div class="orbital-card">
+      <div class="card-hud-header">
+        <span>ORBIT_VIEW: GEO_GEOSTATIONARY_SLOT_104E</span>
+        <span id="canvasFps">60 FPS // LOCKED</span>
+      </div>
+      <canvas id="orbitalCanvas" width="520" height="420"></canvas>
+      <div class="hud-footer">
+        <span>PHASED ARRAY APERTURE: 1.0 KM²</span>
+        <span style="color:var(--solar-gold)">GROUND RECTENNA LOCK: SECURE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Microwave Beaming Physics -->
+  <section id="beaming" class="section-shell">
+    <div class="section-eyebrow">Electromagnetic Power Transfer</div>
+    <h2 class="section-heading">Wireless Phased-Array Microwave Beaming</h2>
+    <p class="section-subtext">
+      Transferring gigawatts across 36,000 kilometers of vacuum and atmosphere with negligible attenuation using 5.8 GHz coherent microwave retrodirective arrays.
+    </p>
+
+    <div class="beam-grid">
+      <div class="beam-card">
+        <span class="card-indicator">01 // RETRODIRECTIVE PILOT SIGNAL</span>
+        <h3 class="beam-card-title">Fail-Safe Pilot Interlock</h3>
+        <p class="beam-card-desc">
+          The ground station transmits a low-power encrypted pilot beam. The orbital array automatically calculates conjugate phase angles. If tracking drifts by more than 0.0001 radians, the orbital beam instantly disperses into harmless omnidirectional background noise.
+        </p>
+      </div>
+
+      <div class="beam-card">
+        <span class="card-indicator">02 // 5.8 GHZ PROPAGATION</span>
+        <h3 class="beam-card-title">All-Weather Atmospheric Transparency</h3>
+        <p class="beam-card-desc">
+          Operating in the 5.8 GHz radio frequency window provides 98.4% efficiency through monsoon clouds, sandstorms, and blizzards. Non-ionizing microwave frequencies pass through the atmosphere without heating the stratosphere or ozone layer.
+        </p>
+      </div>
+
+      <div class="beam-card">
+        <span class="card-indicator">03 // POWER DENSITY CONTROL</span>
+        <h3 class="beam-card-title">Avian & Biocompatible Safety</h3>
+        <p class="beam-card-desc">
+          Maximum beam intensity at center aperture is capped at 240 W/m²—less than one quarter the intensity of peak midday desert sunlight. Birds, aircraft, and wildlife passing through experience zero thermal damage or ionization.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24/7 Zero-Intermittency Baseload Comparison Matrix -->
+  <section id="baseload" class="section-shell">
+    <div class="section-eyebrow">Capacity Factor & Baseload Physics</div>
+    <h2 class="section-heading">SBSP vs Terrestrial Generation</h2>
+    <p class="section-subtext">
+      Terrestrial renewables suffer from weather intermittency, day-night cycles, and prohibitive multi-billion dollar battery storage requirements.
+    </p>
+
+    <div class="matrix-box">
+      <table class="table-matrix">
+        <thead>
+          <tr>
+            <th>ENERGY ARCHITECTURE</th>
+            <th>CAPACITY FACTOR</th>
+            <th>WEATHER ATTENUATION</th>
+            <th>STORAGE BUFFER REQ.</th>
+            <th>LAND FOOTPRINT (KM²/GW)</th>
+            <th>ANNUAL CO₂e / MWH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-row">
+            <td>HELIOS ORBITAL (SBSP)</td>
+            <td><span class="badge-win">99.4%</span></td>
+            <td>&lt; 1.6% (Rain/Cloud)</td>
+            <td>0 Hours (True Baseload)</td>
+            <td>12.5 km² (Dual Farm Use)</td>
+            <td>11.2 kg</td>
+          </tr>
+          <tr>
+            <td>Terrestrial Solar PV</td>
+            <td>21.8%</td>
+            <td>85% - 100% (Night/Cloud)</td>
+            <td>16 - 24 Hours Battery</td>
+            <td>45.0 km²</td>
+            <td>48.0 kg</td>
+          </tr>
+          <tr>
+            <td>Offshore Wind Turbines</td>
+            <td>44.2%</td>
+            <td>High (Calm Seas / Storms)</td>
+            <td>12 - 18 Hours Battery</td>
+            <td>120.0 km²</td>
+            <td>14.5 kg</td>
+          </tr>
+          <tr>
+            <td>Small Modular Reactor (SMR)</td>
+            <td>92.5%</td>
+            <td>Negligible</td>
+            <td>0 Hours</td>
+            <td>4.0 km² (Exclusion Zone)</td>
+            <td>12.0 kg</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Ground Rectenna Specs -->
+  <section id="rectenna" class="section-shell">
+    <div class="rectenna-layout">
+      <div>
+        <div class="section-eyebrow" style="text-align:left;">Receiving Infrastructure</div>
+        <h2 style="font-family:var(--font-display); font-size:2.2rem; margin-bottom:1rem;">Terrestrial Rectenna Arrays</h2>
+        <p style="color:var(--text-slate); font-size:1.05rem; line-height:1.6;">
+          Our ground receiving antennas (rectennas) use high-efficiency gallium arsenide Schottky barrier diodes that convert incident 5.8 GHz microwaves directly into DC electricity with 86.5% RF-to-DC conversion efficiency.
+        </p>
+
+        <div class="spec-list">
+          <div class="spec-item">
+            <div class="spec-icon-box">⚡</div>
+            <div>
+              <div class="spec-item-title">85% Incident Sunlight Permeability</div>
+              <div class="spec-item-desc">Rectenna mesh panels are 80% open-wire grid, allowing ambient sunlight to reach crops or grazing livestock underneath.</div>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon-box">🌐</div>
+            <div>
+              <div class="spec-item-title">Direct 500kV HVDC Grid Injection</div>
+              <div class="spec-item-desc">Integrated modular inverter banks step up converted DC directly to high-voltage transmission interconnects with 98.9% efficiency.</div>
+            </div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-icon-box">🛡</div>
+            <div>
+              <div class="spec-item-title">Passive Aerodynamic Wind Shedding</div>
+              <div class="spec-item-desc">Engineered to withstand Category 5 hurricanes (280 km/h gusts) without structural or electrical deformation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rectenna Visual Schematic -->
+      <div style="background:rgba(2, 6, 23, 0.7); border:1px solid var(--card-border); border-radius:12px; padding:2rem; font-family:var(--font-mono); font-size:0.85rem;">
+        <div style="color:var(--solar-gold); margin-bottom:1.5rem; letter-spacing:0.1em;">RECTENNA_APERTURE_TELEMETRY // GROUND_STATION_04</div>
+        <div style="display:flex; flex-direction:column; gap:1.2rem;">
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <span>APERTURE ELLIPSE MAJOR AXIS</span>
+              <span style="color:var(--ion-cyan);">4.8 KM</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px;">
+              <div style="width:78%; height:100%; background:var(--ion-cyan); border-radius:3px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <span>RF-TO-DC CONVERSION EFFICIENCY</span>
+              <span style="color:var(--solar-gold);">86.5%</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px;">
+              <div style="width:86.5%; height:100%; background:var(--solar-gold); border-radius:3px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.3rem;">
+              <span>CENTER FLUX DENSITY</span>
+              <span style="color:#10b981;">230 W/m² (AVIAN SAFE)</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.08); height:6px; border-radius:3px;">
+              <div style="width:40%; height:100%; background:#10b981; border-radius:3px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem; padding:1.2rem; background:rgba(56, 189, 248, 0.05); border:1px dashed var(--card-border); border-radius:8px;">
+          <strong style="color:var(--ion-cyan);">DUAL-USE AGROVOLTAIC CERTIFICATION:</strong>
+          <p style="color:var(--text-slate); margin-top:0.4rem; font-size:0.8rem;">
+            Compatible with shade-tolerant agriculture (soybeans, leafy brassicas, root vegetables) and sheep/cattle rotational grazing under active RF beaming.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sovereign Energy Grid Consortium Inquiry Form -->
+  <section id="consortium" class="section-shell">
+    <div class="consortium-box">
+      <div>
+        <div class="section-eyebrow" style="text-align:left;">Intergovernmental & TSO Allotment</div>
+        <h2 style="font-family:var(--font-display); font-size:2.2rem; margin-bottom:1rem;">Sovereign Energy Grid Consortium</h2>
+        <p style="color:var(--text-slate); font-size:1.05rem; line-height:1.6; margin-bottom:2rem;">
+          Helios allocates dedicated orbital orbital-slot beaming rights to national energy ministries, regional transmission system operators (TSOs), and sovereign microgrid authorities.
+        </p>
+
+        <form id="consortiumForm" onsubmit="handleConsortiumSubmit(event)">
+          <div class="field-row">
+            <div class="form-field">
+              <label class="field-label">OFFICIAL NAME & TITLE</label>
+              <input type="text" class="field-input" placeholder="Minister Kenji Sato" required>
+            </div>
+            <div class="form-field">
+              <label class="field-label">GOVERNMENT / TSO ENTITY</label>
+              <input type="text" class="field-input" placeholder="Ministry of Economy, Trade & Industry" required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label">INSTITUTIONAL DIRECT EMAIL</label>
+            <input type="email" class="field-input" placeholder="k.sato@meti.go.jp" required>
+          </div>
+
+          <div class="field-row">
+            <div class="form-field">
+              <label class="field-label">TARGET RECTENNA LATITUDE / LONGITUDE</label>
+              <input type="text" class="field-input" placeholder="35.6762° N, 139.6503° E">
+            </div>
+            <div class="form-field">
+              <label class="field-label">BASELOAD ALLOCATION (GIGAWATTS)</label>
+              <select class="field-input">
+                <option value="1">1.2 GW Continuous (Single Array)</option>
+                <option value="2">2.4 GW Continuous (Dual Array Pair)</option>
+                <option value="5">4.8 GW Continuous (Quad Constellation)</option>
+                <option value="10">10.0+ GW Sovereign Grid Fleet</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="cta-btn btn-gold" style="width:100%; justify-content:center; padding:1rem; margin-top:0.5rem;">
+            Submit Orbital Slot Allocation Inquiry
+          </button>
+        </form>
+      </div>
+
+      <!-- Orbital Allocation Status Display -->
+      <div style="display:flex; flex-direction:column; justify-content:space-between; background:rgba(0,0,0,0.4); border:1px solid var(--card-border); border-radius:12px; padding:2rem;">
+        <div>
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--solar-gold); letter-spacing:0.1em; margin-bottom:0.5rem;">GEO ORBITAL SLOT AVAILABILITY</div>
+          <div style="font-family:var(--font-display); font-size:2.8rem; font-weight:800; color:#fff;">3 / 12 SLOTS</div>
+          <p style="color:var(--text-slate); font-size:0.85rem; margin-top:0.4rem; font-family:var(--font-mono);">
+            Slots remaining for Q3 2028 - Q2 2030 launch delivery windows via reusable heavy-lift Starship & New Glenn missions.
+          </p>
+        </div>
+
+        <div style="border-top:1px solid rgba(56,189,248,0.15); padding-top:1.5rem;">
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ion-cyan); margin-bottom:0.6rem;">ACTIVE CONSORTIUM MEMBERS:</div>
+          <div style="font-family:var(--font-mono); font-size:0.85rem; color:#fff; display:flex; flex-direction:column; gap:0.4rem;">
+            <div>• ENEL GRIDS S.P.A. (MEDITERRANEAN RECTENNA 01)</div>
+            <div>• TOKYO ELECTRIC POWER CORP (KANTO REGION ARRAY)</div>
+            <div>• NORDIC BASELOAD CONSORTIUM (SUB-ARCTIC WINTER GRID)</div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid rgba(56,189,248,0.15); padding-top:1.5rem;">
+          <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-slate);">
+            ITU (International Telecommunication Union) Radio Regulations Article 5 Spectrum Compliance Verified.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong style="color:#fff;">HELIOS ORBITAL ENERGY GROUP</strong> // Geostationary Beaming Architecture
+      <div style="color:var(--text-dim); margin-top:0.3rem;">Operated in compliance with UNOOSA Outer Space Treaty and ITU Article 5 allocations.</div>
+    </div>
+    <div style="display:flex; gap:1.5rem;">
+      <span>ORBIT: GEO 35,786 KM</span>
+      <span style="color:var(--solar-gold);">STATUS: TRANSMITTING</span>
+    </div>
+  </footer>
+
+  <!-- Orbital Visualizer Canvas -->
+  <script>
+    const canvas = document.getElementById('orbitalCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = canvas.offsetWidth;
+    let height = canvas.height = canvas.offsetHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    });
+
+    let angle = 0;
+    const earthRadius = 75;
+
+    function drawScene() {
+      ctx.fillStyle = '#010410';
+      ctx.fillRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2 + 15;
+
+      // Draw Starfield sparkles
+      for (let i = 0; i < 25; i++) {
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(56, 189, 248, 0.4)' : 'rgba(245, 158, 11, 0.4)';
+        ctx.beginPath();
+        const sx = (Math.sin(i * 99 + angle * 0.01) * 0.5 + 0.5) * width;
+        const sy = (Math.cos(i * 33 + angle * 0.01) * 0.5 + 0.5) * height;
+        ctx.arc(sx, sy, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw Earth Orbit Path Ellipse
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, 180, 70, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Earth Glow & Sphere
+      const earthGrad = ctx.createRadialGradient(cx - 20, cy - 20, 10, cx, cy, earthRadius);
+      earthGrad.addColorStop(0, '#1e3a8a');
+      earthGrad.addColorStop(0.7, '#0f172a');
+      earthGrad.addColorStop(1, '#020617');
+
+      ctx.fillStyle = earthGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, earthRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Earth atmosphere limb glow
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.5)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Earth latitude rings
+      ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, earthRadius, 25, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Terrestrial Rectenna Ground Station coordinate on Earth
+      const groundStationX = cx + 22;
+      const groundStationY = cy - 18;
+
+      // Draw Ground Station Rectenna
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(groundStationX, groundStationY, 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(245, 158, 11, 0.6)';
+      ctx.strokeRect(groundStationX - 7, groundStationY - 7, 14, 14);
+
+      // Satellite position along geostationary orbit
+      const satOrbitA = 180;
+      const satOrbitB = 70;
+      const satX = cx + Math.cos(angle) * satOrbitA;
+      const satY = cy + Math.sin(angle) * satOrbitB;
+
+      // Draw Microwave Beaming Vector from Satellite to Ground Station
+      const beamGrad = ctx.createLinearGradient(satX, satY, groundStationX, groundStationY);
+      beamGrad.addColorStop(0, 'rgba(245, 158, 11, 0.9)');
+      beamGrad.addColorStop(0.5, 'rgba(56, 189, 248, 0.6)');
+      beamGrad.addColorStop(1, 'rgba(245, 158, 11, 0.95)');
+
+      ctx.strokeStyle = beamGrad;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(groundStationX, groundStationY);
+      ctx.stroke();
+
+      // Beam energy ripple particles
+      for (let p = 1; p <= 4; p++) {
+        const factor = ((angle * 2 + p * 0.25) % 1);
+        const px = satX + (groundStationX - satX) * factor;
+        const py = satY + (groundStationY - satY) * factor;
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw Satellite Array Structure
+      ctx.save();
+      ctx.translate(satX, satY);
+      // Central bus
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(-6, -6, 12, 12);
+      // Golden Solar Panels
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(-28, -4, 18, 8);
+      ctx.fillRect(10, -4, 18, 8);
+      // Phased array transmitter dish facing Earth
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 0, 16, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // Text indicators
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.font = '10px "Share Tech Mono"';
+      ctx.fillText('HELIOS-GEO [ACTIVE]', satX + 20, satY);
+      ctx.fillText('GROUND RECTENNA #04', groundStationX + 12, groundStationY + 4);
+
+      angle += 0.012;
+      requestAnimationFrame(drawScene);
+    }
+
+    drawScene();
+
+    function handleConsortiumSubmit(e) {
+      e.preventDefault();
+      alert('Sovereign Grid Access Request logged. Helios Orbital Mission Control will dispatch bilateral ITU treaty documentation and orbital frequency coordination packs.');
+    }
+  </script>
+</body>
+</html>

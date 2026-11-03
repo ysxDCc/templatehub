@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAGMA DEEPCORE // 10km Supercritical Geothermal Baseload</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #080202;
+      --bg-crust: #110505;
+      --bg-card: rgba(22, 7, 7, 0.7);
+      --magma-crimson: #dc2626;
+      --magma-bright: #ef4444;
+      --thermal-gold: #f59e0b;
+      --thermal-bright: #fbbf24;
+      --border-magma: rgba(220, 38, 38, 0.28);
+      --border-bright: rgba(245, 158, 11, 0.5);
+      --text-main: #f8fafc;
+      --text-muted: #a8a29e;
+      --text-dim: #78716c;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-obsidian);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(220, 38, 38, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+        linear-gradient(rgba(8, 2, 2, 0.95), rgba(8, 2, 2, 0.95));
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    /* Grid Dispatch Banner */
+    .telemetry-banner {
+      background: #040101;
+      border-bottom: 1px solid var(--border-magma);
+      padding: 0.45rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-dim);
+    }
+    .dispatch-pulse {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--thermal-gold);
+    }
+    .dispatch-pulse::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--magma-crimson);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--magma-bright);
+      animation: magmaFlicker 1.8s infinite alternate;
+    }
+    @keyframes magmaFlicker {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Header Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 2, 2, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-magma);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-drill-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--magma-crimson), var(--thermal-gold));
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 16px rgba(220, 38, 38, 0.5);
+    }
+    .logo-text h1 {
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      color: #fff;
+    }
+    .logo-text span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--thermal-gold);
+      display: block;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--thermal-gold);
+    }
+
+    .btn-magma {
+      background: linear-gradient(135deg, var(--magma-crimson), #991b1b);
+      border: 1px solid var(--thermal-gold);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.35);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-magma:hover {
+      background: linear-gradient(135deg, #ef4444, var(--magma-crimson));
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-wrapper {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      min-height: 88vh;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.9rem;
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid var(--magma-crimson);
+      color: var(--thermal-bright);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.6rem;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 5.2vw, 4.8rem);
+      line-height: 1.02;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span.magma-text {
+      background: linear-gradient(135deg, var(--thermal-bright) 0%, var(--magma-bright) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 540px;
+      margin-bottom: 2.2rem;
+    }
+    .hero-btn-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .btn-outline-gold {
+      border: 1px solid var(--thermal-gold);
+      background: rgba(245, 158, 11, 0.05);
+      color: var(--thermal-gold);
+      padding: 0.7rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline-gold:hover {
+      background: var(--thermal-gold);
+      color: #000;
+    }
+
+    .hero-metrics-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid var(--border-magma);
+      padding-top: 1.8rem;
+    }
+    .hero-metric-item h4 {
+      font-size: 2rem;
+      color: var(--thermal-bright);
+      font-weight: 800;
+      line-height: 1;
+    }
+    .hero-metric-item span {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* 10km Crust Drill Visualizer */
+    .borehole-card {
+      background: var(--bg-crust);
+      border: 1px solid var(--border-magma);
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    }
+    .borehole-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--thermal-gold);
+      margin-bottom: 0.8rem;
+      border-bottom: 1px dashed var(--border-magma);
+      padding-bottom: 0.5rem;
+    }
+    #strataCanvas {
+      width: 100%;
+      height: 460px;
+      background: #070101;
+      display: block;
+      border: 1px solid #200808;
+    }
+    .borehole-telemetry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .bore-box {
+      background: #050101;
+      border: 1px solid var(--border-magma);
+      padding: 0.6rem;
+    }
+    .bore-box span {
+      display: block;
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      margin-bottom: 0.2rem;
+    }
+    .bore-box strong {
+      color: var(--thermal-bright);
+      font-size: 0.9rem;
+    }
+
+    /* General Section */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--magma-bright);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      margin-bottom: 1.2rem;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 620px;
+      font-size: 1.05rem;
+      margin-bottom: 3.5rem;
+    }
+
+    /* Thermodynamic Cycle Cards */
+    .thermo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .thermo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-magma);
+      padding: 2.2rem;
+      position: relative;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .thermo-card:hover {
+      border-color: var(--thermal-gold);
+      transform: translateY(-4px);
+    }
+    .thermo-phase {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--thermal-bright);
+      margin-bottom: 0.8rem;
+    }
+    .thermo-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+    .thermo-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.4rem;
+    }
+    .thermo-badge {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--thermal-gold);
+      color: var(--thermal-bright);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    /* Comparison Matrix Table */
+    .matrix-card {
+      background: var(--bg-crust);
+      border: 1px solid var(--border-magma);
+      overflow-x: auto;
+    }
+    table.matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    table.matrix-table th {
+      background: #060101;
+      padding: 1.2rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--thermal-bright);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-magma);
+    }
+    table.matrix-table td {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid #1a0808;
+      color: var(--text-muted);
+    }
+    table.matrix-table tr.highlight-row {
+      background: rgba(220, 38, 38, 0.08);
+    }
+    table.matrix-table tr.highlight-row td {
+      color: #fff;
+      font-weight: 600;
+    }
+    .win-tag {
+      background: var(--magma-crimson);
+      color: #fff;
+      padding: 0.2rem 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      border-radius: 2px;
+    }
+
+    /* PPA Calculator Section */
+    .ppa-wrapper {
+      background: radial-gradient(circle at center, rgba(30, 8, 8, 0.9) 0%, rgba(8, 2, 2, 0.98) 100%);
+      border: 1px solid var(--border-magma);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .ppa-calculator {
+      background: #0a0202;
+      border: 1px solid var(--border-magma);
+      padding: 2.2rem;
+    }
+    .ppa-slider-block {
+      margin-bottom: 1.8rem;
+    }
+    .ppa-slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .ppa-slider-label strong {
+      color: var(--thermal-bright);
+      font-size: 1rem;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--magma-bright);
+      height: 6px;
+      background: #250909;
+      border-radius: 3px;
+    }
+    .ppa-results {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-magma);
+    }
+    .ppa-metric-tile {
+      background: rgba(220, 38, 38, 0.06);
+      border-left: 2px solid var(--magma-bright);
+      padding: 1.2rem;
+    }
+    .ppa-metric-tile span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+    .ppa-metric-tile strong {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      color: var(--thermal-bright);
+    }
+
+    /* RFP Form */
+    .rfp-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border-magma);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 4rem;
+    }
+    .rfp-narrative h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .rfp-narrative p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .rfp-points {
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      color: var(--text-muted);
+    }
+    .rfp-points li::before {
+      content: '■ ';
+      color: var(--magma-bright);
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-ctrl-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-lbl {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-inp {
+      width: 100%;
+      background: #080202;
+      border: 1px solid var(--border-magma);
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-inp:focus {
+      border-color: var(--thermal-gold);
+    }
+
+    /* Footer */
+    footer {
+      background: #040101;
+      border-top: 1px solid var(--border-magma);
+      padding: 5rem 2rem 2.5rem;
+      font-size: 0.85rem;
+    }
+    .footer-grid {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand h4 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .footer-brand p {
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 320px;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--thermal-gold);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col a {
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--thermal-bright);
+    }
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 0 auto;
+      border-top: 1px solid #1c0606;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-wrapper, .ppa-wrapper, .rfp-container {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .hero-metrics-row { flex-direction: column; gap: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Dispatch Telemetry -->
+  <div class="telemetry-banner">
+    <div class="dispatch-pulse">GRID DISPATCH: 420.0 MW CONTINUOUS BASELOAD &bull; INTERCONNECTION: WECC 500kV</div>
+    <div>WELLHEAD: 505 &deg;C // 24.1 MPa SUPERCRITICAL</div>
+    <div>AVAILABILITY: 99.4% CAPACITY FACTOR</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo-container">
+        <div class="logo-drill-icon"></div>
+        <div class="logo-text">
+          <h1>MAGMA DEEPCORE</h1>
+          <span>Supercritical Geothermal Power</span>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#strata">10km Borehole</a></li>
+          <li><a href="#thermo">Thermodynamics</a></li>
+          <li><a href="#matrix">Baseload Parity</a></li>
+          <li><a href="#ppa">PPA Calculator</a></li>
+        </ul>
+      </nav>
+      <a href="#rfp" class="btn-magma">Interconnection RFP</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <div class="hero-wrapper">
+      <div class="hero-left">
+        <div class="hero-badge">SUPERCRITICAL HYDROTHERMAL &bull; ZERO SURFACE EMISSIONS</div>
+        <h1 class="hero-title">
+          Tapping Earth's
+          <span class="magma-text">Endless Magmatic</span>
+          Nuclear Core.
+        </h1>
+        <p class="hero-desc">
+          Drilling beyond 10,000 meters into brittle-ductile transition zones using millimeter-wave plasma ablation. Harvesting 500&deg;C supercritical fluids for continuous, weather-independent clean gigawatts.
+        </p>
+        <div class="hero-btn-row">
+          <a href="#ppa" class="btn-magma">Model PPA Tariffs</a>
+          <a href="#strata" class="btn-outline-gold">Inspect Borehole Strata</a>
+        </div>
+
+        <div class="hero-metrics-row">
+          <div class="hero-metric-item">
+            <h4>10,200m</h4>
+            <span>True Vertical Depth</span>
+          </div>
+          <div class="hero-metric-item">
+            <h4>500&deg;C</h4>
+            <span>Downhole Fluid Temp</span>
+          </div>
+          <div class="hero-metric-item">
+            <h4>10x</h4>
+            <span>Power Density vs Classic Geothermal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10km Strata Interactive Canvas -->
+      <div class="borehole-card" id="strata">
+        <div class="borehole-header">
+          <span>DEEP DRILL TELEMETRY // WELL MAG-08</span>
+          <span style="color:var(--magma-bright)">SUPERCRITICAL REACHED</span>
+        </div>
+        <canvas id="strataCanvas" width="480" height="460"></canvas>
+        <div class="borehole-telemetry">
+          <div class="bore-box">
+            <span>BIT DEPTH</span>
+            <strong id="bitDepthDisplay">10,240 m</strong>
+          </div>
+          <div class="bore-box">
+            <span>FORMATION TEMP</span>
+            <strong id="formationTempDisplay">512 &deg;C</strong>
+          </div>
+          <div class="bore-box">
+            <span>BORE ENTHALPY</span>
+            <strong>3,140 kJ/kg</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thermodynamic Cycle Breakdown -->
+    <section id="thermo">
+      <span class="section-eyebrow">// CLOSED-LOOP SUPERCRITICAL PHYSICS</span>
+      <h2 class="section-title">Thermodynamic Advantage</h2>
+      <p class="section-sub">
+        At pressures above 22.1 MPa and temperatures above 374&deg;C, water ceases to be distinct liquid or steam. Supercritical fluid carries 10 times more specific kinetic enthalpy per kilogram than standard steam.
+      </p>
+
+      <div class="thermo-grid">
+        <div class="thermo-card">
+          <div class="thermo-phase">PHASE 01 // DOWNBORE INJECTION</div>
+          <h3>Plasma-Ablated Casing</h3>
+          <p>Reinforced inconel-lined closed loops inject pure demineralized condensate through hot dry granite formations with zero hydraulic fracturing required.</p>
+          <span class="thermo-badge">Depth: 8,000m - 10,000m</span>
+        </div>
+
+        <div class="thermo-card">
+          <div class="thermo-phase">PHASE 02 // SUPERCRITICAL EXPANSION</div>
+          <h3>Enthalpy Super-Concentration</h3>
+          <p>Fluid transitions to supercritical state, exhibiting gas-like diffusion through nano-fractures and liquid-like mass density, absorbing heat directly from ductile granite.</p>
+          <span class="thermo-badge">Enthalpy: 3,200 kJ/kg</span>
+        </div>
+
+        <div class="thermo-card">
+          <div class="thermo-phase">PHASE 03 // SURFACE POWER GENERATION</div>
+          <h3>Multi-Stage Supercritical Turbines</h3>
+          <p>Drives high-pressure flash expansion turbines at 48% Carnot cycle efficiency. Clean exhaust passes through air-cooled heat exchangers back down the loop.</p>
+          <span class="thermo-badge">Zero Water Consumption</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Baseload Megawatts vs Wind/Solar Matrix -->
+    <section id="matrix">
+      <span class="section-eyebrow">// GENERATION BENCHMARKING</span>
+      <h2 class="section-title">Baseload Megawatt Comparison</h2>
+      <p class="section-sub">
+        Intermittent renewables require massive over-provisioning and multi-day battery reserves. Supercritical geothermal delivers unyielding 24/7/365 power on a fraction of the surface footprint.
+      </p>
+
+      <div class="matrix-card">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Generation Technology</th>
+              <th>Capacity Factor</th>
+              <th>Land Footprint (Acres / MW)</th>
+              <th>Weather Dependency</th>
+              <th>Asset Lifetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="highlight-row">
+              <td><strong>Magma Deepcore Supercritical</strong></td>
+              <td><span class="win-tag">98.5% CF</span></td>
+              <td><strong>0.8 Acres</strong></td>
+              <td>Zero (Sub-crustal Heat)</td>
+              <td>60+ Years</td>
+            </tr>
+            <tr>
+              <td>Utility-Scale Solar PV</td>
+              <td>22.4% CF</td>
+              <td>8.2 Acres</td>
+              <td>High (Cloud / Diurnal)</td>
+              <td>25 Years</td>
+            </tr>
+            <tr>
+              <td>Onshore Wind Turbines</td>
+              <td>34.1% CF</td>
+              <td>35.0 Acres</td>
+              <td>Extreme (Wind Stagnation)</td>
+              <td>20 Years</td>
+            </tr>
+            <tr>
+              <td>Advanced SMR Nuclear</td>
+              <td>92.0% CF</td>
+              <td>1.3 Acres</td>
+              <td>Zero</td>
+              <td>40 Years</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PPA Calculator -->
+    <section id="ppa">
+      <div class="ppa-wrapper">
+        <div class="ppa-info">
+          <span class="section-eyebrow">// CAPITAL ALLOCATION</span>
+          <h2 style="font-size:2.2rem; margin-bottom:1.2rem;">Baseload PPA Yield Modeler</h2>
+          <p style="color:var(--text-muted); line-height:1.7; margin-bottom:2rem;">
+            Lock in 15 to 25 year firm baseload green power at fixed levelized tariffs. Shield your hyperscale data centers or industrial smelting operations from grid spike volatility.
+          </p>
+          <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-dim); display:flex; flex-direction:column; gap:0.6rem;">
+            <div>&bull; Guaranteed 99.5% plant uptime availability SLA</div>
+            <div>&bull; Verifiable 24/7 hourly Scope 2 decarbonization match</div>
+            <div>&bull; Co-located Behind-The-Meter (BTM) direct sub-station links</div>
+          </div>
+        </div>
+
+        <div class="ppa-calculator">
+          <div class="ppa-slider-block">
+            <div class="ppa-slider-label">
+              <span>Contracted Baseload Power</span>
+              <strong id="mwSliderLabel">250 MW</strong>
+            </div>
+            <input type="range" id="mwSlider" min="50" max="1000" value="250" step="25">
+          </div>
+
+          <div class="ppa-slider-block">
+            <div class="ppa-slider-label">
+              <span>PPA Agreement Duration</span>
+              <strong id="yearSliderLabel">20 Years</strong>
+            </div>
+            <input type="range" id="yearSlider" min="10" max="30" value="20" step="5">
+          </div>
+
+          <div class="ppa-results">
+            <div class="ppa-metric-tile">
+              <span>ANNUAL GENERATION</span>
+              <strong id="gwhDisplay">2,157 GWh</strong>
+            </div>
+            <div class="ppa-metric-tile">
+              <span>AVOIDED CO2 PER YR</span>
+              <strong id="co2Display">862,000 MT</strong>
+            </div>
+            <div class="ppa-metric-tile">
+              <span>LEVELIZED TARIFF</span>
+              <strong id="tariffDisplay">$52 / MWh</strong>
+            </div>
+            <div class="ppa-metric-tile">
+              <span>LIFETIME ENERGY</span>
+              <strong id="lifetimeDisplay">43.1 TWh</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Infrastructure RFP Form -->
+    <section id="rfp">
+      <div class="rfp-container">
+        <div class="rfp-narrative">
+          <span class="section-eyebrow">// GRID INTERCONNECTION</span>
+          <h3>Submit Offtake or Co-Location RFP</h3>
+          <p>
+            Magma Deepcore is actively interconnecting with Regional Transmission Organizations (PJM, ERCOT, CAISO, MISO) and global hyperscale campuses requiring 100MW+ firm zero-carbon baseload.
+          </p>
+
+          <ul class="rfp-points">
+            <li>Substation direct 230kV / 500kV interties</li>
+            <li>Behind-the-Meter data center co-location parcels</li>
+            <li>FERC-approved transmission interconnection queue fast-track</li>
+            <li>Sovereign and investment-grade corporate PPA structures</li>
+          </ul>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Interconnection RFP received. Magma Deepcore Infrastructure Engineering will reach out within 24 hours.');">
+          <div class="form-grid-2">
+            <div>
+              <label class="form-lbl">Off-Taker / Entity Name</label>
+              <input type="text" class="form-inp" placeholder="e.g. Hyperscale Compute REIT" required>
+            </div>
+            <div>
+              <label class="form-lbl">Corporate Email</label>
+              <input type="email" class="form-inp" placeholder="energy@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div>
+              <label class="form-lbl">Target ISO / Grid Region</label>
+              <select class="form-inp">
+                <option selected>ERCOT (Texas Grid)</option>
+                <option>PJM Interconnection (Mid-Atlantic)</option>
+                <option>CAISO / WECC (West Coast)</option>
+                <option>Nordic Synchronous (Europe)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-lbl">Required Commercial COD</label>
+              <select class="form-inp">
+                <option>2026 - 2027 Fast-Track</option>
+                <option selected>2028 - 2029 Baseload Expansion</option>
+                <option>2030+ Long Range</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-ctrl-group">
+            <label class="form-lbl">Transmission Interconnection Queue Status</label>
+            <input type="text" class="form-inp" placeholder="e.g. Existing Queue Position #9482, or requesting Green-field BTM">
+          </div>
+
+          <div class="form-ctrl-group">
+            <label class="form-lbl">Cooling & Water Infrastructure Constraints</label>
+            <textarea class="form-inp" rows="3" placeholder="Specify any unique site requirements or zero-water mandates..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-magma" style="width: 100%; padding: 1rem;">Transmit Grid RFP</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Volcanic Obsidian Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>MAGMA DEEPCORE</h4>
+        <p>
+          Deep supercritical baseload geothermal infrastructure. Drilling the deepest closed-loop wells on Earth to replace fossil peakers with inexhaustible planetary heat.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Borehole Physics</h5>
+        <ul>
+          <li><a href="#strata">Plasma Ablation Drill</a></li>
+          <li><a href="#thermo">Supercritical State</a></li>
+          <li><a href="#strata">Micro-Seismic Array</a></li>
+          <li><a href="#thermo">Inconel Casing Metallurgy</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Grid Integration</h5>
+        <ul>
+          <li><a href="#ppa">PPA Tariff Models</a></li>
+          <li><a href="#matrix">Baseload Parity</a></li>
+          <li><a href="#">WECC 500kV Interties</a></li>
+          <li><a href="#">ERCOT Fast-Response Ancillary</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Operations</h5>
+        <ul>
+          <li><a href="#">Deep Bore Well MAG-01 (Nevada)</a></li>
+          <li><a href="#">Well MAG-02 (Salton Trough)</a></li>
+          <li><a href="#">Well MAG-03 (Taupō Volcanic)</a></li>
+          <li><a href="#">DOE Geothermal Tech Office</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Magma Deepcore Infrastructure Inc. All Rights Reserved.</div>
+      <div>CLASSIFICATION: UNRESTRICTED TECHNICAL DISCLOSURE &bull; 10,000M DEEP</div>
+    </div>
+  </footer>
+
+  <!-- Canvas Strata & PPA Calculator Script -->
+  <script>
+    // --- 10km Earth Crust Interactive Strata Canvas ---
+    const sCanvas = document.getElementById('strataCanvas');
+    const sCtx = sCanvas.getContext('2d');
+    const sW = sCanvas.width;
+    const sH = sCanvas.height;
+
+    let drillY = 0;
+    let sTime = 0;
+
+    // Strata layers definition
+    const strataLayers = [
+      { depth: '0 - 2,000m', name: 'Sedimentary Cover & Aquifers', color1: '#1f130e', color2: '#2b1912', h: 80 },
+      { depth: '2,000 - 5,500m', name: 'Granite Basement Rock', color1: '#1a0b0b', color2: '#240f0f', h: 120 },
+      { depth: '5,500 - 8,500m', name: 'Hot Dry Metamorphic Strata', color1: '#2b0909', color2: '#450a0a', h: 120 },
+      { depth: '8,500 - 10,500m', name: 'Supercritical Magma Shear Zone', color1: '#7f1d1d', color2: '#b91c1c', h: 140 }
+    ];
+
+    function renderStrata() {
+      sCtx.clearRect(0, 0, sW, sH);
+      sTime += 0.04;
+
+      // Draw Strata backgrounds
+      let currentY = 0;
+      strataLayers.forEach((layer, idx) => {
+        const grad = sCtx.createLinearGradient(0, currentY, 0, currentY + layer.h);
+        grad.addColorStop(0, layer.color1);
+        grad.addColorStop(1, layer.color2);
+        sCtx.fillStyle = grad;
+        sCtx.fillRect(0, currentY, sW, layer.h);
+
+        // Strata dividing lines
+        sCtx.strokeStyle = 'rgba(245, 158, 11, 0.2)';
+        sCtx.lineWidth = 1;
+        sCtx.beginPath();
+        sCtx.moveTo(0, currentY);
+        sCtx.lineTo(sW, currentY);
+        sCtx.stroke();
+
+        // Label
+        sCtx.fillStyle = '#a8a29e';
+        sCtx.font = '10px "JetBrains Mono"';
+        sCtx.fillText(layer.depth + ' : ' + layer.name, 15, currentY + 18);
+
+        currentY += layer.h;
+      });
+
+      // Magma Chamber glow at the bottom
+      const magmaGrad = sCtx.createLinearGradient(0, sH - 120, 0, sH);
+      magmaGrad.addColorStop(0, 'rgba(220, 38, 38, 0)');
+      magmaGrad.addColorStop(1, 'rgba(245, 158, 11, 0.55)');
+      sCtx.fillStyle = magmaGrad;
+      sCtx.fillRect(0, sH - 120, sW, 120);
+
+      // Magmatic heat waves / particles
+      sCtx.fillStyle = '#facc15';
+      for (let i = 0; i < 25; i++) {
+        const px = (Math.sin(sTime + i * 2) * 0.5 + 0.5) * sW;
+        const py = sH - 20 - ((sTime * 40 + i * 25) % 100);
+        sCtx.beginPath();
+        sCtx.arc(px, py, 1.5, 0, Math.PI * 2);
+        sCtx.fill();
+      }
+
+      // Borehole Center Shaft
+      const boreX = sW / 2;
+      sCtx.fillStyle = '#000000';
+      sCtx.fillRect(boreX - 8, 0, 16, sH - 40);
+      sCtx.strokeStyle = '#dc2626';
+      sCtx.lineWidth = 2;
+      sCtx.strokeRect(boreX - 8, 0, 16, sH - 40);
+
+      // Drill Pipe & Plasma Bit
+      drillY = (sH - 50);
+      sCtx.fillStyle = '#f59e0b';
+      sCtx.fillRect(boreX - 4, 0, 8, drillY);
+
+      // Drill Bit Pulsing Plasma Aura
+      const bitGlow = sCtx.createRadialGradient(boreX, drillY, 2, boreX, drillY, 25);
+      bitGlow.addColorStop(0, '#ffffff');
+      bitGlow.addColorStop(0.3, '#f59e0b');
+      bitGlow.addColorStop(0.7, '#dc2626');
+      bitGlow.addColorStop(1, 'rgba(220, 38, 38, 0)');
+      sCtx.fillStyle = bitGlow;
+      sCtx.beginPath();
+      sCtx.arc(boreX, drillY, 25, 0, Math.PI * 2);
+      sCtx.fill();
+
+      // Telemetry update in UI
+      const bitDepthElem = document.getElementById('bitDepthDisplay');
+      const formTempElem = document.getElementById('formationTempDisplay');
+      if (bitDepthElem) {
+        bitDepthElem.innerText = (10200 + Math.sin(sTime) * 40).toFixed(0) + ' m';
+      }
+      if (formTempElem) {
+        formTempElem.innerText = (505 + Math.cos(sTime) * 4).toFixed(0) + ' °C';
+      }
+
+      requestAnimationFrame(renderStrata);
+    }
+    renderStrata();
+
+    // --- PPA Calculator Logic ---
+    const mwSlider = document.getElementById('mwSlider');
+    const yearSlider = document.getElementById('yearSlider');
+    const mwSliderLabel = document.getElementById('mwSliderLabel');
+    const yearSliderLabel = document.getElementById('yearSliderLabel');
+    const gwhDisplay = document.getElementById('gwhDisplay');
+    const co2Display = document.getElementById('co2Display');
+    const tariffDisplay = document.getElementById('tariffDisplay');
+    const lifetimeDisplay = document.getElementById('lifetimeDisplay');
+
+    function calculatePPA() {
+      const mw = parseInt(mwSlider.value);
+      const years = parseInt(yearSlider.value);
+
+      mwSliderLabel.innerText = mw + ' MW';
+      yearSliderLabel.innerText = years + ' Years';
+
+      // 98.5% capacity factor -> 8760 hours * 0.985 = 8,628.6 hrs/yr
+      const annualGWh = Math.round(mw * 8.6286);
+      // ~400 MT CO2 per GWh avoided compared to natural gas grid peakers
+      const avoidedCO2 = Math.round(annualGWh * 400);
+      // Tariff economy of scale
+      const baseTariff = Math.max(42, Math.round(62 - (mw / 1000) * 12 - (years / 30) * 6));
+      const lifetimeTWh = ((annualGWh * years) / 1000).toFixed(1);
+
+      gwhDisplay.innerText = annualGWh.toLocaleString() + ' GWh';
+      co2Display.innerText = avoidedCO2.toLocaleString() + ' MT';
+      tariffDisplay.innerText = '$' + baseTariff + ' / MWh';
+      lifetimeDisplay.innerText = lifetimeTWh + ' TWh';
+    }
+
+    mwSlider.addEventListener('input', calculatePPA);
+    yearSlider.addEventListener('input', calculatePPA);
+    calculatePPA();
+  </script>
+</body>
+</html>

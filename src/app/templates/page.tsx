@@ -78,7 +78,7 @@ export default function TemplatesPage() {
       {/* Header with Purple Aesthetic Glows */}
       <div className="relative text-center mb-10 sm:mb-16">
         <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-[11px] sm:text-xs font-semibold mb-3 sm:mb-4 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-          <span>✦ Explore 56 Hand-Crafted Production Masterpieces</span>
+          <span>✦ Explore 76 Hand-Crafted Production Masterpieces</span>
         </div>
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4">
           Browse{' '}

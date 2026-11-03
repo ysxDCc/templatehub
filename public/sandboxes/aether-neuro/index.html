@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHER NEURO — High-Bandwidth Neural Decoding & Cortical Interface</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #05010d;
+      --bg-surface: #0a0418;
+      --bg-card: rgba(18, 9, 38, 0.65);
+      --purple-electric: #8b5cf6;
+      --purple-deep: #4c1d95;
+      --purple-glow: rgba(139, 92, 246, 0.35);
+      --cyan-telemetry: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.4);
+      --green-synapse: #10b981;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-subtle: rgba(139, 92, 246, 0.18);
+      --border-bright: rgba(139, 92, 246, 0.45);
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-void);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.25), transparent),
+        radial-gradient(circle at 10% 30%, rgba(6, 182, 212, 0.12), transparent 40%),
+        radial-gradient(circle at 90% 70%, rgba(139, 92, 246, 0.15), transparent 45%);
+    }
+
+    /* TYPOGRAPHY */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+    }
+
+    .badge-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.9rem;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--cyan-telemetry);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-chip .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--cyan-telemetry);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan-telemetry);
+      animation: pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    /* NAVIGATION */
+    header.neuro-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1.25rem 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(5, 1, 13, 0.75);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: var(--text-white);
+    }
+    .brand-glyph {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--purple-electric);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(139, 92, 246, 0.15);
+      box-shadow: 0 0 16px var(--purple-glow);
+    }
+    .brand-glyph svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--cyan-telemetry);
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+    .brand-title span {
+      color: var(--purple-electric);
+    }
+
+    nav.nav-links {
+      display: flex;
+      gap: 2.25rem;
+      align-items: center;
+    }
+    nav.nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.25s, text-shadow 0.25s;
+    }
+    nav.nav-links a:hover {
+      color: var(--text-white);
+      text-shadow: 0 0 12px var(--cyan-glow);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .telemetry-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--green-synapse);
+      background: rgba(16, 185, 129, 0.08);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .btn-violet {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.6rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 20px var(--purple-glow);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .btn-violet:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+    }
+
+    .btn-outline-cyan {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.75rem 1.6rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--cyan-telemetry);
+      background: rgba(6, 182, 212, 0.06);
+      border: 1px solid var(--cyan-telemetry);
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, box-shadow 0.25s;
+    }
+    .btn-outline-cyan:hover {
+      background: rgba(6, 182, 212, 0.15);
+      box-shadow: 0 0 24px var(--cyan-glow);
+    }
+
+    /* HERO SECTION */
+    section.hero {
+      padding: 8.5rem 3.5rem 5rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      min-height: 94vh;
+    }
+    .hero-info h1 {
+      font-size: 4.4rem;
+      line-height: 1.05;
+      margin: 1.5rem 0 1.5rem 0;
+      font-weight: 700;
+    }
+    .hero-info h1 .grad-text {
+      background: linear-gradient(135deg, #fff 30%, var(--purple-electric) 70%, var(--cyan-telemetry) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-info p.lead {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 540px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    /* EEG CANVAS CONTAINER */
+    .eeg-visualizer-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(139, 92, 246, 0.15);
+      position: relative;
+    }
+    .eeg-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 1rem;
+    }
+    .eeg-channel-info {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 1.25rem;
+    }
+    .eeg-channel-info span strong {
+      color: var(--cyan-telemetry);
+    }
+    canvas#eegCanvas {
+      width: 100%;
+      height: 290px;
+      display: block;
+      background: #060210;
+      border-radius: 8px;
+    }
+    .eeg-band-selector {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .band-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 4px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .band-pill.active {
+      background: var(--purple-electric);
+      color: #fff;
+      border-color: var(--purple-electric);
+      box-shadow: 0 0 12px var(--purple-glow);
+    }
+
+    /* CORTICAL MAPPING SECTION */
+    section.cortical-map {
+      padding: 6.5rem 3.5rem;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(8, 3, 20, 0.8);
+    }
+    .section-title-wrap {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 4rem auto;
+    }
+    .section-title-wrap h2 {
+      font-size: 3rem;
+      margin: 1rem 0 0.8rem 0;
+    }
+    .section-title-wrap p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .cortical-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .cortex-interactive-viewport {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .cortex-svg-wrap {
+      width: 100%;
+      max-width: 440px;
+    }
+    .cortex-svg-wrap svg {
+      width: 100%;
+      height: auto;
+    }
+    .electrode-node {
+      cursor: pointer;
+      transition: r 0.3s, fill 0.3s, filter 0.3s;
+    }
+    .electrode-node:hover {
+      r: 8;
+      fill: #06b6d4 !important;
+      filter: drop-shadow(0 0 8px #06b6d4);
+    }
+    .lobe-info-card {
+      background: rgba(15, 7, 34, 0.85);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+    .lobe-info-card .channel-badge {
+      font-family: var(--font-mono);
+      color: var(--cyan-telemetry);
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .lobe-info-card h3 {
+      font-size: 2rem;
+      margin-bottom: 0.85rem;
+    }
+    .lobe-info-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .lobe-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .stat-box .val {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-white);
+    }
+    .stat-box .lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* SPECS BENTO GRID */
+    section.specs {
+      padding: 6.5rem 3.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .bento-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .spec-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2.25rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    .spec-card:hover {
+      border-color: var(--purple-electric);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+    }
+    .spec-card.span-2 {
+      grid-column: span 2;
+    }
+    .spec-card .metric-huge {
+      font-family: var(--font-display);
+      font-size: 3.2rem;
+      font-weight: 700;
+      color: var(--cyan-telemetry);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+    .spec-card h4 {
+      font-size: 1.35rem;
+      margin-bottom: 0.75rem;
+      color: var(--text-white);
+    }
+    .spec-card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* TIERS SECTION */
+    section.tiers {
+      padding: 6.5rem 3.5rem;
+      background: rgba(6, 2, 16, 0.9);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .tier-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 3rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .tier-card:hover {
+      border-color: var(--border-bright);
+    }
+    .tier-card.featured {
+      border-color: var(--purple-electric);
+      background: linear-gradient(180deg, rgba(35, 14, 75, 0.5) 0%, rgba(18, 9, 38, 0.85) 100%);
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+    }
+    .tier-card.featured::before {
+      content: 'FLAGSHIP NEURAL PLATFORM';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--purple-electric);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.9rem;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+    .tier-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+    .tier-card p.tier-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .tier-price {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 2rem;
+    }
+    .tier-price span {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .tier-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      flex-grow: 1;
+    }
+    .tier-features li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .tier-features li svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--cyan-telemetry);
+      flex-shrink: 0;
+    }
+
+    /* SDK CODE SECTION */
+    section.sdk-form {
+      padding: 6.5rem 3.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .sdk-container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: 16px;
+      padding: 3.5rem;
+    }
+    .sdk-container h2 {
+      font-size: 2.6rem;
+      margin-bottom: 1rem;
+    }
+    .code-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+    }
+    .code-tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0.5rem 0.75rem;
+    }
+    .code-tab.active {
+      color: var(--cyan-telemetry);
+      border-bottom: 2px solid var(--cyan-telemetry);
+    }
+    pre.code-block {
+      background: #040108;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin: 1.5rem 0 2.5rem 0;
+    }
+    .request-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .form-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .form-item label {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .form-item input, .form-item select {
+      background: #090314;
+      border: 1px solid var(--border-subtle);
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .form-item input:focus, .form-item select:focus {
+      border-color: var(--purple-electric);
+    }
+
+    /* FOOTER */
+    footer.neuro-footer {
+      padding: 4.5rem 3.5rem 3rem 3.5rem;
+      border-top: 1px solid var(--border-subtle);
+      background: #030008;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--cyan-telemetry);
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .footer-col ul li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover {
+      color: var(--text-white);
+    }
+    .footer-btm {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      header.neuro-nav { padding: 1.25rem 2rem; }
+      section.hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem 2rem; }
+      .cortical-grid { grid-template-columns: 1fr; }
+      .bento-specs-grid { grid-template-columns: repeat(2, 1fr); }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .request-form-grid { grid-template-columns: 1fr; }
+      .footer-content { flex-direction: column; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="neuro-nav">
+    <a href="#" class="brand">
+      <div class="brand-glyph">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M2 12h20M7 7l10 10M17 7L7 17"/>
+        </svg>
+      </div>
+      <div class="brand-title">AETHER<span>.NEURO</span></div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#eeg">Cortical Visualizer</a>
+      <a href="#cortical">10-20 Mapping</a>
+      <a href="#specs">Hardware Architecture</a>
+      <a href="#tiers">Clinical Tiers</a>
+      <a href="#sdk">SDK Access</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="telemetry-status">
+        <span class="pulse-dot" style="background:#10b981; width:6px; height:6px;"></span>
+        <span>UPLINK 16.4 kHz · NOMINAL</span>
+      </div>
+      <a href="#sdk" class="btn-violet">Request Developer Kit</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="eeg">
+    <div class="hero-info">
+      <div class="badge-chip">
+        <span class="pulse-dot"></span>
+        GEN-IV QUANTUM COUPLING · 16,384 CHANNELS
+      </div>
+      <h1>Sub-Millisecond <span class="grad-text">Cortical Decoding</span> In Real-Time.</h1>
+      <p class="lead">
+        Aether-Neuro combines high-density non-invasive telemetry with quantum-enhanced opto-magnetic sensors, capturing single-neuron population dynamics at 0.42ms latency without intracranial craniotomy.
+      </p>
+      <div class="hero-ctas">
+        <a href="#cortical" class="btn-violet">Inspect 10-20 Topography</a>
+        <a href="#sdk" class="btn-outline-cyan">Explore Python SDK</a>
+      </div>
+    </div>
+
+    <!-- REAL-TIME EEG VISUALIZER -->
+    <div class="eeg-visualizer-card">
+      <div class="eeg-header">
+        <div class="eeg-channel-info">
+          <span>CHANNELS: <strong>16 / 16 active</strong></span>
+          <span>SR: <strong>16,384 Hz</strong></span>
+          <span>SNR: <strong>118.4 dB</strong></span>
+        </div>
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--purple-electric);">
+          LIVE DECODE STREAM
+        </div>
+      </div>
+
+      <canvas id="eegCanvas" width="560" height="290"></canvas>
+
+      <div class="eeg-band-selector">
+        <div class="band-pill active" onclick="setBand('all')">ALL SPECTRUM</div>
+        <div class="band-pill" onclick="setBand('gamma')">GAMMA (30-100Hz)</div>
+        <div class="band-pill" onclick="setBand('beta')">BETA (13-30Hz)</div>
+        <div class="band-pill" onclick="setBand('alpha')">ALPHA (8-12Hz)</div>
+        <div class="band-pill" onclick="setBand('theta')">THETA (4-7Hz)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10-20 ELECTRODE CORTICAL MAPPING -->
+  <section class="cortical-map" id="cortical">
+    <div class="section-title-wrap">
+      <div class="badge-chip">Topographic Spatial Arrays</div>
+      <h2>International 10-20 Cortical System</h2>
+      <p>Interactive spatial probe matrix mapped across motor cortex, prefrontal executive networks, and somatosensory coordinates.</p>
+    </div>
+
+    <div class="cortical-grid">
+      <!-- CORTEX HEAD TOPOGRAPHY SVG -->
+      <div class="cortex-interactive-viewport">
+        <div class="cortex-svg-wrap">
+          <svg viewBox="0 0 400 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Head Outline -->
+            <ellipse cx="200" cy="220" rx="150" ry="175" fill="#0c051a" stroke="rgba(139, 92, 246, 0.4)" stroke-width="2"/>
+            <!-- Nose indicator -->
+            <path d="M190 45 L200 25 L210 45" stroke="var(--purple-electric)" stroke-width="2" fill="none"/>
+            <!-- Ears -->
+            <path d="M48 200 C35 220 35 240 48 260" stroke="rgba(139, 92, 246, 0.4)" stroke-width="2" fill="none"/>
+            <path d="M352 200 C365 220 365 240 352 260" stroke="rgba(139, 92, 246, 0.4)" stroke-width="2" fill="none"/>
+            <!-- 10-20 Grid Arcs -->
+            <line x1="200" y1="45" x2="200" y2="395" stroke="rgba(139, 92, 246, 0.15)" stroke-dasharray="3 3"/>
+            <line x1="50" y1="220" x2="350" y2="220" stroke="rgba(139, 92, 246, 0.15)" stroke-dasharray="3 3"/>
+            <ellipse cx="200" cy="220" rx="105" ry="120" stroke="rgba(139, 92, 246, 0.12)" stroke-dasharray="2 2" fill="none"/>
+
+            <!-- Electrodes -->
+            <!-- Frontal -->
+            <circle class="electrode-node" cx="160" cy="110" r="6" fill="#8b5cf6" onclick="inspectElectrode('Fp1', 'Prefrontal Superior', 'Executive control, cognitive planning, semantic memory synthesis.')"/>
+            <circle class="electrode-node" cx="240" cy="110" r="6" fill="#8b5cf6" onclick="inspectElectrode('Fp2', 'Prefrontal Right', 'Affective valence, attention redirection, impulse gating.')"/>
+            <circle class="electrode-node" cx="200" cy="120" r="6" fill="#8b5cf6" onclick="inspectElectrode('Fpz', 'Frontopolar Midline', 'High-frequency gamma coordination across frontal lobes.')"/>
+
+            <!-- Frontal Mid -->
+            <circle class="electrode-node" cx="130" cy="160" r="6" fill="#8b5cf6" onclick="inspectElectrode('F3', 'Frontal Left', 'Motor speech execution & Broca-adjacent articulation intent.')"/>
+            <circle class="electrode-node" cx="200" cy="170" r="6" fill="#06b6d4" onclick="inspectElectrode('Fz', 'Frontal Midline', 'Working memory buffer, anterior cingulate error tracking.')"/>
+            <circle class="electrode-node" cx="270" cy="160" r="6" fill="#8b5cf6" onclick="inspectElectrode('F4', 'Frontal Right', 'Spatial working memory & non-verbal cognitive operations.')"/>
+
+            <!-- Central (Motor Cortex) -->
+            <circle class="electrode-node" cx="110" cy="220" r="7" fill="#06b6d4" onclick="inspectElectrode('C3', 'Primary Motor (Hand Area)', 'Right limb kinesthetic intention, motor command decoding.')"/>
+            <circle class="electrode-node" cx="200" cy="220" r="7" fill="#10b981" onclick="inspectElectrode('Cz', 'Sensorimotor Vertex', 'Lower extremity kinematics, postural equilibrium feedback.')"/>
+            <circle class="electrode-node" cx="290" cy="220" r="7" fill="#06b6d4" onclick="inspectElectrode('C4', 'Primary Motor (Hand Right)', 'Left limb trajectory synthesis, spatial manipulation vectors.')"/>
+
+            <!-- Parietal -->
+            <circle class="electrode-node" cx="140" cy="280" r="6" fill="#8b5cf6" onclick="inspectElectrode('P3', 'Parietal Left', 'Somatosensory integration, angular gyrus numerical processing.')"/>
+            <circle class="electrode-node" cx="200" cy="280" r="6" fill="#8b5cf6" onclick="inspectElectrode('Pz', 'Parietal Midline', 'Spatial navigation landmarks, multimodal sensory synthesis.')"/>
+            <circle class="electrode-node" cx="260" cy="280" r="6" fill="#8b5cf6" onclick="inspectElectrode('P4', 'Parietal Right', 'Hemispatial visual attention, 3D mental rotation.')"/>
+
+            <!-- Occipital -->
+            <circle class="electrode-node" cx="170" cy="340" r="6" fill="#06b6d4" onclick="inspectElectrode('O1', 'Visual Primary V1 Left', 'Right visual hemifield contrast, spatial frequency decoding.')"/>
+            <circle class="electrode-node" cx="230" cy="340" r="6" fill="#06b6d4" onclick="inspectElectrode('O2', 'Visual Primary V1 Right', 'Left visual hemifield contrast, retinal retinotopic mapping.')"/>
+            <circle class="electrode-node" cx="200" cy="350" r="6" fill="#8b5cf6" onclick="inspectElectrode('Oz', 'Occipital Midline', 'Central foveal vision, visual evoked potential (VEP) anchor.')"/>
+          </svg>
+        </div>
+        <p style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 1rem;">Click any electrode node to calibrate sensor telemetry.</p>
+      </div>
+
+      <!-- LOBE INSPECTOR CARD -->
+      <div class="lobe-info-card">
+        <span class="channel-badge" id="inspBadge">CHANNEL C3 // MOTOR CORTEX</span>
+        <h3 id="inspName">Primary Motor (Hand Area)</h3>
+        <p id="inspDesc">Right limb kinesthetic intention, motor command decoding with 99.4% intent prediction accuracy at 0.38ms latency window.</p>
+
+        <div class="lobe-stats-row">
+          <div class="stat-box">
+            <div class="val" id="inspSnr">124.2 dB</div>
+            <div class="lbl">Signal / Noise</div>
+          </div>
+          <div class="stat-box">
+            <div class="val" id="inspImpedance">&lt; 1.8 kΩ</div>
+            <div class="lbl">Dry Impedance</div>
+          </div>
+          <div class="stat-box">
+            <div class="val" id="inspBand">800 Hz</div>
+            <div class="lbl">Analog Bandwidth</div>
+          </div>
+        </div>
+
+        <button class="btn-outline-cyan" style="width: 100%; justify-content: center; margin-top: 2rem;" onclick="pulseSelectedElectrode()">Run Channel Self-Test</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DECODING SPECS BENTO -->
+  <section class="specs" id="specs">
+    <div class="section-title-wrap">
+      <div class="badge-chip">Quantum Neuromorphic Hardware</div>
+      <h2>Decoding Telemetry Benchmarks</h2>
+      <p>Designed for real-time neural machine translation, prosthetics, and cognitive state classification.</p>
+    </div>
+
+    <div class="bento-specs-grid">
+      <div class="spec-card">
+        <div class="metric-huge">0.42<span style="font-size:1.8rem">ms</span></div>
+        <h4>Glass-to-Glass Latency</h4>
+        <p>End-to-end telemetry pipeline from analog front-end spike reception to decoded intention vector output.</p>
+      </div>
+
+      <div class="spec-card span-2">
+        <div class="metric-huge">16,384</div>
+        <h4>Simultaneous Spiking Channels</h4>
+        <p>Massively parallel photonic array with spatial multiplexing across all four neocortical lobes simultaneously, outperforming standard 64-lead clinical rigs by 256x.</p>
+      </div>
+
+      <div class="spec-card">
+        <div class="metric-huge">118<span style="font-size:1.8rem">dB</span></div>
+        <h4>Active Common-Mode Rejection</h4>
+        <p>Zero electromagnetic artifact corruption even during concurrent whole-body MRI, transcranial stimulation, or movement.</p>
+      </div>
+
+      <div class="spec-card span-2">
+        <div class="metric-huge">0.08<span style="font-size:1.8rem">µV</span></div>
+        <h4>Input Referred Noise Floor</h4>
+        <p>Ultra-low noise amplifiers capable of isolating individual dendritic micro-potentials through intact skull and scalp barriers.</p>
+      </div>
+
+      <div class="spec-card span-2">
+        <div class="metric-huge">100<span style="font-size:1.8rem">%</span></div>
+        <h4>Dry Solid-State Contact</h4>
+        <p>Zero messy saline pastes or abrasive gels. Nanowire micro-needles couple capacitively through hair follicles in under three seconds.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLINICAL TIERS -->
+  <section class="tiers" id="tiers">
+    <div class="section-title-wrap">
+      <div class="badge-chip">Deployment Ensembles</div>
+      <h2>BCI Platform Specifications</h2>
+      <p>From university neurobiology labs to FDA-cleared neural motor rehabilitation suites.</p>
+    </div>
+
+    <div class="tiers-grid">
+      <!-- Tier 1 -->
+      <div class="tier-card">
+        <h3>Academic Lab</h3>
+        <p class="tier-desc">Designed for cognitive neuroscience research and evoked-potential experiments.</p>
+        <div class="tier-price">$18,500<span> / unit</span></div>
+        <ul class="tier-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 128 Dry Active Channels</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 4,096 Hz Sampling Rate</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> LSL (Lab Streaming Layer) Native</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Python & MATLAB APIs</li>
+        </ul>
+        <a href="#sdk" class="btn-outline-cyan" style="justify-content: center;">Configure Lab Rig</a>
+      </div>
+
+      <!-- Tier 2 -->
+      <div class="tier-card featured">
+        <h3>Synapse Core X</h3>
+        <p class="tier-desc">The flagship multi-lobe decoding array for low-latency neural prosthetics & BCI control.</p>
+        <div class="tier-price">$48,000<span> / unit</span></div>
+        <ul class="tier-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 1,024 High-Density Quantum Channels</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 0.42ms On-Chip Tensor Co-Processor</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Optical Neuromodulation Feedback</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Full Rust & C++ Low-Level SDKs</li>
+        </ul>
+        <a href="#sdk" class="btn-violet" style="justify-content: center;">Deploy Core Platform</a>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="tier-card">
+        <h3>BioMedical Clinical</h3>
+        <p class="tier-desc">Full hospital compliance with ISO 13485 & FDA 510(k) pathway readiness.</p>
+        <div class="tier-price">$94,000<span> / unit</span></div>
+        <ul class="tier-features">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 16,384 Whole-Brain Synaptic Grid</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Real-Time Seizure & Stroke Sentinel</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> HIPAA/GDPR Encrypted Telemetry</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Dedicated Clinical Field Support</li>
+        </ul>
+        <a href="#sdk" class="btn-outline-cyan" style="justify-content: center;">Inquire Clinical Suite</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVELOPER SDK SECTION -->
+  <section class="sdk-form" id="sdk">
+    <div class="sdk-container">
+      <div class="badge-chip">Developer Telemetry Pipeline</div>
+      <h2>Stream Brainwaves in 4 Lines of Code</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">Our zero-overhead binary IPC client streams decoded spiking probabilities directly into PyTorch, TensorRT, or ROS2 robotics pipelines.</p>
+
+      <div class="code-tabs">
+        <button class="code-tab active" onclick="switchLang('python')">Python 3.12</button>
+        <button class="code-tab" onclick="switchLang('rust')">Rust 1.82</button>
+        <button class="code-tab" onclick="switchLang('cpp')">C++23</button>
+      </div>
+
+      <pre class="code-block" id="sdkCode">import aether_neuro as an
+
+# Initialize 10-20 telemetry client via PCIe/USB4 optical link
+session = an.StreamSession(channels=1024, sample_rate_hz=16384)
+session.calibrate_impedance(target_kohms=2.0)
+
+# Real-time intent classification at 0.42ms latency
+for packet in session.stream_cortical_packets():
+    intent = an.decode_kinematics(packet.motor_cortex_spikes)
+    print(f"Decoded Velocity Vector: {intent.dx:.3f}, {intent.dy:.3f} | Confidence: {intent.confidence:.2%}")</pre>
+
+      <h3 style="font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem;">Request Hardware Evaluation Kit</h3>
+      <form class="request-form-grid" onsubmit="event.preventDefault(); alert('Telemetry key issued. An Aether-Neuro field engineer will dispatch your optical evaluation interface within 24 hours.');">
+        <div class="form-item">
+          <label>Lead Researcher / Engineer Name</label>
+          <input type="text" placeholder="Dr. Elena Rostova" required>
+        </div>
+        <div class="form-item">
+          <label>Institutional / Corporate Email</label>
+          <input type="email" placeholder="rostova@neural-mechanics.edu" required>
+        </div>
+        <div class="form-item">
+          <label>Primary Application Domain</label>
+          <select>
+            <option>Neural Prosthetics & Motor Reconstruction</option>
+            <option>Cognitive State & Neuromarkers Detection</option>
+            <option>VR/Spatial Computing Bi-Directional BCI</option>
+            <option>Fundamental Synaptic Electrophysiology</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label>Deployment Environment</label>
+          <select>
+            <option>Academic Research Laboratory</option>
+            <option>Clinical Phase I/II Human Trial</option>
+            <option>Robotics OEM Integration</option>
+          </select>
+        </div>
+        <div class="form-item" style="grid-column: span 2; margin-top: 0.75rem;">
+          <button type="submit" class="btn-violet" style="width: 100%; justify-content: center; padding: 1.1rem;">Submit SDK & Hardware Allocation Request</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="neuro-footer">
+    <div class="footer-content">
+      <div style="max-width: 320px;">
+        <div class="brand-title" style="font-size: 1.4rem; margin-bottom: 1rem;">AETHER<span>.NEURO</span></div>
+        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.7;">
+          Next-generation brain-computer telemetry systems bridging human synaptic intent with deterministic computational silicon.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Hardware Rigs</h5>
+        <ul>
+          <li><a href="#">Aether Sensor Array 10-20</a></li>
+          <li><a href="#">Quantum Opto-Magnetic Helmet</a></li>
+          <li><a href="#">Nanowire Dry Electrodes</a></li>
+          <li><a href="#">PCIe Gen5 Neural Co-Processor</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Software & Models</h5>
+        <ul>
+          <li><a href="#">Aether-Decode Transformer 2.0</a></li>
+          <li><a href="#">Real-Time Spiking Kernel</a></li>
+          <li><a href="#">LabStreamingLayer Adapter</a></li>
+          <li><a href="#">ROS2 Robotic Teleoperation</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Regulatory</h5>
+        <ul>
+          <li><a href="#">FDA Breakthrough Device Status</a></li>
+          <li><a href="#">ISO 13485:2016 Certified</a></li>
+          <li><a href="#">IRB Clinical Protocols</a></li>
+          <li><a href="#">Neurological Data Sovereignty</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-btm">
+      <div>© 2026 AETHER NEUROSYSTEMS INC. ALL RIGHTS RESERVED.</div>
+      <div>NEURAL INTERFACE PROTOCOL v4.19 · SECURE OPTICAL LINK</div>
+    </div>
+  </footer>
+
+  <!-- REAL-TIME CANVAS SCRIPT -->
+  <script>
+    const canvas = document.getElementById('eegCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width;
+    let height = canvas.height;
+    let activeBand = 'all';
+
+    // Channel traces configuration
+    const channels = [
+      { name: 'Fp1', color: '#8b5cf6', freq: 1.2, amp: 22, offset: 35 },
+      { name: 'F3',  color: '#a78bfa', freq: 2.1, amp: 18, offset: 80 },
+      { name: 'C3',  color: '#06b6d4', freq: 3.5, amp: 26, offset: 130 },
+      { name: 'Cz',  color: '#10b981', freq: 1.8, amp: 20, offset: 180 },
+      { name: 'P3',  color: '#8b5cf6', freq: 4.2, amp: 15, offset: 225 },
+      { name: 'O1',  color: '#06b6d4', freq: 2.8, amp: 24, offset: 265 }
+    ];
+
+    let t = 0;
+    function renderEEG() {
+      ctx.fillStyle = '#060210';
+      ctx.fillRect(0, 0, width, height);
+
+      // Draw horizontal channel guides
+      ctx.strokeStyle = 'rgba(139, 92, 246, 0.08)';
+      ctx.lineWidth = 1;
+      channels.forEach(ch => {
+        ctx.beginPath();
+        ctx.moveTo(0, ch.offset);
+        ctx.lineTo(width, ch.offset);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(148, 163, 184, 0.5)';
+        ctx.font = '10px JetBrains Mono';
+        ctx.fillText(ch.name, 10, ch.offset - 6);
+      });
+
+      // Draw real-time oscillating sine-wave packet traces
+      channels.forEach((ch, idx) => {
+        ctx.strokeStyle = ch.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+
+        let mult = 1;
+        if (activeBand === 'gamma') mult = 3.5;
+        if (activeBand === 'alpha') mult = 0.8;
+        if (activeBand === 'theta') mult = 0.4;
+        if (activeBand === 'beta')  mult = 1.8;
+
+        for (let x = 0; x < width; x += 3) {
+          const wave1 = Math.sin((x * 0.04 * ch.freq * mult) + t + idx) * (ch.amp * (0.8 + 0.3 * Math.sin(t * 0.5 + idx)));
+          const wave2 = Math.cos((x * 0.09 * mult) - t * 1.5) * (ch.amp * 0.35);
+          const noise = (Math.random() - 0.5) * 3;
+          const y = ch.offset + wave1 + wave2 + noise;
+
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      });
+
+      t += 0.05;
+      requestAnimationFrame(renderEEG);
+    }
+    renderEEG();
+
+    function setBand(band) {
+      activeBand = band;
+      document.querySelectorAll('.band-pill').forEach(p => p.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function inspectElectrode(name, fullName, desc) {
+      document.getElementById('inspBadge').textContent = `CHANNEL ${name} // CORTICAL PROBE`;
+      document.getElementById('inspName').textContent = fullName;
+      document.getElementById('inspDesc').textContent = desc;
+      const snr = (115 + Math.random() * 15).toFixed(1);
+      document.getElementById('inspSnr').textContent = `${snr} dB`;
+    }
+
+    function pulseSelectedElectrode() {
+      const badge = document.getElementById('inspBadge');
+      const orig = badge.textContent;
+      badge.textContent = '>> RUNNING 128-POINT VOLTAMMETRY IMPEDANCE SWEEP...';
+      badge.style.color = '#10b981';
+      setTimeout(() => {
+        badge.textContent = orig;
+        badge.style.color = 'var(--cyan-telemetry)';
+        alert('Diagnostic Sweep Complete: Impedance verified at 1.42 kΩ. SNR Nominal.');
+      }, 700);
+    }
+
+    const codeSnippets = {
+      python: `import aether_neuro as an\n\n# Initialize 10-20 telemetry client via PCIe/USB4 optical link\nsession = an.StreamSession(channels=1024, sample_rate_hz=16384)\nsession.calibrate_impedance(target_kohms=2.0)\n\n# Real-time intent classification at 0.42ms latency\nfor packet in session.stream_cortical_packets():\n    intent = an.decode_kinematics(packet.motor_cortex_spikes)\n    print(f"Decoded Velocity Vector: {intent.dx:.3f}, {intent.dy:.3f} | Confidence: {intent.confidence:.2%}")`,
+      rust: `use aether_neuro::{TelemetryClient, ChannelMask, BandFilter};\n\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let mut device = TelemetryClient::connect_optical("/dev/aether0").await?;\n    device.configure_channels(ChannelMask::ALL_10_20, BandFilter::GammaBroadband)?;\n    \n    while let Some(packet) = device.next_neural_frame().await {\n        let latency_us = packet.timestamp.elapsed().as_micros();\n        println!("Frame {} received | Jitter: {}µs", packet.frame_id, latency_us);\n    }\n    Ok(())\n}`,
+      cpp: `#include <aether/neural_core.hpp>\n#include <iostream>\n\nint main() {\n    aether::DeviceHandle dev = aether::open_device(aether::Interface::PCIE_GEN5);\n    dev.set_acquisition_mode(aether::AcquisitionMode::QUANTUM_SPIKE_STREAM);\n    \n    dev.on_frame([](const aether::NeuralFrame& frame) {\n        auto motor_state = aether::decode_vector(frame.c3_electrode);\n        std::cout << "Spatial Intention X: " << motor_state.x << " Y: " << motor_state.y << "\\n";\n    });\n    dev.spin();\n}`
+    };
+
+    function switchLang(lang) {
+      document.querySelectorAll('.code-tab').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById('sdkCode').textContent = codeSnippets[lang];
+    }
+  </script>
+</body>
+</html>

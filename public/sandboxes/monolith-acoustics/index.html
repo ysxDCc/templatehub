@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MONOLITH ACOUSTICS // Electrostatic Transducers & Vacuum Tube Topology</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-chassis: #121215;
+      --bg-anodized: #18181d;
+      --bg-panel: rgba(26, 26, 32, 0.75);
+      --filament-warm: #f97316;
+      --filament-bright: #fb923c;
+      --filament-glow: rgba(249, 115, 22, 0.28);
+      --tube-gold: #fbbf24;
+      --aluminum-rim: #3f3f46;
+      --aluminum-bright: #71717a;
+      --text-pure: #fafafa;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --border-fine: rgba(63, 63, 70, 0.4);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-chassis);
+      color: var(--text-pure);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.08) 0%, transparent 60%),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 120px);
+    }
+
+    h1, h2, h3, h4, .font-serif {
+      font-family: var(--font-display);
+      letter-spacing: 0.03em;
+    }
+
+    /* Ambient Warmth Glow overlay */
+    .filament-ambient {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top Tube Bias Telemetry Banner */
+    .top-telemetry-strip {
+      background: #0b0b0e;
+      border-bottom: 1px solid var(--border-fine);
+      padding: 0.45rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 10;
+    }
+    .bias-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--filament-bright);
+    }
+    .bias-indicator::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: var(--filament-warm);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--filament-bright);
+      animation: tubeGlow 2.5s infinite alternate ease-in-out;
+    }
+    @keyframes tubeGlow {
+      0% { opacity: 0.4; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.15); }
+    }
+
+    /* Header Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(18, 18, 23, 0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-fine);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-symbol {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--aluminum-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--filament-bright);
+      background: radial-gradient(circle, #252530, #131317);
+    }
+    .brand-title h1 {
+      font-size: 1.35rem;
+      letter-spacing: 0.15em;
+      line-height: 1;
+    }
+    .brand-title span {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: block;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2.2rem;
+      align-items: center;
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--filament-bright);
+    }
+
+    .btn-tube-amber {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(249, 115, 22, 0.05));
+      border: 1px solid var(--filament-warm);
+      color: var(--filament-bright);
+      padding: 0.65rem 1.4rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .btn-tube-amber:hover {
+      background: var(--filament-warm);
+      color: #0b0b0e;
+      box-shadow: 0 0 20px var(--filament-glow);
+    }
+
+    /* Hero Section */
+    .hero-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      min-height: 86vh;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--filament-bright);
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(249, 115, 22, 0.3);
+      padding-bottom: 0.3rem;
+    }
+    .hero-title {
+      font-size: clamp(2.8rem, 5.2vw, 4.8rem);
+      font-weight: 600;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span.glow-text {
+      color: var(--filament-bright);
+      font-style: italic;
+    }
+    .hero-lead {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 530px;
+      margin-bottom: 2.4rem;
+      font-weight: 300;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .btn-solid-glow {
+      background: var(--filament-warm);
+      color: #0c0c10;
+      padding: 0.85rem 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 0 25px rgba(249, 115, 22, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-solid-glow:hover {
+      background: var(--filament-bright);
+      box-shadow: 0 0 35px rgba(251, 146, 60, 0.6);
+      transform: translateY(-2px);
+    }
+    .btn-wire {
+      border: 1px solid var(--aluminum-rim);
+      color: var(--text-pure);
+      padding: 0.85rem 1.8rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .btn-wire:hover {
+      border-color: var(--filament-bright);
+      color: var(--filament-bright);
+    }
+
+    .hero-specs-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid var(--border-fine);
+      padding-top: 1.8rem;
+    }
+    .spec-block h4 {
+      font-size: 2.2rem;
+      color: #fff;
+      font-weight: 400;
+      line-height: 1;
+    }
+    .spec-block h4 span {
+      color: var(--filament-bright);
+      font-size: 1.2rem;
+    }
+    .spec-block span.spec-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Frequency Response Canvas Card */
+    .fr-card {
+      background: var(--bg-anodized);
+      border: 1px solid var(--aluminum-rim);
+      padding: 1.6rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+      position: relative;
+    }
+    .fr-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border-fine);
+      padding-bottom: 0.5rem;
+    }
+    #freqCanvas {
+      width: 100%;
+      height: 420px;
+      display: block;
+      background: #0e0e12;
+      border: 1px solid #202028;
+    }
+    .fr-telemetry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .fr-box {
+      background: #111115;
+      border: 1px solid var(--border-fine);
+      padding: 0.6rem;
+    }
+    .fr-box span {
+      display: block;
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      margin-bottom: 0.2rem;
+    }
+    .fr-box strong {
+      color: var(--filament-bright);
+      font-size: 0.9rem;
+    }
+
+    /* Section Global */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1360px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--filament-bright);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-size: clamp(2.2rem, 4.2vw, 3.5rem);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 620px;
+      font-size: 1.05rem;
+      margin-bottom: 3.5rem;
+      font-weight: 300;
+    }
+
+    /* Tube Topology Grid */
+    .topology-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .topology-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-fine);
+      padding: 2.2rem;
+      transition: all 0.3s;
+    }
+    .topology-card:hover {
+      border-color: var(--filament-warm);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+    .topology-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--filament-bright);
+      margin-bottom: 0.8rem;
+    }
+    .topology-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+    }
+    .topology-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .tube-chip {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      background: rgba(249, 115, 22, 0.08);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      color: var(--filament-bright);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    /* Handcrafted Woods Showcase */
+    .wood-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .wood-card {
+      background: #15151a;
+      border: 1px solid var(--border-fine);
+      padding: 2rem;
+      position: relative;
+    }
+    .wood-swatch {
+      height: 120px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+      border: 1px solid #33333d;
+    }
+    .swatch-ebony {
+      background: linear-gradient(135deg, #09090b 0%, #1e1b18 50%, #0d0c0b 100%);
+    }
+    .swatch-walnut {
+      background: linear-gradient(135deg, #2b1b11 0%, #452a1a 50%, #1a100a 100%);
+    }
+    .swatch-rosewood {
+      background: linear-gradient(135deg, #3d1410 0%, #5e1f18 50%, #2a0c09 100%);
+    }
+    .wood-card h4 {
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .wood-card span.origin {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--filament-bright);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .wood-card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* Signature Masterpiece Series */
+    .masterpiece-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.2rem;
+    }
+    .master-item {
+      background: var(--bg-anodized);
+      border: 1px solid var(--border-fine);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .master-item.flagship {
+      border-color: var(--filament-warm);
+    }
+    .master-series-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--filament-bright);
+      margin-bottom: 0.8rem;
+    }
+    .master-item h3 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .master-item .price {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--text-pure);
+      margin-bottom: 1.5rem;
+    }
+    .master-item p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .master-specs-list {
+      list-style: none;
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-fine);
+      padding-top: 1.2rem;
+    }
+    .master-specs-list li span {
+      color: #fff;
+      font-weight: 500;
+    }
+
+    /* Private Audition Booking Lounge */
+    .lounge-wrapper {
+      background: radial-gradient(circle at center, #1b1b22 0%, #101014 100%);
+      border: 1px solid var(--border-fine);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 4rem;
+    }
+    .lounge-narrative h3 {
+      font-size: 2.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .lounge-narrative p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+    .lounge-amenities {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .lounge-amenities li::before {
+      content: '— ';
+      color: var(--filament-bright);
+    }
+
+    .form-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-row-full {
+      margin-bottom: 1.2rem;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-ctrl {
+      width: 100%;
+      background: #0c0c0f;
+      border: 1px solid var(--border-fine);
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-ctrl:focus {
+      border-color: var(--filament-warm);
+    }
+
+    /* Refined Audiophile Footer */
+    footer {
+      background: #08080a;
+      border-top: 1px solid var(--border-fine);
+      padding: 5rem 2rem 2.5rem;
+      font-size: 0.85rem;
+    }
+    .footer-grid {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand h4 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .footer-brand p {
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 320px;
+      font-size: 0.85rem;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--filament-bright);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--filament-bright);
+    }
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 0 auto;
+      border-top: 1px solid #1c1c24;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-container, .wood-grid, .lounge-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .form-pair { grid-template-columns: 1fr; }
+      .hero-specs-row { flex-direction: column; gap: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="filament-ambient"></div>
+
+  <!-- Top Bias Telemetry Strip -->
+  <div class="top-telemetry-strip">
+    <div class="bias-indicator">300B TUBE BIAS: 68.2 mA STABLE &bull; ANODE HT: 420V DC REGULATED</div>
+    <div>TRANSFORMATION: 100% SILVER PERMALLOY CORE</div>
+    <div>LISTENING ROOM 01: 21.0 &deg;C // 45% HUMIDITY</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand-group">
+        <div class="brand-symbol">M</div>
+        <div class="brand-title">
+          <h1>MONOLITH</h1>
+          <span>Acoustic Engineering</span>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#response">Response Curve</a></li>
+          <li><a href="#topology">Vacuum Topology</a></li>
+          <li><a href="#woods">Tonewoods</a></li>
+          <li><a href="#masterpieces">Masterpiece Series</a></li>
+        </ul>
+      </nav>
+      <a href="#lounge" class="btn-tube-amber">Book Audition</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Pure Single-Ended Triode &bull; Mylar Electrostatic</div>
+        <h1 class="hero-title">
+          Zero Distortion.
+          <span class="glow-text">Infinite Transients.</span>
+        </h1>
+        <p class="hero-lead">
+          Sub-micron vapor-deposited gold Mylar diaphragms suspended within aerospace stator fields, driven by hand-wired 300B vacuum tube amplification. Audio without inertia.
+        </p>
+        <div class="hero-actions">
+          <a href="#lounge" class="btn-solid-glow">Private Audition Concierge</a>
+          <a href="#response" class="btn-wire">Inspect Acoustics</a>
+        </div>
+
+        <div class="hero-specs-row">
+          <div class="spec-block">
+            <h4>10<span>Hz</span></h4>
+            <span class="spec-label">Sub-Bass Extension</span>
+          </div>
+          <div class="spec-block">
+            <h4>50<span>kHz</span></h4>
+            <span class="spec-label">High-Frequency Ceiling</span>
+          </div>
+          <div class="spec-block">
+            <h4>&lt;0.01<span>%</span></h4>
+            <span class="spec-label">Total Harmonic Distortion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Frequency Response Canvas Card -->
+      <div class="fr-card" id="response">
+        <div class="fr-header">
+          <span>ELECTROSTATIC ANECHOIC CHAMBER // FFT SWEEP</span>
+          <span style="color:var(--filament-bright)">10Hz &ndash; 50kHz FLAT &plusmn;0.5dB</span>
+        </div>
+        <canvas id="freqCanvas" width="480" height="420"></canvas>
+        <div class="fr-telemetry">
+          <div class="fr-box">
+            <span>AUDITION FREQ</span>
+            <strong id="liveFreqDisplay">1,000 Hz</strong>
+          </div>
+          <div class="fr-box">
+            <span>SOUND PRESSURE</span>
+            <strong id="liveDbDisplay">94.0 dB SPL</strong>
+          </div>
+          <div class="fr-box">
+            <span>IMPEDANCE</span>
+            <strong>8.0 &Omega; CONSTANT</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Class-A Triode Vacuum Tube Topology -->
+    <section id="topology">
+      <span class="section-eyebrow">// ZERO FEEDBACK ARCHITECTURE</span>
+      <h2 class="section-title">Triode Vacuum Topology</h2>
+      <p class="section-sub">
+        Modern solid-state amplification employs heavy global negative feedback that homogenizes micro-dynamics. We engineer pure single-ended Class-A tube circuits with point-to-point silver wiring.
+      </p>
+
+      <div class="topology-grid">
+        <div class="topology-card">
+          <div class="topology-num">CIRCUIT SPEC 01</div>
+          <h3>Western Electric 300B Triodes</h3>
+          <p>Hand-blown borosilicate glass envelopes containing carbonized nickel anodes. Emits pure second-order harmonic warmth aligned with the human auditory canal.</p>
+          <span class="tube-chip">Filament: 5.0V / 1.2A</span>
+        </div>
+
+        <div class="topology-card">
+          <div class="topology-num">CIRCUIT SPEC 02</div>
+          <h3>Permalloy C-Core Transformers</h3>
+          <p>Wound by hand with 99.9999% pure monocrystalline oxygen-free copper wire over Japanese grain-oriented nickel-iron lamination stacks for wideband bandwidth.</p>
+          <span class="tube-chip">Bandwidth: 5Hz &ndash; 90kHz</span>
+        </div>
+
+        <div class="topology-card">
+          <div class="topology-num">CIRCUIT SPEC 03</div>
+          <h3>Point-to-Point Silver Bus</h3>
+          <p>Zero printed circuit boards. Every component lead is mechanically wrapped around ceramic standoff turrets and fused with 4% silver eutectic solder.</p>
+          <span class="tube-chip">Dielectric: Air & Oil-Paper</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Handcrafted Acoustic Baffle Woods -->
+    <section id="woods">
+      <span class="section-eyebrow">// RESONANCE MANAGEMENT</span>
+      <h2 class="section-title">Curated Tonewood Baffles</h2>
+      <p class="section-sub">
+        Electrostatic stators require an acoustically inert, highly rigid structural frame. We cure exotic hardwoods for seven years before CNC precision machining and French polishing.
+      </p>
+
+      <div class="wood-grid">
+        <div class="wood-card">
+          <div class="wood-swatch swatch-ebony"></div>
+          <h4>Gabon Jet Ebony</h4>
+          <span class="origin">Equatorial West Africa &bull; Density 1.2 g/cm&sup3;</span>
+          <p>Unsurpassed mechanical rigidity that sinks cabinet micro-vibrations completely, leaving an eerie, pitch-black silence between symphonic notes.</p>
+        </div>
+
+        <div class="wood-card">
+          <div class="wood-swatch swatch-walnut"></div>
+          <h4>Claro Burl Walnut</h4>
+          <span class="origin">Northern California &bull; 100-Year Root Growth</span>
+          <p>Dense, swirling marble grain structure with rich natural acoustic damping, offering an organic, velvety bloom to cello and upright bass timbres.</p>
+        </div>
+
+        <div class="wood-card">
+          <div class="wood-swatch swatch-rosewood"></div>
+          <h4>Santos Rosewood</h4>
+          <span class="origin">Brazilian Rainforest Reserve &bull; Cured 8 Seasons</span>
+          <p>Deep chocolate and violet streaks with natural essential resin crystallization that imparts lightning-fast transient response to piano hammers.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Signature Masterpiece Series -->
+    <section id="masterpieces">
+      <span class="section-eyebrow">// THE PERFECTIONIST REPERTOIRE</span>
+      <h2 class="section-title">Signature Masterpiece Series</h2>
+      <p class="section-sub">
+        Individually commissioned and hand-tested in our anechoic vault. Built for collectors who refuse to compromise on musical truth.
+      </p>
+
+      <div class="masterpiece-grid">
+        <div class="master-item">
+          <div>
+            <div class="master-series-tag">SERIES 01 // REFERENCE SYSTEM</div>
+            <h3>The Monolith Grand</h3>
+            <div class="price">$48,000 / pair</div>
+            <p>Full-range curved electrostatic panel standing 2.1 meters tall, coupled with twin isobaric 12-inch carbon-fiber dipole subwoofers.</p>
+          </div>
+          <ul class="master-specs-list">
+            <li>Diaphragm: <span>0.5 Micron Gold Mylar</span></li>
+            <li>Sensitivity: <span>92 dB / 2.83V @ 1m</span></li>
+            <li>Enclosure: <span>Gabon Ebony / Solid Brass</span></li>
+          </ul>
+          <a href="#lounge" class="btn-tube-amber" style="text-align:center;">Commission Pair</a>
+        </div>
+
+        <div class="master-item flagship">
+          <div>
+            <div class="master-series-tag">SERIES 02 // MONOBLOCK AMPLIFICATION</div>
+            <h3>Apollo 300B Monoblocks</h3>
+            <div class="price">$32,000 / pair</div>
+            <p>Pure Class-A Single-Ended Triode monoblocks outputting 18 watts of pristine pure power with zero negative feedback loop.</p>
+          </div>
+          <ul class="master-specs-list">
+            <li>Tubes: <span>Matched Western Electric 300B</span></li>
+            <li>Signal/Noise: <span>114 dB A-weighted</span></li>
+            <li>Chassis: <span>Milled Billet 6061-T6 Aluminum</span></li>
+          </ul>
+          <a href="#lounge" class="btn-solid-glow" style="text-align:center;">Commission Amplifiers</a>
+        </div>
+
+        <div class="master-item">
+          <div>
+            <div class="master-series-tag">SERIES 03 // ANALOG PREAMPLIFIER</div>
+            <h3>Ethereal Phono Stage</h3>
+            <div class="price">$19,500 / unit</div>
+            <p>Moving-coil step-up transformer with pure silver secondaries, dual-mono tube power supplies, and passive LCR RIAA equalization network.</p>
+          </div>
+          <ul class="master-specs-list">
+            <li>Input: <span>0.2mV MC Cartridge Direct</span></li>
+            <li>RIAA Accuracy: <span>&plusmn;0.1 dB (20Hz - 20kHz)</span></li>
+            <li>Rectification: <span>Dual GZ34 Vacuum Diodes</span></li>
+          </ul>
+          <a href="#lounge" class="btn-tube-amber" style="text-align:center;">Commission Phono</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Private Sound Lounge Audition booking form -->
+    <section id="lounge">
+      <div class="lounge-wrapper">
+        <div class="lounge-narrative">
+          <span class="section-eyebrow">// SENSORY IMMERSION</span>
+          <h3>Private Sound Lounge Audition</h3>
+          <p>
+            Experience our flagship systems in our professionally engineered room-within-a-room listening salon. Bring your favorite vinyl pressings or DSD master tapes.
+          </p>
+
+          <ul class="lounge-amenities">
+            <li>Acoustically isolated room: NC-15 noise floor threshold</li>
+            <li>Direct comparison across all three Masterpiece systems</li>
+            <li>Curated rare vintage single-malt Scotch service included</li>
+            <li>One-on-one session with Chief Acoustic Architect</li>
+          </ul>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Audition request registered. Our Salon Concierge will confirm your bespoke listening appointment within 4 hours.');">
+          <div class="form-pair">
+            <div>
+              <label class="form-label">Client Name</label>
+              <input type="text" class="form-ctrl" placeholder="Your Full Name" required>
+            </div>
+            <div>
+              <label class="form-label">Private Contact Email</label>
+              <input type="email" class="form-ctrl" placeholder="patron@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-pair">
+            <div>
+              <label class="form-label">Preferred Lounge Location</label>
+              <select class="form-ctrl">
+                <option selected>Zurich Salon (Lake Promenade)</option>
+                <option>London Salon (Mayfair)</option>
+                <option>Tokyo Salon (Ginza)</option>
+                <option>New York Salon (SoHo)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Preferred Audition Date</label>
+              <input type="date" class="form-ctrl" required>
+            </div>
+          </div>
+
+          <div class="form-row-full">
+            <label class="form-label">Primary Source Media</label>
+            <select class="form-ctrl">
+              <option selected>Direct-to-Disc Master Vinyl (Kuzma Stabi XL)</option>
+              <option>1/2" 30 ips Reel-to-Reel Master Tape (Studer A80)</option>
+              <option>DSD 512 / DXD Native High-Res Stream (Taiko Extreme)</option>
+              <option>Personal Turntable Cartridge Evaluation</option>
+            </select>
+          </div>
+
+          <div class="form-row-full">
+            <label class="form-label">Musical Genre Preferences & Salon Requests</label>
+            <textarea class="form-ctrl" rows="3" placeholder="Symphonic classical, post-bop jazz, opera, choral, rare single-malt preferences..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-solid-glow" style="width: 100%; padding: 1rem;">Confirm Private Audition Request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>MONOLITH ACOUSTICS</h4>
+        <p>
+          Handcrafted electrostatic loudspeakers and vacuum tube electronics. Built by artisans in the Swiss Jura mountains for collectors of transcendent sound.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Acoustic Craft</h5>
+        <ul>
+          <li><a href="#response">Flat Response FFT</a></li>
+          <li><a href="#topology">300B Triodes</a></li>
+          <li><a href="#woods">Tonewood Baffles</a></li>
+          <li><a href="#masterpieces">Silver C-Cores</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Salons</h5>
+        <ul>
+          <li><a href="#lounge">Zurich Private Vault</a></li>
+          <li><a href="#lounge">London Mayfair Suite</a></li>
+          <li><a href="#lounge">Tokyo Ginza Sanctuary</a></li>
+          <li><a href="#lounge">New York SoHo Loft</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Heritage</h5>
+        <p style="color:var(--text-dim); font-size:0.8rem; line-height:1.6; margin-bottom:0.8rem;">
+          Atelier Monolith SA<br>
+          Chemin des Horlogers 12<br>
+          CH-2300 La Chaux-de-Fonds, Switzerland
+        </p>
+        <span style="color:var(--filament-bright); font-family:var(--font-mono); font-size:0.75rem;">CONCIERGE@MONOLITH-ACOUSTICS.CH</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 1978&ndash;2026 Monolith Acoustics SA. All Rights Reserved.</div>
+      <div>PRECISION SWISS ACOUSTICAL MANUFACTURE &bull; ZERO NEGATIVE FEEDBACK</div>
+    </div>
+  </footer>
+
+  <!-- Frequency Response Canvas Interactive Script -->
+  <script>
+    // --- Interactive Frequency Response Curve & Harmonic Waterfall ---
+    const fCanvas = document.getElementById('freqCanvas');
+    const fCtx = fCanvas.getContext('2d');
+    const fW = fCanvas.width;
+    const fH = fCanvas.height;
+
+    let fSweepTime = 0;
+
+    function renderFrequencyCurve() {
+      fCtx.clearRect(0, 0, fW, fH);
+      fSweepTime += 0.02;
+
+      // Draw Logarithmic Grid Lines
+      fCtx.strokeStyle = 'rgba(63, 63, 70, 0.35)';
+      fCtx.lineWidth = 1;
+
+      // Horizontal dB scale lines (+10dB, 0dB, -10dB, -20dB)
+      const dbLevels = [
+        { label: '+10 dB', y: 80 },
+        { label: '0 dB REF', y: 160 },
+        { label: '-10 dB', y: 240 },
+        { label: '-20 dB', y: 320 },
+        { label: '-30 dB', y: 380 }
+      ];
+
+      dbLevels.forEach(lvl => {
+        fCtx.beginPath();
+        fCtx.moveTo(40, lvl.y);
+        fCtx.lineTo(fW - 20, lvl.y);
+        fCtx.stroke();
+
+        fCtx.fillStyle = '#71717a';
+        fCtx.font = '10px "JetBrains Mono"';
+        fCtx.fillText(lvl.label, 5, lvl.y + 4);
+      });
+
+      // Vertical Log Frequency lines (20Hz, 100Hz, 1kHz, 10kHz, 20kHz, 50kHz)
+      const freqMarkers = [
+        { label: '20Hz', x: 50 },
+        { label: '100Hz', x: 120 },
+        { label: '500Hz', x: 210 },
+        { label: '1kHz', x: 270 },
+        { label: '5kHz', x: 350 },
+        { label: '20kHz', x: 420 },
+        { label: '50kHz', x: 460 }
+      ];
+
+      freqMarkers.forEach(fm => {
+        fCtx.beginPath();
+        fCtx.moveTo(fm.x, 60);
+        fCtx.lineTo(fm.x, 390);
+        fCtx.stroke();
+
+        fCtx.fillStyle = '#71717a';
+        fCtx.font = '9px "JetBrains Mono"';
+        fCtx.fillText(fm.label, fm.x - 12, 405);
+      });
+
+      // Target Ruler-Flat Response Curve (0dB ref at y=160 with micro analog ripple)
+      fCtx.beginPath();
+      fCtx.strokeStyle = '#f97316';
+      fCtx.lineWidth = 3;
+
+      for (let x = 40; x < fW - 20; x += 2) {
+        // Flat line with sub-dB organic harmonics
+        const ripple = Math.sin(x * 0.08 + fSweepTime) * 1.5 + Math.sin(x * 0.02) * 2;
+        // Sub-bass shelf below 30Hz rolls off gently
+        let rollOff = 0;
+        if (x < 70) rollOff = Math.pow((70 - x) / 20, 2) * 6;
+        // High frequency extension above 40kHz
+        if (x > 440) rollOff = Math.pow((x - 440) / 20, 2) * 4;
+
+        const y = 160 + ripple + rollOff;
+        if (x === 40) fCtx.moveTo(x, y);
+        else fCtx.lineTo(x, y);
+      }
+      fCtx.stroke();
+
+      // Golden Tube Glow underneath curve
+      fCtx.lineTo(fW - 20, 390);
+      fCtx.lineTo(40, 390);
+      fCtx.closePath();
+      const tubeGrad = fCtx.createLinearGradient(0, 160, 0, 390);
+      tubeGrad.addColorStop(0, 'rgba(249, 115, 22, 0.2)');
+      tubeGrad.addColorStop(1, 'rgba(249, 115, 22, 0)');
+      fCtx.fillStyle = tubeGrad;
+      fCtx.fill();
+
+      // Sweeping Tone Cursor
+      const cursorX = 40 + ((fSweepTime * 60) % (fW - 70));
+      fCtx.strokeStyle = 'rgba(251, 191, 36, 0.8)';
+      fCtx.lineWidth = 1.5;
+      fCtx.setLineDash([4, 4]);
+      fCtx.beginPath();
+      fCtx.moveTo(cursorX, 60);
+      fCtx.lineTo(cursorX, 390);
+      fCtx.stroke();
+      fCtx.setLineDash([]);
+
+      // Cursor Node point
+      fCtx.fillStyle = '#fbbf24';
+      fCtx.beginPath();
+      fCtx.arc(cursorX, 160, 4, 0, Math.PI * 2);
+      fCtx.fill();
+
+      // Update Live Frequency DOM readout
+      const freqRatio = (cursorX - 40) / (fW - 70);
+      // Logarithmic approximation between 20Hz and 50,000Hz
+      const approxFreq = Math.round(20 * Math.pow(50000 / 20, freqRatio));
+      const liveFreqElem = document.getElementById('liveFreqDisplay');
+      const liveDbElem = document.getElementById('liveDbDisplay');
+      if (liveFreqElem) {
+        liveFreqElem.innerText = (approxFreq >= 1000 ? (approxFreq / 1000).toFixed(1) + ' kHz' : approxFreq + ' Hz');
+      }
+      if (liveDbElem) {
+        liveDbElem.innerText = (94.0 + Math.sin(fSweepTime * 2) * 0.3).toFixed(1) + ' dB SPL';
+      }
+
+      requestAnimationFrame(renderFrequencyCurve);
+    }
+    renderFrequencyCurve();
+  </script>
+</body>
+</html>

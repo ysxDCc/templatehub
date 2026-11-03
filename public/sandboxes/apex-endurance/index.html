@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX ENDURANCE LAB // VO2 Max & Metabolic Telemetry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-carbon: #0a0c10;
+      --bg-carbon-card: #12161f;
+      --bg-carbon-panel: rgba(18, 22, 31, 0.75);
+      --acid-lime: #84cc16;
+      --acid-bright: #a3e635;
+      --electric-cobalt: #3b82f6;
+      --cobalt-bright: #60a5fa;
+      --border-carbon: #1e2433;
+      --border-lime: rgba(132, 204, 22, 0.35);
+      --text-bright: #f8fafc;
+      --text-dim: #94a3b8;
+      --text-muted: #64748b;
+      --font-heading: 'Barlow Condensed', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-carbon);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        linear-gradient(to right, rgba(30, 36, 51, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 36, 51, 0.4) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+
+    h1, h2, h3, h4, .font-condensed {
+      font-family: var(--font-heading);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    /* Live Telemetry Banner */
+    .top-telemetry {
+      background: #06080b;
+      border-bottom: 1px solid var(--border-carbon);
+      padding: 0.45rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+    .hr-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--acid-bright);
+    }
+    .hr-live-badge::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--acid-lime);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--acid-bright);
+      animation: heartPulse 1.2s infinite ease-in-out;
+    }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.5; }
+    }
+
+    /* Header Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 12, 16, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-carbon);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-badge {
+      background: var(--acid-lime);
+      color: #000;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 900;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      line-height: 1;
+    }
+    .brand-title h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .brand-title span {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--electric-cobalt);
+      letter-spacing: 0.15em;
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--acid-bright);
+    }
+
+    .btn-lime {
+      background: var(--acid-lime);
+      color: #000;
+      padding: 0.65rem 1.4rem;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-lime:hover {
+      background: var(--acid-bright);
+      box-shadow: 0 0 20px rgba(163, 230, 53, 0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 4.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+      min-height: 85vh;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.8rem;
+      background: rgba(132, 204, 22, 0.1);
+      border: 1px solid var(--acid-lime);
+      color: var(--acid-bright);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 5.8vw, 5.2rem);
+      line-height: 0.98;
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span.lime-gradient {
+      background: linear-gradient(135deg, var(--acid-bright) 0%, var(--electric-cobalt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
+    .hero-desc {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2.2rem;
+    }
+    .hero-btn-row {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .btn-outline-cobalt {
+      border: 1px solid var(--electric-cobalt);
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--cobalt-bright);
+      padding: 0.65rem 1.4rem;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      transition: all 0.2s;
+    }
+    .btn-outline-cobalt:hover {
+      background: var(--electric-cobalt);
+      color: #fff;
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid var(--border-carbon);
+      padding-top: 1.8rem;
+    }
+    .metric-block h4 {
+      font-size: 2.4rem;
+      color: #fff;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .metric-block h4 span {
+      color: var(--acid-bright);
+      font-size: 1.6rem;
+    }
+    .metric-block span.metric-sub {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Live Metabolic & Lactate Canvas Card */
+    .telemetry-card {
+      background: var(--bg-carbon-card);
+      border: 1px solid var(--border-carbon);
+      padding: 1.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+    .telemetry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      border-bottom: 1px dashed var(--border-carbon);
+      padding-bottom: 0.5rem;
+    }
+    #metabolicCanvas {
+      width: 100%;
+      height: 400px;
+      display: block;
+      background: #07080c;
+      border: 1px solid #161a24;
+    }
+    .canvas-hud {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .hud-box {
+      background: #080a0e;
+      border: 1px solid var(--border-carbon);
+      padding: 0.6rem;
+    }
+    .hud-box span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+    }
+    .hud-box strong {
+      color: var(--acid-bright);
+      font-size: 0.95rem;
+    }
+
+    /* General Section */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--acid-lime);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--text-dim);
+      max-width: 620px;
+      font-size: 1.05rem;
+      margin-bottom: 3.5rem;
+    }
+
+    /* Biomechanical Motion Capture Grid */
+    .mocap-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .mocap-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .mocap-card {
+      background: var(--bg-carbon-card);
+      border-left: 3px solid var(--electric-cobalt);
+      border-top: 1px solid var(--border-carbon);
+      border-right: 1px solid var(--border-carbon);
+      border-bottom: 1px solid var(--border-carbon);
+      padding: 1.6rem;
+      transition: border-left-color 0.2s;
+    }
+    .mocap-card:hover {
+      border-left-color: var(--acid-lime);
+    }
+    .mocap-card h4 {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .mocap-card p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Force Vector Diagram Canvas */
+    .vector-box {
+      background: var(--bg-carbon-card);
+      border: 1px solid var(--border-carbon);
+      padding: 2rem;
+      text-align: center;
+    }
+    #pedalCanvas {
+      width: 100%;
+      height: 320px;
+      display: block;
+      background: #080a0e;
+      border: 1px solid #1a202c;
+    }
+
+    /* Coaching Protocols Cards */
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .protocol-card {
+      background: var(--bg-carbon-card);
+      border: 1px solid var(--border-carbon);
+      padding: 2.2rem;
+      position: relative;
+      transition: all 0.25s;
+    }
+    .protocol-card:hover {
+      border-color: var(--acid-lime);
+      transform: translateY(-4px);
+    }
+    .protocol-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--electric-cobalt);
+      margin-bottom: 0.8rem;
+    }
+    .protocol-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+    .protocol-card p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .protocol-stats {
+      border-top: 1px solid #1a202c;
+      padding-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .protocol-stats strong {
+      color: var(--acid-bright);
+    }
+
+    /* Packages / Assessment Matrix */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .price-card {
+      background: var(--bg-carbon-panel);
+      border: 1px solid var(--border-carbon);
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: var(--acid-lime);
+      background: linear-gradient(180deg, rgba(132, 204, 22, 0.05) 0%, var(--bg-carbon-card) 100%);
+    }
+    .price-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--acid-lime);
+      color: #000;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      letter-spacing: 0.1em;
+    }
+    .price-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .price-amount {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      line-height: 1;
+    }
+    .price-amount span {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+    }
+    .price-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+    }
+    .price-features li::before {
+      content: '✓ ';
+      color: var(--acid-bright);
+      font-weight: bold;
+    }
+
+    /* Lab Reservation Form */
+    .booking-card {
+      background: var(--bg-carbon-card);
+      border: 1px solid var(--border-carbon);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 4rem;
+    }
+    .booking-info h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .booking-info p {
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .guideline-list {
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      color: var(--text-muted);
+    }
+    .guideline-list li::before {
+      content: '// ';
+      color: var(--acid-bright);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-field {
+      margin-bottom: 1.2rem;
+    }
+    .form-field label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      background: #080a0e;
+      border: 1px solid var(--border-carbon);
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--acid-lime);
+    }
+
+    /* Carbon Footer */
+    footer {
+      background: #050608;
+      border-top: 1px solid var(--border-carbon);
+      padding: 5rem 2rem 2.5rem;
+    }
+    .footer-grid {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand h4 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .footer-brand p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 320px;
+      font-size: 0.85rem;
+    }
+    .footer-col h5 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--acid-bright);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col a {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--acid-bright);
+    }
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 0 auto;
+      border-top: 1px solid #141822;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-container, .mocap-grid, .booking-card {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .hero-metrics { flex-direction: column; gap: 1rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Telemetry Status -->
+  <div class="top-telemetry">
+    <div class="hr-live-badge">ATHLETE SESSION: M. KIPCHOGE PROTOCOL // TREADMILL STAGE 5</div>
+    <div>VO2 MAX: <span style="color:var(--acid-bright)">78.4 mL/kg/min</span> &bull; LACTATE: 3.4 mmol/L</div>
+    <div>LAB STATUS: CHAMBER 01 HYPOXIC AT 2,200m</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand-link">
+        <div class="brand-badge">APEX</div>
+        <div class="brand-title">
+          <h1>APEX ENDURANCE</h1>
+          <span>Human Performance Telemetry</span>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#telemetry">VO2 Telemetry</a></li>
+          <li><a href="#mocap">Biometrics</a></li>
+          <li><a href="#protocols">Protocols</a></li>
+          <li><a href="#packages">Testing Tiers</a></li>
+        </ul>
+      </nav>
+      <a href="#booking" class="btn-lime">Book Assessment</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="hero-badge">GOLD-STANDARD CLINICAL EXERCISE PHYSIOLOGY</div>
+        <h1 class="hero-title">
+          Uncompromised
+          <span class="lime-gradient">Metabolic Depth</span>
+          And Threshold Precision.
+        </h1>
+        <p class="hero-desc">
+          We combine medical-grade breath-by-breath spirometry, real-time arterialized capillary blood lactate curves, and 120fps marker-based 3D kinematics to unlock superhuman aerobic ceilings.
+        </p>
+        <div class="hero-btn-row">
+          <a href="#booking" class="btn-lime">Reserve Lab Slot</a>
+          <a href="#telemetry" class="btn-outline-cobalt">Live Telemetry HUD</a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-block">
+            <h4>84.2<span>mL</span></h4>
+            <span class="metric-sub">Peak Lab VO2 Record</span>
+          </div>
+          <div class="metric-block">
+            <h4>420<span>W</span></h4>
+            <span class="metric-sub">Functional Threshold Power</span>
+          </div>
+          <div class="metric-block">
+            <h4>120<span>fps</span></h4>
+            <span class="metric-sub">Infrared Motion Tracking</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Heart Rate Zones & Lactate Canvas -->
+      <div class="telemetry-card" id="telemetry">
+        <div class="telemetry-header">
+          <span>METABOLIC THRESHOLD TRACE // STAGE RAMP 400W</span>
+          <span style="color:var(--acid-bright)">ZONE 4 THRESHOLD</span>
+        </div>
+        <canvas id="metabolicCanvas" width="480" height="400"></canvas>
+        <div class="canvas-hud">
+          <div class="hud-box">
+            <span>HEART RATE</span>
+            <strong id="hrDisplay">172 BPM</strong>
+          </div>
+          <div class="hud-box">
+            <span>LACTATE ACCUMULATION</span>
+            <strong id="lactateDisplay">4.1 mmol/L</strong>
+          </div>
+          <div class="hud-box">
+            <span>RER (VCO2 / VO2)</span>
+            <strong id="rerDisplay">0.96 FAT/CHO</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Biomechanical Motion Capture -->
+    <section id="mocap">
+      <span class="section-eyebrow">// 3D SPATIAL KINEMATICS</span>
+      <h2 class="section-title">Motion Capture & Force Vectoring</h2>
+      <p class="section-sub">
+        Every watt lost to asymmetrical lateral hip drop or dead-center pedal dead zones steals marathon seconds. We diagnose force leakage down to 0.1 millimeter.
+      </p>
+
+      <div class="mocap-grid">
+        <div class="mocap-cards-list">
+          <div class="mocap-card">
+            <h4>Dual-Sided 3D Pedal Force Torque</h4>
+            <p>16 load cells measure radial vs tangential force efficiency through all 360 degrees of pedal crank revolution, identifying dead spots at top-dead center.</p>
+          </div>
+          <div class="mocap-card">
+            <h4>Ground Reaction Force Gait Plates</h4>
+            <p>Kistler dual-force plate treadmill measures vertical loading rate, braking forces, and ground contact time balance to prevent hamstring avulsion or stress fractures.</p>
+          </div>
+          <div class="mocap-card">
+            <h4>Frontal Area Aerodynamic Scanning</h4>
+            <p>Continuous dynamic CdA (coefficient of drag area) estimation via calibrated lidar array calculates real-time watt savings in aggressive time-trial tuck positions.</p>
+          </div>
+        </div>
+
+        <!-- 360 Pedal Stroke Force Vector Visualizer -->
+        <div class="vector-box">
+          <div style="display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted); margin-bottom:0.8rem;">
+            <span>POLAR TORQUE EFFICIENCY (LEFT vs RIGHT)</span>
+            <span style="color:var(--acid-bright)">TORQUE EFFECTIVENESS: 94%</span>
+          </div>
+          <canvas id="pedalCanvas" width="420" height="320"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Elite Coaching Protocols -->
+    <section id="protocols">
+      <span class="section-eyebrow">// PERIODIZED PERFORMANCE</span>
+      <h2 class="section-title">Grand Tour & Olympic Protocols</h2>
+      <p class="section-sub">
+        Validated on Olympic medalists and WorldTour pelotons. Structured aerobic conditioning tuned to individual mitochondrial density and slow-twitch muscle fiber typology.
+      </p>
+
+      <div class="protocol-grid">
+        <div class="protocol-card">
+          <div class="protocol-tag">MARATHON SUB-2:10 PROGRAM</div>
+          <h3>Sub-Maximal Glycogen Sparing</h3>
+          <p>Targeted training at 88-92% LT1 to adapt the metabolic engine into metabolizing intramuscular triglycerides while preserving precious glycogen reserves until kilometer 38.</p>
+          <div class="protocol-stats">
+            <span>FatMax Peak: <strong>0.82 g/min</strong></span>
+            <span>Volume: <strong>160 km/wk</strong></span>
+          </div>
+        </div>
+
+        <div class="protocol-card">
+          <div class="protocol-tag">KONA IRONMAN WORLD CHAMPS</div>
+          <h3>Aerobic Decoupling Elimination</h3>
+          <p>5-hour steady-state wattage simulations in temperature-controlled environmental chambers (35&deg;C, 80% RH) to eliminate cardiac drift and maintain thermal equilibrium.</p>
+          <div class="protocol-stats">
+            <span>Decoupling Target: <strong>&lt; 2.5%</strong></span>
+            <span>Sweat Rate: <strong>1.4 L/hr</strong></span>
+          </div>
+        </div>
+
+        <div class="protocol-card">
+          <div class="protocol-tag">WORLDTOUR PRO CYCLING</div>
+          <h3>VLamax Anaerobic Tuning</h3>
+          <p>Deliberately suppressing maximal glycolytic rate (VLamax) down to 0.25 mmol/L/s to lift aerobic threshold power without increasing body mass by a single gram.</p>
+          <div class="protocol-stats">
+            <span>Target FTP: <strong>6.2 W/kg</strong></span>
+            <span>VLamax: <strong>0.28 mmol/L/s</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Performance Assessment Packages -->
+    <section id="packages">
+      <span class="section-eyebrow">// TESTING PACKAGES</span>
+      <h2 class="section-title">Clinical Diagnostic Tiers</h2>
+      <p class="section-sub">
+        Full laboratory access with our Senior Sports Physiologists. Every session includes raw CSV telemetry, physiological report card, and custom training zones.
+      </p>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div>
+            <h3>Lactate Baseline</h3>
+            <div class="price-amount">$350 <span>/ test</span></div>
+            <ul class="price-features">
+              <li>Step-test capillary blood lactate curve</li>
+              <li>Identification of LT1 and LT2 thresholds</li>
+              <li>Heart rate training zone calibration</li>
+              <li>Post-test physiology briefing</li>
+            </ul>
+          </div>
+          <a href="#booking" class="btn-outline-cobalt" style="text-align:center; display:block;">Select Tier</a>
+        </div>
+
+        <div class="price-card featured">
+          <div class="price-badge">MOST POPULAR</div>
+          <div>
+            <h3>Full Metabolic Gold</h3>
+            <div class="price-amount">$680 <span>/ test</span></div>
+            <ul class="price-features">
+              <li>Open-circuit spirometry VO2 Max test</li>
+              <li>Combined blood lactate threshold curve</li>
+              <li>FatMax & carbohydrate burn rate curve</li>
+              <li>Dynamic sweat sodium electrolyte assay</li>
+              <li>12-week custom periodization blueprint</li>
+            </ul>
+          </div>
+          <a href="#booking" class="btn-lime" style="text-align:center; display:block;">Select Tier</a>
+        </div>
+
+        <div class="price-card">
+          <div>
+            <h3>Pro Athlete Immersion</h3>
+            <div class="price-amount">$1,450 <span>/ 2-day</span></div>
+            <ul class="price-features">
+              <li>Full metabolic VO2 + Lactate battery</li>
+              <li>3D infrared kinematics & force plates</li>
+              <li>Aero wind tunnel position optimization</li>
+              <li>Hypoxic chamber simulation trial</li>
+              <li>Direct consultation with Sports Director</li>
+            </ul>
+          </div>
+          <a href="#booking" class="btn-outline-cobalt" style="text-align:center; display:block;">Select Tier</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lab Session Reservation Form -->
+    <section id="booking">
+      <div class="booking-card">
+        <div class="booking-info">
+          <span class="section-eyebrow">// SECURE LAB TIME</span>
+          <h3>Reserve Your Physiological Evaluation</h3>
+          <p>
+            Lab slots are strictly limited to two athletes per day to ensure clean environmental chamber calibration and personalized consultation.
+          </p>
+
+          <ul class="guideline-list">
+            <li>48-hour carbohydrate-loading protocol sent upon booking</li>
+            <li>Zero caffeine or beta-alanine 12 hours prior to testing</li>
+            <li>Bring your own bike, cleats, or competition running shoes</li>
+            <li>Shower facilities and recovery shake lounge included</li>
+          </ul>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Assessment slot reserved! The lab physiologist will send prep instructions and intake health paperwork within 2 hours.');">
+          <div class="form-row-2">
+            <div class="form-field">
+              <label>Athlete Name</label>
+              <input type="text" class="form-input" placeholder="First Last" required>
+            </div>
+            <div class="form-field">
+              <label>Athlete Email</label>
+              <input type="email" class="form-input" placeholder="athlete@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-field">
+              <label>Primary Discipline</label>
+              <select class="form-input">
+                <option>Marathon / Ultra Distance</option>
+                <option selected>Triathlon (Ironman / 70.3)</option>
+                <option>Road Cycling / Gravel</option>
+                <option>Rowing / Cross-Country Skiing</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Target Testing Date</label>
+              <input type="date" class="form-input" required>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label>Current FTP / 5K Pace / Baseline Estimates</label>
+            <input type="text" class="form-input" placeholder="e.g. FTP 315W, 5K 16:20, VO2 Max approx 65" required>
+          </div>
+
+          <div class="form-field">
+            <label>Specific Evaluation Objectives / Injury History</label>
+            <textarea class="form-input" rows="3" placeholder="Notes on cramping, nutrition bonks, target races, or biomechanical pain..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-lime" style="width: 100%; padding: 1rem;">Confirm Lab Reservation</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Carbon Dark Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>APEX ENDURANCE LAB</h4>
+        <p>
+          Clinical sports science and metabolic assessment facility. Dedicated to extracting every fraction of aerodynamic, mechanical, and aerobic advantage for high-performance endurance athletes.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Diagnostics</h5>
+        <ul>
+          <li><a href="#telemetry">VO2 Max Spirometry</a></li>
+          <li><a href="#telemetry">Lactate Blood Curves</a></li>
+          <li><a href="#mocap">3D Force Vectors</a></li>
+          <li><a href="#mocap">Sweat Sodium Assays</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Methodology</h5>
+        <ul>
+          <li><a href="#protocols">FatMax Calibration</a></li>
+          <li><a href="#protocols">VLamax Glycolysis</a></li>
+          <li><a href="#">Hypoxic Altitude Lab</a></li>
+          <li><a href="#">Thermal Adaptation</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Facility</h5>
+        <p style="color:var(--text-muted); font-size:0.8rem; line-height:1.6; margin-bottom:0.8rem;">
+          Building 4, Olympic Park Velodrome<br>
+          Boulder, Colorado 80302<br>
+          Chamber Altitude: 1,655m Base
+        </p>
+        <span style="color:var(--acid-bright); font-family:var(--font-mono); font-size:0.75rem;">LABS@APEX-ENDURANCE.COM</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Apex Endurance Physiology Labs LLC. All Rights Reserved.</div>
+      <div>CLINICALLY VALIDATED METABOLIC PROTOCOLS &bull; USADA COMPLIANT</div>
+    </div>
+  </footer>
+
+  <!-- Metabolic Wave & Polar Pedal Canvas Script -->
+  <script>
+    // --- Live Metabolic Wave & Lactate Curve Canvas ---
+    const mCanvas = document.getElementById('metabolicCanvas');
+    const mCtx = mCanvas.getContext('2d');
+    const mW = mCanvas.width;
+    const mH = mCanvas.height;
+
+    let mTime = 0;
+    const historyPoints = [];
+    const MAX_POINTS = 80;
+
+    for (let i = 0; i < MAX_POINTS; i++) {
+      historyPoints.push(150 + Math.sin(i * 0.1) * 20);
+    }
+
+    function renderMetabolic() {
+      mCtx.clearRect(0, 0, mW, mH);
+      mTime += 0.05;
+
+      // Draw Zone Grid
+      const zones = [
+        { name: 'ZONE 5: NEUROMUSCULAR', y: 40, color: 'rgba(239, 68, 68, 0.15)', stroke: '#ef4444' },
+        { name: 'ZONE 4: LACTATE THRESHOLD', y: 110, color: 'rgba(132, 204, 22, 0.15)', stroke: '#84cc16' },
+        { name: 'ZONE 3: TEMPO', y: 190, color: 'rgba(59, 130, 246, 0.1)', stroke: '#3b82f6' },
+        { name: 'ZONE 2: AEROBIC BASE', y: 270, color: 'rgba(16, 185, 129, 0.1)', stroke: '#10b981' }
+      ];
+
+      zones.forEach(z => {
+        mCtx.fillStyle = z.color;
+        mCtx.fillRect(0, z.y, mW, 70);
+
+        mCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        mCtx.lineWidth = 1;
+        mCtx.beginPath();
+        mCtx.moveTo(0, z.y);
+        mCtx.lineTo(mW, z.y);
+        mCtx.stroke();
+
+        mCtx.fillStyle = '#64748b';
+        mCtx.font = '10px "JetBrains Mono"';
+        mCtx.fillText(z.name, 15, z.y + 16);
+      });
+
+      // Update Wave History
+      const nextVal = 130 + Math.sin(mTime) * 25 + Math.sin(mTime * 3) * 8;
+      historyPoints.push(nextVal);
+      if (historyPoints.length > MAX_POINTS) historyPoints.shift();
+
+      // Draw ECG / HR Curve Line
+      mCtx.beginPath();
+      mCtx.strokeStyle = '#a3e635';
+      mCtx.lineWidth = 3;
+      const stepX = mW / (MAX_POINTS - 1);
+
+      for (let i = 0; i < historyPoints.length; i++) {
+        const x = i * stepX;
+        const y = historyPoints[i];
+        if (i === 0) mCtx.moveTo(x, y);
+        else mCtx.lineTo(x, y);
+      }
+      mCtx.stroke();
+
+      // Draw Glow below curve
+      mCtx.lineTo(mW, mH);
+      mCtx.lineTo(0, mH);
+      mCtx.closePath();
+      const areaGrad = mCtx.createLinearGradient(0, 100, 0, mH);
+      areaGrad.addColorStop(0, 'rgba(163, 230, 53, 0.25)');
+      areaGrad.addColorStop(1, 'rgba(163, 230, 53, 0)');
+      mCtx.fillStyle = areaGrad;
+      mCtx.fill();
+
+      // Lead cursor circle
+      const lastX = (historyPoints.length - 1) * stepX;
+      const lastY = historyPoints[historyPoints.length - 1];
+      mCtx.fillStyle = '#fff';
+      mCtx.beginPath();
+      mCtx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+      mCtx.fill();
+
+      // Update HUD Values
+      const hrElem = document.getElementById('hrDisplay');
+      const lacElem = document.getElementById('lactateDisplay');
+      const rerElem = document.getElementById('rerDisplay');
+      if (hrElem) hrElem.innerText = (170 + Math.sin(mTime) * 6).toFixed(0) + ' BPM';
+      if (lacElem) lacElem.innerText = (3.8 + Math.cos(mTime) * 0.4).toFixed(1) + ' mmol/L';
+      if (rerElem) rerElem.innerText = (0.95 + Math.sin(mTime * 0.5) * 0.03).toFixed(2) + ' FAT/CHO';
+
+      requestAnimationFrame(renderMetabolic);
+    }
+    renderMetabolic();
+
+    // --- 360 Polar Pedal Stroke Force Vector Canvas ---
+    const pCanvas = document.getElementById('pedalCanvas');
+    const pCtx = pCanvas.getContext('2d');
+    const pW = pCanvas.width;
+    const pH = pCanvas.height;
+
+    let pAngle = 0;
+
+    function renderPedalVectors() {
+      pCtx.clearRect(0, 0, pW, pH);
+      pAngle += 0.03;
+
+      const cX = pW / 2;
+      const cY = pH / 2;
+      const radius = 100;
+
+      // Concentric guide circles
+      pCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      pCtx.lineWidth = 1;
+      pCtx.beginPath();
+      pCtx.arc(cX, cY, radius * 0.5, 0, Math.PI * 2);
+      pCtx.arc(cX, cY, radius, 0, Math.PI * 2);
+      pCtx.stroke();
+
+      // Axis crosshairs
+      pCtx.beginPath();
+      pCtx.moveTo(cX - radius - 20, cY);
+      pCtx.lineTo(cX + radius + 20, cY);
+      pCtx.moveTo(cX, cY - radius - 20);
+      pCtx.lineTo(cX, cY + radius + 20);
+      pCtx.stroke();
+
+      // Force Vector Butterfly Shape (Left Leg vs Right Leg)
+      pCtx.beginPath();
+      pCtx.strokeStyle = '#3b82f6';
+      pCtx.lineWidth = 2;
+      for (let theta = 0; theta < Math.PI * 2; theta += 0.05) {
+        // Torque peaks at 90 deg and 270 deg (power phase)
+        const torque = radius * (0.3 + 0.6 * Math.pow(Math.sin(theta), 2));
+        const px = cX + Math.cos(theta) * torque;
+        const py = cY + Math.sin(theta) * torque;
+        if (theta === 0) pCtx.moveTo(px, py);
+        else pCtx.lineTo(px, py);
+      }
+      pCtx.closePath();
+      pCtx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+      pCtx.fill();
+      pCtx.stroke();
+
+      // Rotating Pedal Crank Arm
+      const crankX = cX + Math.cos(pAngle) * radius;
+      const crankY = cY + Math.sin(pAngle) * radius;
+
+      pCtx.strokeStyle = '#84cc16';
+      pCtx.lineWidth = 4;
+      pCtx.beginPath();
+      pCtx.moveTo(cX, cY);
+      pCtx.lineTo(crankX, crankY);
+      pCtx.stroke();
+
+      // Pedal Hub
+      pCtx.fillStyle = '#a3e635';
+      pCtx.beginPath();
+      pCtx.arc(crankX, crankY, 6, 0, Math.PI * 2);
+      pCtx.fill();
+
+      // Tangential force vector arrow
+      const forceMag = 40 * Math.abs(Math.sin(pAngle));
+      const arrowX = crankX - Math.sin(pAngle) * forceMag;
+      const arrowY = crankY + Math.cos(pAngle) * forceMag;
+
+      pCtx.strokeStyle = '#ef4444';
+      pCtx.lineWidth = 2;
+      pCtx.beginPath();
+      pCtx.moveTo(crankX, crankY);
+      pCtx.lineTo(arrowX, arrowY);
+      pCtx.stroke();
+
+      requestAnimationFrame(renderPedalVectors);
+    }
+    renderPedalVectors();
+  </script>
+</body>
+</html>

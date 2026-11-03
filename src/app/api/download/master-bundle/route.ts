@@ -25,7 +25,7 @@ export async function GET(req: Request) {
     if (userSubscription !== 'pro' && userSubscription !== 'enterprise') {
       return NextResponse.json(
         {
-          error: 'The Complete 56-Template Master Pack is an exclusive benefit for Pro & Enterprise members.',
+          error: `The Complete ${templates.length}-Template Master Pack is an exclusive benefit for Pro & Enterprise members.`,
           requiresUpgrade: true,
           currentTier: userSubscription,
         },
@@ -94,12 +94,12 @@ ${t.description}
     zipEntries.push({
       path: 'README.md',
       content: `# TemplateHub Sovereign Agency Master Archive
-56 Zero-Dependency Production Web Templates
+${templates.length} Zero-Dependency Production Web Templates
 
 Thank you for being a ${userSubscription.toUpperCase()} subscriber!
 
 ## Structure
-All 56 templates are categorized into folders matching their industry:
+All ${templates.length} templates are categorized into folders matching their industry:
 - /saas/
 - /ecommerce/
 - /portfolios/
@@ -139,7 +139,7 @@ You may not resell or redistribute these templates as standalone marketplace ite
       status: 200,
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': 'attachment; filename="TemplateHub-56-Master-Agency-Bundle.zip"',
+        'Content-Disposition': `attachment; filename="TemplateHub-${templates.length}-Master-Agency-Bundle.zip"`,
         'Content-Length': zipBuffer.length.toString(),
       },
     });

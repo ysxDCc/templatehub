@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>祇園 雫 — Gion Shizuku | Kyoto Three-Star Kaiseki Sanctuary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sumi-ink: #0b0c0e;
+      --sumi-card: #121418;
+      --hinoki-wood: #c2823a;
+      --hinoki-light: #e09f58;
+      --gold-leaf: #d4af37;
+      --gold-dim: rgba(212, 175, 55, 0.25);
+      --washi-white: #f5f3ec;
+      --washi-gray: #a39e93;
+      --border-wood: rgba(194, 130, 58, 0.22);
+      --font-serif: 'Cormorant Garamond', 'Shippori Mincho', 'Zen Old Mincho', serif;
+      --font-kanji: 'Shippori Mincho', serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--sumi-ink);
+      color: var(--washi-white);
+      font-family: var(--font-serif);
+      line-height: 1.8;
+      letter-spacing: 0.04em;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(circle at 50% 0%, rgba(194, 130, 58, 0.04) 0%, transparent 60%);
+    }
+
+    /* Ambient drifting canvas */
+    #ambientCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.6;
+    }
+
+    /* Top Solar Term Ticker */
+    .solar-bar {
+      border-bottom: 1px solid var(--border-wood);
+      padding: 0.65rem 2.5rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(11, 12, 14, 0.9);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      color: var(--hinoki-light);
+    }
+
+    .solar-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .michelin-stars {
+      color: var(--gold-leaf);
+      letter-spacing: 0.3em;
+    }
+
+    /* Navigation */
+    nav {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 20;
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--washi-white);
+    }
+
+    .brand-kanji {
+      font-family: var(--font-kanji);
+      font-size: 1.6rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-leaf);
+      font-weight: 600;
+    }
+
+    .brand-roman {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: var(--washi-gray);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--washi-gray);
+      text-decoration: none;
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-leaf);
+    }
+
+    .btn-reserve {
+      padding: 0.7rem 1.8rem;
+      border: 1px solid var(--gold-leaf);
+      background: transparent;
+      color: var(--gold-leaf);
+      font-family: var(--font-serif);
+      font-size: 0.88rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-reserve:hover {
+      background: var(--gold-leaf);
+      color: var(--sumi-ink);
+      box-shadow: 0 0 25px var(--gold-dim);
+    }
+
+    /* Hero Section */
+    .hero-sanctuary {
+      max-width: 1300px;
+      margin: 3rem auto 6rem;
+      padding: 0 2.5rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .vertical-kanji {
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      font-family: var(--font-kanji);
+      font-size: 1.15rem;
+      letter-spacing: 0.45em;
+      color: var(--hinoki-light);
+      border-right: 1px solid var(--border-wood);
+      padding-right: 1.5rem;
+      margin-right: 2rem;
+      float: left;
+      height: 380px;
+    }
+
+    .hero-eyebrow {
+      color: var(--hinoki-wood);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero-quote {
+      font-size: 3.4rem;
+      font-weight: 300;
+      line-height: 1.25;
+      margin-bottom: 2rem;
+      color: #fff;
+    }
+
+    .hero-quote em {
+      font-style: italic;
+      color: var(--gold-leaf);
+    }
+
+    .hero-prose {
+      color: var(--washi-gray);
+      font-size: 1.1rem;
+      line-height: 1.9;
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Counter Hero Visual Frame */
+    .counter-visual-card {
+      background: var(--sumi-card);
+      border: 1px solid var(--border-wood);
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .counter-visual-inner {
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 2.5rem;
+      position: relative;
+      text-align: center;
+      background: linear-gradient(180deg, #15181d 0%, #0d0e11 100%);
+    }
+
+    .seal-mark {
+      width: 58px;
+      height: 58px;
+      border: 2px solid #b91c1c;
+      color: #b91c1c;
+      font-family: var(--font-kanji);
+      font-size: 1rem;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1.5rem;
+      transform: rotate(-3deg);
+    }
+
+    .counter-badge-text {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-leaf);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .counter-capacity-num {
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 1.5rem;
+    }
+
+    .seating-times {
+      border-top: 1px solid var(--border-wood);
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-around;
+      font-size: 0.9rem;
+      color: var(--washi-gray);
+    }
+
+    /* The 10-Course Shizuku Menu */
+    .section-wrap {
+      max-width: 1300px;
+      margin: 7rem auto;
+      padding: 0 2.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-eyebrow-center {
+      color: var(--gold-leaf);
+      font-size: 0.82rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .course-card {
+      background: var(--sumi-card);
+      border: 1px solid var(--border-wood);
+      padding: 2.2rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .course-card:hover {
+      border-color: var(--gold-leaf);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.08);
+    }
+
+    .course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-order {
+      font-size: 0.8rem;
+      color: var(--hinoki-light);
+      letter-spacing: 0.15em;
+    }
+
+    .course-kanji-title {
+      font-family: var(--font-kanji);
+      font-size: 1.35rem;
+      color: var(--washi-white);
+      letter-spacing: 0.1em;
+    }
+
+    .course-roman-sub {
+      font-size: 0.85rem;
+      color: var(--gold-leaf);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    .course-desc {
+      color: var(--washi-gray);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .provenance-tag {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--hinoki-wood);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Tea Room Architecture */
+    .architecture-box {
+      background: linear-gradient(180deg, var(--sumi-card) 0%, #090a0d 100%);
+      border: 1px solid var(--border-wood);
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .arch-pillar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    .arch-pillar {
+      border-left: 2px solid var(--gold-leaf);
+      padding-left: 1.25rem;
+    }
+
+    .pillar-name {
+      font-size: 1.15rem;
+      color: var(--washi-white);
+      margin-bottom: 0.3rem;
+    }
+
+    .pillar-desc {
+      color: var(--washi-gray);
+      font-size: 0.92rem;
+    }
+
+    /* Chef's Lineage */
+    .lineage-wrap {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 4rem;
+      align-items: center;
+      background: var(--sumi-card);
+      border: 1px solid var(--border-wood);
+      padding: 3.5rem;
+    }
+
+    .chef-portrait-box {
+      border: 1px solid var(--border-wood);
+      padding: 1.5rem;
+      text-align: center;
+      background: #0d0f13;
+    }
+
+    .chef-stamp {
+      font-family: var(--font-kanji);
+      font-size: 2.5rem;
+      color: var(--gold-leaf);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+
+    .chef-title {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--hinoki-light);
+      text-transform: uppercase;
+    }
+
+    /* Reservation Form */
+    .reservation-container {
+      background: #0d0f13;
+      border: 1px solid var(--gold-leaf);
+      padding: 4rem;
+      box-shadow: 0 0 50px rgba(212, 175, 55, 0.1);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .form-input-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.82rem;
+      letter-spacing: 0.15em;
+      color: var(--hinoki-light);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-wood);
+      padding: 0.9rem 1.2rem;
+      color: var(--washi-white);
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold-leaf);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-wood);
+      padding: 4rem 2.5rem 2.5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--washi-gray);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-sanctuary, .architecture-box, .lineage-wrap, .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .vertical-kanji {
+        display: none;
+      }
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-quote {
+        font-size: 2.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Gold Leaf & Mist Canvas -->
+  <canvas id="ambientCanvas"></canvas>
+
+  <!-- Solar Term Bar -->
+  <div class="solar-bar">
+    <div class="solar-tag">
+      <span>二十四節気 : 雨水 (USUI — RAIN WATER)</span>
+      <span>//</span>
+      <span>SNOW MELTS INTO MOUNTAIN SPRINGWATER</span>
+    </div>
+    <div class="michelin-stars">★★★ MICHELIN GUIDE KYOTO</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="brand-title">
+      <span class="brand-kanji">祇園 雫</span>
+      <span class="brand-roman">Gion Shizuku — Kaiseki Sanctuary</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#philosophy">季節の哲学</a></li>
+      <li><a href="#menu">御献立 (Menu)</a></li>
+      <li><a href="#architecture">数寄屋造り</a></li>
+      <li><a href="#lineage">料理長 (Lineage)</a></li>
+    </ul>
+    <a href="#reserve" class="btn-reserve">御予約 (Reserve)</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="philosophy" class="hero-sanctuary">
+    <div>
+      <div class="vertical-kanji">
+        一期一会 旬の滴
+      </div>
+      <div class="hero-eyebrow">Kyoto Seasonal Culinary Art</div>
+      <h1 class="hero-quote">
+        Every meal is a solitary encounter, <em>never to be repeated.</em>
+      </h1>
+      <p class="hero-prose">
+        Within our secluded sukiya courtyard in southern Gion, we cook not for permanence, but for the breath of the season. 24 solar micro-terms guide our dashi, brewed daily with 3-year cellared Rishiri kelp and soft well water pulled from fifty meters beneath the Yasaka shrine basin.
+      </p>
+      <div>
+        <a href="#reserve" class="btn-reserve" style="background:var(--gold-leaf); color:var(--sumi-ink);">Request Counter Reservation</a>
+      </div>
+    </div>
+
+    <!-- 8-Seat Counter Card -->
+    <div class="counter-visual-card">
+      <div class="counter-visual-inner">
+        <div class="seal-mark">雫</div>
+        <div class="counter-badge-text">EXCLUSIVE DINING SALON</div>
+        <div class="counter-capacity-num">8 Seats Only</div>
+        <p style="color:var(--washi-gray); font-size:0.95rem; margin-bottom:1.5rem;">
+          Single monolithic 350-year-old Yoshino Hinoki cypress counter. Unblemished, hand-planed weekly with Japanese waterstones.
+        </p>
+        <div class="seating-times">
+          <div>
+            <span style="display:block; color:var(--gold-leaf);">FIRST SEATING</span>
+            <strong>17:30 — 20:00</strong>
+          </div>
+          <div>
+            <span style="display:block; color:var(--gold-leaf);">SECOND SEATING</span>
+            <strong>20:30 — 23:00</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10-Course Shizuku Menu with Provenance -->
+  <section id="menu" class="section-wrap">
+    <div class="section-header">
+      <div class="section-eyebrow-center">THE SEASONAL HARMONY</div>
+      <h2 class="section-title">The 10-Course Shizuku Omakase</h2>
+      <p style="color:var(--washi-gray); margin-top:0.8rem;">
+        Priced at ¥48,000 per guest. Paired with aged artisanal junmai daiginjo and rare Uji gyokuro teas.
+      </p>
+    </div>
+
+    <div class="menu-grid">
+      <!-- 1 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 01 // SAKIZUKE (先付)</span>
+          <span class="course-kanji-title">早春の先付</span>
+        </div>
+        <div class="course-roman-sub">Steamed Abalone with Liver Sauce & Wild Mountain Bracken</div>
+        <p class="course-desc">Awabi gently simmered for six hours in pure sake and kombu dashi, served over hand-harvested wild kogomi greens with an emulsion of abalone liver and cold-pressed sesame oil.</p>
+        <div class="provenance-tag">📍 Line-caught off Shimane Peninsula; Foraged Kogomi from Mount Hiei</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 02 // HASSUN (八寸)</span>
+          <span class="course-kanji-title">早緑の八寸</span>
+        </div>
+        <div class="course-roman-sub">Seasonal Seasonal Morsels of Land and Sea</div>
+        <p class="course-desc">Simmered octopus with bamboo shoot, Tai sea bream roe encased in mountain yam cake, grilled river sweetfish marrow, and butter-braised Kyoto heirloom Kintoki carrots.</p>
+        <div class="provenance-tag">📍 Kamigamo Heirloom Farm, Northern Kyoto Basin</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 03 // WANMONO (椀物)</span>
+          <span class="course-kanji-title">清汁仕立て</span>
+        </div>
+        <div class="course-roman-sub">Clear Dashi Broth with Amadai Tilefish & Shogoin Turnip</div>
+        <p class="course-desc">The spiritual heart of kaiseki. Dashi extracted at 82°C from 3-year Rishiri kelp and freshly shaved Makurazaki katsuobushi flakes, poured over charcoal-seared Wakasa bay tilefish.</p>
+        <div class="provenance-tag">📍 50m Yasaka Deep Spring Water; Rishiri Aged Kombu (Rebun Island)</div>
+      </div>
+
+      <!-- 4 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 04 // MUKOZUKE (向付)</span>
+          <span class="course-kanji-title">本日の造里</span>
+        </div>
+        <div class="course-roman-sub">Ikejime Akashi Sea Bream & Bluefin Otoro</div>
+        <p class="course-desc">Served with freshly grated wild wasabi from Gotemba and 2-year naturally fermented dark cedar barrel soy sauce. Accompanied by tender baby sea kelp.</p>
+        <div class="provenance-tag">📍 Akashi Strait Tidal Currents; Shizuoka Mountain Wasabi</div>
+      </div>
+
+      <!-- 5 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 05 // YAKIMONO (焼物)</span>
+          <span class="course-kanji-title">備長炭焼</span>
+        </div>
+        <div class="course-roman-sub">Bincho Charcoal-Grilled A5 Miyazaki Beef & Kamo Eggplant</div>
+        <p class="course-desc">Seared over Kishu white binchotan coals to caramelize natural marrow, accompanied by roasted round Kamo eggplant basted in red Saikyo sweet miso paste.</p>
+        <div class="provenance-tag">📍 Miyazaki Prefecture A5 BMS 11; Kyoto Kamigamo Kamo Nasu</div>
+      </div>
+
+      <!-- 6 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 06 // CHIIBATHI (中鉢)</span>
+          <span class="course-kanji-title">酢の物 口替り</span>
+        </div>
+        <div class="course-roman-sub">Snow Crab & Mozuku Seaweed in Tosazu Gelee</div>
+        <p class="course-desc">Echizen snow crab tossed with tender San'in mozuku algae, garnished with gold leaf flakes and chilled light bonito vinegar gelee to refresh the palate.</p>
+        <div class="provenance-tag">📍 Echizen Harbor, Fukui Prefecture</div>
+      </div>
+
+      <!-- 7 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 07 // TAKIAWASE (炊合)</span>
+          <span class="course-kanji-title">春筍の炊合</span>
+        </div>
+        <div class="course-roman-sub">Early Spring Moso Bamboo Shoots with Kinome</div>
+        <p class="course-desc">Dug before dawn from the clay hills of Tsukahara, braised simply with rice bran and dried bonito flakes, topped with aromatic crushed sansho pepper leaf.</p>
+        <div class="provenance-tag">📍 Tsukahara Bamboo Forest, Otokuni District</div>
+      </div>
+
+      <!-- 8 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 08 // GOHAN (御飯)</span>
+          <span class="course-kanji-title">土鍋御飯</span>
+        </div>
+        <div class="course-roman-sub">Claypot Rice with Tamba Truffles & Sea Urchin</div>
+        <p class="course-desc">Steamed in custom Iga-ware donabe pot using Uonuma Koshihikari rice, folded with freshly shaved winter Tamba black truffles and Hokkaido bafun uni.</p>
+        <div class="provenance-tag">📍 Uonuma First-Grade Rice; Tamba Highlands Forest Truffles</div>
+      </div>
+
+      <!-- 9 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 09 // TOMESWAN (止椀)</span>
+          <span class="course-kanji-title">香の物 赤出汁</span>
+        </div>
+        <div class="course-roman-sub">Red Aka-Dashi Miso with Nameko Mushrooms & Pickles</div>
+        <p class="course-desc">Aged Nagoya hatcho red miso broth, tiny mountain nameko mushrooms, and house-cured Suguki fermented turnip pickles made in ancient wooden tubs.</p>
+        <div class="provenance-tag">📍 Century-old Kamigamo Suguki Pickle Masters</div>
+      </div>
+
+      <!-- 10 -->
+      <div class="course-card">
+        <div class="course-header">
+          <span class="course-order">COURSE 10 // MIZUMONO & MATCHA (水物)</span>
+          <span class="course-kanji-title">濃茶と季節菓子</span>
+        </div>
+        <div class="course-roman-sub">Single-Origin Hand-Whisked Ceremonial Uji Koicha</div>
+        <p class="course-desc">Freshly prepared wagashi sweet modeled after spring cherry blossoms, followed by thick ceremonial matcha prepared in a 200-year-old Raku teabowl.</p>
+        <div class="provenance-tag">📍 Ogura Mountain Heritage Tea Plantation, Uji</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ceremonial Tea Room Architecture -->
+  <section id="architecture" class="section-wrap">
+    <div class="architecture-box">
+      <div>
+        <div class="section-eyebrow-center" style="text-align:left;">SUKIYA-STYLE JOINERY</div>
+        <h2 style="font-size:2.4rem; font-weight:300; margin-bottom:1rem; color:#fff;">Tearoom Sanctuaries</h2>
+        <p style="color:var(--washi-gray); line-height:1.8;">
+          Conceived by legendary sukiya master carpenter Toshio Nakamura. No nails, screws, or synthetic resins were utilized in our dining sanctuary—only master-cut mortise and tenon cedar joints that breathe with Kyoto's seasonal humidity.
+        </p>
+
+        <div class="arch-pillar-list">
+          <div class="arch-pillar">
+            <h4 class="pillar-name">350-Year Old Yoshino Hinoki Counter</h4>
+            <p class="pillar-desc">A single continuous timber slab felled from sustainable estate forests in Nara, radiating a tranquil citrus-pine aroma that calms the senses.</p>
+          </div>
+          <div class="arch-pillar">
+            <h4 class="pillar-name">Edo-Period Juraku Mud Plaster Walls</h4>
+            <p class="pillar-desc">Blended with straw fiber and clay harvested near Jurakudai, absorbing stray sound to render the dining room in pin-drop quiet reverie.</p>
+          </div>
+          <div class="arch-pillar">
+            <h4 class="pillar-name">Roji Moss Garden Pathway</h4>
+            <p class="pillar-desc">Guests transition from bustling Gion alleyways through a stone-lantern moss pathway designed to wash away secular thoughts before the first course.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ceramic Artifact Display -->
+      <div style="background:#0b0c0e; border:1px solid var(--border-wood); padding:2.5rem; text-align:center;">
+        <div style="font-size:0.8rem; letter-spacing:0.2em; color:var(--gold-leaf); margin-bottom:1rem;">TREASURED SERVING WARE</div>
+        <div style="font-family:var(--font-kanji); font-size:1.8rem; color:var(--washi-white); margin-bottom:1rem;">黒楽茶碗 // 織部焼 // 輪島塗</div>
+        <p style="color:var(--washi-gray); font-size:0.9rem; line-height:1.8;">
+          Every vessel is an irreplaceable heirloom. We serve sashimi on 17th-century antique Oribe glazed ceramics, dashi in 80-year-old urushi black Wajima lacquer bowls, and final matcha in authentic Raku ware fired by 15th-generation potters.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chef's Lineage -->
+  <section id="lineage" class="section-wrap">
+    <div class="lineage-wrap">
+      <div class="chef-portrait-box">
+        <div class="chef-stamp">高橋</div>
+        <div class="chef-title">EXECUTIVE CHEF & PATRON</div>
+        <h3 style="font-size:1.6rem; color:#fff; margin-top:0.4rem; font-family:var(--font-kanji);">高橋 健二郎</h3>
+        <p style="color:var(--washi-gray); font-size:0.85rem; margin-top:0.4rem;">Kenjiro Takahashi (4th Generation)</p>
+      </div>
+
+      <div>
+        <div class="section-eyebrow-center" style="text-align:left;">LINEAGE & DISCIPLINE</div>
+        <h2 style="font-size:2.2rem; font-weight:300; margin-bottom:1.2rem; color:#fff;">Four Decades at the Cutting Board</h2>
+        <p style="color:var(--washi-gray); font-size:1.05rem; line-height:1.9; margin-bottom:1.5rem;">
+          "In Kyoto cuisine, cooking is not the addition of flavor, but the peeling away of everything that prevents an ingredient from speaking its truth. When spring water meets winter kelp, heaven is already present."
+        </p>
+        <p style="color:var(--washi-gray); font-size:0.95rem; line-height:1.8;">
+          Takahashi apprenticed for 18 years under grand masters at traditional ryotei establishments in Gion and Arashiyama before founding Gion Shizuku. Awarded Three Michelin Stars consecutively since 2011.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8-Seat Reservation Form -->
+  <section id="reserve" class="section-wrap">
+    <div class="reservation-container">
+      <div style="text-align:center; max-width:650px; margin:0 auto;">
+        <div class="section-eyebrow-center">EXCLUSIVE RESERVATION</div>
+        <h2 style="font-size:2.6rem; font-weight:300; color:#fff; margin-bottom:0.8rem;">Request Counter Seating</h2>
+        <p style="color:var(--washi-gray); font-size:0.95rem;">
+          Reservations open precisely on the first day of each month for the subsequent calendar month. Due to our 8-seat intimacy, we ask for 48 hours notice for dietary restrictions.
+        </p>
+      </div>
+
+      <form onsubmit="handleReservationSubmit(event)">
+        <div class="form-grid">
+          <div>
+            <div class="form-input-group">
+              <label class="form-label">Full Name / お名前</label>
+              <input type="text" class="form-input" placeholder="Lord Montgomery Sterling" required>
+            </div>
+
+            <div class="form-input-group">
+              <label class="form-label">Email Address / メールアドレス</label>
+              <input type="email" class="form-input" placeholder="sterling@private-office.co.uk" required>
+            </div>
+
+            <div class="form-input-group">
+              <label class="form-label">Contact Telephone / 電話番号</label>
+              <input type="tel" class="form-input" placeholder="+81 90 1234 5678" required>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-input-group">
+              <label class="form-label">Desired Date / 御希望日</label>
+              <input type="date" class="form-input" required>
+            </div>
+
+            <div class="form-input-group">
+              <label class="form-label">Seating Session / お席時間</label>
+              <select class="form-input">
+                <option value="first">First Seating: 17:30 — 20:00 (8 seats max)</option>
+                <option value="second">Second Seating: 20:30 — 23:00 (8 seats max)</option>
+              </select>
+            </div>
+
+            <div class="form-input-group">
+              <label class="form-label">Party Size / 人数</label>
+              <select class="form-input">
+                <option value="2">2 Guests (Recommended)</option>
+                <option value="1">1 Guest (Single Counter)</option>
+                <option value="4">4 Guests</option>
+                <option value="8">8 Guests (Full Counter Buyout)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-input-group">
+          <label class="form-label">Dietary Restrictions & Allergies / アレルギー等</label>
+          <input type="text" class="form-input" placeholder="e.g. Shellfish allergy, no raw beef, or non-alcoholic pairings requested">
+        </div>
+
+        <button type="submit" class="btn-reserve" style="width:100%; padding:1.1rem; background:var(--gold-leaf); color:var(--sumi-ink); font-weight:600; margin-top:1rem;">
+          Transmit Reservation Request
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong style="color:#fff;">祇園 雫 — GION SHIZUKU</strong> // 3-Star Michelin Kaiseki Sanctuary
+      <div style="color:var(--washi-gray); font-size:0.75rem; margin-top:0.3rem;">〒605-0073 京都府京都市東山区祇園町南側 570-120 // Gion-machi Minamigawa, Higashiyama-ku, Kyoto</div>
+    </div>
+    <div style="text-align:right;">
+      <span>SEATS: 8 COUNTER ONLY</span>
+      <div style="color:var(--gold-leaf);">ICHIGO ICHIE // 一期一会</div>
+    </div>
+  </footer>
+
+  <!-- Subtle Gold Leaf Drifting Canvas -->
+  <script>
+    const canvas = document.getElementById('ambientCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    for (let i = 0; i < 35; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 3 + 1,
+        speedX: Math.random() * 0.4 - 0.2,
+        speedY: Math.random() * 0.5 + 0.2,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.02,
+        opacity: Math.random() * 0.4 + 0.15
+      });
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let p of particles) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = `rgba(212, 175, 55, ${p.opacity})`;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size * 1.5, p.size);
+        ctx.restore();
+
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotSpeed;
+
+        if (p.y > height) {
+          p.y = -10;
+          p.x = Math.random() * width;
+        }
+        if (p.x > width) p.x = 0;
+        if (p.x < 0) p.x = width;
+      }
+      requestAnimationFrame(renderParticles);
+    }
+
+    renderParticles();
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      alert('謹んで承りました。 Your reservation request has been received by the Okami-san. We will verify seating availability and confirm via concierge telephone within 24 hours.');
+    }
+  </script>
+</body>
+</html>

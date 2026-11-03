@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARCANE DISTILLERY &bull; Botanical Alchemies & Single-Cask Reserve</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-char: #0d0702;
+      --bg-char-deep: #080401;
+      --bg-card: rgba(26, 15, 6, 0.72);
+      --copper-primary: #d97706;
+      --copper-bright: #fbbf24;
+      --copper-dark: #78350f;
+      --copper-glow: rgba(245, 158, 11, 0.25);
+      --amber-smoke: rgba(217, 119, 6, 0.12);
+      --text-main: #f5ede4;
+      --text-muted: #bfa895;
+      --gold-foil: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #92400e 100%);
+      --border-amber: rgba(217, 119, 6, 0.28);
+      --border-bright: rgba(251, 191, 36, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-char);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 18% 12%, rgba(217, 119, 6, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 82% 65%, rgba(120, 53, 15, 0.14) 0%, transparent 50%),
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px, transparent 1px, transparent 4px);
+    }
+
+    h1, h2, h3, h4, .font-serif {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.04em;
+    }
+
+    .font-subserif {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Ambient noise overlay */
+    .woodgrain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.04;
+      z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Top Banner / Announcement */
+    .top-bar {
+      border-bottom: 1px solid var(--border-amber);
+      background: rgba(8, 4, 1, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 0.4rem 1.5rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-muted);
+    }
+    .top-bar span strong {
+      color: var(--copper-bright);
+    }
+
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: rgba(13, 7, 2, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-amber);
+      transition: all 0.3s ease;
+    }
+    .nav-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 1.1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-emblem {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--copper-primary);
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #78350f, #180e05);
+      box-shadow: 0 0 16px var(--copper-glow);
+    }
+    .logo-emblem span {
+      transform: rotate(-45deg);
+      font-family: 'Cinzel', serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--copper-bright);
+    }
+    .logo-text h1 {
+      font-size: 1.25rem;
+      letter-spacing: 0.18em;
+      line-height: 1;
+      color: #fff;
+    }
+    .logo-text span {
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--copper-bright);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      transition: color 0.25s ease;
+      position: relative;
+    }
+    nav a:hover {
+      color: var(--copper-bright);
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--copper-bright);
+      transition: width 0.25s ease;
+    }
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .btn-cask-portal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1.4rem;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(120, 53, 15, 0.4));
+      border: 1px solid var(--copper-primary);
+      color: var(--copper-bright);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .btn-cask-portal:hover {
+      background: var(--copper-primary);
+      color: #0d0702;
+      box-shadow: 0 0 24px rgba(217, 119, 6, 0.5);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      gap: 3rem;
+    }
+    .hero-content {
+      flex: 1.1;
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--copper-bright);
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(217, 119, 6, 0.35);
+      background: rgba(26, 15, 6, 0.6);
+      margin-bottom: 1.8rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--copper-bright);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--copper-bright);
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+      font-weight: 700;
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+    .hero-title span {
+      background: var(--gold-foil);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+    .hero-lead {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 2.4rem;
+      max-width: 540px;
+      font-weight: 300;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-gold {
+      padding: 0.95rem 2.2rem;
+      background: var(--gold-foil);
+      color: #0b0501;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(217, 119, 6, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(251, 191, 36, 0.5);
+    }
+    .btn-outline {
+      padding: 0.95rem 2rem;
+      background: transparent;
+      border: 1px solid var(--border-amber);
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: var(--copper-bright);
+      color: var(--copper-bright);
+      background: rgba(217, 119, 6, 0.08);
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid rgba(217, 119, 6, 0.2);
+      padding-top: 1.8rem;
+    }
+    .metric-item h4 {
+      font-size: 1.8rem;
+      color: var(--copper-bright);
+      font-weight: 700;
+      line-height: 1;
+    }
+    .metric-item span {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+    }
+
+    /* Alembic Still Visualizer Canvas Container */
+    .hero-visualizer {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(120, 53, 15, 0.22) 0%, rgba(13, 7, 2, 0.8) 70%);
+      border: 1px solid var(--border-amber);
+      padding: 1.5rem;
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .visualizer-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--copper-bright);
+      margin-bottom: 0.5rem;
+      border-bottom: 1px dashed rgba(217, 119, 6, 0.25);
+      padding-bottom: 0.5rem;
+    }
+    #alembicCanvas {
+      width: 100%;
+      max-width: 480px;
+      height: 440px;
+      display: block;
+    }
+    .visualizer-controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+      justify-content: space-around;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .telemetry-readout {
+      text-align: center;
+    }
+    .telemetry-val {
+      color: var(--copper-bright);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* Section Foundations */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .section-eyebrow {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--copper-primary);
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+    .section-heading {
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      margin-bottom: 1.2rem;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 620px;
+      font-size: 1rem;
+      margin-bottom: 3.5rem;
+      font-weight: 300;
+    }
+
+    /* Botanicals Grid */
+    .botanicals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+    .botanical-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-amber);
+      padding: 2.2rem 1.8rem;
+      position: relative;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .botanical-card:hover {
+      border-color: var(--copper-bright);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(120, 53, 15, 0.35);
+    }
+    .botanical-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--copper-bright), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .botanical-card:hover::before {
+      opacity: 1;
+    }
+    .botanical-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      color: var(--copper-primary);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.2rem;
+    }
+    .botanical-card h3 {
+      font-size: 1.45rem;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+    .botanical-card h5 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--copper-bright);
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+    .botanical-card p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin-bottom: 1.6rem;
+    }
+    .botanical-meta {
+      border-top: 1px solid rgba(217, 119, 6, 0.2);
+      padding-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+    .botanical-meta span strong {
+      color: var(--copper-bright);
+    }
+
+    /* Single-Cask Investment Portfolio Section */
+    .cask-portfolio {
+      background: radial-gradient(circle at 50% 50%, rgba(26, 15, 6, 0.95), rgba(8, 4, 1, 0.98));
+      border: 1px solid var(--border-amber);
+      padding: 4rem 3rem;
+      margin-top: 3rem;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .cask-info-block h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      color: #fff;
+    }
+    .cask-info-block p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    /* Calculator Widget */
+    .calculator-box {
+      background: rgba(13, 7, 2, 0.85);
+      border: 1px solid var(--border-amber);
+      padding: 2.2rem;
+    }
+    .calc-row {
+      margin-bottom: 1.5rem;
+    }
+    .calc-row label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .calc-row label span.highlight {
+      color: var(--copper-bright);
+      font-weight: 700;
+      font-family: 'Cinzel', serif;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: var(--copper-primary);
+      height: 6px;
+      background: #2b1708;
+      border-radius: 3px;
+      outline: none;
+    }
+    .calc-metrics-display {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(217, 119, 6, 0.3);
+    }
+    .calc-metric-box {
+      background: rgba(26, 15, 6, 0.5);
+      padding: 1.2rem;
+      border-left: 2px solid var(--copper-bright);
+    }
+    .calc-metric-box span {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .calc-metric-box strong {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      color: var(--copper-bright);
+    }
+
+    /* Cask Telemetry Visualizer */
+    .cask-visual-card {
+      border: 1px solid var(--border-amber);
+      padding: 2rem;
+      background: rgba(15, 9, 3, 0.6);
+      position: relative;
+    }
+    .cask-telemetry-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--copper-bright);
+      margin-bottom: 1.5rem;
+    }
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.15);
+      font-size: 0.85rem;
+    }
+    .telemetry-row span:first-child {
+      color: var(--text-muted);
+    }
+    .telemetry-row span:last-child {
+      color: #fff;
+      font-weight: 600;
+    }
+    .barrel-status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      background: rgba(217, 119, 6, 0.2);
+      border: 1px solid var(--copper-bright);
+      color: var(--copper-bright);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* Private Tasting Room Booking Form */
+    .booking-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-amber);
+      padding: 4rem;
+      margin-top: 2rem;
+    }
+    .booking-narrative h3 {
+      font-size: 2rem;
+      color: #fff;
+      margin-bottom: 1.2rem;
+    }
+    .booking-narrative p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .tasting-tiers {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+    .tasting-tiers li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(217, 119, 6, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+    }
+    .tasting-tiers strong {
+      color: var(--copper-bright);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(13, 7, 2, 0.9);
+      border: 1px solid var(--border-amber);
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--copper-bright);
+      box-shadow: 0 0 10px rgba(217, 119, 6, 0.2);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    /* Heritage Footer */
+    footer {
+      border-top: 1px solid var(--border-amber);
+      background: var(--bg-char-deep);
+      padding: 5rem 2rem 2.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+    .footer-brand h4 {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    .footer-brand p {
+      line-height: 1.7;
+      max-width: 320px;
+      font-size: 0.85rem;
+    }
+    .footer-links h5 {
+      color: var(--copper-bright);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 1.2rem;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--copper-bright);
+    }
+    .footer-bottom {
+      max-width: 1300px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(217, 119, 6, 0.15);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .hero {
+        flex-direction: column;
+        padding-top: 3rem;
+      }
+      .portfolio-grid, .booking-wrapper {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.8rem;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .hero-metrics {
+        flex-direction: column;
+        gap: 1.2rem;
+      }
+      nav ul {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="woodgrain-overlay"></div>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <span>ALLOCATION SERIES // <strong>CASK ARCHIVE 1988–2024</strong></span>
+    <span>PRIVATE BONDED WAREHOUSE NO. 04 &bull; ISLE OF SKYE</span>
+    <span>CURATED PRIVATE ALLOTMENT ONLY</span>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-inner">
+      <a href="#" class="logo-lockup">
+        <div class="logo-emblem">
+          <span>A</span>
+        </div>
+        <div class="logo-text">
+          <h1>ARCANE</h1>
+          <span>Botanical Distillery</span>
+        </div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#still">The Alembic</a></li>
+          <li><a href="#botanicals">Botanicals</a></li>
+          <li><a href="#portfolio">Cask Reserve</a></li>
+          <li><a href="#tasting">The Vault</a></li>
+        </ul>
+      </nav>
+      <a href="#tasting" class="btn-cask-portal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+        Reserve Allotment
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">Est. 1894 &bull; High-Altitude Copper Still No. 3</div>
+        <h2 class="hero-title">
+          Where Ancient Terroir Meets
+          <span>Liquid Longevity.</span>
+        </h2>
+        <p class="hero-lead">
+          We extract wild high-latitude botanicals under fractional barometric pressure in hand-beaten copper alembics, aging the distilled essence in virgin Pedro Ximénez puncheons.
+        </p>
+        <div class="hero-actions">
+          <a href="#portfolio" class="btn-gold">Explore Cask Portfolio</a>
+          <a href="#tasting" class="btn-outline">Schedule Private Flight</a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <h4>14.8%</h4>
+            <span>Avg 10-Yr Cask Appreciation</span>
+          </div>
+          <div class="metric-item">
+            <h4>480</h4>
+            <span>Casks Under Bond</span>
+          </div>
+          <div class="metric-item">
+            <h4>61.4%</h4>
+            <span>Cask Strength ABV</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alembic Still Canvas Visualizer -->
+      <div class="hero-visualizer" id="still">
+        <div class="visualizer-header">
+          <span>Vapour Dynamics // Live Alembic Simulation</span>
+          <span>Still: Swan Neck #2</span>
+        </div>
+        <canvas id="alembicCanvas" width="480" height="440"></canvas>
+        <div class="visualizer-controls">
+          <div class="telemetry-readout">
+            <div>POT TEMP</div>
+            <div class="telemetry-val" id="potTemp">78.4 &deg;C</div>
+          </div>
+          <div class="telemetry-readout">
+            <div>CONDENSER FLOW</div>
+            <div class="telemetry-val" id="condFlow">4.2 L/min</div>
+          </div>
+          <div class="telemetry-readout">
+            <div>CUT REFRACTION</div>
+            <div class="telemetry-val">82.1 Proof</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Master Distiller's Botanicals Section -->
+    <section id="botanicals">
+      <span class="section-eyebrow">The Botanical Grimoire</span>
+      <h2 class="section-heading">Master Distiller's Terroir</h2>
+      <p class="section-sub">
+        Wild-foraged at dawn under freezing fog. Each botanical is vapor-infused at discrete condensation points to preserve delicate monoterpenes and resinous oils.
+      </p>
+
+      <div class="botanicals-grid">
+        <!-- 1. Tuscan Juniper -->
+        <div class="botanical-card">
+          <div>
+            <div class="botanical-num">TERROIR SPEC 01</div>
+            <h3>Tuscan Juniper</h3>
+            <h5>Juniperus communis &bull; 850m Elevation</h5>
+            <p>Late autumn wild berries gathered by hand in the Apennine ridges. Crushed lightly to liberate pinene, camphoraceous spice, and evergreen forest floor.</p>
+          </div>
+          <div class="botanical-meta">
+            <span>Extraction: <strong>Steam Vapor</strong></span>
+            <span>Yield: <strong>1.8% Oil</strong></span>
+          </div>
+        </div>
+
+        <!-- 2. Florentine Orris Root -->
+        <div class="botanical-card">
+          <div>
+            <div class="botanical-num">TERROIR SPEC 02</div>
+            <h3>Florentine Orris</h3>
+            <h5>Iris florentina &bull; 4-Year Aged Rhizome</h5>
+            <p>Sun-cured for forty-eight months until violet ionones mature. Acts as the molecular anchor, binding volatile top notes to the spirit's structural spine.</p>
+          </div>
+          <div class="botanical-meta">
+            <span>Extraction: <strong>Macerated Base</strong></span>
+            <span>Curing: <strong>4 Seasons</strong></span>
+          </div>
+        </div>
+
+        <!-- 3. Archangelica -->
+        <div class="botanical-card">
+          <div>
+            <div class="botanical-num">TERROIR SPEC 03</div>
+            <h3>Alpine Angelica</h3>
+            <h5>Angelica archangelica &bull; Glacial Moraine</h5>
+            <p>Deep musk root and green celery seed aromatics. Imparts earthy dryness, herbaceous bitterness, and an enduring velvet mouthfeel on the finish.</p>
+          </div>
+          <div class="botanical-meta">
+            <span>Extraction: <strong>Infusion Basket</strong></span>
+            <span>Origin: <strong>Swiss Graubünden</strong></span>
+          </div>
+        </div>
+
+        <!-- 4. Bitter Seville Peel -->
+        <div class="botanical-card">
+          <div>
+            <div class="botanical-num">TERROIR SPEC 04</div>
+            <h3>Seville Orange</h3>
+            <h5>Citrus aurantium &bull; Old Grove Spanish</h5>
+            <p>Hand-flayed pith-free flavedo. Rich in limonene and bitter neroli oils that ignite on the palate with sharp amber illumination.</p>
+          </div>
+          <div class="botanical-meta">
+            <span>Extraction: <strong>Fractional Cut</strong></span>
+            <span>Moisture: <strong>< 4% Dehydrated</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Single-Cask Investment Portfolio -->
+    <section id="portfolio">
+      <span class="section-eyebrow">Rare Asset Management</span>
+      <h2 class="section-heading">Single-Cask Investment House</h2>
+      <p class="section-sub">
+        Fine spirits hold historically asymmetric alpha against conventional equities. Acquire whole 225L virgin oak casks housed in our insured bonded vaults.
+      </p>
+
+      <div class="cask-portfolio">
+        <div class="portfolio-grid">
+          <!-- Information & Yield Calculator -->
+          <div class="cask-info-block">
+            <h3>Bonded Yield Modeling</h3>
+            <p>
+              Simulate investment longevity. Cask valuations compound as angel's share concentrates esters while market scarcity increases every vintage year.
+            </p>
+
+            <div class="calculator-box">
+              <div class="calc-row">
+                <label>
+                  <span>Cask Commitment</span>
+                  <span class="highlight" id="caskCountDisplay">2 Casks (450 Liters)</span>
+                </label>
+                <input type="range" id="caskSlider" min="1" max="10" value="2" step="1">
+              </div>
+
+              <div class="calc-row">
+                <label>
+                  <span>Maturation Horizon</span>
+                  <span class="highlight" id="horizonDisplay">8 Years</span>
+                </label>
+                <input type="range" id="horizonSlider" min="3" max="25" value="8" step="1">
+              </div>
+
+              <div class="calc-metrics-display">
+                <div class="calc-metric-box">
+                  <span>Initial Principal</span>
+                  <strong id="principalDisplay">$36,000</strong>
+                </div>
+                <div class="calc-metric-box">
+                  <span>Projected Vault Value</span>
+                  <strong id="projectedDisplay">$91,480</strong>
+                </div>
+                <div class="calc-metric-box">
+                  <span>Angel's Share Evaporation</span>
+                  <strong id="angelsShareDisplay">14.2%</strong>
+                </div>
+                <div class="calc-metric-box">
+                  <span>Bottling Output</span>
+                  <strong id="bottlesDisplay">560 Bottles</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-time Cask Telemetry -->
+          <div class="cask-visual-card">
+            <div class="cask-telemetry-header">
+              <span>Bonded Vault Telemetry // Bay 09</span>
+              <span class="barrel-status-badge">Certified Live</span>
+            </div>
+
+            <div class="telemetry-row">
+              <span>Cask Identification</span>
+              <span>ARC-PX-1994-082</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Cooperage Origin</span>
+              <span>Jerez de la Frontera, 100% Spanish Oak</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Fill Date</span>
+              <span>18 October 2018 (6 Years Aged)</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Vault Ambient Temp</span>
+              <span>12.8 &deg;C &plusmn; 0.4</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Vault Relative Humidity</span>
+              <span>76.2% RH</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Current Volume</span>
+              <span>218.4 Liters (97.1% Full)</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Current Density & Proof</span>
+              <span>118.2 Proof (59.1% ABV)</span>
+            </div>
+            <div class="telemetry-row">
+              <span>Insurance Underwriter</span>
+              <span>Lloyd's Syndicate 1886</span>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <a href="#tasting" class="btn-gold" style="display:block; text-align:center;">Request Cask Prospectus</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Private Tasting Room Booking Form -->
+    <section id="tasting">
+      <div class="booking-wrapper">
+        <div class="booking-narrative">
+          <span class="section-eyebrow">The Inner Sanctum</span>
+          <h3>Private Vault Audition</h3>
+          <p>
+            Experience unopened single casks drawn straight from the wood with our Master Blender. By appointment only. Maximum 6 patrons per reservation.
+          </p>
+
+          <ul class="tasting-tiers">
+            <li>
+              <span>Flight I: The Botanical Evolution (4 expressions)</span>
+              <strong>$250 / guest</strong>
+            </li>
+            <li>
+              <span>Flight II: Century Wood Solera (3 vintage drafts)</span>
+              <strong>$480 / guest</strong>
+            </li>
+            <li>
+              <span>The Founder's Private Draw (Cask #001 1988)</span>
+              <strong>$1,200 / guest</strong>
+            </li>
+          </ul>
+        </div>
+
+        <form class="booking-form" onsubmit="event.preventDefault(); alert('Reservation inquiry received. Our vault concierge will transmit cryptographic credentials within 2 hours.');">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullName">Patron Full Name</label>
+              <input type="text" id="fullName" class="form-control" placeholder="Lord / Lady / Dr. / Name" required>
+            </div>
+            <div class="form-group">
+              <label for="emailAddr">Private Corresponded Email</label>
+              <input type="email" id="emailAddr" class="form-control" placeholder="patron@domain.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="visitDate">Preferred Date</label>
+              <input type="date" id="visitDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="partySize">Patron Party Size</label>
+              <select id="partySize" class="form-control">
+                <option value="1">Solo Connoisseur (1)</option>
+                <option value="2" selected>Private Pair (2)</option>
+                <option value="4">Intimate Circle (4)</option>
+                <option value="6">Full Salon (6 max)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="flightType">Select Audition Tier</label>
+            <select id="flightType" class="form-control">
+              <option value="flight1">Flight I: Botanical Evolution & Rare Spirits</option>
+              <option value="flight2" selected>Flight II: Century Wood Solera & Cask Investment</option>
+              <option value="flight3">Founder's Private Draw (Single Cask #001)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notes">Cellar Special Requests / Dietary Prohibitions</label>
+            <textarea id="notes" class="form-control" rows="3" placeholder="Specify any barrel cellar preferences or dietary nuances..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-gold" style="width: 100%;">Transmit Vault Request</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Heritage Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h4>ARCANE DISTILLERY</h4>
+        <p>
+          Handcrafted high-altitude distillation and single-cask investment management. Bonded warehouse storage licensed under the Royal Revenue Commissioners Act of 1880.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <h5>The Craft</h5>
+        <ul>
+          <li><a href="#still">Swan-Neck Still</a></li>
+          <li><a href="#botanicals">Wild Botanicals</a></li>
+          <li><a href="#portfolio">PX Wood Solera</a></li>
+          <li><a href="#portfolio">Cooperage Guild</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h5>Governance</h5>
+        <ul>
+          <li><a href="#">Cask Custody Deeds</a></li>
+          <li><a href="#">Bonded Warehouse Ins.</a></li>
+          <li><a href="#">Chain of Title</a></li>
+          <li><a href="#">Independent Assayers</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h5>Sanctuary</h5>
+        <p style="margin-bottom: 0.8rem; font-size: 0.8rem; line-height: 1.6;">
+          Vault Bay 4, Dunvegan Moraine<br>
+          Isle of Skye, IV55 8GU, Scotland<br>
+          Lat: 57.4372&deg; N, Long: 6.5841&deg; W
+        </p>
+        <span style="color: var(--copper-bright); font-size: 0.72rem; letter-spacing: 0.15em;">CONCIERGE@ARCANE-DISTILLERY.COM</span>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 1894&ndash;2026 Arcane Distillery & Cask Investment House. All Rights Reserved.</div>
+      <div>ENJOY RESPONSIBLY &bull; STRICTLY 21+ ONLY &bull; FINRA EXEMPT ASSET CLASS</div>
+    </div>
+  </footer>
+
+  <!-- Alembic Still & Calculator Scripts -->
+  <script>
+    // --- Interactive Alembic Still Canvas Visualizer ---
+    const canvas = document.getElementById('alembicCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width;
+    let height = canvas.height;
+
+    // Steam particles
+    const particles = [];
+    for (let i = 0; i < 90; i++) {
+      particles.push({
+        x: 100 + Math.random() * 80,
+        y: 280 + Math.random() * 60,
+        radius: Math.random() * 3 + 1,
+        speedY: Math.random() * 1.5 + 0.8,
+        speedX: (Math.random() - 0.5) * 0.8,
+        opacity: Math.random() * 0.7 + 0.2,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    let time = 0;
+
+    function drawStill() {
+      ctx.clearRect(0, 0, width, height);
+
+      time += 0.03;
+
+      // Dynamic Pot Temp fluctuation
+      const potTempElem = document.getElementById('potTemp');
+      if (potTempElem && Math.random() < 0.05) {
+        potTempElem.innerText = (78.2 + Math.sin(time) * 0.4).toFixed(1) + ' °C';
+      }
+
+      // Draw Still Glow
+      const glowGrad = ctx.createRadialGradient(140, 310, 20, 140, 310, 140);
+      glowGrad.addColorStop(0, 'rgba(217, 119, 6, 0.35)');
+      glowGrad.addColorStop(1, 'rgba(217, 119, 6, 0)');
+      ctx.fillStyle = glowGrad;
+      ctx.beginPath();
+      ctx.arc(140, 310, 140, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 1. Pot Base (Cucurbit)
+      const copperGrad = ctx.createLinearGradient(60, 240, 220, 360);
+      copperGrad.addColorStop(0, '#92400e');
+      copperGrad.addColorStop(0.3, '#d97706');
+      copperGrad.addColorStop(0.6, '#fbbf24');
+      copperGrad.addColorStop(0.9, '#78350f');
+
+      ctx.save();
+      ctx.fillStyle = copperGrad;
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 2;
+
+      // Alembic Onion Pot
+      ctx.beginPath();
+      ctx.moveTo(90, 230);
+      ctx.bezierCurveTo(40, 270, 50, 370, 140, 370);
+      ctx.bezierCurveTo(230, 370, 240, 270, 190, 230);
+      ctx.lineTo(170, 190);
+      ctx.lineTo(110, 190);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Pot Rivets & Belt
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.4)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.ellipse(140, 300, 80, 16, 0, 0, Math.PI);
+      ctx.stroke();
+
+      // 2. Swan Neck (Swan-neck vapor pipe)
+      ctx.beginPath();
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = copperGrad;
+      ctx.moveTo(140, 190);
+      ctx.bezierCurveTo(140, 90, 220, 60, 280, 100);
+      ctx.bezierCurveTo(320, 130, 330, 170, 340, 220);
+      ctx.stroke();
+
+      // 3. Condenser Column (Lover's coil housing)
+      ctx.fillStyle = 'rgba(30, 18, 8, 0.85)';
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = 2;
+      ctx.fillRect(310, 220, 80, 150);
+      ctx.strokeRect(310, 220, 80, 150);
+
+      // Glass condenser window
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.15)';
+      ctx.fillRect(320, 240, 60, 110);
+
+      // Spiral Copper Worm inside condenser
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      for (let y = 250; y < 340; y += 18) {
+        ctx.moveTo(325, y);
+        ctx.bezierCurveTo(340, y - 8, 360, y + 12, 375, y);
+      }
+      ctx.stroke();
+
+      // Spirit Spout
+      ctx.strokeStyle = '#d97706';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(350, 370);
+      ctx.lineTo(350, 400);
+      ctx.stroke();
+
+      // Liquid Spirit Drops
+      ctx.fillStyle = '#fbbf24';
+      const dropY = 400 + ((time * 40) % 20);
+      ctx.beginPath();
+      ctx.arc(350, dropY, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Collector Vessel
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.6)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(335, 415);
+      ctx.lineTo(335, 435);
+      ctx.lineTo(365, 435);
+      ctx.lineTo(365, 415);
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(217, 119, 6, 0.4)';
+      ctx.fillRect(337, 422, 26, 12);
+
+      ctx.restore();
+
+      // Steam Particles rising in the neck
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.5)';
+      particles.forEach(p => {
+        p.y -= p.speedY;
+        p.x += Math.sin(time + p.phase) * 0.6;
+
+        if (p.y < 90) {
+          p.y = 280 + Math.random() * 50;
+          p.x = 110 + Math.random() * 60;
+        }
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      requestAnimationFrame(drawStill);
+    }
+    drawStill();
+
+    // --- Cask Investment Calculator Logic ---
+    const caskSlider = document.getElementById('caskSlider');
+    const horizonSlider = document.getElementById('horizonSlider');
+    const caskCountDisplay = document.getElementById('caskCountDisplay');
+    const horizonDisplay = document.getElementById('horizonDisplay');
+    const principalDisplay = document.getElementById('principalDisplay');
+    const projectedDisplay = document.getElementById('projectedDisplay');
+    const angelsShareDisplay = document.getElementById('angelsShareDisplay');
+    const bottlesDisplay = document.getElementById('bottlesDisplay');
+
+    const BASE_CASK_PRICE = 18000; // $18k per 225L barrel
+    const ANNUAL_GROWTH = 0.124; // 12.4% avg yield
+    const ANNUAL_EVAPORATION = 0.019; // 1.9% per year
+
+    function recalculatePortfolio() {
+      const casks = parseInt(caskSlider.value);
+      const years = parseInt(horizonSlider.value);
+
+      caskCountDisplay.innerText = `${casks} Cask${casks > 1 ? 's' : ''} (${casks * 225} Liters)`;
+      horizonDisplay.innerText = `${years} Years`;
+
+      const principal = casks * BASE_CASK_PRICE;
+      const projected = principal * Math.pow(1 + ANNUAL_GROWTH, years);
+      const evaporation = (1 - Math.pow(1 - ANNUAL_EVAPORATION, years)) * 100;
+      const remainingLitres = casks * 225 * (1 - (evaporation / 100));
+      const bottles = Math.floor(remainingLitres / 0.7); // 700ml bottles
+
+      principalDisplay.innerText = '$' + principal.toLocaleString();
+      projectedDisplay.innerText = '$' + Math.round(projected).toLocaleString();
+      angelsShareDisplay.innerText = evaporation.toFixed(1) + '%';
+      bottlesDisplay.innerText = bottles.toLocaleString() + ' Bottles';
+    }
+
+    caskSlider.addEventListener('input', recalculatePortfolio);
+    horizonSlider.addEventListener('input', recalculatePortfolio);
+    recalculatePortfolio();
+  </script>
+</body>
+</html>

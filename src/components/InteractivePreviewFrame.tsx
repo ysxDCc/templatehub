@@ -11,6 +11,13 @@ import { cyberSound } from '@/lib/sound';
 import MobileQRCodeModal from '@/components/MobileQRCodeModal';
 import CssTokensModal from '@/components/CssTokensModal';
 import SocialCardGeneratorModal from '@/components/SocialCardGeneratorModal';
+import LighthouseAuditModal from '@/components/LighthouseAuditModal';
+import BloatTeardownModal from '@/components/BloatTeardownModal';
+import ComponentSniperModal from '@/components/ComponentSniperModal';
+import BlueprintXRayOverlay from '@/components/BlueprintXRayOverlay';
+import AttentionHeatmapModal from '@/components/AttentionHeatmapModal';
+import SpeedRaceModal from '@/components/SpeedRaceModal';
+import BrandClonerModal from '@/components/BrandClonerModal';
 import { convertHtmlToReact, convertHtmlToAstro, convertHtmlToVue, CodeFormat } from '@/lib/transpiler';
 
 interface IndustryPreset {
@@ -127,6 +134,23 @@ const INDUSTRY_PRESETS: IndustryPreset[] = [
   },
 ];
 
+const VIBES = [
+  { name: '⚡ Cyberpunk Neon', color: '#06b6d4', label: 'Cyan Cyber' },
+  { name: '🏛️ Haute Horology', color: '#f59e0b', label: 'Swiss Gold' },
+  { name: '📐 Brutalist Noir', color: '#e2e8f0', label: 'Stark Mono' },
+  { name: '🌸 Tokyo Pastel', color: '#e879f9', label: 'Fuchsia Glow' },
+  { name: '🌲 Nordic Minimal', color: '#10b981', label: 'Emerald Deep' },
+];
+
+const VISION_FILTERS: Record<string, { label: string; filterStyle: string }> = {
+  none: { label: 'Normal Vision', filterStyle: 'none' },
+  protanopia: { label: 'Protanopia (Red-Blind)', filterStyle: 'sepia(25%) hue-rotate(150deg)' },
+  deuteranopia: { label: 'Deuteranopia (Green-Blind)', filterStyle: 'sepia(35%) hue-rotate(190deg)' },
+  tritanopia: { label: 'Tritanopia (Blue-Blind)', filterStyle: 'hue-rotate(90deg)' },
+  achromatopsia: { label: 'Achromatopsia (Monochrome)', filterStyle: 'grayscale(100%)' },
+  contrast: { label: 'High Contrast (WCAG AAA)', filterStyle: 'contrast(175%) brightness(105%)' },
+};
+
 interface InteractivePreviewFrameProps {
   template: Template;
 }
@@ -146,6 +170,21 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   const [isIframeInteractive, setIsIframeInteractive] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [showCssTokensModal, setShowCssTokensModal] = useState(false);
+  const [showLighthouseModal, setShowLighthouseModal] = useState(false);
+  const [showBloatModal, setShowBloatModal] = useState(false);
+  const [showSniperModal, setShowSniperModal] = useState(false);
+  const [isXRayActive, setIsXRayActive] = useState(false);
+  const [showHeatmapModal, setShowHeatmapModal] = useState(false);
+  const [showSpeedRaceModal, setShowSpeedRaceModal] = useState(false);
+  const [showBrandClonerModal, setShowBrandClonerModal] = useState(false);
+
+  // 3D Hardware Frame & Accessibility Lens State
+  const [is3DFrameActive, setIs3DFrameActive] = useState(false);
+  const [device3DType, setDevice3DType] = useState<'iphone' | 'macbook'>('iphone');
+  const [visionFilter, setVisionFilter] = useState<'none' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 'achromatopsia' | 'contrast'>('none');
+  const [vibeIndex, setVibeIndex] = useState(0);
+  const [vibeToast, setVibeToast] = useState<string | null>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   // Raw Code state (only loaded if user has access)
   const [rawCode, setRawCode] = useState<string>('');
@@ -209,6 +248,30 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
         // Fallback silent
       }
     }
+  };
+
+  const handleRemixVibe = () => {
+    cyberSound.playSuccess();
+    const nextIndex = (vibeIndex + 1) % VIBES.length;
+    setVibeIndex(nextIndex);
+    const vibe = VIBES[nextIndex];
+    handleColorChange(vibe.color);
+    setVibeToast(`Vibe Remixed: ${vibe.name}`);
+    setTimeout(() => setVibeToast(null), 3000);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!is3DFrameActive) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const rotateX = -(y / (rect.height / 2)) * 8;
+    const rotateY = (x / (rect.width / 2)) * 8;
+    setTilt({ x: Number(rotateX.toFixed(2)), y: Number(rotateY.toFixed(2)) });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
   };
 
   const getActiveCode = () => {
@@ -489,17 +552,159 @@ Deploy directly to Vercel, Netlify, or any static web host.
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {/* Sniper Mode */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowSniperModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-purple-950/60 border-purple-500/30 text-purple-200 hover:text-white hover:bg-purple-900 transition-all flex items-center gap-1"
+              title="Sniper Mode: Extract Individual Components"
+            >
+              <span>🎯</span>
+              <span className="hidden xl:inline">Sniper</span>
+            </button>
+
+            {/* 100/100 Lighthouse Telemetry */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowLighthouseModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-emerald-950/60 border-emerald-500/30 text-emerald-300 hover:text-white hover:bg-emerald-900 transition-all flex items-center gap-1"
+              title="Live 100/100 Core Web Vitals Audit"
+            >
+              <span>⚡</span>
+              <span className="hidden xl:inline">100/100</span>
+            </button>
+
+            {/* Blueprint X-Ray Architecture Mode */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setIsXRayActive(!isXRayActive);
+              }}
+              className={`px-2 py-1 text-xs font-semibold rounded-md border transition-all flex items-center gap-1 ${
+                isXRayActive
+                  ? 'bg-cyan-600 text-white border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                  : 'bg-zinc-950 border-white/10 text-cyan-300 hover:text-white hover:bg-zinc-800'
+              }`}
+              title="Blueprint X-Ray: DOM Layout & Geometry Schematic"
+            >
+              <span>📐</span>
+              <span className="hidden xl:inline">X-Ray</span>
+            </button>
+
+            {/* Synthetic Heatmap */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowHeatmapModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-rose-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
+              title="Synthetic Eye-Tracking & Attention Heatmap"
+            >
+              <span>🔥</span>
+              <span className="hidden xl:inline">Heatmap</span>
+            </button>
+
+            {/* PageSpeed Drag Race */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowSpeedRaceModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-emerald-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
+              title="PageSpeed Live Drag Race Simulator"
+            >
+              <span>🏎️</span>
+              <span className="hidden xl:inline">Race</span>
+            </button>
+
+            {/* Brand Cloner */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowBrandClonerModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-purple-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
+              title="AI Brand & Palette Cloner"
+            >
+              <span>🧬</span>
+              <span className="hidden 2xl:inline">Brand Cloner</span>
+            </button>
+
+            {/* Teardown Benchmark */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setShowBloatModal(true);
+              }}
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
+              title="The Bloat Teardown Benchmark"
+            >
+              <span>⚖️</span>
+              <span className="hidden 2xl:inline">Teardown</span>
+            </button>
+
+            {/* Remix Vibe */}
+            <button
+              onClick={handleRemixVibe}
+              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-gradient-to-r from-purple-900/60 to-fuchsia-900/60 border-purple-500/40 text-fuchsia-200 hover:text-white transition-all flex items-center gap-1 active:scale-95"
+              title="Remix Theme Personality & Palette"
+            >
+              <span>🎲</span>
+              <span className="hidden lg:inline">Remix Vibe</span>
+            </button>
+
+            {/* WCAG Accessibility Vision Lens */}
+            <div className="flex items-center gap-1 bg-zinc-950 px-2 py-1 rounded-md border border-white/10 text-xs">
+              <span title="Accessibility Color Blindness Lens">👁️</span>
+              <select
+                value={visionFilter}
+                onChange={(e) => {
+                  cyberSound.playClick();
+                  setVisionFilter(e.target.value as any);
+                }}
+                className="bg-transparent text-[11px] text-zinc-300 font-mono focus:outline-none cursor-pointer max-w-[90px] xs:max-w-none"
+                title="Simulate Color Vision Deficiencies (WCAG AAA)"
+              >
+                {Object.entries(VISION_FILTERS).map(([key, item]) => (
+                  <option key={key} value={key} className="bg-[#0e0624] text-white">
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* 3D Hardware Frame Switcher */}
+            <button
+              onClick={() => {
+                cyberSound.playClick();
+                setIs3DFrameActive(!is3DFrameActive);
+              }}
+              className={`px-2.5 py-1 text-xs font-semibold rounded-md border transition-all flex items-center gap-1 ${
+                is3DFrameActive
+                  ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)]'
+                  : 'bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800'
+              }`}
+              title="Toggle 3D Hardware Frame with Parallax Tilt"
+            >
+              <span>📱</span>
+              <span className="hidden sm:inline">3D Frame</span>
+            </button>
+
             <button
               onClick={() => {
                 cyberSound.playClick();
                 setShowQRModal(true);
               }}
-              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1.5"
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
               title="Scan QR to test on phone"
             >
-              <span>📱</span>
-              <span className="hidden md:inline">Phone QR</span>
+              <span>📲</span>
+              <span className="hidden 2xl:inline">QR</span>
             </button>
 
             <button
@@ -507,11 +712,11 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 cyberSound.playClick();
                 setShowCssTokensModal(true);
               }}
-              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1.5"
+              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
               title="Inspect CSS Design Tokens"
             >
               <span>🎨</span>
-              <span className="hidden md:inline">Tokens</span>
+              <span className="hidden 2xl:inline">Tokens</span>
             </button>
 
             <a
@@ -519,7 +724,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => cyberSound.playClick()}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-black hover:bg-zinc-900 border border-white/20 text-white transition-all"
+              className="hidden 2xl:flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-black hover:bg-zinc-900 border border-white/20 text-white transition-all"
               title="1-Click Deploy on Vercel"
             >
               <span>▲</span>
@@ -532,9 +737,8 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => cyberSound.playClick()}
-                className="text-xs text-zinc-300 hover:text-white px-2.5 py-1 rounded-md bg-zinc-950 border border-white/10 hover:bg-zinc-800 flex items-center gap-1 font-medium transition-colors"
+                className="text-xs text-zinc-300 hover:text-white px-2 py-1 rounded-md bg-zinc-950 border border-white/10 hover:bg-zinc-800 flex items-center gap-1 font-medium transition-colors"
               >
-                <span>Full Window</span>
                 <span>↗</span>
               </a>
             )}
@@ -572,9 +776,21 @@ Deploy directly to Vercel, Netlify, or any static web host.
         </div>
       )}
 
-      {/* VIEWPORT MODE WITH MOBILE TOUCH TRAP PREVENTION */}
+      {/* VIEWPORT MODE WITH MOBILE TOUCH TRAP PREVENTION & 3D HARDWARE FRAME */}
       {viewMode === 'preview' && (
-        <div className="bg-zinc-950/80 p-2 sm:p-4 flex flex-col justify-center items-center overflow-x-hidden min-h-[460px] sm:min-h-[580px] relative">
+        <div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="bg-zinc-950/80 p-2 sm:p-4 flex flex-col justify-center items-center overflow-x-hidden min-h-[460px] sm:min-h-[620px] relative"
+        >
+          {/* Floating Vibe Toast */}
+          {vibeToast && (
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-2xl bg-purple-600/90 backdrop-blur-md text-white text-xs font-bold shadow-[0_0_25px_rgba(168,85,247,0.5)] z-40 animate-in fade-in flex items-center gap-2">
+              <span>✨</span>
+              <span>{vibeToast}</span>
+            </div>
+          )}
+
           {/* Mobile Sandbox Touch Activation Banner */}
           <div className="sm:hidden w-full mb-2 flex items-center justify-between px-3 py-1.5 rounded-lg bg-[#0e0624] border border-purple-500/25 text-[11px] text-purple-200">
             <span>{isIframeInteractive ? '🎮 Sandbox Touch Active' : '📜 Scroll Mode Active'}</span>
@@ -590,31 +806,142 @@ Deploy directly to Vercel, Netlify, or any static web host.
             </button>
           </div>
 
-          <div
-            style={{ width: viewports[viewport].width }}
-            className={`max-w-full h-[450px] sm:h-[580px] bg-zinc-950 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300 relative ${
-              !isIframeInteractive ? 'pointer-events-none sm:pointer-events-auto' : 'pointer-events-auto'
-            }`}
-            onContextMenu={(e) => e.preventDefault()}
-          >
-            {customHtml ? (
-              <iframe
-                key="custom-doc"
-                srcDoc={customHtml}
-                title={`${storeData.storeName} customized preview`}
-                className="w-full h-full border-0 select-none"
+          {/* 3D Hardware Mode */}
+          {is3DFrameActive ? (
+            <div
+              className="w-full py-4 flex flex-col items-center justify-center transition-all duration-300 relative select-none"
+              style={{ perspective: '1200px' }}
+            >
+              {/* Device Model Selector Bar */}
+              <div className="mb-4 flex items-center gap-1.5 bg-[#0e0624] p-1 rounded-xl border border-purple-500/30 z-20 shadow-md">
+                <button
+                  onClick={() => {
+                    cyberSound.playClick();
+                    setDevice3DType('iphone');
+                  }}
+                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+                    device3DType === 'iphone'
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <span>📱</span>
+                  <span>iPhone 16 Pro</span>
+                </button>
+                <button
+                  onClick={() => {
+                    cyberSound.playClick();
+                    setDevice3DType('macbook');
+                  }}
+                  className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
+                    device3DType === 'macbook'
+                      ? 'bg-purple-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  <span>💻</span>
+                  <span>MacBook Pro 16"</span>
+                </button>
+              </div>
+
+              {/* 3D Hardware Chassis */}
+              <div
+                style={{
+                  transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                  transition: 'transform 0.1s ease-out',
+                }}
+                className={`relative transition-all duration-300 ${
+                  device3DType === 'iphone'
+                    ? 'w-[375px] h-[680px] rounded-[52px] p-3.5 bg-gradient-to-b from-zinc-700 via-zinc-850 to-zinc-950 shadow-[0_30px_90px_rgba(0,0,0,0.9),0_0_40px_rgba(168,85,247,0.25)] ring-1 ring-white/20'
+                    : 'w-[940px] max-w-full h-[560px] rounded-2xl p-3.5 bg-gradient-to-b from-zinc-800 to-zinc-950 shadow-[0_30px_90px_rgba(0,0,0,0.9),0_0_40px_rgba(168,85,247,0.25)] ring-1 ring-white/20'
+                }`}
+              >
+                {/* iPhone Dynamic Island */}
+                {device3DType === 'iphone' && (
+                  <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-30 flex items-center justify-between px-2 shadow-md border border-white/5">
+                    <span className="w-2 h-2 rounded-full bg-zinc-900 border border-zinc-800" />
+                    <span className="w-2 h-2 rounded-full bg-blue-950/80 border border-blue-900/50" />
+                  </div>
+                )}
+
+                {/* Screen Viewport with Vision Accessibility Filter */}
+                <div
+                  className="w-full h-full rounded-[38px] overflow-hidden bg-black relative"
+                  style={{ filter: VISION_FILTERS[visionFilter].filterStyle }}
+                >
+                  {customHtml ? (
+                    <iframe
+                      key="custom-doc"
+                      srcDoc={customHtml}
+                      title={`${storeData.storeName} customized preview`}
+                      className="w-full h-full border-0 select-none"
+                    />
+                  ) : (
+                    <iframe
+                      ref={iframeRef}
+                      key="standard-doc"
+                      src={template.livePreviewUrl}
+                      title={`${template.name} interactive preview`}
+                      className="w-full h-full border-0 select-none"
+                      loading="lazy"
+                    />
+                  )}
+
+                  {/* Specular Glare Reflection Layer */}
+                  <div
+                    className="absolute inset-0 pointer-events-none opacity-40 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent"
+                    style={{
+                      transform: `translateX(${tilt.y * 10}px) translateY(${tilt.x * 10}px)`,
+                    }}
+                  />
+
+                  {/* Blueprint X-Ray Overlay in 3D Mode */}
+                  <BlueprintXRayOverlay
+                    isActive={isXRayActive}
+                    onToggle={() => setIsXRayActive(false)}
+                    templateName={template.name}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Standard Responsive Viewport */
+            <div
+              style={{
+                width: viewports[viewport].width,
+                filter: VISION_FILTERS[visionFilter].filterStyle,
+              }}
+              className={`max-w-full h-[450px] sm:h-[580px] bg-zinc-950 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300 relative ${
+                !isIframeInteractive ? 'pointer-events-none sm:pointer-events-auto' : 'pointer-events-auto'
+              }`}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              {customHtml ? (
+                <iframe
+                  key="custom-doc"
+                  srcDoc={customHtml}
+                  title={`${storeData.storeName} customized preview`}
+                  className="w-full h-full border-0 select-none"
+                />
+              ) : (
+                <iframe
+                  ref={iframeRef}
+                  key="standard-doc"
+                  src={template.livePreviewUrl}
+                  title={`${template.name} interactive preview`}
+                  className="w-full h-full border-0 select-none"
+                  loading="lazy"
+                />
+              )}
+
+              {/* Blueprint X-Ray Overlay in Standard Viewport */}
+              <BlueprintXRayOverlay
+                isActive={isXRayActive}
+                onToggle={() => setIsXRayActive(false)}
+                templateName={template.name}
               />
-            ) : (
-              <iframe
-                ref={iframeRef}
-                key="standard-doc"
-                src={template.livePreviewUrl}
-                title={`${template.name} interactive preview`}
-                className="w-full h-full border-0 select-none"
-                loading="lazy"
-              />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -1112,6 +1439,61 @@ Deploy directly to Vercel, Netlify, or any static web host.
           tagline={storeData.tagline}
           category={template.category}
           primaryColor={primaryColor}
+        />
+      )}
+
+      {showLighthouseModal && (
+        <LighthouseAuditModal
+          isOpen={showLighthouseModal}
+          onClose={() => setShowLighthouseModal(false)}
+          templateName={template.name}
+        />
+      )}
+
+      {showBloatModal && (
+        <BloatTeardownModal
+          isOpen={showBloatModal}
+          onClose={() => setShowBloatModal(false)}
+          templateName={template.name}
+        />
+      )}
+
+      {showSniperModal && (
+        <ComponentSniperModal
+          isOpen={showSniperModal}
+          onClose={() => setShowSniperModal(false)}
+          templateName={template.name}
+          rawHtml={rawCode}
+        />
+      )}
+
+      {showHeatmapModal && (
+        <AttentionHeatmapModal
+          isOpen={showHeatmapModal}
+          onClose={() => setShowHeatmapModal(false)}
+          templateName={template.name}
+        />
+      )}
+
+      {showSpeedRaceModal && (
+        <SpeedRaceModal
+          isOpen={showSpeedRaceModal}
+          onClose={() => setShowSpeedRaceModal(false)}
+          templateName={template.name}
+        />
+      )}
+
+      {showBrandClonerModal && (
+        <BrandClonerModal
+          isOpen={showBrandClonerModal}
+          onClose={() => setShowBrandClonerModal(false)}
+          templateName={template.name}
+          onApplyColor={(hex) => {
+            handleColorChange(hex);
+            setStoreData({ ...storeData, primaryColor: hex });
+            setVibeToast(`Brand Palette Injected: ${hex}`);
+            setTimeout(() => setVibeToast(null), 3000);
+          }}
         />
       )}
     </div>

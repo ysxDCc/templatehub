@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vanguard Quant // Sub-Microsecond HFT & Latency Arbitrage Fund</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #030712;
+      --bg-terminal: #070d18;
+      --border-line: rgba(34, 197, 94, 0.22);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --term-green: #22c55e;
+      --term-green-dim: rgba(34, 197, 94, 0.15);
+      --term-amber: #f59e0b;
+      --term-red: #ef4444;
+      --term-cyan: #38bdf8;
+      --text-white: #f9fafb;
+      --text-gray: #9ca3af;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(rgba(34, 197, 94, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Top Exchange Latency Ticker */
+    .latency-bar {
+      background: #02050c;
+      border-bottom: 1px solid var(--border-line);
+      padding: 0.55rem 2rem;
+      font-size: 0.74rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .ticker-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pulse-amber {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--term-amber);
+      box-shadow: 0 0 8px var(--term-amber);
+      animation: flash 1s infinite alternate;
+    }
+
+    @keyframes flash {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    /* Main Navigation */
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-cube {
+      width: 24px;
+      height: 24px;
+      background: var(--term-green);
+      display: grid;
+      place-items: center;
+      color: #030712;
+      font-weight: 900;
+      font-size: 0.8rem;
+      border-radius: 3px;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--term-green);
+    }
+
+    .btn-terminal {
+      padding: 0.65rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--term-green);
+      background: var(--term-green-dim);
+      color: var(--term-green);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-terminal:hover {
+      background: var(--term-green);
+      color: #030712;
+      box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+    }
+
+    /* Hero Section */
+    .hero-wrap {
+      max-width: 1400px;
+      margin: 2.5rem auto 5rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .term-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.76rem;
+      color: var(--term-green);
+      background: var(--term-green-dim);
+      border: 1px solid var(--border-line);
+      padding: 0.3rem 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title span.glow-green {
+      color: var(--term-green);
+      text-shadow: 0 0 25px rgba(34, 197, 94, 0.4);
+    }
+
+    .hero-lead {
+      color: var(--text-gray);
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 1.8rem;
+    }
+
+    .stat-head {
+      font-size: 0.75rem;
+      color: var(--text-gray);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-val {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Order Book Ladder Card */
+    .orderbook-card {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 25px rgba(34, 197, 94, 0.08);
+      position: relative;
+    }
+
+    .orderbook-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+    }
+
+    .orderbook-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .ladder-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      font-size: 0.78rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 2px;
+      position: relative;
+    }
+
+    .ask-row {
+      color: #f87171;
+    }
+
+    .bid-row {
+      color: var(--term-green);
+    }
+
+    .spread-divider {
+      background: rgba(255, 255, 255, 0.05);
+      border-top: 1px dashed var(--border-subtle);
+      border-bottom: 1px dashed var(--border-subtle);
+      padding: 0.4rem 0.5rem;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--term-amber);
+      margin: 0.4rem 0;
+    }
+
+    .depth-bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 0;
+      border-radius: 2px;
+      opacity: 0.15;
+    }
+
+    .depth-ask {
+      background: #ef4444;
+    }
+
+    .depth-bid {
+      background: #22c55e;
+    }
+
+    /* FPGA Execution Architecture */
+    .section-wrap {
+      max-width: 1400px;
+      margin: 7rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      color: var(--term-green);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--text-gray);
+      font-family: var(--font-sans);
+      font-size: 1.1rem;
+      max-width: 700px;
+      margin-bottom: 3.5rem;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.8rem;
+    }
+
+    .arch-card {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: all 0.25s ease;
+    }
+
+    .arch-card:hover {
+      border-color: var(--term-green);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(34, 197, 94, 0.1);
+    }
+
+    .arch-num {
+      font-size: 0.75rem;
+      color: var(--term-amber);
+      margin-bottom: 1rem;
+    }
+
+    .arch-card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.8rem;
+    }
+
+    .arch-card-desc {
+      color: var(--text-gray);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Sharpe / Historical Performance Matrix */
+    .metrics-container {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .metric-callout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .callout-box {
+      border-left: 2px solid var(--term-green);
+      padding-left: 1.25rem;
+    }
+
+    .callout-num {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .callout-label {
+      font-size: 0.78rem;
+      color: var(--text-gray);
+    }
+
+    /* LP Institutional Access Form */
+    .lp-section {
+      background: linear-gradient(180deg, var(--bg-terminal) 0%, #03060c 100%);
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .lp-form-field {
+      margin-bottom: 1.4rem;
+    }
+
+    .lp-label {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--text-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .lp-input {
+      width: 100%;
+      background: rgba(3, 7, 18, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .lp-input:focus {
+      outline: none;
+      border-color: var(--term-green);
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+    }
+
+    .lp-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 3.5rem 2rem 2.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-gray);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-wrap, .metrics-container, .lp-section {
+        grid-template-columns: 1fr;
+      }
+      .arch-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Latency Ticker -->
+  <div class="latency-bar">
+    <div class="ticker-cluster">
+      <div class="ticker-item">
+        <div class="pulse-amber"></div>
+        <span>CME AURORA (IL): <strong style="color:var(--term-green)">0.38 μs</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span>NASDAQ CARTERET (NJ): <strong style="color:var(--term-green)">0.34 μs</strong></span>
+      </div>
+      <div class="ticker-item">
+        <span>EUREX FRANKFURT: <strong style="color:var(--term-green)">0.48 μs</strong></span>
+      </div>
+    </div>
+    <div class="ticker-cluster">
+      <span>ROUTE: CHI-NJ MICROWAVE CARRIER LOCK (4.13 ms)</span>
+      <span>STATUS: ACTIVE MM</span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="brand-logo">
+      <div class="brand-cube">V</div>
+      VANGUARD // QUANTITATIVE
+    </a>
+    <ul class="nav-links">
+      <li><a href="#architecture">FPGA Silicon</a></li>
+      <li><a href="#performance">Sharpe Metrics</a></li>
+      <li><a href="#orderbook">L2 Telemetry</a></li>
+      <li><a href="#lp-access">LP Diligence</a></li>
+    </ul>
+    <a href="#lp-access" class="btn-terminal">Institutional Access</a>
+  </nav>
+
+  <!-- Hero Section with Real-Time Level 2 Orderbook Ladder -->
+  <section class="hero-wrap">
+    <div>
+      <div class="term-tag">
+        <span>●</span> FPGA TICK-TO-TRADE LATENCY: 298 NANOSECONDS
+      </div>
+      <h1 class="hero-title">
+        Market Liquidity at the <span class="glow-green">Speed of Light.</span>
+      </h1>
+      <p class="hero-lead">
+        Deterministic hardware market-making on tier-1 derivative and equity venues. We engineer custom Xilinx UltraScale+ FPGA firmware, proprietary microwave line-of-sight relays, and kernel-bypass network stacks.
+      </p>
+      <div class="hero-actions">
+        <a href="#lp-access" class="btn-terminal" style="background:var(--term-green); color:#030712;">Request LP Prospectus</a>
+        <a href="#architecture" class="btn-terminal">Execution Whitepaper</a>
+      </div>
+      <div class="stat-strip">
+        <div>
+          <div class="stat-head">DAILY NOTIONAL VOLUME</div>
+          <div class="stat-val">$18.4B</div>
+        </div>
+        <div>
+          <div class="stat-head">8-YEAR SHARPE RATIO</div>
+          <div class="stat-val" style="color:var(--term-green)">4.82</div>
+        </div>
+        <div>
+          <div class="stat-head">MAX DRAWDOWN</div>
+          <div class="stat-val">-0.41%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Level 2/3 Orderbook Ladder Card -->
+    <div class="orderbook-card" id="orderbook">
+      <div class="orderbook-header">
+        <span>INSTRUMENT: CME // E-MINI S&amp;P 500 (ES_FUT)</span>
+        <span style="color:var(--term-green)">TICK RATE: 420,000/SEC</span>
+      </div>
+
+      <div class="orderbook-grid">
+        <!-- Asks -->
+        <div class="ladder-row ask-row">
+          <div class="depth-bar depth-ask" style="width: 82%;"></div>
+          <span style="position:relative; z-index:1;">5,892.75</span>
+          <span style="position:relative; z-index:1; text-align:center;">482</span>
+          <span style="position:relative; z-index:1; text-align:right;">$2.84M</span>
+        </div>
+        <div class="ladder-row ask-row">
+          <div class="depth-bar depth-ask" style="width: 65%;"></div>
+          <span style="position:relative; z-index:1;">5,892.50</span>
+          <span style="position:relative; z-index:1; text-align:center;">310</span>
+          <span style="position:relative; z-index:1; text-align:right;">$1.82M</span>
+        </div>
+        <div class="ladder-row ask-row">
+          <div class="depth-bar depth-ask" style="width: 44%;"></div>
+          <span style="position:relative; z-index:1;">5,892.25</span>
+          <span style="position:relative; z-index:1; text-align:center;">194</span>
+          <span style="position:relative; z-index:1; text-align:right;">$1.14M</span>
+        </div>
+
+        <!-- Spread Divider -->
+        <div class="spread-divider">
+          <span>MIDPRICE: 5,892.12 // SPREAD: 0.25 PTS ($12.50)</span>
+        </div>
+
+        <!-- Bids -->
+        <div class="ladder-row bid-row">
+          <div class="depth-bar depth-bid" style="width: 52%;"></div>
+          <span style="position:relative; z-index:1;">5,892.00</span>
+          <span style="position:relative; z-index:1; text-align:center;">245</span>
+          <span style="position:relative; z-index:1; text-align:right;">$1.44M</span>
+        </div>
+        <div class="ladder-row bid-row">
+          <div class="depth-bar depth-bid" style="width: 74%;"></div>
+          <span style="position:relative; z-index:1;">5,891.75</span>
+          <span style="position:relative; z-index:1; text-align:center;">398</span>
+          <span style="position:relative; z-index:1; text-align:right;">$2.34M</span>
+        </div>
+        <div class="ladder-row bid-row">
+          <div class="depth-bar depth-bid" style="width: 90%;"></div>
+          <span style="position:relative; z-index:1;">5,891.50</span>
+          <span style="position:relative; z-index:1; text-align:center;">512</span>
+          <span style="position:relative; z-index:1; text-align:right;">$3.01M</span>
+        </div>
+      </div>
+
+      <div style="margin-top:1.25rem; padding-top:0.8rem; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; font-size:0.74rem; color:var(--text-gray);">
+        <span>LAST FILL: 5,892.00 (BUY 50 LOTS)</span>
+        <span style="color:var(--term-green);">OUR SHARE OF PASSIVE LIQUIDITY: 34.2%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Architecture -->
+  <section id="architecture" class="section-wrap">
+    <div class="section-eyebrow">Physical Infrastructure</div>
+    <h2 class="section-title">Zero-Jitter FPGA Hardware Pipeline</h2>
+    <p class="section-desc">
+      When microseconds decide alpha, OS kernel interrupts and PCIe bus traversal are unacceptable. Our algorithms live directly in silicon.
+    </p>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <div class="arch-num">[01 // SILICON LEVEL]</div>
+        <h3 class="arch-card-title">Xilinx UltraScale+ Logic</h3>
+        <p class="arch-card-desc">
+          Custom Verilog state machines parse FAST/ITCH market data feeds in pure hardware logic, evaluating liquidity imbalances without passing packets to the CPU.
+        </p>
+      </div>
+
+      <div class="arch-card">
+        <div class="arch-num">[02 // ATMOSPHERIC RELAY]</div>
+        <h3 class="arch-card-title">Point-to-Point Microwave</h3>
+        <p class="arch-card-desc">
+          Proprietary optical & microwave relays span 1,200 kilometers between Aurora (CME) and Carteret (Nasdaq), shaving 3.4 milliseconds off terrestrial fiber.
+        </p>
+      </div>
+
+      <div class="arch-card">
+        <div class="arch-num">[03 // CO-LOCATION APERTURE]</div>
+        <h3 class="arch-card-title">Equinix Sub-Rack Proximity</h3>
+        <p class="arch-card-desc">
+          Direct cross-connects inside NY4 (Secaucus) and LD4 (Slough) colocation halls with laser-measured equal-length twinaxial cabling down to the millimeter.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quantitative Historical Performance -->
+  <section id="performance" class="section-wrap">
+    <div class="metrics-container">
+      <div>
+        <div class="section-eyebrow">Audited Track Record</div>
+        <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:1rem;">Asymmetric Risk Architecture</h2>
+        <p style="color:var(--text-gray); font-family:var(--font-sans); font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">
+          Our market-making algorithms operate delta-neutral. We capture microsecond bid-ask capture and cross-venue latency arbitrage without overnight directional equity or currency beta exposure.
+        </p>
+        <div style="font-size:0.85rem; color:var(--term-green);">
+          ✔ 99.98% Positive Trading Days Since Inception (2018–2026)
+        </div>
+      </div>
+
+      <div class="metric-callout">
+        <div class="callout-box">
+          <div class="callout-num" style="color:var(--term-green);">4.82</div>
+          <div class="callout-label">NET SHARPE RATIO (8-YR)</div>
+        </div>
+        <div class="callout-box">
+          <div class="callout-num">7.15</div>
+          <div class="callout-label">SORTINO RATIO</div>
+        </div>
+        <div class="callout-box">
+          <div class="callout-num">0.02</div>
+          <div class="callout-label">BETA TO S&amp;P 500</div>
+        </div>
+        <div class="callout-box">
+          <div class="callout-num" style="color:var(--term-amber);">&lt; 120s</div>
+          <div class="callout-label">AVG POSITION HOLDING PERIOD</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Institutional LP Access Form -->
+  <section id="lp-access" class="section-wrap">
+    <div class="lp-section">
+      <div>
+        <div class="section-eyebrow">Institutional Capital Allocation</div>
+        <h2 style="font-size:2.2rem; font-weight:800; margin-bottom:1rem;">LP Due Diligence Portal</h2>
+        <p style="color:var(--text-gray); font-family:var(--font-sans); font-size:1rem; line-height:1.7; margin-bottom:2rem;">
+          Access to Vanguard Quant Fund LP is restricted to Qualified Institutional Buyers (QIB) and Qualified Purchasers under Section 3(c)(7) of the Investment Company Act.
+        </p>
+
+        <form onsubmit="handleLPSubmit(event)">
+          <div class="lp-row">
+            <div class="lp-form-field">
+              <label class="lp-label">PORTFOLIO MANAGER NAME</label>
+              <input type="text" class="lp-input" placeholder="Alexander Vane" required>
+            </div>
+            <div class="lp-form-field">
+              <label class="lp-label">INSTITUTION / FAMILY OFFICE</label>
+              <input type="text" class="lp-input" placeholder="Aethelgard Capital Management" required>
+            </div>
+          </div>
+
+          <div class="lp-form-field">
+            <label class="lp-label">CORPORATE DIRECT EMAIL</label>
+            <input type="email" class="lp-input" placeholder="a.vane@aethelgard.ch" required>
+          </div>
+
+          <div class="lp-row">
+            <div class="lp-form-field">
+              <label class="lp-label">ACCREDITATION STATUS</label>
+              <select class="lp-input">
+                <option value="qib">Qualified Institutional Buyer ($100M+ AUM)</option>
+                <option value="qp">Qualified Purchaser ($25M+ Investable)</option>
+                <option value="sovereign">Sovereign Wealth Fund / Central Bank</option>
+              </select>
+            </div>
+            <div class="lp-form-field">
+              <label class="lp-label">INTENDED ALLOCATION TICKET</label>
+              <select class="lp-input">
+                <option value="25">$25M — $50M (Standard Tranche)</option>
+                <option value="50">$50M — $100M</option>
+                <option value="100">$100M+ (Custom SMA Account)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-terminal" style="width:100%; justify-content:center; padding:1rem; background:var(--term-green); color:#030712; font-weight:700; margin-top:0.5rem;">
+            Authenticate &amp; Request Data Room Access
+          </button>
+        </form>
+      </div>
+
+      <!-- Compliance & Custody -->
+      <div style="background:rgba(0,0,0,0.5); border:1px solid var(--border-subtle); border-radius:6px; padding:2.5rem; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <div style="font-size:0.75rem; color:var(--term-amber); margin-bottom:0.5rem;">REGULATORY GOVERNANCE</div>
+          <div style="font-size:1.4rem; font-weight:700; color:#fff; margin-bottom:1rem;">Tier-1 Prime Brokerage &amp; Custody</div>
+          <p style="color:var(--text-gray); font-family:var(--font-sans); font-size:0.92rem; line-height:1.7;">
+            Fund assets are custodied exclusively through Goldman Sachs Prime Services and Morgan Stanley &amp; Co. LLC. Audited annually by Ernst &amp; Young (EY).
+          </p>
+        </div>
+
+        <div style="border-top:1px solid var(--border-subtle); padding-top:1.5rem; font-size:0.76rem; color:var(--text-gray);">
+          <div>REGISTRATION: SEC Form ADV Part 2A on file</div>
+          <div>ISIN: LU2489102847 // LEI: 549300VANGUARDHFT99</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong style="color:#fff;">VANGUARD QUANTITATIVE STRATEGIES LLC</strong> // Wall St. &amp; Zurich
+      <div style="font-size:0.72rem; color:var(--text-gray); margin-top:0.3rem;">Confidential for institutional accredited investors only. Past performance does not guarantee future alpha.</div>
+    </div>
+    <div>
+      <span>TIME SYNC: GPS PTP IEEE 1588 (±10ns)</span>
+    </div>
+  </footer>
+
+  <script>
+    function handleLPSubmit(e) {
+      e.preventDefault();
+      alert('Verification credentials submitted. Vanguard Compliance will disburse secure DocuSign NDA and audited performance data room access within 4 business hours.');
+    }
+  </script>
+</body>
+</html>

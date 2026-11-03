@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBSIDIAN CLI — Hyper-Deterministic Systems Indexer & Terminal Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070a08;
+      --bg-panel: #0d120f;
+      --bg-surface: #131a15;
+      --border-term: #1e2d22;
+      --border-bright: #36503c;
+      --phosphor-green: #00ff66;
+      --phosphor-dim: #008f39;
+      --phosphor-glow: rgba(0, 255, 102, 0.28);
+      --amber-accent: #ffb000;
+      --amber-glow: rgba(255, 176, 0, 0.25);
+      --text-main: #e2f0e5;
+      --text-muted: #748c7a;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Space Grotesk', monospace;
+    }
+
+    body.theme-amber {
+      --phosphor-green: #ffb000;
+      --phosphor-dim: #996900;
+      --phosphor-glow: rgba(255, 176, 0, 0.28);
+      --border-term: #332305;
+      --border-bright: #664708;
+      --text-main: #fff5e0;
+      --text-muted: #8c7855;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* CRT SCANLINE OVERLAY */
+    .crt-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.85;
+      transition: opacity 0.3s;
+    }
+    .crt-overlay.disabled {
+      opacity: 0;
+    }
+
+    /* HEADER */
+    header.term-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 1rem 3rem;
+      background: rgba(7, 10, 8, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-term);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--phosphor-green);
+    }
+    .term-prompt-mark {
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-shadow: 0 0 10px var(--phosphor-glow);
+    }
+    .brand-title {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .brand-title span {
+      color: var(--phosphor-green);
+    }
+
+    nav.nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav.nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.2s;
+    }
+    nav.nav-links a:hover {
+      color: var(--phosphor-green);
+      text-shadow: 0 0 8px var(--phosphor-glow);
+    }
+
+    .term-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .control-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-term);
+      color: var(--text-muted);
+      padding: 0.4rem 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .control-btn:hover {
+      border-color: var(--phosphor-green);
+      color: var(--phosphor-green);
+      box-shadow: 0 0 10px var(--phosphor-glow);
+    }
+    .control-btn.active {
+      border-color: var(--phosphor-green);
+      color: var(--phosphor-green);
+      background: rgba(0, 255, 102, 0.08);
+    }
+
+    /* HERO */
+    section.hero {
+      padding: 7.5rem 3rem 4rem 3rem;
+      min-height: 92vh;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .hero-text h1 {
+      font-size: 3.8rem;
+      line-height: 1.05;
+      font-weight: 700;
+      margin: 1.25rem 0;
+      letter-spacing: -0.02em;
+    }
+    .hero-text h1 .cursor-blink {
+      display: inline-block;
+      width: 18px;
+      height: 2.8rem;
+      background: var(--phosphor-green);
+      box-shadow: 0 0 12px var(--phosphor-glow);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .hero-text p.lead {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .install-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-term);
+      padding: 1.15rem 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--phosphor-green);
+    }
+    .install-box code {
+      font-size: 0.88rem;
+      color: var(--phosphor-green);
+      user-select: all;
+    }
+    .copy-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-bright);
+      color: var(--text-main);
+      padding: 0.45rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      border-color: var(--phosphor-green);
+      background: rgba(0, 255, 102, 0.12);
+      color: var(--phosphor-green);
+    }
+
+    /* INTERACTIVE TERMINAL SIMULATOR */
+    .terminal-window {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-bright);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 255, 102, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .terminal-titlebar {
+      background: #090e0b;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-term);
+    }
+    .term-dots {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .term-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .term-tab {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .term-tab.active {
+      color: var(--phosphor-green);
+      border-color: var(--phosphor-green);
+      background: rgba(0, 255, 102, 0.05);
+    }
+    .terminal-body {
+      padding: 1.5rem;
+      font-size: 0.82rem;
+      min-height: 380px;
+      max-height: 440px;
+      overflow-y: auto;
+      line-height: 1.7;
+      color: var(--text-main);
+      background: #070a08;
+    }
+    .terminal-body .cmd-line {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .terminal-body .cmd-prompt {
+      color: var(--phosphor-green);
+      font-weight: 700;
+    }
+    .terminal-body input.cmd-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      width: 100%;
+    }
+    .term-accent { color: var(--phosphor-green); }
+    .term-dim { color: var(--text-muted); }
+    .term-amber { color: var(--amber-accent); }
+
+    /* ARCHITECTURE MATRIX */
+    section.matrix {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border-term);
+      background: #080d0a;
+    }
+    .section-head {
+      margin-bottom: 3.5rem;
+    }
+    .section-head .tag {
+      color: var(--phosphor-green);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .section-head h2 {
+      font-size: 2.8rem;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-term);
+      background: var(--bg-panel);
+    }
+    .matrix-table th, .matrix-table td {
+      padding: 1.25rem 1.5rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-term);
+      font-size: 0.85rem;
+    }
+    .matrix-table th {
+      background: #050806;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+    .matrix-table tr:hover td {
+      background: rgba(0, 255, 102, 0.03);
+    }
+    .badge-arch {
+      padding: 0.2rem 0.5rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-bright);
+      font-size: 0.72rem;
+      border-radius: 3px;
+    }
+
+    /* BENCHMARK COMPARISONS */
+    section.benchmarks {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border-term);
+    }
+    .bench-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3.5rem;
+    }
+    .bench-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-term);
+      padding: 2.5rem 2rem;
+    }
+    .bench-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .bench-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .bench-bar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+    }
+    .bar-track {
+      height: 18px;
+      background: #050806;
+      border: 1px solid var(--border-term);
+      position: relative;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--border-bright);
+      transition: width 0.8s ease-out;
+    }
+    .bar-fill.highlight {
+      background: var(--phosphor-green);
+      box-shadow: 0 0 10px var(--phosphor-glow);
+    }
+
+    /* SELF-HOSTING DOCKER CTA */
+    section.self-host {
+      padding: 6rem 3rem;
+      background: #090e0b;
+      border-top: 1px solid var(--border-term);
+    }
+    .host-box {
+      border: 1px solid var(--border-bright);
+      padding: 3.5rem;
+      background: var(--bg-panel);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .host-box h2 {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+    }
+    .host-box p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    /* FOOTER */
+    footer.term-footer {
+      padding: 4rem 3rem 2.5rem 3rem;
+      border-top: 1px solid var(--border-term);
+      background: #040705;
+      font-size: 0.8rem;
+    }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+    }
+    .footer-col h5 {
+      color: var(--phosphor-green);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .footer-col ul li a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer-col ul li a:hover {
+      color: var(--phosphor-green);
+    }
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-term);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      header.term-nav { padding: 1rem 1.5rem; }
+      section.hero { grid-template-columns: 1fr; padding: 6.5rem 1.5rem 3rem 1.5rem; }
+      .bench-grid { grid-template-columns: 1fr; }
+      .host-box { grid-template-columns: 1fr; padding: 2rem; }
+      .footer-row { flex-direction: column; gap: 2rem; }
+      .matrix-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCANLINE OVERLAY -->
+  <div class="crt-overlay" id="crtOverlay"></div>
+
+  <!-- NAVIGATION -->
+  <header class="term-nav">
+    <a href="#" class="brand-wrap">
+      <span class="term-prompt-mark">&gt;_</span>
+      <span class="brand-title">OBSIDIAN<span>.CLI</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#simulator">CLI Simulator</a>
+      <a href="#matrix">Binary Matrix</a>
+      <a href="#benchmarks">Ripgrep Delta</a>
+      <a href="#selfhost">Self-Hosting</a>
+    </nav>
+
+    <div class="term-controls">
+      <button class="control-btn active" id="crtToggle" onclick="toggleCRT()">
+        <span>CRT: ON</span>
+      </button>
+      <button class="control-btn" id="themeToggle" onclick="toggleTheme()">
+        <span>PHOSPHOR: GREEN</span>
+      </button>
+      <button class="control-btn" onclick="openPalette()">
+        <span>^K PALETTE</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="simulator">
+    <div class="hero-text">
+      <div style="font-size: 0.75rem; color: var(--phosphor-green); letter-spacing: 0.2em; text-transform: uppercase;">
+        RUST CORE · ZERO SYSCALL OVERHEAD · SIMD AVX-512
+      </div>
+      <h1>Sub-Microsecond Systems Indexing<span class="cursor-blink"></span></h1>
+      <p class="lead">
+        Obsidian replaces find, ripgrep, and fd with a single 4MB memory-mapped sovereign binary. Grep 120GB of source code in 14 milliseconds with lockless io_uring architecture.
+      </p>
+
+      <div class="install-box">
+        <code>curl -sL templatehub.website/install.sh | sh</code>
+        <button class="copy-btn" onclick="copyInstall()">Copy Cmd</button>
+      </div>
+
+      <div style="display:flex; gap: 1rem;">
+        <a href="#matrix" class="control-btn" style="padding: 0.8rem 1.4rem; color: var(--phosphor-green); border-color: var(--phosphor-green);">
+          Download Matrix v2.4.0
+        </a>
+        <a href="#benchmarks" class="control-btn" style="padding: 0.8rem 1.4rem;">
+          View Hyperfine Benchmarks
+        </a>
+      </div>
+    </div>
+
+    <!-- TERMINAL WINDOW SIMULATOR -->
+    <div class="terminal-window">
+      <div class="terminal-titlebar">
+        <div class="term-dots">
+          <div class="term-dot" style="background:#ff5f56;"></div>
+          <div class="term-dot" style="background:#ffbd2e;"></div>
+          <div class="term-dot" style="background:#27c93f;"></div>
+        </div>
+        <div class="term-tabs">
+          <div class="term-tab active" onclick="switchTermTab('live')">obsidian-term</div>
+          <div class="term-tab" onclick="switchTermTab('bench')">hyperfine.bench</div>
+          <div class="term-tab" onclick="switchTermTab('config')">obsidian.toml</div>
+        </div>
+        <div style="font-size: 0.7rem; color: var(--text-muted);">zsh · 80x24</div>
+      </div>
+
+      <div class="terminal-body" id="termBody">
+        <div class="term-dim">OBSIDIAN SYSTEMS DAEMON v2.4.0-release (x86_64-unknown-linux-musl)</div>
+        <div class="term-dim">Direct IO: Enabled | Memory Buffer: 512MB Lockless Ring | AVX-512 VNNI</div>
+        <br>
+        <div><span class="term-prompt">$</span> <span class="term-accent">obsidian index /workspace --threads=16</span></div>
+        <div class="term-dim">[00:00:00.001] Discovered 4,289,120 files across 34 partitions</div>
+        <div class="term-dim">[00:00:00.008] Building radix trie with atomic memory-map...</div>
+        <div class="term-accent">✔ Index committed in 13.82ms (310.8 GB/sec throughput)</div>
+        <br>
+        <div><span class="term-prompt">$</span> <span class="term-accent">obsidian query "fn execute_syscall" --format=json</span></div>
+        <div>{ "matches": 1, "latency_ns": 420, "path": "kernel/src/arch/x86_64/syscall.rs:188" }</div>
+        <br>
+        <div class="term-amber">Type 'help', 'bench', 'sync', or 'clear' below:</div>
+        <div class="cmd-line">
+          <span class="cmd-prompt">&gt;</span>
+          <input type="text" class="cmd-input" id="termInput" placeholder="run a command..." autofocus onkeydown="handleTermKey(event)">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BINARY ARCHITECTURE MATRIX -->
+  <section class="matrix" id="matrix">
+    <div class="section-head">
+      <div class="tag">Zero Dependencies · Completely Static</div>
+      <h2>Binary Architecture Matrix</h2>
+      <p style="color: var(--text-muted);">Pre-compiled static binaries with embedded PGP signatures and deterministic SHA-256 hashes.</p>
+    </div>
+
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th>Platform / Target</th>
+          <th>Architecture</th>
+          <th>Size</th>
+          <th>Format</th>
+          <th>SHA-256 Hash</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color: var(--text-main);">macOS Darwin</strong> (Apple Silicon)</td>
+          <td><span class="badge-arch">aarch64</span></td>
+          <td>4.1 MB</td>
+          <td>Mach-O fat binary</td>
+          <td><code style="color:var(--text-muted); font-size:0.75rem;">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code></td>
+          <td><button class="control-btn" onclick="alert('Downloading obsidian-darwin-arm64.tar.gz...')">Download .tar.gz</button></td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--text-main);">macOS Darwin</strong> (Intel)</td>
+          <td><span class="badge-arch">x86_64</span></td>
+          <td>4.4 MB</td>
+          <td>Mach-O binary</td>
+          <td><code style="color:var(--text-muted); font-size:0.75rem;">87298374dcfb92384a2984ef293847298374dfb2938472938472983472983472</code></td>
+          <td><button class="control-btn" onclick="alert('Downloading obsidian-darwin-x86_64.tar.gz...')">Download .tar.gz</button></td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--text-main);">Linux Sovereign</strong> (musl libc)</td>
+          <td><span class="badge-arch">x86_64</span></td>
+          <td>3.8 MB</td>
+          <td>Static ELF</td>
+          <td><code style="color:var(--text-muted); font-size:0.75rem;">1a948293dfacb382948273948291039482910293849102938491029384910293</code></td>
+          <td><button class="control-btn" onclick="alert('Downloading obsidian-linux-musl.tar.gz...')">Download .tar.gz</button></td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--text-main);">Linux ARM</strong> (Raspberry Pi / Graviton)</td>
+          <td><span class="badge-arch">aarch64</span></td>
+          <td>3.9 MB</td>
+          <td>Static ELF</td>
+          <td><code style="color:var(--text-muted); font-size:0.75rem;">f938294810293849102938491029384910293849102938491029384910293849</code></td>
+          <td><button class="control-btn" onclick="alert('Downloading obsidian-linux-arm64.tar.gz...')">Download .tar.gz</button></td>
+        </tr>
+        <tr>
+          <td><strong style="color: var(--text-main);">Windows 11</strong> (MSVC CRT)</td>
+          <td><span class="badge-arch">x86_64</span></td>
+          <td>4.6 MB</td>
+          <td>Portable PE32+</td>
+          <td><code style="color:var(--text-muted); font-size:0.75rem;">0394820193840192830192830192830192830192830192830192830192830192</code></td>
+          <td><button class="control-btn" onclick="alert('Downloading obsidian-win-x64.zip...')">Download .zip</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- BENCHMARKS -->
+  <section class="benchmarks" id="benchmarks">
+    <div class="section-head">
+      <div class="tag">Empirical Throughput Audits</div>
+      <h2>Hyperfine Benchmark Comparisons</h2>
+      <p style="color: var(--text-muted);">Tested on AMD EPYC 9654, 1.2TB RAM, NVMe PCIe Gen5 RAID-0, searching Linux 6.8 Kernel tree.</p>
+    </div>
+
+    <div class="bench-grid">
+      <!-- Search Speed -->
+      <div class="bench-card">
+        <h3>Cold Cache Search Throughput</h3>
+        <p>Gigabytes processed per second across raw UTF-8 disk buffers.</p>
+        <div class="bench-bar-group">
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span><strong>OBSIDIAN.CLI v2.4</strong></span>
+              <span class="term-accent">310.8 GB/s</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill highlight" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>ripgrep 14.1.0</span>
+              <span class="term-dim">68.2 GB/s</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 22%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>The Silver Searcher (ag)</span>
+              <span class="term-dim">18.4 GB/s</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 6%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>GNU grep 3.11</span>
+              <span class="term-dim">9.1 GB/s</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 3%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Startup Latency -->
+      <div class="bench-card">
+        <h3>Process Spawn to First Byte</h3>
+        <p>Execution startup latency measured in microseconds (lower is better).</p>
+        <div class="bench-bar-group">
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span><strong>OBSIDIAN.CLI</strong></span>
+              <span class="term-accent">180 µs</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill highlight" style="width: 12%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>fd 9.0.0</span>
+              <span class="term-dim">1,420 µs</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 48%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>find (GNU findutils)</span>
+              <span class="term-dim">2,950 µs</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span>Node.js glob tool</span>
+              <span class="term-dim">42,000 µs</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELF-HOSTING SECTION -->
+  <section class="self-host" id="selfhost">
+    <div class="host-box">
+      <div>
+        <div class="tag" style="color:var(--phosphor-green); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;">Sovereign Infrastructure</div>
+        <h2>Self-Host Obsidian Cluster</h2>
+        <p>Run the Obsidian Daemon as a zero-memory sidecar on your Kubernetes clusters or bare-metal server racks. Instant indexing via shared memory ring buffer.</p>
+
+        <div style="background:#040705; border:1px solid var(--border-term); padding:1rem; margin-bottom:1.5rem;">
+          <code style="font-size:0.82rem; color:var(--text-main);">
+            docker run -d --name obsidian-daemon \<br>
+            &nbsp;&nbsp;-v /var/data:/data:ro \<br>
+            &nbsp;&nbsp;-p 7878:7878 \<br>
+            &nbsp;&nbsp;ghcr.io/obsidian-cli/engine:latest
+          </code>
+        </div>
+
+        <button class="control-btn" style="padding:0.8rem 1.6rem; border-color:var(--phosphor-green); color:var(--phosphor-green);" onclick="alert('Navigating to Sovereign Deployment Docs...')">
+          Read Distributed Clustering Docs
+        </button>
+      </div>
+
+      <div style="background:#060a08; border:1px solid var(--border-term); padding:2rem;">
+        <h4 style="font-size:1.1rem; margin-bottom:1rem; color:var(--phosphor-green);">Cluster Topology Specs</h4>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.75rem; font-size:0.8rem; color:var(--text-muted);">
+          <li>✔ Raft Consensus Leader Election</li>
+          <li>✔ Peer-to-Peer mDNS Node Discovery</li>
+          <li>✔ TLS 1.3 with Mutual Client Certificates</li>
+          <li>✔ Zero-Copy UNIX Socket IPC</li>
+          <li>✔ Prometheus / Grafana Metric Endpoints</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="term-footer">
+    <div class="footer-row">
+      <div style="max-width: 320px;">
+        <div class="term-prompt-mark" style="margin-bottom: 0.5rem;">OBSIDIAN.CLI</div>
+        <p style="color: var(--text-muted); font-size: 0.8rem; line-height: 1.6;">
+          An open-source sovereign CLI binary engine authored for engineers who refuse to wait on disk I/O.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Binaries</h5>
+        <ul>
+          <li><a href="#matrix">macOS ARM64</a></li>
+          <li><a href="#matrix">Linux x86_64</a></li>
+          <li><a href="#matrix">Windows PE</a></li>
+          <li><a href="#matrix">Docker Image</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Protocols</h5>
+        <ul>
+          <li><a href="#">io_uring Kernel Bypass</a></li>
+          <li><a href="#">SIMD Hyperscan Parser</a></li>
+          <li><a href="#">Lockless Radix Ring</a></li>
+          <li><a href="#">PGP Signature Keys</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Sovereignty</h5>
+        <ul>
+          <li><a href="#">MIT / Apache 2.0 Dual License</a></li>
+          <li><a href="#">Zero Telemetry Policy</a></li>
+          <li><a href="#">Reproducible Builds</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bar">
+      <div>OBSIDIAN CLI PROJECT · COMMITTED TO OPEN STANDARDS</div>
+      <div>UPTIME: 99.999% · 0 BYTES SENT EXTERNAL</div>
+    </div>
+  </footer>
+
+  <!-- CLI SCRIPTS -->
+  <script>
+    function toggleCRT() {
+      const crt = document.getElementById('crtOverlay');
+      const btn = document.getElementById('crtToggle');
+      crt.classList.toggle('disabled');
+      if (crt.classList.contains('disabled')) {
+        btn.querySelector('span').textContent = 'CRT: OFF';
+        btn.classList.remove('active');
+      } else {
+        btn.querySelector('span').textContent = 'CRT: ON';
+        btn.classList.add('active');
+      }
+    }
+
+    let isAmber = false;
+    function toggleTheme() {
+      isAmber = !isAmber;
+      document.body.classList.toggle('theme-amber', isAmber);
+      const btn = document.getElementById('themeToggle');
+      btn.querySelector('span').textContent = isAmber ? 'PHOSPHOR: AMBER' : 'PHOSPHOR: GREEN';
+    }
+
+    function copyInstall() {
+      navigator.clipboard.writeText('curl -sL templatehub.website/install.sh | sh');
+      alert('Command copied to clipboard: curl -sL templatehub.website/install.sh | sh');
+    }
+
+    function openPalette() {
+      const cmd = prompt('OBSIDIAN QUICK DISPATCH COMMAND:\n\n1. index\n2. bench\n3. download-arm64\n4. clear\n\nEnter command:');
+      if (cmd) executeTermCommand(cmd.trim().toLowerCase());
+    }
+
+    function handleTermKey(e) {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim().toLowerCase();
+        e.target.value = '';
+        executeTermCommand(val);
+      }
+    }
+
+    function executeTermCommand(cmd) {
+      const term = document.getElementById('termBody');
+      const echo = document.createElement('div');
+      echo.innerHTML = `<span class="term-prompt">$</span> <span class="term-accent">${cmd}</span>`;
+      term.insertBefore(echo, term.querySelector('.cmd-line'));
+
+      const response = document.createElement('div');
+      if (cmd === 'help') {
+        response.innerHTML = `<div class="term-dim">Available commands: index, bench, sync, version, clear, doctor</div>`;
+      } else if (cmd === 'bench') {
+        response.innerHTML = `<div class="term-accent">Running 100-iteration memory-mapped scan... 312.4 GB/s throughput. Latency: 178µs.</div>`;
+      } else if (cmd === 'clear') {
+        term.innerHTML = `
+          <div class="cmd-line">
+            <span class="cmd-prompt">&gt;</span>
+            <input type="text" class="cmd-input" id="termInput" placeholder="run a command..." autofocus onkeydown="handleTermKey(event)">
+          </div>`;
+        return;
+      } else if (cmd === 'version') {
+        response.innerHTML = `<div class="term-dim">obsidian-cli 2.4.0 (commit a83fe02 2026-11-01) x86_64-linux-musl</div>`;
+      } else if (cmd === 'doctor') {
+        response.innerHTML = `<div class="term-accent">✔ Kernel io_uring: Supported<br>✔ AVX-512 FPU: Detected<br>✔ HugePages: 2048MB Allocated</div>`;
+      } else {
+        response.innerHTML = `<div class="term-amber">Command executed: [${cmd}] - Exit code 0 (24µs)</div>`;
+      }
+      term.insertBefore(response, term.querySelector('.cmd-line'));
+      term.scrollTop = term.scrollHeight;
+    }
+
+    function switchTermTab(tab) {
+      document.querySelectorAll('.term-tab').forEach(t => t.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      const term = document.getElementById('termBody');
+      if (tab === 'bench') {
+        term.innerHTML = `
+          <div class="term-dim">Benchmark: hyperfine 'obsidian query needle /data' 'rg needle /data'</div>
+          <div class="term-accent">Benchmark 1: obsidian query needle /data</div>
+          <div class="term-dim">  Time (mean ± σ):       14.2 ms ±   0.8 ms    [User: 3.1 ms, System: 11.0 ms]</div>
+          <div class="term-accent">Benchmark 2: rg needle /data</div>
+          <div class="term-dim">  Time (mean ± σ):       68.4 ms ±   3.2 ms    [User: 42.1 ms, System: 26.2 ms]</div>
+          <div class="term-amber">Summary: obsidian ran 4.82 ± 0.35 times faster than ripgrep</div>
+          <div class="cmd-line">
+            <span class="cmd-prompt">&gt;</span>
+            <input type="text" class="cmd-input" id="termInput" placeholder="run a command..." onkeydown="handleTermKey(event)">
+          </div>
+        `;
+      } else if (tab === 'config') {
+        term.innerHTML = `
+          <div class="term-dim"># /etc/obsidian/daemon.toml</div>
+          <div class="term-dim">[engine]</div>
+          <div>threads = 16</div>
+          <div>io_engine = "io_uring"</div>
+          <div>max_mmap_bytes = "32GB"</div>
+          <br>
+          <div class="term-dim">[index]</div>
+          <div>ignore_git = true</div>
+          <div>simd_instruction = "avx512"</div>
+          <div class="cmd-line">
+            <span class="cmd-prompt">&gt;</span>
+            <input type="text" class="cmd-input" id="termInput" placeholder="run a command..." onkeydown="handleTermKey(event)">
+          </div>
+        `;
+      } else {
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

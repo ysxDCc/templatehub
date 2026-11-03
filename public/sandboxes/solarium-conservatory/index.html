@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURELIA | Biosphere Conservatory & Seed Sanctum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #022019;
+      --bg-deep: #022c22;
+      --bg-surface: #064e3b;
+      --bg-card: rgba(6, 78, 59, 0.45);
+      --border-soft: rgba(132, 204, 22, 0.22);
+      --border-glass: rgba(254, 243, 199, 0.12);
+      --accent-lime: #84cc16;
+      --accent-glow: #a3e635;
+      --parchment: #fef3c7;
+      --parchment-soft: #fbfbf6;
+      --text-muted: #94a3b8;
+      --text-parchment-muted: rgba(254, 243, 199, 0.7);
+      --danger-crit: #f43f5e;
+      --gold-seal: #d97706;
+      --font-display: 'Fraunces', serif;
+      --font-body: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--parchment);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      selection-background-color: var(--accent-lime);
+      selection-color: var(--bg-dark);
+    }
+
+    ::selection {
+      background: var(--accent-lime);
+      color: var(--bg-dark);
+    }
+
+    /* Background Ambient Gradients */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 15% 20%, rgba(6, 95, 70, 0.35) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(132, 204, 22, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(2, 44, 34, 0.8) 0%, transparent 70%);
+    }
+
+    /* Top Live Telemetry Bar */
+    .telemetry-strip {
+      background: rgba(2, 32, 25, 0.95);
+      border-bottom: 1px solid var(--border-glass);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+    }
+
+    .telemetry-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .telemetry-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent-glow);
+      font-weight: 500;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-lime);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-lime);
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .telemetry-readouts {
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    .telemetry-item {
+      display: flex;
+      gap: 0.4rem;
+      color: var(--text-parchment-muted);
+    }
+
+    .telemetry-item strong {
+      color: var(--parchment);
+      font-weight: 600;
+    }
+
+    .telemetry-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cites-badge {
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid rgba(217, 119, 6, 0.4);
+      color: #fbbf24;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Main Navigation */
+    .navbar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--parchment);
+    }
+
+    .brand-symbol {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--accent-lime);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .brand-symbol::before {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 1px dashed var(--accent-glow);
+      border-radius: 50%;
+      animation: spinSlow 20s linear infinite;
+    }
+
+    @keyframes spinSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .brand-sub {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--accent-lime);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--parchment-soft);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 400;
+      transition: color 0.2s, opacity 0.2s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-lime);
+    }
+
+    .nav-cta {
+      background: var(--accent-lime);
+      color: var(--bg-dark);
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(132, 204, 22, 0.25);
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-glow);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(132, 204, 22, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 1.5rem 6rem;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.65;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      background: rgba(132, 204, 22, 0.1);
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-lime);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+      line-height: 1.05;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+      color: var(--parchment);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent-glow);
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--text-parchment-muted);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-lime);
+      color: var(--bg-dark);
+      padding: 0.95rem 2.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      transition: all 0.25s;
+      border: 1px solid var(--accent-lime);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-glow);
+      box-shadow: 0 0 30px rgba(132, 204, 22, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-glass {
+      background: rgba(6, 78, 59, 0.35);
+      border: 1px solid var(--border-glass);
+      color: var(--parchment);
+      padding: 0.95rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s;
+    }
+
+    .btn-glass:hover {
+      background: rgba(6, 78, 59, 0.6);
+      border-color: var(--accent-lime);
+    }
+
+    /* Dome Hologram / Blueprint Card */
+    .hero-dome-card {
+      background: linear-gradient(135deg, rgba(6, 78, 59, 0.6) 0%, rgba(2, 32, 25, 0.8) 100%);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .dome-card-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-glass);
+      padding-bottom: 1rem;
+    }
+
+    .dome-serial {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-lime);
+    }
+
+    .dome-altitude {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .dome-svg-wrap {
+      width: 100%;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dome-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px dashed var(--border-glass);
+    }
+
+    .stat-node {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .stat-node span {
+      display: block;
+      font-size: 1.25rem;
+      color: var(--parchment);
+      font-weight: 600;
+      font-family: var(--font-display);
+      margin-top: 0.2rem;
+    }
+
+    /* SECTION 2: BIOME SELECTOR & TELEMETRY */
+    .section-biomes {
+      padding: 6rem 1.5rem;
+      position: relative;
+      z-index: 5;
+      background: rgba(2, 36, 28, 0.4);
+      border-top: 1px solid var(--border-glass);
+      border-bottom: 1px solid var(--border-glass);
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 3.5rem;
+      text-align: center;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      color: var(--accent-lime);
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 400;
+    }
+
+    .biome-switch-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .biome-btn {
+      background: rgba(6, 78, 59, 0.3);
+      border: 1px solid var(--border-glass);
+      color: var(--parchment-soft);
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .biome-btn.active, .biome-btn:hover {
+      background: var(--accent-lime);
+      color: var(--bg-dark);
+      border-color: var(--accent-lime);
+      font-weight: 600;
+    }
+
+    .biome-display-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      transition: opacity 0.3s ease;
+    }
+
+    .biome-info h3 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--parchment);
+    }
+
+    .biome-info p {
+      color: var(--text-parchment-muted);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+    }
+
+    .metric-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .bar-label-group {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(254, 243, 199, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-lime), var(--accent-glow));
+      border-radius: 999px;
+      transition: width 0.8s ease;
+    }
+
+    /* SECTION 3: ENDANGERED SPECIES TAXON INDEX */
+    .section-species {
+      padding: 7rem 1.5rem;
+      position: relative;
+      z-index: 5;
+    }
+
+    .species-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .species-card {
+      background: linear-gradient(180deg, rgba(6, 78, 59, 0.35) 0%, rgba(2, 32, 25, 0.6) 100%);
+      border: 1px solid var(--border-glass);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .species-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-soft);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35), 0 0 20px rgba(132, 204, 22, 0.15);
+    }
+
+    .species-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .status-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .status-cr {
+      background: rgba(244, 63, 94, 0.2);
+      border: 1px solid var(--danger-crit);
+      color: #fda4af;
+    }
+
+    .status-ew {
+      background: rgba(217, 119, 6, 0.2);
+      border: 1px solid var(--gold-seal);
+      color: #fde68a;
+    }
+
+    .accession-no {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-lime);
+    }
+
+    .species-common {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      margin-bottom: 0.2rem;
+      color: var(--parchment);
+    }
+
+    .species-binomial {
+      font-style: italic;
+      color: var(--accent-glow);
+      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .species-desc {
+      font-size: 0.88rem;
+      color: var(--text-parchment-muted);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .species-parameters {
+      background: rgba(2, 32, 25, 0.5);
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+    }
+
+    .param-label {
+      color: var(--text-muted);
+      display: block;
+      font-size: 0.7rem;
+    }
+
+    .param-val {
+      color: var(--parchment);
+      font-weight: 600;
+    }
+
+    /* SECTION 4: FELLOWSHIP & SEED VAULT */
+    .section-vault {
+      padding: 6rem 1.5rem;
+      background: radial-gradient(circle at 50% 50%, rgba(6, 78, 59, 0.3) 0%, rgba(2, 32, 25, 0.9) 100%);
+      border-top: 1px solid var(--border-glass);
+      border-bottom: 1px solid var(--border-glass);
+      position: relative;
+    }
+
+    .vault-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .vault-perks {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .vault-perk-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .perk-icon {
+      width: 28px;
+      height: 28px;
+      background: rgba(132, 204, 22, 0.15);
+      border: 1px solid var(--accent-lime);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-lime);
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .vault-telemetry-box {
+      background: rgba(6, 78, 59, 0.4);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .vault-stat-ring {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    /* SECTION 5: BOOKING FORM */
+    .section-booking {
+      padding: 7rem 1.5rem;
+      position: relative;
+    }
+
+    .booking-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, rgba(6, 78, 59, 0.5) 0%, rgba(2, 32, 25, 0.8) 100%);
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 3.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .booking-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-top: 2.5rem;
+    }
+
+    .form-group-full {
+      grid-column: span 2;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--parchment-soft);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: rgba(2, 32, 25, 0.7);
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      color: var(--parchment);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent-lime);
+      box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      background: var(--accent-lime);
+      color: var(--bg-dark);
+      border: none;
+      padding: 1.1rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .form-submit-btn:hover {
+      background: var(--accent-glow);
+      box-shadow: 0 0 35px rgba(132, 204, 22, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .booking-notice {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-parchment-muted);
+      margin-top: 1.2rem;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #01140f;
+      border-top: 1px solid var(--border-glass);
+      padding: 4.5rem 1.5rem 2.5rem;
+      position: relative;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-brand-p {
+      color: var(--text-parchment-muted);
+      font-size: 0.85rem;
+      margin-top: 1rem;
+      max-width: 320px;
+      line-height: 1.7;
+    }
+
+    .footer-heading {
+      font-family: var(--font-mono);
+      color: var(--parchment);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-lime);
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(254, 243, 199, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .biome-display-card {
+        grid-template-columns: 1fr;
+      }
+      .vault-layout {
+        grid-template-columns: 1fr;
+      }
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .booking-form {
+        grid-template-columns: 1fr;
+      }
+      .form-group-full {
+        grid-column: span 1;
+      }
+      .nav-links {
+        display: none;
+      }
+      .telemetry-readouts {
+        gap: 0.8rem;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Microclimate Telemetry Bar -->
+  <aside class="telemetry-strip" aria-label="Live Telemetry">
+    <div class="telemetry-container">
+      <div class="telemetry-left">
+        <span class="status-indicator">
+          <span class="pulse-dot"></span>
+          DOME ARRAY IV &middot; BIOSPHERE OPTIMAL
+        </span>
+        <div class="telemetry-readouts">
+          <div class="telemetry-item">RH: <strong id="tel-rh">88.4%</strong></div>
+          <div class="telemetry-item">TEMP: <strong id="tel-temp">24.2&deg;C</strong></div>
+          <div class="telemetry-item">LUX: <strong id="tel-lux">42,800 lx</strong></div>
+          <div class="telemetry-item">CO&sub2;: <strong id="tel-co2">412 ppm</strong></div>
+        </div>
+      </div>
+      <div class="telemetry-actions">
+        <span class="cites-badge">CITES APP I &amp; II REGISTRY</span>
+        <span style="color: var(--accent-lime); font-size: 0.75rem;">ACCESSION #2026-X9</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <a href="#" class="brand">
+        <div class="brand-symbol">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-lime);">
+            <path d="M12 2a10 10 0 0 0-10 10c0 4.4 2.8 8.1 6.8 9.4.5.1.7-.2.7-.5v-1.7"/>
+            <path d="M12 2a10 10 0 0 1 10 10c0 4.4-2.8 8.1-6.8 9.4-.5.1-.7-.2-.7-.5v-1.7"/>
+            <path d="M12 22V12"/>
+            <path d="M12 12c-2.5-3-2.5-6 0-9"/>
+            <path d="M12 12c2.5-3 2.5-6 0-9"/>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-title">AURELIA</span>
+          <span class="brand-sub">Solarium Conservatory</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#biomes">Biomes</a></li>
+        <li><a href="#species">Taxon Archive</a></li>
+        <li><a href="#fellowship">Seed Sanctum</a></li>
+        <li><a href="#reservations">Private Twilight Tours</a></li>
+      </ul>
+      <a href="#reservations" class="nav-cta">
+        Reserve Sanctuary Access
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero">
+      <canvas id="mist-canvas" class="hero-canvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-text-block">
+          <div class="hero-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            High-Altitude Alpine &amp; Equatorial Sanctum
+          </div>
+          <h1 class="hero-title">
+            Preserving Earth's <em>most elusive</em> botanical lineages.
+          </h1>
+          <p class="hero-subtitle">
+            Within 42,000 square meters of triple-glazed geodesic crystalline shells, Aurelia recreates cloud forests and microclimates on the precipice of extinction.
+          </p>
+          <div class="hero-buttons">
+            <a href="#species" class="btn-primary">Explore Living Catalog</a>
+            <a href="#biomes" class="btn-glass">Microclimate Telemetry</a>
+          </div>
+        </div>
+
+        <div class="hero-dome-card">
+          <div class="dome-card-header">
+            <div>
+              <span class="dome-serial">GEODESIC SECTOR &middot; BIOME IV</span>
+              <div style="font-size: 0.95rem; font-weight: 600; color: var(--parchment); margin-top: 0.2rem;">Hyper-Boreal &amp; Cloud Mist Envelope</div>
+            </div>
+            <span class="dome-altitude">ELEV: +1,840m MSL</span>
+          </div>
+
+          <!-- Geodesic Dome SVG Graphic -->
+          <div class="dome-svg-wrap">
+            <svg viewBox="0 0 320 220" width="100%" height="100%" fill="none" stroke="rgba(132, 204, 22, 0.65)" stroke-width="1.2">
+              <!-- Dome Base Arch -->
+              <ellipse cx="160" cy="190" rx="140" ry="24" stroke="rgba(254, 243, 199, 0.2)" stroke-dasharray="4 4" />
+              <path d="M20 190 C 20 80, 80 20, 160 20 C 240 20, 300 80, 300 190 Z" fill="rgba(6, 78, 59, 0.25)" />
+              
+              <!-- Geodesic Ribs -->
+              <path d="M160 20 L 70 85 L 30 150 L 20 190" />
+              <path d="M160 20 L 115 80 L 80 150 L 70 190" />
+              <path d="M160 20 L 160 80 L 160 150 L 160 190" stroke="var(--accent-glow)" stroke-width="1.8" />
+              <path d="M160 20 L 205 80 L 240 150 L 250 190" />
+              <path d="M160 20 L 250 85 L 290 150 L 300 190" />
+
+              <!-- Cross Latitudes -->
+              <path d="M48 65 C 80 50, 240 50, 272 65" stroke="rgba(132, 204, 22, 0.4)" />
+              <path d="M28 120 C 60 100, 260 100, 292 120" stroke="rgba(132, 204, 22, 0.5)" />
+              <path d="M22 165 C 50 145, 270 145, 298 165" stroke="rgba(132, 204, 22, 0.6)" />
+
+              <!-- Central Biome Pulse Node -->
+              <circle cx="160" cy="140" r="5" fill="var(--accent-lime)">
+                <animate attributeName="r" values="4;8;4" dur="3s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="1;0.4;1" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <line x1="160" y1="140" x2="225" y2="105" stroke="var(--parchment)" stroke-width="0.8" stroke-dasharray="2 2" />
+              <text x="230" y="108" fill="var(--parchment)" font-size="8" font-family="'JetBrains Mono', monospace">VAPOR NUCLEUS</text>
+            </svg>
+          </div>
+
+          <div class="dome-stats-grid">
+            <div class="stat-node">
+              CONTAINED SPECIES
+              <span>1,842</span>
+            </div>
+            <div class="stat-node">
+              ACTIVE SEED LOTS
+              <span>18,500</span>
+            </div>
+            <div class="stat-node">
+              GLASS PRISMS
+              <span>9,240</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Biome Microclimate Telemetry Controller -->
+    <section id="biomes" class="section-biomes">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-eyebrow">Biospheric Simulation</span>
+          <h2 class="section-title">Atmospheric Microclimates</h2>
+        </div>
+
+        <div class="biome-switch-bar">
+          <button class="biome-btn active" onclick="switchBiome('cloud')">Alpine Cloud Forest</button>
+          <button class="biome-btn" onclick="switchBiome('equatorial')">Lowland Equatorial Sump</button>
+          <button class="biome-btn" onclick="switchBiome('grotto')">Subterranean Fern Grotto</button>
+          <button class="biome-btn" onclick="switchBiome('succulent')">High-Veld Arid Karoo</button>
+        </div>
+
+        <div class="biome-display-card" id="biome-card">
+          <div class="biome-info">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-lime); margin-bottom: 0.5rem;" id="biome-code">ENCLAVE DOME // CLOUD-01</div>
+            <h3 id="biome-name">Alpine Cloud Forest</h3>
+            <p id="biome-description">
+              Maintained with ultra-fine ultrasonic mist generation simulating high-altitude Andean slopes between 2,200m and 3,100m. Optimal environment for cloud epiphytes, high-altitude mosses, and threatened pleurothallid orchids.
+            </p>
+            <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--parchment-soft);">
+              PRIMARY HOST: <strong style="color: var(--accent-glow);" id="biome-keystone">Lepanthes telipogoniflora &amp; Polylepis australis</strong>
+            </div>
+          </div>
+
+          <div class="metric-bars">
+            <div class="bar-row">
+              <div class="bar-label-group">
+                <span>Relative Atmospheric Humidity</span>
+                <span id="biome-val-rh">94%</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="fill-rh" style="width: 94%;"></div>
+              </div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label-group">
+                <span>Diurnal Ambient Temperature</span>
+                <span id="biome-val-temp">16.8&deg;C</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="fill-temp" style="width: 48%;"></div>
+              </div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label-group">
+                <span>Photosynthetic Flux Density (PPFD)</span>
+                <span id="biome-val-par">420 &mu;mol/m&sup2;/s</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="fill-par" style="width: 65%;"></div>
+              </div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label-group">
+                <span>Ultrasonic Aerosol Vapor Pressure Deficit</span>
+                <span id="biome-val-vpd">0.24 kPa</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" id="fill-vpd" style="width: 28%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Species Taxon Index -->
+    <section id="species" class="section-species">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-eyebrow">Red List Sanctuary Archive</span>
+          <h2 class="section-title">Endangered Living Specimens</h2>
+        </div>
+
+        <div class="species-grid">
+          <!-- Card 1: Titan Arum -->
+          <article class="species-card">
+            <div class="species-header">
+              <span class="status-pill status-cr">CRITICALLY ENDANGERED</span>
+              <span class="accession-no">ACC-2018-ARUM-01</span>
+            </div>
+            <h3 class="species-common">Titan Arum</h3>
+            <span class="species-binomial">Amorphophallus titanum</span>
+            <p class="species-desc">
+              Native to the relictual rainforests of western Sumatra. Producing the largest unbranched inflorescence on earth, blooming unpredictably once every 7 to 10 years for a single 48-hour nocturnal reproductive cycle.
+            </p>
+            <div class="species-parameters">
+              <div>
+                <span class="param-label">SUBSTRATE</span>
+                <span class="param-val">Volcanic Loam / Pumice</span>
+              </div>
+              <div>
+                <span class="param-label">LAST BLOOM CYCLE</span>
+                <span class="param-val">October 2024</span>
+              </div>
+              <div>
+                <span class="param-label">CORM WEIGHT</span>
+                <span class="param-val">82.4 kg</span>
+              </div>
+              <div>
+                <span class="param-label">POLLEN VIABILITY</span>
+                <span class="param-val">97.2% Cryo-Banked</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Ghost Orchid -->
+          <article class="species-card">
+            <div class="species-header">
+              <span class="status-pill status-cr">CRITICALLY ENDANGERED</span>
+              <span class="accession-no">ACC-2021-ORCH-88</span>
+            </div>
+            <h3 class="species-common">Ghost Orchid</h3>
+            <span class="species-binomial">Dendrophylax lindenii</span>
+            <p class="species-desc">
+              Leafless epiphytic orchid indigenous to wet cypress swamps of Cuba and southwestern Florida. Photosynthesis is carried out exclusively through an intricate network of photosynthetic cord-like roots host-bonded with mycorrhizal fungi.
+            </p>
+            <div class="species-parameters">
+              <div>
+                <span class="param-label">HOST PHOROPHYTE</span>
+                <span class="param-val">Fraxinus caroliniana</span>
+              </div>
+              <div>
+                <span class="param-label">SYMBIONT</span>
+                <span class="param-val">Ceratobasidiaceae #7</span>
+              </div>
+              <div>
+                <span class="param-label">CANOPY HEIGHT</span>
+                <span class="param-val">4.2 m</span>
+              </div>
+              <div>
+                <span class="param-label">SPECIMEN SPEC</span>
+                <span class="param-val">Wild Reintroduced</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Wollemi Pine -->
+          <article class="species-card">
+            <div class="species-header">
+              <span class="status-pill status-cr">CRITICALLY ENDANGERED</span>
+              <span class="accession-no">ACC-1996-WOLM-03</span>
+            </div>
+            <h3 class="species-common">Wollemi Pine</h3>
+            <span class="species-binomial">Wollemia nobilis</span>
+            <p class="species-desc">
+              The "living fossil" conifer rediscovered in 1994 inside a remote gorge of the Blue Mountains, Australia. Fewer than 80 mature specimens survive in habitat. Features remarkable bubbly bark reminiscent of boiling chocolate.
+            </p>
+            <div class="species-parameters">
+              <div>
+                <span class="param-label">CLADE</span>
+                <span class="param-val">Araucariaceae</span>
+              </div>
+              <div>
+                <span class="param-label">PHYLOGENETIC AGE</span>
+                <span class="param-val">90+ Million Years</span>
+              </div>
+              <div>
+                <span class="param-label">HABITAT ALTITUDE</span>
+                <span class="param-val">650 m</span>
+              </div>
+              <div>
+                <span class="param-label">CANOPY SPREAD</span>
+                <span class="param-val">8.4 m Multi-Trunk</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Franklin Tree -->
+          <article class="species-card">
+            <div class="species-header">
+              <span class="status-pill status-ew">EXTINCT IN THE WILD</span>
+              <span class="accession-no">ACC-1803-FRNK-12</span>
+            </div>
+            <h3 class="species-common">Franklin Tree</h3>
+            <span class="species-binomial">Franklinia alatamaha</span>
+            <p class="species-desc">
+              Extinct in the wild along the Altamaha River in Georgia since the early 19th century. Every specimen living in global botanical sanctums descends from seed propagated by royal botanists John and William Bartram in 1777.
+            </p>
+            <div class="species-parameters">
+              <div>
+                <span class="param-label">FAMILY</span>
+                <span class="param-val">Theaceae (Tea family)</span>
+              </div>
+              <div>
+                <span class="param-label">FLOWERING WINDOW</span>
+                <span class="param-val">Late Aug &ndash; Frost</span>
+              </div>
+              <div>
+                <span class="param-label">WILD POPULATION</span>
+                <span class="param-val">0 Specimens</span>
+              </div>
+              <div>
+                <span class="param-label">GENETIC REPOSITORY</span>
+                <span class="param-val">Pure F1 Lineage</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seed Sanctum & Cryo Vault -->
+    <section id="fellowship" class="section-vault">
+      <div class="section-container">
+        <div class="vault-layout">
+          <div>
+            <span class="section-eyebrow">Ex-Situ Preservation</span>
+            <h2 class="section-title">The Sub-Zero Cryo Seed Vault &amp; Fellowship</h2>
+            <p style="color: var(--text-parchment-muted); font-size: 1.05rem; margin-top: 1.2rem; line-height: 1.7;">
+              Beneath the bedrock foundations of Dome Array IV lies Aurelia's deep cryogenic seed depository. Housing 18,500 sealed botanical accessions maintained at &minus;20&deg;C in argon-purged glass ampoules.
+            </p>
+            
+            <ul class="vault-perks">
+              <li class="vault-perk-item">
+                <span class="perk-icon">&check;</span>
+                <div>
+                  <strong style="color: var(--parchment);">Resident Research Fellowships</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Fully funded 12-month residencies for taxonomic botanists, mycological ecologists, and plant cryopreservation scientists.</p>
+                </div>
+              </li>
+              <li class="vault-perk-item">
+                <span class="perk-icon">&check;</span>
+                <div>
+                  <strong style="color: var(--parchment);">Long-Read Genomic Sequencing</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Complete Oxford Nanopore &amp; PacBio HiFi chromosome-level assemblies archived in open access databases for every specimen.</p>
+                </div>
+              </li>
+              <li class="vault-perk-item">
+                <span class="perk-icon">&check;</span>
+                <div>
+                  <strong style="color: var(--parchment);">Emergency Habitat Translocation</strong>
+                  <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Active collaborative programs re-establishing nursery-hardened clones back into secured national nature reserves.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="vault-telemetry-box">
+            <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-lime); letter-spacing: 0.1em;">
+              DEEP VAULT MONITOR // CRYO-CHAMBER 02
+            </div>
+            
+            <div class="vault-stat-ring">
+              <svg width="200" height="200" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="80" stroke="rgba(254, 243, 199, 0.1)" stroke-width="8" fill="none"/>
+                <circle cx="100" cy="100" r="80" stroke="var(--accent-lime)" stroke-width="8" stroke-dasharray="502" stroke-dashoffset="120" stroke-linecap="round" fill="none"/>
+                <text x="100" y="92" text-anchor="middle" fill="var(--accent-glow)" font-family="'JetBrains Mono', monospace" font-size="28" font-weight="700">-20.4&deg;C</text>
+                <text x="100" y="118" text-anchor="middle" fill="var(--parchment-soft)" font-family="'Outfit', sans-serif" font-size="11" letter-spacing="1">CHAMBER TEMP</text>
+                <text x="100" y="134" text-anchor="middle" fill="var(--accent-lime)" font-family="'JetBrains Mono', monospace" font-size="9">ARGON: 99.98%</text>
+              </svg>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px dashed var(--border-glass); padding-top: 1.2rem; font-size: 0.8rem; font-family: var(--font-mono);">
+              <div>
+                <span style="color: var(--text-muted); display: block; font-size: 0.7rem;">VAULT CAPACITY</span>
+                <strong style="color: var(--parchment);">78.4% OCCUPIED</strong>
+              </div>
+              <div>
+                <span style="color: var(--text-muted); display: block; font-size: 0.7rem;">POWER AUTONOMY</span>
+                <strong style="color: var(--accent-glow);">120 DAYS UNPLUGGED</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking / Twilight Tour Form -->
+    <section id="reservations" class="section-booking">
+      <div class="booking-wrapper">
+        <div style="text-align: center;">
+          <span class="section-eyebrow">Restricted Access</span>
+          <h2 style="font-family: var(--font-display); font-size: 2.6rem; font-weight: 400; color: var(--parchment);">
+            Private Twilight Conservatory Access
+          </h2>
+          <p style="color: var(--text-parchment-muted); max-width: 600px; margin: 0.8rem auto 0; font-size: 0.95rem;">
+            Limited to 12 patrons per evening to prevent thermal disturbance to delicate microclimates. Nocturnal blooms release their volatile oils exclusively under moonlight.
+          </p>
+        </div>
+
+        <form class="booking-form" onsubmit="event.preventDefault(); alert('Reservation inquiry logged. Aurelia Guest Curator will contact your desk within 24 hours.');">
+          <div>
+            <label class="form-label" for="patron-name">Primary Patron Full Name</label>
+            <input type="text" id="patron-name" class="form-input" placeholder="Eleanor Vance, FLS" required>
+          </div>
+
+          <div>
+            <label class="form-label" for="patron-email">Direct Contact Email</label>
+            <input type="email" id="patron-email" class="form-input" placeholder="e.vance@linnean.org" required>
+          </div>
+
+          <div>
+            <label class="form-label" for="tour-date">Preferred Twilight Evening</label>
+            <input type="date" id="tour-date" class="form-input" required>
+          </div>
+
+          <div>
+            <label class="form-label" for="tour-guide">Specialist Botanical Guide</label>
+            <select id="tour-guide" class="form-select">
+              <option value="orchid">Dr. Clara Thorne (Orchidaceae Cryologist)</option>
+              <option value="rainforest">Prof. Tariq Al-Mansoor (Sumatran Cloud Systems)</option>
+              <option value="paleo">Dr. Julian Vance (Paleobotany &amp; Mesozoic Relicts)</option>
+            </select>
+          </div>
+
+          <div class="form-group-full">
+            <label class="form-label" for="pledge-tier">Conservation Foundation Pledge Tier</label>
+            <select id="pledge-tier" class="form-select">
+              <option value="fellow">Sanctuary Patron Tier &mdash; $2,500 (Endows 1 Seed Vault Accession)</option>
+              <option value="archival">Taxon Conservator &mdash; $7,500 (Funds 1 Year Climate Simulation)</option>
+              <option value="benefactor">Founder Circle &mdash; $25,000 (Endows Postdoctoral Fellow)</option>
+            </select>
+          </div>
+
+          <div class="form-group-full">
+            <label class="form-label" for="notes">Special Scientific or Photographic Inquiries</label>
+            <textarea id="notes" rows="3" class="form-textarea" placeholder="Specify if spectral UV photography or pollen sampling equipment is requested..."></textarea>
+          </div>
+
+          <div class="form-group-full">
+            <button type="submit" class="form-submit-btn">Transmit Sanctuary Access Application</button>
+            <p class="booking-notice">Strict CITES compliance. Hand sanitization, shoe decontamination, and humidity stabilization airlock protocols required upon entry.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem;">
+          <div class="brand-symbol" style="width: 28px; height: 28px;"></div>
+          <span style="font-family: var(--font-display); font-size: 1.3rem; color: var(--parchment);">AURELIA</span>
+        </div>
+        <p class="footer-brand-p">
+          International Living Archive of Endangered Flora &middot; Geodesic Dome Network &middot; Deep Seed Sanctum. Operating in accordance with the Global Strategy for Plant Conservation.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Conservatory</h4>
+        <ul class="footer-links">
+          <li><a href="#biomes">Dome Array IV</a></li>
+          <li><a href="#species">Living Red List</a></li>
+          <li><a href="#fellowship">Argon Seed Vault</a></li>
+          <li><a href="#reservations">Twilight Entry</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Research</h4>
+        <ul class="footer-links">
+          <li><a href="#">Genomic Data Portal</a></li>
+          <li><a href="#">Herbarium Sheet Archive</a></li>
+          <li><a href="#">CITES Permits Registry</a></li>
+          <li><a href="#">Postdoc Fellowships</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">Institutional</h4>
+        <ul class="footer-links">
+          <li><a href="#">Annual Conservation Report</a></li>
+          <li><a href="#">Scientific Advisory Board</a></li>
+          <li><a href="#">Trustee Governance</a></li>
+          <li><a href="#">Press &amp; Media Media Kit</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Aurelia Biospheric Foundation. All botanical germplasm protected under international treaty.</div>
+      <div>LAT 46&deg;32'18" N &middot; LON 8&deg;24'40" E &middot; ELEVATION 1,842M MSL</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Live Telemetry Micro-fluctuations
+    setInterval(() => {
+      const rh = (88.2 + Math.random() * 0.5).toFixed(1);
+      const temp = (24.1 + Math.random() * 0.3).toFixed(1);
+      const lux = Math.floor(42500 + Math.random() * 600);
+      const co2 = Math.floor(410 + Math.random() * 4);
+
+      const elRh = document.getElementById('tel-rh');
+      const elTemp = document.getElementById('tel-temp');
+      const elLux = document.getElementById('tel-lux');
+      const elCo2 = document.getElementById('tel-co2');
+
+      if (elRh) elRh.innerText = rh + '%';
+      if (elTemp) elTemp.innerText = temp + '°C';
+      if (elLux) elLux.innerText = lux.toLocaleString() + ' lx';
+      if (elCo2) elCo2.innerText = co2 + ' ppm';
+    }, 3200);
+
+    // Biome Selector Data
+    const biomeData = {
+      cloud: {
+        code: "ENCLAVE DOME // CLOUD-01",
+        name: "Alpine Cloud Forest",
+        desc: "Maintained with ultra-fine ultrasonic mist generation simulating high-altitude Andean slopes between 2,200m and 3,100m. Optimal environment for cloud epiphytes, high-altitude mosses, and threatened pleurothallid orchids.",
+        keystone: "Lepanthes telipogoniflora & Polylepis australis",
+        rh: "94%", rhW: "94%",
+        temp: "16.8°C", tempW: "48%",
+        par: "420 µmol/m²/s", parW: "65%",
+        vpd: "0.24 kPa", vpdW: "28%"
+      },
+      equatorial: {
+        code: "ENCLAVE DOME // EQUAT-02",
+        name: "Lowland Equatorial Sump",
+        desc: "Simulating peat-swamp forests of Sundaland. High thermal mass coupled with anaerobic acidic muck beds to sustain hyper-specialized carnivorous pitcher plants and mycorrhizal mycoheterotrophs.",
+        keystone: "Nepenthes rajah & Amorphophallus titanum",
+        rh: "98%", rhW: "98%",
+        temp: "29.4°C", tempW: "85%",
+        par: "780 µmol/m²/s", parW: "88%",
+        vpd: "0.12 kPa", vpdW: "15%"
+      },
+      grotto: {
+        code: "SUBTERRANEAN // GROT-03",
+        name: "Subterranean Fern Grotto",
+        desc: "Cooled karst limestone cavern lit by tuned 460nm horticultural actinic LEDs. Home to pre-Cretaceous leptosporangiate ferns that require continuous calciferous water seepage and zero direct thermal solar load.",
+        keystone: "Adiantum reniforme & Trichomanes speciosum",
+        rh: "91%", rhW: "91%",
+        temp: "14.2°C", tempW: "38%",
+        par: "110 µmol/m²/s", parW: "22%",
+        vpd: "0.18 kPa", vpdW: "20%"
+      },
+      succulent: {
+        code: "SOLAR ENCLAVE // KAROO-04",
+        name: "High-Veld Arid Karoo",
+        desc: "Simulating quartz-gravel winter-rainfall desert pockets of the Richtersveld. Micro-misted during pre-dawn hours with sharp 38°C midday solar penetration and quartz rock thermal radiating beds.",
+        keystone: "Pachypodium namaquanum & Conophytum burgeri",
+        rh: "32%", rhW: "32%",
+        temp: "34.5°C", tempW: "95%",
+        par: "1,450 µmol/m²/s", parW: "98%",
+        vpd: "3.40 kPa", vpdW: "90%"
+      }
+    };
+
+    function switchBiome(key) {
+      const b = biomeData[key];
+      if (!b) return;
+
+      const card = document.getElementById('biome-card');
+      card.style.opacity = '0.4';
+
+      setTimeout(() => {
+        document.getElementById('biome-code').innerText = b.code;
+        document.getElementById('biome-name').innerText = b.name;
+        document.getElementById('biome-description').innerText = b.desc;
+        document.getElementById('biome-keystone').innerText = b.keystone;
+
+        document.getElementById('biome-val-rh').innerText = b.rh;
+        document.getElementById('fill-rh').style.width = b.rhW;
+
+        document.getElementById('biome-val-temp').innerText = b.temp;
+        document.getElementById('fill-temp').style.width = b.tempW;
+
+        document.getElementById('biome-val-par').innerText = b.par;
+        document.getElementById('fill-par').style.width = b.parW;
+
+        document.getElementById('biome-val-vpd').innerText = b.vpd;
+        document.getElementById('fill-vpd').style.width = b.vpdW;
+
+        card.style.opacity = '1';
+      }, 150);
+
+      const btns = document.querySelectorAll('.biome-btn');
+      btns.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // Canvas Mist / Spore Particle System
+    const canvas = document.getElementById('mist-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = canvas.offsetHeight || 600;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.radius = 1 + Math.random() * 3.5;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = -0.2 - Math.random() * 0.6;
+          this.alpha = 0.1 + Math.random() * 0.4;
+          this.hue = Math.random() > 0.3 ? '132, 204, 22' : '254, 243, 199';
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+            this.reset();
+            this.y = height + 10;
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.hue}, ${this.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 70; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>

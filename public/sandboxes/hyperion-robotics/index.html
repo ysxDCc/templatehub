@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYPERION ROBOTICS // Autonomous Humanoid Industrial Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-void: #070709;
+      --bg-panel: #0e0e13;
+      --bg-card: rgba(18, 18, 25, 0.75);
+      --hazard-yellow: #eab308;
+      --hazard-bright: #facc15;
+      --cyber-cyan: #06b6d4;
+      --cyber-glow: rgba(6, 182, 212, 0.35);
+      --graphite-border: #23232f;
+      --graphite-light: #38384a;
+      --text-bright: #f1f5f9;
+      --text-dim: #94a3b8;
+      --text-muted: #64748b;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Chakra Petch', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        linear-gradient(to right, rgba(35, 35, 47, 0.35) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(35, 35, 47, 0.35) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* Scanline aesthetic */
+    body::before {
+      content: " ";
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    h1, h2, h3, h4, .tech-heading {
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .code-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--cyber-cyan);
+    }
+
+    /* Top Telemetry Strip */
+    .telemetry-strip {
+      background: #050507;
+      border-bottom: 1px solid var(--graphite-border);
+      padding: 0.45rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--hazard-yellow);
+    }
+    .status-indicator::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--hazard-yellow);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--hazard-yellow);
+      animation: pulse 1.6s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Header Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 10, 14, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--graphite-border);
+    }
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--hazard-yellow);
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 900;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+    .brand-name span {
+      color: var(--hazard-yellow);
+    }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      align-items: center;
+    }
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: var(--cyber-cyan);
+    }
+
+    .btn-hazard {
+      background: var(--hazard-yellow);
+      color: #000;
+      padding: 0.65rem 1.4rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.82rem;
+      border: none;
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-hazard:hover {
+      background: #fff;
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section */
+    .hero-container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      min-height: 85vh;
+    }
+    .hero-lead-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.8rem;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid var(--cyber-cyan);
+      color: var(--cyber-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 5vw, 4.5rem);
+      line-height: 1.05;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span.hl-yellow {
+      color: var(--hazard-yellow);
+      display: block;
+    }
+    .hero-desc {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+    }
+    .hero-cta-group {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+    .btn-outline-cyan {
+      border: 1px solid var(--cyber-cyan);
+      background: rgba(6, 182, 212, 0.05);
+      color: var(--cyber-cyan);
+      padding: 0.65rem 1.4rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-outline-cyan:hover {
+      background: var(--cyber-cyan);
+      color: #000;
+      box-shadow: 0 0 16px var(--cyber-glow);
+    }
+
+    .hero-stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+      border-top: 1px solid var(--graphite-border);
+      padding-top: 1.8rem;
+    }
+    .hero-stat-block .stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .hero-stat-block .stat-num span {
+      color: var(--hazard-yellow);
+    }
+    .hero-stat-block .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Kinematics Canvas Visualizer */
+    .kinematics-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--graphite-border);
+      position: relative;
+      padding: 1.5rem;
+      border-radius: 2px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+    .kinematics-card::after {
+      content: "SYSTEM // TITAN-IV DYNAMICS";
+      position: absolute;
+      top: 0.75rem;
+      right: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+    }
+    #kinematicsCanvas {
+      width: 100%;
+      height: 420px;
+      display: block;
+      background: radial-gradient(circle at center, #151520 0%, #0a0a0e 85%);
+      border: 1px solid #1a1a24;
+    }
+    .kinematics-telemetry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+    .tele-box {
+      background: #09090c;
+      border: 1px solid var(--graphite-border);
+      padding: 0.6rem;
+    }
+    .tele-box span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      margin-bottom: 0.2rem;
+    }
+    .tele-box strong {
+      color: var(--cyber-cyan);
+      font-size: 0.85rem;
+    }
+
+    /* General Section Styling */
+    section {
+      padding: 6rem 2rem;
+      max-width: 1360px;
+      margin: 0 auto;
+    }
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+    .section-eyebrow {
+      color: var(--hazard-yellow);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 3.8vw, 3rem);
+      font-weight: 700;
+    }
+
+    /* Dexterous Hand Manipulation Grid */
+    .manipulation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .manipulation-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .spec-item {
+      background: var(--bg-card);
+      border-left: 3px solid var(--hazard-yellow);
+      border-top: 1px solid var(--graphite-border);
+      border-right: 1px solid var(--graphite-border);
+      border-bottom: 1px solid var(--graphite-border);
+      padding: 1.4rem;
+    }
+    .spec-item h4 {
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+    .spec-item p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* Tactile Sensor Array Visualization */
+    .tactile-card {
+      background: #0c0c11;
+      border: 1px solid var(--graphite-border);
+      padding: 2rem;
+      position: relative;
+    }
+    .tactile-matrix-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      margin-bottom: 1.2rem;
+      color: var(--text-muted);
+    }
+    .tactile-grid-canvas {
+      width: 100%;
+      height: 280px;
+      background: #07070a;
+      border: 1px solid #1e1e28;
+      display: block;
+    }
+
+    /* Fleet Matrix Cards */
+    .fleet-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.8rem;
+    }
+    .fleet-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--graphite-border);
+      padding: 2rem;
+      position: relative;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .fleet-card:hover {
+      border-color: var(--cyber-cyan);
+      transform: translateY(-4px);
+    }
+    .fleet-code {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--hazard-yellow);
+      margin-bottom: 0.8rem;
+    }
+    .fleet-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .fleet-card p {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .fleet-stat-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .chip {
+      background: #14141c;
+      border: 1px solid var(--graphite-light);
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      color: var(--cyber-cyan);
+    }
+
+    /* Tech Specs Table */
+    .specs-table-container {
+      background: var(--bg-panel);
+      border: 1px solid var(--graphite-border);
+      overflow-x: auto;
+    }
+    table.specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    table.specs-table th {
+      background: #07070a;
+      padding: 1.1rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--hazard-yellow);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--graphite-border);
+    }
+    table.specs-table td {
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid #161622;
+      color: var(--text-dim);
+    }
+    table.specs-table tr:hover td {
+      background: rgba(6, 182, 212, 0.03);
+      color: #fff;
+    }
+    table.specs-table td.spec-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* Commercial Deployment Inquiry Form */
+    .inquiry-wrapper {
+      background: linear-gradient(135deg, #0e0e14 0%, #151520 100%);
+      border: 1px solid var(--graphite-border);
+      padding: 4rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 4rem;
+    }
+    .inquiry-narrative h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .inquiry-narrative p {
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .inquiry-points {
+      list-style: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      color: var(--text-dim);
+    }
+    .inquiry-points li::before {
+      content: ">> ";
+      color: var(--hazard-yellow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+    .form-group-full {
+      margin-bottom: 1.2rem;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-input {
+      width: 100%;
+      background: #08080c;
+      border: 1px solid var(--graphite-border);
+      padding: 0.85rem 1rem;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--cyber-cyan);
+    }
+
+    /* Footer */
+    footer {
+      background: #050508;
+      border-top: 1px solid var(--graphite-border);
+      padding: 4rem 2rem 2rem;
+    }
+    .footer-grid {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      margin-bottom: 1.2rem;
+      color: #fff;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col li {
+      margin-bottom: 0.6rem;
+    }
+    .footer-col a {
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--hazard-yellow);
+    }
+    .footer-bottom {
+      max-width: 1360px;
+      margin: 0 auto;
+      border-top: 1px solid #171720;
+      padding-top: 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-container, .manipulation-grid, .inquiry-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      nav ul { display: none; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-stat-row { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Telemetry Status -->
+  <div class="telemetry-strip">
+    <div class="status-indicator">FLEET STATUS: 1,420 UNITS ACTIVE // ZERO SAFETY TRIPS</div>
+    <div>RTOS LATENCY: <span style="color:var(--cyber-cyan)">240&mu;s</span> &bull; BUS: 10Gbps TSN</div>
+    <div>SYS_VER: TITAN-OS 4.18.2-rt</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <a href="#" class="brand-group">
+        <div class="brand-icon">H</div>
+        <div class="brand-name">HYPERION <span>ROBOTICS</span></div>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#kinematics">Kinematics</a></li>
+          <li><a href="#hands">End-Effectors</a></li>
+          <li><a href="#fleet">Deployment</a></li>
+          <li><a href="#specs">Specifications</a></li>
+        </ul>
+      </nav>
+      <a href="#inquiry" class="btn-hazard">Deploy Fleet</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <div class="hero-container">
+      <div class="hero-left">
+        <div class="hero-lead-badge">[ PRODUCTION SPEC: TITAN-IV HUMAN-SCALE ACTUATION ]</div>
+        <h1 class="hero-title">
+          Unconstrained
+          <span class="hl-yellow">Bipedal Torque</span>
+          For Heavy Industry.
+        </h1>
+        <p class="hero-desc">
+          Engineered to replace dangerous, repetitive manual labor. 32 degrees of freedom, planar quasi-direct-drive cycloidal actuators, and real-time whole-body predictive balance algorithms.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#inquiry" class="btn-hazard">Request Plant Pilot</a>
+          <a href="#specs" class="btn-outline-cyan">View Architecture</a>
+        </div>
+
+        <div class="hero-stat-row">
+          <div class="hero-stat-block">
+            <div class="stat-num">32<span>-DoF</span></div>
+            <div class="stat-label">Whole Body Kinematic Joints</div>
+          </div>
+          <div class="hero-stat-block">
+            <div class="stat-num">380<span>Nm</span></div>
+            <div class="stat-label">Peak Hip Torque Density</div>
+          </div>
+          <div class="hero-stat-block">
+            <div class="stat-num">25<span>kg</span></div>
+            <div class="stat-label">Continuous Arm Payload</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kinematics Canvas Visualizer -->
+      <div class="kinematics-card" id="kinematics">
+        <canvas id="kinematicsCanvas" width="500" height="420"></canvas>
+        <div class="kinematics-telemetry">
+          <div class="tele-box">
+            <span>PELVIS INCLINATION</span>
+            <strong id="pelvisAngle">0.42&deg; PITCH</strong>
+          </div>
+          <div class="tele-box">
+            <span>ANKLE COMPLIANCE</span>
+            <strong id="ankleTorque">48.2 Nm</strong>
+          </div>
+          <div class="tele-box">
+            <span>BALANCE FREQ</span>
+            <strong>1000 Hz LOOP</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Dexterous Manipulation -->
+    <section id="hands">
+      <div class="section-header">
+        <span class="section-eyebrow">// SUB-MILLIMETER TACTILE INTERACTION</span>
+        <h2 class="section-title">High-Fidelity Manipulation</h2>
+      </div>
+
+      <div class="manipulation-grid">
+        <div class="manipulation-specs">
+          <div class="spec-item">
+            <h4>16-DoF Biomimetic Hand & Wrist</h4>
+            <p>Direct-drive brushless motors enclosed in forearm tendons deliver 0.05mm positioning repeatability with high compliance for picking micro-fasteners or heavy raw billets.</p>
+          </div>
+          <div class="spec-item">
+            <h4>Piezoresistive Digital Tactile Skin</h4>
+            <p>Every finger pad integrates 128 multi-axial pressure sensing arrays capable of sensing surface slip down to 3 milliseconds before human perceptual threshold.</p>
+          </div>
+          <div class="spec-item">
+            <h4>Tool-Less Rapid Coupling</h4>
+            <p>Standard ISO 9409-1 mechanical flange enables seamless hot-swapping between biomimetic five-finger hands and pneumatic high-vacuum cup arrays.</p>
+          </div>
+        </div>
+
+        <!-- Tactile Array Visualizer -->
+        <div class="tactile-card">
+          <div class="tactile-matrix-header">
+            <span>FINGERPAD TACTILE MATRIX (REAL-TIME CONTACT HEATMAP)</span>
+            <span style="color:var(--cyber-cyan)">INDEX_L4 SENSOR</span>
+          </div>
+          <canvas id="tactileCanvas" class="tactile-grid-canvas" width="460" height="280"></canvas>
+          <div style="margin-top: 1rem; display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted);">
+            <span>CONTACT FORCE: <strong style="color:var(--hazard-yellow)" id="contactForce">14.6 N</strong></span>
+            <span>SLIP FACTOR: <strong style="color:#10b981">0.00 (LOCKED)</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Fleet Matrix Deployment -->
+    <section id="fleet">
+      <div class="section-header">
+        <span class="section-eyebrow">// OPERATIONAL SCENARIOS</span>
+        <h2 class="section-title">Factory Floor Fleet Deployments</h2>
+      </div>
+
+      <div class="fleet-matrix-grid">
+        <div class="fleet-card">
+          <div class="fleet-code">FACILITY CLASS: AUTO-STAMP-01</div>
+          <h3>Automotive Body Stamping</h3>
+          <p>Feeding sheet steel presses and handling sharp raw stampings across 24/7 tri-shift environments. Immune to weld spatter and high ambient vibration.</p>
+          <div class="fleet-stat-chips">
+            <span class="chip">20kg Load</span>
+            <span class="chip">IP67 Sealed</span>
+            <span class="chip">99.8% Uptime</span>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-code">FACILITY CLASS: CLEAN-ISO-4</div>
+          <h3>Semiconductor Fabrication</h3>
+          <p>Zero-particle emission Teflon cabling and cleanroom-grade lubricants. Transports fragile 300mm FOUP wafer pods with ultra-smooth vibration damping.</p>
+          <div class="fleet-stat-chips">
+            <span class="chip">ISO Class 4</span>
+            <span class="chip">&lt;0.01G Shock</span>
+            <span class="chip">ESD Grounded</span>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-code">FACILITY CLASS: HAZ-LOG-09</div>
+          <h3>Toxic & Chemical Handling</h3>
+          <p>Operates in sealed nitrogen-purged atmospheres, volatile organic chemical storerooms, and nuclear decommissioning hot-cells via remote neural twinning.</p>
+          <div class="fleet-stat-chips">
+            <span class="chip">ATEX Zone 1</span>
+            <span class="chip">Radiation Hard</span>
+            <span class="chip">Thermal Shield</span>
+          </div>
+        </div>
+
+        <div class="fleet-card">
+          <div class="fleet-code">FACILITY CLASS: INTRA-LOG-04</div>
+          <h3>Warehouse Fulfillment Hubs</h3>
+          <p>Unloads loose shipping containers, navigates narrow aisles, climbs industrial mezzanine stairs, and palletizes mixed-weight freight up to 40kg.</p>
+          <div class="fleet-stat-chips">
+            <span class="chip">2.2 m/s Walk</span>
+            <span class="chip">Stair Navigation</span>
+            <span class="chip">Autonomous Dock</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Humanoid Tech Specs Table -->
+    <section id="specs">
+      <div class="section-header">
+        <span class="section-eyebrow">// ENGINEERING SPECIFICATIONS</span>
+        <h2 class="section-title">Titan-IV Architectural Matrix</h2>
+      </div>
+
+      <div class="specs-table-container">
+        <table class="specs-table">
+          <thead>
+            <tr>
+              <th>Subsystem</th>
+              <th>Specification</th>
+              <th>Operating Limit</th>
+              <th>Architecture Principle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="spec-title">Height & Mass</td>
+              <td>178 cm &bull; 73 kg (Standard Rig)</td>
+              <td>Max ballasted 85 kg</td>
+              <td>Carbon-fiber monocoque chassis + Ti-6Al-4V joints</td>
+            </tr>
+            <tr>
+              <td class="spec-title">Degrees of Freedom</td>
+              <td>32 Total (12 Legs, 14 Arms, 3 Torso, 3 Neck)</td>
+              <td>Planar limits -135&deg; to +135&deg;</td>
+              <td>Quasi-Direct Drive (QDD) cycloidal gearing</td>
+            </tr>
+            <tr>
+              <td class="spec-title">Peak Hip Torque</td>
+              <td>380 Nm instantaneous</td>
+              <td>210 Nm continuous</td>
+              <td>Liquid-cooled NdFeB rotor with SiC MOSFET inverters</td>
+            </tr>
+            <tr>
+              <td class="spec-title">Battery & Runtime</td>
+              <td>2.4 kWh LFP Fast-Swap Cell</td>
+              <td>8.5 Hours Continuous Duty</td>
+              <td>35-minute autonomous inductive floor dock recharge</td>
+            </tr>
+            <tr>
+              <td class="spec-title">Perception Array</td>
+              <td>4x Multi-Spectral LiDAR + 8x Stereo RGB</td>
+              <td>360&deg; Spherical FOV</td>
+              <td>On-board dual NVIDIA Orin AGX (550 TOPS compute)</td>
+            </tr>
+            <tr>
+              <td class="spec-title">Ingress Rating</td>
+              <td>IP67 Enclosure Integrity</td>
+              <td>Submersible 1m / 30 min</td>
+              <td>Pressurized interior inert dry nitrogen seal option</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Commercial Deployment Inquiry Form -->
+    <section id="inquiry">
+      <div class="inquiry-wrapper">
+        <div class="inquiry-narrative">
+          <span class="section-eyebrow">// ENTERPRISE INTEGRATION</span>
+          <h3>Procure Your Fleet Pilot</h3>
+          <p>
+            Hyperion deployment engineers conduct turn-key plant mapping, simulation digital twins, and worker-safety certification within a 30-day trial window.
+          </p>
+
+          <ul class="inquiry-points">
+            <li>Guaranteed 100% Robot-as-a-Service (RaaS) SLA</li>
+            <li>Full OSHA 1910 Subpart O compliance certification</li>
+            <li>Direct integration with SAP, Oracle WMS, and Siemens MES</li>
+            <li>On-premise edge neural inferencing with zero cloud leak</li>
+          </ul>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Commercial Deployment Request logged. Hyperion Systems Engineering will review your facility specs within 1 business day.');">
+          <div class="form-grid">
+            <div>
+              <label class="form-label">Enterprise Name</label>
+              <input type="text" class="form-input" placeholder="e.g. Gigafactory Logistics LLC" required>
+            </div>
+            <div>
+              <label class="form-label">Corporate Email</label>
+              <input type="email" class="form-input" placeholder="ops@enterprise.com" required>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <label class="form-label">Facility Floor Area</label>
+              <select class="form-input">
+                <option>50,000 - 150,000 sq ft</option>
+                <option selected>150,000 - 500,000 sq ft</option>
+                <option>500,000+ sq ft (Mega-Site)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Initial Fleet Batch</label>
+              <select class="form-input">
+                <option>Pilot Evaluation (2 - 5 units)</option>
+                <option selected>Line Modernization (10 - 25 units)</option>
+                <option>Full Plant Retrofit (50+ units)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-full">
+            <label class="form-label">Duty Cycle & Primary Application</label>
+            <input type="text" class="form-input" placeholder="e.g. Heavy stamping press feed, 24/7 continuous" required>
+          </div>
+
+          <div class="form-group-full">
+            <label class="form-label">Specific Environmental Constraints</label>
+            <textarea class="form-input" rows="3" placeholder="Thermal, dust, toxic vapors, stairs, Wi-Fi 6E / Private 5G status..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-hazard" style="width: 100%; padding: 1rem;">Transmit Deployment RFP</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>HYPERION ROBOTICS</h4>
+        <p style="color:var(--text-muted); font-size: 0.85rem; line-height: 1.7; max-width: 320px;">
+          Autonomous industrial bipedal systems. Built in Detroit and Stuttgart for high-throughput heavy manufacturing, cleanrooms, and extreme environment automation.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Hardware</h4>
+        <ul>
+          <li><a href="#kinematics">Titan-IV Actuators</a></li>
+          <li><a href="#hands">Tactile Piezos</a></li>
+          <li><a href="#specs">Cycloidal Drives</a></li>
+          <li><a href="#specs">LFP Batteries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Software</h4>
+        <ul>
+          <li><a href="#">Titan-OS RTOS</a></li>
+          <li><a href="#">Whole-Body MPC</a></li>
+          <li><a href="#">MuJoCo Twin Hub</a></li>
+          <li><a href="#">ROS2 Galactic Nodes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Compliance</h4>
+        <ul>
+          <li><a href="#">ISO 10218-1 Safety</a></li>
+          <li><a href="#">ISO 13849-1 Cat 4</a></li>
+          <li><a href="#">CE / FCC Part 15</a></li>
+          <li><a href="#">SOC 2 Type II Edge</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Hyperion Robotics Inc. Engineered for Autonomous Industry.</div>
+      <div>CLASSIFICATION: COMMERCIAL PUBLIC SPEC &bull; REV 4.2</div>
+    </div>
+  </footer>
+
+  <!-- Kinematics & Tactile Interactive Canvas Scripts -->
+  <script>
+    // --- Interactive Bipedal Kinematics Canvas ---
+    const kCanvas = document.getElementById('kinematicsCanvas');
+    const kCtx = kCanvas.getContext('2d');
+    let kWidth = kCanvas.width;
+    let kHeight = kCanvas.height;
+
+    let walkPhase = 0;
+
+    function renderKinematics() {
+      kCtx.clearRect(0, 0, kWidth, kHeight);
+      walkPhase += 0.04;
+
+      // Draw Grid backdrop
+      kCtx.strokeStyle = 'rgba(35, 35, 50, 0.4)';
+      kCtx.lineWidth = 1;
+      for (let x = 0; x < kWidth; x += 25) {
+        kCtx.beginPath();
+        kCtx.moveTo(x, 0);
+        kCtx.lineTo(x, kHeight);
+        kCtx.stroke();
+      }
+      for (let y = 0; y < kHeight; y += 25) {
+        kCtx.beginPath();
+        kCtx.moveTo(0, y);
+        kCtx.lineTo(kWidth, y);
+        kCtx.stroke();
+      }
+
+      // Ground plane
+      const groundY = 360;
+      kCtx.strokeStyle = '#eab308';
+      kCtx.lineWidth = 2;
+      kCtx.beginPath();
+      kCtx.moveTo(40, groundY);
+      kCtx.lineTo(460, groundY);
+      kCtx.stroke();
+
+      // Hazard markings on ground
+      for (let x = 50; x < 450; x += 30) {
+        kCtx.beginPath();
+        kCtx.moveTo(x, groundY);
+        kCtx.lineTo(x + 15, groundY + 8);
+        kCtx.stroke();
+      }
+
+      // Kinematic Body coordinates
+      const cx = 250 + Math.sin(walkPhase * 0.5) * 8;
+      const hipY = 170 + Math.sin(walkPhase * 2) * 5;
+
+      // Leg 1 (Left Leg)
+      const leg1Angle = Math.sin(walkPhase) * 0.6;
+      const knee1X = cx + Math.sin(leg1Angle) * 75;
+      const knee1Y = hipY + Math.cos(leg1Angle) * 75;
+      const foot1Angle = leg1Angle + Math.cos(walkPhase) * 0.5;
+      const foot1X = knee1X + Math.sin(foot1Angle) * 85;
+      const foot1Y = Math.min(groundY, knee1Y + Math.cos(foot1Angle) * 85);
+
+      // Leg 2 (Right Leg - anti-phase)
+      const leg2Angle = Math.sin(walkPhase + Math.PI) * 0.6;
+      const knee2X = cx + Math.sin(leg2Angle) * 75;
+      const knee2Y = hipY + Math.cos(leg2Angle) * 75;
+      const foot2Angle = leg2Angle + Math.cos(walkPhase + Math.PI) * 0.5;
+      const foot2X = knee2X + Math.sin(foot2Angle) * 85;
+      const foot2Y = Math.min(groundY, knee2Y + Math.cos(foot2Angle) * 85);
+
+      // Spine & Torso
+      const chestY = hipY - 70;
+      const headY = chestY - 35;
+
+      // Draw Limbs (Cyan Wireframe + Yellow Joint Actuators)
+      function drawBone(x1, y1, x2, y2, color, width) {
+        kCtx.strokeStyle = color;
+        kCtx.lineWidth = width;
+        kCtx.beginPath();
+        kCtx.moveTo(x1, y1);
+        kCtx.lineTo(x2, y2);
+        kCtx.stroke();
+      }
+
+      function drawJoint(x, y, label) {
+        kCtx.fillStyle = '#0a0a0f';
+        kCtx.strokeStyle = '#eab308';
+        kCtx.lineWidth = 2;
+        kCtx.beginPath();
+        kCtx.arc(x, y, 7, 0, Math.PI * 2);
+        kCtx.fill();
+        kCtx.stroke();
+
+        kCtx.fillStyle = '#facc15';
+        kCtx.beginPath();
+        kCtx.arc(x, y, 3, 0, Math.PI * 2);
+        kCtx.fill();
+
+        if (label) {
+          kCtx.fillStyle = '#94a3b8';
+          kCtx.font = '9px "JetBrains Mono"';
+          kCtx.fillText(label, x + 10, y + 3);
+        }
+      }
+
+      // Torso Monocoque
+      kCtx.fillStyle = 'rgba(6, 182, 212, 0.15)';
+      kCtx.strokeStyle = '#06b6d4';
+      kCtx.lineWidth = 2;
+      kCtx.beginPath();
+      kCtx.moveTo(cx - 22, hipY);
+      kCtx.lineTo(cx - 30, chestY);
+      kCtx.lineTo(cx + 30, chestY);
+      kCtx.lineTo(cx + 22, hipY);
+      kCtx.closePath();
+      kCtx.fill();
+      kCtx.stroke();
+
+      // Head / Sensor Turret
+      kCtx.fillStyle = '#1e1e28';
+      kCtx.strokeStyle = '#06b6d4';
+      kCtx.strokeRect(cx - 16, headY, 32, 22);
+      kCtx.fillRect(cx - 16, headY, 32, 22);
+
+      // Sensor visor glow
+      kCtx.fillStyle = '#eab308';
+      kCtx.fillRect(cx - 12, headY + 8, 24, 4);
+
+      // Draw Leg 2 (behind)
+      drawBone(cx, hipY, knee2X, knee2Y, 'rgba(6, 182, 212, 0.4)', 5);
+      drawBone(knee2X, knee2Y, foot2X, foot2Y, 'rgba(6, 182, 212, 0.4)', 4);
+      drawJoint(knee2X, knee2Y);
+      drawJoint(foot2X, foot2Y);
+
+      // Draw Leg 1 (front)
+      drawBone(cx, hipY, knee1X, knee1Y, '#06b6d4', 6);
+      drawBone(knee1X, knee1Y, foot1X, foot1Y, '#06b6d4', 5);
+      drawJoint(cx, hipY, 'HIP J1');
+      drawJoint(knee1X, knee1Y, 'KNEE J2');
+      drawJoint(foot1X, foot1Y, 'ANKLE J3');
+
+      // Update telemetry readouts in DOM
+      const pitch = (Math.sin(walkPhase * 0.5) * 1.2).toFixed(2);
+      const ankleT = (45 + Math.abs(Math.sin(walkPhase) * 35)).toFixed(1);
+      const pelvisElem = document.getElementById('pelvisAngle');
+      const ankleElem = document.getElementById('ankleTorque');
+      if (pelvisElem) pelvisElem.innerText = pitch + '° PITCH';
+      if (ankleElem) ankleElem.innerText = ankleT + ' Nm';
+
+      requestAnimationFrame(renderKinematics);
+    }
+    renderKinematics();
+
+    // --- Tactile Sensor Array Visualization ---
+    const tCanvas = document.getElementById('tactileCanvas');
+    const tCtx = tCanvas.getContext('2d');
+    const tWidth = tCanvas.width;
+    const tHeight = tCanvas.height;
+
+    let tPhase = 0;
+    const COLS = 16;
+    const ROWS = 10;
+    const cellW = tWidth / COLS;
+    const cellH = tHeight / ROWS;
+
+    function renderTactile() {
+      tCtx.clearRect(0, 0, tWidth, tHeight);
+      tPhase += 0.05;
+
+      let totalPressure = 0;
+
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          // Compute distance to moving pressure center
+          const centerX = (COLS / 2) + Math.sin(tPhase * 0.8) * 4;
+          const centerY = (ROWS / 2) + Math.cos(tPhase * 0.6) * 2;
+          const dist = Math.hypot(c - centerX, r - centerY);
+
+          let pressure = Math.max(0, 1 - dist / 4.5);
+          pressure += (Math.sin(c * 0.8 + tPhase) * 0.1);
+          pressure = Math.min(1, Math.max(0, pressure));
+
+          totalPressure += pressure;
+
+          // Color interpolate from dark graphite -> cyan -> yellow -> intense white
+          let rVal = Math.floor(pressure > 0.6 ? 234 * ((pressure - 0.6) / 0.4) : 6);
+          let gVal = Math.floor(pressure > 0.6 ? 179 : 182 * pressure);
+          let bVal = Math.floor(pressure > 0.6 ? 8 : 212 * pressure);
+
+          tCtx.fillStyle = `rgb(${rVal}, ${gVal}, ${bVal})`;
+          tCtx.fillRect(c * cellW + 1, r * cellH + 1, cellW - 2, cellH - 2);
+        }
+      }
+
+      // Update force readout
+      const contactElem = document.getElementById('contactForce');
+      if (contactElem) {
+        contactElem.innerText = (totalPressure * 0.4).toFixed(1) + ' N';
+      }
+
+      requestAnimationFrame(renderTactile);
+    }
+    renderTactile();
+  </script>
+</body>
+</html>

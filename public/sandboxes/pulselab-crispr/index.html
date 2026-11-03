@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PULSE-CRISPR // Point-of-Care Microfluidic Gene Diagnostics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-sterile: #090d16;
+      --bg-surface: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.6);
+      --border-clinical: rgba(99, 102, 241, 0.25);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --crispr-magenta: #ec4899;
+      --crispr-indigo: #6366f1;
+      --crispr-cyan: #06b6d4;
+      --crispr-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-sterile);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.55;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 45%);
+    }
+
+    ::selection {
+      background: var(--crispr-magenta);
+      color: #fff;
+    }
+
+    /* REGULATORY HEADER STRIP */
+    .reg-strip {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid var(--border-clinical);
+      backdrop-filter: blur(10px);
+      padding: 0.55rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .reg-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .reg-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .fda-badge {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
+      border: 1px solid var(--crispr-magenta);
+      color: #fbcfe8;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .fda-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--crispr-magenta);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--crispr-magenta);
+    }
+
+    .reg-metrics {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--text-muted);
+    }
+
+    .reg-metrics strong {
+      color: var(--text-main);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--crispr-indigo), var(--crispr-magenta));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.35);
+    }
+
+    .brand-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-name span {
+      background: linear-gradient(90deg, var(--crispr-magenta), var(--crispr-indigo));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-tag {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--crispr-cyan);
+    }
+
+    .nav-btn {
+      background: linear-gradient(135deg, var(--crispr-indigo) 0%, var(--crispr-magenta) 100%);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+      transition: all 0.25s;
+    }
+
+    .nav-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(236, 72, 153, 0.45);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      padding: 4.5rem 1.5rem 6.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 4rem;
+      align-items: center;
+      min-height: 84vh;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--crispr-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.8rem, 5.2vw, 4.6rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-h1 .gradient-text {
+      background: linear-gradient(90deg, #ec4899 0%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-p {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 580px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, var(--crispr-magenta) 0%, var(--crispr-indigo) 100%);
+      color: #fff;
+      padding: 0.95rem 2.2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 25px rgba(236, 72, 153, 0.4);
+      transition: all 0.25s;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+    }
+
+    .btn-sterile {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.95rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: all 0.25s;
+    }
+
+    .btn-sterile:hover {
+      border-color: var(--crispr-cyan);
+      color: var(--crispr-cyan);
+    }
+
+    /* HERO CARTRIDGE & DNA VISUALIZER CARD */
+    .visualizer-card {
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+      border: 1px solid var(--border-clinical);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-dim);
+    }
+
+    #dna-canvas {
+      width: 100%;
+      height: 280px;
+      display: block;
+      background: #090e18;
+      border-radius: 10px;
+      border: 1px solid rgba(99, 102, 241, 0.15);
+    }
+
+    .card-telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+    }
+
+    .tel-cell {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .tel-cell strong {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--crispr-magenta);
+      margin-top: 0.15rem;
+    }
+
+    /* SECTION 2: 15-MINUTE DETECTION TELEMETRY */
+    .section-telemetry {
+      padding: 6rem 1.5rem;
+      background: rgba(15, 23, 42, 0.5);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+    }
+
+    .section-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--crispr-magenta);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-h2 {
+      font-size: clamp(2rem, 3.8vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3.5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2.2rem;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--crispr-indigo);
+      transform: translateY(-4px);
+    }
+
+    .feature-step {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--crispr-cyan);
+      margin-bottom: 1.2rem;
+      display: block;
+      font-weight: 600;
+    }
+
+    .feature-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* SECTION 3: CLINICAL TRIAL VALIDATION */
+    .section-trials {
+      padding: 7rem 1.5rem;
+      position: relative;
+    }
+
+    .trial-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .trial-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      margin-top: 1.5rem;
+      background: rgba(15, 23, 42, 0.6);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .trial-table th {
+      background: rgba(30, 41, 59, 0.8);
+      padding: 0.9rem 1.2rem;
+      text-align: left;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .trial-table td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .trial-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .stat-highlight {
+      color: var(--crispr-emerald);
+      font-weight: 700;
+    }
+
+    /* SECTION 4: HARDWARE SPECIFICATIONS */
+    .section-hardware {
+      padding: 6rem 1.5rem;
+      background: rgba(15, 23, 42, 0.4);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .hardware-bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .hw-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 2rem;
+    }
+
+    .hw-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid var(--crispr-indigo);
+      display: grid;
+      place-items: center;
+      color: var(--crispr-cyan);
+      margin-bottom: 1.2rem;
+    }
+
+    .hw-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hw-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* SECTION 5: HEALTHCARE PROVIDER ORDER FORM */
+    .section-order {
+      padding: 7rem 1.5rem;
+      position: relative;
+    }
+
+    .order-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 1px solid var(--border-clinical);
+      border-radius: 16px;
+      padding: 3.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .order-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-top: 2.5rem;
+    }
+
+    .col-full {
+      grid-column: span 2;
+    }
+
+    .form-lbl {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .form-ctrl {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-ctrl:focus {
+      border-color: var(--crispr-magenta);
+      box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+    }
+
+    .form-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--crispr-magenta) 0%, var(--crispr-indigo) 100%);
+      color: #fff;
+      border: none;
+      padding: 1.1rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .form-btn:hover {
+      box-shadow: 0 8px 30px rgba(236, 72, 153, 0.45);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    .sterile-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: #060910;
+      padding: 4.5rem 1.5rem 2.5rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-list a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-list a:hover {
+      color: var(--crispr-cyan);
+    }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    @media (max-width: 992px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .trial-layout {
+        grid-template-columns: 1fr;
+      }
+      .hardware-bento {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .order-form {
+        grid-template-columns: 1fr;
+      }
+      .col-full {
+        grid-column: span 1;
+      }
+      .hardware-bento {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .reg-metrics {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Regulatory Strip -->
+  <aside class="reg-strip">
+    <div class="reg-container">
+      <div class="reg-badge-group">
+        <span class="fda-badge">
+          <span class="fda-dot"></span>
+          FDA BREAKTHROUGH DEVICE DESIGNATION
+        </span>
+        <span style="color: var(--crispr-cyan);">CE-IVD MARK CLASS D</span>
+        <span style="color: var(--text-muted);">&middot; ISO 13485:2016</span>
+      </div>
+      <div class="reg-metrics">
+        <div>LIMIT OF DETECTION: <strong>10 aM (SUB-FEMTOMOLAR)</strong></div>
+        <div>TIME TO RESULT: <strong>14.2 MINUTES</strong></div>
+        <div>ACCURACY VS PCR: <strong>99.8% CONCORDANCE</strong></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 2v20M2 12h20M7 7l10 10M17 7L7 17"/></svg>
+        </div>
+        <div>
+          <div class="brand-name">PULSE<span>CRISPR</span></div>
+          <span class="brand-tag">Enzymatic Microfluidics</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#detection">Cas12/13 Assay</a></li>
+        <li><a href="#trials">Clinical Data</a></li>
+        <li><a href="#hardware">USB-C Reader</a></li>
+        <li><a href="#order">Provider Portal</a></li>
+      </ul>
+      <a href="#order" class="nav-btn">Order Clinical Cartridges</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION WITH DNA HELIX CANVAS -->
+    <section class="hero">
+      <div>
+        <div class="hero-label">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          NEXT-GENERATION POINT-OF-CARE MOLECULAR ASSAY
+        </div>
+        <h1 class="hero-h1">
+          Sub-femtomolar <span class="gradient-text">CRISPR Diagnostics</span> in 15 Minutes.
+        </h1>
+        <p class="hero-p">
+          Combining isothermal RPA pre-amplification with Cas12a/Cas13a collateral cleavage in a zero-cold-chain microfluidic cartridge. Delivering gold-standard qPCR sensitivity at the clinic bedside.
+        </p>
+        <div class="hero-ctas">
+          <a href="#order" class="btn-gradient">Request Provider Evaluation Kit</a>
+          <a href="#trials" class="btn-sterile">Review Multi-Center Trial Data</a>
+        </div>
+      </div>
+
+      <!-- VISUALIZER CARD -->
+      <div class="visualizer-card">
+        <div class="card-topbar">
+          <span>ENZYME CONFORMATION // Cas12a TARGET INTERACTION</span>
+          <span style="color: var(--crispr-magenta);" id="fluorescence-val">RFU: 48,290</span>
+        </div>
+        <canvas id="dna-canvas" width="400" height="280"></canvas>
+        <div class="card-telemetry-strip">
+          <div class="tel-cell">
+            SENSITIVITY THRESHOLD
+            <strong>10 Atromolar</strong>
+          </div>
+          <div class="tel-cell">
+            AMPLIFICATION TIME
+            <strong>9.5 Minutes</strong>
+          </div>
+          <div class="tel-cell">
+            CROSS-REACTIVITY
+            <strong>0.00% False Pos</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: 15-MINUTE DETECTION TELEMETRY -->
+    <section id="detection" class="section-telemetry">
+      <div class="section-container">
+        <span class="section-eyebrow">Biochemical Architecture</span>
+        <h2 class="section-h2">How Point-of-Care CRISPR Cleavage Operates</h2>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <span class="feature-step">STEP 01 // SAMPLE LYSIS &amp; RPA</span>
+            <h3 class="feature-title">Isothermal Pre-Amplification</h3>
+            <p class="feature-p">
+              Crude patient specimen (nasal swab, whole blood, or saliva) is injected directly into the cartridge inlet. Lyophilized Recombinase Polymerase Amplification (RPA) enzymes amplify target nucleic acids at a constant 37&deg;C without thermal cyclers.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-step">STEP 02 // GUIDE RNA BINDING</span>
+            <h3 class="feature-title">Ultra-Specific gRNA Interrogation</h3>
+            <p class="feature-p">
+              Engineered synthetic crRNA identifies single-nucleotide polymorphisms (SNPs) and specific genetic pathogen footprints with zero off-target cross-reaction, distinguishing closely related viral strains within minutes.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <span class="feature-step">STEP 03 // COLLATERAL REPORTERS</span>
+            <h3 class="feature-title">Fluorophore-Quencher Cleavage</h3>
+            <p class="feature-p">
+              Target recognition triggers non-specific ssDNA/ssRNA trans-cleavage activity in Cas12a/Cas13a, disintegrating thousands of fluorescent quencher probes per second for an exponentially magnified optical readout.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: CLINICAL TRIAL VALIDATION -->
+    <section id="trials" class="section-trials">
+      <div class="section-container">
+        <div class="trial-layout">
+          <div>
+            <span class="section-eyebrow">Comparative Multi-Center Cohort</span>
+            <h2 class="section-h2">Clinical Validation Against Central Lab RT-qPCR</h2>
+            <p style="color: var(--text-muted); line-height: 1.7; font-size: 1.05rem;">
+              Conducted across 4,200 prospective patient samples in university hospital emergency departments and CLIA-certified pathology laboratories. Pulse CRISPR demonstrated statistical non-inferiority to central laboratory testing with a 98% reduction in turnaround time.
+            </p>
+
+            <table class="trial-table">
+              <thead>
+                <tr>
+                  <th>Performance Metric</th>
+                  <th>Pulse CRISPR Cartridge</th>
+                  <th>Hospital Central PCR</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Clinical Sensitivity</td>
+                  <td class="stat-highlight">99.8% (95% CI: 99.2&ndash;100%)</td>
+                  <td>99.6%</td>
+                </tr>
+                <tr>
+                  <td>Clinical Specificity</td>
+                  <td class="stat-highlight">100% (95% CI: 99.7&ndash;100%)</td>
+                  <td>99.9%</td>
+                </tr>
+                <tr>
+                  <td>Time-to-Result</td>
+                  <td class="stat-highlight">14.2 Minutes</td>
+                  <td>4 to 8 Hours</td>
+                </tr>
+                <tr>
+                  <td>Cold Chain Logistics</td>
+                  <td class="stat-highlight">Ambient (2&deg;C &ndash; 30&deg;C)</td>
+                  <td>-20&deg;C Reagents</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Interactive Clinical Trial Diagram / Bland-Altman Concordance -->
+          <div style="background: var(--bg-card); border: 1px solid var(--border-clinical); border-radius: 14px; padding: 2.5rem;">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--crispr-cyan); margin-bottom: 1rem;">
+              CONCORDANCE REGRESSION // R&sup2; = 0.9984
+            </div>
+            
+            <svg viewBox="0 0 320 220" width="100%" height="220" fill="none">
+              <!-- Axes -->
+              <line x1="40" y1="190" x2="300" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+              <line x1="40" y1="20" x2="40" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="1.2"/>
+              <!-- Axis labels -->
+              <text x="140" y="210" fill="var(--text-dim)" font-size="9" font-family="'JetBrains Mono'">CENTRAL LAB PCR (Ct)</text>
+              <text x="10" y="105" fill="var(--text-dim)" font-size="9" font-family="'JetBrains Mono'" transform="rotate(-90 10 105)">PULSE CRISPR (TTR)</text>
+
+              <!-- Scatter points -->
+              <circle cx="60" cy="170" r="3" fill="var(--crispr-magenta)" opacity="0.8"/>
+              <circle cx="85" cy="150" r="3" fill="var(--crispr-magenta)" opacity="0.8"/>
+              <circle cx="110" cy="132" r="3" fill="var(--crispr-cyan)" opacity="0.8"/>
+              <circle cx="130" cy="118" r="3" fill="var(--crispr-magenta)" opacity="0.8"/>
+              <circle cx="160" cy="95" r="3" fill="var(--crispr-cyan)" opacity="0.8"/>
+              <circle cx="190" cy="74" r="3" fill="var(--crispr-magenta)" opacity="0.8"/>
+              <circle cx="220" cy="52" r="3" fill="var(--crispr-cyan)" opacity="0.8"/>
+              <circle cx="260" cy="30" r="3" fill="var(--crispr-magenta)" opacity="0.8"/>
+
+              <!-- Regression line -->
+              <line x1="40" y1="185" x2="280" y2="20" stroke="var(--crispr-indigo)" stroke-width="2"/>
+            </svg>
+
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; font-family: var(--font-mono);">
+              Pearson Correlation: <strong style="color: var(--text-main);">r = 0.9991, p &lt; 0.0001</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: HARDWARE SPECIFICATIONS -->
+    <section id="hardware" class="section-hardware">
+      <div class="section-container">
+        <span class="section-eyebrow">Handheld Point-of-Care Reader</span>
+        <h2 class="section-h2">The Pulse Reader Architecture</h2>
+
+        <div class="hardware-bento">
+          <div class="hw-box">
+            <div class="hw-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M7 15h0M12 15h0M17 15h0"/></svg>
+            </div>
+            <h4 class="hw-title">USB-C Bus Powered</h4>
+            <p class="hw-desc">Draws standard 5V/2A from tablets, laptops, or portable battery packs. No external AC transformer required.</p>
+          </div>
+
+          <div class="hw-box">
+            <div class="hw-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h4 class="hw-title">Multi-Wavelength Optics</h4>
+            <p class="hw-desc">Quad-channel excitation LED and avalanche photodiode sensor array detecting FAM, VIC, ROX, and Cy5 dyes simultaneously.</p>
+          </div>
+
+          <div class="hw-box">
+            <div class="hw-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h4 class="hw-title">Zero Cold-Chain Reagents</h4>
+            <p class="hw-desc">Lyophilized glass-matrix bead stabilization guarantees 18-month room-temperature shelf life (2°C–30°C).</p>
+          </div>
+
+          <div class="hw-box">
+            <div class="hw-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <h4 class="hw-title">HL7 / FHIR EMR Auto-Sync</h4>
+            <p class="hw-desc">Automatic cryptographic upload directly to Epic, Cerner, and national epidemiological disease surveillance registries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: ORDER FORM -->
+    <section id="order" class="section-order">
+      <div class="order-card">
+        <div style="text-align: center;">
+          <span class="section-eyebrow">Clinical Institutional Access</span>
+          <h2 style="font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em;">
+            Order Clinical Cartridges &amp; Evaluation Hardware
+          </h2>
+          <p style="color: var(--text-muted); max-width: 620px; margin: 0.8rem auto 0; font-size: 0.95rem;">
+            Available to CLIA-certified laboratories, emergency networks, infectious disease centers, and military medical corps.
+          </p>
+        </div>
+
+        <form class="order-form" onsubmit="event.preventDefault(); alert('EVALUATION REQUEST LOGGED. PulseLab Clinical Support will verify CLIA credentials within 4 hours.');">
+          <div>
+            <label class="form-lbl" for="inst-name">Hospital / Laboratory Network</label>
+            <input type="text" id="inst-name" class="form-ctrl" placeholder="Johns Hopkins Medicine" required>
+          </div>
+
+          <div>
+            <label class="form-lbl" for="clia-id">CLIA / CAP Accreditation Number</label>
+            <input type="text" id="clia-id" class="form-ctrl" placeholder="CLIA # 21D0654321" required>
+          </div>
+
+          <div>
+            <label class="form-lbl" for="target-panel">Target Pathogen Cartridge Panel</label>
+            <select id="target-panel" class="form-ctrl">
+              <option value="respiratory">Respiratory Multiplex (Flu A/B, RSV, SARS-CoV-2)</option>
+              <option value="sepsis">Critical Care Sepsis &amp; AMR Resistance Markers</option>
+              <option value="tropical">Vector-Borne Panel (Dengue, Zika, Chikungunya, Malaria)</option>
+              <option value="sti">Multiplex STI Resistance Panel</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="form-lbl" for="order-vol">Initial Cartridge Allocation Volume</label>
+            <select id="order-vol" class="form-ctrl">
+              <option value="pilot">Clinical Pilot: 250 Cartridges + 2 USB-C Readers</option>
+              <option value="dept">Department Scale: 1,000 Cartridges + 8 Readers</option>
+              <option value="network">Hospital System: 5,000 Cartridges + 25 Readers</option>
+            </select>
+          </div>
+
+          <div class="col-full">
+            <label class="form-lbl" for="spec-req">Clinical Integration or EMR Requirements</label>
+            <textarea id="spec-req" rows="3" class="form-ctrl" placeholder="Specify HL7/FHIR interface requirements, POC coordinator contact details, or urgent outbreak deployment parameters..."></textarea>
+          </div>
+
+          <div class="col-full">
+            <button type="submit" class="form-btn">Submit Institutional Cartridge Requisition &rarr;</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="sterile-footer">
+    <div class="footer-container">
+      <div>
+        <div style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.6rem;">
+          PULSE<span style="color: var(--crispr-magenta);">CRISPR</span> LABS
+        </div>
+        <p style="color: var(--text-dim); max-width: 320px; line-height: 1.7; font-size: 0.85rem;">
+          Advancing human health through enzymatic CRISPR-Cas diagnostics. Point-of-care accuracy rivaling central reference laboratories.
+        </p>
+      </div>
+
+      <div>
+        <h5 class="footer-col-title">Assays</h5>
+        <ul class="footer-list">
+          <li><a href="#detection">Cas12a Platform</a></li>
+          <li><a href="#detection">Cas13a RNA Cleavage</a></li>
+          <li><a href="#hardware">Microfluidic Architecture</a></li>
+          <li><a href="#trials">Clinical Data</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="footer-col-title">Regulatory</h5>
+        <ul class="footer-list">
+          <li><a href="#">FDA Breakthrough Filing</a></li>
+          <li><a href="#">CE-IVD Technical File</a></li>
+          <li><a href="#">CLIA Waiver Application</a></li>
+          <li><a href="#">ISO 13485 Compliance</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="footer-col-title">Company</h5>
+        <ul class="footer-list">
+          <li><a href="#">About PulseLab</a></li>
+          <li><a href="#">Research Publications</a></li>
+          <li><a href="#">Careers (Synthetic Bio)</a></li>
+          <li><a href="#">Investor Relations</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 PulseLab Diagnostics, Inc. All rights reserved. Patents pending worldwide.</div>
+      <div>CAUTION: INVESTIGATIONAL DEVICE. LIMITED BY FEDERAL LAW TO INVESTIGATIONAL USE.</div>
+    </div>
+  </footer>
+
+  <!-- 3D DNA Double-Helix Particle Canvas -->
+  <script>
+    const canvas = document.getElementById('dna-canvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    let time = 0;
+    const nodes = 28;
+
+    function renderDNA() {
+      ctx.fillStyle = '#090e18';
+      ctx.fillRect(0, 0, width, height);
+
+      const centerY = height / 2;
+      const spacing = width / (nodes + 1);
+
+      for (let i = 0; i < nodes; i++) {
+        const x = (i + 1) * spacing;
+        const phase = time + (i * 0.28);
+        const yOffset = Math.sin(phase) * 60;
+        const depth = Math.cos(phase); // -1 to 1
+
+        const y1 = centerY + yOffset;
+        const y2 = centerY - yOffset;
+
+        // Base-pair ladder rung
+        ctx.beginPath();
+        ctx.moveTo(x, y1);
+        ctx.lineTo(x, y2);
+        ctx.strokeStyle = `rgba(99, 102, 241, ${0.15 + (depth + 1) * 0.15})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Strand 1 node (Magenta)
+        const size1 = 3 + (depth + 1) * 1.8;
+        ctx.beginPath();
+        ctx.arc(x, y1, size1, 0, Math.PI * 2);
+        ctx.fillStyle = depth > 0 ? '#ec4899' : 'rgba(236, 72, 153, 0.4)';
+        ctx.fill();
+
+        // Strand 2 node (Cyan/Indigo)
+        const size2 = 3 + (-depth + 1) * 1.8;
+        ctx.beginPath();
+        ctx.arc(x, y2, size2, 0, Math.PI * 2);
+        ctx.fillStyle = depth < 0 ? '#06b6d4' : 'rgba(6, 182, 212, 0.4)';
+        ctx.fill();
+      }
+
+      // Live fluorescence fluctuating readout
+      if (Math.random() > 0.85) {
+        const fluo = Math.floor(48000 + Math.random() * 800);
+        const el = document.getElementById('fluorescence-val');
+        if (el) el.innerText = `RFU: ${fluo.toLocaleString()}`;
+      }
+
+      time += 0.035;
+      requestAnimationFrame(renderDNA);
+    }
+
+    renderDNA();
+  </script>
+</body>
+</html>
