@@ -71,8 +71,15 @@ export async function POST(req: Request) {
     });
   } catch (err: any) {
     console.error('Error creating Dodo checkout session:', err);
+    const rawMsg = err?.message || '';
+    let userMsg = rawMsg || 'Failed to create checkout session';
+
+    if (rawMsg.includes('Live payments not enabled for merchant')) {
+      userMsg = 'Live payments are pending merchant verification in your Dodo Payments dashboard. Complete your business compliance review to activate live billing, or switch to test mode.';
+    }
+
     return NextResponse.json(
-      { error: err?.message || 'Failed to create checkout session' },
+      { error: userMsg },
       { status: 500 }
     );
   }
