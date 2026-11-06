@@ -58,9 +58,9 @@ export default function PricingCard({ plan }: PricingCardProps) {
       }`}
     >
       {isHighlighted && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-          <span className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white text-[10px] font-extrabold uppercase tracking-widest py-1 px-3.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)]">
-            {plan.trialDays ? '3-DAY FREE TRIAL • POPULAR' : 'MOST POPULAR'}
+        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap z-20">
+          <span className="inline-block whitespace-nowrap bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white text-[10px] font-extrabold uppercase tracking-wider py-1 px-3.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.7)] border border-purple-400/30">
+            {plan.trialDays ? '✦ 3-DAY FREE TRIAL' : 'MOST POPULAR'}
           </span>
         </div>
       )}
@@ -154,8 +154,8 @@ export default function PricingCard({ plan }: PricingCardProps) {
       )}
 
       {plan.trialDays && (
-        <p className="text-[10px] text-center text-purple-300/70 mt-2 font-mono">
-          €0 charged today • €{plan.price}/mo after 3 days • Cancel anytime
+        <p className="text-[11px] text-center text-purple-300/80 mt-2.5 leading-tight font-medium">
+          €0 today, then €{plan.price}/mo. <span className="text-purple-400">Cancel anytime.</span>
         </p>
       )}
     </div>
