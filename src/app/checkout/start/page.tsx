@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 
@@ -10,17 +10,22 @@ function CheckoutStartContent() {
   const planId = searchParams.get('plan') || 'pro';
   const { user, isLoaded, isSignedIn } = useUser();
   const [error, setError] = useState<string | null>(null);
+  const initiatedRef = useRef(false);
 
   useEffect(() => {
     if (!isLoaded) return;
 
     if (!isSignedIn || !user) {
-      // Must be signed in first
+      // If not logged in yet, remember intent and route to signup
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('pending_trial_checkout', planId);
+      }
       router.replace(`/signup?plan=${planId}`);
       return;
     }
 
-    let isMounted = true;
+    if (initiatedRef.current) return;
+    initiatedRef.current = true;
 
     async function initiateCheckout() {
       try {
@@ -42,29 +47,25 @@ function CheckoutStartContent() {
           throw new Error(data.error || 'Failed to initialize free trial checkout session.');
         }
 
-        if (isMounted) {
-          // Redirect directly to Dodo Payments secure checkout
-          window.location.href = data.checkoutUrl;
+        // Clean any pending flag and redirect directly to Dodo Payments checkout
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('pending_trial_checkout');
         }
+        window.location.href = data.checkoutUrl;
       } catch (err: any) {
-        if (isMounted) {
-          console.error('Checkout error:', err);
-          setError(err?.message || 'Unable to connect to payment gateway. Please try again.');
-        }
+        console.error('Checkout error:', err);
+        setError(err?.message || 'Unable to connect to payment gateway. Please try again.');
+        initiatedRef.current = false;
       }
     }
 
     initiateCheckout();
-
-    return () => {
-      isMounted = false;
-    };
   }, [isLoaded, isSignedIn, user, planId, router]);
 
   return (
     <div className="min-h-[calc(100vh-160px)] flex items-center justify-center px-4 py-16 bg-[#070314]">
       <div className="max-w-md w-full bg-[#0d0624] border border-purple-500/40 rounded-3xl p-8 text-center shadow-[0_0_60px_rgba(168,85,247,0.35)] relative overflow-hidden">
-        {/* Glow */}
+        {/* Ambient Top Glow */}
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-24 bg-purple-600/30 blur-2xl pointer-events-none" />
 
         {error ? (
@@ -78,7 +79,11 @@ function CheckoutStartContent() {
             </p>
             <div className="flex gap-3 justify-center">
               <button
-                onClick={() => window.location.reload()}
+                onClick={() => {
+                  initiatedRef.current = false;
+                  setError(null);
+                  window.location.reload();
+                }}
                 className="py-2.5 px-5 rounded-xl font-bold text-xs bg-purple-600 hover:bg-purple-500 text-white transition-all cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.4)]"
               >
                 Retry
@@ -107,7 +112,7 @@ function CheckoutStartContent() {
             </div>
 
             <h2 className="text-xl font-extrabold text-white mb-2">
-              Preparing Your Free Trial Checkout
+              Connecting to Payment Gateway
             </h2>
             <p className="text-xs text-purple-200/75 max-w-xs mx-auto mb-6 leading-relaxed">
               Redirecting you to Dodo Payments secure 256-bit checkout to confirm your payment details. You will not be charged today.
