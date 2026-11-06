@@ -8,6 +8,7 @@ import MasterpieceBentoGrid from '@/components/MasterpieceBentoGrid';
 import TemplateCard from '@/components/TemplateCard';
 import PricingCard from '@/components/PricingCard';
 import CommandPalette from '@/components/CommandPalette';
+import FreeTrialModal from '@/components/FreeTrialModal';
 import { templates } from '@/data/templates';
 import { pricingPlans } from '@/data/pricing';
 
@@ -224,6 +225,9 @@ export default function Home() {
 
       {/* Global Command Palette Trigger */}
       <CommandPalette isOpen={isCommandOpen} onClose={() => setIsCommandOpen(false)} />
+
+      {/* 3-Day Free Trial Entry Popup */}
+      <FreeTrialModal />
     </div>
   );
 }
