@@ -11,11 +11,14 @@ interface DownloadButtonProps {
 
 export default function DownloadButton({ template }: DownloadButtonProps) {
   const router = useRouter();
-  const { isLoaded, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
   const [loadingHtml, setLoadingHtml] = useState(false);
   const [loadingZip, setLoadingZip] = useState(false);
   const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState<{ tier: string } | null>(null);
+
+  const userSub = ((user?.publicMetadata as any)?.subscription as string) || '';
+  const isProOrHigher = userSub === 'pro' || userSub === 'enterprise';
 
   // While Clerk is hydrating, render a neutral placeholder
   if (!isLoaded) {
@@ -127,6 +130,16 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
 
   return (
     <div className="space-y-2">
+      {isProOrHigher && (
+        <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[11px] font-mono">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-bold">PRO ACCESS ACTIVE</span>
+          </span>
+          <span className="text-emerald-400/80 text-[10px]">Unlimited Downloads</span>
+        </div>
+      )}
+
       {/* Primary Action: Download HTML */}
       <div className="grid grid-cols-2 gap-2">
         <button

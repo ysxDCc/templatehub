@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Show, UserButton } from '@clerk/nextjs';
+import { Show, UserButton, useUser } from '@clerk/nextjs';
 import { useFavorites } from '@/context/FavoritesContext';
 import CommandPalette from '@/components/CommandPalette';
 import Logo from '@/components/Logo';
@@ -15,6 +15,10 @@ export default function Navbar() {
   const [isSoundActive, setIsSoundActive] = useState(false);
   const [isReferralOpen, setIsReferralOpen] = useState(false);
   const { favoritesCount } = useFavorites();
+  const { user } = useUser();
+
+  const rawSub = (user?.publicMetadata?.subscription as string) || '';
+  const subscription = rawSub.toLowerCase();
 
   useEffect(() => {
     setIsSoundActive(cyberSound.isEnabled());
@@ -172,8 +176,36 @@ export default function Navbar() {
                 </Link>
               </Show>
               <Show when="signed-in">
-                <div className="ring-2 ring-purple-500/40 rounded-full p-0.5 bg-[#0e0624]">
-                  <UserButton />
+                <div className="flex items-center gap-2.5">
+                  {subscription === 'pro' && (
+                    <span className="px-2.5 py-1 rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white font-extrabold text-[10px] tracking-wider uppercase shadow-[0_0_15px_rgba(168,85,247,0.5)] border border-purple-400/50 flex items-center gap-1">
+                      <span>✦</span>
+                      <span>PRO PLAN</span>
+                    </span>
+                  )}
+                  {subscription === 'enterprise' && (
+                    <span className="px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-extrabold text-[10px] tracking-wider uppercase shadow-[0_0_15px_rgba(245,158,11,0.5)] border border-amber-300 flex items-center gap-1">
+                      <span>👑</span>
+                      <span>ENTERPRISE</span>
+                    </span>
+                  )}
+                  {subscription === 'basic' && (
+                    <span className="px-2.5 py-1 rounded-full bg-purple-900/60 text-purple-200 font-bold text-[10px] tracking-wider uppercase border border-purple-500/40">
+                      BASIC PLAN
+                    </span>
+                  )}
+                  {(!subscription || subscription === 'free') && (
+                    <Link
+                      href="/#pricing"
+                      className="px-2.5 py-1 rounded-full bg-purple-950/40 hover:bg-purple-900/60 text-purple-300 hover:text-white font-semibold text-[10px] border border-purple-500/30 transition-all flex items-center gap-1"
+                    >
+                      <span>FREE PLAN</span>
+                      <span className="text-purple-400 font-bold">· Upgrade</span>
+                    </Link>
+                  )}
+                  <div className="ring-2 ring-purple-500/40 rounded-full p-0.5 bg-[#0e0624]">
+                    <UserButton />
+                  </div>
                 </div>
               </Show>
             </div>
@@ -330,7 +362,18 @@ export default function Navbar() {
               </Show>
               <Show when="signed-in">
                 <div className="flex items-center justify-between py-2 px-3 bg-[#0e0624] border border-purple-500/20 rounded-xl">
-                  <span className="text-xs text-purple-300">Account Session</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-purple-300 font-medium">Your Plan:</span>
+                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                      subscription === 'pro'
+                        ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]'
+                        : subscription === 'enterprise'
+                        ? 'bg-amber-400 text-black font-black'
+                        : 'bg-purple-900/60 text-purple-200 border border-purple-500/30'
+                    }`}>
+                      {subscription ? `${subscription} plan` : 'free plan'}
+                    </span>
+                  </div>
                   <UserButton />
                 </div>
               </Show>

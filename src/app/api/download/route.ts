@@ -2,6 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import DodoPayments from 'dodopayments';
 import { templates } from '@/data/templates';
 import type { SubscriptionTier } from '@/types';
 import { createZipArchive } from '@/lib/zip';
@@ -39,8 +40,38 @@ export async function GET(req: Request) {
   // Fetch the full user object to read publicMetadata
   const clerk = await clerkClient();
   const user = await clerk.users.getUser(userId);
-  const userSubscription = (user.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
+  let userSubscription = (user.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
   const unlockedTemplates = (user.publicMetadata?.unlockedTemplates as string[] | undefined) ?? [];
+
+  // Self-healing fallback: If metadata still shows 'free', check Dodo Payments live API for active subscription
+  if (userSubscription === 'free') {
+    const email = user.emailAddresses?.[0]?.emailAddress;
+    const apiKey = process.env.DODO_PAYMENTS_API_KEY;
+    if (email && apiKey) {
+      try {
+        const dodo = new DodoPayments({
+          bearerToken: apiKey,
+          environment: (process.env.DODO_PAYMENTS_ENVIRONMENT as any) || 'live_mode',
+        });
+        const subs = await dodo.subscriptions.list({ status: 'active' });
+        const activeSub = subs.items?.find(
+          (s: any) => s.customer?.email?.toLowerCase() === email.toLowerCase()
+        );
+        if (activeSub) {
+          userSubscription = 'pro';
+          // Sync to Clerk database in background so future requests are instantaneous
+          await clerk.users.updateUserMetadata(userId, {
+            publicMetadata: {
+              ...user.publicMetadata,
+              subscription: 'pro',
+            },
+          });
+        }
+      } catch (err) {
+        console.error('Dodo auto-sync check fallback error:', err);
+      }
+    }
+  }
 
   const userTierLevel = TIER_ORDER[userSubscription] ?? 0;
   const requiredTierLevel = TIER_ORDER[template.tier];
