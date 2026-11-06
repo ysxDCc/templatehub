@@ -66,5 +66,29 @@ export async function POST(req: Request) {
     }
   }
 
+  if (
+    eventType === 'subscription.cancelled' ||
+    eventType === 'subscription.expired' ||
+    eventType === 'subscription.on_hold' ||
+    eventType === 'subscription.failed'
+  ) {
+    const payloadData = body.data || body;
+    const customerEmail: string | undefined =
+      payloadData?.customer?.email || payloadData?.email;
+
+    if (customerEmail) {
+      const clerk = await clerkClient();
+      const users = await clerk.users.getUserList({ emailAddress: [customerEmail] });
+      if (users.data.length > 0) {
+        await clerk.users.updateUserMetadata(users.data[0].id, {
+          publicMetadata: {
+            ...users.data[0].publicMetadata,
+            subscription: 'free',
+          },
+        });
+      }
+    }
+  }
+
   return NextResponse.json({ received: true });
 }

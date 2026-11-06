@@ -78,6 +78,7 @@ export interface PricingPlan {
   features: string[];
   highlighted?: boolean;
   dodoProductId?: string;
+  trialDays?: number;
 }
 
 export interface User {

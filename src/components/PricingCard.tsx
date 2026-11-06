@@ -60,7 +60,7 @@ export default function PricingCard({ plan }: PricingCardProps) {
       {isHighlighted && (
         <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
           <span className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white text-[10px] font-extrabold uppercase tracking-widest py-1 px-3.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.6)]">
-            MOST POPULAR
+            {plan.trialDays ? '3-DAY FREE TRIAL • POPULAR' : 'MOST POPULAR'}
           </span>
         </div>
       )}
@@ -79,13 +79,21 @@ export default function PricingCard({ plan }: PricingCardProps) {
       </div>
 
       {/* Price figure */}
-      <div className="mb-6 pb-6 border-b border-purple-500/20 flex items-baseline text-white">
-        <span className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-purple-300">
-          €{plan.price}
-        </span>
-        <span className="ml-1.5 text-xs text-purple-300/70 font-medium font-mono">
-          /{plan.interval}
-        </span>
+      <div className="mb-6 pb-6 border-b border-purple-500/20">
+        <div className="flex items-baseline text-white">
+          <span className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-purple-300">
+            €{plan.price}
+          </span>
+          <span className="ml-1.5 text-xs text-purple-300/70 font-medium font-mono">
+            /{plan.interval}
+          </span>
+        </div>
+        {plan.trialDays && (
+          <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-semibold text-emerald-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>€0 due today • 3 days free</span>
+          </div>
+        )}
       </div>
 
       {/* Features list */}
@@ -137,10 +145,18 @@ export default function PricingCard({ plan }: PricingCardProps) {
               </svg>
               <span>Connecting to checkout...</span>
             </>
+          ) : plan.trialDays ? (
+            <span>Start 3-Day Free Trial</span>
           ) : (
             <span>Upgrade to {plan.name}</span>
           )}
         </button>
+      )}
+
+      {plan.trialDays && (
+        <p className="text-[10px] text-center text-purple-300/70 mt-2 font-mono">
+          €0 charged today • €{plan.price}/mo after 3 days • Cancel anytime
+        </p>
       )}
     </div>
   );

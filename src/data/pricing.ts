@@ -38,8 +38,10 @@ export const pricingPlans: PricingPlan[] = [
     price: 10,
     interval: 'month',
     dodoProductId: 'pdt_0NrADRIRwLn8v87737eXX',
-    description: 'Unlock our entire template library, updates, and commercial usage.',
+    trialDays: 3,
+    description: 'Try 3 days free. Then €10/month. Unlimited access to all templates, cancel anytime.',
     features: [
+      '3-Day Free Trial — €0 due today',
       'Unlimited access to ALL templates',
       'Full source code & asset files',
       'Full commercial client license',

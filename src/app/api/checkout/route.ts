@@ -9,12 +9,12 @@ export async function POST(req: Request) {
 
     let productId = '';
     let isSingle = false;
+    const plan = pricingPlans.find(p => p.id === planId);
 
     if (planId === 'single' || planId === 'single-template') {
       productId = SINGLE_TEMPLATE_PRODUCT_ID;
       isSingle = true;
     } else {
-      const plan = pricingPlans.find(p => p.id === planId);
       if (!plan || !plan.dodoProductId) {
         return NextResponse.json(
           { error: 'Invalid plan or product not found' },
@@ -60,6 +60,12 @@ export async function POST(req: Request) {
       sessionPayload.customer = {
         email: customerEmail,
         ...(customerName ? { name: customerName } : {}),
+      };
+    }
+
+    if (!isSingle && (plan?.trialDays || planId === 'pro')) {
+      sessionPayload.subscription_data = {
+        trial_period_days: plan?.trialDays || 3,
       };
     }
 
