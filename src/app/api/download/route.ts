@@ -40,14 +40,16 @@ export async function GET(req: Request) {
   const clerk = await clerkClient();
   const user = await clerk.users.getUser(userId);
   const userSubscription = (user.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
+  const unlockedTemplates = (user.publicMetadata?.unlockedTemplates as string[] | undefined) ?? [];
 
   const userTierLevel = TIER_ORDER[userSubscription] ?? 0;
   const requiredTierLevel = TIER_ORDER[template.tier];
+  const isSingleUnlocked = unlockedTemplates.includes(templateId);
 
-  if (userTierLevel < requiredTierLevel) {
+  if (userTierLevel < requiredTierLevel && !isSingleUnlocked) {
     return NextResponse.json(
       {
-        error: `Upgrade your plan to download this template`,
+        error: `Upgrade your plan or buy this template individually to download`,
         requiresUpgrade: true,
         requiredTier: template.tier,
       },

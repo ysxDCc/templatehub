@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { clerkClient } from '@clerk/nextjs/server';
+import { SINGLE_TEMPLATE_PRODUCT_ID } from '@/data/pricing';
 
 const PRODUCT_TO_TIER: Record<string, string> = {
   // Live mode products
@@ -18,15 +19,15 @@ export async function POST(req: Request) {
   const eventType: string = body.type || body.event_type;
 
   if (eventType === 'subscription.active' || eventType === 'payment.succeeded') {
-    const metadata = body.data || body;
+    const payloadData = body.data || body;
     const customerEmail: string | undefined =
-      metadata?.customer?.email || metadata?.email;
+      payloadData?.customer?.email || payloadData?.email;
     const productId: string | undefined =
-      metadata?.product_id || metadata?.items?.[0]?.product_id;
+      payloadData?.product_id || payloadData?.items?.[0]?.product_id;
+    const metadata = payloadData?.metadata || {};
+    const purchasedTemplateId: string | undefined = metadata?.templateId;
 
-    const tier = productId ? PRODUCT_TO_TIER[productId] : undefined;
-
-    if (!tier || !customerEmail) {
+    if (!customerEmail) {
       return NextResponse.json({ received: true });
     }
 
@@ -34,10 +35,34 @@ export async function POST(req: Request) {
     const users = await clerk.users.getUserList({ emailAddress: [customerEmail] });
 
     if (users.data.length > 0) {
-      const userId = users.data[0].id;
-      await clerk.users.updateUserMetadata(userId, {
-        publicMetadata: { subscription: tier },
-      });
+      const user = users.data[0];
+      const userId = user.id;
+
+      // Handle subscription tiers
+      const tier = productId ? PRODUCT_TO_TIER[productId] : undefined;
+      if (tier) {
+        await clerk.users.updateUserMetadata(userId, {
+          publicMetadata: {
+            ...user.publicMetadata,
+            subscription: tier,
+          },
+        });
+      }
+
+      // Handle single template purchase (€9 one-time)
+      if (productId === SINGLE_TEMPLATE_PRODUCT_ID || metadata?.planId === 'single-template') {
+        const existingUnlocked = (user.publicMetadata?.unlockedTemplates as string[] | undefined) || [];
+        const updatedUnlocked = purchasedTemplateId && !existingUnlocked.includes(purchasedTemplateId)
+          ? [...existingUnlocked, purchasedTemplateId]
+          : existingUnlocked;
+
+        await clerk.users.updateUserMetadata(userId, {
+          publicMetadata: {
+            ...user.publicMetadata,
+            unlockedTemplates: updatedUnlocked,
+          },
+        });
+      }
     }
   }
 
