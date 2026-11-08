@@ -20,8 +20,7 @@ export default function Navbar() {
   const rawSub = (user?.publicMetadata?.subscription as string) || '';
   const subscription = rawSub.toLowerCase();
   const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase() || '';
-  const isSuperadmin = userEmail === 'shaythegame@gmail.com';
-  const isAdmin = isSuperadmin || (user?.publicMetadata?.role as string) === 'admin';
+  const isAdmin = userEmail === 'leogregus9@gmail.com';
 
   useEffect(() => {
     setIsSoundActive(cyberSound.isEnabled());

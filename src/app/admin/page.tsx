@@ -17,7 +17,7 @@ interface ManagedUser {
   isSuperadmin?: boolean;
 }
 
-const ROOT_ADMIN_EMAIL = 'shaythegame@gmail.com';
+const ROOT_ADMIN_EMAIL = 'leogregus9@gmail.com';
 
 export default function AdminDashboardPage() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -39,7 +39,7 @@ export default function AdminDashboardPage() {
 
   const currentUserEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase() || '';
   const isSuperadmin = currentUserEmail === ROOT_ADMIN_EMAIL;
-  const isAdmin = isSuperadmin || (user?.publicMetadata?.role as string) === 'admin';
+  const isAdmin = isSuperadmin;
 
   useEffect(() => {
     if (!isLoaded) return;
