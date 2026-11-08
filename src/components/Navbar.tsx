@@ -19,6 +19,9 @@ export default function Navbar() {
 
   const rawSub = (user?.publicMetadata?.subscription as string) || '';
   const subscription = rawSub.toLowerCase();
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase() || '';
+  const isSuperadmin = userEmail === 'shaythegame@gmail.com';
+  const isAdmin = isSuperadmin || (user?.publicMetadata?.role as string) === 'admin';
 
   useEffect(() => {
     setIsSoundActive(cyberSound.isEnabled());
@@ -203,6 +206,16 @@ export default function Navbar() {
                       <span className="text-purple-400 font-bold">· Upgrade</span>
                     </Link>
                   )}
+                  {isAdmin && (
+                    <Link
+                      href="/admin"
+                      className="px-2.5 py-1 rounded-full bg-gradient-to-r from-red-600/30 to-purple-600/30 hover:from-red-600/50 hover:to-purple-600/50 text-white font-bold text-[10px] tracking-wider uppercase border border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all flex items-center gap-1"
+                      title="Admin Command Center"
+                    >
+                      <span>🛡️</span>
+                      <span>Admin</span>
+                    </Link>
+                  )}
                   <div className="ring-2 ring-purple-500/40 rounded-full p-0.5 bg-[#0e0624]">
                     <UserButton />
                   </div>
@@ -376,6 +389,16 @@ export default function Navbar() {
                   </div>
                   <UserButton />
                 </div>
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full text-center py-2.5 rounded-xl bg-gradient-to-r from-red-600/80 to-purple-600/80 text-white text-xs font-bold shadow-[0_0_15px_rgba(239,68,68,0.3)] flex items-center justify-center gap-1.5"
+                  >
+                    <span>🛡️</span>
+                    <span>Admin Control Center</span>
+                  </Link>
+                )}
               </Show>
             </div>
           </div>

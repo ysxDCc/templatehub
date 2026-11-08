@@ -86,5 +86,6 @@ export interface User {
   email: string;
   name: string;
   subscription: SubscriptionTier;
+  role?: 'admin' | 'user';
   avatar?: string;
 }
