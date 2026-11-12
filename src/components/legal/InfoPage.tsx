@@ -24,7 +24,7 @@ export default function InfoPage({ eyebrow, title, intro, showUpdated, children 
     <div className="bg-[#070314] min-h-screen">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <nav aria-label="Breadcrumb" className="text-xs font-mono text-purple-400/80 mb-6">
-          <Link href="/" className="hover:text-white">Home</Link>
+          <Link href="/" className="inline-flex items-center min-h-11 min-w-11 hover:text-white">Home</Link>
           <span className="mx-2" aria-hidden="true">/</span>
           <span className="text-purple-200">{title}</span>
         </nav>

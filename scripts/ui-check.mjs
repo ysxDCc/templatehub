@@ -59,7 +59,7 @@ for (const p of pages) {
     if (want('tap')) {
       const small = await page.evaluate((scope) => {
         const out = [];
-        for (const el of document.querySelectorAll(`${scope} :is(a, button, [role=tab], summary, input, select, textarea)`)) {
+        for (const el of document.querySelectorAll(`:is(${scope}) :is(a, button, [role=tab], summary, input, select, textarea)`)) {
           if (el.closest('.legal-prose p, .legal-prose li, .legal-prose td, [aria-hidden="true"], [data-tap-exempt]')) continue;
           const s = getComputedStyle(el);
           if (s.visibility === 'hidden' || s.display === 'none') continue;
