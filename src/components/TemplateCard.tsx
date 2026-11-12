@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from 
 import { useRouter } from 'next/navigation';
 import { waitForPath, withViewTransition } from '@/lib/view-transition';
 import Image from 'next/image';
+import TemplateStats from './TemplateStats';
 import Link from 'next/link';
 import type { Template } from '@/types';
 import { useFavorites } from '@/context/FavoritesContext';
@@ -142,9 +143,7 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
         <p className="mt-2 text-sm text-muted line-clamp-2 leading-relaxed flex-1">{template.description}</p>
 
         <div className="mt-3 flex items-center justify-between gap-2">
-          <span className="text-xs text-muted">
-            <span className="text-amber-300">★ {template.rating.toFixed(1)}</span> · {template.downloads.toLocaleString()} downloads
-          </span>
+          <TemplateStats rating={template.rating} downloads={template.downloads} />
           <div className="relative z-10 flex items-center">
             {onQuickView && (
               <button

@@ -103,12 +103,14 @@ export default function ReviewsSection({
   const avgRating =
     totalReviews > 0
       ? (reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews).toFixed(1)
-      : initialRating.toFixed(1);
+      : initialRating > 0
+        ? initialRating.toFixed(1)
+        : '—';
 
   // Calculate rating breakdown
   const breakdownCounts = [5, 4, 3, 2, 1].map((stars) => {
     const count = reviews.filter((r) => r.rating === stars).length;
-    const pct = totalReviews > 0 ? (count / totalReviews) * 100 : stars === 5 ? 85 : 15;
+    const pct = totalReviews > 0 ? (count / totalReviews) * 100 : 0;
     return { stars, count, pct };
   });
 

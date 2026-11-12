@@ -1,0 +1,16 @@
+{
+  "id": "ember-roastery",
+  "name": "Ember Roastery",
+  "description": "Specialty coffee roaster template with bean shop and subscriptions, steam rising from a hero cup and a roast slider that recolours the page.",
+  "category": "food",
+  "tier": "pro",
+  "logo": "☕ EMBER",
+  "tags": ["Coffee", "Roastery", "Subscriptions", "Warm", "Steam Animation"],
+  "features": [
+    "Canvas steam particles rising from an illustrated SVG cup",
+    "Interactive roast finder slider that smoothly recolours the accent and tasting notes",
+    "Single-origin bean shop cards plus three subscription plans",
+    "FAQ, testimonials and a working contact form with tasting-bar details"
+  ],
+  "signature": "Steam particles rise from the hero cup; roast slider recolours the page"
+}

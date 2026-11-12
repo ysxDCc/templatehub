@@ -1,0 +1,11 @@
+{
+  "id": "hearth-bnb",
+  "name": "Hearth & Home",
+  "description": "Cosy countryside B&B site where the sky moves from dawn to starry night as you scroll, with parallax room cards and a date enquiry form.",
+  "category": "travel",
+  "tier": "basic",
+  "logo": "🏡 HEARTH & HOME",
+  "tags": ["Bed & Breakfast", "Countryside", "Rooms", "Cosy", "Day-to-Night Sky"],
+  "features": ["Scroll-linked sky that crossfades dawn, day, dusk and night with a moving sun and rising moon", "Illustrated room cards with gentle parallax art and nightly prices", "'A day here' timeline card floating over the sunset sky", "Larder add-ons, guestbook quotes, house notes FAQ and arrival/departure form"],
+  "signature": "The page sky shifts from dawn to dusk to a starry night as you scroll, with an arcing sun and rising moon"
+}

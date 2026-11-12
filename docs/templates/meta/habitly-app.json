@@ -1,0 +1,11 @@
+{
+  "id": "habitly-app",
+  "name": "Habitly",
+  "description": "Playful habit-tracking app landing page with a pointer-tilting 3D phone mockup, cycling in-app screens and an animated streak flame.",
+  "category": "saas",
+  "tier": "pro",
+  "logo": "✅ Habitly",
+  "tags": ["Mobile App", "Habit Tracker", "Landing Page", "Bright", "3D Phone Mockup"],
+  "features": ["CSS 3D phone mockup with three hand-built app screens and screen picker dots", "Flickering streak flame with a count-up day counter", "Three-tier pricing with a highlighted plan and App Store / Google Play buttons", "Testimonials, FAQ accordion and a working contact form"],
+  "signature": "A 3D phone tilts with the mouse and cycles through in-app screens; a flickering streak flame counts up to 47 days"
+}

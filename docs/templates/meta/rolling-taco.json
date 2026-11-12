@@ -1,0 +1,16 @@
+{
+  "id": "rolling-taco",
+  "name": "Rolling Taco",
+  "description": "Playful food truck template where an SVG truck drives across the hero and a weekly route map draws itself between stops.",
+  "category": "food",
+  "tier": "free",
+  "logo": "🌮 ROLLING TACO",
+  "tags": ["Food Truck", "Tacos", "Playful", "Bright", "Map Animation"],
+  "features": [
+    "Illustrated taco truck driving along a dashed road in the hero",
+    "Self-drawing weekly route map with pins that pop in and link to the schedule",
+    "Taco menu cards, salsa heat levels and a combo deal banner",
+    "Catering pitch, FAQ, reviews and a working booking form"
+  ],
+  "signature": "A taco truck drives across the hero; the weekly stops map line draws itself between pins"
+}

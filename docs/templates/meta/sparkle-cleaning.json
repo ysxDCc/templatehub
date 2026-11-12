@@ -1,0 +1,11 @@
+{
+  "id": "sparkle-cleaning",
+  "name": "Sparkle Cleaning Co.",
+  "description": "Fresh aqua-and-lemon cleaning service site with an instant quote builder, floating soap bubbles and a squeegee wipe that cleans each card into view.",
+  "category": "local-services",
+  "tier": "free",
+  "logo": "🧽 Sparkle",
+  "tags": ["Cleaning", "Home Services", "Instant Quote", "Friendly", "Squeegee Animation"],
+  "features": ["Canvas soap bubbles in the hero that pause when off-screen", "Squeegee blade wipes away a soapy film as cards scroll in", "Instant quote builder for clean type, rooms, frequency and extras", "Service cards with from-prices, reviews, FAQ and booking form"],
+  "signature": "A squeegee wipes each section clean as it enters, while soap bubbles float up through the hero"
+}

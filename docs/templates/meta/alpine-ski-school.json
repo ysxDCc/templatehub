@@ -1,0 +1,16 @@
+{
+  "id": "alpine-ski-school",
+  "name": "Alpine Ski School",
+  "description": "Ski & snowboard school template with live canvas snowfall in the hero and a mountain trail that draws itself to map lesson levels.",
+  "category": "travel",
+  "tier": "pro",
+  "logo": "⛷️ ALPINE",
+  "tags": ["Ski School", "Snowboard", "Lessons", "Sporty", "Snowfall"],
+  "features": [
+    "Lift-ticket style 'today on the hill' conditions card in the hero",
+    "Interactive level picker that highlights stops on an SVG mountain trail",
+    "Six race-bib lesson cards with inclusions and prices",
+    "Booking form with lesson selector and preferred date"
+  ],
+  "signature": "Canvas snowfall drifts across the hero (paused off-screen); a ski trail draws itself up an SVG mountain, popping in each lesson level"
+}

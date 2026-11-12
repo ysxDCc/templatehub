@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Physio — Physiotherapy &amp; sports rehab that gets you moving</title>
+<meta name="description" content="Motion Physio is a physiotherapy and sports rehabilitation clinic treating back, neck, shoulder, knee and ankle pain with hands-on care and guided exercise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#1a56db;
+  --blue:#1a56db;
+  --blue-dk:#0b2a6f;
+  --blue-soft:#eaf1ff;
+  --blue-mid:#c9dbff;
+  --coral:#ff6b57;
+  --coral-dk:#c43d2b;
+  --coral-soft:#fff0ec;
+  --ink:#0d1b36;
+  --muted:#4c5a74;
+  --line:#dfe6f2;
+  --bg:#f7f9fd;
+  --display:'Archivo','Arial Black','Segoe UI',sans-serif;
+  --body:'Public Sans','Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);font-size:1.0625rem;line-height:1.6;color:var(--ink);background:#fff;overflow-x:hidden}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);line-height:1.04;margin:0 0 .5em;letter-spacing:-.025em}
+h2{font-size:clamp(2rem,4.4vw,3.3rem);font-weight:800}
+h3{font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{width:min(1220px,100% - 2.5rem);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:0;z-index:200;background:var(--ink);color:#fff;padding:.8rem 1.2rem}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--coral-dk);outline-offset:3px;border-radius:6px}
+.kick{display:inline-flex;align-items:center;gap:.5rem;font:700 .8rem var(--display);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.kick::before{content:"";width:18px;height:4px;border-radius:2px;background:var(--coral)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:52px;padding:.85rem 1.5rem;border-radius:10px;font:700 1rem/1 var(--display);text-decoration:none;border:2px solid var(--ink);color:var(--ink);background:#fff;cursor:pointer;transition:transform .2s,background .2s,color .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 12px 24px -12px rgba(26,86,219,.7)}
+.btn-coral{background:var(--coral);border-color:var(--coral);color:var(--ink)}
+
+header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:inline-flex;align-items:center;gap:.55rem;font:900 1.45rem var(--display);color:var(--ink);text-decoration:none;letter-spacing:-.03em;min-height:44px;font-style:italic}
+.logo svg{width:32px;height:32px}
+.nav-links{display:flex;align-items:center;gap:1.9rem;list-style:none;margin:0;padding:0}
+.nav-links a{min-width:44px;justify-content:center;color:var(--ink);text-decoration:none;font-weight:600;min-height:44px;display:inline-flex;align-items:center}
+.nav-links a:not(.btn):hover{color:var(--accent)}
+.nav-links .btn{color:#fff;min-height:46px;padding:.65rem 1.15rem}
+.menu-btn{display:none;width:48px;height:48px;border-radius:10px;border:2px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;align-items:center;justify-content:center}
+.menu-btn svg{width:22px;height:22px}
+.menu-btn[aria-expanded="true"] .o{display:none}
+.menu-btn .c{display:none}
+.menu-btn[aria-expanded="true"] .c{display:block}
+
+/* hero */
+.hero{position:relative;background:linear-gradient(180deg,var(--blue-soft),#fff 85%);padding:clamp(2.5rem,5vw,4rem) 0 clamp(3rem,6vw,5rem);overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--blue-mid) 1px,transparent 1px),linear-gradient(90deg,var(--blue-mid) 1px,transparent 1px);background-size:44px 44px;opacity:.35;-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%);pointer-events:none}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(2.7rem,6vw,5rem);font-weight:900}
+.hero h1 span{color:var(--accent)}
+.hero h1 u{text-decoration:none;background:linear-gradient(transparent 62%,rgba(255,107,87,.45) 62%)}
+.hero p{font-size:1.18rem;color:var(--muted);max-width:31em;margin-bottom:2rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem;padding:0;list-style:none}
+.chips li{display:inline-flex;align-items:center;gap:.45rem;font-size:.92rem;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:999px;padding:.45rem .9rem}
+.chips li::before{content:"";width:8px;height:8px;border-radius:50%;background:#16a34a}
+
+.body-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:1.4rem;box-shadow:0 40px 80px -50px rgba(13,27,54,.5);display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:center}
+.body-card h2{font-size:1.25rem;margin:0 0 .3rem}
+.figure{position:relative;width:100%;aspect-ratio:240/440;max-height:480px;margin-inline:auto}
+.figure svg{width:100%;height:100%}
+.silhouette{stroke:var(--blue-soft);stroke-width:34;stroke-linecap:round;fill:none}
+.bone{fill:none;stroke:var(--ink);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+.draw{stroke-dasharray:1;stroke-dashoffset:0;animation:draw 1.5s cubic-bezier(.6,0,.2,1) both}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.joint{fill:#fff;stroke:var(--accent);stroke-width:3;transition:fill .3s,stroke .3s;animation:pop .5s ease both}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.joint,.zone{transform-box:fill-box;transform-origin:center}
+.head{fill:none;stroke:var(--ink);stroke-width:3.2}
+.zone{fill:var(--coral);fill-opacity:0;transform:scale(.6);transition:fill-opacity .35s,transform .45s cubic-bezier(.3,1.6,.5,1)}
+.zone.on{fill-opacity:.28;transform:scale(1)}
+.zone.on + .zone-ring{stroke-opacity:1}
+.zone-ring{fill:none;stroke:var(--coral);stroke-width:2;stroke-opacity:0;transform-box:fill-box;transform-origin:center}
+.zone.on + .zone-ring{animation:ring 1.6s ease-out infinite}
+@keyframes ring{from{transform:scale(.6);stroke-opacity:.9}to{transform:scale(1.6);stroke-opacity:0}}
+.figure.hl .bone.lit{stroke:var(--coral-dk)}
+.figure.hl .joint.lit{fill:var(--coral);stroke:var(--coral-dk)}
+.spots{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.spot{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.55rem .85rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;font:600 .95rem var(--body);color:var(--ink);cursor:pointer;text-align:left;transition:border-color .2s,background .2s}
+.spot::after{content:"→";color:var(--muted);transition:transform .2s}
+.spot:hover,.spot:focus-visible,.spot[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
+.spot[aria-pressed="true"]::after{transform:translateX(3px);color:var(--coral-dk)}
+.spot-info{margin-top:.9rem;padding:.9rem 1rem;border-radius:12px;background:var(--blue-soft);font-size:.92rem;color:var(--ink);min-height:6.2em}
+.spot-info strong{display:block;font-family:var(--display);margin-bottom:.2rem}
+
+section{padding:clamp(4rem,8vw,6.5rem) 0}
+.head{max-width:680px;margin-bottom:2.8rem}
+.head p{color:var(--muted)}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
+.card{border:1px solid var(--line);border-radius:18px;padding:1.6rem;display:flex;flex-direction:column;background:#fff;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.card::before{content:"";position:absolute;left:0;top:0;right:0;height:5px;background:var(--accent);transform:scaleX(.18);transform-origin:left;transition:transform .45s}
+.card:hover{transform:translateY(-4px);box-shadow:0 26px 50px -30px rgba(13,27,54,.45)}
+.card:hover::before{transform:scaleX(1)}
+.card .ic{width:50px;height:50px;border-radius:12px;background:var(--blue-soft);color:var(--accent);display:grid;place-items:center;margin-bottom:1.1rem}
+.card .ic svg{width:26px;height:26px}
+.card p{color:var(--muted);font-size:.96rem}
+.card .meta{margin-top:auto;display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;padding-top:1rem;border-top:1px solid var(--line)}
+.price{font:800 1.6rem var(--display);color:var(--ink);letter-spacing:-.02em}
+.card .meta span:last-child{font-size:.85rem;color:var(--muted)}
+.card.feature{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card.feature p,.card.feature .meta span:last-child{color:#c3cde2}
+.card.feature .price{color:#fff}
+.card.feature .ic{background:rgba(255,255,255,.1);color:var(--coral)}
+.card.feature::before{background:var(--coral)}
+.card.feature .meta{border-color:rgba(255,255,255,.15)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:st;position:relative}
+.steps::before{content:"";position:absolute;top:27px;left:12%;right:12%;height:3px;background:repeating-linear-gradient(90deg,var(--blue-mid) 0 10px,transparent 10px 18px)}
+.step{text-align:center;padding:0 1rem;position:relative}
+.step::before{counter-increment:st;content:counter(st);display:grid;place-items:center;width:56px;height:56px;border-radius:50%;margin:0 auto 1.1rem;background:var(--accent);color:#fff;font:800 1.3rem var(--display);box-shadow:0 0 0 8px #fff}
+.step:nth-child(4)::before{background:var(--coral);color:var(--ink)}
+.step p{color:var(--muted);font-size:.96rem;margin:0}
+
+/* stats rings */
+.outcomes{background:var(--ink);color:#fff}
+.outcomes .kick{color:#9fbcff}
+.outcomes .head p{color:#c3cde2}
+.rings{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+.ring-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:1.8rem 1.4rem;text-align:center}
+.ring{position:relative;width:150px;height:150px;margin:0 auto 1.2rem}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .track{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10}
+.ring .val{fill:none;stroke:var(--coral);stroke-width:10;stroke-linecap:round;stroke-dasharray:100;transition:stroke-dashoffset 1.8s cubic-bezier(.3,0,.2,1)}
+.ring-card:nth-child(even) .val{stroke:#6f9bff}
+.ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:800 2.1rem var(--display);letter-spacing:-.03em}
+.ring-card h3{font-size:1.05rem;margin-bottom:.3rem}
+.ring-card p{color:#c3cde2;font-size:.9rem;margin:0}
+.fine{margin-top:1.5rem;font-size:.85rem;color:#9fb0cf}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.member{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.member .ph{aspect-ratio:16/10;display:grid;place-items:end center;overflow:hidden}
+.member:nth-child(1) .ph{background:linear-gradient(135deg,#dbe7ff,#b6ccff)}
+.member:nth-child(2) .ph{background:linear-gradient(135deg,#ffe2dc,#ffc0b4)}
+.member:nth-child(3) .ph{background:linear-gradient(135deg,#d9f3ea,#b2e3d2)}
+.member .ph svg{width:52%}
+.member div.txt{padding:1.3rem 1.4rem}
+.member h3{margin-bottom:.15rem}
+.member p{color:var(--muted);margin:0;font-size:.95rem}
+.member .role{color:var(--accent);font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.5rem}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1.2rem}
+.review{margin:0;padding:1.8rem;border-radius:18px;background:var(--bg);border:1px solid var(--line);display:flex;flex-direction:column}
+.review:first-child{background:var(--accent);color:#fff;border-color:var(--accent)}
+.review p{font-size:1.06rem}
+.review:first-child p{font-family:var(--display);font-size:1.4rem;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.review footer{margin-top:auto;font-weight:700;font-size:.92rem}
+.review footer span{display:block;font-weight:500;color:var(--muted)}
+.review:first-child footer span{color:#d6e2ff}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:3rem}
+details{border:1px solid var(--line);border-radius:14px;margin-bottom:.7rem;background:#fff;transition:border-color .2s}
+details[open]{border-color:var(--blue-mid)}
+summary{list-style:none;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.8rem 1.2rem;font:700 1.05rem var(--display)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--blue-soft);color:var(--accent);font-size:1.3rem;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg);background:var(--coral);color:var(--ink)}
+details p{padding:0 1.2rem 1.1rem;margin:0;color:var(--muted)}
+
+/* contact */
+.contact{background:var(--bg);border-top:1px solid var(--line)}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem}
+.info{display:grid;gap:1rem;margin-top:1.8rem}
+.info div{display:flex;gap:1rem;align-items:flex-start;padding:1rem 1.1rem;background:#fff;border:1px solid var(--line);border-radius:14px}
+.info svg{flex:none;width:24px;height:24px;color:var(--accent);margin-top:.2rem}
+.info small{display:block;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.info a{color:var(--ink);font-weight:600;min-height:44px;display:inline-flex;align-items:center}
+form{background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(1.4rem,3vw,2.2rem);display:grid;grid-template-columns:1fr 1fr;gap:1rem;box-shadow:0 30px 60px -45px rgba(13,27,54,.5)}
+.field{display:grid;gap:.35rem}
+.field.full{grid-column:1/-1}
+label{font:700 .88rem var(--display)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:.75rem .9rem;min-height:50px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 4px rgba(26,86,219,.15)}
+textarea{min-height:120px;resize:vertical}
+form .btn{grid-column:1/-1}
+
+footer.site{padding:2.5rem 0;border-top:1px solid var(--line)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.2rem}
+.foot nav{display:flex;flex-wrap:wrap;gap:0 1.5rem}
+.foot nav a{min-width:44px;justify-content:center;color:var(--ink);text-decoration:none;font-weight:600;min-height:44px;display:inline-flex;align-items:center}
+.foot p{margin:0;color:var(--muted);font-size:.92rem}
+
+.js .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1080px){
+  .services,.rings{grid-template-columns:1fr 1fr}
+  .reviews{grid-template-columns:1fr 1fr}
+  .review:first-child{grid-column:1/-1}
+}
+@media (max-width:940px){
+  .hero-grid,.faq-grid,.contact-grid{grid-template-columns:1fr}
+  .body-card{max-width:620px}
+  .menu-btn{display:inline-flex}
+  .nav>nav{display:contents}
+  .nav-links{position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:#fff;border-bottom:1px solid var(--line);padding:.6rem 1.25rem 1.4rem;box-shadow:0 20px 40px -24px rgba(13,27,54,.4)}
+  .js .nav-links{display:none}
+  .js .nav-links.open{display:flex}
+  .nav-links a{padding:.75rem 0;font-size:1.1rem}
+  .nav-links .btn{margin-top:.5rem}
+  .steps{grid-template-columns:1fr 1fr;row-gap:2rem}
+  .steps::before{display:none}
+  .team{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .services,.reviews,.team,form{grid-template-columns:1fr}
+  .rings{gap:.8rem}
+  .ring-card{padding:1.2rem .8rem}
+  .ring b{font-size:1.5rem}
+  .body-card{grid-template-columns:1fr;padding:1.1rem}
+  .figure{max-height:340px;max-width:190px}
+  .steps{grid-template-columns:1fr}
+  .ring{width:100px;height:100px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#1a56db"/><circle cx="19" cy="8" r="3" fill="#ff6b57"/><path d="M8 26l5-7 4 3 3-7 4 2" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Motion Physio</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+      <svg class="o" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#treatments">Treatments</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact" class="btn btn-primary">Book assessment</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="kick">Physiotherapy &amp; sports rehab</span>
+        <h1 id="hero-title">Pain-free <span>movement</span>, <u>rebuilt</u> step by step.</h1>
+        <p>From stubborn back pain to ACL rehab, our chartered physios combine hands-on treatment with a clear, measurable exercise plan — so you know exactly when you’ll be back.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">Book an assessment</a>
+          <a href="#treatments" class="btn">Treatments &amp; prices</a>
+        </div>
+        <ul class="chips">
+          <li>Appointments this week</li>
+          <li>No referral needed</li>
+          <li>Insurance accepted</li>
+        </ul>
+      </div>
+
+      <div class="body-card" aria-labelledby="map-title">
+        <div class="figure" id="figure">
+          <svg viewBox="0 0 240 440" aria-hidden="true">
+            <!-- soft silhouette -->
+            <g class="silhouette"><path d="M120 96V230M70 106h100M70 106 56 176 48 244M170 106l14 70 8 68M94 232 88 320 86 404M146 232l6 88 2 84"/></g>
+            <!-- treatment zones -->
+            <circle class="zone" data-z="neck" cx="120" cy="92" r="22"/><circle class="zone-ring" cx="120" cy="92" r="22"/>
+            <circle class="zone" data-z="shoulder" cx="170" cy="106" r="24"/><circle class="zone-ring" cx="170" cy="106" r="24"/>
+            <circle class="zone" data-z="back" cx="120" cy="206" r="30"/><circle class="zone-ring" cx="120" cy="206" r="30"/>
+            <circle class="zone" data-z="hip" cx="94" cy="232" r="22"/><circle class="zone-ring" cx="94" cy="232" r="22"/>
+            <circle class="zone" data-z="knee" cx="152" cy="320" r="24"/><circle class="zone-ring" cx="152" cy="320" r="24"/>
+            <circle class="zone" data-z="ankle" cx="86" cy="404" r="20"/><circle class="zone-ring" cx="86" cy="404" r="20"/>
+            <!-- skeleton lines that draw in -->
+            <circle class="head draw" cx="120" cy="48" r="26" pathLength="1" style="animation-delay:.1s"/>
+            <path class="bone draw" data-z="neck" d="M120 74V100" pathLength="1" style="animation-delay:.25s"/>
+            <path class="bone draw" data-z="shoulder" d="M70 106H170" pathLength="1" style="animation-delay:.35s"/>
+            <path class="bone draw" data-z="back" d="M120 100V230" pathLength="1" style="animation-delay:.45s"/>
+            <path class="bone draw" data-z="hip" d="M94 232H146" pathLength="1" style="animation-delay:.6s"/>
+            <path class="bone draw" data-z="shoulder" d="M170 106 184 176 192 244" pathLength="1" style="animation-delay:.7s"/>
+            <path class="bone draw" d="M70 106 56 176 48 244" pathLength="1" style="animation-delay:.7s"/>
+            <path class="bone draw" data-z="hip" d="M94 232 88 320" pathLength="1" style="animation-delay:.85s"/>
+            <path class="bone draw" data-z="ankle" d="M88 320 86 404 68 416" pathLength="1" style="animation-delay:1s"/>
+            <path class="bone draw" data-z="knee" d="M146 232 152 320 154 404 172 416" pathLength="1" style="animation-delay:.85s"/>
+            <!-- joints -->
+            <circle class="joint" data-z="neck" cx="120" cy="100" r="6" style="animation-delay:1.2s"/>
+            <circle class="joint" cx="70" cy="106" r="6" style="animation-delay:1.25s"/>
+            <circle class="joint" data-z="shoulder" cx="170" cy="106" r="7" style="animation-delay:1.3s"/>
+            <circle class="joint" cx="56" cy="176" r="5" style="animation-delay:1.35s"/>
+            <circle class="joint" data-z="shoulder" cx="184" cy="176" r="5" style="animation-delay:1.4s"/>
+            <circle class="joint" data-z="back" cx="120" cy="190" r="5" style="animation-delay:1.45s"/>
+            <circle class="joint" data-z="back" cx="120" cy="214" r="5" style="animation-delay:1.5s"/>
+            <circle class="joint" data-z="hip" cx="94" cy="232" r="7" style="animation-delay:1.55s"/>
+            <circle class="joint" cx="146" cy="232" r="7" style="animation-delay:1.6s"/>
+            <circle class="joint" cx="88" cy="320" r="7" style="animation-delay:1.65s"/>
+            <circle class="joint" data-z="knee" cx="152" cy="320" r="8" style="animation-delay:1.7s"/>
+            <circle class="joint" data-z="ankle" cx="86" cy="404" r="6" style="animation-delay:1.75s"/>
+            <circle class="joint" cx="154" cy="404" r="6" style="animation-delay:1.8s"/>
+          </svg>
+        </div>
+        <div>
+          <h2 id="map-title">Where does it hurt?</h2>
+          <ul class="spots">
+            <li><button type="button" class="spot" data-z="neck" aria-pressed="false" aria-controls="spot-info">Neck &amp; posture</button></li>
+            <li><button type="button" class="spot" data-z="shoulder" aria-pressed="false" aria-controls="spot-info">Shoulder &amp; elbow</button></li>
+            <li><button type="button" class="spot" data-z="back" aria-pressed="false" aria-controls="spot-info">Lower back</button></li>
+            <li><button type="button" class="spot" data-z="hip" aria-pressed="false" aria-controls="spot-info">Hip &amp; groin</button></li>
+            <li><button type="button" class="spot" data-z="knee" aria-pressed="false" aria-controls="spot-info">Knee &amp; ACL</button></li>
+            <li><button type="button" class="spot" data-z="ankle" aria-pressed="false" aria-controls="spot-info">Ankle &amp; foot</button></li>
+          </ul>
+          <div class="spot-info" id="spot-info" aria-live="polite"><strong>Choose an area</strong>Hover or tap a body area to see how we treat it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="treatments" aria-labelledby="tr-title">
+    <div class="wrap">
+      <div class="head reveal"><span class="kick">Treatments</span><h2 id="tr-title">Care that matches the problem</h2><p>Every plan starts with a thorough assessment. We’ll explain what’s going on, what will help, and how many sessions it should take.</p></div>
+      <div class="services">
+        <article class="card reveal"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div><h3 class="card-title">Initial Assessment</h3><p>60 minutes of history, movement testing, diagnosis and your first treatment.</p><div class="meta"><span class="price">$95</span><span>60 min</span></div></article>
+        <article class="card reveal"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 11V6a2 2 0 0 1 4 0v4M11 9V4a2 2 0 0 1 4 0v6M15 9a2 2 0 0 1 4 0v5a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-3l-2-4a2 2 0 0 1 3-2l2 2"/></svg></div><h3 class="card-title">Follow-up Treatment</h3><p>Manual therapy, dry needling and progressions to your exercise plan.</p><div class="meta"><span class="price">$75</span><span>45 min</span></div></article>
+        <article class="card feature reveal"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM6 21l3-6 3 2v4M9 15l1-6 4 2 3 3M10 9 7 10l-2 3"/></svg></div><h3 class="card-title">Sports Rehab Block</h3><p>Six sessions of return-to-sport rehab with strength testing and a GPS-tracked running plan.</p><div class="meta"><span class="price">$420</span><span>6 sessions</span></div></article>
+        <article class="card reveal"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h3M18 12h3M6 8v8M18 8v8M9 10v4M15 10v4M9 12h6"/></svg></div><h3 class="card-title">Rehab Class</h3><p>Small-group strength and mobility, capped at six, supervised by a physio.</p><div class="meta"><span class="price">$25</span><span>50 min</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="how-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal"><span class="kick">How it works</span><h2 id="how-title">A clear path back to full speed</h2></div>
+      <div class="steps">
+        <div class="step reveal"><h3>Assess</h3><p>We find the cause, not just the sore spot, using strength and movement testing.</p></div>
+        <div class="step reveal"><h3>Treat</h3><p>Hands-on care calms pain quickly so you can start moving well again.</p></div>
+        <div class="step reveal"><h3>Strengthen</h3><p>A progressive plan in our app, with videos and weekly check-ins.</p></div>
+        <div class="step reveal"><h3>Return</h3><p>Objective tests confirm you’re ready to run, lift or play again.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="outcomes" aria-labelledby="res-title">
+    <div class="wrap">
+      <div class="head reveal"><span class="kick">Outcomes</span><h2 id="res-title">Recovery you can measure</h2><p>We track every patient’s pain, function and return-to-activity. Here’s how last year’s 1,840 patients did.</p></div>
+      <div class="rings">
+        <div class="ring-card reveal"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="50"/><circle class="val" cx="60" cy="60" r="50" pathLength="100" style="stroke-dashoffset:8" data-v="92"/></svg><b><span data-n="92">92</span>%</b></div><h3>Return to sport</h3><p>back to full training within their target window</p></div>
+        <div class="ring-card reveal"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="50"/><circle class="val" cx="60" cy="60" r="50" pathLength="100" style="stroke-dashoffset:13" data-v="87"/></svg><b><span data-n="87">87</span>%</b></div><h3>Less pain in 6 weeks</h3><p>report at least a 50% drop in pain scores</p></div>
+        <div class="ring-card reveal"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="50"/><circle class="val" cx="60" cy="60" r="50" pathLength="100" style="stroke-dashoffset:22" data-v="78"/></svg><b><span data-n="78">78</span>%</b></div><h3>Done in 5 sessions</h3><p>complete their plan in five appointments or fewer</p></div>
+        <div class="ring-card reveal"><div class="ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="50"/><circle class="val" cx="60" cy="60" r="50" pathLength="100" style="stroke-dashoffset:2" data-v="98"/></svg><b><span data-n="98">98</span>%</b></div><h3>Would recommend</h3><p>would send a friend or teammate to us</p></div>
+      </div>
+      <p class="fine">Figures are illustrative examples for this template.</p>
+    </div>
+  </section>
+
+  <section id="team" aria-labelledby="team-title">
+    <div class="wrap">
+      <div class="head reveal"><span class="kick">Your physios</span><h2 id="team-title">Specialists, not generalists</h2></div>
+      <div class="team">
+        <article class="member reveal"><div class="ph"><svg viewBox="0 0 160 120" aria-hidden="true"><circle cx="80" cy="48" r="26" fill="#0d1b36"/><path d="M30 120c0-30 22-46 50-46s50 16 50 46Z" fill="#1a56db"/><path d="M68 76h24v10H68Z" fill="#fff"/></svg></div><div class="txt"><p class="role">Clinical lead</p><h3>Dr. Nadia Brooks</h3><p>Knee &amp; ACL rehab · former pro football club physio</p></div></article>
+        <article class="member reveal"><div class="ph"><svg viewBox="0 0 160 120" aria-hidden="true"><circle cx="80" cy="48" r="26" fill="#6b3a26"/><path d="M54 40c4-18 16-24 26-24s22 6 26 24c-8-6-16-8-26-8s-18 2-26 8Z" fill="#1b120d"/><path d="M30 120c0-30 22-46 50-46s50 16 50 46Z" fill="#0d1b36"/></svg></div><div class="txt"><p class="role">Spine specialist</p><h3>Owen Castillo</h3><p>Back &amp; neck pain · dry needling · desk ergonomics</p></div></article>
+        <article class="member reveal"><div class="ph"><svg viewBox="0 0 160 120" aria-hidden="true"><circle cx="80" cy="50" r="24" fill="#e7b48f"/><path d="M52 58c-4-30 10-42 28-42s32 12 28 42c-4-16-14-24-28-24s-24 8-28 24Z" fill="#2a1c14"/><path d="M30 120c0-30 22-46 50-46s50 16 50 46Z" fill="#ff6b57"/></svg></div><div class="txt"><p class="role">Running &amp; foot</p><h3>Priya Anand</h3><p>Running injuries · gait analysis · ankle &amp; foot</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="rev-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="head reveal"><span class="kick">Patient stories</span><h2 id="rev-title">Back doing what they love</h2></div>
+      <div class="reviews">
+        <blockquote class="review reveal"><p>“Nine months after my ACL reconstruction I played the full ninety. Nadia’s testing told me I was ready before I believed it.”</p><footer>Jamie<span>Sunday league midfielder</span></footer></blockquote>
+        <blockquote class="review reveal"><p>“Three sessions with Owen fixed a back problem I’d had for two years.”</p><footer>Claire<span>Lower back pain</span></footer></blockquote>
+        <blockquote class="review reveal"><p>“Priya rebuilt my running form. First marathon, zero injuries.”</p><footer>Tomás<span>Marathon runner</span></footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div class="reveal"><span class="kick">FAQ</span><h2 id="faq-title">Before your first visit</h2><p style="color:var(--muted)">Wear shorts or comfortable clothes, bring any scans or reports, and arrive five minutes early to fill in a short form.</p></div>
+      <div class="reveal">
+        <details open><summary>Do I need a doctor’s referral?</summary><p>No. You can book directly with us. If your insurer requires a referral we’ll tell you before your appointment.</p></details>
+        <details><summary>Is my insurance accepted?</summary><p>We’re registered with most major health insurers and can bill them directly. Bring your policy number to your first session.</p></details>
+        <details><summary>How many sessions will I need?</summary><p>Most people need 3–6. You’ll get an honest estimate at your first appointment, and a written plan by email.</p></details>
+        <details><summary>Will treatment hurt?</summary><p>Some techniques can be a little uncomfortable, but we always work within your limits and explain everything first.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <span class="kick">Book</span>
+        <h2 id="contact-title">Start your recovery this week</h2>
+        <p style="color:var(--muted)">Request an appointment and our team will call you back within one working day.</p>
+        <div class="info">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><small>Phone</small><a href="tel:+15550124488">+1 555 012 4488</a></span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span><small>Email</small><a href="mailto:move@example.com">move@example.com</a></span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span><small>Clinic</small>Unit 4, Riverside Sports Park, Eastfield<br>Mon–Fri 7am–8pm · Sat 8am–1pm</span></div>
+        </div>
+      </div>
+      <form class="reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <div class="field"><label for="f-name">Full name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="field"><label for="f-area">Problem area</label><select id="f-area" name="area"><option>Neck &amp; posture</option><option>Shoulder &amp; elbow</option><option>Lower back</option><option>Hip &amp; groin</option><option>Knee &amp; ACL</option><option>Ankle &amp; foot</option><option>Something else</option></select></div>
+        <div class="field full"><label for="f-msg">Tell us what’s going on</label><textarea id="f-msg" name="message" required placeholder="When did it start? What makes it worse? Any upcoming events or goals?"></textarea></div>
+        <button type="submit" class="btn btn-primary">Request appointment</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo" aria-label="Motion Physio, back to top">Motion Physio</a>
+    <nav aria-label="Footer"><a href="#treatments">Treatments</a><a href="#results">Results</a><a href="#team">Team</a><a href="#contact">Book</a></nav>
+    <p>© <span id="year">2026</span> Motion Physio Clinic. Keep moving.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var mb = document.querySelector('.menu-btn'), links = document.getElementById('nav-links');
+  function setMenu(o){ mb.setAttribute('aria-expanded', o); mb.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); links.classList.toggle('open', o); }
+  mb.addEventListener('click', function(){ setMenu(mb.getAttribute('aria-expanded') !== 'true'); });
+  links.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && mb.getAttribute('aria-expanded') === 'true'){ setMenu(false); mb.focus(); } });
+
+  // body map: highlight treatment zones on hover / focus / tap
+  var info = {
+    neck: ['Neck & posture', 'Desk-related stiffness, whiplash and headaches. Manual therapy plus a 10-minute daily mobility routine.'],
+    shoulder: ['Shoulder & elbow', 'Rotator cuff, frozen shoulder and tennis elbow. Progressive loading restores strength through full range.'],
+    back: ['Lower back', 'Disc irritation, sciatica and chronic back pain. We calm symptoms fast, then build a resilient core.'],
+    hip: ['Hip & groin', 'Hip impingement, bursitis and groin strains. Targeted strength work for glutes and adductors.'],
+    knee: ['Knee & ACL', 'ACL and post-surgery rehab, runner’s knee and meniscus injuries — with objective return-to-sport tests.'],
+    ankle: ['Ankle & foot', 'Sprains, Achilles pain and plantar fasciitis, plus gait analysis to stop it coming back.']
+  };
+  var fig = document.getElementById('figure'), spots = [].slice.call(document.querySelectorAll('.spot')), box = document.getElementById('spot-info');
+  var pinned = null;
+  function show(z){
+    fig.classList.toggle('hl', !!z);
+    fig.querySelectorAll('[data-z]').forEach(function(el){
+      var on = el.getAttribute('data-z') === z;
+      if (el.classList.contains('zone')) el.classList.toggle('on', on); else el.classList.toggle('lit', on);
+    });
+    if (z) box.innerHTML = '<strong>' + info[z][0] + '</strong>' + info[z][1];
+  }
+  spots.forEach(function(b){
+    var z = b.dataset.z;
+    b.addEventListener('mouseenter', function(){ show(z); });
+    b.addEventListener('focus', function(){ show(z); });
+    b.addEventListener('mouseleave', function(){ show(pinned); });
+    b.addEventListener('blur', function(){ show(pinned); });
+    b.addEventListener('click', function(){
+      pinned = pinned === z ? null : z;
+      spots.forEach(function(s){ s.setAttribute('aria-pressed', s.dataset.z === pinned); });
+      show(pinned || z);
+    });
+  });
+
+  // reveals
+  var rev = document.querySelectorAll('.reveal');
+  if (reduce || !hasIO) rev.forEach(function(el){ el.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    rev.forEach(function(el, i){ el.style.transitionDelay = (i % 4) * 80 + 'ms'; io.observe(el); });
+  }
+
+  // progress rings: fill + count up when scrolled into view
+  if (!reduce && hasIO){
+    var cards = [].slice.call(document.querySelectorAll('.ring-card'));
+    cards.forEach(function(c){ c.querySelector('.val').style.strokeDashoffset = 100; c.querySelector('[data-n]').textContent = '0'; });
+    var rio = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        rio.unobserve(e.target);
+        var val = e.target.querySelector('.val'), num = e.target.querySelector('[data-n]'), end = +num.dataset.n, t0 = null;
+        requestAnimationFrame(function(){ val.style.strokeDashoffset = 100 - end; });
+        (function step(t){ if (!t0) t0 = t; var p = Math.min((t - t0) / 1800, 1), k = 1 - Math.pow(1 - p, 3); num.textContent = Math.round(end * k); if (p < 1) requestAnimationFrame(step); })(performance.now());
+      });
+    }, { threshold: .5 });
+    cards.forEach(function(c){ rio.observe(c); });
+  }
+})();
+</script>
+</body>
+</html>

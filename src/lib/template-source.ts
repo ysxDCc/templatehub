@@ -33,7 +33,7 @@ export function watermarkPreview(html: string, id: string, siteUrl: string): str
   const head = `<meta name="robots" content="noindex, nofollow">`;
   const ribbon = `
 <a id="th-preview-ribbon" href="${siteUrl}/templates/${id}" target="_top" rel="noopener"
-   style="position:fixed;right:12px;bottom:12px;z-index:2147483647;display:none;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:rgba(17,8,40,.92);color:#fff;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;border:1px solid rgba(168,85,247,.6);box-shadow:0 4px 18px rgba(0,0,0,.35)">
+   style="position:fixed;right:12px;bottom:12px;z-index:2147483647;display:none;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:999px;background:rgba(17,8,40,.92);color:#fff;font:600 12px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;border:1px solid rgba(168,85,247,.6);box-shadow:0 4px 18px rgba(0,0,0,.35)">
   Preview · Get this template on TemplateHub →
 </a>
 <script>

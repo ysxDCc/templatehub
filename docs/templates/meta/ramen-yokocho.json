@@ -1,0 +1,16 @@
+{
+  "id": "ramen-yokocho",
+  "name": "Yokocho Ramen",
+  "description": "Late-night ramen bar template with a neon sign that flickers on at load and a swipeable, keyboard-friendly horizontal menu rail.",
+  "category": "restaurant",
+  "tier": "basic",
+  "logo": "🍜 YOKOCHO",
+  "tags": ["Ramen", "Restaurant", "Late Night", "Neon", "Dark"],
+  "features": [
+    "Neon sign that flickers to life with swaying paper lanterns",
+    "Scroll-snap menu rail with arrow buttons, keyboard control and illustrated bowls",
+    "Sides price list and a glowing after-midnight set-menu promo",
+    "Hours table, FAQ, reviews and a working booking form"
+  ],
+  "signature": "Neon sign flickers on at load; horizontally scrolling menu rail with scroll-snap"
+}

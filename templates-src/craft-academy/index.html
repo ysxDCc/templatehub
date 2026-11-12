@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Craft Academy — Learn fine woodworking, one joint at a time</title>
+<meta name="description" content="Craft Academy is an online woodworking course: 8 modules, 64 lessons and a finished walnut side table you built yourself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;0,800;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#2f5d3a;
+  --forest:#2f5d3a;
+  --forest-d:#1f3f27;
+  --walnut:#4a2e1b;
+  --walnut-2:#6b4428;
+  --walnut-l:#8a5a36;
+  --sawdust:#f1e6d0;
+  --sawdust-2:#e6d5b4;
+  --cream:#fbf6ec;
+  --ink:#2a1c12;
+  --muted:#5e4b3b;
+  --serif:"Bitter",Georgia,serif;
+  --sans:"Work Sans",ui-sans-serif,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:400 1.06rem/1.65 var(--sans);color:var(--ink);background:var(--cream);overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);line-height:1.1;margin:0 0 .5em;font-weight:800}
+h2{font-size:clamp(2rem,4.2vw,3.2rem)}
+p{margin:0 0 1em}
+a{color:var(--forest)}
+svg{display:block;max-width:100%}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:8px;background:var(--walnut);color:#fff;padding:12px 16px;z-index:100;border-radius:6px}
+.skip:focus{left:12px}
+:focus-visible{outline:3px solid #c98a3a;outline-offset:3px}
+.label{display:inline-block;font:600 .8rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--forest);margin-bottom:12px}
+.label::before{content:"✦ ";color:var(--walnut-l)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:12px 26px;border-radius:6px;font:600 1rem var(--sans);text-decoration:none;border:2px solid var(--walnut);color:var(--walnut);background:transparent;cursor:pointer;transition:background .2s,color .2s,transform .2s}
+.btn:hover{background:var(--walnut);color:var(--cream)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--forest-d);border-color:var(--forest-d);color:#fff;transform:translateY(-2px)}
+
+/* header */
+header{background:var(--walnut);color:var(--sawdust);position:sticky;top:0;z-index:40;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;min-height:76px;gap:20px}
+.logo{display:inline-flex;align-items:center;gap:12px;color:var(--cream);text-decoration:none;font:800 1.35rem var(--serif);min-height:44px}
+.logo svg{flex:none}
+nav ul{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:4px}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--sawdust);text-decoration:none;font-weight:500;border-radius:6px}
+nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+nav .btn-primary{margin-left:10px;color:#fff;background:var(--accent)}
+nav .btn-primary:hover{background:var(--forest-d)}
+.burger{display:none;min-width:48px;min-height:48px;border-radius:6px;border:2px solid var(--sawdust);background:transparent;color:var(--sawdust);cursor:pointer;font:600 .9rem var(--sans);padding:0 12px;align-items:center;gap:8px}
+.burger i{display:block;width:18px;height:2px;background:currentColor;box-shadow:0 -6px 0 currentColor,0 6px 0 currentColor}
+
+/* hero */
+.hero{position:relative;background:var(--sawdust);overflow:hidden;padding:80px 0 0}
+.grain{position:absolute;inset:0;opacity:.5;pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end;position:relative}
+.hero-copy{padding-bottom:90px}
+.hero h1{font-size:clamp(2.6rem,5.8vw,4.8rem);color:var(--walnut);letter-spacing:-.01em}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--forest)}
+.hero p.sub{font-size:1.22rem;color:var(--muted);max-width:40ch}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0}
+.meta-row{display:flex;gap:28px;flex-wrap:wrap;color:var(--muted);font-weight:500}
+.meta-row b{display:block;font:800 1.6rem var(--serif);color:var(--walnut)}
+.bench{position:relative;align-self:end}
+.bench svg{width:100%;height:auto}
+.badge{position:absolute;top:30px;right:10px;width:128px;height:128px;border-radius:50%;background:var(--forest);color:var(--sawdust);display:grid;place-items:center;text-align:center;font:700 .85rem/1.2 var(--serif);transform:rotate(10deg);box-shadow:0 10px 30px -10px rgba(0,0,0,.4)}
+.badge b{display:block;font-size:2rem}
+
+/* strip */
+.strip{background:var(--forest);color:var(--sawdust);padding:22px 0}
+.strip ul{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:600 1rem var(--serif)}
+.strip li::before{content:"◆";margin-right:10px;color:#c9a46a}
+
+.section{padding:100px 0}
+section{scroll-margin-top:80px}
+.head{max-width:720px;margin-bottom:54px}
+.head p{color:var(--muted);font-size:1.12rem}
+
+/* features */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.feat{background:#fff;border:1px solid var(--sawdust-2);border-radius:10px;padding:34px 28px;position:relative}
+.feat::before{content:"";position:absolute;left:28px;right:28px;top:0;height:5px;background:repeating-linear-gradient(90deg,var(--walnut-l) 0 12px,transparent 12px 18px)}
+.feat svg{margin-bottom:18px}
+.feat h3{font-size:1.4rem;color:var(--walnut)}
+.feat p{color:var(--muted);margin:0}
+
+/* learning path */
+.path-sec{background:var(--walnut);color:var(--sawdust);position:relative;overflow:hidden}
+.path-sec .head h2{color:var(--cream)}
+.path-sec .head p{color:#e3d2b5}
+.path-sec .label{color:#a9d4b2}
+.path-box{position:relative}
+.path{position:relative;list-style:none;margin:0;padding:0}
+.path::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px dashed rgba(241,230,208,.3);transform:translateX(-50%)}
+.js-path .path::before{display:none}
+.path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:1}
+.mod .flip{position:relative;z-index:2}
+.path-svg .track{fill:none;stroke:rgba(241,230,208,.18);stroke-width:4;stroke-dasharray:2 10;stroke-linecap:round}
+.path-svg .line{fill:none;stroke:#c9a46a;stroke-width:5;stroke-linecap:round}
+.mod{display:grid;grid-template-columns:1fr 110px 1fr;align-items:center;min-height:300px;position:relative}
+.node{grid-column:2;justify-self:center;width:64px;height:64px;border-radius:50%;background:var(--walnut);border:3px solid rgba(241,230,208,.35);display:grid;place-items:center;font:800 1.2rem var(--serif);color:var(--sawdust);position:relative;z-index:2;transition:background .4s,border-color .4s,color .4s,transform .4s}
+.node.lit{background:#c9a46a;border-color:#f1e6d0;color:var(--walnut);transform:scale(1.1)}
+.mod:nth-child(odd) .flip{grid-column:1;grid-row:1}
+.mod:nth-child(even) .flip{grid-column:3;grid-row:1}
+.mod .node{grid-row:1}
+.flip{perspective:1200px;height:270px}
+.flip-inner{position:relative;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+.flip.flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;padding:26px 26px 22px;display:flex;flex-direction:column}
+.front{background:repeating-radial-gradient(ellipse at 110% 120%,transparent 0 14px,rgba(138,90,54,.09) 14px 15px),var(--sawdust);color:var(--ink);box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.back{background:var(--forest);color:#eef5ee;transform:rotateY(180deg);box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.face .mod-no{font:600 .78rem var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--walnut-2)}
+.back .mod-no{color:#bfe0c5}
+.face h3{font-size:1.5rem;margin:6px 0 8px}
+.front h3{color:var(--walnut)}
+.front p{color:var(--muted);margin:0;flex:1}
+.face ol{margin:4px 0 10px;padding-left:22px;flex:1;font-size:.95rem;line-height:1.45;columns:2;column-gap:28px}
+.face ol li{break-inside:avoid}
+.face ol li{padding:2px 0}
+.flip-btn{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:6px;border:2px solid currentColor;background:transparent;color:inherit;font:600 .92rem var(--sans);cursor:pointer}
+.front .flip-btn{color:var(--forest)}
+.flip-btn:hover{background:rgba(0,0,0,.06)}
+.back .flip-btn:hover{background:rgba(255,255,255,.12)}
+.dur{display:inline-block;align-self:flex-start;font-size:.86rem;font-weight:600;background:rgba(47,93,58,.12);color:var(--forest);padding:4px 10px;border-radius:99px;margin-bottom:10px}
+
+/* instructor */
+.teacher{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.portrait{aspect-ratio:4/5;border-radius:14px;background:linear-gradient(160deg,var(--walnut-2),var(--walnut));position:relative;overflow:hidden}
+.portrait svg{position:absolute;inset:0;width:100%;height:100%}
+.sig{font:italic 500 1.5rem var(--serif);color:var(--walnut-2)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:28px 0}
+.facts div{background:var(--sawdust);border-radius:10px;padding:18px}
+.facts b{display:block;font:800 1.8rem var(--serif);color:var(--forest)}
+
+/* pricing */
+.pricing{background:var(--sawdust)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.plan{background:var(--cream);border-radius:12px;padding:36px 30px;display:flex;flex-direction:column;border:2px solid var(--sawdust-2);position:relative;transition:transform .3s,box-shadow .3s}
+.plan:hover{transform:translateY(-6px);box-shadow:0 26px 50px -26px rgba(74,46,27,.5)}
+.plan.best{border-color:var(--forest);background:#fff}
+.ribbon{position:absolute;top:18px;right:-8px;background:var(--forest);color:#fff;font:700 .78rem var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 14px 6px 12px}
+.ribbon::after{content:"";position:absolute;right:0;bottom:-8px;border-left:8px solid var(--forest-d);border-bottom:8px solid transparent}
+.card-title{font-size:1.55rem;color:var(--walnut);margin-bottom:6px}
+.price{display:block;font:800 3rem/1 var(--serif);color:var(--forest);margin:18px 0 4px}
+.plan .once{color:var(--muted);font-size:.95rem;margin-bottom:22px}
+.plan ul{list-style:none;padding:0;margin:0 0 28px;flex:1}
+.plan li{padding:9px 0 9px 28px;border-top:1px dashed var(--sawdust-2);position:relative}
+.plan li::before{content:"";position:absolute;left:2px;top:15px;width:14px;height:8px;border-left:3px solid var(--forest);border-bottom:3px solid var(--forest);transform:rotate(-45deg)}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.review{margin:0;background:#fff;border-radius:12px;padding:30px;border:1px solid var(--sawdust-2);display:flex;flex-direction:column}
+.stars{color:#a86a1f;letter-spacing:4px;margin-bottom:12px}
+.review blockquote{margin:0 0 20px;font:500 1.12rem/1.55 var(--serif);flex:1}
+.review figcaption{display:flex;align-items:center;gap:12px;font-weight:600}
+.review figcaption i{width:44px;height:44px;border-radius:50%;background:var(--sawdust);display:grid;place-items:center;font:800 1.1rem var(--serif);font-style:normal;color:var(--walnut)}
+.review small{display:block;color:var(--muted);font-weight:400}
+
+/* faq */
+.faq{max-width:860px}
+details{background:#fff;border:1px solid var(--sawdust-2);border-radius:10px;margin-bottom:12px;padding:0 22px}
+summary{cursor:pointer;min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:16px;font:700 1.12rem var(--serif);color:var(--walnut);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:12px;height:12px;border-right:3px solid var(--forest);border-bottom:3px solid var(--forest);transform:rotate(45deg);transition:transform .3s}
+details[open] summary::after{transform:rotate(225deg)}
+details p{color:var(--muted)}
+
+/* contact */
+.contact{background:var(--forest);color:#eef5ee}
+.contact h2{color:#fff}
+.contact .label{color:#d9ecd9}
+.contact .label::before{color:#c9a46a}
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:start}
+.info{list-style:none;padding:0;margin:26px 0 0}
+.info li{padding:14px 0;border-top:1px solid rgba(255,255,255,.18)}
+.info b{display:block;font:700 .82rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#cfe5cf}
+.info a{color:#fff;display:inline-flex;min-height:44px;align-items:center}
+form.card{background:var(--cream);color:var(--ink);border-radius:14px;padding:34px;display:grid;gap:18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.field{display:grid;gap:6px}
+label{font-weight:600}
+input,select,textarea{font:inherit;width:100%;padding:13px 14px;min-height:50px;border-radius:8px;border:2px solid var(--sawdust-2);background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--forest);box-shadow:0 0 0 4px rgba(47,93,58,.2)}
+textarea{min-height:130px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+footer{background:var(--ink);color:#d8c8ae;padding:56px 0 30px}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
+footer ul a{color:#f1e6d0;text-decoration:none;display:inline-flex;min-height:44px;align-items:center;padding:0 12px}
+footer ul a:hover{color:#c9a46a}
+.copy{margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:.92rem}
+
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .hero-grid,.teacher,.contact-grid{grid-template-columns:1fr}
+  .hero-copy{padding-bottom:10px}
+  .bench{max-width:520px;margin-inline:auto;width:100%}
+  .feats,.reviews,.plans{grid-template-columns:1fr}
+  .plans{max-width:520px;margin-inline:auto}
+  .portrait{max-width:440px;width:100%;aspect-ratio:1}
+}
+@media (max-width:860px){
+  .burger{display:inline-flex}
+  nav ul{display:none;position:absolute;left:0;right:0;top:100%;background:var(--walnut);flex-direction:column;align-items:stretch;padding:10px 20px 22px;border-top:1px solid rgba(255,255,255,.1)}
+  nav ul.open{display:flex}
+  nav .btn-primary{margin:8px 0 0}
+  .mod{grid-template-columns:64px 1fr;min-height:0;padding:18px 0;gap:14px}
+  .mod .node{grid-column:1;width:52px;height:52px;font-size:1rem}
+  .mod:nth-child(odd) .flip,.mod:nth-child(even) .flip{grid-column:2}
+  .path::before{left:32px}
+  .flip{height:290px}
+}
+@media (max-width:560px){
+  .section{padding:72px 0}
+  .hero{padding-top:50px}
+  .row2,.facts{grid-template-columns:1fr}
+  form.card{padding:22px}
+  .badge{width:100px;height:100px;font-size:.75rem;top:6px}
+  .badge b{font-size:1.5rem}
+  .flip{height:320px}
+  .mod{grid-template-columns:52px 1fr;gap:10px}
+  .mod .node{width:44px;height:44px}
+  .path::before{left:26px}
+  .face{padding:20px 18px}
+  .face ol{columns:1}
+  .strip ul{justify-content:flex-start;font-size:.95rem}
+}
+@media (max-width:380px){.flip{height:420px}.face ol{font-size:.9rem}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap nav-row">
+    <a href="#" class="logo"><svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="6" fill="#2f5d3a"/><path d="M9 26l9-16 9 16M12.5 20h11" fill="none" stroke="#f1e6d0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Craft Academy</a>
+    <nav aria-label="Main">
+      <button class="burger" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i><span>Menu</span></button>
+      <ul id="menu">
+        <li><a href="#curriculum">Curriculum</a></li>
+        <li><a href="#instructor">Instructor</a></li>
+        <li><a href="#enrol">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#enrol">Enrol now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero">
+  <svg class="grain" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#c9a77a" stroke-width="1.2">
+      <path d="M0 60 C200 40 300 90 500 70 S900 30 1200 70"/><path d="M0 120 C220 100 320 160 520 130 S880 90 1200 140"/><path d="M0 200 C240 170 340 240 560 200 S900 160 1200 210"/><path d="M0 290 C180 260 360 330 600 290 S940 250 1200 300"/><path d="M0 380 C220 360 380 420 620 380 S960 340 1200 390"/><path d="M0 470 C260 440 400 510 640 470 S980 430 1200 480"/><path d="M0 560 C240 540 420 590 660 560 S1000 520 1200 570"/>
+      <ellipse cx="880" cy="240" rx="60" ry="18"/><ellipse cx="880" cy="240" rx="36" ry="10"/><ellipse cx="880" cy="240" rx="14" ry="4"/>
+    </g>
+  </svg>
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="label">Online woodworking course · Cohort 9 open</span>
+      <h1>Build furniture that <em>outlives you.</em></h1>
+      <p class="sub">An eight-module online course that takes you from your first sharp chisel to a hand-cut walnut side table — no big workshop or expensive machines required.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#enrol">Start building — from $249</a>
+        <a class="btn" href="#curriculum">See the curriculum</a>
+      </div>
+      <div class="meta-row"><span><b>64</b>video lessons</span><span><b>8</b>modules</span><span><b>3,900+</b>makers enrolled</span></div>
+    </div>
+    <div class="bench reveal" aria-hidden="true">
+      <svg viewBox="0 0 520 440">
+        <defs>
+          <linearGradient id="wal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a5a36"/><stop offset="1" stop-color="#5b3820"/></linearGradient>
+          <linearGradient id="top" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a06c42"/><stop offset="1" stop-color="#7a4b2a"/></linearGradient>
+        </defs>
+        <rect x="0" y="410" width="520" height="30" fill="#4a2e1b"/>
+        <!-- table -->
+        <path d="M110 190 L410 190 L440 222 L80 222 Z" fill="url(#top)"/>
+        <rect x="80" y="222" width="360" height="22" fill="#5b3820"/>
+        <g stroke="#c08a5c" stroke-width="1" fill="none" opacity=".6"><path d="M130 200 C200 196 260 206 330 199 S400 204 420 202"/><path d="M110 212 C190 208 250 216 330 210 S410 214 432 214"/></g>
+        <rect x="110" y="244" width="26" height="166" fill="url(#wal)"/>
+        <rect x="384" y="244" width="26" height="166" fill="url(#wal)"/>
+        <rect x="136" y="262" width="248" height="34" fill="#6b4428"/>
+        <rect x="136" y="262" width="248" height="34" fill="none" stroke="#4a2e1b" stroke-width="2"/>
+        <circle cx="260" cy="279" r="5" fill="#d9b98c"/>
+        <rect x="136" y="356" width="248" height="14" fill="#5b3820"/>
+        <!-- dovetail detail -->
+        <path d="M384 262 l12 6 v22 l-12 6" fill="#a06c42"/>
+        <!-- plane on table -->
+        <g transform="translate(150 150)">
+          <path d="M0 40 L20 14 H120 L134 40 Z" fill="#2f5d3a"/>
+          <rect x="-4" y="38" width="142" height="10" rx="2" fill="#1f3f27"/>
+          <path d="M84 14 C86 -6 104 -10 112 4 L114 14 Z" fill="#8a5a36"/>
+          <circle cx="36" cy="10" r="10" fill="#8a5a36"/>
+          <path d="M58 14 l14 -18 l6 4 l-10 14z" fill="#b9c4bb"/>
+        </g>
+        <!-- shavings -->
+        <g fill="none" stroke="#d9b98c" stroke-width="5" stroke-linecap="round">
+          <path d="M310 178 c10 -18 34 -10 26 4 c-6 10 -20 4 -14 -4"/>
+          <path d="M350 184 c14 -10 30 0 20 8"/>
+          <path d="M200 404 c14 -14 34 -4 24 6 c-8 6 -16 0 -10 -6"/>
+          <path d="M300 406 c8 -10 24 -6 18 2"/>
+        </g>
+        <!-- chisel -->
+        <g transform="rotate(-18 440 160)"><rect x="380" y="150" width="56" height="14" rx="6" fill="#8a5a36"/><rect x="436" y="153" width="48" height="8" fill="#b9c4bb"/></g>
+      </svg>
+      <div class="badge"><span><b>4.9★</b>from 1,200<br>reviews</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip" role="presentation"><div class="wrap"><ul><li>Lifetime access</li><li>Hand-tool friendly</li><li>Printable plans</li><li>Live Q&amp;A monthly</li><li>30-day refund</li></ul></div></div>
+
+<section class="section" id="why" aria-labelledby="why-h">
+  <div class="wrap">
+    <div class="head reveal"><span class="label">Why Craft Academy</span><h2 id="why-h">Patient teaching for people who've never held a chisel.</h2><p>Every technique is shot from three angles, slowed down, and repeated on scrap before you ever touch good timber.</p></div>
+    <div class="feats">
+      <article class="feat reveal"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="6" y="22" width="36" height="8" rx="2" fill="#2f5d3a"/><path d="M12 22l4-8h16l4 8" fill="#8a5a36"/></svg><h3>Hand tools first</h3><p>Learn with a saw, a plane and four chisels. Machines are optional chapters, not prerequisites.</p></article>
+      <article class="feat reveal"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 10h32v28H8z" fill="none" stroke="#2f5d3a" stroke-width="3"/><path d="M8 18h32M16 10v28" stroke="#8a5a36" stroke-width="3"/></svg><h3>Plans you can print</h3><p>Every project ships with full-scale drawings, cut lists and a timber shopping guide.</p></article>
+      <article class="feat reveal"><svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><circle cx="18" cy="18" r="7" fill="#8a5a36"/><circle cx="32" cy="22" r="6" fill="#2f5d3a"/><path d="M6 40c2-8 7-12 12-12s10 4 12 12M26 40c1-6 4-9 7-9s7 3 8 9" fill="none" stroke="#4a2e1b" stroke-width="3"/></svg><h3>A real workshop crowd</h3><p>Post photos of your joints, get feedback from instructors and 3,900 fellow makers.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section path-sec" id="curriculum" aria-labelledby="cur-h">
+  <div class="wrap">
+    <div class="head reveal"><span class="label">The learning path</span><h2 id="cur-h">Eight modules from rough board to finished table.</h2><p>Follow the path. Flip any module to see every lesson inside.</p></div>
+    <div class="path-box" id="pathbox"><ol class="path" id="path">
+      <li class="mod"><span class="node" aria-hidden="true">1</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 1</span><h3>Setting up a small shop</h3><span class="dur">5 lessons · 48 min</span><p>Space, bench, light and the twelve tools you actually need.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 1 · Lessons</span><ol><li>A bench in a spare room</li><li>The essential twelve</li><li>Buying second-hand tools</li><li>Lighting &amp; dust</li><li>Shop safety habits</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">2</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 2</span><h3>Sharpening, properly</h3><span class="dur">7 lessons · 1 h 10 min</span><p>Stones, strops and the five-minute routine that changes everything.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 2 · Lessons</span><ol><li>Why sharp is safe</li><li>Flattening a chisel back</li><li>Primary &amp; micro bevels</li><li>Honing guides vs freehand</li><li>Plane irons</li><li>Stropping</li><li>The 5-minute routine</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">3</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 3</span><h3>Reading the grain</h3><span class="dur">8 lessons · 1 h 25 min</span><p>Choosing boards, milling square by hand and why wood moves.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 3 · Lessons</span><ol><li>Hardwood vs softwood</li><li>Reading end grain</li><li>Seasonal movement</li><li>Face side, face edge</li><li>Planing to thickness</li><li>Shooting ends square</li><li>Marking gauges</li><li>Storing timber</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">4</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 4</span><h3>Saw like you mean it</h3><span class="dur">8 lessons · 1 h 15 min</span><p>Rip, crosscut and dovetail saws — straight cuts, every time.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 4 · Lessons</span><ol><li>Stance &amp; grip</li><li>Starting a cut</li><li>Ripping to a line</li><li>Crosscuts</li><li>Bench hooks</li><li>Kerf &amp; set</li><li>Fixing a wandering cut</li><li>Saw maintenance</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">5</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 5</span><h3>Dovetails &amp; drawers</h3><span class="dur">10 lessons · 2 h 05 min</span><p>Through and half-blind dovetails for a drawer that glides.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 5 · Lessons</span><ol><li>Laying out tails</li><li>Sawing tails</li><li>Chopping waste</li><li>Transferring pins</li><li>Half-blind dovetails</li><li>Gap repair</li><li>Fitting the drawer</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">6</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 6</span><h3>Mortise &amp; tenon frames</h3><span class="dur">9 lessons · 1 h 50 min</span><p>The joint behind every sturdy table, chair and door.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 6 · Lessons</span><ol><li>Proportions</li><li>Chopping mortises</li><li>Sawing cheeks</li><li>Paring to fit</li><li>Haunched tenons</li><li>Drawbore pins</li><li>Dry-fitting a frame</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">7</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 7</span><h3>Glue-up without panic</h3><span class="dur">6 lessons · 58 min</span><p>Clamping strategy, squaring a carcass and fixing mistakes.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 7 · Lessons</span><ol><li>Choosing glue</li><li>Rehearse the glue-up</li><li>Clamping cauls</li><li>Checking diagonals</li><li>Squeeze-out</li><li>Rescue techniques</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+      <li class="mod"><span class="node" aria-hidden="true">8</span><div class="flip"><div class="flip-inner">
+        <div class="face front"><span class="mod-no">Module 8 · Final project</span><h3>The walnut side table</h3><span class="dur">11 lessons · 3 h 20 min</span><p>Everything comes together — finished with hand-rubbed oil.</p><button class="flip-btn" type="button" aria-expanded="false">See lessons ↻</button></div>
+        <div class="face back"><span class="mod-no">Module 8 · Lessons</span><ol><li>Cut list &amp; milling</li><li>Legs &amp; aprons</li><li>The drawer</li><li>Top &amp; buttons</li><li>Scraping &amp; sanding</li><li>Oil finish</li><li>Signing your work</li></ol><button class="flip-btn" type="button">← Back</button></div>
+      </div></div></li>
+    </ol></div>
+  </div>
+</section>
+
+<section class="section" id="instructor" aria-labelledby="ins-h">
+  <div class="wrap teacher">
+    <div class="portrait reveal" role="img" aria-label="Illustration of the instructor at a workbench">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <circle cx="200" cy="170" r="70" fill="#d9b98c"/>
+        <path d="M130 150 C130 90 270 90 270 150 C250 120 150 120 130 150Z" fill="#2a1c12"/>
+        <path d="M60 500 C60 320 340 320 340 500Z" fill="#2f5d3a"/>
+        <path d="M150 330 L200 420 L250 330" fill="none" stroke="#f1e6d0" stroke-width="6"/>
+        <rect x="80" y="440" width="240" height="60" fill="#8a5a36"/>
+        <g stroke="#f1e6d0" stroke-opacity=".12" fill="none"><circle cx="200" cy="170" r="120"/><circle cx="200" cy="170" r="170"/><circle cx="200" cy="170" r="220"/></g>
+      </svg>
+    </div>
+    <div class="reveal">
+      <span class="label">Your instructor</span>
+      <h2 id="ins-h">Hello, I'm Rowan Ashby.</h2>
+      <p>I spent fifteen years building commissions in a one-car garage before I started teaching. I still remember how intimidating that first dovetail was — so this course moves at the speed of a beginner, not a showreel.</p>
+      <p>Every lesson is filmed at my own bench, with my own mistakes left in so you can see how to fix them.</p>
+      <div class="facts"><div><b>15 yrs</b>building furniture</div><div><b>420+</b>pieces delivered</div><div><b>9</b>cohorts taught</div></div>
+      <p class="sig">— Rowan</p>
+    </div>
+  </div>
+</section>
+
+<section class="section pricing" id="enrol" aria-labelledby="price-h">
+  <div class="wrap">
+    <div class="head reveal"><span class="label">Enrolment</span><h2 id="price-h">Pick your bench.</h2><p>One payment, lifetime access, and a 30-day no-questions refund.</p></div>
+    <div class="plans">
+      <article class="plan reveal"><h3 class="card-title">Self-Paced</h3><p>All 64 lessons, on your own schedule.</p><span class="price">$249</span><p class="once">one-time payment</p><ul><li>8 modules · 64 lessons</li><li>Printable plans &amp; cut lists</li><li>Community forum</li><li>Certificate of completion</li></ul><a class="btn" href="#contact">Enrol self-paced</a></article>
+      <article class="plan best reveal"><span class="ribbon">Best value</span><h3 class="card-title">Workshop Kit</h3><p>The course plus a box of tools at your door.</p><span class="price">$449</span><p class="once">one-time · free shipping</p><ul><li>Everything in Self-Paced</li><li>4 bevel-edge chisels &amp; strop</li><li>Marking gauge &amp; knife</li><li>Walnut stock for the final table</li><li>Monthly live Q&amp;A</li></ul><a class="btn btn-primary" href="#contact">Get the kit</a></article>
+      <article class="plan reveal"><h3 class="card-title">Mentorship</h3><p>For makers who want eyes on every joint.</p><span class="price">$899</span><p class="once">one-time · 12 seats per cohort</p><ul><li>Everything in Workshop Kit</li><li>6 one-to-one video calls</li><li>Written feedback on each project</li><li>Private cohort channel</li></ul><a class="btn" href="#contact">Apply for a seat</a></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="rev-h">
+  <div class="wrap">
+    <div class="head reveal"><span class="label">From the bench</span><h2 id="rev-h">Students who now own a table they made.</h2></div>
+    <div class="reviews">
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>"I'd never sharpened anything but a pencil. Twelve weeks later there's a walnut table in our hallway and my partner keeps telling guests I made it."</blockquote><figcaption><i aria-hidden="true">D</i><span>Darius<small>Cohort 7 · Workshop Kit</small></span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>"The sharpening module alone was worth the price. Rowan's calm voice is the reason I didn't give up on my first set of dovetails."</blockquote><figcaption><i aria-hidden="true">H</i><span>Hannah<small>Cohort 8 · Self-Paced</small></span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>"I work in a 2 × 3 metre balcony shed. Every lesson worked in that space. The mentorship calls caught mistakes before they got glued in."</blockquote><figcaption><i aria-hidden="true">K</i><span>Kenji<small>Cohort 8 · Mentorship</small></span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:0" aria-labelledby="faq-h">
+  <div class="wrap faq">
+    <div class="head reveal"><span class="label">Good questions</span><h2 id="faq-h">Before you pick up a saw</h2></div>
+    <div class="reveal">
+      <details open><summary>Do I need any experience?</summary><p>None at all. Module 1 assumes you've never owned a hand tool and builds up from there.</p></details>
+      <details><summary>How much space do I need?</summary><p>A sturdy table or a fold-down bench in a 2 × 2 metre corner is enough for every project in the course.</p></details>
+      <details><summary>What will tools cost me?</summary><p>Around $180 for the essential set if you buy second-hand using our guide — or choose the Workshop Kit and we send them.</p></details>
+      <details><summary>How long do I have access?</summary><p>Forever, including all future updates and new bonus projects.</p></details>
+      <details><summary>What if it isn't for me?</summary><p>Email us within 30 days for a full refund. Keep the plans.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact" aria-labelledby="contact-h">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="label">Get in touch</span>
+      <h2 id="contact-h">Questions about the course?</h2>
+      <p>Ask about cohorts, kits, gift vouchers or group bookings for your makerspace. Rowan or Bea will reply within one working day.</p>
+      <ul class="info">
+        <li><b>Email</b><a href="mailto:workshop@example.com">workshop@example.com</a></li>
+        <li><b>Phone</b><a href="tel:+15550176620">+1 555 017 6620</a></li>
+        <li><b>Workshop</b>Unit 3, Old Mill Yard, 22 River Road, Asheville, NC</li>
+      </ul>
+    </div>
+    <form class="card reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="f-plan">Interested in</label><select id="f-plan" name="plan"><option>Self-Paced</option><option selected>Workshop Kit</option><option>Mentorship</option><option>Gift voucher</option></select></div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="#" class="logo"><svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="6" fill="#2f5d3a"/><path d="M9 26l9-16 9 16M12.5 20h11" fill="none" stroke="#f1e6d0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Craft Academy</a>
+      <ul aria-label="Footer"><li><a href="#curriculum">Curriculum</a></li><li><a href="#enrol">Pricing</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul>
+    </div>
+    <p class="copy">© 2026 Craft Academy. Made by hand in Asheville.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement; root.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // nav
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu'), bl = burger.querySelector('span');
+  function setMenu(o){ burger.setAttribute('aria-expanded', o); bl.textContent = o ? 'Close' : 'Menu'; menu.classList.toggle('open', o); }
+  burger.addEventListener('click', function(){ setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true'){ setMenu(false); burger.focus(); } });
+
+  // reveals
+  var rv = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) rv.forEach(function(e){ e.classList.add('in'); });
+  else { var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.12}); rv.forEach(function(e){ io.observe(e); }); }
+
+  // flip cards
+  document.querySelectorAll('.flip').forEach(function(card){
+    var front = card.querySelector('.front'), back = card.querySelector('.back');
+    var open = front.querySelector('.flip-btn'), close = back.querySelector('.flip-btn');
+    function set(f){
+      card.classList.toggle('flipped', f);
+      open.setAttribute('aria-expanded', f);
+      if ('inert' in back){ back.inert = !f; front.inert = f; }
+      (f ? close : open).focus({preventScroll:true});
+    }
+    if ('inert' in back) back.inert = true;
+    open.addEventListener('click', function(){ set(true); });
+    close.addEventListener('click', function(){ set(false); });
+  });
+
+  // learning path: SVG line drawn through module nodes as you scroll
+  var path = document.getElementById('path'), nodes = path.querySelectorAll('.node');
+  var NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'path-svg'); svg.setAttribute('aria-hidden', 'true');
+  var track = document.createElementNS(NS, 'path'), line = document.createElementNS(NS, 'path');
+  track.setAttribute('class', 'track'); line.setAttribute('class', 'line');
+  svg.appendChild(track); svg.appendChild(line); var box = document.getElementById('pathbox'); box.insertBefore(svg, path);
+  root.classList.add('js-path');
+  var len = 0, pts = [], stops = [], ticking = false;
+  function build(){
+    var pr = path.getBoundingClientRect();
+    pts = [].map.call(nodes, function(n){ var r = n.getBoundingClientRect(); return {x: r.left + r.width / 2 - pr.left, y: r.top + r.height / 2 - pr.top}; });
+    var d = 'M' + pts[0].x + ' 0 L' + pts[0].x + ' ' + pts[0].y;
+    var swing = pr.width < 700 ? 14 : 56;
+    line.setAttribute('d', d); stops = [{y:0, L:0}, {y:pts[0].y, L:line.getTotalLength()}];
+    for (var i = 1; i < pts.length; i++){
+      var a = pts[i - 1], b = pts[i], my = (a.y + b.y) / 2, s = (i % 2 ? 1 : -1) * swing;
+      d += ' C' + (a.x + s) + ' ' + (a.y + (my - a.y) * .6) + ' ' + (b.x + s) + ' ' + (b.y - (b.y - my) * .6) + ' ' + b.x + ' ' + b.y;
+      line.setAttribute('d', d); stops.push({y:b.y, L:line.getTotalLength()});
+    }
+    d += ' L' + pts[pts.length - 1].x + ' ' + pr.height;
+    svg.setAttribute('viewBox', '0 0 ' + pr.width + ' ' + pr.height);
+    track.setAttribute('d', d); line.setAttribute('d', d);
+    len = line.getTotalLength(); stops.push({y:pr.height, L:len});
+    line.style.strokeDasharray = len;
+    update();
+  }
+  function update(){
+    ticking = false;
+    var pr = path.getBoundingClientRect(), h = pr.height;
+    var p = reduce ? 1 : Math.min(1, Math.max(0, (innerHeight * .62 - pr.top) / h));
+    var y = p * h, L = len;
+    for (var k = 1; k < stops.length; k++){ if (y <= stops[k].y){ var A = stops[k - 1], B = stops[k]; L = A.L + (B.L - A.L) * ((y - A.y) / Math.max(1, B.y - A.y)); break; } }
+    line.style.strokeDashoffset = len - L;
+    nodes.forEach(function(n, i){ n.classList.toggle('lit', pts[i] && pts[i].y <= y + 4); });
+  }
+  build();
+  addEventListener('resize', function(){ build(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+  if (!reduce) addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, {passive:true});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hope Harbor — Community food bank &amp; youth programmes</title>
+<meta name="description" content="Hope Harbor is a community nonprofit running a food bank, community kitchen and youth programmes. Donate, volunteer or get help.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#c94f38;
+  --coral:#e5674f;
+  --coral-soft:#fde3dc;
+  --harbour:#1d4e74;
+  --harbour-deep:#12324d;
+  --harbour-soft:#dbe8f2;
+  --sand:#f5e9d6;
+  --sand-2:#fbf5ec;
+  --ink:#172a3a;
+  --muted:#4c5d6c;
+  --sans:'Source Sans 3','Segoe UI',system-ui,sans-serif;
+  --serif:'Lora',Georgia,'Times New Roman',serif;
+  --r:20px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:18px;line-height:1.6;color:var(--ink);background:var(--sand-2);overflow-x:hidden}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--sans);font-weight:800;line-height:1.1;margin:0 0 .45em;letter-spacing:-.02em;color:var(--harbour-deep)}
+h1 em,h2 em{font-family:var(--serif);font-weight:500;font-style:italic;letter-spacing:0;color:var(--accent)}
+h2{font-size:clamp(2rem,4.2vw,3.1rem)}
+p{margin:0 0 1em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.over{display:inline-block;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--harbour);margin-bottom:10px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--harbour-deep);color:#fff;padding:10px 16px;z-index:200;border-radius:10px}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:52px;padding:0 1.6em;border-radius:12px;font:700 1.02rem var(--sans);text-decoration:none;cursor:pointer;
+  border:2px solid var(--harbour-deep);color:var(--harbour-deep);background:transparent;transition:background .2s,color .2s,transform .2s}
+.btn:hover{transform:translateY(-2px);background:var(--harbour-deep);color:#fff}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:#ad3f2a;border-color:#ad3f2a}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(251,245,236,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(18,50,77,.1)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.35rem;color:var(--harbour-deep);text-decoration:none;min-height:44px}
+.logo svg{width:36px;height:36px}
+.nav ul{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.nav ul a{color:var(--ink);text-decoration:none;font-weight:600;padding:12px 14px;display:inline-block;min-height:44px;border-radius:10px}
+.nav ul a:hover{background:var(--harbour-soft)}
+.nav ul a.btn-primary{color:#fff;background:var(--accent);margin-left:8px;min-height:48px}
+.menu-btn{display:none;width:50px;height:50px;border-radius:12px;border:2px solid var(--harbour-deep);background:transparent;cursor:pointer;position:relative}
+.menu-btn i,.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:12px;width:22px;height:2.5px;background:var(--harbour-deep);transition:transform .25s}
+.menu-btn i{top:22px}.menu-btn i::before{left:0;top:-7px}.menu-btn i::after{left:0;top:7px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{padding:70px 0 0;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,5.8vw,4.5rem);line-height:1.02}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:30em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0 22px}
+.note{font-size:.95rem;color:var(--muted)}
+.note b{color:var(--harbour-deep)}
+.scene{position:relative;border-radius:200px 200px var(--r) var(--r);overflow:hidden;background:linear-gradient(180deg,#f9d9c5 0%,#fbe9dc 45%,#dbe8f2 46%,#9fc0da 100%);aspect-ratio:5/6;box-shadow:0 30px 60px -30px rgba(18,50,77,.5)}
+.scene svg{position:absolute;inset:0;width:100%;height:100%}
+.beam{transform-origin:62% 23%;animation:beam 6s ease-in-out infinite alternate}
+@keyframes beam{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+.bob{animation:bob 4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.bob.b2{animation-duration:5s;animation-delay:-1.5s}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-2deg)}}
+.hero-wave{display:block;width:100%;height:auto;margin-top:70px;margin-bottom:-2px;color:var(--harbour-deep)}
+
+/* impact */
+.impact{background:var(--harbour-deep);color:#fff;padding:70px 0 90px}
+.impact h2{color:#fff}
+.impact .over{color:#f7b8a9}
+.counters{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px}
+.counter{border-top:3px solid var(--coral);padding-top:18px}
+.counter b{display:block;font-size:clamp(2.4rem,4.4vw,3.6rem);font-weight:800;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.counter span{color:#c4d6e6}
+
+/* goal */
+.goal{background:#fff;color:var(--ink);border-radius:var(--r);padding:34px;margin-top:60px;display:grid;grid-template-columns:1fr auto;gap:10px 30px;align-items:end}
+.goal h3{font-size:1.5rem;margin:0}
+.goal p{margin:0;color:var(--muted)}
+.goal .figs{text-align:right;font-weight:800;color:var(--harbour-deep);font-size:1.15rem}
+.goal .figs span{display:block;font-weight:600;color:var(--muted);font-size:.95rem}
+.track{grid-column:1/-1;height:38px;border-radius:999px;background:var(--harbour-soft);overflow:hidden;position:relative;margin-top:14px}
+.fill{position:absolute;inset:0 auto 0 0;width:var(--pct);border-radius:999px;background:linear-gradient(90deg,#d9563d,var(--coral));overflow:hidden;transform:translateX(0);transition:transform 2.4s cubic-bezier(.25,.8,.25,1)}
+.js .goal:not(.go) .fill{transform:translateX(-101%)}
+.wave{position:absolute;left:0;top:0;width:200%;height:100%;opacity:.55;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 38'%3E%3Cpath d='M0 14 Q15 4 30 14 T60 14 T90 14 T120 14 V38 H0z' fill='%23f58f79'/%3E%3Cpath d='M0 22 Q15 12 30 22 T60 22 T90 22 T120 22 V38 H0z' fill='%23ffffff' fill-opacity='.18'/%3E%3C/svg%3E") 0 0/120px 38px repeat-x;
+  animation:wave 3.2s linear infinite}
+.goal.paused .wave{animation-play-state:paused}
+@keyframes wave{to{transform:translateX(-50%)}}
+.pct{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--harbour-deep);font-size:.95rem;z-index:2}
+
+/* programmes */
+.block{padding:100px 0}
+section{scroll-margin-top:90px}
+.head{max-width:700px;margin-bottom:46px}
+.head p{color:var(--muted);font-size:1.1rem}
+.programmes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.prog{background:#fff;border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(18,50,77,.08)}
+.prog .art{height:160px;display:grid;place-items:center}
+.prog .art svg{height:110px;width:auto}
+.prog .txt{padding:24px 26px 28px}
+.prog h3{font-size:1.45rem}
+.prog p{color:var(--muted);margin:0}
+.prog .tag{display:inline-block;font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--harbour);margin-bottom:6px}
+
+/* donate */
+.donate{background:var(--sand)}
+.donate-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:50px;align-items:start}
+.chooser{background:#fff;border-radius:24px;padding:34px;box-shadow:0 30px 60px -36px rgba(18,50,77,.5)}
+.chooser h3{font-size:1.5rem}
+.freq{display:grid;grid-template-columns:1fr 1fr;background:var(--harbour-soft);border-radius:14px;padding:5px;margin-bottom:20px}
+.freq button{min-height:46px;border:0;background:transparent;border-radius:10px;font:700 1rem var(--sans);color:var(--harbour-deep);cursor:pointer}
+.freq button[aria-pressed="true"]{background:#fff;box-shadow:0 2px 8px rgba(18,50,77,.15)}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.amounts button{min-height:58px;border-radius:14px;border:2px solid var(--harbour-soft);background:#fff;font:800 1.25rem var(--sans);color:var(--harbour-deep);cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.amounts button:hover{border-color:var(--harbour)}
+.amounts button[aria-pressed="true"]{border-color:var(--accent);background:var(--coral-soft);color:#8f2f1d;transform:scale(1.03)}
+.other label{display:block;font-weight:700;margin-bottom:6px}
+.other .in{display:flex;align-items:center;border:2px solid var(--harbour-soft);border-radius:14px;padding-left:14px}
+.other .in:focus-within{border-color:var(--accent)}
+.other input{flex:1;border:0;font:700 1.15rem var(--sans);padding:12px;min-height:52px;background:transparent;color:var(--ink);min-width:0}
+.other input:focus{outline:none}
+.impact-line{margin:18px 0;background:var(--sand-2);border-radius:14px;padding:14px 16px;font-family:var(--serif);font-style:italic;color:var(--harbour-deep);min-height:58px}
+.chooser .btn{width:100%;font-size:1.1rem;min-height:56px}
+.secure{font-size:.88rem;color:var(--muted);margin:12px 0 0;text-align:center}
+.thanks{margin-top:14px;background:var(--harbour-soft);border-radius:12px;padding:12px 14px;font-weight:600;color:var(--harbour-deep)}
+.gifts{display:grid;gap:16px}
+.hero-grid>*,.donate-grid>*,.split>*,.contact-grid>*,.gift>*{min-width:0}
+.gift{display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;background:#fff;border-radius:18px;padding:18px 22px;transition:transform .2s}
+.gift:hover{transform:translateX(6px)}
+.gift .ic{width:64px;height:64px;border-radius:16px;background:var(--coral-soft);display:grid;place-items:center}
+.gift:nth-child(even) .ic{background:var(--harbour-soft)}
+.gift .ic svg{width:34px;height:34px}
+.gift h3{font-size:1.15rem;margin:0 0 .15em}
+.gift p{margin:0;color:var(--muted);font-size:.95rem}
+.price{font-weight:800;font-size:1.45rem;color:var(--accent);white-space:nowrap}
+
+/* stories */
+.stories{display:grid;grid-template-columns:1.2fr 1fr;gap:26px}
+.story{margin:0;background:#fff;border-radius:var(--r);padding:34px}
+.story.big{background:var(--harbour);color:#fff;grid-row:span 2;display:flex;flex-direction:column;justify-content:space-between}
+.story blockquote{margin:0 0 18px;font-family:var(--serif);font-size:1.2rem;line-height:1.5}
+.story.big blockquote{font-size:1.65rem;line-height:1.35}
+.story figcaption{font-weight:700}
+.story figcaption span{display:block;font-weight:400;opacity:.85;font-size:.95rem}
+.story .q{font-family:var(--serif);font-size:5rem;line-height:.6;color:var(--coral);height:40px}
+
+/* volunteer + faq */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:50px}
+.vol{background:var(--coral-soft);border-radius:24px;padding:36px}
+.vol ul{padding:0;margin:0 0 22px;list-style:none;display:grid;gap:10px}
+.vol li{display:flex;gap:10px}
+.vol li::before{content:"";flex:none;width:10px;height:10px;margin-top:.55em;border-radius:50%;background:var(--accent)}
+.faq details{border-bottom:1px solid rgba(18,50,77,.15)}
+.faq summary{list-style:none;cursor:pointer;padding:18px 40px 18px 0;font-weight:700;font-size:1.08rem;position:relative;color:var(--harbour-deep)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:6px;top:50%;width:12px;height:12px;margin-top:-9px;border-right:3px solid var(--accent);border-bottom:3px solid var(--accent);transform:rotate(45deg);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(225deg);margin-top:-3px}
+.faq details p{color:var(--muted);padding-bottom:16px;margin:0}
+
+/* contact */
+.contact{background:var(--harbour-deep);color:#dbe8f2}
+.contact h2{color:#fff}
+.contact .over{color:#f7b8a9}
+.contact a{color:#fff}
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}
+.contact dl{margin:24px 0 0;display:grid;gap:4px}
+.contact dt{font-weight:700;color:#f7b8a9;margin-top:12px}
+.contact dd{margin:0}
+form.msg{background:#fff;color:var(--ink);border-radius:24px;padding:34px}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:2px solid var(--harbour-soft);background:var(--sand-2);color:var(--ink);min-height:50px}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--harbour);background:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+footer.site{background:#0b2236;color:#b5c8d8;padding:46px 0 32px}
+.foot{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+footer.site .logo{color:#fff}
+footer.site a{color:#fff;text-decoration:none;display:inline-block;padding:10px 8px}
+footer small{display:block;width:100%;font-size:.88rem}
+
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid,.donate-grid,.split,.contact-grid{grid-template-columns:1fr}
+  .scene{max-width:440px;width:100%;margin:0 auto}
+  .counters{grid-template-columns:repeat(2,1fr);gap:30px 20px}
+  .programmes{grid-template-columns:1fr 1fr}
+  .stories{grid-template-columns:1fr}
+  .story.big{grid-row:auto}
+}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;top:80px;left:16px;right:16px;flex-direction:column;align-items:stretch;background:#fff;border-radius:18px;padding:14px;box-shadow:0 24px 40px rgba(18,50,77,.25)}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:14px}
+  .nav ul a.btn-primary{margin:8px 0 0}
+}
+@media (max-width:640px){
+  body{font-size:17px}
+  .wrap{padding:0 18px}
+  .block{padding:76px 0}
+  .programmes{grid-template-columns:1fr}
+  .goal{grid-template-columns:1fr;padding:24px 20px}
+  .goal .figs{text-align:left}
+  .chooser,form.msg,.vol{padding:24px 18px}
+  .gift{grid-template-columns:52px 1fr;padding:16px}
+  .gift .ic{width:52px;height:52px}
+  .gift .price{grid-column:2}
+  .two{grid-template-columns:1fr}
+  .amounts button{font-size:1.1rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .js .reveal{opacity:1;transform:none}
+  .js .goal .fill{transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M14 8h8l3 24H11z" fill="#1d4e74"/><path d="M13 14h10M12 21h12" stroke="#fbf5ec" stroke-width="2.5"/><rect x="13" y="3" width="10" height="6" rx="2" fill="#e5674f"/><path d="M2 33q4-3 8 0t8 0 8 0 8 0" stroke="#1d4e74" stroke-width="2.5" fill="none"/></svg>Hope Harbor</a>
+    <nav aria-label="Main">
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu"><i></i></button>
+      <ul id="nav-list">
+        <li><a href="#impact">Our impact</a></li>
+        <li><a href="#programmes">Programmes</a></li>
+        <li><a href="#volunteer">Volunteer</a></li>
+        <li><a href="#contact">Get help</a></li>
+        <li><a class="btn btn-primary" href="#donate">Donate</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="over">A community food bank &amp; youth charity since 2004</span>
+      <h1 id="hero-title">No one in our harbour <em>goes hungry</em> — or goes it alone.</h1>
+      <p>Hope Harbor feeds 3,400 local families every month and runs free after-school programmes for young people. Every gift, shift and tin of beans keeps the lights on.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#donate">Give a gift today</a>
+        <a class="btn" href="#volunteer">Volunteer with us</a>
+      </div>
+      <p class="note"><b>92¢</b> of every dollar goes straight to programmes.</p>
+    </div>
+    <div class="scene reveal" aria-hidden="true">
+      <svg viewBox="0 0 500 600" preserveAspectRatio="xMidYMid slice">
+        <circle cx="140" cy="200" r="60" fill="#f7b8a9"/>
+        <g class="beam"><path d="M310 140L520 80v140z" fill="#fff3c9" opacity=".7"/></g>
+        <path d="M285 140h50l18 140h-86z" fill="#fbf5ec"/>
+        <path d="M282 170h56M276 215h68M271 255h78" stroke="#e5674f" stroke-width="16"/>
+        <rect x="290" y="112" width="40" height="30" rx="4" fill="#ffe7a3"/>
+        <path d="M282 112h56l-28-26z" fill="#12324d"/>
+        <path d="M250 280h120l16 20H234z" fill="#7d5b45"/>
+        <path d="M0 300q40-12 80 0t80 0 80 0 80 0 80 0 80 0 80 0V600H0z" fill="#6b9cc2"/>
+        <path d="M0 360q40-12 80 0t80 0 80 0 80 0 80 0 80 0 80 0V600H0z" fill="#4f84ad"/>
+        <path d="M0 440q40-12 80 0t80 0 80 0 80 0 80 0 80 0 80 0V600H0z" fill="#1d4e74"/>
+        <g class="bob"><path d="M60 340h110l-18 26H78z" fill="#e5674f"/><path d="M112 340V270l40 60z" fill="#fbf5ec"/><path d="M112 270v70" stroke="#12324d" stroke-width="3"/></g>
+        <g class="bob b2"><path d="M330 412h90l-14 22h-62z" fill="#fbf5ec"/><path d="M372 412v-50l-30 46z" fill="#e5674f"/><path d="M372 362v50" stroke="#12324d" stroke-width="3"/></g>
+        <g stroke="#dbe8f2" stroke-width="3" stroke-linecap="round" opacity=".6"><path d="M40 500h50M150 530h70M300 510h60M380 560h70"/></g>
+        <g fill="#12324d"><path d="M205 228l6-5 6 5M225 238l5-4 5 4"/></g>
+      </svg>
+    </div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40C180 0 360 0 540 30S900 80 1080 50 1320 10 1440 30V80H0z" fill="currentColor"/></svg>
+</section>
+
+<section class="impact" id="impact" aria-labelledby="impact-title">
+  <div class="wrap">
+    <div class="reveal"><span class="over">Last year, together, we…</span><h2 id="impact-title">Kept 3,400 families afloat</h2></div>
+    <div class="counters">
+      <div class="counter reveal"><b data-count="1200000" data-suffix="+">1,200,000+</b><span>meals served</span></div>
+      <div class="counter reveal"><b data-count="3400">3,400</b><span>families supported monthly</span></div>
+      <div class="counter reveal"><b data-count="680">680</b><span>young people mentored</span></div>
+      <div class="counter reveal"><b data-count="920">920</b><span>volunteers on the rota</span></div>
+    </div>
+    <div class="goal reveal" id="goal">
+      <div><h3>Winter Warmth Appeal</h3><p>Help us stock shelves and heat the youth centre through to March.</p></div>
+      <div class="figs">$184,250 raised<span>of $250,000 goal · 1,286 donors</span></div>
+      <div class="track" role="progressbar" aria-label="Winter Warmth Appeal progress" aria-valuemin="0" aria-valuemax="250000" aria-valuenow="184250" aria-valuetext="$184,250 of $250,000 raised">
+        <div class="fill" style="--pct:73.7%"><div class="wave" aria-hidden="true"></div></div>
+        <span class="pct" aria-hidden="true">74%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="programmes" aria-labelledby="prog-title">
+  <div class="wrap">
+    <div class="head reveal"><span class="over">What we do</span><h2 id="prog-title">Three programmes, <em>one community</em></h2><p>Everything is free to the people who use it, and everything is shaped by the neighbours we serve.</p></div>
+    <div class="programmes">
+      <article class="prog reveal"><div class="art" style="background:var(--coral-soft)"><svg viewBox="0 0 120 110" aria-hidden="true"><path d="M20 40h80l-8 64H28z" fill="#e5674f"/><path d="M36 40c0-14 10-24 24-24s24 10 24 24" stroke="#12324d" stroke-width="6" fill="none"/><circle cx="46" cy="30" r="12" fill="#f4c26b"/><rect x="64" y="12" width="16" height="30" rx="4" fill="#9cc58b"/><path d="M30 60h60" stroke="#fbf5ec" stroke-width="4"/></svg></div><div class="txt"><span class="tag">Food bank</span><h3>The Harbour Pantry</h3><p>A choice-based pantry open five days a week, with fresh produce, halal and allergy-friendly shelves, and home delivery for elders.</p></div></article>
+      <article class="prog reveal"><div class="art" style="background:var(--harbour-soft)"><svg viewBox="0 0 120 110" aria-hidden="true"><circle cx="40" cy="34" r="14" fill="#1d4e74"/><circle cx="80" cy="34" r="14" fill="#e5674f"/><path d="M14 100c0-26 12-40 26-40s26 14 26 40M54 100c0-26 12-40 26-40s26 14 26 40" fill="#1d4e74" opacity=".85"/><path d="M50 60l10 8 10-8" stroke="#fbf5ec" stroke-width="4" fill="none"/></svg></div><div class="txt"><span class="tag">Youth</span><h3>Lighthouse Youth Club</h3><p>Homework help, mentoring, cooking classes and weekend sailing for 11–18 year olds — with a hot dinner every session.</p></div></article>
+      <article class="prog reveal"><div class="art" style="background:var(--sand)"><svg viewBox="0 0 120 110" aria-hidden="true"><path d="M20 64h80a40 40 0 0 1-80 0z" fill="#1d4e74"/><path d="M14 64h92" stroke="#12324d" stroke-width="6" stroke-linecap="round"/><path d="M46 50c-6-8 6-12 0-22M60 50c-6-8 6-12 0-22M74 50c-6-8 6-12 0-22" stroke="#e5674f" stroke-width="5" fill="none" stroke-linecap="round"/></svg></div><div class="txt"><span class="tag">Kitchen</span><h3>Community Kitchen</h3><p>Pay-what-you-can lunches every weekday, cooked by volunteers and trainee chefs from our employment course.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="block donate" id="donate" aria-labelledby="donate-title">
+  <div class="wrap donate-grid">
+    <div>
+      <div class="head reveal" style="margin-bottom:30px"><span class="over">Make a gift</span><h2 id="donate-title">Your gift, <em>in real terms</em></h2><p>Choose an amount to see what it does — or pick a specific gift below.</p></div>
+      <div class="gifts">
+        <article class="gift reveal"><span class="ic" aria-hidden="true"><svg viewBox="0 0 34 34"><rect x="5" y="9" width="24" height="20" rx="3" fill="none" stroke="#c94f38" stroke-width="3"/><path d="M5 17h24M13 9V5h8v4" stroke="#c94f38" stroke-width="3"/></svg></span><div><h3 class="card-title">Fill a pantry shelf</h3><p>Stocks one shelf with staples for a week.</p></div><span class="price">$35</span></article>
+        <article class="gift reveal"><span class="ic" aria-hidden="true"><svg viewBox="0 0 34 34"><path d="M17 30S4 22 4 13a6 6 0 0 1 13-3 6 6 0 0 1 13 3c0 9-13 17-13 17z" fill="none" stroke="#1d4e74" stroke-width="3"/></svg></span><div><h3 class="card-title">Feed a family for a month</h3><p>Groceries and fresh produce for a family of four.</p></div><span class="price">$120</span></article>
+        <article class="gift reveal"><span class="ic" aria-hidden="true"><svg viewBox="0 0 34 34"><path d="M17 4l4 9 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z" fill="none" stroke="#c94f38" stroke-width="3" stroke-linejoin="round"/></svg></span><div><h3 class="card-title">Sponsor a youth mentor</h3><p>A term of weekly mentoring for one young person.</p></div><span class="price">$300</span></article>
+        <article class="gift reveal"><span class="ic" aria-hidden="true"><svg viewBox="0 0 34 34"><path d="M6 18h22a11 11 0 0 1-22 0z" fill="none" stroke="#1d4e74" stroke-width="3"/><path d="M13 12c-2-3 2-4 0-7M21 12c-2-3 2-4 0-7" stroke="#1d4e74" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span><div><h3 class="card-title">Fund a kitchen day</h3><p>Ingredients for 150 hot community lunches.</p></div><span class="price">$500</span></article>
+      </div>
+    </div>
+    <div class="chooser reveal" aria-labelledby="chooser-title">
+      <h3 id="chooser-title">Choose your gift</h3>
+      <div class="freq" role="group" aria-label="Donation frequency">
+        <button type="button" aria-pressed="true" data-freq="once">Give once</button>
+        <button type="button" aria-pressed="false" data-freq="monthly">Monthly 💛</button>
+      </div>
+      <div class="amounts" role="group" aria-label="Donation amount">
+        <button type="button" aria-pressed="false" data-amt="25">$25</button>
+        <button type="button" aria-pressed="true" data-amt="50">$50</button>
+        <button type="button" aria-pressed="false" data-amt="100">$100</button>
+        <button type="button" aria-pressed="false" data-amt="250">$250</button>
+        <button type="button" aria-pressed="false" data-amt="500">$500</button>
+        <button type="button" aria-pressed="false" data-amt="1000">$1,000</button>
+      </div>
+      <div class="other"><label for="other-amt">Or enter another amount</label><div class="in"><span aria-hidden="true">$</span><input id="other-amt" type="number" min="1" inputmode="numeric" placeholder="e.g. 75"></div></div>
+      <p class="impact-line" id="impact-line" aria-live="polite">$50 provides about 100 nutritious meals.</p>
+      <a class="btn btn-primary" id="give" href="#donate">Donate $50 now</a>
+      <p class="secure">🔒 Secure checkout via your payment provider · Tax-deductible receipt by email</p>
+      <p class="thanks" id="thanks" hidden>Thank you! This demo has no live payments — connect your donation platform to this button.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="stories-title">
+  <div class="wrap">
+    <div class="head reveal"><span class="over">Stories from the harbour</span><h2 id="stories-title">In their own words</h2></div>
+    <div class="stories">
+      <figure class="story big reveal"><div class="q" aria-hidden="true">“</div><blockquote>After my hours were cut, I didn’t know how I’d feed my kids. Nobody here made me feel ashamed. Now I volunteer on Thursdays so someone else gets the same welcome.</blockquote><figcaption>Rosa<span>Pantry neighbour, now volunteer</span></figcaption></figure>
+      <figure class="story reveal"><blockquote>“Youth Club is where I learned to cook, sail and actually do my maths homework. My mentor helped me apply for college.”</blockquote><figcaption>Kwame<span>Lighthouse Youth Club, age 17</span></figcaption></figure>
+      <figure class="story reveal"><blockquote>“I give monthly because I can see exactly where it goes. The appeal updates and photos make it feel personal.”</blockquote><figcaption>Helen<span>Monthly donor since 2019</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="volunteer" aria-labelledby="vol-title" style="padding-top:0">
+  <div class="wrap split">
+    <div class="vol reveal">
+      <span class="over">Lend a hand</span>
+      <h2 id="vol-title">Volunteer with us</h2>
+      <ul>
+        <li>Sort and pack food parcels — 3-hour shifts, any day</li>
+        <li>Drive home deliveries to older neighbours</li>
+        <li>Mentor a young person one evening a week</li>
+        <li>Cook or serve at the Community Kitchen</li>
+      </ul>
+      <a class="btn btn-primary" href="#contact">Sign up to volunteer</a>
+    </div>
+    <div class="faq reveal" id="faq">
+      <span class="over">Questions</span>
+      <h2>Good to know</h2>
+      <details><summary>How do I get food from the pantry?</summary><p>Just come in during opening hours with any proof of address. No referral is needed for your first three visits.</p></details>
+      <details><summary>Is my donation tax-deductible?</summary><p>Yes. Hope Harbor is a registered charity and you’ll receive an emailed receipt for every gift.</p></details>
+      <details><summary>Can I donate food instead of money?</summary><p>Absolutely — drop off non-perishables Mon–Sat, 9am–5pm. Our current most-needed list is posted at the door.</p></details>
+      <details><summary>Can my company volunteer as a team?</summary><p>We host team days for groups of 6–20 on weekdays. Get in touch to book a date.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="over">Get in touch</span>
+      <h2 id="contact-title">Need help, want to help, or just have a question?</h2>
+      <p>Send us a message and the right person on our team will get back to you within two working days.</p>
+      <dl>
+        <dt>Visit</dt><dd>12 Quayside Lane, Harbour Point</dd>
+        <dt>Email</dt><dd><a href="mailto:hello@example.com">hello@example.com</a></dd>
+        <dt>Phone</dt><dd><a href="tel:+15550160044">+1 555 016 0044</a></dd>
+        <dt>Pantry hours</dt><dd>Mon–Fri 10am–6pm · Sat 9am–1pm</dd>
+      </dl>
+    </div>
+    <form class="msg reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="two">
+        <div class="field"><label for="m-name">Name</label><input id="m-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="m-email">Email</label><input id="m-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="m-topic">I’d like to…</label><select id="m-topic" name="topic"><option>Get food or support</option><option>Volunteer</option><option>Ask about donating</option><option>Partner with Hope Harbor</option><option>Something else</option></select></div>
+      <div class="field"><label for="m-msg">Message</label><textarea id="m-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M14 8h8l3 24H11z" fill="#dbe8f2"/><path d="M13 14h10M12 21h12" stroke="#0b2236" stroke-width="2.5"/><rect x="13" y="3" width="10" height="6" rx="2" fill="#e5674f"/><path d="M2 33q4-3 8 0t8 0 8 0 8 0" stroke="#dbe8f2" stroke-width="2.5" fill="none"/></svg>Hope Harbor</a>
+    <nav aria-label="Footer"><a href="#donate">Donate</a><a href="#volunteer">Volunteer</a><a href="#contact">Contact</a></nav>
+    <small>© <span id="year">2026</span> Hope Harbor Community Trust · Registered charity no. 000000 (example)</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
+  function setMenu(o){ btn.setAttribute('aria-expanded', o); btn.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); list.classList.toggle('open', o); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  list.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // impact counters count up once when visible (final numbers are already in the HTML)
+  function fmt(n){ return Math.round(n).toLocaleString('en-US'); }
+  function countUp(el){
+    var target = +el.dataset.count, suf = el.dataset.suffix || '', t0 = null, dur = 1800;
+    function tick(t){ if (!t0) t0 = t; var p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(target * e) + (p === 1 ? suf : ''); if (p < 1) requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  }
+  var counters = document.querySelectorAll('[data-count]');
+  if (!reduce && hasIO){
+    var cio = new IntersectionObserver(function(en){ en.forEach(function(x){ if (x.isIntersecting){ countUp(x.target); cio.unobserve(x.target); } }); }, { threshold: .6 });
+    counters.forEach(function(c){ c.textContent = '0'; cio.observe(c); });
+  }
+
+  // goal bar fills with a moving wave when in view; wave pauses off-screen
+  var goal = document.getElementById('goal'), pct = goal.querySelector('.pct');
+  if (reduce || !hasIO) goal.classList.add('go');
+  else {
+    new IntersectionObserver(function(en){
+      var vis = en[0].isIntersecting;
+      goal.classList.toggle('paused', !vis);
+      if (vis && !goal.classList.contains('go')){
+        goal.classList.add('go');
+        var t0 = null; (function tick(t){ if (!t0) t0 = t; var p = Math.min(1, (t - t0) / 2400); pct.textContent = Math.round(74 * (1 - Math.pow(1 - p, 3))) + '%'; if (p < 1) requestAnimationFrame(tick); })(performance.now());
+      }
+    }, { threshold: .4 }).observe(goal);
+    document.addEventListener('visibilitychange', function(){ goal.classList.toggle('paused', document.hidden); });
+  }
+
+  // donation chooser (demo only, no payment)
+  var amount = 50, freq = 'once';
+  var line = document.getElementById('impact-line'), give = document.getElementById('give'), other = document.getElementById('other-amt');
+  var amtBtns = document.querySelectorAll('.amounts button'), freqBtns = document.querySelectorAll('.freq button');
+  function impact(a){
+    if (a >= 1000) return 'feeds 25 families for a whole month.';
+    if (a >= 500) return 'funds a full day of the Community Kitchen — 150 hot lunches.';
+    if (a >= 250) return 'covers most of a term of mentoring for one young person.';
+    if (a >= 100) return 'stocks the fresh-produce fridge for a day.';
+    if (a >= 50) return 'provides about ' + Math.round(a * 2) + ' nutritious meals.';
+    return 'provides about ' + Math.max(2, Math.round(a * 2)) + ' meals for neighbours in need.';
+  }
+  function render(){
+    var label = '$' + amount.toLocaleString('en-US');
+    line.textContent = label + (freq === 'monthly' ? ' every month ' : ' ') + impact(amount);
+    give.textContent = 'Donate ' + label + (freq === 'monthly' ? ' monthly' : ' now');
+  }
+  amtBtns.forEach(function(b){ b.addEventListener('click', function(){
+    amtBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); other.value = ''; amount = +b.dataset.amt; render(); }); });
+  freqBtns.forEach(function(b){ b.addEventListener('click', function(){
+    freqBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b); }); freq = b.dataset.freq; render(); }); });
+  other.addEventListener('input', function(){
+    var v = Math.floor(+other.value);
+    if (v > 0){ amount = v; amtBtns.forEach(function(x){ x.setAttribute('aria-pressed', 'false'); }); render(); }
+  });
+  give.addEventListener('click', function(){ document.getElementById('thanks').hidden = false; });
+
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !hasIO) els.forEach(function(e){ e.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

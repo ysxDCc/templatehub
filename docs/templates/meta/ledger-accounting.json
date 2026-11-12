@@ -1,0 +1,11 @@
+{
+  "id": "ledger-accounting",
+  "name": "Ledger & Co.",
+  "description": "Crisp accounting firm site for small businesses and freelancers with a scroll-drawn results chart and a live tax-savings estimate calculator.",
+  "category": "professional",
+  "tier": "pro",
+  "logo": "📒 LEDGER & CO.",
+  "tags": ["Accounting", "Bookkeeping", "Tax", "Calculator", "Animated Chart"],
+  "features": ["Bar and line chart that draws itself as it scrolls into view", "Interactive savings estimator with smoothly tweening numbers and a clear disclaimer", "Three fixed monthly pricing plans with a highlighted favourite", "Process steps, client stories, FAQ and free-call booking form"],
+  "signature": "Quarterly results chart grows and draws on scroll; the savings calculator tweens every figure as you move the sliders"
+}

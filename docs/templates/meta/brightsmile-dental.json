@@ -1,0 +1,11 @@
+{
+  "id": "brightsmile-dental",
+  "name": "BrightSmile Dental",
+  "description": "Friendly family dental clinic site with an in-hero appointment picker, count-up clinic stats and a draggable before/after smile slider.",
+  "category": "healthcare",
+  "tier": "pro",
+  "logo": "🦷 BRIGHTSMILE",
+  "tags": ["Dentist", "Clinic", "Online Booking", "Clean", "Before/After Slider"],
+  "features": ["Hero booking widget with live upcoming weekdays and time slots that pre-fill the form", "Stats band that counts up when scrolled into view", "Keyboard-operable before/after smile comparison slider", "Six priced treatment cards, patient reviews and insurance FAQ"],
+  "signature": "Clinic stats count up on scroll and a drag/keyboard slider wipes between before and after smile illustrations"
+}

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Petal &amp; Stem — Neighbourhood florist with same-day delivery</title>
+<meta name="description" content="Petal &amp; Stem is a neighbourhood florist arranging seasonal bouquets by hand, with same-day delivery, weekly flower subscriptions and event florals.">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #56694a;
+  --sage: #8fa182;
+  --sage-soft: #dfe6d6;
+  --sage-deep: #3c4b34;
+  --blush: #f3d6cf;
+  --blush-deep: #d98f86;
+  --ivory: #fbf8f1;
+  --linen: #f3eee3;
+  --ink: #2f3329;
+  --muted: #5f6458;
+  --serif: 'Gilda Display', 'Cormorant Garamond', 'Didot', Georgia, serif;
+  --sans: 'Source Sans 3', 'Gill Sans', 'Segoe UI', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { font-family: var(--sans); background: var(--ivory); color: var(--ink); line-height: 1.7; overflow-x: hidden; font-size: 1.06rem; }
+svg { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+.wrap { width: min(1160px, 100% - 40px); margin-inline: auto; }
+.skip { position: absolute; left: -999px; top: 8px; z-index: 300; background: var(--ivory); padding: 10px 16px; }
+.skip:focus { left: 12px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.1; }
+h2 { font-size: clamp(2.3rem, 4.8vw, 3.6rem); margin: 10px 0 16px; }
+h2 em, h1 em { font-style: italic; color: var(--accent); }
+.eyebrow { font-size: .8rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); }
+.lead { color: var(--muted); font-size: 1.12rem; max-width: 54ch; }
+section { padding: clamp(76px, 10vw, 128px) 0; position: relative; }
+.head { display: flex; align-items: flex-end; gap: 22px; }
+.head .bloom { width: 64px; flex-shrink: 0; margin-bottom: 6px; }
+.center { text-align: center; }
+.center .lead { margin-inline: auto; }
+.center.head { justify-content: center; flex-direction: column; align-items: center; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 28px; border-radius: 999px; font: 600 1rem/1 var(--sans); letter-spacing: .02em; text-decoration: none; border: 1.5px solid transparent; cursor: pointer; transition: background-color .3s, color .3s, transform .3s, border-color .3s; }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--sage-deep); transform: translateY(-2px); }
+.btn-line { border-color: var(--accent); color: var(--accent); background: transparent; }
+.btn-line:hover { background: var(--accent); color: #fff; }
+
+/* Header */
+header { position: sticky; top: 0; z-index: 100; background: rgba(251, 248, 241, .92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linen); }
+.nav { height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.logo { font: 400 1.65rem/1 var(--serif); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+.logo em { font-style: italic; color: var(--blush-deep); }
+.logo svg { width: 30px; height: 30px; }
+.nav ul { list-style: none; display: flex; align-items: center; gap: 2px; }
+.nav ul a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; text-decoration: none; font-weight: 500; color: var(--muted); border-radius: 999px; transition: color .2s, background-color .2s; }
+.nav ul a:hover { color: var(--ink); background: var(--linen); }
+.nav-right { display: flex; align-items: center; gap: 8px; }
+.bag { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--sage-soft); background: #fff; text-decoration: none; font-weight: 600; }
+.bag svg { width: 20px; height: 20px; color: var(--accent); }
+.bag b { min-width: 22px; height: 22px; border-radius: 11px; background: var(--blush-deep); color: #2f1d1a; font-size: .8rem; display: grid; place-items: center; padding: 0 6px; transition: transform .3s; }
+.bag b.pop { transform: scale(1.35); }
+.burger { display: none; width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--sage-soft); background: #fff; cursor: pointer; }
+.burger span, .burger span::before, .burger span::after { display: block; width: 18px; height: 1.5px; background: var(--ink); margin: auto; position: relative; transition: transform .3s, background-color .3s; }
+.burger span::before, .burger span::after { content: ""; position: absolute; left: 0; }
+.burger span::before { top: -6px; } .burger span::after { top: 6px; }
+.burger[aria-expanded="true"] span { background: transparent; }
+.burger[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* Blooms (signature) */
+.bloom { overflow: visible; }
+.bloom .stem { fill: none; stroke: var(--stem, #6f8461); stroke-width: 3; stroke-linecap: round; }
+.bloom .leaf { fill: var(--leaf, #8fa182); transform-box: fill-box; }
+.bloom .leaf.l { transform-origin: 100% 100%; }
+.bloom .leaf.r { transform-origin: 0 100%; }
+.bloom .pt { fill: var(--petal, #f3d6cf); stroke: var(--petal-line, rgba(0, 0, 0, .06)); stroke-width: 1; transform-box: fill-box; transform-origin: 50% 100%; transform: rotate(var(--r)); }
+.bloom .pt.in2 { fill: var(--petal2, #e8b3aa); }
+.bloom .core { fill: var(--core, #e7b85a); transform-box: fill-box; transform-origin: center; }
+.js .bloom .stem { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.2s cubic-bezier(.5, 0, .3, 1); }
+.js .bloom .leaf { transform: scale(0); transition: transform .7s cubic-bezier(.3, 1.4, .5, 1) .6s; }
+.js .bloom .pt { transform: rotate(calc(var(--r) - 50deg)) scale(0); transition: transform .9s cubic-bezier(.3, 1.3, .5, 1); transition-delay: calc(.9s + var(--i, 0) * 60ms); }
+.js .bloom .core { transform: scale(0); transition: transform .6s cubic-bezier(.3, 1.6, .5, 1) 1.5s; }
+.js .bloom.open .stem { stroke-dashoffset: 0; }
+.js .bloom.open .leaf, .js .bloom.open .core { transform: scale(1); }
+.js .bloom.open .pt { transform: rotate(var(--r)) scale(1); }
+
+/* Hero */
+.hero { background: radial-gradient(ellipse 50% 60% at 78% 50%, var(--blush) 0%, transparent 70%), linear-gradient(180deg, var(--ivory), var(--linen)); padding: clamp(50px, 7vw, 96px) 0 clamp(60px, 8vw, 100px); overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 30px; align-items: center; }
+.badge { display: inline-flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--sage-soft); padding: 8px 16px 8px 10px; border-radius: 999px; font-size: .92rem; font-weight: 600; color: var(--sage-deep); }
+.badge i { width: 26px; height: 26px; border-radius: 50%; background: var(--sage-soft); display: grid; place-items: center; font-style: normal; }
+.hero h1 { font-size: clamp(3rem, 6.6vw, 5.6rem); margin: 22px 0 22px; letter-spacing: -.01em; }
+.hero p { font-size: 1.18rem; color: var(--muted); max-width: 46ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.hero .cutoff { margin-top: 30px; font-size: .98rem; color: var(--muted); display: flex; gap: 10px; align-items: center; }
+.cutoff strong { color: var(--sage-deep); }
+.cutoff svg { width: 20px; height: 20px; color: var(--accent); }
+.bouquet { position: relative; justify-self: center; width: min(100%, 470px); aspect-ratio: 1 / 1.05; }
+.bouquet .vase { position: absolute; left: 50%; bottom: 0; width: 46%; transform: translateX(-50%); }
+.bouquet .bloom { position: absolute; bottom: 24%; }
+.bouquet .b1 { left: 30%; width: 40%; bottom: 22%; }
+.bouquet .b2 { left: 22%; width: 34%; bottom: 25%; transform: rotate(-22deg); transform-origin: 50% 100%; }
+.bouquet .b3 { right: 22%; width: 34%; bottom: 25%; transform: rotate(24deg); transform-origin: 50% 100%; }
+.bouquet .ring { position: absolute; inset: 4% 8% 22%; border-radius: 50%; border: 1px dashed rgba(86, 105, 74, .3); }
+
+/* Promise strip */
+.promise { background: var(--sage-deep); color: var(--ivory); padding: 22px 0; }
+.promise ul { list-style: none; display: flex; justify-content: space-between; gap: 14px 30px; flex-wrap: wrap; }
+.promise li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.promise svg { width: 22px; height: 22px; color: var(--blush); }
+
+/* Shop */
+.shop-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--sage-soft); background: #fff; color: var(--muted); font: 500 .95rem var(--sans); cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
+.filters button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+.products { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 44px; }
+.product { display: flex; flex-direction: column; }
+.product[hidden] { display: none; }
+.product-art { position: relative; aspect-ratio: 4 / 5; border-radius: 200px 200px 18px 18px; background: var(--tint); overflow: hidden; display: grid; place-items: end center; transition: border-radius .5s; }
+.product:hover .product-art { border-radius: 18px; }
+.product-art svg { width: 82%; height: auto; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.product:hover .product-art svg { transform: translateY(-6px) scale(1.04); }
+.product-art .tag { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); background: #fff; font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; color: var(--sage-deep); white-space: nowrap; }
+.product h3 { font-size: 1.45rem; margin: 18px 0 2px; }
+.product p { color: var(--muted); font-size: .95rem; flex: 1; }
+.product-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; }
+.price { font: 400 1.5rem/1 var(--serif); color: var(--ink); }
+.add { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); font: 600 .92rem var(--sans); cursor: pointer; transition: background-color .25s, color .25s; }
+.add:hover, .add.done { background: var(--accent); color: #fff; }
+
+/* Add-ons */
+.addons { margin-top: 48px; padding: 22px 26px; border-radius: 20px; background: var(--linen); display: flex; align-items: center; gap: 14px 26px; flex-wrap: wrap; }
+.addons h3 { font-size: 1.3rem; margin-right: auto; }
+.addons ul { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+.addons li { background: #fff; border-radius: 999px; padding: 8px 16px; font-weight: 500; border: 1px solid var(--sage-soft); }
+.addons li b { color: var(--accent); font-weight: 600; margin-left: 6px; }
+
+/* Services */
+.services { background: var(--linen); }
+.svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+.svc { background: var(--ivory); border-radius: 22px; padding: 36px 30px; position: relative; overflow: hidden; }
+.svc .num { font: italic 400 1.1rem var(--serif); color: var(--blush-deep); }
+.svc h3 { font-size: 1.75rem; margin: 6px 0 10px; }
+.svc p { color: var(--muted); }
+.svc .from { display: block; margin-top: 18px; font-weight: 600; color: var(--sage-deep); }
+.svc svg.deco { position: absolute; right: -10px; top: -10px; width: 110px; opacity: .5; }
+
+/* Subscription */
+.sub { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(30px, 6vw, 80px); align-items: center; }
+.sub-art { border-radius: 26px; background: var(--blush); aspect-ratio: 1; display: grid; place-items: center; position: relative; overflow: hidden; }
+.sub-art .bloom { width: 40%; position: absolute; bottom: -4%; }
+.sub-art .bloom:nth-child(1) { left: 2%; }
+.sub-art .bloom:nth-child(2) { left: 30%; width: 42%; bottom: 4%; }
+.sub-art .bloom:nth-child(3) { right: 0; width: 36%; }
+.plans { display: grid; gap: 14px; margin-top: 28px; }
+.plan { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 24px; border-radius: 18px; border: 1.5px solid var(--sage-soft); background: #fff; }
+.plan.pick { border-color: var(--accent); box-shadow: 0 18px 30px -24px rgba(60, 75, 52, .6); }
+.plan strong { font: 400 1.35rem/1.2 var(--serif); display: block; }
+.plan span { color: var(--muted); font-size: .94rem; }
+.plan .price { font-size: 1.6rem; white-space: nowrap; }
+.plan .price small { font: 400 .85rem var(--sans); color: var(--muted); }
+
+/* Reviews */
+.reviews { background: var(--sage-soft); }
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.quote { background: var(--ivory); border-radius: 22px; padding: 32px 28px; }
+.quote blockquote { font: 400 1.25rem/1.5 var(--serif); }
+.quote figcaption { margin-top: 18px; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+.quote figcaption span { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--blush); font-family: var(--serif); }
+.quote small { display: block; color: var(--muted); font-weight: 400; }
+
+/* FAQ */
+.faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 6vw, 80px); }
+details { border-bottom: 1px solid var(--sage-soft); }
+details:first-of-type { border-top: 1px solid var(--sage-soft); }
+summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 18px; min-height: 44px; padding: 20px 0; font: 400 1.3rem/1.3 var(--serif); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: ""; width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: var(--blush) radial-gradient(circle, var(--accent) 0 3px, transparent 3.5px); transition: transform .3s, background-color .3s; }
+details[open] summary::after { transform: scale(1.2); background-color: var(--sage-soft); }
+details p { color: var(--muted); padding-bottom: 22px; }
+
+/* Contact */
+.contact { background: linear-gradient(180deg, var(--ivory), var(--blush)); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(30px, 6vw, 80px); align-items: start; }
+.info { margin-top: 30px; display: grid; gap: 18px; }
+.info div { display: flex; gap: 14px; }
+.info svg { width: 22px; height: 22px; color: var(--accent); flex-shrink: 0; margin-top: 4px; }
+.info strong { display: block; font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+.info a { text-decoration: none; border-bottom: 1px solid var(--blush-deep); }
+form { background: #fff; border-radius: 24px; padding: clamp(24px, 4vw, 42px); display: grid; gap: 18px; box-shadow: 0 30px 60px -40px rgba(60, 75, 52, .45); }
+form h3 { font-size: 1.9rem; }
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 600; font-size: .95rem; }
+.field input, .field textarea, .field select { font: inherit; padding: 12px 16px; min-height: 50px; width: 100%; border: 1.5px solid #cfd8c5; border-radius: 14px; background: var(--ivory); color: var(--ink); }
+.field textarea { min-height: 120px; resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--sage-soft); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+footer.site { background: var(--sage-deep); color: #e3e9dc; padding: 56px 0 30px; }
+.foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
+footer.site .logo { color: var(--ivory); }
+footer.site .logo em { color: var(--blush); }
+footer.site ul { list-style: none; display: flex; gap: 0 20px; flex-wrap: wrap; }
+footer.site ul a { display: inline-flex; min-height: 44px; min-width: 44px; justify-content: center; align-items: center; text-decoration: none; }
+footer.site ul a:hover { color: var(--blush); }
+footer.site small { display: block; margin-top: 26px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .15); font-size: .88rem; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 1040px) { .products { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 920px) {
+  .burger { display: grid; place-items: center; }
+  .nav ul { position: absolute; top: 78px; left: 0; right: 0; background: var(--ivory); border-bottom: 1px solid var(--linen); flex-direction: column; align-items: stretch; padding: 10px 20px 22px; display: none; }
+  .nav ul.open { display: flex; }
+  .hero-grid, .sub, .faq-grid, .contact-grid { grid-template-columns: 1fr; }
+  .bouquet { width: min(100%, 380px); }
+  .svc-grid, .quotes { grid-template-columns: 1fr; }
+  .sub-art { max-width: 460px; }
+}
+@media (max-width: 560px) {
+  .row2 { grid-template-columns: 1fr; }
+  .products { gap: 26px 14px; }
+  .product h3 { font-size: 1.2rem; }
+  .product-foot { flex-direction: column; align-items: stretch; }
+  .add { width: 100%; }
+  .hero-cta .btn { flex: 1 1 100%; }
+  .bag span { display: none; }
+  .head .bloom { width: 46px; }
+  .promise ul { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
+  .js .bloom .stem { stroke-dashoffset: 0; }
+  .js .bloom .leaf, .js .bloom .core { transform: none; }
+  .js .bloom .pt { transform: rotate(var(--r)); }
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 30 30" aria-hidden="true"><g fill="#d98f86"><ellipse cx="15" cy="8" rx="5" ry="7"/><ellipse cx="8" cy="14" rx="5" ry="7" transform="rotate(-60 8 14)"/><ellipse cx="22" cy="14" rx="5" ry="7" transform="rotate(60 22 14)"/></g><circle cx="15" cy="13" r="3.5" fill="#e7b85a"/><path d="M15 17v12" stroke="#56694a" stroke-width="2"/></svg>Petal <em>&amp;</em> Stem</a>
+    <div class="nav-right">
+      <nav aria-label="Main">
+        <ul id="menu">
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#subscribe">Subscriptions</a></li>
+          <li><a href="#faq">Delivery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a href="#shop" class="bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span>Bag</span><b id="bagCount">0</b></a>
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</header>
+<p class="sr" aria-live="polite" id="bagLive"></p>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="badge"><i aria-hidden="true">✿</i>Same-day delivery across the city</span>
+        <h1 id="hero-title">Flowers for the <em>in-between</em> moments.</h1>
+        <p>Seasonal bouquets arranged by hand in our corner shop, wrapped in paper and ribbon, and delivered to the door the very same day.</p>
+        <div class="hero-cta">
+          <a href="#shop" class="btn btn-primary">Shop bouquets</a>
+          <a href="#subscribe" class="btn btn-line">Weekly flowers</a>
+        </div>
+        <p class="cutoff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="cutoff">Order by <strong>2pm</strong> for delivery today.</span></p>
+      </div>
+      <div class="bouquet" aria-hidden="true">
+        <div class="ring"></div>
+        <svg class="bloom b2" viewBox="0 0 120 220" style="--petal:#f5e9dc;--petal2:#ead7c2;--core:#d9a441"><path class="stem" pathLength="1" d="M60 220C58 180 62 140 60 86"/><path class="leaf l" d="M58 170c-20-2-34-14-38-30 18 0 32 10 38 30z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:30deg;--i:1" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:60deg;--i:2" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:90deg;--i:3" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:120deg;--i:4" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:150deg;--i:5" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:180deg;--i:6" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:210deg;--i:7" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:240deg;--i:8" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:270deg;--i:9" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:300deg;--i:10" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:330deg;--i:11" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><circle class="core" r="11"/></g></svg>
+        <svg class="bloom b3" viewBox="0 0 120 220" style="--petal:#d98f86;--petal2:#c4746c;--core:#7a4a3a"><path class="stem" pathLength="1" d="M60 220C62 180 58 140 60 86"/><path class="leaf r" d="M62 160c18-4 32-16 36-32-18 0-30 10-36 32z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:72deg;--i:1" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:144deg;--i:2" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:216deg;--i:3" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:288deg;--i:4" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><circle class="core" r="8"/></g></svg>
+        <svg class="bloom b1" viewBox="0 0 120 220" style="--petal:#f3d6cf;--petal2:#e8a99f;--core:#e7b85a"><path class="stem" pathLength="1" d="M60 220C56 180 64 140 60 86"/><path class="leaf l" d="M58 180c-22-2-36-16-40-34 20 0 34 12 40 34z"/><path class="leaf r" d="M62 150c20-4 32-16 36-32-18 0-30 10-36 32z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:60deg;--i:1" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:120deg;--i:2" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:180deg;--i:3" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:240deg;--i:4" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:300deg;--i:5" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt in2" style="--r:30deg;--i:6" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><path class="pt in2" style="--r:150deg;--i:7" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><path class="pt in2" style="--r:270deg;--i:8" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><circle class="core" r="9"/></g></svg>
+        <svg class="vase" viewBox="0 0 200 170"><path d="M30 20h140l-14 130c-2 12-10 20-22 20H66c-12 0-20-8-22-20z" fill="#dfe6d6"/><path d="M30 20h140l-3 26H33z" fill="#c9d4bd"/><path d="M60 40c-2 40 4 80 16 110" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".6" fill="none"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="promise">
+    <ul class="wrap">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>Same-day delivery, order by 2pm</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21C6 16 3 12 3 8a4 4 0 0 1 9-2 4 4 0 0 1 9 2c0 4-3 8-9 13z"/></svg>Seven-day freshness promise</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20c0-8 6-14 16-16-2 10-8 16-16 16zM4 20l8-8"/></svg>Locally grown, no floral foam</li>
+    </ul>
+  </div>
+
+  <section id="shop" aria-labelledby="shop-title">
+    <div class="wrap">
+      <div class="shop-top">
+        <div class="head reveal">
+          <svg class="bloom" viewBox="0 0 120 220" aria-hidden="true" style="--petal:#f3d6cf;--core:#e7b85a"><path class="stem" pathLength="1" d="M60 220C56 180 64 140 60 86"/><path class="leaf r" d="M62 160c18-4 32-16 36-32-18 0-30 10-36 32z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:72deg;--i:1" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:144deg;--i:2" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:216deg;--i:3" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:288deg;--i:4" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><circle class="core" r="8"/></g></svg>
+          <div><span class="eyebrow">The bouquet shop</span><h2 id="shop-title">Picked this <em>morning.</em></h2></div>
+        </div>
+        <div class="filters reveal" role="group" aria-label="Filter bouquets">
+          <button type="button" aria-pressed="true" data-f="all">All</button>
+          <button type="button" aria-pressed="false" data-f="bright">Bright</button>
+          <button type="button" aria-pressed="false" data-f="soft">Soft &amp; pastel</button>
+          <button type="button" aria-pressed="false" data-f="green">Greenery</button>
+        </div>
+      </div>
+      <div class="products">
+        <article class="product reveal" data-k="soft">
+          <div class="product-art" style="--tint:#f6e1dc"><span class="tag">Bestseller</span><svg viewBox="0 0 200 220" aria-hidden="true"><path d="M40 120l60 100 60-100z" fill="#fbf8f1" stroke="#e3d6c6"/><g fill="#f3d6cf"><circle cx="70" cy="90" r="26"/><circle cx="130" cy="88" r="26"/><circle cx="100" cy="64" r="28"/></g><g fill="#e8a99f"><circle cx="100" cy="64" r="12"/><circle cx="70" cy="90" r="10"/><circle cx="130" cy="88" r="10"/></g><g fill="#8fa182"><ellipse cx="46" cy="110" rx="14" ry="7" transform="rotate(-30 46 110)"/><ellipse cx="154" cy="108" rx="14" ry="7" transform="rotate(30 154 108)"/></g><path d="M80 150l20 18 20-18" stroke="#d98f86" stroke-width="5" fill="none"/></svg></div>
+          <h3 class="card-title">Blush Peony</h3>
+          <p>Peonies, garden roses and dusty miller in soft pink tones.</p>
+          <div class="product-foot"><span class="price">$68</span><button type="button" class="add">Add to bag</button></div>
+        </article>
+        <article class="product reveal" data-k="bright" style="--d:.08s">
+          <div class="product-art" style="--tint:#fbe7c3"><svg viewBox="0 0 200 220" aria-hidden="true"><path d="M40 120l60 100 60-100z" fill="#fbf8f1" stroke="#e3d6c6"/><g fill="#f2a541"><circle cx="66" cy="88" r="22"/><circle cx="134" cy="92" r="22"/></g><g fill="#e2574c"><circle cx="100" cy="66" r="26"/><circle cx="96" cy="104" r="18"/></g><g fill="#f7d26a"><circle cx="100" cy="66" r="9"/><circle cx="66" cy="88" r="8"/><circle cx="134" cy="92" r="8"/></g><g fill="#6f8461"><ellipse cx="46" cy="112" rx="14" ry="7" transform="rotate(-30 46 112)"/><ellipse cx="156" cy="110" rx="14" ry="7" transform="rotate(30 156 110)"/></g><path d="M80 150l20 18 20-18" stroke="#56694a" stroke-width="5" fill="none"/></svg></div>
+          <h3 class="card-title">Sunday Market</h3>
+          <p>Ranunculus, tulips and marigolds as bright as a farmers' market.</p>
+          <div class="product-foot"><span class="price">$45</span><button type="button" class="add">Add to bag</button></div>
+        </article>
+        <article class="product reveal" data-k="soft" style="--d:.16s">
+          <div class="product-art" style="--tint:#ece6f3"><span class="tag">Seasonal</span><svg viewBox="0 0 200 220" aria-hidden="true"><path d="M40 120l60 100 60-100z" fill="#fbf8f1" stroke="#e3d6c6"/><g fill="#c9b6e0"><circle cx="72" cy="80" r="20"/><circle cx="128" cy="78" r="20"/></g><g fill="#f5e9dc"><circle cx="100" cy="62" r="24"/><circle cx="100" cy="100" r="20"/></g><g fill="#9d86c3"><circle cx="58" cy="104" r="12"/><circle cx="142" cy="104" r="12"/></g><g fill="#8fa182"><ellipse cx="44" cy="84" rx="14" ry="6" transform="rotate(-40 44 84)"/><ellipse cx="156" cy="82" rx="14" ry="6" transform="rotate(40 156 82)"/></g><path d="M80 150l20 18 20-18" stroke="#9d86c3" stroke-width="5" fill="none"/></svg></div>
+          <h3 class="card-title">Wildflower Meadow</h3>
+          <p>Sweet peas, cosmos, scabiosa and lavender, loose and airy.</p>
+          <div class="product-foot"><span class="price">$55</span><button type="button" class="add">Add to bag</button></div>
+        </article>
+        <article class="product reveal" data-k="green" style="--d:.24s">
+          <div class="product-art" style="--tint:#dfe6d6"><svg viewBox="0 0 200 220" aria-hidden="true"><path d="M40 120l60 100 60-100z" fill="#fbf8f1" stroke="#e3d6c6"/><g fill="#8fa182"><ellipse cx="70" cy="70" rx="12" ry="30" transform="rotate(-24 70 70)"/><ellipse cx="130" cy="70" rx="12" ry="30" transform="rotate(24 130 70)"/><ellipse cx="100" cy="56" rx="12" ry="34"/></g><g fill="#6f8461"><ellipse cx="56" cy="100" rx="10" ry="24" transform="rotate(-50 56 100)"/><ellipse cx="144" cy="100" rx="10" ry="24" transform="rotate(50 144 100)"/></g><g fill="#fbf8f1"><circle cx="86" cy="96" r="12"/><circle cx="114" cy="98" r="12"/></g><path d="M80 150l20 18 20-18" stroke="#3c4b34" stroke-width="5" fill="none"/></svg></div>
+          <h3 class="card-title">Sage &amp; Eucalyptus</h3>
+          <p>Silver-dollar eucalyptus, olive branches and white lisianthus.</p>
+          <div class="product-foot"><span class="price">$40</span><button type="button" class="add">Add to bag</button></div>
+        </article>
+      </div>
+      <div class="addons reveal">
+        <h3>Make it a gift</h3>
+        <ul>
+          <li>Handwritten card<b>Free</b></li>
+          <li>Sea-salt chocolates<b>$12</b></li>
+          <li>Fig &amp; cedar candle<b>$24</b></li>
+          <li>Ceramic bud vase<b>$18</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="services" aria-labelledby="svc-title">
+    <div class="wrap">
+      <div class="center head reveal">
+        <svg class="bloom" viewBox="0 0 120 220" aria-hidden="true" style="--petal:#f5e9dc;--core:#d9a441"><path class="stem" pathLength="1" d="M60 220C58 180 62 140 60 86"/><path class="leaf l" d="M58 170c-20-2-34-14-38-30 18 0 32 10 38 30z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:40deg;--i:1" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:80deg;--i:2" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:120deg;--i:3" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:160deg;--i:4" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:200deg;--i:5" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:240deg;--i:6" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:280deg;--i:7" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:320deg;--i:8" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><circle class="core" r="10"/></g></svg>
+        <div><span class="eyebrow">What we do</span><h2 id="svc-title">Beyond the <em>bouquet.</em></h2><p class="lead">From a single stem on a Tuesday to a church full of garden roses, we grow every order around you.</p></div>
+      </div>
+      <div class="svc-grid">
+        <article class="svc reveal"><span class="num">01</span><h3>Same-day delivery</h3><p>Order by 2pm and our bike couriers deliver across the city by 7pm, with a handwritten card.</p><span class="from">From $8 delivery</span></article>
+        <article class="svc reveal" style="--d:.1s"><span class="num">02</span><h3>Weddings &amp; events</h3><p>Bridal bouquets, table arrangements and installations designed with you over coffee and sketches.</p><span class="from">Consultations free</span></article>
+        <article class="svc reveal" style="--d:.2s"><span class="num">03</span><h3>Workshops</h3><p>Monthly evening classes in the shop: seasonal wreaths, hand-tied bouquets and dried arrangements.</p><span class="from">$65 per seat</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="subscribe" aria-labelledby="sub-title">
+    <div class="wrap sub">
+      <div class="sub-art reveal" aria-hidden="true">
+        <svg class="bloom" viewBox="0 0 120 220" style="--petal:#fbf8f1;--core:#e7b85a"><path class="stem" pathLength="1" d="M60 220C56 180 64 140 60 86"/><path class="leaf l" d="M58 170c-20-2-34-14-38-30 18 0 32 10 38 30z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:72deg;--i:1" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:144deg;--i:2" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:216deg;--i:3" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><path class="pt" style="--r:288deg;--i:4" d="M0 0C-16-6-20-30 0-38C20-30 16-6 0 0Z"/><circle class="core" r="8"/></g></svg>
+        <svg class="bloom" viewBox="0 0 120 220" style="--petal:#d98f86;--petal2:#c4746c;--core:#fbf8f1"><path class="stem" pathLength="1" d="M60 220C62 180 58 140 60 86"/><path class="leaf r" d="M62 160c18-4 32-16 36-32-18 0-30 10-36 32z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:60deg;--i:1" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:120deg;--i:2" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:180deg;--i:3" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:240deg;--i:4" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt" style="--r:300deg;--i:5" d="M0 0C-18-6-22-34 0-44C22-34 18-6 0 0Z"/><path class="pt in2" style="--r:0deg;--i:6" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><path class="pt in2" style="--r:120deg;--i:7" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><path class="pt in2" style="--r:240deg;--i:8" d="M0 0C-10-4-12-22 0-28C12-22 10-4 0 0Z"/><circle class="core" r="8"/></g></svg>
+        <svg class="bloom" viewBox="0 0 120 220" style="--petal:#c9b6e0;--core:#7a5fa8"><path class="stem" pathLength="1" d="M60 220C58 180 62 140 60 86"/><path class="leaf l" d="M58 180c-22-2-36-16-40-34 20 0 34 12 40 34z"/><g transform="translate(60 80)"><path class="pt" style="--r:0deg;--i:0" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:45deg;--i:1" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:90deg;--i:2" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:135deg;--i:3" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:180deg;--i:4" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:225deg;--i:5" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:270deg;--i:6" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><path class="pt" style="--r:315deg;--i:7" d="M0 0C-5-8-6-30 0-40C6-30 5-8 0 0Z"/><circle class="core" r="9"/></g></svg>
+      </div>
+      <div class="reveal" style="--d:.1s">
+        <span class="eyebrow">Flower subscriptions</span>
+        <h2 id="sub-title">A fresh bunch, <em>every week.</em></h2>
+        <p class="lead">Our florist's choice of the week's best stems, delivered on the day you pick. Pause, skip or gift it anytime.</p>
+        <div class="plans">
+          <div class="plan"><div><strong>Petite</strong><span>A jam-jar posy for desks and bedside tables</span></div><span class="price">$28 <small>/ wk</small></span></div>
+          <div class="plan pick"><div><strong>Classic</strong><span>A generous hand-tied bunch with a vase on the first delivery</span></div><span class="price">$42 <small>/ wk</small></span></div>
+          <div class="plan"><div><strong>Statement</strong><span>A tall seasonal arrangement for hallways and cafés</span></div><span class="price">$75 <small>/ wk</small></span></div>
+        </div>
+        <div class="hero-cta"><a href="#contact" class="btn btn-primary">Start a subscription</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews" aria-labelledby="rev-title">
+    <div class="wrap">
+      <div class="center reveal"><span class="eyebrow">Kind notes</span><h2 id="rev-title">Delivered with <em>love.</em></h2></div>
+      <div class="quotes">
+        <figure class="quote reveal"><blockquote>“Ordered at 1pm for my mum's birthday and she had peonies by five. She called me in tears, the good kind.”</blockquote><figcaption><span aria-hidden="true">E</span><div>Elena<small>Same-day delivery</small></div></figcaption></figure>
+        <figure class="quote reveal" style="--d:.1s"><blockquote>“Our weekly Classic bunch makes the café feel like spring, even in February.”</blockquote><figcaption><span aria-hidden="true">S</span><div>Sam<small>Café owner, subscriber</small></div></figcaption></figure>
+        <figure class="quote reveal" style="--d:.2s"><blockquote>“They understood our wedding palette instantly. Every table looked like a garden.”</blockquote><figcaption><span aria-hidden="true">R</span><div>Rhea<small>Wedding florals</small></div></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="head reveal" style="align-items:flex-start;flex-direction:column">
+        <span class="eyebrow">Delivery &amp; care</span><h2 id="faq-title">Questions, <em>gently answered.</em></h2><p class="lead">Still unsure? Call the shop and a florist will pick up.</p>
+      </div>
+      <div class="reveal" style="--d:.1s">
+        <details open><summary>What areas do you deliver to?</summary><p>Same-day delivery covers the whole city within 8 miles of the shop. Next-day delivery reaches the wider county for $14.</p></details>
+        <details><summary>Can I choose a delivery time?</summary><p>We deliver between 11am and 7pm. For a specific one-hour window, add timed delivery at checkout for $10.</p></details>
+        <details><summary>How do I keep my flowers fresh?</summary><p>Trim stems at an angle every two days, change the water and keep the vase away from fruit and radiators. Every bouquet comes with flower food.</p></details>
+        <details><summary>What if the flowers don't last?</summary><p>Our seven-day freshness promise means we'll replace any bouquet that wilts early. Just send us a photo.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">Visit the shop</span>
+        <h2 id="contact-title">Come and <em>smell the roses.</em></h2>
+        <p class="lead">Pop in to pick your own stems, or send us a note about weddings, events and subscriptions.</p>
+        <div class="info">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span><strong>Shop</strong>5 Larkspur Corner, Greenhill, Portland ME 04101</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg><span><strong>Email</strong><a href="mailto:bloom@example.com">bloom@example.com</a></span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><strong>Phone</strong><a href="tel:+15550164488">+1 555 016 4488</a></span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><strong>Hours</strong>Mon–Sat 8am–6pm · Sun 9am–2pm</span></div>
+        </div>
+      </div>
+      <form class="reveal" style="--d:.1s" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <h3>Send us a note</h3>
+        <div class="row2">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="topic">I'd like help with</label><select id="topic" name="topic"><option>A bouquet order</option><option>Weekly subscription</option><option>Wedding or event</option><option>Workshop booking</option></select></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Send note</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot">
+      <a href="#" class="logo">Petal <em>&amp;</em> Stem</a>
+      <nav aria-label="Footer"><ul><li><a href="#shop">Shop</a></li><li><a href="#subscribe">Subscriptions</a></li><li><a href="#faq">Delivery</a></li><li><a href="#contact">Contact</a></li></ul></nav>
+    </div>
+    <small>© <span id="yr">2026</span> Petal &amp; Stem Florist. Grown locally, arranged by hand.</small>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function setMenu(open) { burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', open); }
+  burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+
+  // Same-day cutoff message
+  var now = new Date(), h = now.getHours(), cut = document.getElementById('cutoff');
+  if (h < 14) { var mins = (14 - h) * 60 - now.getMinutes(); cut.innerHTML = 'Order in the next <strong>' + Math.floor(mins / 60) + 'h ' + (mins % 60) + 'm</strong> for delivery today.'; }
+  else cut.innerHTML = 'Same-day cutoff has passed. Order now for <strong>delivery tomorrow</strong>.';
+
+  // Filters
+  var fBtns = document.querySelectorAll('.filters button'), products = document.querySelectorAll('.product');
+  fBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      fBtns.forEach(function (o) { o.setAttribute('aria-pressed', o === b); });
+      products.forEach(function (p) { p.hidden = b.dataset.f !== 'all' && p.dataset.k !== b.dataset.f; });
+    });
+  });
+
+  // Bag counter
+  var count = 0, badge = document.getElementById('bagCount'), live = document.getElementById('bagLive');
+  document.querySelectorAll('.add').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      count++; badge.textContent = count; btn.classList.add('done'); btn.textContent = 'Added ✓';
+      live.textContent = btn.closest('.product').querySelector('h3').textContent + ' added to bag. ' + count + ' item' + (count > 1 ? 's' : '') + ' in bag.';
+      badge.classList.add('pop'); setTimeout(function () { badge.classList.remove('pop'); btn.classList.remove('done'); btn.textContent = 'Add to bag'; }, 1400);
+    });
+  });
+
+  // Reveals + blooming flowers
+  var els = document.querySelectorAll('.reveal'), blooms = document.querySelectorAll('.bloom');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    blooms.forEach(function (b) { b.classList.add('open'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function (el) { io.observe(el); });
+  var bo = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('open'); bo.unobserve(e.target); }
+    });
+  }, { threshold: .35 });
+  blooms.forEach(function (b) { bo.observe(b); });
+})();
+</script>
+</body>
+</html>

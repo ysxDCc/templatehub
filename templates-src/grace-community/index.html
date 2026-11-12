@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace Community Church — A warm welcome, every week</title>
+<meta name="description" content="Grace Community Church is a welcoming local church and community centre. Find service and livestream times, upcoming events and ways to get involved.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,600;0,700;1,500&family=Alegreya+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#e7ad45;
+  --accent-ink:#2e2717;
+  --gold-text:#875809;
+  --gold-soft:#fbefd2;
+  --sky:#8ec5e8;
+  --sky-soft:#e3f1fa;
+  --sky-deep:#2f6b93;
+  --stone:#efe9df;
+  --stone-2:#e2d9cb;
+  --ink:#2c2a26;
+  --muted:#5c564c;
+  --white:#fffdf9;
+  --serif:'Alegreya',Georgia,'Times New Roman',serif;
+  --sans:'Alegreya Sans','Gill Sans','Trebuchet MS',system-ui,sans-serif;
+  --r:18px;
+  --ease:cubic-bezier(.2,.75,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:18px;line-height:1.65;color:var(--ink);background:var(--white);overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;margin:0 0 .5em;color:var(--ink)}
+h2{font-size:clamp(2.1rem,4.4vw,3.2rem)}
+h3{font-size:1.45rem}
+p{margin:0 0 1em}
+a{color:var(--sky-deep)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,36px)}
+:focus-visible{outline:3px solid var(--sky-deep);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:10px;background:var(--ink);color:#fff;padding:10px 14px;z-index:99;border-radius:8px}
+.skip:focus{left:10px}
+.over{display:block;font-weight:800;font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-text);margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:12px 26px;border-radius:99px;font:700 1.02rem/1 var(--sans);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s,background .3s,color .3s}
+.btn-primary{background:var(--accent);color:var(--accent-ink);box-shadow:0 12px 26px -14px rgba(160,105,10,.8)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 30px -14px rgba(160,105,10,.9)}
+.btn-soft{background:rgba(255,253,249,.8);color:var(--ink);border-color:var(--stone-2)}
+.btn-soft:hover{border-color:var(--ink)}
+
+/* header */
+header.site{position:sticky;top:0;z-index:40;background:rgba(255,253,249,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--stone-2)}
+.bar{height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:inline-flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:700;font-size:1.35rem;color:var(--ink);text-decoration:none;min-height:44px;line-height:1.1}
+.logo svg{flex:none}
+nav ul{list-style:none;margin:0;padding:0;display:flex;align-items:center;gap:2px}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:99px;text-decoration:none;color:var(--ink);font-weight:500}
+nav a:not(.btn):hover{background:var(--stone)}
+nav .btn{margin-left:8px}
+.burger{display:none;width:48px;height:48px;border-radius:50%;border:1px solid var(--stone-2);background:var(--white);cursor:pointer;align-items:center;justify-content:center}
+.burger span{position:relative;display:block;width:20px;height:2px;background:var(--ink);transition:background .2s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);transition:transform .3s}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;padding:clamp(70px,10vw,130px) 0 0;text-align:center;background:linear-gradient(180deg,#cfe6f6 0%,#e6f1f8 34%,#fbf1dc 70%,var(--white) 100%)}
+.rays{position:absolute;left:50%;top:-10%;width:240vmax;height:240vmax;margin-left:-120vmax;margin-top:-120vmax;z-index:-2;pointer-events:none;
+  background:repeating-conic-gradient(from 0deg,rgba(255,226,160,.55) 0deg 5deg,rgba(255,255,255,0) 5deg 15deg);
+  -webkit-mask:radial-gradient(circle,#000 0,rgba(0,0,0,.6) 14%,transparent 36%);mask:radial-gradient(circle,#000 0,rgba(0,0,0,.6) 14%,transparent 36%)}
+.glow{position:absolute;left:50%;top:-180px;width:720px;height:520px;margin-left:-360px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,236,190,.95),rgba(255,236,190,0));z-index:-1;pointer-events:none}
+.js .rays{animation:spin 140s linear infinite}
+.js .glow{animation:breathe 9s ease-in-out infinite alternate}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes breathe{from{opacity:.75;transform:scale(.96)}to{opacity:1;transform:scale(1.05)}}
+.hero h1{font-size:clamp(2.7rem,7vw,5.4rem);font-weight:700;max-width:13em;margin:0 auto 20px;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;color:var(--gold-text);font-weight:500;display:block}
+.hero p.lead{font-size:1.25rem;color:var(--muted);max-width:34em;margin:0 auto 30px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:44px}
+.countdown{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 28px;background:rgba(255,253,249,.85);border:1px solid var(--stone-2);border-radius:24px;padding:18px 28px;box-shadow:0 30px 50px -30px rgba(92,70,30,.45);margin-bottom:clamp(40px,6vw,60px);text-align:left}
+.cd-label{font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.cd-name{font-family:var(--serif);font-size:1.3rem;font-weight:600;display:block}
+.cd-units{display:flex;gap:10px}
+.cd-units div{min-width:66px;text-align:center;background:var(--sky-soft);border-radius:14px;padding:8px 6px}
+.cd-units b{display:block;font-family:var(--serif);font-size:2rem;line-height:1;font-variant-numeric:tabular-nums;color:var(--sky-deep)}
+.cd-units small{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.live-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#c0392b;margin-right:6px;vertical-align:middle}
+.js .live-dot{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+.scene{display:block;width:100%;height:auto;margin-top:-10px}
+
+/* welcome */
+.sec{padding:clamp(70px,9vw,112px) 0}
+section{scroll-margin-top:84px}
+.stone{background:var(--stone)}
+.head{max-width:660px;margin:0 auto 48px;text-align:center}
+.head p{color:var(--muted)}
+.expect{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.expect article{background:var(--white);border-radius:var(--r);padding:32px 28px;border:1px solid var(--stone-2)}
+.expect .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--gold-soft);margin-bottom:16px}
+.expect p{color:var(--muted);margin:0}
+
+/* times */
+.times{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,60px);align-items:center}
+.times-list{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.times-list li{display:grid;grid-template-columns:110px 1fr auto;gap:16px;align-items:center;background:var(--white);border:1px solid var(--stone-2);border-radius:16px;padding:16px 20px}
+.times-list .day{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.times-list .t{font-variant-numeric:tabular-nums;font-weight:800;color:var(--sky-deep)}
+.times-list .what small{display:block;color:var(--muted);font-size:.92rem}
+.pill{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:99px;background:var(--sky-soft);color:var(--sky-deep);white-space:nowrap}
+.stream{position:relative;min-height:400px;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,#335d7b,#1f3a50);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;box-shadow:0 30px 60px -30px rgba(31,58,80,.6)}
+.stream::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%,rgba(255,226,160,.45),transparent 50%)}
+.stream > *{position:relative}
+.stream h3{color:#fff;font-size:1.8rem}
+.stream p{color:#d8e8f3;margin-bottom:16px}
+.play{position:absolute;top:30px;left:28px;width:72px;height:72px;border-radius:50%;background:rgba(255,253,249,.92);display:grid;place-items:center;box-shadow:0 0 0 12px rgba(255,253,249,.18)}
+
+/* events */
+#events{overflow-x:hidden;overflow-x:clip}
+.filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:34px}
+.filters button{min-height:44px;padding:0 20px;border-radius:99px;border:1px solid var(--stone-2);background:var(--white);font:700 1rem var(--sans);color:var(--ink);cursor:pointer;transition:background .2s,color .2s}
+.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.events{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;list-style:none;padding:0;margin:0}
+.ev{background:var(--white);border:1px solid var(--stone-2);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s}
+.ev:hover{transform:translateY(-5px);box-shadow:0 24px 40px -28px rgba(92,70,30,.5)}
+.ev[hidden]{display:none}
+.ev-top{display:flex;gap:16px;align-items:center;padding:20px 22px;border-bottom:1px dashed var(--stone-2)}
+.date{flex:none;width:64px;text-align:center;border-radius:14px;background:var(--gold-soft);padding:6px 0;line-height:1.05}
+.date small{display:block;font-weight:800;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text)}
+.date b{font-family:var(--serif);font-size:1.9rem}
+.ev.c-youth .date{background:var(--sky-soft)}.ev.c-youth .date small{color:var(--sky-deep)}
+.ev .card-title{margin:0;font-size:1.3rem}
+.ev .meta{font-size:.93rem;color:var(--muted)}
+.ev-body{padding:16px 22px 22px;display:flex;flex-direction:column;flex:1}
+.ev-body p{color:var(--muted);font-size:.98rem}
+.ev-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price{font-family:var(--serif);font-weight:700;font-size:1.35rem;color:var(--ink)}
+.ev-foot a{font-weight:700;display:inline-flex;align-items:center;min-height:44px}
+.js .events .ev{opacity:0;transform:translateX(60px)}
+.js .events .ev.in{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .8s var(--ease),box-shadow .35s}
+.js .events .ev.in:hover{transform:translateY(-5px)}
+
+/* get involved */
+.involve{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.inv{border-radius:var(--r);padding:26px 24px;background:var(--white);border:1px solid var(--stone-2);position:relative;overflow:hidden}
+.inv::before{content:"";position:absolute;right:-46px;top:-46px;width:96px;height:96px;border-radius:50%;background:var(--gold-soft)}
+.inv.sky::before{background:var(--sky-soft)}
+.inv > *{position:relative}
+.inv h3{font-size:1.3rem}
+.inv p{color:var(--muted);font-size:.98rem;margin-bottom:10px}
+.inv a{font-weight:700;display:inline-flex;align-items:center;min-height:44px}
+@media (max-width:980px){.involve{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.involve{grid-template-columns:1fr}}
+
+/* stories */
+.stories{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.story{margin:0;background:var(--white);border-radius:var(--r);padding:28px;border:1px solid var(--stone-2)}
+.story blockquote{margin:0 0 16px;font-family:var(--serif);font-size:1.25rem;line-height:1.45}
+.story figcaption{font-weight:700;color:var(--gold-text)}
+
+/* faq */
+.faq{max-width:820px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--stone-2)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 0;font-family:var(--serif);font-weight:600;font-size:1.3rem;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2px solid var(--gold-text);border-bottom:2px solid var(--gold-text);transform:rotate(45deg);transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(225deg)}
+.faq details p{color:var(--muted);margin:0;padding-bottom:20px}
+
+/* contact */
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,60px)}
+.visit{background:linear-gradient(170deg,var(--sky-soft),var(--gold-soft));border-radius:24px;padding:clamp(24px,4vw,40px)}
+.visit dl{display:grid;gap:16px;margin:24px 0 0}
+.visit dt{font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.visit dd{margin:0;font-size:1.12rem}
+form.card{background:var(--white);border:1px solid var(--stone-2);border-radius:24px;padding:clamp(22px,4vw,36px)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{margin-bottom:16px}
+.f label{display:block;font-weight:700;margin-bottom:6px}
+.f input,.f select,.f textarea{width:100%;font:inherit;font-size:1rem;padding:12px 14px;min-height:50px;border:1px solid #cdbfa9;border-radius:12px;background:#fff;color:var(--ink);transition:border-color .2s,box-shadow .2s}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--sky-deep);box-shadow:0 0 0 4px rgba(142,197,232,.45)}
+.f textarea{min-height:120px;resize:vertical}
+
+footer{background:#2c2a26;color:#d9d1c4;padding:44px 0 34px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
+footer .logo{color:#fff}
+.fnav a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:#f1e9dc;text-decoration:none}
+.fnav a:hover{color:var(--accent)}
+
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .expect,.stories{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .events{grid-template-columns:1fr 1fr}
+  .times,.contact{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .burger{display:inline-flex}
+  nav ul{position:absolute;left:12px;right:12px;top:82px;flex-direction:column;align-items:stretch;background:var(--white);border:1px solid var(--stone-2);border-radius:20px;padding:12px;box-shadow:0 24px 40px -20px rgba(44,42,38,.35);display:none}
+  nav ul.open{display:flex}
+  nav a{min-height:50px}
+  nav .btn{margin:8px 0 0}
+}
+@media (max-width:640px){
+  .events,.row{grid-template-columns:1fr}
+  .times-list li{grid-template-columns:1fr auto;gap:6px 12px}
+  .times-list .day{grid-column:1/-1}
+  .countdown{padding:16px;border-radius:20px;text-align:center;justify-content:center}
+  .cd-units div{min-width:58px}
+  .cd-units b{font-size:1.6rem}
+  .logo{font-size:1.15rem}
+  .logo .full{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .rv,.js .events .ev{opacity:1;transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap bar">
+    <a href="#" class="logo"><svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="17" fill="#fbefd2" stroke="#e7ad45" stroke-width="2"/><path d="M18 7v22M11 14h14" stroke="#875809" stroke-width="2.6" stroke-linecap="round"/><path d="M8 27c3-3 6-4 10-4s7 1 10 4" stroke="#2f6b93" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>Grace Community<span class="full"> Church</span></span></a>
+    <nav aria-label="Primary">
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
+      <ul id="menu">
+        <li><a href="#visit">Plan a visit</a></li>
+        <li><a href="#times">Services</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#times">Watch live</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-label="Welcome">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="over">A church for the whole neighbourhood</span>
+    <h1>Come as you are. <em>You belong here.</em></h1>
+    <p class="lead">Grace Community Church is a warm, everyday kind of place — Sunday worship, midweek meals, youth nights and a community pantry, open to everyone, whatever your story.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#visit">Plan your first visit</a>
+      <a class="btn btn-soft" href="#times">Service &amp; livestream times</a>
+    </div>
+    <div class="countdown" id="countdown" role="timer" aria-live="off">
+      <div><span class="cd-label" id="cd-label">Next service starts in</span><span class="cd-name" id="cd-name">Sunday Morning Worship · 9:30am</span></div>
+      <div class="cd-units" aria-hidden="true">
+        <div><b id="cd-d">–</b><small>Days</small></div>
+        <div><b id="cd-h">–</b><small>Hrs</small></div>
+        <div><b id="cd-m">–</b><small>Min</small></div>
+        <div><b id="cd-s">–</b><small>Sec</small></div>
+      </div>
+      <span id="cd-sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)"></span>
+    </div>
+  </div>
+  <svg class="scene" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 150 C 240 110, 480 120, 720 140 S 1200 110, 1440 140 V220 H0Z" fill="#dfe9d6"/>
+    <g fill="#c9d8bf"><circle cx="210" cy="128" r="34"/><circle cx="250" cy="120" r="26"/><circle cx="1210" cy="122" r="32"/><circle cx="1250" cy="130" r="24"/></g>
+    <g fill="#e2d9cb"><rect x="640" y="70" width="160" height="90"/><path d="M630 74 L720 20 L810 74Z" fill="#d3c6b2"/><rect x="712" y="0" width="16" height="40" fill="#d3c6b2"/><rect x="704" y="10" width="32" height="8" fill="#d3c6b2"/></g>
+    <rect x="704" y="110" width="32" height="50" rx="16" fill="#e7ad45"/>
+    <g fill="#fbefd2"><rect x="658" y="96" width="22" height="30" rx="11"/><rect x="760" y="96" width="22" height="30" rx="11"/></g>
+    <path d="M0 175 C 300 150, 600 165, 900 172 S 1300 160, 1440 170 V220 H0Z" fill="#fffdf9"/>
+  </svg>
+</section>
+
+<section class="sec" id="visit" aria-labelledby="visit-h" style="padding-top:30px">
+  <div class="wrap">
+    <div class="head rv"><span class="over">Your first Sunday</span><h2 id="visit-h">What to expect when you visit</h2><p>No dress code, no pressure, and no one will single you out. Just friendly faces and good coffee.</p></div>
+    <div class="expect">
+      <article class="rv"><span class="ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M5 12h15v6a6 6 0 01-6 6h-3a6 6 0 01-6-6z" fill="#e7ad45"/><path d="M20 14h2a3 3 0 010 6h-2" stroke="#875809" stroke-width="2" fill="none"/><path d="M10 4c0 2 2 2 2 4M14 4c0 2 2 2 2 4" stroke="#8ec5e8" stroke-width="2" fill="none" stroke-linecap="round"/></svg></span><h3>A warm welcome</h3><p>Our welcome team will meet you at the door, show you around and grab you a coffee from the café.</p></article>
+      <article class="rv"><span class="ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M14 4l3 7 7 .6-5.3 4.6 1.6 7L14 19.5 7.7 23.2l1.6-7L4 11.6l7-.6z" fill="#e7ad45"/></svg></span><h3>Uplifting worship</h3><p>Seventy minutes of contemporary music, a short, practical message and time to pray if you’d like.</p></article>
+      <article class="rv"><span class="ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><circle cx="9" cy="9" r="4" fill="#8ec5e8"/><circle cx="19" cy="11" r="3" fill="#e7ad45"/><path d="M2 24c1-5 4-8 7-8s6 3 7 8zM14 24c.6-4 2.8-6.5 5-6.5s4.4 2.5 5 6.5z" fill="#2f6b93"/></svg></span><h3>Kids &amp; youth</h3><p>Safe, fun, checked-in programs for babies through teens, led by trained and background-checked volunteers.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec stone" id="times" aria-labelledby="times-h">
+  <div class="wrap times">
+    <div class="rv">
+      <span class="over">Gather with us</span>
+      <h2 id="times-h">Service &amp; livestream times</h2>
+      <ul class="times-list">
+        <li><span class="day">Sunday</span><span class="what"><span class="t">9:30am</span><small>Morning Worship · kids’ programs</small></span><span class="pill">Livestream</span></li>
+        <li><span class="day">Sunday</span><span class="what"><span class="t">11:30am</span><small>Late Service · café open</small></span><span class="pill">In person</span></li>
+        <li><span class="day">Wednesday</span><span class="what"><span class="t">7:00pm</span><small>Midweek Prayer &amp; Praise</small></span><span class="pill">Livestream</span></li>
+      </ul>
+    </div>
+    <div class="stream rv">
+      <span class="play" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 30 30"><path d="M9 5l17 10L9 25z" fill="#2f6b93"/></svg></span>
+      <h3>Join online, wherever you are</h3>
+      <p>Our livestream goes live five minutes before each streamed service, with captions and a chat host to welcome you.</p>
+      <a class="btn btn-primary" href="#contact" style="align-self:flex-start">Get the stream link</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="events" aria-labelledby="events-h">
+  <div class="wrap">
+    <div class="head rv"><span class="over">Calendar</span><h2 id="events-h">Upcoming events</h2><p>Everyone is welcome at every event. Most are free; small costs help cover food and materials.</p></div>
+    <div class="filters" role="group" aria-label="Filter events">
+      <button type="button" aria-pressed="true" data-f="all">All events</button>
+      <button type="button" aria-pressed="false" data-f="community">Community</button>
+      <button type="button" aria-pressed="false" data-f="worship">Worship</button>
+      <button type="button" aria-pressed="false" data-f="youth">Youth &amp; families</button>
+    </div>
+    <ul class="events" id="ev-list">
+      <li class="ev c-community"><div class="ev-top"><span class="date"><small>Nov</small><b>21</b></span><div><h3 class="card-title">Community Supper</h3><span class="meta">Fri · 6:00pm · Fellowship Hall</span></div></div><div class="ev-body"><p>A home-cooked three-course meal for neighbours old and new. Families welcome.</p><div class="ev-foot"><span class="price">Free</span><a href="#contact">Save a seat →</a></div></div></li>
+      <li class="ev c-youth"><div class="ev-top"><span class="date"><small>Nov</small><b>22</b></span><div><h3 class="card-title">Youth Games Night</h3><span class="meta">Sat · 6:30pm · Youth Loft</span></div></div><div class="ev-body"><p>Board games, pizza and a short talk for ages 11–17. Parents can stay for coffee.</p><div class="ev-foot"><span class="price">$5</span><a href="#contact">Sign up →</a></div></div></li>
+      <li class="ev c-worship"><div class="ev-top"><span class="date"><small>Nov</small><b>30</b></span><div><h3 class="card-title">Advent Candlelight Service</h3><span class="meta">Sun · 5:00pm · Main Hall</span></div></div><div class="ev-body"><p>Carols, readings and candlelight to begin the season. Livestreamed with captions.</p><div class="ev-foot"><span class="price">Free</span><a href="#contact">Add reminder →</a></div></div></li>
+      <li class="ev c-community"><div class="ev-top"><span class="date"><small>Dec</small><b>06</b></span><div><h3 class="card-title">Winter Coat Drive</h3><span class="meta">Sat · 10:00am · Front Lawn</span></div></div><div class="ev-body"><p>Donate a coat or pick one up — no questions asked. Hot cocoa provided.</p><div class="ev-foot"><span class="price">Free</span><a href="#contact">Volunteer →</a></div></div></li>
+      <li class="ev c-youth"><div class="ev-top"><span class="date"><small>Dec</small><b>13</b></span><div><h3 class="card-title">Kids’ Christmas Workshop</h3><span class="meta">Sat · 1:00pm · Classrooms</span></div></div><div class="ev-body"><p>Crafts, cookie decorating and a nativity play for ages 4–10. All materials included.</p><div class="ev-foot"><span class="price">$8</span><a href="#contact">Register →</a></div></div></li>
+      <li class="ev c-worship"><div class="ev-top"><span class="date"><small>Dec</small><b>24</b></span><div><h3 class="card-title">Christmas Eve Services</h3><span class="meta">Wed · 4:00pm &amp; 9:00pm · Main Hall</span></div></div><div class="ev-body"><p>A family service with a live nativity, and a quiet late service by candlelight.</p><div class="ev-foot"><span class="price">Free</span><a href="#contact">Plan to come →</a></div></div></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="involved" aria-labelledby="inv-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="head rv"><span class="over">Get involved</span><h2 id="inv-h">Find your place to serve</h2><p>Small groups and teams meet all week. Try one out — there’s no sign-up needed for your first visit.</p></div>
+    <div class="involve">
+      <article class="inv rv"><h3>Community Pantry</h3><p>Sorting, packing and welcoming neighbours every Tuesday and Saturday morning.</p><a href="#contact">Help out →</a></article>
+      <article class="inv sky rv"><h3>Small Groups</h3><p>Ten people, one living room, good conversation. Groups meet across town most weeknights.</p><a href="#contact">Find a group →</a></article>
+      <article class="inv rv"><h3>Music &amp; Tech</h3><p>Sing, play, run sound or help produce the livestream. Training provided for every role.</p><a href="#contact">Join the team →</a></article>
+      <article class="inv sky rv"><h3>Care Team</h3><p>Meals, visits and rides for anyone facing illness, loss or a new baby at home.</p><a href="#contact">Lend a hand →</a></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec stone" id="stories" aria-labelledby="stories-h">
+  <div class="wrap">
+    <div class="head rv"><span class="over">Stories</span><h2 id="stories-h">Why people call Grace home</h2></div>
+    <div class="stories">
+      <figure class="story rv"><blockquote>“We walked in knowing nobody. By the third week someone had brought us dinner after our baby arrived.”</blockquote><figcaption>— Rosa, member since 2021</figcaption></figure>
+      <figure class="story rv"><blockquote>“I started by helping at the food pantry. I stayed because people actually listened.”</blockquote><figcaption>— Daniel, pantry volunteer</figcaption></figure>
+      <figure class="story rv"><blockquote>“My kids ask to go on Sundays. That says everything about the youth team.”</blockquote><figcaption>— Mei, mum of three</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="head rv"><span class="over">Questions</span><h2 id="faq-h">Good to know before you come</h2></div>
+    <div class="faq rv">
+      <details><summary>Where do I park?</summary><p>Free parking is in our lot on Elm Street, with accessible spaces and a drop-off zone right by the main entrance.</p></details>
+      <details><summary>Is the building accessible?</summary><p>Yes. Step-free access throughout, an accessible restroom, hearing loop in the main hall and large-print song sheets on request.</p></details>
+      <details><summary>Do I have to give money?</summary><p>Not at all. Guests are never expected to give. Members support our work and community programs through regular giving.</p></details>
+      <details><summary>Can I rent the hall for an event?</summary><p>Our community centre rooms are available for local groups, classes and celebrations at low cost. Ask us for availability.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec stone" id="contact" aria-labelledby="contact-h">
+  <div class="wrap contact">
+    <div class="visit rv">
+      <span class="over">Visit or say hello</span>
+      <h2 id="contact-h">We’d love to meet you</h2>
+      <p>Send a message, ask for prayer, or let us know you’re coming — we’ll save you a seat and a coffee.</p>
+      <dl>
+        <div><dt>Address</dt><dd>215 Elm Street, Brookfield Commons, MA 01506</dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+15550172210">+1 555 017 2210</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:hello@example.com">hello@example.com</a></dd></div>
+        <div><dt>Office hours</dt><dd>Tue–Fri, 9am – 3pm</dd></div>
+      </dl>
+    </div>
+    <form class="card rv" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row">
+        <div class="f"><label for="name">Your name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+        <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="f"><label for="topic">I’d like to…</label><select id="topic" name="topic"><option>Plan a visit</option><option>Get the livestream link</option><option>Share a prayer request</option><option>Volunteer</option><option>Book the community hall</option></select></div>
+      <div class="f"><label for="msg">Message</label><textarea id="msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="logo">Grace Community Church</a>
+    <div class="fnav" role="navigation" aria-label="Footer"><a href="#visit">Visit</a><a href="#times">Services</a><a href="#events">Events</a><a href="#contact">Contact</a></div>
+    <p style="margin:0;width:100%;font-size:.92rem">© <span id="yr">2026</span> Grace Community Church · All are welcome.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // nav
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function setNav(o){ burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', o); }
+  burger.addEventListener('click', function(){ setNav(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setNav(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true'){ setNav(false); burger.focus(); } });
+
+  // countdown — edit service times here (day: 0 = Sunday)
+  var services = [
+    {day:0, h:9, m:30, len:75, name:'Sunday Morning Worship · 9:30am'},
+    {day:0, h:11, m:30, len:75, name:'Late Service · 11:30am'},
+    {day:3, h:19, m:0, len:60, name:'Midweek Prayer & Praise · 7:00pm'}
+  ];
+  var el = {d:document.getElementById('cd-d'), h:document.getElementById('cd-h'), m:document.getElementById('cd-m'), s:document.getElementById('cd-s'), name:document.getElementById('cd-name'), label:document.getElementById('cd-label'), sr:document.getElementById('cd-sr')};
+  function next(now){
+    var best = null;
+    for (var add = 0; add < 8; add++){
+      services.forEach(function(s){
+        var d = new Date(now); d.setDate(d.getDate() + add); if (d.getDay() !== s.day) return;
+        d.setHours(s.h, s.m, 0, 0);
+        var end = d.getTime() + s.len * 60000;
+        if (end > now.getTime() && (!best || d < best.start)) best = {start:d, end:end, s:s};
+      });
+    }
+    return best;
+  }
+  var pad = function(n){ return (n < 10 ? '0' : '') + n; }, lastMin = -1;
+  function tick(){
+    var now = new Date(), n = next(now); if (!n) return;
+    el.name.textContent = n.s.name;
+    var diff = n.start - now;
+    if (diff <= 0){
+      el.label.innerHTML = '<span class="live-dot" aria-hidden="true"></span>Live now';
+      el.d.textContent = el.h.textContent = el.m.textContent = el.s.textContent = '00';
+      el.sr.textContent = n.s.name + ' is live now';
+      return;
+    }
+    el.label.textContent = 'Next service starts in';
+    var t = Math.floor(diff / 1000), d = Math.floor(t / 86400), h = Math.floor(t % 86400 / 3600), m = Math.floor(t % 3600 / 60), s = t % 60;
+    el.d.textContent = d; el.h.textContent = pad(h); el.m.textContent = pad(m); el.s.textContent = pad(s);
+    if (m !== lastMin){ lastMin = m; el.sr.textContent = n.s.name + ' starts in ' + d + ' days, ' + h + ' hours and ' + m + ' minutes'; }
+  }
+  tick(); var timer = setInterval(tick, 1000);
+  document.addEventListener('visibilitychange', function(){ clearInterval(timer); if (!document.hidden){ tick(); timer = setInterval(tick, 1000); } });
+
+  // event filters
+  var evs = Array.prototype.slice.call(document.querySelectorAll('.ev'));
+  document.querySelectorAll('.filters button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.filters button').forEach(function(x){ x.setAttribute('aria-pressed', x === b); });
+      var f = b.dataset.f, k = 0;
+      evs.forEach(function(ev){
+        var show = f === 'all' || ev.classList.contains('c-' + f);
+        ev.hidden = !show;
+        if (show && !reduce){ ev.classList.remove('in'); void ev.offsetWidth; (function(e, i){ setTimeout(function(){ e.classList.add('in'); }, i * 90); })(ev, k++); }
+      });
+    });
+  });
+
+  // reveals, event slide-ins, rays pause
+  var rv = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)){ rv.forEach(function(e){ e.classList.add('in'); }); evs.forEach(function(e){ e.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  rv.forEach(function(e){ io.observe(e); });
+  var evo = new IntersectionObserver(function(es){
+    es.filter(function(e){ return e.isIntersecting; }).forEach(function(e, i){ setTimeout(function(){ e.target.classList.add('in'); }, i * 120); evo.unobserve(e.target); });
+  }, {threshold:.15});
+  evs.forEach(function(e){ evo.observe(e); });
+  var anim = document.querySelectorAll('.rays, .glow');
+  new IntersectionObserver(function(es){ anim.forEach(function(a){ a.style.animationPlayState = es[0].isIntersecting ? 'running' : 'paused'; }); }).observe(document.querySelector('.hero'));
+})();
+</script>
+</body>
+</html>

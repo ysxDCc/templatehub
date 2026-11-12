@@ -1,0 +1,16 @@
+{
+  "id": "hope-harbor",
+  "name": "Hope Harbor",
+  "description": "Community nonprofit template for a food bank & youth charity with count-up impact stats, a wave-filled appeal bar and a donation chooser.",
+  "category": "nonprofit",
+  "tier": "pro",
+  "logo": "⚓ HOPE HARBOR",
+  "tags": ["Nonprofit", "Charity", "Food Bank", "Donations", "Impact Counters"],
+  "features": [
+    "Impact counters that count up when scrolled into view",
+    "Appeal progress bar that fills with an animated wave",
+    "Donation chooser with one-off/monthly toggle, preset and custom amounts and live impact text",
+    "Programme cards, priced gift options, stories, volunteer sign-up and contact form"
+  ],
+  "signature": "Impact numbers count up and the appeal goal bar fills with a rolling wave when in view; amount buttons update the donate button live"
+}

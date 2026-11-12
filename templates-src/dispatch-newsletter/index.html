@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Dispatch — An independent weekly, read slowly</title>
+<meta name="description" content="The Dispatch is an independent weekly newsletter on cities, culture and the quiet stories everyone else missed. Free and paid editions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#c8102e;
+  --paper:#f5f1e8;
+  --paper-2:#ebe5d6;
+  --ink:#151412;
+  --ink-2:#3d3a34;
+  --rule:#151412;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.125rem/1.6 var(--serif);overflow-x:hidden;
+  background-image:radial-gradient(rgba(21,20,18,.05) 1px,transparent 1px);background-size:4px 4px}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--serif);font-weight:800;line-height:1.02;margin:0 0 .4em;letter-spacing:-.015em}
+h2{font-size:clamp(2.2rem,5vw,3.8rem)}
+p{margin:0 0 1em}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:12px 16px;z-index:100}
+.skip:focus{left:12px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 22px;font:600 .82rem var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer;transition:background .2s,color .2s,transform .2s,box-shadow .2s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:4px 4px 0 var(--ink)}
+.btn-primary:hover{background:var(--accent);color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+
+/* masthead */
+header{border-bottom:4px double var(--rule);background:var(--paper)}
+.topbar{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--rule);color:var(--ink-2)}
+.mast{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px 0 12px;gap:16px}
+.logo{font:800 clamp(2.4rem,6vw,4.6rem)/1 var(--serif);color:var(--ink);text-decoration:none;letter-spacing:-.03em;text-align:center;font-style:italic;min-height:44px;display:inline-block}
+.logo span{color:var(--accent);font-style:normal}
+.mast .left{font-style:italic;color:var(--ink-2);font-size:1rem;max-width:22ch}
+.mast .right{justify-self:end;display:flex;gap:10px;align-items:center}
+nav{border-top:1px solid var(--rule)}
+nav ul{list-style:none;margin:0;padding:0;display:flex;justify-content:center;gap:4px;flex-wrap:wrap}
+nav a{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;color:var(--ink);text-decoration:none;font:500 .8rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
+nav a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:5px}
+.burger{display:none;width:48px;height:48px;border:2px solid var(--ink);background:transparent;cursor:pointer;font:600 .7rem var(--mono);letter-spacing:.1em;color:var(--ink)}
+
+/* hero */
+.hero{padding:44px 0 70px;border-bottom:1px solid var(--rule)}
+.hero-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:0}
+.hero-main{padding-right:44px;border-right:1px solid var(--rule)}
+.kicker{display:flex;gap:14px;align-items:center;color:var(--accent);margin-bottom:18px;font-weight:600}
+.kicker::before{content:"";width:40px;height:2px;background:var(--accent)}
+.hero h1{font-size:clamp(2.8rem,7.4vw,6.4rem);line-height:.95;letter-spacing:-.03em;margin-bottom:.35em}
+.sc{position:relative}
+.sc.on{color:transparent}
+.sc.on::after{content:attr(data-c);position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);color:var(--accent);font-family:var(--mono);font-weight:500;font-size:.5em;line-height:1}
+.hero p.lead{font-size:clamp(1.2rem,2vw,1.45rem);line-height:1.45;max-width:36ch;color:var(--ink-2);font-style:italic}
+.signup{margin-top:26px;border:2px solid var(--ink);background:#fffdf7;padding:20px;max-width:560px;box-shadow:8px 8px 0 var(--paper-2)}
+.signup label{display:block;margin-bottom:10px}
+.signup .row{display:flex;gap:10px;flex-wrap:wrap}
+.signup input[type=email]{flex:1 1 220px}
+.signup small{display:block;margin-top:10px;color:var(--ink-2)}
+input,textarea{font:inherit;font-size:1.05rem;padding:12px 14px;min-height:50px;border:2px solid var(--ink);background:#fffdf7;color:var(--ink);border-radius:0;width:100%}
+input:focus,textarea:focus{outline:3px solid var(--accent);outline-offset:0}
+.hero-side{padding-left:40px}
+.hero-side h2{font-size:1.1rem;font-family:var(--mono);font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.toc{list-style:none;padding:0;margin:0;counter-reset:toc}
+.toc li{counter-increment:toc;display:grid;grid-template-columns:42px 1fr;gap:6px;padding:16px 0;border-bottom:1px dotted var(--ink-2)}
+.toc li::before{content:counter(toc,decimal-leading-zero);font:600 .9rem var(--mono);color:var(--accent);padding-top:4px}
+.toc b{display:block;font-size:1.2rem;line-height:1.2}
+.toc span{color:var(--ink-2);font-size:.98rem}
+.stamp{margin-top:24px;display:inline-block;border:3px solid var(--accent);color:var(--accent);padding:10px 16px;transform:rotate(-4deg);font:600 .78rem var(--mono);letter-spacing:.12em;text-transform:uppercase}
+
+/* ticker */
+.ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--rule)}
+.ticker div{display:inline-block;padding:12px 0;animation:tick 40s linear infinite}
+.ticker span{margin:0 26px}
+.ticker span::before{content:"■";color:var(--accent);margin-right:14px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* sections */
+section{scroll-margin-top:20px}
+.section{padding:96px 0;border-bottom:1px solid var(--rule)}
+.sec-head{display:grid;grid-template-columns:200px 1fr;gap:30px;margin-bottom:50px;align-items:end}
+.sec-head .mono{border-top:4px solid var(--accent);padding-top:10px;color:var(--ink-2)}
+.sec-head h2{margin:0}
+.cols{display:grid;grid-template-columns:repeat(3,1fr)}
+.col{padding:0 30px;border-left:1px solid var(--rule)}
+.col:first-child{padding-left:0;border-left:0}
+.col h3{font-size:1.65rem}
+.col .dropcap::first-letter{float:left;font-size:4.2em;line-height:.8;padding:6px 10px 0 0;font-weight:800;color:var(--accent)}
+.col p{color:var(--ink-2)}
+
+/* issues fan */
+.issues{position:relative}
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;list-style:none;padding:0;margin:0}
+.issue{background:#fffdf7;border:1px solid var(--ink);padding:24px 22px 22px;box-shadow:0 1px 0 var(--ink),0 18px 30px -18px rgba(21,20,18,.45);display:flex;flex-direction:column;min-height:330px;position:relative;background-image:repeating-linear-gradient(transparent 0 31px,rgba(21,20,18,.06) 31px 32px)}
+.issue .meta{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:14px;color:var(--ink-2);gap:10px}
+.issue .meta b{color:var(--accent);font-weight:600}
+.issue h3{font-size:1.5rem;line-height:1.1}
+.issue p{font-size:1rem;color:var(--ink-2);flex:1}
+.issue a{font:600 .78rem var(--mono);letter-spacing:.1em;text-transform:uppercase;display:inline-flex;min-height:44px;align-items:center;color:var(--accent)}
+.issue.paid::after{content:"Members";position:absolute;top:-12px;right:16px;background:var(--accent);color:#fff;font:600 .68rem var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:4px 8px}
+.fan .stack{display:block;height:440px;position:relative}
+.fan .issue{position:absolute;left:50%;top:30px;width:250px;margin-left:-125px;will-change:transform}
+.fan-hint{text-align:center;color:var(--ink-2);margin-top:10px}
+
+/* newsroom */
+.staff{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink)}
+.person{padding:26px 22px;border-left:1px solid var(--ink)}
+.person:first-child{border-left:0;padding-left:0}
+.portrait{width:84px;height:84px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font:800 2rem var(--serif);font-style:italic;margin-bottom:14px;background:repeating-linear-gradient(135deg,var(--paper-2) 0 3px,transparent 3px 7px)}
+.person h3{font-size:1.3rem;margin-bottom:4px}
+.person p{color:var(--ink-2);font-size:1rem;margin:8px 0 0}
+.person .mono{color:var(--accent)}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
+.plan{padding:36px 30px;border-left:1px solid var(--ink);display:flex;flex-direction:column;background:#fffdf7;transition:background .3s}
+.plan:first-child{border-left:0}
+.plan:hover{background:#fff}
+.plan.feature{background:var(--ink);color:var(--paper)}
+.plan.feature .card-title,.plan.feature .price{color:var(--paper)}
+.plan.feature li{border-color:rgba(245,241,232,.25)}
+.plan.feature .btn{border-color:var(--paper);color:var(--paper)}
+.plan.feature .btn-primary{border-color:var(--accent);color:#fff}
+.card-title{font-size:1.9rem;margin-bottom:4px}
+.plan .tagline{font-style:italic;color:inherit;opacity:.85}
+.price{display:block;font:800 3.6rem/1 var(--serif);letter-spacing:-.03em;margin:14px 0 4px}
+.plan .per{margin-bottom:20px}
+.plan ul{list-style:none;padding:0;margin:0 0 28px;flex:1}
+.plan li{padding:10px 0;border-top:1px dotted var(--ink-2);font-size:1.02rem}
+.plan li::before{content:"✓ ";color:var(--accent);font-weight:800}
+.plan.feature li::before{color:#ff6b7f}
+.plan.feature .per{color:#d8d2c4}
+
+/* letters */
+.letters{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:0}
+.letter{margin:0;padding:0 30px;border-left:1px solid var(--rule)}
+.letter:first-child{padding-left:0;border-left:0}
+.letter blockquote{margin:0 0 16px;font-size:1.2rem;line-height:1.45;font-style:italic}
+.letter:first-child blockquote{font-size:1.65rem;line-height:1.3;font-style:normal;font-weight:600}
+.letter:first-child blockquote::before{content:"“";display:block;font-size:5rem;line-height:.6;color:var(--accent);margin-bottom:10px}
+.letter figcaption{color:var(--ink-2)}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:0 50px}
+details{border-top:2px solid var(--ink)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;min-height:60px;font-weight:600;font-size:1.25rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 1.4rem var(--mono);color:var(--accent);flex:none}
+details[open] summary::after{content:"−"}
+details p{color:var(--ink-2);padding-bottom:10px}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px}
+.contact-list{list-style:none;padding:0;margin:20px 0 0}
+.contact-list li{border-top:1px solid var(--ink);padding:14px 0;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center}
+.contact-list a{display:inline-flex;min-height:44px;align-items:center}
+form.desk{align-content:start;align-self:start;border:2px solid var(--ink);padding:30px;background:#fffdf7;display:grid;gap:16px}
+.field{display:grid;gap:6px}
+.field label{color:var(--ink-2)}
+textarea{min-height:150px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+footer{background:var(--ink);color:#d8d2c4;padding:56px 0 30px}
+footer .logo{color:var(--paper);font-size:2.6rem}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;border-bottom:1px solid #4a4741;padding-bottom:26px}
+footer ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap}
+footer ul a{color:var(--paper);text-decoration:none;display:inline-flex;min-height:44px;align-items:center;padding:0 12px}
+footer ul a:hover{color:#ff6b7f}
+.copy{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px}
+
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .hero-grid,.contact-grid{grid-template-columns:1fr}
+  .hero-main{padding-right:0;border-right:0;border-bottom:1px solid var(--rule);padding-bottom:40px}
+  .hero-side{padding-left:0;padding-top:30px}
+  .cols,.letters{grid-template-columns:1fr}
+  .col,.letter{padding:24px 0;border-left:0;border-top:1px solid var(--rule)}
+  .col:first-child,.letter:first-child{border-top:0;padding-top:0}
+  .plans{grid-template-columns:1fr}
+  .plan{border-left:0;border-top:1px solid var(--ink)}
+  .plan:first-child{border-top:0}
+  .faq{grid-template-columns:1fr}
+  .staff{grid-template-columns:1fr 1fr}
+  .person{padding:22px 16px;border-top:1px solid var(--ink)}
+  .person:nth-child(odd){border-left:0;padding-left:0}
+  .person:nth-child(-n+2){border-top:0}
+  .sec-head{grid-template-columns:1fr;gap:14px}
+}
+@media (max-width:760px){
+  .mast{grid-template-columns:1fr auto}
+  .mast .left{display:none}
+  .logo{text-align:left}
+  .mast .right .btn{display:none}
+  .burger{display:inline-flex;align-items:center;justify-content:center}
+  nav{border-top:0}
+  nav ul{display:none;flex-direction:column;padding:6px 0 14px;border-top:1px solid var(--rule)}
+  nav ul.open{display:flex}
+  .topbar .hide-sm{display:none}
+  .row2{grid-template-columns:1fr}
+  .section{padding:70px 0}
+  form.desk{padding:20px}
+  .contact-list li{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+  .ticker{white-space:normal}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap">
+    <div class="topbar mono"><span>Vol. 7 · No. 312</span><span class="hide-sm">Every Thursday, 7:00 a.m.</span><span>Est. 2019</span></div>
+    <div class="mast">
+      <p class="left">An independent weekly on cities, culture &amp; the stories in between.</p>
+      <a href="#" class="logo">The <span>Dispatch</span></a>
+      <div class="right">
+        <a class="btn btn-primary" href="#subscribe">Subscribe</a>
+        <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu">Menu</button>
+      </div>
+    </div>
+  </div>
+  <nav aria-label="Main">
+    <ul id="menu" class="wrap">
+      <li><a href="#about">The paper</a></li>
+      <li><a href="#issues">Latest issues</a></li>
+      <li><a href="#subscribe">Subscribe</a></li>
+      <li><a href="#letters">Letters</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Write to us</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div class="hero-main">
+      <p class="kicker mono">Thursday edition · Free to read</p>
+      <h1 id="hero-h" data-scramble>The news, slowed down to the speed of thought.</h1>
+      <p class="lead">One carefully reported letter every Thursday — long reads, small scoops and a crossword — from a newsroom of four with no investors and no algorithm.</p>
+      <form class="signup" id="subscribe-form" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <input type="hidden" name="form" value="newsletter-signup">
+        <label for="s-email" class="mono">Get Thursday's issue in your inbox</label>
+        <div class="row">
+          <input id="s-email" type="email" name="email" placeholder="you@yourmail.com" autocomplete="email" required>
+          <button class="btn btn-primary" type="submit">Sign up free</button>
+        </div>
+        <small class="mono">41,200 readers · unsubscribe any time</small>
+      </form>
+    </div>
+    <aside class="hero-side" aria-labelledby="toc-h">
+      <h2 id="toc-h">In this week's issue</h2>
+      <ol class="toc">
+        <li><div><b>The last night bus</b><span>A ride along the city's slowest route, 1:14 a.m. to dawn.</span></div></li>
+        <li><div><b>Who owns the corner?</b><span>Tracing twelve empty storefronts back to one address.</span></div></li>
+        <li><div><b>Notes from the river</b><span>Our correspondent's weekly dispatch from the waterfront.</span></div></li>
+        <li><div><b>The crossword</b><span>Medium-hard. Pencils recommended.</span></div></li>
+      </ol>
+      <span class="stamp">Reader-funded since 2019</span>
+    </aside>
+  </div>
+</section>
+
+<div class="ticker mono" aria-hidden="true"><div>
+  <span>Issue 312 out Thursday</span><span>Founding members get the print annual</span><span>Letters page reopens</span><span>Crossword answers on Monday</span><span>Now in 94 countries</span>
+  <span>Issue 312 out Thursday</span><span>Founding members get the print annual</span><span>Letters page reopens</span><span>Crossword answers on Monday</span><span>Now in 94 countries</span>
+</div></div>
+
+<section class="section" id="about" aria-labelledby="about-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§1 · The paper</span><h2 id="about-h" data-scramble>What lands on Thursday</h2></div>
+    <div class="cols">
+      <article class="col reveal"><h3>One long read</h3><p class="dropcap">Every week we pick one story and give it the time it deserves — usually 3,000 words, reported on foot, fact-checked twice and never rushed to beat a rival.</p></article>
+      <article class="col reveal"><h3>The small print</h3><p class="dropcap">Six short items you won't find elsewhere: council minutes decoded, a price we tracked, a map we drew and the overheard line of the week.</p></article>
+      <article class="col reveal"><h3>A puzzle &amp; a reply</h3><p class="dropcap">A hand-set crossword and the letters page, where readers argue with us, correct us and occasionally send poems. We print the best of them.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section issues" id="issues" aria-labelledby="issues-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§2 · Archive</span><h2 id="issues-h" data-scramble>Latest issues</h2></div>
+    <div class="fan-wrap" id="fan">
+      <ul class="stack">
+        <li class="issue"><div class="meta mono"><b>No. 311</b><span>Nov 05</span></div><h3>The bakery that only opens when it rains</h3><p>A small mystery on Fenwick Street, solved over three wet mornings and a lot of rye.</p><a href="#">Read issue →</a></li>
+        <li class="issue paid"><div class="meta mono"><b>No. 310</b><span>Oct 29</span></div><h3>Forty years of the same parking ticket</h3><p>One man, one meter and an appeal that has outlived three mayors.</p><a href="#">Read issue →</a></li>
+        <li class="issue"><div class="meta mono"><b>No. 309</b><span>Oct 22</span></div><h3>Inside the lost-property office</h3><p>412 umbrellas, a tuba and the archivist who keeps them all.</p><a href="#">Read issue →</a></li>
+        <li class="issue paid"><div class="meta mono"><b>No. 308</b><span>Oct 15</span></div><h3>Mapping every public bench</h3><p>We sat on all 1,906 of them. Here is what we learned about the city.</p><a href="#">Read issue →</a></li>
+        <li class="issue"><div class="meta mono"><b>No. 307</b><span>Oct 08</span></div><h3>The radio station with one listener</h3><p>Broadcasting jazz at 3 a.m. to a lighthouse keeper — and maybe you.</p><a href="#">Read issue →</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="newsroom" aria-labelledby="newsroom-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§2½ · Masthead</span><h2 id="newsroom-h" data-scramble>The newsroom of four</h2></div>
+    <div class="staff">
+      <div class="person reveal"><div class="portrait" aria-hidden="true">E</div><h3>Eleanor</h3><span class="mono">Editor</span><p>Twenty years on city desks. Reads every letter, answers most.</p></div>
+      <div class="person reveal"><div class="portrait" aria-hidden="true">M</div><h3>Marcus</h3><span class="mono">Reporter</span><p>Walks the long reads. Owns very sensible shoes.</p></div>
+      <div class="person reveal"><div class="portrait" aria-hidden="true">P</div><h3>Priya</h3><span class="mono">Data &amp; maps</span><p>Turns council spreadsheets into maps you can't stop looking at.</p></div>
+      <div class="person reveal"><div class="portrait" aria-hidden="true">O</div><h3>Otto</h3><span class="mono">Crossword</span><p>Sets the puzzle by hand on Sunday nights. Unrepentant about puns.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="subscribe" aria-labelledby="sub-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§3 · Subscribe</span><h2 id="sub-h" data-scramble>Pick your edition</h2></div>
+    <div class="plans reveal">
+      <article class="plan">
+        <p class="mono">Free edition</p>
+        <h3 class="card-title">Reader</h3>
+        <p class="tagline">The Thursday letter, always free.</p>
+        <span class="price">$0</span>
+        <p class="per mono">forever</p>
+        <ul><li>The weekly long read</li><li>The small print</li><li>Public archive (last 4 issues)</li></ul>
+        <a class="btn" href="#subscribe-form">Sign up free</a>
+      </article>
+      <article class="plan feature">
+        <p class="mono">Most readers choose</p>
+        <h3 class="card-title">Member</h3>
+        <p class="tagline">Fund the reporting. Get everything.</p>
+        <span class="price">$8</span>
+        <p class="per mono">per month · $80 a year</p>
+        <ul><li>Everything in Reader</li><li>Sunday members' edition</li><li>Full archive, 300+ issues</li><li>The crossword &amp; answers</li><li>Comment on the letters page</li></ul>
+        <a class="btn btn-primary" href="#contact">Become a member</a>
+      </article>
+      <article class="plan">
+        <p class="mono">Patrons</p>
+        <h3 class="card-title">Founding</h3>
+        <p class="tagline">For readers who want us around in 2040.</p>
+        <span class="price">$200</span>
+        <p class="per mono">per year</p>
+        <ul><li>Everything in Member</li><li>The printed annual, posted</li><li>Your name in the colophon</li><li>Two gift memberships</li></ul>
+        <a class="btn" href="#contact">Join the founders</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="letters" aria-labelledby="letters-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§4 · Correspondence</span><h2 id="letters-h" data-scramble>Letters to the editor</h2></div>
+    <div class="letters">
+      <figure class="letter reveal"><blockquote>The only email I print out. My father and I do the crossword over the phone every Thursday night — it has become our standing appointment.</blockquote><figcaption class="mono">— Clara, reader since No. 4</figcaption></figure>
+      <figure class="letter reveal"><blockquote>The bench issue made me walk home a different way. That's more than any app has ever done for me.</blockquote><figcaption class="mono">— Tomás, member</figcaption></figure>
+      <figure class="letter reveal"><blockquote>Thoughtful, funny and stubbornly local. Worth twice the price; please don't tell them I said so.</blockquote><figcaption class="mono">— Ingrid, founding member</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" aria-labelledby="faq-h">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="mono">§5 · Fine print</span><h2 id="faq-h" data-scramble>Questions &amp; answers</h2></div>
+    <div class="faq reveal">
+      <div>
+        <details open><summary>When does the newsletter arrive?</summary><p>Every Thursday at 7:00 a.m. Eastern. Members also get the shorter Sunday edition at 9:00 a.m.</p></details>
+        <details><summary>Is the free edition really free?</summary><p>Yes — the main Thursday letter is free and always will be. Members pay so that it can stay that way.</p></details>
+        <details><summary>Do you take advertising?</summary><p>No ads, no sponsored posts, no tracking pixels. We're funded entirely by readers.</p></details>
+      </div>
+      <div>
+        <details><summary>Can I give a gift membership?</summary><p>Of course. Write to us with the recipient's email and a start date and we'll send a handwritten-style card.</p></details>
+        <details><summary>Can I cancel at any time?</summary><p>One click from any email footer. If you paid yearly, we refund the unused months.</p></details>
+        <details><summary>Do you accept pitches?</summary><p>Yes — we commission four freelance pieces each month and pay $1 a word. Use the form below.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact" aria-labelledby="contact-h">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="mono" style="color:var(--accent)">§6 · The desk</span>
+      <h2 id="contact-h" data-scramble>Write to the desk</h2>
+      <p style="color:var(--ink-2)">Tips, corrections, pitches and letters for publication. Every message is read by a human editor, usually with coffee.</p>
+      <ul class="contact-list">
+        <li><span class="mono">Email</span><a href="mailto:desk@example.com">desk@example.com</a></li>
+        <li><span class="mono">Phone</span><a href="tel:+15550193344">+1 555 019 3344</a></li>
+        <li><span class="mono">Post</span><span>The Dispatch, 14 Printers Row, 3rd floor, Baltimore, MD</span></li>
+      </ul>
+    </div>
+    <form class="desk reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="c-name" class="mono">Your name</label><input id="c-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="c-email" class="mono">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="c-msg" class="mono">Your letter</label><textarea id="c-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send to the desk</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a href="#" class="logo">The <span>Dispatch</span></a><p class="mono" style="margin-top:8px">Independent · Reader-funded · Weekly</p></div>
+      <ul aria-label="Footer">
+        <li><a href="#issues">Archive</a></li><li><a href="#subscribe">Subscribe</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="copy mono"><span>© 2026 The Dispatch Media Co.</span><span>Set in Newsreader &amp; Plex Mono</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  root.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // nav
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function setMenu(o){ burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); burger.textContent = o ? 'Close' : 'Menu'; menu.classList.toggle('open', o); }
+  burger.addEventListener('click', function(){ setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true'){ setMenu(false); burger.focus(); } });
+
+  // reveals
+  var rv = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) rv.forEach(function(e){ e.classList.add('in'); });
+  else { var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.15}); rv.forEach(function(e){ io.observe(e); }); }
+
+  // headline scramble / decode
+  var GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#§¶&';
+  function scramble(el){
+    if (el.dataset.busy) return; el.dataset.busy = '1';
+    var text = el.textContent; el.setAttribute('aria-label', text);
+    el.innerHTML = '';
+    var chars = [];
+    text.split(/(\s+)/).forEach(function(word){
+      if (/^\s+$/.test(word)){ el.appendChild(document.createTextNode(word)); return; }
+      var w = document.createElement('span'); w.style.whiteSpace = 'nowrap'; w.setAttribute('aria-hidden', 'true');
+      for (var i = 0; i < word.length; i++){ var s = document.createElement('span'); s.className = 'sc on'; s.textContent = word[i]; w.appendChild(s); chars.push(s); }
+      el.appendChild(w);
+    });
+    var n = chars.length, start = performance.now(), dur = Math.min(1800, 500 + n * 28), last = 0;
+    (function frame(now){
+      var p = (now - start) / dur, resolved = Math.floor(Math.max(0, p) * n);
+      if (now - last > 50){ last = now;
+        for (var i = 0; i < n; i++){
+          if (i < resolved){ if (chars[i].classList.contains('on')) chars[i].classList.remove('on'); }
+          else chars[i].setAttribute('data-c', GLYPHS[(Math.random() * GLYPHS.length) | 0]);
+        }
+      }
+      if (p < 1) requestAnimationFrame(frame);
+      else { el.textContent = text; el.removeAttribute('aria-label'); delete el.dataset.busy; }
+    })(start);
+  }
+  if (!reduce){
+    var heads = document.querySelectorAll('[data-scramble]');
+    if ('IntersectionObserver' in window){
+      var so = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ so.unobserve(e.target); scramble(e.target); } }); }, {threshold:.6});
+      heads.forEach(function(h){ so.observe(h); });
+    }
+    var h1 = document.querySelector('.hero h1');
+    h1.addEventListener('mouseenter', function(){ scramble(h1); });
+  }
+
+  // latest issues: fan out like a stack of papers as you scroll
+  var fan = document.getElementById('fan'), cards = fan.querySelectorAll('.issue');
+  var wide = matchMedia('(min-width: 900px)'), ticking = false, active = false;
+  var rest = [-3, 4, -6, 2, -1];
+  function layout(){
+    ticking = false;
+    var r = fan.getBoundingClientRect(), vh = innerHeight;
+    var p = Math.min(1, Math.max(0, (vh - r.top) / (vh * .75)));
+    p = 1 - Math.pow(1 - p, 2);
+    var W = fan.clientWidth, cw = 250, gap = Math.min(250, (W - cw) / (cards.length - 1)), mid = (cards.length - 1) / 2;
+    cards.forEach(function(c, i){
+      var d = i - mid;
+      var x = d * gap * p, rot = rest[i] * (1 - p) + d * 3.5 * p, y = Math.abs(d) * 18 * p + (1 - p) * i * -4;
+      c.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
+      c.style.zIndex = p > .5 ? 10 - Math.abs(Math.round(d)) : cards.length - i;
+    });
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(layout); } }
+  function setup(){
+    var want = wide.matches && !reduce;
+    if (want === active) { if (active) layout(); return; }
+    active = want; fan.classList.toggle('fan', want);
+    if (want){ addEventListener('scroll', onScroll, {passive:true}); layout(); }
+    else { removeEventListener('scroll', onScroll); cards.forEach(function(c){ c.style.transform = ''; c.style.zIndex = ''; }); }
+  }
+  fan.addEventListener('focusin', function(e){ var c = e.target.closest('.issue'); if (active && c) c.style.zIndex = 50; });
+  addEventListener('resize', setup); setup();
+})();
+</script>
+</body>
+</html>

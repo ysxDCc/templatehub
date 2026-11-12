@@ -1,0 +1,16 @@
+{
+  "id": "cacao-atelier",
+  "name": "Cacao Atelier",
+  "description": "Luxe chocolatier template for bonbons and gift boxes, with liquid chocolate dripping over the hero and 3D flip cards for tasting notes.",
+  "category": "food",
+  "tier": "pro",
+  "logo": "🍫 CACAO ATELIER",
+  "tags": ["Chocolate", "Bonbons", "Gift Boxes", "Luxury", "Drip Animation"],
+  "features": [
+    "Animated SVG chocolate drip that pours down from the header into the hero",
+    "Six 3D flip cards with illustrated bonbons and tasting notes, keyboard accessible",
+    "Gift box shop cards with illustrated cases and prices",
+    "Bean-to-bonbon process, testimonials, care FAQ and a working enquiry form"
+  ],
+  "signature": "Liquid chocolate drips down over the hero; bonbon cards flip in 3D to reveal tasting notes"
+}

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dog-Eared Books — Independent bookshop, café &amp; reading room</title>
+<meta name="description" content="Dog-Eared Books is an independent bookshop and café with staff picks, author evenings and a very comfortable armchair.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#b83a22;
+  --green:#1f4d3a;
+  --green-deep:#163a2b;
+  --paper:#f5eedf;
+  --paper-2:#ece2cc;
+  --ink:#1d2a24;
+  --muted:#5a5248;
+  --mustard:#d9a441;
+  --line:rgba(29,42,36,.16);
+  --serif:'Libre Baskerville',Georgia,'Times New Roman',serif;
+  --mono:'Courier Prime','Courier New',ui-monospace,monospace;
+  --radius:4px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--serif);color:var(--ink);background:var(--paper);line-height:1.65;font-size:17px;
+  background-image:radial-gradient(rgba(29,42,36,.05) 1px,transparent 1.2px);background-size:22px 22px}
+img,svg{max-width:100%;display:block}
+a{color:var(--accent)}
+h1,h2,h3{font-weight:700;line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em}
+h2{font-size:clamp(1.9rem,3.6vw,2.8rem)}
+p{margin:0 0 1em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono)}
+.kicker{font-family:var(--mono);text-transform:uppercase;letter-spacing:.14em;font-size:.82rem;color:var(--accent);margin-bottom:.8rem;display:inline-block}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:10px 16px;z-index:200}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:.75em 1.4em;border-radius:var(--radius);
+  font-family:var(--mono);font-weight:700;font-size:.95rem;letter-spacing:.04em;text-decoration:none;border:2px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{box-shadow:4px 4px 0 var(--green)}
+
+/* header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(245,238,223,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:inline-flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.25rem;color:var(--green);text-decoration:none;min-height:44px}
+.logo-mark{width:30px;height:36px;background:var(--green);position:relative;border-radius:2px 4px 4px 2px;flex:none;
+  clip-path:polygon(0 0,62% 0,100% 30%,100% 100%,0 100%)}
+.logo-mark::after{content:"";position:absolute;right:0;top:0;width:38%;height:30%;background:var(--accent)}
+.nav ul{list-style:none;display:flex;gap:6px;margin:0;padding:0;align-items:center}
+.nav ul a{font-family:var(--mono);font-size:.92rem;color:var(--ink);text-decoration:none;padding:12px 12px;display:inline-block;min-height:44px}
+.nav ul a:hover{color:var(--accent);text-decoration:underline;text-underline-offset:5px}
+.nav .btn{min-height:44px;padding:.5em 1.1em}
+.nav ul a.btn-primary{color:#fff;text-decoration:none}
+.menu-btn{display:none;width:48px;height:48px;border:2px solid var(--ink);background:transparent;border-radius:var(--radius);cursor:pointer;position:relative}
+.menu-btn span,.menu-btn span::before,.menu-btn span::after{position:absolute;left:11px;width:22px;height:2px;background:var(--ink);content:"";transition:transform .25s}
+.menu-btn span{top:22px}.menu-btn span::before{left:0;top:-7px}.menu-btn span::after{left:0;top:7px}
+.menu-btn[aria-expanded="true"] span{background:transparent}
+.menu-btn[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{padding:64px 0 72px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,5.4vw,4.3rem);line-height:1.06;margin-bottom:.35em}
+.hero h1 em{color:var(--accent);font-style:italic;position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:-.06em;height:.16em;background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath d='M2 8 C40 2 70 11 100 6 S160 2 198 7' fill='none' stroke='%23b83a22' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.hero p.sub{font-size:1.15rem;color:var(--muted);max-width:34em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0 30px}
+.hours{display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:.9rem;color:var(--muted)}
+.hours strong{color:var(--ink);display:block}
+.shelf-art{position:relative;background:var(--green);border-radius:6px;padding:28px 26px 0;box-shadow:12px 12px 0 var(--paper-2),12px 12px 0 2px var(--ink);
+  background-image:linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 100%}
+.shelf{display:flex;align-items:flex-end;gap:5px;height:190px;padding:0 10px;border-bottom:16px solid #8a5a34;margin-bottom:26px;position:relative}
+.shelf:last-of-type{margin-bottom:0}
+.spine{flex:none;width:var(--w,26px);height:var(--h,150px);background:var(--c,#d9a441);border-radius:2px 2px 0 0;position:relative;
+  box-shadow:inset -4px 0 0 rgba(0,0,0,.18),inset 3px 0 0 rgba(255,255,255,.12)}
+.spine::before,.spine::after{content:"";position:absolute;left:3px;right:3px;height:4px;background:rgba(255,255,255,.55)}
+.spine::before{top:14px}.spine::after{bottom:16px}
+.spine.lean{transform:rotate(-14deg);transform-origin:bottom left;margin-left:18px}
+.spine.flat{width:var(--h);height:var(--w);border-radius:2px}
+.stack{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.mug{width:64px;margin-left:auto}
+.stamp{position:absolute;top:-22px;right:-14px;background:var(--paper);border:3px double var(--accent);color:var(--accent);font-family:var(--mono);font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;padding:10px 14px;transform:rotate(7deg);text-align:center;line-height:1.35;z-index:2}
+
+/* marquee */
+.picks{background:var(--ink);color:var(--paper);border-block:4px solid var(--accent)}
+.picks-inner{display:flex;align-items:center}
+.picks-label{flex:none;font-family:var(--mono);font-size:.8rem;text-transform:uppercase;letter-spacing:.14em;padding:0 20px;color:var(--mustard);border-right:1px dashed rgba(245,238,223,.3)}
+.marquee{overflow:hidden;flex:1;mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.track{display:flex;width:max-content;animation:scroll 70s linear infinite}
+.marquee:hover .track,.marquee:focus-within .track,.picks.paused .track{animation-play-state:paused}
+.track ul{display:flex;list-style:none;margin:0;padding:0}
+.track li{padding:18px 32px;white-space:nowrap;font-style:italic;font-size:1rem}
+.track li b{font-family:var(--mono);font-style:normal;font-weight:400;color:var(--mustard);font-size:.85rem;margin-left:.6em}
+.track li::before{content:"✎";color:var(--accent);margin-right:.7em;font-style:normal}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.pause{flex:none;width:48px;height:48px;margin:0 8px;background:transparent;border:1px solid rgba(245,238,223,.4);color:var(--paper);border-radius:var(--radius);cursor:pointer;font-family:var(--mono);font-size:1rem}
+.pause:focus-visible{outline-color:var(--mustard)}
+
+/* sections */
+section{scroll-margin-top:80px}
+.block{padding:96px 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:44px;flex-wrap:wrap}
+.head p{max-width:30em;color:var(--muted);margin:0}
+
+/* features */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.feature{background:#fffaf0;border:1px solid var(--line);padding:32px 28px;position:relative;border-radius:var(--radius)}
+.feature::after{content:"";position:absolute;top:0;right:0;border-style:solid;border-width:0 34px 34px 0;border-color:transparent var(--paper) var(--paper-2) transparent;filter:drop-shadow(-2px 2px 1px rgba(0,0,0,.12))}
+.feature .num{font-family:var(--mono);color:var(--accent);font-size:.85rem;letter-spacing:.1em}
+.feature h3{font-size:1.4rem;margin:.5em 0 .4em}
+.feature p{color:var(--muted);margin:0}
+.feature svg{width:46px;height:46px;margin-bottom:12px}
+
+/* books */
+.shelf-sec{background:var(--paper-2);overflow-x:clip;border-block:1px solid var(--line)}
+.books{display:grid;grid-template-columns:repeat(3,1fr);gap:56px 44px}
+.book-card{display:flex;flex-direction:column;position:relative}
+.book-card:hover,.book-card:focus-within{z-index:3}
+.book{position:relative;aspect-ratio:3/4;perspective:1400px;outline:none;border-radius:3px 8px 8px 3px;margin-bottom:20px;cursor:pointer}
+.book:focus-visible{box-shadow:0 0 0 3px var(--paper-2),0 0 0 6px var(--accent)}
+.inside{position:absolute;inset:0;background:#fffaf0;border-radius:3px 8px 8px 3px;padding:12% 11%;display:flex;flex-direction:column;justify-content:center;
+  background-image:repeating-linear-gradient(#fffaf0 0 27px,rgba(31,77,58,.14) 27px 28px);box-shadow:0 18px 30px -18px rgba(0,0,0,.45),inset 10px 0 18px -10px rgba(0,0,0,.25)}
+.inside p{font-family:var(--mono);font-size:.92rem;line-height:28px;margin:0 0 .6em;color:var(--ink)}
+.inside .sig{color:var(--accent);font-size:.82rem}
+.cover{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.25,.8,.25,1);z-index:2}
+.cover-front,.cover-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:3px 8px 8px 3px}
+.cover-back{transform:rotateY(180deg);background:var(--paper-2);background-image:repeating-linear-gradient(45deg,rgba(31,77,58,.07) 0 6px,transparent 6px 12px)}
+.cover-front{background:var(--c);color:var(--t,#fff);padding:14% 12%;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+  box-shadow:inset 9px 0 0 rgba(0,0,0,.18),inset 11px 0 0 rgba(255,255,255,.18),0 18px 30px -16px rgba(0,0,0,.55)}
+.cover-front .ct{font-size:clamp(1.25rem,2.2vw,1.65rem);line-height:1.15;font-weight:700;position:relative;z-index:1}
+.cover-front .ca{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;position:relative;z-index:1}
+.cover-front .art{position:absolute;inset:0;pointer-events:none}
+.book:hover .cover,.book:focus .cover,.book:focus-within .cover{transform:rotateY(-155deg)}
+.book-meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1px dashed var(--line);padding-top:12px}
+.book-meta h3{font-size:1.15rem;margin:0 0 .15em}
+.book-meta .by{font-family:var(--mono);font-size:.85rem;color:var(--muted);margin:0}
+.price{font-family:var(--mono);font-weight:700;color:var(--accent);font-size:1.1rem;white-space:nowrap}
+.hint{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+
+/* cafe */
+.cafe{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+.menu-card{background:var(--green);color:var(--paper);padding:40px;border-radius:6px;position:relative}
+.menu-card h3{font-size:1.6rem;color:#fff}
+.menu-card ul{list-style:none;margin:0;padding:0;font-family:var(--mono)}
+.menu-card li{display:flex;gap:8px;padding:10px 0;border-bottom:1px dashed rgba(245,238,223,.25)}
+.menu-card li span.dots{flex:1;border-bottom:2px dotted rgba(245,238,223,.35);transform:translateY(-6px)}
+.menu-card .price{color:var(--mustard);font-size:1rem}
+.menu-card small{display:block;margin-top:18px;font-family:var(--mono);color:#d9cfb8}
+
+/* events */
+.events{display:grid;gap:18px}
+.event{display:grid;grid-template-columns:120px 1fr auto;gap:28px;align-items:center;background:#fffaf0;border:1px solid var(--line);border-left:6px solid var(--green);padding:22px 26px;border-radius:var(--radius);transition:transform .25s,box-shadow .25s}
+.event:hover{transform:translateX(6px);box-shadow:-6px 6px 0 var(--paper-2)}
+.date{font-family:var(--mono);text-align:center;border:2px solid var(--accent);color:var(--accent);padding:8px 6px;transform:rotate(-3deg);text-transform:uppercase;line-height:1.2}
+.date b{display:block;font-size:2rem;line-height:1}
+.event h3{font-size:1.25rem;margin:0 0 .2em}
+.event p{margin:0;color:var(--muted)}
+
+/* testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.qcard{background:#fffaf0;padding:30px 28px 26px;border:1px solid var(--line);position:relative;transform:rotate(var(--r,0deg));
+  background-image:linear-gradient(90deg,transparent 38px,rgba(184,58,34,.35) 38px 39px,transparent 39px),repeating-linear-gradient(#fffaf0 0 29px,rgba(31,77,58,.12) 29px 30px);padding-left:56px}
+.qcard blockquote{margin:0 0 14px;font-style:italic;line-height:30px}
+.qcard cite{font-family:var(--mono);font-style:normal;color:var(--accent);font-size:.9rem}
+.qcard::before{content:"";position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:rgba(217,164,65,.55);transform:rotate(-3deg)}
+
+/* faq */
+.faq{max-width:820px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 40px 20px 0;font-weight:700;font-size:1.1rem;position:relative;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:6px;top:14px;font-family:var(--mono);font-size:1.6rem;color:var(--accent);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:18px;margin:0}
+
+/* contact */
+.contact{background:var(--green);color:var(--paper)}
+.contact h2{color:#fff}
+.contact .kicker{color:var(--mustard)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:56px}
+.contact a{color:#fff}
+.contact dl{font-family:var(--mono);margin:28px 0 0}
+.contact dt{color:var(--mustard);text-transform:uppercase;font-size:.8rem;letter-spacing:.12em;margin-top:18px}
+.contact dd{margin:4px 0 0}
+.card-form{background:#fffaf0;color:var(--ink);padding:36px;border-radius:4px;position:relative;box-shadow:10px 10px 0 var(--green-deep)}
+.card-form::before{content:"LIBRARY CARD · No. 0417";display:block;font-family:var(--mono);font-size:.8rem;letter-spacing:.14em;color:var(--accent);border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:20px}
+.field{margin-bottom:18px}
+.field label{display:block;font-family:var(--mono);font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;background:transparent;border:0;border-bottom:2px solid var(--ink);border-radius:0;color:var(--ink);min-height:48px}
+.field textarea{min-height:120px;resize:vertical;background-image:repeating-linear-gradient(transparent 0 31px,var(--line) 31px 32px);line-height:32px}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);background-color:rgba(184,58,34,.05)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+footer.site{background:var(--ink);color:#d9cfb8;padding:48px 0 32px;font-family:var(--mono);font-size:.9rem}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer.site a{color:#fff;display:inline-block;padding:10px 6px}
+footer .logo{color:#fff;font-family:var(--serif)}
+footer .logo-mark{background:var(--paper)}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:960px){
+  .hero-grid,.cafe,.contact-grid{grid-template-columns:1fr}
+  .books{grid-template-columns:repeat(2,1fr)}
+  .features,.quotes{grid-template-columns:1fr}
+  .shelf-art{max-width:560px}
+}
+@media (max-width:820px){
+  .menu-btn{display:block}
+  .nav ul{position:absolute;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;background:var(--paper);border-bottom:2px solid var(--ink);padding:12px 24px 22px;display:none}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:12px 0;font-size:1.05rem}
+  .nav ul .btn{margin-top:8px}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .block{padding:72px 0}
+  .wrap{padding:0 18px}
+  .books{grid-template-columns:1fr;max-width:330px;margin:0 auto}
+  .event{grid-template-columns:84px 1fr;gap:18px}
+  .event .btn{grid-column:1/-1}
+  .date b{font-size:1.5rem}
+  .row2{grid-template-columns:1fr}
+  .card-form{padding:26px 20px}
+  .menu-card{padding:28px 22px}
+  .shelf{height:150px;gap:4px;padding:0 4px}
+  .spine{--w:20px !important}
+  .shelf-art{padding:22px 14px 0;box-shadow:8px 8px 0 var(--paper-2),8px 8px 0 2px var(--ink)}
+  .stamp{right:6px;top:-26px}
+  .picks-label{display:none}
+  .qcard{transform:none}
+  .hero h1 em{white-space:normal}
+}
+@media (max-width:360px){.spine:nth-child(n+9){display:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .js .reveal{opacity:1;transform:none}
+  .marquee{overflow-x:auto;mask-image:none}
+  .track ul[aria-hidden]{display:none}
+  .pause{display:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="logo-mark" aria-hidden="true"></span>Dog-Eared Books</a>
+    <nav aria-label="Main">
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu"><span></span></button>
+      <ul id="nav-list">
+        <li><a href="#shelves">Shelves</a></li>
+        <li><a href="#cafe">Café</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#contact">Visit us</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="kicker">Est. 1987 · 214 Larch Street</span>
+      <h1 id="hero-title">Good books, strong coffee &amp; <em>nowhere</em> you need to be.</h1>
+      <p class="sub">An independent bookshop and café with twelve thousand hand-picked titles, a reading room with real armchairs, and booksellers who will happily talk your ear off.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#shelves">Browse staff picks</a>
+        <a class="btn" href="#events">What’s on this month</a>
+      </div>
+      <div class="hours">
+        <div><strong>Mon–Sat</strong>8am – 9pm</div>
+        <div><strong>Sunday</strong>9am – 6pm</div>
+        <div><strong>Café</strong>closes 30 min earlier</div>
+      </div>
+    </div>
+    <div class="shelf-art reveal" aria-hidden="true">
+      <div class="stamp">Open today<br>till 9 pm</div>
+      <div class="shelf">
+        <span class="spine" style="--c:#d9a441;--h:150px"></span><span class="spine" style="--c:#b83a22;--h:168px;--w:32px"></span><span class="spine" style="--c:#f5eedf;--h:140px;--w:22px"></span><span class="spine" style="--c:#2f6f8f;--h:172px"></span><span class="spine" style="--c:#7a3b5c;--h:130px;--w:30px"></span><span class="spine" style="--c:#e9c46a;--h:160px;--w:20px"></span><span class="spine lean" style="--c:#b83a22;--h:150px;--w:28px"></span>
+        <svg class="mug" viewBox="0 0 64 70"><path d="M22 4c-4 6 4 8 0 14M32 2c-4 6 4 8 0 14" stroke="#f5eedf" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/><path d="M8 24h40v30a12 12 0 0 1-12 12H20A12 12 0 0 1 8 54z" fill="#f5eedf"/><path d="M48 32h5a7 7 0 0 1 0 14h-5" stroke="#f5eedf" stroke-width="5" fill="none"/><path d="M14 36h28" stroke="#b83a22" stroke-width="4"/></svg>
+      </div>
+      <div class="shelf">
+        <div class="stack"><span class="spine flat" style="--c:#2f6f8f;--h:110px;--w:20px"></span><span class="spine flat" style="--c:#d9a441;--h:96px;--w:24px"></span><span class="spine flat" style="--c:#f5eedf;--h:118px;--w:18px"></span></div>
+        <span class="spine" style="--c:#e07a5f;--h:158px"></span><span class="spine" style="--c:#14322a;--h:176px;--w:34px"></span><span class="spine" style="--c:#d9a441;--h:134px;--w:22px"></span><span class="spine" style="--c:#f5eedf;--h:162px;--w:28px"></span><span class="spine" style="--c:#7a3b5c;--h:148px"></span><span class="spine" style="--c:#b83a22;--h:170px;--w:24px"></span><span class="spine" style="--c:#2f6f8f;--h:140px;--w:30px"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="picks" aria-label="Staff picks in one line">
+  <div class="picks-inner">
+    <span class="picks-label">Staff picks</span>
+    <div class="marquee" tabindex="0" aria-label="Scrolling staff picks; hover or focus to pause">
+      <div class="track">
+        <ul>
+          <li>“Made me phone my sister at midnight.”<b>— Wren on Salt &amp; Small Hours</b></li>
+          <li>“A mystery where the detective is mostly a lighthouse.”<b>— Theo</b></li>
+          <li>“Read it in the bath. Bath went cold. Worth it.”<b>— Priya</b></li>
+          <li>“The cat is the best-written character of the decade.”<b>— Ollie</b></li>
+          <li>“Like soup for the brain, in a good way.”<b>— Marguerite</b></li>
+          <li>“I underlined so much I basically re-wrote it.”<b>— Jun</b></li>
+        </ul>
+        <ul aria-hidden="true">
+          <li>“Made me phone my sister at midnight.”<b>— Wren on Salt &amp; Small Hours</b></li>
+          <li>“A mystery where the detective is mostly a lighthouse.”<b>— Theo</b></li>
+          <li>“Read it in the bath. Bath went cold. Worth it.”<b>— Priya</b></li>
+          <li>“The cat is the best-written character of the decade.”<b>— Ollie</b></li>
+          <li>“Like soup for the brain, in a good way.”<b>— Marguerite</b></li>
+          <li>“I underlined so much I basically re-wrote it.”<b>— Jun</b></li>
+        </ul>
+      </div>
+    </div>
+    <button class="pause" type="button" aria-pressed="false" aria-label="Pause staff picks">❚❚</button>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="what-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><span class="kicker">Chapter one</span><h2 id="what-title">Three reasons to stay a while</h2></div>
+      <p>We’re a neighbourhood bookshop first, a café second and an excuse to sit down for a long time third.</p>
+    </div>
+    <div class="features">
+      <article class="feature reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 10c7-3 13-3 18 2 5-5 11-5 18-2v28c-7-3-13-3-18 2-5-5-11-5-18-2z" fill="none" stroke="#1f4d3a" stroke-width="3" stroke-linejoin="round"/><path d="M24 12v28" stroke="#b83a22" stroke-width="3"/></svg>
+        <span class="num">01 / Books</span>
+        <h3>Hand-picked shelves</h3>
+        <p>Every title is chosen by a human who read it. Special orders arrive in two to four days, wrapped in brown paper.</p>
+      </article>
+      <article class="feature reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 18h28v14a10 10 0 0 1-10 10h-8A10 10 0 0 1 8 32z" fill="none" stroke="#1f4d3a" stroke-width="3"/><path d="M36 22h3a5 5 0 0 1 0 10h-3M18 6c-2 3 2 5 0 8M26 6c-2 3 2 5 0 8" stroke="#b83a22" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <span class="num">02 / Café</span>
+        <h3>The Reading Room café</h3>
+        <p>Small-batch coffee, loose-leaf tea and slabs of cake. Bring any book to the table — even one you haven’t paid for yet.</p>
+      </article>
+      <article class="feature reveal">
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6v4M10 12l3 3M38 12l-3 3" stroke="#b83a22" stroke-width="3" stroke-linecap="round"/><rect x="14" y="18" width="20" height="16" rx="3" fill="none" stroke="#1f4d3a" stroke-width="3"/><path d="M18 34v8h12v-8" fill="none" stroke="#1f4d3a" stroke-width="3"/></svg>
+        <span class="num">03 / Events</span>
+        <h3>Evenings worth leaving the house for</h3>
+        <p>Author readings, a silent book club, poetry-and-pie nights and a Saturday story hour for small listeners.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block shelf-sec" id="shelves" aria-labelledby="shelves-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><span class="kicker">On the front table</span><h2 id="shelves-title">This month’s staff picks</h2></div>
+      <p>Hover or tab onto a cover to open it and read the bookseller’s note. Every pick can be reserved for collection.</p>
+    </div>
+    <div class="books">
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="The Lighthouse Accountant — open for the bookseller’s note">
+          <div class="inside"><p>“A quiet, funny novel about a man who audits a lighthouse and stays forty years. I cried at a spreadsheet.”</p><p class="sig">— Theo, fiction buyer</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#1f4d3a">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><rect x="16" y="16" width="268" height="368" fill="none" stroke="#d9a441" stroke-width="2"/><path d="M150 140l-22 180h44z" fill="#f5eedf" opacity=".9"/><rect x="132" y="120" width="36" height="26" fill="#d9a441"/><path d="M168 132l120-40v80z" fill="#d9a441" opacity=".35"/><path d="M20 330q65-20 130 0t130 0v54H20z" fill="#163a2b"/></svg>
+            <span class="ct">The Lighthouse Accountant</span><span class="ca">Mara Quillfeather</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">The Lighthouse Accountant</h3><p class="by">Mara Quillfeather · Hardback</p></div><span class="price">$24.00</span></div>
+      </article>
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="Salt &amp; Small Hours — open for the bookseller’s note">
+          <div class="inside"><p>“Two sisters, one bakery, a very long night. Short chapters, big feelings. Perfect with a cinnamon bun.”</p><p class="sig">— Wren, café &amp; fiction</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#b83a22">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><circle cx="150" cy="210" r="90" fill="#e07a5f"/><circle cx="150" cy="210" r="56" fill="#f5eedf" opacity=".9"/><circle cx="150" cy="210" r="20" fill="#d9a441"/><g stroke="#f5eedf" stroke-width="2" opacity=".5"><path d="M0 330h300M0 350h300M0 370h300"/></g></svg>
+            <span class="ct">Salt &amp; Small Hours</span><span class="ca">Teodor Vane</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">Salt &amp; Small Hours</h3><p class="by">Teodor Vane · Paperback</p></div><span class="price">$17.50</span></div>
+      </article>
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="A Field Guide to Lost Umbrellas — open for the bookseller’s note">
+          <div class="inside"><p>“Essays on everything we leave behind on trains. Gentle, clever and secretly about grief.”</p><p class="sig">— Priya, non-fiction</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#e9c46a;--t:#1d2a24">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#1d2a24" stroke-width="3"><path d="M70 220a50 50 0 0 1 100 0z" fill="#2f6f8f"/><path d="M120 220v60q0 12 12 12" /><path d="M150 270a40 40 0 0 1 80 0z" fill="#b83a22"/><path d="M190 270v45q0 10-10 10"/></g><g fill="#1d2a24" opacity=".25"><path d="M60 120l4 14M100 100l4 14M160 110l4 14M220 96l4 14M240 150l4 14"/><circle cx="64" cy="132" r="2"/><circle cx="104" cy="112" r="2"/><circle cx="164" cy="122" r="2"/><circle cx="224" cy="108" r="2"/></g></svg>
+            <span class="ct">A Field Guide to Lost Umbrellas</span><span class="ca">Iris Pemberly</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">A Field Guide to Lost Umbrellas</h3><p class="by">Iris Pemberly · Hardback</p></div><span class="price">$22.00</span></div>
+      </article>
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="The Cartographer’s Cat — open for the bookseller’s note">
+          <div class="inside"><p>“A cat steals a map and accidentally redraws a kingdom. For readers aged 8 to 108.”</p><p class="sig">— Ollie, children’s corner</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#2f6f8f">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><g stroke="#f5eedf" stroke-width="1.5" fill="none" opacity=".35"><path d="M0 120q80-30 150 0t150 0M0 170q80-30 150 0t150 0M0 220q80-30 150 0t150 0"/></g><path d="M110 300q0-60 40-70 40 10 40 70z" fill="#1d2a24"/><path d="M122 238l8-26 14 20M178 238l-8-26-14 20" fill="#1d2a24"/><circle cx="138" cy="250" r="5" fill="#e9c46a"/><circle cx="162" cy="250" r="5" fill="#e9c46a"/><path d="M190 290q40 0 30-40" stroke="#1d2a24" stroke-width="8" fill="none" stroke-linecap="round"/></svg>
+            <span class="ct">The Cartographer’s Cat</span><span class="ca">Juniper Hale</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">The Cartographer’s Cat</h3><p class="by">Juniper Hale · Illustrated</p></div><span class="price">$16.00</span></div>
+      </article>
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="Winter at Number Nine — open for the bookseller’s note">
+          <div class="inside"><p>“Six neighbours, one snowed-in street, zero phone signal. Cosy, sharp and very hard to put down.”</p><p class="sig">— Marguerite, owner</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#7a3b5c">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><rect x="80" y="180" width="140" height="150" fill="#f5eedf"/><path d="M70 184l80-64 80 64z" fill="#f5eedf"/><rect x="134" y="270" width="32" height="60" fill="#7a3b5c"/><text x="150" y="240" text-anchor="middle" font-family="Georgia,serif" font-size="44" fill="#b83a22">9</text><g fill="#f5eedf"><circle cx="40" cy="200" r="3"/><circle cx="258" cy="220" r="3"/><circle cx="250" cy="300" r="2"/><circle cx="48" cy="290" r="2"/><circle cx="30" cy="250" r="2"/><circle cx="270" cy="170" r="2"/></g></svg>
+            <span class="ct">Winter at Number Nine</span><span class="ca">Odile Brask</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">Winter at Number Nine</h3><p class="by">Odile Brask · Paperback</p></div><span class="price">$18.00</span></div>
+      </article>
+      <article class="book-card reveal">
+        <div class="book" tabindex="0" aria-label="Recipes for a Rainy Planet — open for the bookseller’s note">
+          <div class="inside"><p>“Forty soups, stews and stories from home cooks around the world. The lentil one changed my week.”</p><p class="sig">— Jun, cookery &amp; café</p></div>
+          <div class="cover" aria-hidden="true"><div class="cover-front" style="--c:#f5eedf;--t:#1d2a24">
+            <svg class="art" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice"><rect x="0" y="0" width="300" height="400" fill="none" stroke="#1f4d3a" stroke-width="14"/><path d="M70 230h160a80 80 0 0 1-160 0z" fill="#1f4d3a"/><path d="M60 230h180" stroke="#1d2a24" stroke-width="5" stroke-linecap="round"/><g stroke="#2f6f8f" stroke-width="3" stroke-linecap="round"><path d="M100 110l-6 16M150 96l-6 16M200 110l-6 16M125 150l-6 16M178 150l-6 16"/></g></svg>
+            <span class="ct">Recipes for a Rainy Planet</span><span class="ca">Sami Okonkwo-Reyes</span></div><div class="cover-back"></div></div>
+        </div>
+        <div class="book-meta"><div><h3 class="card-title">Recipes for a Rainy Planet</h3><p class="by">Sami Okonkwo-Reyes · Hardback</p></div><span class="price">$32.00</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="cafe" aria-labelledby="cafe-title">
+  <div class="wrap cafe">
+    <div class="reveal">
+      <span class="kicker">The Reading Room</span>
+      <h2 id="cafe-title">A café that expects you to linger</h2>
+      <p>Thirty seats, two fireplaces and a strict policy of never asking if you’re “finished with that”. Beans come from a roaster three streets away; cakes come from Marguerite’s mother.</p>
+      <p>Free Wi-Fi, plenty of plugs, and a quiet corner marked with a small brass sign that says <span class="mono">“Shh — chapter ending”</span>.</p>
+      <a class="btn" href="#contact">Book the reading room</a>
+    </div>
+    <div class="menu-card reveal">
+      <h3>Today’s chalkboard</h3>
+      <ul>
+        <li>Flat white<span class="dots"></span><span class="price">$4.20</span></li>
+        <li>Pot of Earl Grey<span class="dots"></span><span class="price">$3.80</span></li>
+        <li>Hot chocolate, proper<span class="dots"></span><span class="price">$4.50</span></li>
+        <li>Lemon drizzle slab<span class="dots"></span><span class="price">$3.90</span></li>
+        <li>Cheese &amp; chutney toastie<span class="dots"></span><span class="price">$7.50</span></li>
+      </ul>
+      <small>Oat, soy &amp; almond milk at no extra cost.</small>
+    </div>
+  </div>
+</section>
+
+<section class="block shelf-sec" id="events" aria-labelledby="events-title">
+  <div class="wrap">
+    <div class="head reveal">
+      <div><span class="kicker">Due dates</span><h2 id="events-title">What’s on this month</h2></div>
+      <p>Most events are free; ticketed ones include a drink and money off the featured book.</p>
+    </div>
+    <div class="events">
+      <article class="event reveal"><div class="date"><b>07</b>Thu</div><div><h3>An evening with Mara Quillfeather</h3><p>Reading, Q&amp;A and signing for <i>The Lighthouse Accountant</i>. 7pm, upstairs.</p></div><a class="btn" href="#contact">Reserve a seat</a></article>
+      <article class="event reveal"><div class="date"><b>12</b>Tue</div><div><h3>Silent Book Club</h3><p>Bring whatever you’re reading. An hour of quiet, then chat over wine. 6:30pm.</p></div><a class="btn" href="#contact">Join in</a></article>
+      <article class="event reveal"><div class="date"><b>16</b>Sat</div><div><h3>Story Hour for small listeners</h3><p>Picture books, puppets and a biscuit for ages 2–6. 10am, children’s corner.</p></div><a class="btn" href="#contact">Free — just come</a></article>
+      <article class="event reveal"><div class="date"><b>28</b>Thu</div><div><h3>Poetry &amp; Pie</h3><p>Open mic for poems under three minutes. Pie for everyone who reads. 7:30pm.</p></div><a class="btn" href="#contact">Sign up to read</a></article>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="quotes-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="kicker">Overheard at the till</span><h2 id="quotes-title">Readers say nice things</h2></div></div>
+    <div class="quotes">
+      <figure class="qcard reveal" style="--r:-1.2deg;margin:0"><blockquote>“I came in for one book and left with four and a cake. This happens every single Saturday.”</blockquote><cite>— Hannah</cite></figure>
+      <figure class="qcard reveal" style="--r:.8deg;margin:0"><blockquote>“They remembered I liked sad Scandinavian crime and had a stack waiting. Actual wizards.”</blockquote><cite>— Desmond</cite></figure>
+      <figure class="qcard reveal" style="--r:-.5deg;margin:0"><blockquote>“Story hour is the only time my twins sit still all week. The puppet voices are elite.”</blockquote><cite>— Lucia</cite></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block shelf-sec" id="faq" aria-labelledby="faq-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="kicker">Fine print</span><h2 id="faq-title">Questions, answered</h2></div></div>
+    <div class="faq reveal">
+      <details><summary>Can you order a book you don’t stock?</summary><p>Almost certainly. Ask at the till or use the form below — most special orders arrive in two to four working days and we’ll text you when it’s in.</p></details>
+      <details><summary>Do you buy second-hand books?</summary><p>On the first Monday of each month we look through pre-loved books for store credit. Good-condition fiction and children’s books are most welcome.</p></details>
+      <details><summary>Is the shop accessible?</summary><p>The ground floor, café and accessible toilet are step-free. Events upstairs have a lift; let us know if you need anything else.</p></details>
+      <details><summary>Do you do gift cards and book subscriptions?</summary><p>Yes — gift cards from $10, and a “Surprise Me” subscription from $22 a month where a bookseller picks a title just for you.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="kicker">Come find us</span>
+      <h2 id="contact-title">Order a book, book a table, or just say hello</h2>
+      <p>Fill in the library card and a bookseller will reply within a day — usually with a recommendation you didn’t ask for.</p>
+      <dl>
+        <dt>Address</dt><dd>214 Larch Street, Millbrook</dd>
+        <dt>Email</dt><dd><a href="mailto:hello@example.com">hello@example.com</a></dd>
+        <dt>Phone</dt><dd><a href="tel:+15550142087">+1 555 014 2087</a></dd>
+      </dl>
+    </div>
+    <form class="card-form reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="f-topic">I’m writing about</label>
+        <select id="f-topic" name="topic"><option>Ordering a book</option><option>An event</option><option>Booking the reading room</option><option>Something else</option></select></div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Stamp &amp; send</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo"><span class="logo-mark" aria-hidden="true"></span>Dog-Eared Books</a>
+    <p style="margin:0">© <span id="year">2026</span> Dog-Eared Books. Read responsibly.</p>
+    <nav aria-label="Footer"><a href="#shelves">Shelves</a> <a href="#events">Events</a> <a href="#contact">Contact</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // mobile nav
+  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
+  function setMenu(open){ btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); list.classList.toggle('open', open); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  list.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // marquee pause button
+  var picks = document.querySelector('.picks'), pause = document.querySelector('.pause');
+  pause.addEventListener('click', function(){
+    var p = picks.classList.toggle('paused');
+    pause.setAttribute('aria-pressed', p); pause.textContent = p ? '▶' : '❚❚';
+    pause.setAttribute('aria-label', p ? 'Play staff picks' : 'Pause staff picks');
+  });
+
+  // touch: tap a cover to toggle open
+  document.querySelectorAll('.book').forEach(function(b){
+    b.addEventListener('keydown', function(e){ if (e.key === 'Escape') b.blur(); });
+  });
+
+  // reveals
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function(el){ el.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.08});
+    els.forEach(function(el, i){ el.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(el); });
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
