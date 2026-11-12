@@ -11,6 +11,7 @@ import { cyberSound } from '@/lib/sound';
 import MobileQRCodeModal from '@/components/MobileQRCodeModal';
 import CssTokensModal from '@/components/CssTokensModal';
 import SocialCardGeneratorModal from '@/components/SocialCardGeneratorModal';
+import PreviewToolsMenu, { type PreviewTool } from '@/components/preview/PreviewToolsMenu';
 import LighthouseAuditModal from '@/components/LighthouseAuditModal';
 import BloatTeardownModal from '@/components/BloatTeardownModal';
 import ComponentSniperModal from '@/components/ComponentSniperModal';
@@ -455,319 +456,116 @@ Deploy directly to Vercel, Netlify, or any static web host.
     ? codeLines.map((line, idx) => ({ line, idx, match: line.toLowerCase().includes(codeSearch.toLowerCase()) }))
     : codeLines.map((line, idx) => ({ line, idx, match: false }));
 
+  const previewTools: PreviewTool[] = [
+    { id: 'speed', icon: '⚡', label: 'Speed check', description: 'Typical load times, plus a link to a real Google PageSpeed audit.', onSelect: () => setShowLighthouseModal(true) },
+    { id: 'sniper', icon: '🎯', label: 'Copy a section', description: 'Grab the HTML of a single section, like the hero or pricing table.', onSelect: () => setShowSniperModal(true) },
+    { id: 'xray', icon: '📐', label: 'Layout X-ray', description: 'Outline every block to see how the page is built.', onSelect: () => setIsXRayActive(!isXRayActive), active: isXRayActive },
+    { id: 'frame', icon: '📱', label: '3D device frame', description: 'Show the preview inside a phone or laptop.', onSelect: () => setIs3DFrameActive(!is3DFrameActive), active: is3DFrameActive },
+    { id: 'vibe', icon: '🎲', label: 'Remix colours', description: 'Try a random colour and font mood on this template.', onSelect: handleRemixVibe },
+    { id: 'tokens', icon: '🎨', label: 'Colour variables', description: 'See and copy the CSS variables that control the colours.', onSelect: () => setShowCssTokensModal(true) },
+    { id: 'brand', icon: '🧬', label: 'Brand matcher', description: 'Match the template to an existing brand palette.', onSelect: () => setShowBrandClonerModal(true) },
+    { id: 'heatmap', icon: '🔥', label: 'Attention heatmap', description: 'A simulated view of where visitors look first.', onSelect: () => setShowHeatmapModal(true) },
+    { id: 'race', icon: '🏎️', label: 'Speed race', description: 'Compare load speed with a typical heavy website.', onSelect: () => setShowSpeedRaceModal(true) },
+    { id: 'bloat', icon: '⚖️', label: 'Size comparison', description: 'How this template compares to framework-based themes.', onSelect: () => setShowBloatModal(true) },
+    { id: 'qr', icon: '📲', label: 'Open on your phone', description: 'Scan a QR code to try the live preview on your phone.', onSelect: () => setShowQRModal(true) },
+  ];
+
   return (
-    <div className="border border-purple-500/25 rounded-2xl overflow-hidden bg-[#0a041b] shadow-2xl transition-all">
-      {/* Primary Tab Switcher Bar */}
-      <div className="bg-[#0e0624] px-3 sm:px-4 py-2 border-b border-purple-500/20 flex flex-wrap items-center justify-between gap-2.5">
-        <div className="flex items-center gap-1 bg-[#070314] p-1 rounded-xl border border-purple-500/25 overflow-x-auto hide-scrollbar max-w-full">
+    <div className="rounded-section border border-line overflow-hidden bg-surface">
+      {/* Mode tabs */}
+      <div className="px-2 sm:px-3 py-2 border-b border-line flex flex-wrap items-center justify-between gap-2 bg-raised/60">
+        <div role="tablist" aria-label="Preview mode" className="flex items-center gap-1 overflow-x-auto hide-scrollbar max-w-full">
           <button
+            type="button"
+            role="tab"
+            aria-selected={viewMode === 'preview'}
             onClick={() => setViewMode('preview')}
-            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-              viewMode === 'preview'
-                ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-[0_0_12px_rgba(168,85,247,0.4)]'
-                : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
+            className={`inline-flex items-center gap-1.5 min-h-11 px-3.5 rounded-control text-sm font-semibold whitespace-nowrap transition-colors ${
+              viewMode === 'preview' ? 'bg-primary text-white' : 'text-muted hover:text-ink hover:bg-white/5'
             }`}
           >
-            <span>👁️</span>
-            <span className="hidden xs:inline">Interactive </span>
-            <span>Viewport</span>
-            {appliedCustom && (
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Customized Store Active" />
-            )}
+            Preview
+            {appliedCustom && <span className="w-2 h-2 rounded-full bg-success" aria-label="Your edits are applied" />}
           </button>
-
-          {/* AUTO-EDIT STUDIO TAB */}
           <button
+            type="button"
+            role="tab"
+            aria-selected={viewMode === 'autoedit'}
             onClick={() => setViewMode('autoedit')}
-            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-              viewMode === 'autoedit'
-                ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(232,121,249,0.4)]'
-                : 'text-purple-300/70 hover:text-white hover:bg-[#1a0b3b]'
+            className={`inline-flex items-center gap-1.5 min-h-11 px-3.5 rounded-control text-sm font-semibold whitespace-nowrap transition-colors ${
+              viewMode === 'autoedit' ? 'bg-primary text-white' : 'text-muted hover:text-ink hover:bg-white/5'
             }`}
           >
-            <span>🪄</span>
-            <span>Auto-Edit</span>
-            {!hasAccess && (
-              <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                Try free
-              </span>
-            )}
+            Auto-Edit
+            {!hasAccess && <span className="text-[11px] px-1.5 py-0.5 rounded bg-success/15 text-success">Try free</span>}
           </button>
-
-          {/* CODE INSPECTOR TAB */}
           <button
+            type="button"
+            role="tab"
+            aria-selected={viewMode === 'code'}
             onClick={() => setViewMode('code')}
-            className={`px-2.5 sm:px-3 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
-              viewMode === 'code'
-                ? 'bg-zinc-800 text-white shadow-xs'
-                : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+            className={`inline-flex items-center gap-1.5 min-h-11 px-3.5 rounded-control text-sm font-semibold whitespace-nowrap transition-colors ${
+              viewMode === 'code' ? 'bg-primary text-white' : 'text-muted hover:text-ink hover:bg-white/5'
             }`}
           >
-            <span>{hasAccess ? '⟨/⟩' : '🔒'}</span>
-            <span className="hidden xs:inline">Source </span>
-            <span>Code</span>
-            {!hasAccess && (
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-mono">
-                Locked
-              </span>
-            )}
+            Code
+            {!hasAccess && <span aria-label="Locked" className="text-xs">🔒</span>}
           </button>
         </div>
 
-        {/* Viewport Top Right Actions */}
         {appliedCustom && viewMode === 'preview' && (
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-emerald-400 font-mono flex items-center gap-1">
-              <span>✓ Store Applied</span>
-            </span>
-            <button
-              onClick={handleResetAutoEdit}
-              className="text-xs text-zinc-400 hover:text-white px-2 py-1 rounded bg-zinc-900 border border-white/10"
-            >
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-success">✓ Your edits applied</span>
+            <button type="button" onClick={handleResetAutoEdit} className="min-h-11 px-3 rounded-control text-sm text-muted hover:text-ink hover:bg-white/5">
               Reset
             </button>
-            <button
-              onClick={handleDownloadCustomHtml}
-              className="text-xs font-semibold text-zinc-950 bg-white hover:bg-zinc-200 px-3 py-1 rounded-md"
-            >
+            <button type="button" onClick={handleDownloadCustomHtml} className="min-h-11 px-3.5 rounded-control text-sm font-semibold bg-primary text-white hover:bg-primary-hover">
               Download
             </button>
           </div>
         )}
       </div>
 
-      {/* Subheader Toolbar */}
+      {/* Preview toolbar: device switcher + tools */}
       {viewMode === 'preview' && (
-        <div className="bg-zinc-900/90 backdrop-blur-md px-3 sm:px-4 py-2.5 sm:py-3 border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-2.5">
-          {/* Left: Simulated URL */}
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="flex items-center gap-1.5 mr-1 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
-            </div>
-            <span className="text-[11px] font-mono text-zinc-400 truncate max-w-[140px] xs:max-w-xs bg-zinc-950 px-2.5 py-1 rounded-md border border-white/[0.06]">
-              {appliedCustom
-                ? `https://${storeData.storeName.toLowerCase().replace(/[^a-z0-9]/g, '')}.com`
-                : `https://templatehub.website/sandbox/${template.id}`}
-            </span>
-          </div>
-
-          {/* Center: Device Viewport Switcher */}
-          <div className="flex items-center bg-zinc-950 border border-white/10 rounded-lg p-1 gap-1">
+        <div className="px-2 sm:px-3 py-2 border-b border-line flex flex-wrap items-center justify-between gap-2">
+          <div role="group" aria-label="Device size" className="flex items-center gap-1">
             {(Object.keys(viewports) as ViewportMode[]).map((mode) => {
               const vp = viewports[mode];
               const isActive = viewport === mode;
-              const isDesktopOrMobile = mode === 'desktop' || mode === 'mobile';
               return (
                 <button
                   key={mode}
+                  type="button"
+                  aria-pressed={isActive}
+                  aria-label={`${vp.label} view`}
                   onClick={() => setViewport(mode)}
-                  className={`px-2 sm:px-2.5 py-1 text-xs font-semibold rounded-md transition-all items-center gap-1.5 ${
-                    isDesktopOrMobile ? 'flex' : 'hidden sm:flex'
-                  } ${
-                    isActive
-                      ? 'bg-zinc-800 text-white shadow-xs'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900'
+                  className={`${mode === 'desktop' || mode === 'mobile' ? 'inline-flex' : 'hidden sm:inline-flex'} items-center justify-center gap-1.5 min-h-11 min-w-11 px-2.5 rounded-control text-sm font-medium transition-colors ${
+                    isActive ? 'bg-white/10 text-ink' : 'text-muted hover:text-ink hover:bg-white/5'
                   }`}
-                  title={`Switch to ${vp.label} view (${vp.width})`}
                 >
-                  <span>{vp.icon}</span>
-                  <span className="hidden sm:inline">{vp.label}</span>
+                  <span aria-hidden="true">{vp.icon}</span>
+                  <span className="hidden md:inline">{vp.label}</span>
                 </button>
               );
             })}
           </div>
 
-          {/* Right Actions */}
-          <div className="flex flex-wrap items-center gap-1.5">
-            {/* Sniper Mode */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowSniperModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-purple-950/60 border-purple-500/30 text-purple-200 hover:text-white hover:bg-purple-900 transition-all flex items-center gap-1"
-              title="Sniper Mode: Extract Individual Components"
-            >
-              <span>🎯</span>
-              <span className="hidden xl:inline">Sniper</span>
-            </button>
-
-            {/* 100/100 Lighthouse Telemetry */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowLighthouseModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-emerald-950/60 border-emerald-500/30 text-emerald-300 hover:text-white hover:bg-emerald-900 transition-all flex items-center gap-1"
-              title="Speed check and PageSpeed Insights link"
-            >
-              <span>⚡</span>
-              <span className="hidden xl:inline">Speed</span>
-            </button>
-
-            {/* Blueprint X-Ray Architecture Mode */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setIsXRayActive(!isXRayActive);
-              }}
-              className={`px-2 py-1 text-xs font-semibold rounded-md border transition-all flex items-center gap-1 ${
-                isXRayActive
-                  ? 'bg-cyan-600 text-white border-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
-                  : 'bg-zinc-950 border-white/10 text-cyan-300 hover:text-white hover:bg-zinc-800'
-              }`}
-              title="Blueprint X-Ray: DOM Layout & Geometry Schematic"
-            >
-              <span>📐</span>
-              <span className="hidden xl:inline">X-Ray</span>
-            </button>
-
-            {/* Synthetic Heatmap */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowHeatmapModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-rose-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="Synthetic Eye-Tracking & Attention Heatmap"
-            >
-              <span>🔥</span>
-              <span className="hidden xl:inline">Heatmap</span>
-            </button>
-
-            {/* PageSpeed Drag Race */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowSpeedRaceModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-emerald-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="PageSpeed Live Drag Race Simulator"
-            >
-              <span>🏎️</span>
-              <span className="hidden xl:inline">Race</span>
-            </button>
-
-            {/* Brand Cloner */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowBrandClonerModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-purple-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="AI Brand & Palette Cloner"
-            >
-              <span>🧬</span>
-              <span className="hidden 2xl:inline">Brand Cloner</span>
-            </button>
-
-            {/* Teardown Benchmark */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowBloatModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="The Bloat Teardown Benchmark"
-            >
-              <span>⚖️</span>
-              <span className="hidden 2xl:inline">Teardown</span>
-            </button>
-
-            {/* Remix Vibe */}
-            <button
-              onClick={handleRemixVibe}
-              className="px-2.5 py-1 text-xs font-semibold rounded-md border bg-gradient-to-r from-purple-900/60 to-fuchsia-900/60 border-purple-500/40 text-fuchsia-200 hover:text-white transition-all flex items-center gap-1 active:scale-95"
-              title="Remix Theme Personality & Palette"
-            >
-              <span>🎲</span>
-              <span className="hidden lg:inline">Remix Vibe</span>
-            </button>
-
-            {/* WCAG Accessibility Vision Lens */}
-            <div className="flex items-center gap-1 bg-zinc-950 px-2 py-1 rounded-md border border-white/10 text-xs">
-              <span title="Accessibility Color Blindness Lens">👁️</span>
-              <select
-                value={visionFilter}
-                onChange={(e) => {
-                  cyberSound.playClick();
-                  setVisionFilter(e.target.value as any);
-                }}
-                className="bg-transparent text-[11px] text-zinc-300 font-mono focus:outline-none cursor-pointer max-w-[90px] xs:max-w-none"
-                title="Simulate Color Vision Deficiencies (WCAG AAA)"
-              >
-                {Object.entries(VISION_FILTERS).map(([key, item]) => (
-                  <option key={key} value={key} className="bg-[#0e0624] text-white">
-                    {item.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* 3D Hardware Frame Switcher */}
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setIs3DFrameActive(!is3DFrameActive);
-              }}
-              className={`px-2.5 py-1 text-xs font-semibold rounded-md border transition-all flex items-center gap-1 ${
-                is3DFrameActive
-                  ? 'bg-gradient-to-r from-purple-600 to-violet-600 text-white border-purple-400 shadow-[0_0_12px_rgba(168,85,247,0.4)]'
-                  : 'bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800'
-              }`}
-              title="Toggle 3D Hardware Frame with Parallax Tilt"
-            >
-              <span>📱</span>
-              <span className="hidden sm:inline">3D Frame</span>
-            </button>
-
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowQRModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="Scan QR to test on phone"
-            >
-              <span>📲</span>
-              <span className="hidden 2xl:inline">QR</span>
-            </button>
-
-            <button
-              onClick={() => {
-                cyberSound.playClick();
-                setShowCssTokensModal(true);
-              }}
-              className="px-2 py-1 text-xs font-semibold rounded-md border bg-zinc-950 border-white/10 text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all flex items-center gap-1"
-              title="Inspect CSS Design Tokens"
-            >
-              <span>🎨</span>
-              <span className="hidden 2xl:inline">Tokens</span>
-            </button>
-
-            <a
-              href="https://vercel.com/new"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => cyberSound.playClick()}
-              className="hidden 2xl:flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-black hover:bg-zinc-900 border border-white/20 text-white transition-all"
-              title="1-Click Deploy on Vercel"
-            >
-              <span>▲</span>
-              <span>Deploy</span>
-            </a>
-
+          <div className="flex items-center gap-2">
+            <PreviewToolsMenu
+              tools={previewTools}
+              vision={{ value: visionFilter, options: VISION_FILTERS, onChange: (v) => setVisionFilter(v as typeof visionFilter) }}
+            />
             {!appliedCustom && (
               <a
                 href={template.livePreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => cyberSound.playClick()}
-                className="text-xs text-zinc-300 hover:text-white px-2 py-1 rounded-md bg-zinc-950 border border-white/10 hover:bg-zinc-800 flex items-center gap-1 font-medium transition-colors"
+                aria-label="Open the live preview in a new tab"
+                className="inline-flex items-center justify-center gap-1.5 min-h-11 min-w-11 px-3 rounded-control bg-surface border border-line text-sm font-medium text-ink hover:border-line-strong"
               >
-                <span>↗</span>
+                <span aria-hidden="true">↗</span>
+                <span className="hidden sm:inline">Open</span>
               </a>
             )}
           </div>
@@ -824,7 +622,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
             <span>{isIframeInteractive ? '🎮 Sandbox Touch Active' : '📜 Scroll Mode Active'}</span>
             <button
               onClick={() => setIsIframeInteractive(!isIframeInteractive)}
-              className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
+              className={`min-h-11 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all ${
                 isIframeInteractive
                   ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                   : 'bg-purple-600 text-white shadow-xs'

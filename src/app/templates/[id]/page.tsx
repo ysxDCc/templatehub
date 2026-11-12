@@ -9,6 +9,7 @@ import ReviewsSection from '@/components/ReviewsSection';
 import MasterBundleDownloadButton from '@/components/MasterBundleDownloadButton';
 import TemplateLogo from '@/components/TemplateLogo';
 import { SITE_URL } from '@/lib/site';
+import Badge from '@/components/ui/Badge';
 
 // Pre-render every template page at build time for instant loads.
 export function generateStaticParams() {
@@ -61,11 +62,6 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
     notFound();
   }
 
-  const tierBadgeColor = 
-    template.tier === 'free' ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' :
-    template.tier === 'basic' ? 'bg-purple-900/50 text-purple-200 border-purple-500/30' :
-    template.tier === 'pro' ? 'bg-fuchsia-900/50 text-fuchsia-200 border-fuchsia-500/40 shadow-[0_0_8px_rgba(232,121,249,0.3)]' :
-    'bg-amber-500/15 text-amber-300 border-amber-500/30';
 
   const schemaJsonLd = {
     '@context': 'https://schema.org',
@@ -117,224 +113,150 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
   };
 
   return (
-    <div className="bg-[#070314] min-h-screen py-10 text-purple-100">
-      {/* Schema.org Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }}
-      />
+    <div className="pb-28 lg:pb-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }} />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 pt-4 text-sm text-muted">
+          <Link href="/templates" className="inline-flex items-center min-h-11 hover:text-ink">Templates</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={`/templates?category=${template.category}`} className="inline-flex items-center min-h-11 capitalize hover:text-ink">
+            {template.category.replace(/-/g, ' ')}
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-ink truncate max-w-[50vw]" aria-current="page">{template.name}</span>
+        </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Breadcrumb nav */}
-        <div className="flex items-center text-xs text-purple-400/80 mb-8 gap-2 font-mono">
-          <Link href="/templates" className="hover:text-purple-200 transition-colors">Templates</Link>
-          <span>/</span>
-          <span className="capitalize text-purple-300">{template.category}</span>
-          <span>/</span>
-          <span className="text-white font-semibold">{template.name}</span>
-        </div>
+        <header className="pt-2 pb-6">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <Badge tone={template.tier}>{template.tier}</Badge>
+            <span className="text-sm text-muted">
+              <span className="text-amber-300">★ {template.rating.toFixed(1)}</span> · {template.downloads.toLocaleString()} downloads
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <TemplateLogo template={template} size={40} />
+            <h1 className="text-[32px] leading-tight sm:text-5xl font-bold tracking-tight text-ink">{template.name}</h1>
+          </div>
+          <p className="mt-3 text-base md:text-lg text-muted leading-relaxed max-w-3xl">{template.description}</p>
+        </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-          
-          {/* Main Area (8 cols) */}
-          <div className="lg:col-span-8 space-y-10">
-            
-            {/* Header info */}
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-3">
-                <span className={`px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider rounded-md border ${tierBadgeColor}`}>
-                  {template.tier} tier
-                </span>
-                <span className="text-[11px] text-purple-300 font-mono uppercase bg-[#0e0624] border border-purple-500/25 px-2 py-0.5 rounded-md">
-                  {template.category}
-                </span>
-                <span className="text-xs text-purple-400/70 ml-auto font-mono">
-                  Release: {template.createdAt}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3 mb-3">
-                <TemplateLogo template={template} size={40} />
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-                  {template.name}
-                </h1>
-              </div>
-
-              <p className="text-sm sm:text-base text-purple-200/80 leading-relaxed max-w-2xl">
-                {template.description}
-              </p>
-            </div>
-
-            {/* In-Browser Interactive Responsive Sandbox Frame with Viewport Switcher, Auto-Editor & Code Inspector */}
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0 space-y-10">
             {template.livePreviewUrl !== '#' ? (
               <InteractivePreviewFrame template={template} />
             ) : (
-              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-purple-500/25 bg-[#070314]">
-                <Image
-                  src={template.previewImage}
-                  alt={template.name}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
+              <div className="relative aspect-[16/10] w-full rounded-section overflow-hidden border border-line bg-bg">
+                <Image src={template.previewImage} alt={`${template.name} preview`} fill className="object-cover" sizes="(min-width:1024px) 760px, 100vw" />
               </div>
             )}
 
-            {/* Specifications & Features */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-purple-500/20">
+            <section aria-labelledby="features-title" className="grid gap-8 md:grid-cols-2">
               <div>
-                <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 font-mono">
-                  Included Features
-                </h3>
-                <ul className="space-y-2.5 text-xs text-purple-200/90">
-                  {template.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <svg className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <h2 id="features-title" className="text-lg font-semibold text-ink mb-3">What&apos;s included</h2>
+                <ul className="space-y-2.5 text-[15px] text-ink/90">
+                  {template.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-2.5">
+                      <svg aria-hidden="true" className="w-5 h-5 text-lilac shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-
               <div>
-                <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 font-mono">
-                  Tech Specs &amp; Tags
-                </h3>
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {template.tags.map(tag => (
-                    <span key={tag} className="px-2.5 py-1 bg-[#0e0624] border border-purple-500/25 rounded-md text-[11px] text-purple-300 font-mono">
-                      #{tag}
-                    </span>
+                <h2 className="text-lg font-semibold text-ink mb-3">Details</h2>
+                <dl className="divide-y divide-line border-y border-line text-[15px]">
+                  <div className="flex justify-between gap-4 py-3"><dt className="text-muted">Format</dt><dd className="text-ink">HTML + CSS</dd></div>
+                  <div className="flex justify-between gap-4 py-3"><dt className="text-muted">Dependencies</dt><dd className="text-ink">None</dd></div>
+                  <div className="flex justify-between gap-4 py-3"><dt className="text-muted">Plan</dt><dd className="text-ink capitalize">{template.tier}</dd></div>
+                  <div className="flex justify-between gap-4 py-3">
+                    <dt className="text-muted">Licence</dt>
+                    <dd><Link href="/licensing" className="inline-flex items-center min-h-11 -my-3 text-lilac underline underline-offset-4">Depends on your plan</Link></dd>
+                  </div>
+                </dl>
+                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tags">
+                  {template.tags.map((tag) => (
+                    <li key={tag} className="px-2.5 py-1 rounded-md bg-surface border border-line text-xs text-muted">{tag}</li>
                   ))}
-                </div>
-
-                <div className="text-xs text-purple-200/70 space-y-2 pt-4 border-t border-purple-500/20">
-                  <div className="flex justify-between">
-                    <span>Dependencies:</span>
-                    <span className="text-white font-medium">Zero (Standalone HTML/CSS)</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>License:</span>
-                    <span className="text-white font-medium">Commercial &amp; Personal</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Format:</span>
-                    <span className="text-white font-medium">HTML5 + Embedded Styles</span>
-                  </div>
-                </div>
+                </ul>
               </div>
-            </div>
+            </section>
 
-            {/* Verified Community Reviews Section */}
-            <ReviewsSection
-              templateId={template.id}
-              templateName={template.name}
-              initialRating={template.rating}
-            />
+            <ReviewsSection templateId={template.id} templateName={template.name} initialRating={template.rating} />
           </div>
 
-          {/* Sidebar CTA Area (4 cols) */}
-          <div className="lg:col-span-4">
-            <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-6 sticky top-24 space-y-5 shadow-2xl">
-              
-              {/* Metric counters */}
-              <div className="grid grid-cols-2 gap-4 pb-5 border-b border-purple-500/20">
-                <div>
-                  <div className="text-xl font-bold text-white">★ {template.rating.toFixed(1)}</div>
-                  <div className="text-[11px] text-purple-400/80 mt-0.5">Community rating</div>
-                </div>
-                <div>
-                  <div className="text-xl font-bold text-white">{(template.downloads).toLocaleString()}</div>
-                  <div className="text-[11px] text-purple-400/80 mt-0.5">Total downloads</div>
-                </div>
+          <aside id="get" aria-label="Get this template" className="scroll-mt-24">
+            <div className="lg:sticky lg:top-24 rounded-section border border-line bg-surface p-5 space-y-4">
+              <div>
+                <p className="text-sm text-muted">Included with</p>
+                <p className="text-xl font-semibold text-ink">{template.tier === 'free' ? 'Free account' : `${template.tier.charAt(0).toUpperCase()}${template.tier.slice(1)} plan or higher`}</p>
               </div>
 
-              {/* Action buttons */}
               <div className="space-y-2.5">
-                {/* 1-Off Lifetime Buy (€9) */}
-                <SinglePurchaseButton
-                  templateId={template.id}
-                  templateName={template.name}
-                />
-
-                <Link
-                  href={`/builder?template=${template.id}`}
-                  className="w-full bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.35)] hover:scale-[1.01]"
-                >
-                  <span>✏️</span>
-                  <span>Customize in No-Code Editor</span>
-                </Link>
-
-                <DownloadButton template={template} />
-
-                {template.livePreviewUrl !== '#' && (
-                  <a
-                    href={template.livePreviewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-[#070314] hover:bg-[#1a0b3b] text-purple-200 hover:text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 border border-purple-500/30"
-                  >
-                    Open live preview ↗
-                  </a>
+                {template.tier === 'free' ? (
+                  <DownloadButton template={template} />
+                ) : (
+                  <>
+                    {template.tier === 'enterprise' ? (
+                      <Link
+                        href="/checkout/start?plan=enterprise"
+                        className="flex flex-col items-center justify-center min-h-12 px-4 py-2 rounded-control bg-primary hover:bg-primary-hover text-white font-semibold text-center"
+                      >
+                        Get it with Enterprise
+                        <span className="text-xs font-normal text-white/85">All templates incl. Enterprise · €29.99/month</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/checkout/start?plan=pro"
+                        className="flex flex-col items-center justify-center min-h-12 px-4 py-2 rounded-control bg-primary hover:bg-primary-hover text-white font-semibold text-center"
+                      >
+                        Get it with Pro — 3 days free
+                        <span className="text-xs font-normal text-white/85">Then €10/month · cancel anytime</span>
+                      </Link>
+                    )}
+                    <SinglePurchaseButton templateId={template.id} templateName={template.name} />
+                    <DownloadButton template={template} />
+                  </>
                 )}
+                <Link
+                  href={`/studio?template=${template.id}`}
+                  className="flex items-center justify-center gap-2 min-h-12 px-4 rounded-control bg-raised border border-line text-ink font-semibold hover:border-line-strong"
+                >
+                  <span aria-hidden="true">🪄</span> Edit in Studio — free to try
+                </Link>
               </div>
 
-              {/* Quick Deploy Options */}
-              <div className="pt-4 border-t border-purple-500/20">
-                <span className="text-[11px] text-purple-400 font-mono block mb-2 font-semibold">
-                  1-Click Cloud Deployment:
-                </span>
+              <div className="pt-4 border-t border-line">
+                <p className="text-sm text-muted mb-2">Publish in minutes</p>
                 <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href="https://vercel.com/new"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-black hover:bg-zinc-900 border border-white/20 text-white text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors"
-                  >
-                    <span>▲</span>
-                    <span>Vercel</span>
+                  <a href="https://app.netlify.com/drop" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center min-h-11 rounded-control bg-bg border border-line text-sm text-ink hover:border-line-strong">
+                    Netlify Drop ↗
                   </a>
-                  <a
-                    href="https://app.netlify.com/drop"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-xl bg-[#00ad9f]/15 hover:bg-[#00ad9f]/25 border border-[#00ad9f]/40 text-[#2eeadc] text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-colors"
-                  >
-                    <span>◆</span>
-                    <span>Netlify</span>
+                  <a href="https://vercel.com/new" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center min-h-11 rounded-control bg-bg border border-line text-sm text-ink hover:border-line-strong">
+                    Vercel ↗
                   </a>
                 </div>
               </div>
 
-              {/* Agency Master Pack Bulk Download */}
-              <div className="pt-4 border-t border-purple-500/20">
-                <span className="text-[11px] text-purple-400 font-mono block mb-2 font-semibold">
-                  Agency Benefit:
-                </span>
+              <div className="pt-4 border-t border-line">
                 <MasterBundleDownloadButton />
               </div>
-
-              {/* Plan note */}
-              <div className="pt-4 border-t border-purple-500/20 text-xs text-purple-200/70 space-y-2">
-                <div className="flex items-center gap-2 text-purple-200 font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>Included with {template.tier.toUpperCase()} subscription</span>
-                </div>
-                <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/25 text-[11px] text-purple-200 leading-relaxed">
-                  <span className="font-bold text-white">🪄 Auto-Edit Studio:</span> Pre-load realistic industry presets with 1 click in the Auto-Edit tab to customize this template for your business.
-                </div>
-                <p className="text-[11px] leading-relaxed text-purple-300/60">
-                  {template.tier === 'free' 
-                    ? 'Free to download for registered users.' 
-                    : `Buy individual license for €9 or unlock all templates with Pro (€10/mo).`}
-                </p>
-              </div>
             </div>
-          </div>
+          </aside>
+        </div>
+      </div>
 
+      {/* Phone & tablet: sticky buy bar (sits above the bottom tab bar on phones) */}
+      <div className="lg:hidden fixed inset-x-0 z-30 bottom-[calc(56px+env(safe-area-inset-bottom))] md:bottom-0 border-t border-line bg-raised/95 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-ink truncate">{template.name}</p>
+            <p className="text-xs text-muted">{template.tier === 'free' ? 'Free with an account' : template.tier === 'enterprise' ? '€9 once, or with Enterprise' : '€9 once, or with Pro'}</p>
+          </div>
+          <a href="#get" className="shrink-0 inline-flex items-center min-h-11 px-5 rounded-control bg-primary hover:bg-primary-hover text-white text-sm font-semibold">
+            {template.tier === 'free' ? 'Download' : 'Get it'}
+          </a>
         </div>
       </div>
     </div>

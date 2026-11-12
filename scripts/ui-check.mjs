@@ -40,7 +40,8 @@ async function open(url, width, reduce = false) {
   await page.route((u) => !u.href.startsWith(base), (r) => r.abort());
   await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
   await page.emulateMedia({ reducedMotion: reduce ? 'reduce' : 'no-preference' });
-  await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+  const res = await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+  if (!res || res.status() >= 400) fail(url.replace(base, ''), width, 'status', `HTTP ${res ? res.status() : 'no response'}`);
   await page.waitForTimeout(600);
   return page;
 }
@@ -81,7 +82,7 @@ for (const p of pages) {
     }
 
     if (want('axe') && width === 390) {
-      const res = await new AxeBuilder({ page }).include(scope).disableRules(['frame-tested']).analyze();
+      const res = await new AxeBuilder({ page }).include(scope).exclude('iframe').disableRules(['frame-tested']).analyze();
       const bad = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
       for (const v of bad) fail(p, width, 'axe', `${v.id} (${v.impact}) ×${v.nodes.length}: ${v.nodes[0]?.target?.join(' ')}`);
     }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { getEntitlement } from '@/lib/entitlement';
+import { accessibleTemplates } from '@/lib/auth-tier';
 import { readTemplateHtml } from '@/lib/template-source';
 import { templates } from '@/data/templates';
 import { createZipArchive, ZipFileEntry } from '@/lib/zip';
@@ -22,7 +23,7 @@ export async function GET(req: Request) {
     if (userSubscription !== 'pro' && userSubscription !== 'enterprise') {
       return NextResponse.json(
         {
-          error: `The Complete ${templates.length}-Template Master Pack is an exclusive benefit for Pro & Enterprise members.`,
+          error: 'The all-templates bundle is included with Pro and Enterprise.',
           requiresUpgrade: true,
           currentTier: userSubscription,
         },
@@ -33,7 +34,9 @@ export async function GET(req: Request) {
     const zipEntries: ZipFileEntry[] = [];
 
     // Collect all template HTML files categorized by folder
-    for (const t of templates) {
+    // Only the templates this plan covers (Pro must not receive Enterprise-only templates).
+    const included = accessibleTemplates(userSubscription, templates);
+    for (const t of included) {
       const htmlContent =
         (await readTemplateHtml(t.id)) ??
         `<!DOCTYPE html><html><body><h1>${t.name}</h1><p>${t.description}</p></body></html>`;
@@ -53,7 +56,6 @@ ${t.description}
 - Tier: ${t.tier.toUpperCase()}
 - Category: ${t.category}
 - Accessibility Rating: ${t.accessibilityScore || 'AA'}
-- Commercial Agency License: ACTIVE
 `,
       });
     }
@@ -63,11 +65,11 @@ ${t.description}
       path: 'master-catalog.json',
       content: JSON.stringify(
         {
-          packName: 'TemplateHub — all templates',
-          totalTemplates: templates.length,
+          packName: `TemplateHub — ${userSubscription} plan templates`,
+          totalTemplates: included.length,
           exportedAt: new Date().toISOString(),
           tier: userSubscription,
-          templates: templates.map((t) => ({
+          templates: included.map((t) => ({
             id: t.id,
             name: t.name,
             category: t.category,
@@ -85,12 +87,12 @@ ${t.description}
     zipEntries.push({
       path: 'README.md',
       content: `# TemplateHub Sovereign Agency Master Archive
-${templates.length} Zero-Dependency Production Web Templates
+${included.length} website templates included with your ${userSubscription} plan
 
 Thank you for being a ${userSubscription.toUpperCase()} subscriber!
 
 ## Structure
-All ${templates.length} templates are categorized into folders matching their industry:
+All ${included.length} templates are sorted into folders matching their industry:
 - /saas/
 - /ecommerce/
 - /portfolios/

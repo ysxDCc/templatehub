@@ -126,7 +126,7 @@ export default function ReviewsSection({
                 <span key={i}>★</span>
               ))}
             </div>
-            <div className="text-[11px] text-purple-300/70 mt-1 font-mono">
+            <div className="text-xs text-muted mt-1 font-mono">
               {totalReviews} Verified Review{totalReviews === 1 ? '' : 's'}
             </div>
           </div>
@@ -134,8 +134,8 @@ export default function ReviewsSection({
           {/* Breakdown bars */}
           <div className="space-y-1.5 min-w-[180px] xs:min-w-[220px]">
             {breakdownCounts.map(({ stars, count, pct }) => (
-              <div key={stars} className="flex items-center gap-2 text-xs">
-                <span className="w-6 text-[11px] text-purple-300 font-mono">
+              <div key={stars} className="flex items-center gap-2 text-sm">
+                <span className="w-6 text-xs text-purple-300 font-mono">
                   {stars}★
                 </span>
                 <div className="flex-1 h-2 bg-[#070314] rounded-full overflow-hidden border border-purple-500/20">
@@ -160,7 +160,7 @@ export default function ReviewsSection({
                 cyberSound.playClick();
                 setIsFormOpen(!isFormOpen);
               }}
-              className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-[0_0_15px_rgba(168,85,247,0.35)] transition-all flex items-center justify-center gap-2"
+              className="w-full md:w-auto px-5 min-h-11 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm shadow-[0_0_15px_rgba(168,85,247,0.35)] transition-all flex items-center justify-center gap-2"
             >
               <span>✍️</span>
               <span>{isFormOpen ? 'Close Review Form' : 'Write Verified Review'}</span>
@@ -168,7 +168,7 @@ export default function ReviewsSection({
           ) : (
             <Link
               href="/login"
-              className="w-full md:w-auto px-5 py-2.5 rounded-xl bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 text-xs font-semibold transition-all flex items-center justify-center gap-2"
+              className="w-full md:w-auto px-5 min-h-11 py-2.5 rounded-xl bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 text-sm font-semibold transition-all flex items-center justify-center gap-2"
             >
               <span>🔒 Sign In to Leave Review</span>
             </Link>
@@ -177,7 +177,7 @@ export default function ReviewsSection({
       </div>
 
       {submitSuccess && (
-        <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-2 animate-in fade-in">
+        <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-sm font-medium flex items-center gap-2 animate-in fade-in">
           <span>✓</span>
           <span>Thank you! Your verified review has been published to {templateName}.</span>
         </div>
@@ -194,14 +194,14 @@ export default function ReviewsSection({
               <span>✍️</span>
               <span>Reviewing {templateName}</span>
             </h4>
-            <span className="text-[11px] text-purple-300 font-mono">
+            <span className="text-xs text-purple-300 font-mono">
               Posting as {user.firstName || user.emailAddresses[0]?.emailAddress}
             </span>
           </div>
 
           {/* Interactive Star Picker */}
           <div>
-            <label className="block text-xs font-semibold text-purple-300 mb-1.5">
+            <label className="block text-sm font-semibold text-purple-300 mb-1.5">
               Overall Rating
             </label>
             <div className="flex items-center gap-2">
@@ -225,14 +225,14 @@ export default function ReviewsSection({
                   </button>
                 );
               })}
-              <span className="text-xs font-mono text-purple-300/80 ml-2">
+              <span className="text-sm font-mono text-muted ml-2">
                 {selectedRating} of 5 Stars
               </span>
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-purple-300 mb-1">
+            <label className="block text-sm font-semibold text-purple-300 mb-1">
               Headline
             </label>
             <input
@@ -240,13 +240,13 @@ export default function ReviewsSection({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Cut 3 weeks off our agency launch sprint"
-              className="w-full bg-[#070314] border border-purple-500/30 rounded-xl px-3.5 py-2 text-xs text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400"
+              className="w-full bg-[#070314] border border-purple-500/30 rounded-xl px-3.5 min-h-11 py-2 text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-purple-300 mb-1">
+            <label className="block text-sm font-semibold text-purple-300 mb-1">
               Detailed Experience &amp; Performance
             </label>
             <textarea
@@ -254,13 +254,13 @@ export default function ReviewsSection({
               onChange={(e) => setComment(e.target.value)}
               rows={3}
               placeholder="How did this template perform on mobile? How was the code structure and ease of customization?"
-              className="w-full bg-[#070314] border border-purple-500/30 rounded-xl p-3 text-xs text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400 resize-none"
+              className="w-full bg-[#070314] border border-purple-500/30 rounded-xl p-3 text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400 resize-none"
               required
             />
           </div>
 
           {error && (
-            <div className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/30 p-2.5 rounded-xl">
+            <div className="text-sm text-rose-400 bg-rose-500/10 border border-rose-500/30 p-2.5 rounded-xl">
               {error}
             </div>
           )}
@@ -269,14 +269,14 @@ export default function ReviewsSection({
             <button
               type="button"
               onClick={() => setIsFormOpen(false)}
-              className="px-4 py-2 rounded-xl text-xs text-purple-300 hover:text-white"
+              className="px-4 min-h-11 py-2 rounded-xl text-sm text-purple-300 hover:text-white"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-bold text-xs shadow-md transition-all disabled:opacity-60"
+              className="px-5 min-h-11 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-bold text-sm shadow-md transition-all disabled:opacity-60"
             >
               {submitting ? 'Publishing…' : 'Publish Review'}
             </button>
@@ -287,11 +287,11 @@ export default function ReviewsSection({
       {/* Reviews List */}
       <div className="space-y-4">
         {loading ? (
-          <div className="py-8 text-center text-xs text-purple-400 font-mono">
+          <div className="py-8 text-center text-sm text-purple-400 font-mono">
             Loading verified reviews…
           </div>
         ) : reviews.length === 0 ? (
-          <div className="text-center py-8 text-xs text-purple-300/70 bg-[#0d0622] rounded-2xl border border-purple-500/20">
+          <div className="text-center py-8 text-sm text-muted bg-[#0d0622] rounded-2xl border border-purple-500/20">
             No reviews yet. Be the first verified customer to review this template!
           </div>
         ) : (
@@ -304,7 +304,7 @@ export default function ReviewsSection({
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-violet-800 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-violet-800 text-white font-bold text-sm flex items-center justify-center shrink-0">
                       {rev.authorAvatar ? (
                         <img
                           src={rev.authorAvatar}
@@ -317,7 +317,7 @@ export default function ReviewsSection({
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-white">
+                        <span className="text-sm font-bold text-white">
                           {rev.authorName}
                         </span>
                         {rev.verifiedBuyer && (
@@ -327,41 +327,41 @@ export default function ReviewsSection({
                           </span>
                         )}
                       </div>
-                      <div className="text-[10px] text-purple-400/70 font-mono">
+                      <div className="text-[10px] text-muted font-mono">
                         {rev.authorRole}
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="flex text-amber-400 text-xs">
+                    <div className="flex text-amber-400 text-sm">
                       {[1, 2, 3, 4, 5].map((s) => (
                         <span key={s}>{s <= rev.rating ? '★' : '☆'}</span>
                       ))}
                     </div>
-                    <span className="text-[11px] text-purple-400/60 font-mono">
+                    <span className="text-xs text-muted font-mono">
                       {rev.createdAt}
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <h5 className="text-xs font-bold text-white mb-1">
+                  <h5 className="text-sm font-bold text-white mb-1">
                     {rev.title}
                   </h5>
-                  <p className="text-xs text-purple-200/80 leading-relaxed">
+                  <p className="text-sm text-purple-200/80 leading-relaxed">
                     {rev.comment}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-purple-500/15 text-[11px] text-purple-400/70">
+                <div className="flex items-center justify-between pt-2 border-t border-purple-500/15 text-xs text-muted">
                   <span className="font-mono">
                     Zero bloat verified
                   </span>
 
                   <button
                     onClick={() => handleVoteHelpful(rev.id)}
-                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[11px] transition-all ${
+                    className={`flex items-center gap-1.5 min-h-11 px-3 py-1 rounded-lg border text-xs transition-all ${
                       hasVoted
                         ? 'bg-purple-600/25 border-purple-400 text-white font-semibold'
                         : 'bg-[#070314] border-purple-500/20 text-purple-300 hover:text-white hover:bg-[#1a0b3b]'

@@ -54,7 +54,7 @@ export const pricingPlans: PricingPlan[] = [
     trialDays: 3,
     description: '3 days free, then €10/month. Cancel before the trial ends and you pay nothing.',
     features: [
-      'Every template, unlimited downloads',
+      'All Free, Basic & Pro templates, unlimited downloads',
       'Full source + JSX / Vue / Astro export',
       'Auto-Edit Studio on every template',
       'All-templates ZIP bundle',
@@ -72,6 +72,7 @@ export const pricingPlans: PricingPlan[] = [
     description: 'For agencies building sites for many clients.',
     features: [
       'Everything in Pro',
+      'Enterprise-only templates',
       'Figma source files & design tokens',
       'Licence: unlimited client projects for your agency',
       'Custom template requests',

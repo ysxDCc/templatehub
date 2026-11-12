@@ -24,7 +24,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
     return (
       <button
         disabled
-        className="w-full bg-zinc-800 text-zinc-500 font-semibold py-2.5 px-4 rounded-lg text-xs flex items-center justify-center gap-2 cursor-not-allowed"
+        className="w-full bg-zinc-800 text-zinc-500 font-semibold min-h-11 py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2 cursor-not-allowed"
       >
         <span>Loading…</span>
       </button>
@@ -36,7 +36,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
     return (
       <button
         onClick={() => router.push('/signup')}
-        className="w-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
+        className="w-full bg-white hover:bg-zinc-200 text-zinc-950 font-semibold min-h-11 py-2.5 px-4 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 shadow-xs"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -103,14 +103,14 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
       <div className="space-y-2">
         <button
           onClick={() => router.push('/#pricing')}
-          className="w-full bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold py-2.5 px-4 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-xs"
+          className="w-full bg-amber-500 hover:bg-amber-400 text-zinc-950 font-semibold min-h-11 py-2.5 px-4 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 shadow-xs"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
           <span>Upgrade to {upgradeMessage.tier.toUpperCase()} plan to download</span>
         </button>
-        <p className="text-[11px] text-zinc-500 text-center">
+        <p className="text-xs text-zinc-500 text-center">
           This template requires a{' '}
           <a href="/#pricing" className="text-amber-400 hover:underline">
             {upgradeMessage.tier} subscription
@@ -124,7 +124,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
   return (
     <div className="space-y-2">
       {isProOrHigher && (
-        <div className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-[11px] font-mono">
+        <div className="flex items-center justify-between px-3 min-h-11 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
           <span className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="font-bold">PRO ACCESS ACTIVE</span>
@@ -138,7 +138,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
         <button
           onClick={() => handleDownload('html')}
           disabled={loadingHtml || loadingZip}
-          className="bg-white hover:bg-zinc-200 text-zinc-950 font-semibold py-2.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50"
+          className="bg-white hover:bg-zinc-200 text-zinc-950 font-semibold min-h-11 py-2.5 px-3 rounded-lg text-sm transition-all flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50"
           title="Download single-file standalone HTML"
         >
           {loadingHtml ? (
@@ -157,7 +157,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
         <button
           onClick={() => handleDownload('zip')}
           disabled={loadingHtml || loadingZip}
-          className="bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-bold py-2.5 px-3 rounded-lg text-xs transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.35)] disabled:opacity-50"
+          className="bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-bold min-h-11 py-2.5 px-3 rounded-lg text-sm transition-all flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(168,85,247,0.35)] disabled:opacity-50"
           title="Export complete package with README, License, and Configs (.zip)"
         >
           {loadingZip ? (

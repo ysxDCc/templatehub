@@ -5,7 +5,6 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { cyberSound } from '@/lib/sound';
 import type { SubscriptionTier } from '@/types';
-import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface MasterBundleDownloadButtonProps {
   className?: string;
@@ -28,7 +27,7 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
 
     const tier = (user?.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
     if (tier !== 'pro' && tier !== 'enterprise') {
-      setErrorMessage(`The ${TEMPLATE_COUNT}-template bundle is included with Pro and Enterprise.`);
+      setErrorMessage('The all-templates bundle is included with Pro and Enterprise.');
       return;
     }
 
@@ -52,7 +51,7 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `TemplateHub-${TEMPLATE_COUNT}-Template-Bundle.zip`;
+        a.download = 'TemplateHub-Templates.zip';
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -73,18 +72,18 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
       <button
         onClick={handleDownloadMasterBundle}
         disabled={downloading}
-        className={`py-3 px-5 rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:via-fuchsia-500 hover:to-pink-500 text-white font-bold text-xs shadow-[0_0_25px_rgba(232,121,249,0.35)] transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
+        className={`py-3 px-5 rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:via-fuchsia-500 hover:to-pink-500 text-white font-bold text-sm shadow-[0_0_25px_rgba(232,121,249,0.35)] transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
       >
         <span className="text-sm">📦</span>
         <span>
           {downloading
-            ? `Packing ${TEMPLATE_COUNT} templates (ZIP)…`
-            : `Download all ${TEMPLATE_COUNT} templates (ZIP)`}
+            ? 'Packing your templates (ZIP)…'
+            : 'Download all your plan’s templates (ZIP)'}
         </span>
       </button>
 
       {errorMessage && (
-        <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs text-center flex items-center justify-center gap-2">
+        <div className="p-2.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-sm text-center flex items-center justify-center gap-2">
           <span>⚠️</span>
           <span>{errorMessage}</span>
           <a href="/#pricing" className="underline font-bold hover:text-white">
