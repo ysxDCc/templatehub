@@ -497,7 +497,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
             }`}
           >
             Auto-Edit
-            {!hasAccess && <span className="text-[11px] px-1.5 py-0.5 rounded bg-success/15 text-success">Try free</span>}
+            {!hasAccess && <span className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-200">Try free</span>}
           </button>
           <button
             type="button"
@@ -574,9 +574,9 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
       {/* Optional Theme Tokens Drawer in Preview Mode */}
       {viewMode === 'preview' && isDrawerOpen && (
-        <div className="bg-zinc-900/95 border-b border-white/[0.08] px-4 py-3 flex flex-wrap items-center justify-between gap-4 text-xs">
+        <div className="bg-surface border-b border-white/[0.08] px-4 py-3 flex flex-wrap items-center justify-between gap-4 text-xs">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="font-semibold text-zinc-300">Live Brand Palette:</span>
+            <span className="font-semibold text-ink/90">Live Brand Palette:</span>
             <div className="flex items-center gap-1.5">
               {colorPresets.map((p) => (
                 <button
@@ -593,9 +593,9 @@ Deploy directly to Vercel, Netlify, or any static web host.
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-zinc-400">
+          <div className="flex items-center gap-2 text-muted">
             <span>Token:</span>
-            <code className="bg-zinc-950 px-2 py-0.5 rounded-md font-mono text-zinc-200 border border-white/10">
+            <code className="bg-bg px-2 py-0.5 rounded-md font-mono text-ink border border-line">
               --primary: {primaryColor}
             </code>
           </div>
@@ -607,7 +607,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
         <div
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="bg-zinc-950/80 p-2 sm:p-4 flex flex-col justify-center items-center overflow-x-hidden min-h-[460px] sm:min-h-[620px] relative"
+          className="bg-bg p-2 sm:p-4 flex flex-col justify-center items-center overflow-x-hidden min-h-[460px] sm:min-h-[620px] relative"
         >
           {/* Floating Vibe Toast */}
           {vibeToast && (
@@ -648,7 +648,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                   className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
                     device3DType === 'iphone'
                       ? 'bg-purple-600 text-white shadow-sm'
-                      : 'text-zinc-400 hover:text-white'
+                      : 'text-muted hover:text-white'
                   }`}
                 >
                   <span>📱</span>
@@ -662,7 +662,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                   className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 ${
                     device3DType === 'macbook'
                       ? 'bg-purple-600 text-white shadow-sm'
-                      : 'text-zinc-400 hover:text-white'
+                      : 'text-muted hover:text-white'
                   }`}
                 >
                   <span>💻</span>
@@ -684,8 +684,8 @@ Deploy directly to Vercel, Netlify, or any static web host.
               >
                 {/* iPhone Dynamic Island */}
                 {device3DType === 'iphone' && (
-                  <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-30 flex items-center justify-between px-2 shadow-md border border-white/5">
-                    <span className="w-2 h-2 rounded-full bg-zinc-900 border border-zinc-800" />
+                  <div className="absolute top-6 left-1/2 -translate-x-1/2 w-24 h-5 bg-black rounded-full z-30 flex items-center justify-between px-2 shadow-md border border-line">
+                    <span className="w-2 h-2 rounded-full bg-surface border border-line" />
                     <span className="w-2 h-2 rounded-full bg-blue-950/80 border border-blue-900/50" />
                   </div>
                 )}
@@ -737,7 +737,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 width: viewports[viewport].width,
                 filter: VISION_FILTERS[visionFilter].filterStyle,
               }}
-              className={`max-w-full h-[450px] sm:h-[580px] bg-zinc-950 rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300 relative ${
+              className={`max-w-full h-[450px] sm:h-[580px] bg-bg rounded-xl overflow-hidden border border-white/[0.08] shadow-2xl transition-all duration-300 relative ${
                 !isIframeInteractive ? 'pointer-events-none sm:pointer-events-auto' : 'pointer-events-auto'
               }`}
               onContextMenu={(e) => e.preventDefault()}
@@ -773,7 +773,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
       {/* AUTO-EDIT STUDIO MODE (MEMBERSHIP GATED) */}
       {viewMode === 'autoedit' && (
-        <div className="min-h-[580px] p-6 bg-zinc-950">
+        <div className="min-h-[580px] p-6 bg-bg">
           {!hasAccess && showUnlockPrompt ? (
             /* Shown when a visitor without the right plan tries to download their edit */
             <div className="h-[500px] flex flex-col items-center justify-center text-center max-w-lg mx-auto">
@@ -783,14 +783,14 @@ Deploy directly to Vercel, Netlify, or any static web host.
               <h3 className="text-2xl font-bold text-white mb-2">
                 {isSignedIn ? `Download needs the ${template.tier.charAt(0).toUpperCase() + template.tier.slice(1)} plan` : 'Create a free account to download'}
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 mb-6 leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted mb-6 leading-relaxed">
                 {isSignedIn
                   ? `Your edits are ready. Upgrade to download ${template.name} with your details as a ready-to-host ZIP.`
                   : template.tier === 'free'
                     ? 'Your edits are ready. Sign up free — no card needed — to download this template with your details.'
                     : `Your edits are ready. Sign up and choose the ${template.tier} plan (or higher) to download this template.`}
               </p>
-              <div className="bg-zinc-900 border border-white/10 rounded-2xl p-4 text-left w-full mb-6 font-mono text-xs space-y-1.5 text-zinc-300">
+              <div className="bg-surface border border-line rounded-2xl p-4 text-left w-full mb-6 font-mono text-xs space-y-1.5 text-ink/90">
                 <div className="flex items-center gap-2 text-indigo-400 font-bold">
                   <span>✦ What Auto-Edit Does:</span>
                 </div>
@@ -807,7 +807,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
               <button
                 type="button"
                 onClick={() => setShowUnlockPrompt(false)}
-                className="mt-3 text-xs text-zinc-400 hover:text-white underline underline-offset-4"
+                className="mt-3 text-xs text-muted hover:text-white underline underline-offset-4"
               >
                 ← Keep editing
               </button>
@@ -815,13 +815,13 @@ Deploy directly to Vercel, Netlify, or any static web host.
           ) : (
             /* Unlocked Auto-Edit Studio Interface */
             <div className="max-w-4xl mx-auto space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/10 gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-line gap-4">
                 <div>
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <span>🪄</span>
                     <span>Auto-Edit Studio</span>
                   </h3>
-                  <p className="text-xs text-zinc-400 mt-1">
+                  <p className="text-xs text-muted mt-1">
                     Fill in your details and photos, then hit Apply &amp; Preview. Nothing is uploaded — it all happens in your browser.
                   </p>
                   {!hasAccess && (
@@ -907,38 +907,38 @@ Deploy directly to Vercel, Netlify, or any static web host.
               </div>
 
               {/* Internal Subtabs */}
-              <div className="flex gap-2 border-b border-white/10 pb-2 text-xs font-semibold">
+              <div role="group" aria-label="Edit sections" className="flex gap-1 border-b border-line pb-2 text-sm font-semibold overflow-x-auto hide-scrollbar -mx-1 px-1">
                 <button
                   onClick={() => setAutoEditTab('brand')}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    autoEditTab === 'brand' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                  className={`shrink-0 whitespace-nowrap min-h-11 px-3 py-1.5 rounded-lg transition-all ${
+                    autoEditTab === 'brand' ? 'bg-raised text-white' : 'text-muted hover:text-white'
                   }`}
                 >
-                  1. Brand &amp; Identity
+                  Brand
                 </button>
                 <button
                   onClick={() => setAutoEditTab('media')}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    autoEditTab === 'media' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                  className={`shrink-0 whitespace-nowrap min-h-11 px-3 py-1.5 rounded-lg transition-all ${
+                    autoEditTab === 'media' ? 'bg-raised text-white' : 'text-muted hover:text-white'
                   }`}
                 >
-                  2. Photos &amp; Logo
+                  Photos
                 </button>
                 <button
                   onClick={() => setAutoEditTab('products')}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    autoEditTab === 'products' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                  className={`shrink-0 whitespace-nowrap min-h-11 px-3 py-1.5 rounded-lg transition-all ${
+                    autoEditTab === 'products' ? 'bg-raised text-white' : 'text-muted hover:text-white'
                   }`}
                 >
-                  3. Products &amp; Pricing ({storeData.products.length})
+                  Products ({storeData.products.length})
                 </button>
                 <button
                   onClick={() => setAutoEditTab('contact')}
-                  className={`px-3 py-1.5 rounded-lg transition-all ${
-                    autoEditTab === 'contact' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-white'
+                  className={`shrink-0 whitespace-nowrap min-h-11 px-3 py-1.5 rounded-lg transition-all ${
+                    autoEditTab === 'contact' ? 'bg-raised text-white' : 'text-muted hover:text-white'
                   }`}
                 >
-                  4. Contact &amp; Location
+                  Contact
                 </button>
               </div>
 
@@ -946,55 +946,60 @@ Deploy directly to Vercel, Netlify, or any static web host.
               {autoEditTab === 'brand' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Store / Business Name</label>
+                    <label htmlFor="ae-1" className="block text-ink/90 text-sm font-medium mb-1">Store / Business Name</label>
                     <input
+ id="ae-1"
                       type="text"
                       value={storeData.storeName}
                       onChange={(e) => setStoreData({ ...storeData, storeName: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white focus:outline-none focus:border-lilac"
                     />
                   </div>
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Industry / Category</label>
+                    <label htmlFor="ae-2" className="block text-ink/90 text-sm font-medium mb-1">Industry / Category</label>
                     <input
+ id="ae-2"
                       type="text"
                       value={storeData.industry}
                       onChange={(e) => setStoreData({ ...storeData, industry: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white focus:outline-none focus:border-lilac"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-zinc-400 font-medium mb-1">Main Headline / Tagline</label>
+                    <label htmlFor="ae-3" className="block text-ink/90 text-sm font-medium mb-1">Main Headline / Tagline</label>
                     <input
+ id="ae-3"
                       type="text"
                       value={storeData.tagline}
                       onChange={(e) => setStoreData({ ...storeData, tagline: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white focus:outline-none focus:border-lilac"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-zinc-400 font-medium mb-1">Subheadline / Core Value Proposition</label>
+                    <label htmlFor="ae-4" className="block text-ink/90 text-sm font-medium mb-1">Subheadline / Core Value Proposition</label>
                     <textarea
+ id="ae-4"
                       rows={3}
                       value={storeData.subheadline}
                       onChange={(e) => setStoreData({ ...storeData, subheadline: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white focus:outline-none focus:border-lilac"
                     />
                   </div>
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Primary Brand Accent Color</label>
+                    <label htmlFor="ae-5" className="block text-ink/90 text-sm font-medium mb-1">Primary Brand Accent Color</label>
                     <div className="flex items-center gap-3">
                       <input
+ id="ae-5"
                         type="color"
                         value={storeData.primaryColor}
                         onChange={(e) => setStoreData({ ...storeData, primaryColor: e.target.value })}
-                        className="w-10 h-10 rounded-lg cursor-pointer bg-transparent border-0"
+                        className="w-11 h-11 rounded-lg cursor-pointer bg-transparent border-0"
                       />
                       <input
                         type="text"
                         value={storeData.primaryColor}
                         onChange={(e) => setStoreData({ ...storeData, primaryColor: e.target.value })}
-                        className="w-32 bg-zinc-900 border border-white/10 rounded-lg p-2 font-mono text-white text-xs"
+                        aria-label="Brand colour hex code" className="w-32 min-h-11 bg-surface border border-line rounded-lg px-3 font-mono text-white text-base"
                       />
                     </div>
                   </div>
@@ -1003,47 +1008,47 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
               {autoEditTab === 'media' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-                  <div className="bg-zinc-900/60 p-4 rounded-xl border border-white/10">
-                    <label className="block text-zinc-200 font-semibold mb-1">Store Logo Image</label>
-                    <p className="text-[11px] text-zinc-500 mb-3">Upload your transparent PNG/SVG logo or paste an image URL.</p>
+                  <div className="bg-surface p-4 rounded-xl border border-line">
+                    <label className="block text-ink font-semibold mb-1">Store Logo Image</label>
+                    <p className="text-[11px] text-muted mb-3">Upload your transparent PNG/SVG logo or paste an image URL.</p>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleImageUpload('logoUrl', e.target.files?.[0] || null)}
-                      className="block w-full text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer mb-2"
+                      className="block w-full min-h-11 text-sm text-ink/90 file:mr-4 file:min-h-11 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-raised file:text-white hover:file:bg-zinc-700 cursor-pointer mb-2"
                     />
                     <input
                       type="text"
                       placeholder="Or paste image URL (e.g. https://...)"
                       value={storeData.logoUrl || ''}
                       onChange={(e) => setStoreData({ ...storeData, logoUrl: e.target.value })}
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg p-2 text-white font-mono text-[11px]"
+                      className="w-full bg-bg border border-line rounded-lg p-2 text-white font-mono text-[11px]"
                     />
                     {storeData.logoUrl && (
-                      <div className="mt-3 p-2 bg-zinc-950 rounded-lg border border-white/5 inline-block">
+                      <div className="mt-3 p-2 bg-bg rounded-lg border border-line inline-block">
                         <img src={storeData.logoUrl} alt="Logo preview" className="h-10 object-contain" />
                       </div>
                     )}
                   </div>
 
-                  <div className="bg-zinc-900/60 p-4 rounded-xl border border-white/10">
-                    <label className="block text-zinc-200 font-semibold mb-1">Hero Banner Background Image</label>
-                    <p className="text-[11px] text-zinc-500 mb-3">Upload a full-width background photo or paste a URL.</p>
+                  <div className="bg-surface p-4 rounded-xl border border-line">
+                    <label className="block text-ink font-semibold mb-1">Hero Banner Background Image</label>
+                    <p className="text-[11px] text-muted mb-3">Upload a full-width background photo or paste a URL.</p>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleImageUpload('heroImageUrl', e.target.files?.[0] || null)}
-                      className="block w-full text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer mb-2"
+                      className="block w-full min-h-11 text-sm text-ink/90 file:mr-4 file:min-h-11 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-raised file:text-white hover:file:bg-zinc-700 cursor-pointer mb-2"
                     />
                     <input
                       type="text"
                       placeholder="Or paste image URL (e.g. https://...)"
                       value={storeData.heroImageUrl || ''}
                       onChange={(e) => setStoreData({ ...storeData, heroImageUrl: e.target.value })}
-                      className="w-full bg-zinc-950 border border-white/10 rounded-lg p-2 text-white font-mono text-[11px]"
+                      className="w-full bg-bg border border-line rounded-lg p-2 text-white font-mono text-[11px]"
                     />
                     {storeData.heroImageUrl && (
-                      <div className="mt-3 p-2 bg-zinc-950 rounded-lg border border-white/5 inline-block">
+                      <div className="mt-3 p-2 bg-bg rounded-lg border border-line inline-block">
                         <img src={storeData.heroImageUrl} alt="Hero preview" className="h-16 w-32 object-cover rounded" />
                       </div>
                     )}
@@ -1054,42 +1059,45 @@ Deploy directly to Vercel, Netlify, or any static web host.
               {autoEditTab === 'products' && (
                 <div className="space-y-4 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-zinc-400">Products, Menu Items, or Key Services:</span>
+                    <span className="text-muted">Products, Menu Items, or Key Services:</span>
                     <button
                       onClick={addProduct}
-                      className="px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg font-semibold flex items-center gap-1"
+                      className="min-h-11 px-3 py-1 bg-raised hover:bg-[#21164f] text-white rounded-lg font-semibold flex items-center gap-1"
                     >
                       <span>+ Add Product</span>
                     </button>
                   </div>
 
                   {storeData.products.map((prod, idx) => (
-                    <div key={idx} className="bg-zinc-900/80 p-4 rounded-xl border border-white/10 grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+                    <div key={idx} className="bg-surface p-4 rounded-xl border border-line grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
                       <div className="md:col-span-5">
-                        <label className="text-[10px] text-zinc-500 block mb-1">Product Title</label>
+                        <label htmlFor={`ae-6-${idx}`} className="text-xs text-ink/90 block mb-1">Product Title</label>
                         <input
+ id={`ae-6-${idx}`}
                           type="text"
                           value={prod.name}
                           onChange={(e) => handleProductChange(idx, 'name', e.target.value)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg p-2 text-white"
+                          className="w-full bg-bg border border-line rounded-lg p-2 text-white"
                         />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="text-[10px] text-zinc-500 block mb-1">Price</label>
+                        <label htmlFor={`ae-7-${idx}`} className="text-xs text-ink/90 block mb-1">Price</label>
                         <input
+ id={`ae-7-${idx}`}
                           type="text"
                           value={prod.price}
                           onChange={(e) => handleProductChange(idx, 'price', e.target.value)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg p-2 text-white font-mono"
+                          className="w-full bg-bg border border-line rounded-lg p-2 text-white font-mono"
                         />
                       </div>
                       <div className="md:col-span-4">
-                        <label className="text-[10px] text-zinc-500 block mb-1">Description</label>
+                        <label htmlFor={`ae-8-${idx}`} className="text-xs text-ink/90 block mb-1">Description</label>
                         <input
+ id={`ae-8-${idx}`}
                           type="text"
                           value={prod.description}
                           onChange={(e) => handleProductChange(idx, 'description', e.target.value)}
-                          className="w-full bg-zinc-950 border border-white/10 rounded-lg p-2 text-white text-[11px]"
+                          className="w-full bg-bg border border-line rounded-lg p-2 text-white text-[11px]"
                         />
                       </div>
                       <div className="md:col-span-1 text-right pt-4">
@@ -1109,30 +1117,33 @@ Deploy directly to Vercel, Netlify, or any static web host.
               {autoEditTab === 'contact' && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Contact Email</label>
+                    <label htmlFor="ae-9" className="block text-ink/90 text-sm font-medium mb-1">Contact Email</label>
                     <input
+ id="ae-9"
                       type="email"
                       value={storeData.contactEmail}
                       onChange={(e) => setStoreData({ ...storeData, contactEmail: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Phone Number</label>
+                    <label htmlFor="ae-10" className="block text-ink/90 text-sm font-medium mb-1">Phone Number</label>
                     <input
+ id="ae-10"
                       type="text"
                       value={storeData.contactPhone}
                       onChange={(e) => setStoreData({ ...storeData, contactPhone: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-zinc-400 font-medium mb-1">Physical Address / Headquarters</label>
+                    <label htmlFor="ae-11" className="block text-ink/90 text-sm font-medium mb-1">Physical Address / Headquarters</label>
                     <input
+ id="ae-11"
                       type="text"
                       value={storeData.physicalAddress}
                       onChange={(e) => setStoreData({ ...storeData, physicalAddress: e.target.value })}
-                      className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-white"
+                      className="w-full bg-surface border border-line rounded-lg min-h-11 px-3 py-2.5 text-base text-white"
                     />
                   </div>
                 </div>
@@ -1142,9 +1153,20 @@ Deploy directly to Vercel, Netlify, or any static web host.
         </div>
       )}
 
+      {viewMode === 'autoedit' && (!showUnlockPrompt || hasAccess) && (
+        <div className="md:hidden fixed inset-x-0 z-30 bottom-[calc(56px+env(safe-area-inset-bottom))] border-t border-line bg-raised/95 backdrop-blur-xl px-4 py-2.5 flex gap-2">
+          <button type="button" onClick={handleApplyAutoEdit} className="flex-1 min-h-11 rounded-control bg-primary hover:bg-primary-hover text-white text-sm font-semibold">
+            Apply &amp; preview
+          </button>
+          <button type="button" onClick={handleExportCustomZip} className="flex-1 min-h-11 rounded-control bg-surface border border-line text-ink text-sm font-semibold">
+            Download ZIP
+          </button>
+        </div>
+      )}
+
       {/* SOURCE CODE INSPECTOR (MEMBERSHIP GATED) */}
       {viewMode === 'code' && (
-        <div className="bg-zinc-950 min-h-[580px] p-4">
+        <div className="bg-bg min-h-[580px] p-4">
           {!hasAccess ? (
             /* Locked Code Screen for Free / Non-Member Users */
             <div className="h-[500px] flex flex-col items-center justify-center text-center max-w-md mx-auto">
@@ -1154,7 +1176,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
               <h3 className="text-2xl font-bold text-white mb-2">
                 Source Code Protected
               </h3>
-              <p className="text-xs sm:text-sm text-zinc-400 mb-6 leading-relaxed">
+              <p className="text-xs sm:text-sm text-muted mb-6 leading-relaxed">
                 Raw source code extraction and clipboard copying are reserved exclusively for active {template.tier.toUpperCase()} members.
               </p>
               <Link
@@ -1166,7 +1188,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
               <button
                 type="button"
                 onClick={() => setShowUnlockPrompt(false)}
-                className="mt-3 text-xs text-zinc-400 hover:text-white underline underline-offset-4"
+                className="mt-3 text-xs text-muted hover:text-white underline underline-offset-4"
               >
                 ← Keep editing
               </button>
@@ -1175,7 +1197,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
             /* Unlocked Source Code Inspector */
             <div className="space-y-3">
               {/* Multi-Format Transpiler Tabs */}
-              <div className="flex items-center gap-1.5 bg-zinc-900/90 p-1.5 rounded-xl border border-white/[0.08] overflow-x-auto hide-scrollbar text-xs">
+              <div className="flex items-center gap-1.5 bg-surface p-1.5 rounded-xl border border-white/[0.08] overflow-x-auto hide-scrollbar text-xs">
                 <span className="text-[11px] font-mono text-purple-400 font-semibold px-2 shrink-0">
                   Target Framework:
                 </span>
@@ -1195,7 +1217,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
                     className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                       codeFormat === fmt.id
                         ? 'bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white shadow-sm'
-                        : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
+                        : 'text-muted hover:text-white hover:bg-[#21164f]'
                     }`}
                   >
                     {fmt.label}
@@ -1203,24 +1225,24 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 ))}
               </div>
 
-              <div className="bg-zinc-900/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="bg-surface backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2 flex-1 max-w-sm">
-                  <span className="text-zinc-500">🔍</span>
+                  <span className="text-muted">🔍</span>
                   <input
                     type="text"
                     value={codeSearch}
                     onChange={(e) => setCodeSearch(e.target.value)}
                     placeholder="Filter code by tag or class..."
-                    className="bg-zinc-950 border border-white/10 rounded-md px-2.5 py-1 text-zinc-200 placeholder-zinc-500 focus:outline-none w-full"
+                    className="bg-bg border border-line rounded-md px-2.5 py-1 text-ink placeholder-zinc-500 focus:outline-none w-full"
                   />
                   {codeSearch && (
-                    <button onClick={() => setCodeSearch('')} className="text-[10px] text-zinc-400">
+                    <button onClick={() => setCodeSearch('')} className="text-[10px] text-muted">
                       Clear
                     </button>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 font-mono text-[11px] text-zinc-400">
+                <div className="flex items-center gap-2 font-mono text-[11px] text-muted">
                   <span>{codeLines.length} Lines</span>
                   <span>·</span>
                   <span>{(activeCode.length / 1024).toFixed(1)} KB</span>
@@ -1228,7 +1250,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
                 <button
                   onClick={handleCopyCode}
-                  className="px-3 py-1 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-all flex items-center gap-1.5"
+                  className="px-3 py-1 text-xs font-semibold rounded-lg bg-white/10 hover:bg-white/20 text-white border border-line transition-all flex items-center gap-1.5"
                 >
                   <span>{copiedCode ? '✓' : '📋'}</span>
                   <span>{copiedCode ? 'Copied Code!' : `Copy ${codeFormat.toUpperCase()}`}</span>
@@ -1236,9 +1258,9 @@ Deploy directly to Vercel, Netlify, or any static web host.
               </div>
 
               {/* Code Gutter & Viewer */}
-              <div className="bg-zinc-950 max-h-[500px] overflow-auto font-mono text-xs p-4 rounded-xl border border-white/10">
+              <div className="bg-bg max-h-[500px] overflow-auto font-mono text-xs p-4 rounded-xl border border-line">
                 {codeLoading ? (
-                  <div className="py-24 text-center text-zinc-500">Loading codebase…</div>
+                  <div className="py-24 text-center text-muted">Loading codebase…</div>
                 ) : (
                   <div className="table w-full">
                     {filteredLines.map(({ line, idx, match }) => (
@@ -1246,10 +1268,10 @@ Deploy directly to Vercel, Netlify, or any static web host.
                         key={idx}
                         className={`table-row leading-5 hover:bg-white/[0.04] ${match ? 'bg-indigo-500/15' : ''}`}
                       >
-                        <span className="table-cell pr-4 text-right select-none text-zinc-600 border-r border-white/10 pr-3 w-12">
+                        <span className="table-cell pr-4 text-right select-none text-zinc-600 border-r border-line pr-3 w-12">
                           {idx + 1}
                         </span>
-                        <span className="table-cell pl-4 text-zinc-300 whitespace-pre">
+                        <span className="table-cell pl-4 text-ink/90 whitespace-pre">
                           {formatSyntax(line)}
                         </span>
                       </div>
@@ -1352,7 +1374,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
 
 function formatSyntax(line: string) {
   if (line.trim().startsWith('<!--')) {
-    return <span className="text-zinc-500 italic">{line}</span>;
+    return <span className="text-muted italic">{line}</span>;
   }
   if (line.trim().startsWith('<style') || line.trim().startsWith('</style>')) {
     return <span className="text-pink-400 font-semibold">{line}</span>;
@@ -1363,5 +1385,5 @@ function formatSyntax(line: string) {
   if (line.includes('<') && line.includes('>')) {
     return <span className="text-sky-300">{line}</span>;
   }
-  return <span className="text-zinc-300">{line}</span>;
+  return <span className="text-ink/90">{line}</span>;
 }

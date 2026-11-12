@@ -52,7 +52,7 @@ function StudioContent() {
   };
 
   return (
-    <div className="bg-[#070314] min-h-screen">
+    <div className="min-h-screen pb-20 md:pb-0">
       <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
@@ -65,7 +65,7 @@ function StudioContent() {
               Fill in your details and the preview updates live. Everything happens in your browser; your photos are never uploaded.
             </p>
           </div>
-          <ol className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:max-w-2xl">
+          <ol className="hidden sm:grid grid-cols-3 gap-3 lg:max-w-2xl">
             {STEPS.map((s) => (
               <li key={s.n} className="p-3 rounded-xl border border-purple-500/20 bg-[#0d0622]">
                 <div className="flex items-center gap-2 text-white text-xs font-bold mb-1">
@@ -103,7 +103,7 @@ function StudioContent() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={`Search ${TEMPLATE_COUNT} templates…`}
-                className="w-full px-3 py-2 rounded-lg bg-[#070314] border border-purple-500/30 text-sm text-white placeholder:text-purple-300/50 focus:outline-none focus:border-purple-400 mb-2"
+                className="w-full min-h-11 px-3 py-2 rounded-lg bg-[#070314] border border-purple-500/30 text-base text-white placeholder:text-purple-300/50 focus:outline-none focus:border-purple-400 mb-2"
               />
               <div className="flex gap-1.5 mb-3" role="group" aria-label="Filter by plan">
                 {(['all', 'free'] as const).map((f) => (
@@ -112,7 +112,7 @@ function StudioContent() {
                     type="button"
                     onClick={() => setTierFilter(f)}
                     aria-pressed={tierFilter === f}
-                    className={`px-2.5 py-1 rounded-md text-[11px] font-semibold border ${
+                    className={`min-h-11 px-3.5 rounded-full text-sm font-medium border ${
                       tierFilter === f
                         ? 'bg-purple-600 border-purple-400 text-white'
                         : 'border-purple-500/25 text-purple-300 hover:text-white'
@@ -163,7 +163,7 @@ function StudioContent() {
               <div className="text-sm text-purple-200">
                 Editing <strong className="text-white">{selected.name}</strong>
               </div>
-              <Link href={`/templates/${selected.id}`} className="text-xs text-purple-300 hover:text-white underline underline-offset-4">
+              <Link href={`/templates/${selected.id}`} className="inline-flex items-center min-h-11 text-sm text-lilac hover:text-ink underline underline-offset-4">
                 Template details, reviews &amp; download options →
               </Link>
             </div>
