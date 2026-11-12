@@ -90,6 +90,24 @@ for (const p of pages) {
     await page.close();
   }
 
+  if (want('nojs')) {
+    // The page's main heading must be visible from HTML + CSS alone (fast first paint).
+    const page = await context.newPage();
+    await page.route((u) => !u.href.startsWith(base) || u.href.includes('/_next/static/chunks/'), (r) => r.abort());
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(url, { waitUntil: 'load', timeout: 60000 });
+    await page.waitForTimeout(1200);
+    const op = await page.evaluate(() => {
+      const h1 = document.querySelector('h1');
+      if (!h1) return 'none';
+      let el = h1, min = 1;
+      while (el) { min = Math.min(min, Number(getComputedStyle(el).opacity)); el = el.parentElement; }
+      return String(min);
+    });
+    if (op !== '1' && op !== 'none') fail(p, 390, 'nojs', `h1 opacity ${op} before JavaScript loads`);
+    await page.close();
+  }
+
   if (want('motion')) {
     const page = await open(url, 390, true);
     const hidden = await page.evaluate(() =>

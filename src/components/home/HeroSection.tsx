@@ -1,5 +1,4 @@
 import Button from '@/components/ui/Button';
-import Reveal from '@/components/ui/Reveal';
 import { TEMPLATE_COUNT } from '@/lib/site';
 import HeroPreviewCarousel from './HeroPreviewCarousel';
 
@@ -10,7 +9,8 @@ export default function HeroSection() {
     <section className="relative overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-[radial-gradient(closest-side,rgb(124_58_237/0.35),transparent)]" />
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-16 md:pt-20 md:pb-24 grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-14 items-center">
-        <Reveal>
+        {/* Above the fold: CSS-only entrance so the headline never waits for JavaScript. */}
+        <div className="th-hero-in">
           <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface text-sm text-lilac">
             <span className="w-1.5 h-1.5 rounded-full bg-success" aria-hidden="true" />
             {TEMPLATE_COUNT} templates · edit in your browser
@@ -26,10 +26,10 @@ export default function HeroSection() {
             <Button href="/studio" size="lg" variant="secondary">Try the Studio free</Button>
           </div>
           <p className="mt-4 text-sm text-muted">Free starter template · plans from €3/month · cancel anytime</p>
-        </Reveal>
-        <Reveal delay={120}>
+        </div>
+        <div className="th-hero-in [animation-delay:120ms]">
           <HeroPreviewCarousel templateIds={HERO_TEMPLATES} />
-        </Reveal>
+        </div>
       </div>
     </section>
   );

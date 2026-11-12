@@ -304,3 +304,5 @@
   .th-type { animation: none !important; width: auto; border-right: 0; }
   .th-swatch, .th-swatch-bg, .th-name { animation: none !important; }
 }
+@keyframes th-hero-in { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
+.th-hero-in { animation: th-hero-in 500ms var(--ease-out-soft) both; }
