@@ -21,7 +21,8 @@ export default function LicensingPage() {
       intro="Your licence depends on the plan you had when you downloaded a template. Once downloaded, that licence doesn't expire — even if you cancel later."
     >
       <h2 id="compare">At a glance</h2>
-      <table>
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0" role="region" aria-label="Plan comparison" tabIndex={0}>
+      <table className="min-w-[560px] [&_td:first-child]:sticky [&_td:first-child]:left-0 [&_td:first-child]:bg-bg [&_th:first-child]:sticky [&_th:first-child]:left-0 [&_th:first-child]:z-10">
         <thead>
           <tr>
             <th scope="col">You want to…</th>
@@ -41,6 +42,7 @@ export default function LicensingPage() {
           <tr><td>Resell or share the template itself</td><td>{no}</td><td>{no}</td><td>{no}</td><td>{no}</td></tr>
         </tbody>
       </table>
+      </div>
 
       <h2 id="ownership">Who owns what</h2>
       <p>

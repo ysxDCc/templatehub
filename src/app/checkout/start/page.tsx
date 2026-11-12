@@ -114,11 +114,11 @@ function CheckoutStartContent() {
             <h2 className="text-xl font-extrabold text-white mb-2">
               Connecting to Payment Gateway
             </h2>
-            <p className="text-xs text-purple-200/75 max-w-xs mx-auto mb-6 leading-relaxed">
+            <p className="text-xs text-muted max-w-xs mx-auto mb-6 leading-relaxed">
               Redirecting you to Dodo Payments secure 256-bit checkout to confirm your payment details. You will not be charged today.
             </p>
 
-            <div className="flex items-center justify-center gap-2 text-[11px] text-purple-300/60 font-mono">
+            <div className="flex items-center justify-center gap-2 text-[11px] text-muted font-mono">
               <svg className="w-3.5 h-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
               </svg>

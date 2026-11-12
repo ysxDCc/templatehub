@@ -175,16 +175,16 @@ function BuilderContent() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#09090b] text-zinc-100 overflow-hidden font-sans">
+    <div className="flex flex-col md:h-screen bg-bg text-ink md:overflow-hidden font-sans">
       
       {/* Top Application Bar */}
-      <header className="h-14 border-b border-white/[0.08] bg-[#0c0c0e] px-4 flex items-center justify-between shrink-0">
+      <header className="min-h-14 py-2 border-b border-line bg-surface px-4 flex flex-wrap items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-4">
-          <Link href="/templates" className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 font-medium transition-colors">
+          <Link href="/templates" className="min-h-11 text-xs text-muted hover:text-white flex items-center gap-1.5 font-medium transition-colors">
             <span>←</span>
             <span>Back to catalog</span>
           </Link>
-          <span className="text-zinc-600">|</span>
+          <span className="text-muted">|</span>
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-white">Visual Website Customizer</span>
             <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-semibold border border-emerald-500/20">
@@ -194,27 +194,27 @@ function BuilderContent() {
         </div>
 
         {/* Viewport device switcher */}
-        <div className="hidden sm:flex items-center gap-1 bg-zinc-900 p-1 rounded-lg border border-white/[0.06]">
+        <div className="hidden sm:flex items-center gap-1 bg-surface p-1 rounded-lg border border-white/[0.06]">
           <button
             onClick={() => setDeviceView('desktop')}
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-              deviceView === 'desktop' ? 'bg-zinc-800 text-white shadow-xs' : 'text-zinc-400 hover:text-white'
+            className={`min-h-11 px-3 py-1 text-xs font-medium rounded-md transition-all ${
+              deviceView === 'desktop' ? 'bg-raised text-white shadow-xs' : 'text-muted hover:text-white'
             }`}
           >
             🖥️ Desktop
           </button>
           <button
             onClick={() => setDeviceView('tablet')}
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-              deviceView === 'tablet' ? 'bg-zinc-800 text-white shadow-xs' : 'text-zinc-400 hover:text-white'
+            className={`min-h-11 px-3 py-1 text-xs font-medium rounded-md transition-all ${
+              deviceView === 'tablet' ? 'bg-raised text-white shadow-xs' : 'text-muted hover:text-white'
             }`}
           >
             📱 Tablet
           </button>
           <button
             onClick={() => setDeviceView('mobile')}
-            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-              deviceView === 'mobile' ? 'bg-zinc-800 text-white shadow-xs' : 'text-zinc-400 hover:text-white'
+            className={`min-h-11 px-3 py-1 text-xs font-medium rounded-md transition-all ${
+              deviceView === 'mobile' ? 'bg-raised text-white shadow-xs' : 'text-muted hover:text-white'
             }`}
           >
             📲 Mobile
@@ -225,13 +225,13 @@ function BuilderContent() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab(activeTab === 'code' ? 'edit' : 'code')}
-            className="px-3 py-1.5 rounded-lg border border-white/10 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 transition-colors"
+            className="min-h-11 px-3 py-1.5 rounded-lg border border-line text-xs font-medium text-zinc-300 hover:text-white hover:bg-raised transition-colors"
           >
             {activeTab === 'code' ? 'Visual Editor' : 'View HTML Code'}
           </button>
           <button
             onClick={handleDownloadCode}
-            className="px-4 py-1.5 rounded-lg bg-white text-zinc-950 text-xs font-semibold hover:bg-zinc-200 transition-colors shadow-xs flex items-center gap-1.5"
+            className="min-h-11 px-4 py-1.5 rounded-lg bg-white text-zinc-950 text-xs font-semibold hover:bg-zinc-200 transition-colors shadow-xs flex items-center gap-1.5"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -242,24 +242,24 @@ function BuilderContent() {
       </header>
 
       {/* Main Workspace: Left Controls Sidebar + Canvas */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-col-reverse md:flex-row flex-1 md:overflow-hidden">
         
         {/* Left Sidebar Controls */}
-        <aside className="w-80 md:w-96 border-r border-white/[0.08] bg-[#0c0c0e] flex flex-col shrink-0 overflow-y-auto">
+        <aside className="w-full md:w-96 md:border-r border-line bg-surface flex flex-col shrink-0 md:overflow-y-auto">
           {/* Tabs header */}
           <div className="flex border-b border-white/[0.08] text-xs font-semibold">
             <button
               onClick={() => setActiveTab('edit')}
-              className={`flex-1 py-3 text-center border-b-2 transition-all ${
-                activeTab === 'edit' ? 'border-white text-white' : 'border-transparent text-zinc-400 hover:text-white'
+              className={`min-h-11 flex-1 py-3 text-center border-b-2 transition-all ${
+                activeTab === 'edit' ? 'border-white text-white' : 'border-transparent text-muted hover:text-white'
               }`}
             >
               Content & Text
             </button>
             <button
               onClick={() => setActiveTab('styles')}
-              className={`flex-1 py-3 text-center border-b-2 transition-all ${
-                activeTab === 'styles' ? 'border-white text-white' : 'border-transparent text-zinc-400 hover:text-white'
+              className={`min-h-11 flex-1 py-3 text-center border-b-2 transition-all ${
+                activeTab === 'styles' ? 'border-white text-white' : 'border-transparent text-muted hover:text-white'
               }`}
             >
               Colors & Theme
@@ -270,13 +270,14 @@ function BuilderContent() {
             
             {/* Template Selector dropdown */}
             <div>
-              <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-2">
+              <label htmlFor="bui-f1" className="text-xs font-semibold uppercase tracking-wider text-muted block mb-2">
                 Starting Template
               </label>
               <select
+ id="bui-f1"
                 value={selectedTemplateId}
                 onChange={(e) => setSelectedTemplateId(e.target.value)}
-                className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2.5 text-xs text-white outline-none focus:border-indigo-500"
+                className="min-h-11 w-full bg-surface border border-line rounded-lg p-2.5 text-xs text-white outline-none focus:border-indigo-500"
               >
                 {templates.map(t => (
                   <option key={t.id} value={t.id}>{t.name} ({t.category})</option>
@@ -289,7 +290,7 @@ function BuilderContent() {
               <div className="space-y-6">
                 {/* Section selection */}
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted block mb-2">
                     Active Section to Edit
                   </label>
                   <div className="grid grid-cols-3 gap-1.5">
@@ -297,10 +298,10 @@ function BuilderContent() {
                       <button
                         key={s.id}
                         onClick={() => setSelectedSectionId(s.id)}
-                        className={`py-2 px-2 text-xs font-semibold rounded-lg capitalize border transition-all ${
+                        className={`min-h-11 py-2 px-2 text-xs font-semibold rounded-lg capitalize border transition-all ${
                           selectedSectionId === s.id 
-                            ? 'bg-zinc-800 text-white border-white/30' 
-                            : 'bg-zinc-900/60 text-zinc-400 border-white/[0.06] hover:text-white'
+                            ? 'bg-raised text-white border-white/30' 
+                            : 'bg-surface text-muted border-white/[0.06] hover:text-white'
                         }`}
                       >
                         {s.type}
@@ -315,52 +316,57 @@ function BuilderContent() {
                     <div className="text-xs font-semibold text-zinc-300">Hero Section Fields</div>
                     
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Badge Text</label>
+                      <label htmlFor="bui-f2" className="text-xs text-muted block mb-1">Badge Text</label>
                       <input
+ id="bui-f2"
                         type="text"
                         value={sections[0]?.badge || ''}
                         onChange={(e) => updateSectionField('hero', 'badge', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                        className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Main Headline</label>
+                      <label htmlFor="bui-f3" className="text-xs text-muted block mb-1">Main Headline</label>
                       <textarea
+ id="bui-f3"
                         rows={3}
                         value={sections[0]?.title || ''}
                         onChange={(e) => updateSectionField('hero', 'title', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
+                        className="w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Subheadline Description</label>
+                      <label htmlFor="bui-f4" className="text-xs text-muted block mb-1">Subheadline Description</label>
                       <textarea
+ id="bui-f4"
                         rows={3}
                         value={sections[0]?.subtitle || ''}
                         onChange={(e) => updateSectionField('hero', 'subtitle', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
+                        className="w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="text-xs text-zinc-400 block mb-1">Primary Button</label>
+                        <label htmlFor="bui-f5" className="text-xs text-muted block mb-1">Primary Button</label>
                         <input
+ id="bui-f5"
                           type="text"
                           value={sections[0]?.primaryBtnText || ''}
                           onChange={(e) => updateSectionField('hero', 'primaryBtnText', e.target.value)}
-                          className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                          className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                         />
                       </div>
                       <div>
-                        <label className="text-xs text-zinc-400 block mb-1">Secondary Button</label>
+                        <label htmlFor="bui-f6" className="text-xs text-muted block mb-1">Secondary Button</label>
                         <input
+ id="bui-f6"
                           type="text"
                           value={sections[0]?.secondaryBtnText || ''}
                           onChange={(e) => updateSectionField('hero', 'secondaryBtnText', e.target.value)}
-                          className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                          className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                         />
                       </div>
                     </div>
@@ -373,24 +379,25 @@ function BuilderContent() {
                     <div className="text-xs font-semibold text-zinc-300">Feature Section Items</div>
                     
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Section Title</label>
+                      <label htmlFor="bui-f7" className="text-xs text-muted block mb-1">Section Title</label>
                       <input
+ id="bui-f7"
                         type="text"
                         value={sections[1]?.title || ''}
                         onChange={(e) => updateSectionField('features', 'title', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                        className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                       />
                     </div>
 
                     {sections[1]?.items?.map((item, idx) => (
-                      <div key={idx} className="p-3 rounded-lg bg-zinc-900/60 border border-white/[0.08] space-y-2">
+                      <div key={idx} className="p-3 rounded-lg bg-surface border border-white/[0.08] space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-[11px] font-bold text-zinc-400 uppercase">Card #{idx + 1}</span>
+                          <span className="text-[11px] font-bold text-muted uppercase">Card #{idx + 1}</span>
                           <input
                             type="text"
                             value={item.icon || '✨'}
                             onChange={(e) => updateItemField('features', idx, 'icon', e.target.value)}
-                            className="w-10 text-center bg-zinc-800 border border-white/10 rounded p-1 text-xs text-white"
+                            className="min-h-11 w-10 text-center bg-raised border border-line rounded p-1 text-xs text-white"
                           />
                         </div>
                         <input
@@ -398,14 +405,14 @@ function BuilderContent() {
                           value={item.title}
                           onChange={(e) => updateItemField('features', idx, 'title', e.target.value)}
                           placeholder="Card Title"
-                          className="w-full bg-zinc-800 border border-white/10 rounded p-1.5 text-xs text-white"
+                          className="min-h-11 w-full bg-raised border border-line rounded p-1.5 text-xs text-white"
                         />
                         <textarea
                           rows={2}
                           value={item.desc}
                           onChange={(e) => updateItemField('features', idx, 'desc', e.target.value)}
                           placeholder="Card description"
-                          className="w-full bg-zinc-800 border border-white/10 rounded p-1.5 text-xs text-zinc-300 resize-none"
+                          className="w-full bg-raised border border-line rounded p-1.5 text-xs text-zinc-300 resize-none"
                         />
                       </div>
                     ))}
@@ -417,30 +424,33 @@ function BuilderContent() {
                   <div className="space-y-4 pt-2 border-t border-white/[0.06]">
                     <div className="text-xs font-semibold text-zinc-300">Call to Action Fields</div>
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Headline</label>
+                      <label htmlFor="bui-f8" className="text-xs text-muted block mb-1">Headline</label>
                       <input
+ id="bui-f8"
                         type="text"
                         value={sections[2]?.title || ''}
                         onChange={(e) => updateSectionField('cta', 'title', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                        className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Subtitle</label>
+                      <label htmlFor="bui-f9" className="text-xs text-muted block mb-1">Subtitle</label>
                       <textarea
+ id="bui-f9"
                         rows={2}
                         value={sections[2]?.subtitle || ''}
                         onChange={(e) => updateSectionField('cta', 'subtitle', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
+                        className="w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none resize-none"
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-zinc-400 block mb-1">Button Text</label>
+                      <label htmlFor="bui-f10" className="text-xs text-muted block mb-1">Button Text</label>
                       <input
+ id="bui-f10"
                         type="text"
                         value={sections[2]?.primaryBtnText || ''}
                         onChange={(e) => updateSectionField('cta', 'primaryBtnText', e.target.value)}
-                        className="w-full bg-zinc-900 border border-white/10 rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
+                        className="min-h-11 w-full bg-surface border border-line rounded-lg p-2 text-xs text-white focus:border-white/30 outline-none"
                       />
                     </div>
                   </div>
@@ -453,7 +463,7 @@ function BuilderContent() {
             {activeTab === 'styles' && (
               <div className="space-y-6">
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted block mb-2">
                     Primary Accent Color
                   </label>
                   <div className="grid grid-cols-5 gap-2">
@@ -467,7 +477,7 @@ function BuilderContent() {
                       <button
                         key={c.color}
                         onClick={() => setPrimaryColor(c.color)}
-                        className="flex flex-col items-center gap-1.5 p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 transition-colors border border-white/[0.06]"
+                        className="min-h-11 flex flex-col items-center gap-1.5 p-2 rounded-lg bg-surface hover:bg-raised transition-colors border border-white/[0.06]"
                       >
                         <span 
                           className="w-6 h-6 rounded-full border-2 transition-transform hover:scale-110"
@@ -476,14 +486,14 @@ function BuilderContent() {
                             borderColor: primaryColor === c.color ? '#fff' : 'transparent' 
                           }}
                         />
-                        <span className="text-[10px] text-zinc-400">{c.name}</span>
+                        <span className="text-[10px] text-muted">{c.name}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted block mb-2">
                     Background Mode
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -495,8 +505,8 @@ function BuilderContent() {
                       <button
                         key={m.id}
                         onClick={() => setBgTheme(m.id as any)}
-                        className={`py-2 px-2 text-xs font-medium rounded-lg border transition-all ${
-                          bgTheme === m.id ? 'bg-zinc-800 text-white border-white/30' : 'bg-zinc-900/60 text-zinc-400 border-white/[0.06]'
+                        className={`min-h-11 py-2 px-2 text-xs font-medium rounded-lg border transition-all ${
+                          bgTheme === m.id ? 'bg-raised text-white border-white/30' : 'bg-surface text-muted border-white/[0.06]'
                         }`}
                       >
                         {m.label}
@@ -506,7 +516,7 @@ function BuilderContent() {
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-2">
+                  <label className="text-xs font-semibold uppercase tracking-wider text-muted block mb-2">
                     Typography Pairings
                   </label>
                   <div className="space-y-1.5">
@@ -518,8 +528,8 @@ function BuilderContent() {
                       <button
                         key={f.id}
                         onClick={() => setFontFamily(f.id)}
-                        className={`w-full text-left p-2.5 rounded-lg text-xs font-medium border transition-all ${
-                          fontFamily === f.id ? 'bg-zinc-800 text-white border-white/30' : 'bg-zinc-900/60 text-zinc-400 border-white/[0.06]'
+                        className={`min-h-11 w-full text-left p-2.5 rounded-lg text-xs font-medium border transition-all ${
+                          fontFamily === f.id ? 'bg-raised text-white border-white/30' : 'bg-surface text-muted border-white/[0.06]'
                         }`}
                       >
                         {f.name}
@@ -534,15 +544,15 @@ function BuilderContent() {
         </aside>
 
         {/* Right Canvas: Real-time Live Interactive Preview */}
-        <main className="flex-1 bg-zinc-950 p-4 md:p-8 flex items-center justify-center overflow-auto">
+        <main data-user-content="" aria-label="Your page preview" className="h-[70vh] md:h-auto flex-1 bg-bg p-4 md:p-8 flex items-center justify-center overflow-auto">
           
           {activeTab === 'code' ? (
-            <div className="w-full h-full max-w-4xl bg-zinc-900 border border-white/10 rounded-2xl p-6 font-mono text-xs overflow-auto text-zinc-300">
-              <div className="flex justify-between items-center mb-4 pb-2 border-b border-white/10">
-                <span className="text-zinc-400">Generated Clean Standalone HTML</span>
+            <div className="w-full h-full max-w-4xl bg-surface border border-line rounded-2xl p-6 font-mono text-xs overflow-auto text-zinc-300">
+              <div className="flex justify-between items-center mb-4 pb-2 border-b border-line">
+                <span className="text-muted">Generated Clean Standalone HTML</span>
                 <button
                   onClick={() => navigator.clipboard.writeText(generateExportCode())}
-                  className="px-3 py-1 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs transition-colors"
+                  className="min-h-11 px-3 py-1 bg-raised hover:bg-zinc-700 text-white rounded text-xs transition-colors"
                 >
                   Copy to Clipboard
                 </button>
@@ -551,7 +561,7 @@ function BuilderContent() {
             </div>
           ) : (
             <div 
-              className={`transition-all duration-300 rounded-2xl shadow-2xl overflow-hidden border border-white/10 ${fontFamily} ${
+              className={`transition-all duration-300 rounded-2xl shadow-2xl overflow-hidden border border-line ${fontFamily} ${
                 deviceView === 'desktop' ? 'w-full max-w-5xl h-full' :
                 deviceView === 'tablet' ? 'w-[768px] h-[90%]' :
                 'w-[375px] h-[85%]'
@@ -564,7 +574,7 @@ function BuilderContent() {
               
               {/* Fake In-Page Browser Header */}
               <div className={`px-4 py-3 border-b flex items-center justify-between text-xs sticky top-0 z-20 backdrop-blur-md ${
-                bgTheme === 'light' ? 'bg-zinc-100/90 border-zinc-200' : 'bg-zinc-900/90 border-white/[0.08]'
+                bgTheme === 'light' ? 'bg-zinc-100/90 border-zinc-200' : 'bg-surface border-white/[0.08]'
               }`}>
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
@@ -617,13 +627,13 @@ function BuilderContent() {
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     <button 
                       style={{ backgroundColor: primaryColor }}
-                      className="px-6 py-3 rounded-lg text-white font-semibold text-sm shadow-md transition-transform hover:scale-105"
+                      className="min-h-11 px-6 py-3 rounded-lg text-white font-semibold text-sm shadow-md transition-transform hover:scale-105"
                     >
                       {sections[0]?.primaryBtnText}
                     </button>
                     <button 
-                      className={`px-6 py-3 rounded-lg font-medium text-sm border transition-colors ${
-                        bgTheme === 'light' ? 'border-zinc-300 hover:bg-zinc-100' : 'border-white/10 hover:bg-zinc-800'
+                      className={`min-h-11 px-6 py-3 rounded-lg font-medium text-sm border transition-colors ${
+                        bgTheme === 'light' ? 'border-zinc-300 hover:bg-zinc-100' : 'border-line hover:bg-raised'
                       }`}
                     >
                       {sections[0]?.secondaryBtnText}
@@ -659,7 +669,7 @@ function BuilderContent() {
                       <div 
                         key={idx}
                         className={`p-6 rounded-xl border transition-all ${
-                          bgTheme === 'light' ? 'bg-zinc-50 border-zinc-200' : 'bg-zinc-900/50 border-white/[0.08]'
+                          bgTheme === 'light' ? 'bg-zinc-50 border-zinc-200' : 'bg-surface border-white/[0.08]'
                         }`}
                       >
                         <div className="text-3xl mb-3">{item.icon}</div>
@@ -706,7 +716,7 @@ function BuilderContent() {
                   </p>
                   <button 
                     style={{ backgroundColor: primaryColor }}
-                    className="px-8 py-3.5 rounded-lg text-white font-semibold text-sm shadow-lg transition-transform hover:scale-105"
+                    className="min-h-11 px-8 py-3.5 rounded-lg text-white font-semibold text-sm shadow-lg transition-transform hover:scale-105"
                   >
                     {sections[2]?.primaryBtnText}
                   </button>
@@ -725,7 +735,7 @@ function BuilderContent() {
 
 export default function BuilderPage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-sm text-zinc-500">Loading No-Code Customizer...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-sm text-muted">Loading No-Code Customizer...</div>}>
       <BuilderContent />
     </Suspense>
   );

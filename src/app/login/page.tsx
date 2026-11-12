@@ -26,7 +26,7 @@ export default async function LoginPage({
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Sign In to Continue Free Trial
             </div>
-            <p className="text-purple-200/75 text-xs">
+            <p className="text-muted text-xs">
               Sign in to your account. You will then be redirected to activate your 3-day Pro trial (&euro;0 today).
             </p>
           </div>

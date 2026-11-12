@@ -182,7 +182,7 @@ export default function AdminDashboardPage() {
           <p className="text-xs text-rose-300 mb-6 leading-relaxed">{error}</p>
           <Link
             href="/"
-            className="inline-block py-2.5 px-6 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors"
+            className="min-h-11 inline-block py-2.5 px-6 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors"
           >
             Return to Homepage
           </Link>
@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
             <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
               <span>User &amp; Permission Command Center</span>
             </h1>
-            <p className="text-xs text-purple-200/70 mt-1">
+            <p className="text-xs text-muted mt-1">
               Logged in as <strong className="text-white">{currentUserEmail}</strong> {isSuperadmin ? '(Superadmin Owner)' : '(Administrator)'}
             </p>
           </div>
@@ -212,14 +212,14 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchUsers}
-              className="py-2 px-4 rounded-xl bg-[#0e0624] border border-purple-500/30 text-xs font-semibold text-purple-200 hover:text-white hover:bg-purple-900/40 transition-colors flex items-center gap-2"
+              className="min-h-11 py-2 px-4 rounded-xl bg-[#0e0624] border border-purple-500/30 text-xs font-semibold text-purple-200 hover:text-white hover:bg-purple-900/40 transition-colors flex items-center gap-2"
             >
               <span>↻</span>
               <span>Refresh Directory</span>
             </button>
             <Link
               href="/"
-              className="py-2 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+              className="min-h-11 py-2 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-[0_0_20px_rgba(168,85,247,0.4)]"
             >
               Back to Site →
             </Link>
@@ -229,24 +229,24 @@ export default function AdminDashboardPage() {
         {/* Metric Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="p-5 rounded-2xl bg-[#0d0622] border border-purple-500/25">
-            <span className="text-[11px] text-purple-300/70 uppercase tracking-wider font-mono">Total Users</span>
+            <span className="text-[11px] text-muted uppercase tracking-wider font-mono">Total Users</span>
             <div className="text-2xl sm:text-3xl font-extrabold text-white mt-1">{totalUsers}</div>
-            <span className="text-[10px] text-purple-400/60 mt-1 block">Registered in Clerk</span>
+            <span className="text-[10px] text-muted mt-1 block">Registered in Clerk</span>
           </div>
           <div className="p-5 rounded-2xl bg-[#0d0622] border border-purple-500/25">
-            <span className="text-[11px] text-purple-300/70 uppercase tracking-wider font-mono">Administrators</span>
+            <span className="text-[11px] text-muted uppercase tracking-wider font-mono">Administrators</span>
             <div className="text-2xl sm:text-3xl font-extrabold text-purple-300 mt-1">{totalAdmins}</div>
             <span className="text-[10px] text-emerald-400 mt-1 block">Full access rights</span>
           </div>
           <div className="p-5 rounded-2xl bg-[#0d0622] border border-purple-500/25">
-            <span className="text-[11px] text-purple-300/70 uppercase tracking-wider font-mono">Paid Members</span>
+            <span className="text-[11px] text-muted uppercase tracking-wider font-mono">Paid Members</span>
             <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 mt-1">{totalPaid}</div>
             <span className="text-[10px] text-emerald-400/60 mt-1 block">Pro &amp; Enterprise tiers</span>
           </div>
           <div className="p-5 rounded-2xl bg-[#0d0622] border border-purple-500/25">
-            <span className="text-[11px] text-purple-300/70 uppercase tracking-wider font-mono">Free Users</span>
+            <span className="text-[11px] text-muted uppercase tracking-wider font-mono">Free Users</span>
             <div className="text-2xl sm:text-3xl font-extrabold text-zinc-300 mt-1">{totalFree}</div>
-            <span className="text-[10px] text-purple-400/60 mt-1 block">Free plan registered</span>
+            <span className="text-[10px] text-muted mt-1 block">Free plan registered</span>
           </div>
         </div>
 
@@ -257,7 +257,7 @@ export default function AdminDashboardPage() {
               <span>⚡</span>
               <span>Quick Role &amp; Plan Assignment</span>
             </h2>
-            <p className="text-xs text-purple-200/70 mt-0.5">
+            <p className="text-xs text-muted mt-0.5">
               Type any registered user&apos;s email address to instantly assign Admin permissions or upgrade/downgrade their subscription plan.
             </p>
           </div>
@@ -273,7 +273,7 @@ export default function AdminDashboardPage() {
                 value={grantEmail}
                 onChange={(e) => setGrantEmail(e.target.value)}
                 placeholder="developer@example.com"
-                className="w-full py-2.5 px-3.5 rounded-xl bg-[#070314] border border-purple-500/30 text-white text-xs placeholder:text-purple-400/40 focus:outline-none focus:border-purple-400"
+                className="w-full py-2.5 px-3.5 rounded-xl bg-[#070314] border border-purple-500/30 text-white text-xs placeholder:text-muted focus:outline-none focus:border-purple-400"
               />
             </div>
 
@@ -311,7 +311,7 @@ export default function AdminDashboardPage() {
               <button
                 type="submit"
                 disabled={grantLoading}
-                className="py-2.5 px-6 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)] disabled:opacity-50 transition-all cursor-pointer"
+                className="min-h-11 py-2.5 px-6 rounded-xl font-bold text-xs bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 hover:from-purple-500 hover:to-violet-500 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)] disabled:opacity-50 transition-all cursor-pointer"
               >
                 {grantLoading ? 'Updating Permissions...' : 'Apply Role & Plan →'}
               </button>
@@ -340,13 +340,13 @@ export default function AdminDashboardPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search users by email, name, role..."
-                className="w-full py-2 px-3.5 pl-9 rounded-xl bg-[#0e0624] border border-purple-500/30 text-white text-xs placeholder:text-purple-400/40 focus:outline-none focus:border-purple-400"
+                className="w-full py-2 px-3.5 pl-9 rounded-xl bg-[#0e0624] border border-purple-500/30 text-white text-xs placeholder:text-muted focus:outline-none focus:border-purple-400"
               />
               <span className="absolute left-3 top-2.5 text-purple-400 text-xs">🔍</span>
             </div>
 
             <div className="flex flex-wrap items-center gap-1.5 text-xs">
-              <span className="text-purple-300/60 font-mono text-[11px] mr-1">Filter:</span>
+              <span className="text-muted font-mono text-[11px] mr-1">Filter:</span>
               {[
                 { id: 'all', label: 'All Users' },
                 { id: 'admin', label: 'Admins Only' },
@@ -360,7 +360,7 @@ export default function AdminDashboardPage() {
                   className={`px-3 py-1.5 rounded-lg font-mono text-[11px] transition-all cursor-pointer ${
                     filterPlan === chip.id
                       ? 'bg-purple-600 text-white font-bold shadow-[0_0_12px_rgba(168,85,247,0.4)]'
-                      : 'bg-[#0e0624] text-purple-300/70 hover:text-white border border-purple-500/20'
+                      : 'bg-[#0e0624] text-muted hover:text-white border border-purple-500/20'
                   }`}
                 >
                   {chip.label}
@@ -372,7 +372,7 @@ export default function AdminDashboardPage() {
           {/* Users Table */}
           <div className="overflow-x-auto rounded-2xl border border-purple-500/25 bg-[#0d0622]">
             <table className="w-full text-left text-xs">
-              <thead className="bg-[#070314] border-b border-purple-500/20 text-purple-300/70 font-mono uppercase text-[10px] tracking-wider">
+              <thead className="bg-[#070314] border-b border-purple-500/20 text-muted font-mono uppercase text-[10px] tracking-wider">
                 <tr>
                   <th className="py-3 px-4">User</th>
                   <th className="py-3 px-4">Email Address</th>
@@ -385,7 +385,7 @@ export default function AdminDashboardPage() {
               <tbody className="divide-y divide-purple-500/15">
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-purple-400/50">
+                    <td colSpan={6} className="py-8 text-center text-muted">
                       No users match the active filter or search query.
                     </td>
                   </tr>
@@ -419,7 +419,7 @@ export default function AdminDashboardPage() {
                                   </span>
                                 )}
                               </div>
-                              <span className="text-[10px] font-mono text-purple-400/50">{u.id}</span>
+                              <span className="text-[10px] font-mono text-muted">{u.id}</span>
                             </div>
                           </div>
                         </td>
@@ -435,7 +435,7 @@ export default function AdminDashboardPage() {
                               <span>ADMIN</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-300 text-[10px] font-mono">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-raised text-zinc-300 text-[10px] font-mono">
                               USER
                             </span>
                           )}
@@ -453,7 +453,7 @@ export default function AdminDashboardPage() {
                                 ? 'bg-amber-500/15 border-amber-500/30 text-amber-300'
                                 : u.subscription === 'basic'
                                 ? 'bg-blue-500/15 border-blue-500/30 text-blue-300'
-                                : 'bg-zinc-800/80 border-white/10 text-zinc-400'
+                                : 'bg-raised border-line text-muted'
                             }`}
                           >
                             <option value="free">Free</option>
@@ -463,13 +463,13 @@ export default function AdminDashboardPage() {
                           </select>
                         </td>
 
-                        <td className="py-3.5 px-4 text-purple-300/60 font-mono text-[11px]">
+                        <td className="py-3.5 px-4 text-muted font-mono text-[11px]">
                           {new Date(u.createdAt).toLocaleDateString()}
                         </td>
 
                         <td className="py-3.5 px-4 text-right">
                           {isUserSuperadmin ? (
-                            <span className="text-[10px] text-purple-400/50 font-mono italic">Primary Owner</span>
+                            <span className="text-[10px] text-muted font-mono italic">Primary Owner</span>
                           ) : (
                             <button
                               disabled={isUpdating}

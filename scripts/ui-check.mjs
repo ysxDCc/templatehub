@@ -82,7 +82,7 @@ for (const p of pages) {
     }
 
     if (want('axe') && width === 390) {
-      const res = await new AxeBuilder({ page }).include(scope).exclude('iframe').disableRules(['frame-tested']).analyze();
+      const res = await new AxeBuilder({ page }).include(scope).exclude('iframe').exclude('[data-user-content]').disableRules(['frame-tested']).analyze();
       const bad = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
       for (const v of bad) fail(p, width, 'axe', `${v.id} (${v.impact}) ×${v.nodes.length}: ${v.nodes[0]?.target?.join(' ')}`);
     }

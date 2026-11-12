@@ -108,7 +108,7 @@ export default function AIGeneratorPage() {
               Generator
             </span>
           </h1>
-          <p className="text-purple-200/75 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-muted text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             Describe your dream website, get production-ready HTML in seconds.
           </p>
         </div>
@@ -118,10 +118,11 @@ export default function AIGeneratorPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Prompt area */}
         <div className="bg-[#0d0622]/90 border border-purple-500/25 rounded-2xl p-6 mb-6 backdrop-blur-xl shadow-2xl">
-          <label className="block text-sm font-bold text-white mb-3">
+          <label htmlFor="ai--f1" className="block text-sm font-bold text-white mb-3">
             Describe your website
           </label>
           <textarea
+ id="ai--f1"
             value={prompt}
             onChange={e => setPrompt(e.target.value)}
             placeholder="e.g. 'Dark SaaS landing page for a project management tool with pricing table and testimonials'"
@@ -137,7 +138,7 @@ export default function AIGeneratorPage() {
                 key={i}
                 onClick={() => setPrompt(ex)}
                 disabled={state === 'loading'}
-                className="text-[11px] px-2.5 py-1 rounded-lg bg-[#070314] hover:bg-[#1a0b3b] text-purple-300 hover:text-white border border-purple-500/25 transition-colors disabled:opacity-40 text-left font-mono"
+                className="min-h-11 text-[11px] px-2.5 py-1 rounded-lg bg-[#070314] hover:bg-[#1a0b3b] text-purple-300 hover:text-white border border-purple-500/25 transition-colors disabled:opacity-40 text-left font-mono"
               >
                 {ex.length > 50 ? ex.slice(0, 50) + '…' : ex}
               </button>
@@ -148,7 +149,7 @@ export default function AIGeneratorPage() {
             <button
               onClick={handleGenerate}
               disabled={state === 'loading' || !prompt.trim()}
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white text-xs font-bold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="min-h-11 inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white text-xs font-bold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {state === 'loading' ? (
                 <>
@@ -179,7 +180,7 @@ export default function AIGeneratorPage() {
               <div className="w-2 h-2 rounded-full bg-violet-400 animate-bounce" />
             </div>
             <p className="text-sm font-bold text-white mb-2">Generating your template…</p>
-            <p className="text-xs text-purple-300/70 mb-6">Gemini is crafting production-ready HTML with embedded CSS</p>
+            <p className="text-xs text-muted mb-6">Gemini is crafting production-ready HTML with embedded CSS</p>
 
             {/* Progress bar */}
             <div className="w-full max-w-sm mx-auto bg-[#070314] rounded-full h-2 overflow-hidden border border-purple-500/20">
@@ -188,7 +189,7 @@ export default function AIGeneratorPage() {
                 style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>
-            <p className="text-[11px] text-purple-400/80 font-mono mt-2">{Math.round(Math.min(progress, 100))}%</p>
+            <p className="text-[11px] text-muted font-mono mt-2">{Math.round(Math.min(progress, 100))}%</p>
           </div>
         )}
 
@@ -197,7 +198,7 @@ export default function AIGeneratorPage() {
           <div className="bg-amber-500/5 border border-amber-500/25 rounded-2xl p-8 mb-6 text-center">
             <div className="text-4xl mb-4">🔑</div>
             <h3 className="text-base font-bold text-amber-300 mb-2">Connect Gemini API key to enable generation</h3>
-            <p className="text-sm text-purple-200/70 max-w-md mx-auto mb-4 leading-relaxed">
+            <p className="text-sm text-muted max-w-md mx-auto mb-4 leading-relaxed">
               The AI generator requires a Gemini API key configured in your environment.
               Add <code className="px-1.5 py-0.5 bg-[#070314] border border-purple-500/25 rounded text-amber-300 text-[11px] font-mono">GEMINI_API_KEY</code> to your{' '}
               <code className="px-1.5 py-0.5 bg-[#070314] border border-purple-500/25 rounded text-purple-200 text-[11px] font-mono">.env.local</code> to activate this feature.
@@ -206,7 +207,7 @@ export default function AIGeneratorPage() {
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/35 text-amber-300 text-xs font-semibold rounded-xl transition-colors"
+              className="min-h-11 inline-flex items-center gap-2 px-5 py-2 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/35 text-amber-300 text-xs font-semibold rounded-xl transition-colors"
             >
               Get a free API key →
             </a>
@@ -218,7 +219,7 @@ export default function AIGeneratorPage() {
           <div className="bg-rose-500/10 border border-rose-500/25 rounded-2xl p-6 mb-6 text-center">
             <div className="text-3xl mb-3">⚠️</div>
             <h3 className="text-sm font-bold text-rose-300 mb-1">Generation failed</h3>
-            <p className="text-xs text-purple-300/70">Something went wrong. Try again or rephrase your prompt.</p>
+            <p className="text-xs text-muted">Something went wrong. Try again or rephrase your prompt.</p>
           </div>
         )}
 
@@ -234,7 +235,7 @@ export default function AIGeneratorPage() {
               <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                 <button
                   onClick={handleCopy}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 hover:text-white text-xs font-semibold rounded-lg transition-colors flex-1 sm:flex-none justify-center"
+                  className="min-h-11 inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#070314] hover:bg-[#1a0b3b] border border-purple-500/30 text-purple-200 hover:text-white text-xs font-semibold rounded-lg transition-colors flex-1 sm:flex-none justify-center"
                 >
                   {copied ? (
                     <>
@@ -254,7 +255,7 @@ export default function AIGeneratorPage() {
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm shadow-purple-500/30 active:scale-95 flex-1 sm:flex-none justify-center"
+                  className="min-h-11 inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white text-xs font-bold rounded-lg transition-colors shadow-sm shadow-purple-500/30 active:scale-95 flex-1 sm:flex-none justify-center"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -270,7 +271,7 @@ export default function AIGeneratorPage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-                <span className="ml-3 text-[11px] text-purple-400/80 font-mono">generated-template.html</span>
+                <span className="ml-3 text-[11px] text-muted font-mono">generated-template.html</span>
               </div>
               <iframe
                 srcDoc={generatedHtml}

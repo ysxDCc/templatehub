@@ -29,7 +29,7 @@ export default async function SignUpPage({
             <h2 className="text-white text-base font-bold">
               Start Your 3-Day Free Trial
             </h2>
-            <p className="text-purple-200/75 text-xs mt-1">
+            <p className="text-muted text-xs mt-1">
               Create your account to continue. Next, you&apos;ll enter payment credentials to verify your 3-day trial (&euro;0 charged today).
             </p>
           </div>
