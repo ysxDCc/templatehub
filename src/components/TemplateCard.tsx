@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, type PointerEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Template } from '@/types';
@@ -16,9 +17,38 @@ const CATEGORY_LABEL = (c: string) => c.replace(/-/g, ' ');
 export default function TemplateCard({ template, onQuickView }: TemplateCardProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(template.id);
+  const ref = useRef<HTMLElement>(null);
+
+  // Gentle 3D tilt that follows a mouse (never on touch, never with reduced motion).
+  const onMove = (e: PointerEvent<HTMLElement>) => {
+    const el = ref.current;
+    if (!el || e.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    el.style.setProperty('--ry', `${(x - 0.5) * 7}deg`);
+    el.style.setProperty('--rx', `${(0.5 - y) * 7}deg`);
+    el.style.setProperty('--lift', '-4px');
+    el.style.setProperty('--mx', `${x * 100}%`);
+    el.style.setProperty('--my', `${y * 100}%`);
+    el.classList.add('is-tilting');
+  };
+  const onLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.classList.remove('is-tilting');
+    el.style.setProperty('--rx', '0deg');
+    el.style.setProperty('--ry', '0deg');
+    el.style.setProperty('--lift', '0px');
+  };
 
   return (
-    <article className="group relative h-full flex flex-col rounded-card border border-line bg-surface overflow-hidden transition-[transform,border-color,box-shadow] duration-300 ease-[var(--ease-out-soft)] hover:-translate-y-1 hover:border-line-strong hover:shadow-[0_20px_44px_-20px_rgb(124_58_237/0.55)] focus-within:border-line-strong">
+    <article
+      ref={ref}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
+      className="th-tilt th-sheen group relative h-full flex flex-col rounded-card border border-line bg-surface overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-line-strong hover:shadow-[0_20px_44px_-20px_rgb(124_58_237/0.55)] focus-within:border-line-strong"
+    >
       <div className="relative aspect-[16/10] w-full bg-bg overflow-hidden">
         <Image
           src={template.previewImage}

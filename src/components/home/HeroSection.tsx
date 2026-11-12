@@ -1,22 +1,33 @@
+import { Fragment } from 'react';
 import Button from '@/components/ui/Button';
 import { TEMPLATE_COUNT } from '@/lib/site';
 import HeroPreviewCarousel from './HeroPreviewCarousel';
 
+const HEADLINE = ['Launch', 'a', 'beautiful', 'website', 'this', 'afternoon.'];
 const HERO_TEMPLATES = ['astral-aerospace', 'vortex-fitness', 'osteria-bella', 'cloudscale-saas', 'minimal-folio'];
 
 export default function HeroSection() {
   return (
     <section className="relative overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-[radial-gradient(closest-side,rgb(124_58_237/0.35),transparent)]" />
+      <div aria-hidden="true" className="th-glow-drift pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-[radial-gradient(closest-side,rgb(124_58_237/0.38),transparent)]" />
+      <div aria-hidden="true" className="th-glow-drift pointer-events-none absolute top-40 -right-40 w-[500px] h-[500px] rounded-full bg-[radial-gradient(closest-side,rgb(196_181_253/0.14),transparent)] [animation-duration:18s] [animation-direction:alternate-reverse]" />
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-10 pb-16 md:pt-20 md:pb-24 grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-14 items-center">
         {/* Above the fold: CSS-only entrance so the headline never waits for JavaScript. */}
         <div className="th-hero-in">
           <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface text-sm text-lilac">
             <span className="w-1.5 h-1.5 rounded-full bg-success" aria-hidden="true" />
-            {TEMPLATE_COUNT} templates · edit in your browser
+            <span aria-hidden="true" className="th-count tabular-nums" style={{ ['--th-to' as string]: TEMPLATE_COUNT }} />
+            <span className="sr-only">{TEMPLATE_COUNT}</span> templates · edit in your browser
           </p>
           <h1 className="mt-5 text-[40px] leading-[1.05] sm:text-5xl lg:text-[64px] font-bold tracking-tight text-ink text-balance">
-            Launch a beautiful website this afternoon.
+            {HEADLINE.map((w, i) => (
+              <Fragment key={i}>
+                <span className={`th-word ${i >= HEADLINE.length - 2 ? 'th-gradient-text' : ''}`} style={{ animationDelay: `${120 + i * 70}ms` }}>
+                  {w}
+                </span>
+                {i < HEADLINE.length - 1 ? ' ' : null}
+              </Fragment>
+            ))}
           </h1>
           <p className="mt-5 text-lg text-muted leading-relaxed max-w-xl">
             Pick a ready-made template, add your name, photos and products right in the browser, and download plain HTML you can host anywhere. No code, no build step.

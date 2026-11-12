@@ -6,7 +6,7 @@ type Size = 'sm' | 'md' | 'lg';
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-primary text-white hover:bg-primary-hover shadow-[0_8px_24px_-8px_rgb(124_58_237/0.6)]',
+    'th-shine bg-primary text-white hover:bg-primary-hover shadow-[0_8px_24px_-8px_rgb(124_58_237/0.6)]',
   secondary: 'bg-raised text-ink border border-line hover:border-line-strong hover:bg-[#21164f]',
   ghost: 'text-lilac hover:text-ink hover:bg-white/5',
 };
@@ -25,7 +25,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 /** Primary/secondary/ghost button. Renders a Next.js link when `href` is set. Always ≥ 44px tall. */
 export default function Button({ variant = 'primary', size = 'md', href, className = '', children, ...rest }: ButtonProps) {
-  const cls = `inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-[background-color,border-color,transform,color] duration-150 ease-[var(--ease-out-soft)] active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  const cls = `inline-flex items-center justify-center gap-2 rounded-control font-semibold transition-[background-color,border-color,transform,color] duration-150 ease-[var(--ease-out-soft)] active:scale-[0.96] active:duration-75 disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
   if (href) {
     return (
       <Link href={href} className={cls}>
