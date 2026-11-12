@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -163,14 +164,14 @@ export default function Logo({ size = 'md', showText = true, className = '' }: L
               </span>
             </div>
             <span className="text-[9px] font-mono tracking-widest text-purple-400/80 uppercase font-bold mt-0.5">
-              SOVEREIGN REGISTRY
+              WEBSITE TEMPLATES
             </span>
           </div>
 
           <span
             className={`${badge} font-mono uppercase font-extrabold tracking-wider rounded-lg bg-gradient-to-r from-purple-600/30 via-fuchsia-600/30 to-violet-600/30 border border-purple-400/50 text-purple-200 shadow-[0_0_12px_rgba(168,85,247,0.35)] self-center`}
           >
-            56 LIVE
+            {TEMPLATE_COUNT} LIVE
           </span>
         </div>
       )}

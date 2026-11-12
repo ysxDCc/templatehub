@@ -67,7 +67,7 @@ export default function CssTokensModal({
                 Design Tokens &amp; CSS Variables
               </h3>
               <p className="text-xs text-purple-300/70">
-                Sovereign :root token architecture for {template.name}
+                CSS colour variables for {template.name}
               </p>
             </div>
           </div>

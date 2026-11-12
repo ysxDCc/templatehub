@@ -89,7 +89,7 @@ export default function SpeedRaceModal({
                 </span>
               </h2>
               <p className="text-xs text-zinc-400">
-                Sovereign clean code vs bloated 4MB CMS runtimes
+                Plain HTML vs a typical CMS page
               </p>
             </div>
           </div>
@@ -113,7 +113,7 @@ export default function SpeedRaceModal({
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                    <span>⚡ Lane A: TemplateHub Sovereign</span>
+                    <span>⚡ Lane A: TemplateHub</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-normal">
                       32 KB · 0 Trackers
                     </span>

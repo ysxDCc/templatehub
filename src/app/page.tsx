@@ -11,18 +11,21 @@ import CommandPalette from '@/components/CommandPalette';
 import FreeTrialModal from '@/components/FreeTrialModal';
 import { templates } from '@/data/templates';
 import { pricingPlans } from '@/data/pricing';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [isCommandOpen, setIsCommandOpen] = useState(false);
 
   const filterChips = [
-    { id: 'all', label: 'All Masterpieces (76)', icon: '✦' },
-    { id: 'saas-ai', label: 'SaaS & AI Studios', icon: '🤖', match: ['saas', 'ai', 'cloud'] },
-    { id: 'aerospace-defense', label: 'Aerospace & Cyber', icon: '🚀', match: ['aerospace', 'security', 'cyberpunk'] },
-    { id: 'motorsport-gaming', label: 'Motorsport & Esports', icon: '🏎️', match: ['motorsport', 'gaming'] },
-    { id: 'architecture-luxury', label: 'Architecture & Living', icon: '🏛️', match: ['architecture', 'furniture', 'luxury', 'real-estate'] },
-    { id: 'biotech-fintech', label: 'Biotech & Fintech', icon: '🧬', match: ['biotech', 'fintech', 'crypto'] },
+    { id: 'all', label: `All templates (${TEMPLATE_COUNT})`, icon: '✦' },
+    { id: 'business', label: 'Business & Landing', icon: '💼', match: ['landing-page', 'agency', 'portfolio', 'blog', 'podcast', 'photography', 'education'] },
+    { id: 'saas-ai', label: 'SaaS & AI', icon: '🤖', match: ['saas', 'ai', 'cloud', 'dashboard', 'quantum'] },
+    { id: 'shops-food', label: 'Shops, Food & Fitness', icon: '🛍️', match: ['e-commerce', 'restaurant', 'dining', 'food', 'fitness', 'beauty', 'spa', 'travel'] },
+    { id: 'aerospace-defense', label: 'Aerospace & Security', icon: '🚀', match: ['aerospace', 'space', 'astronomy', 'security', 'cybersecurity', 'cyberpunk'] },
+    { id: 'motorsport-gaming', label: 'Motorsport & Gaming', icon: '🏎️', match: ['motorsport', 'hypercar', 'gaming', 'arcade', 'spatial'] },
+    { id: 'architecture-luxury', label: 'Architecture & Luxury', icon: '🏛️', match: ['architecture', 'furniture', 'luxury', 'real-estate', 'yachts', 'auction'] },
+    { id: 'biotech-fintech', label: 'Health, Science & Finance', icon: '🧬', match: ['biotech', 'bionics', 'healthcare', 'fintech', 'crypto', 'energy', 'green', 'geothermal', 'industrial', 'agriculture', 'oceanic', 'audio', 'culture'] },
   ];
 
   const filteredTemplates = templates.filter((t) => {
@@ -54,13 +57,13 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-purple-400 mb-2.5 font-bold">
                 <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-ping"></span>
-                <span>CURATED ARCHIVE</span>
+                <span>FEATURED</span>
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mb-2 leading-tight">
-                Featured Production Masterpieces
+                Find a template for your business
               </h2>
               <p className="text-sm text-purple-200/75 max-w-xl leading-relaxed">
-                Filter by specialized vertical. Every template includes 100% responsive testing, WCAG AAA accessibility, and zero external build tooling.
+                Filter by industry. Every template works on phones, tablets and desktops, and needs no build tools.
               </p>
             </div>
 
@@ -68,7 +71,7 @@ export default function Home() {
               href="/templates"
               className="text-xs font-bold text-white px-5 py-3 rounded-xl border border-purple-500/30 bg-[#0e0624] hover:bg-[#190b3b] hover:border-purple-400/50 transition-all flex items-center gap-2 self-start md:self-auto shrink-0 shadow-[0_4px_20px_rgba(7,3,20,0.6)]"
             >
-              <span>View All 76+ Templates</span>
+              <span>View all {TEMPLATE_COUNT} templates</span>
               <span className="text-purple-400">→</span>
             </Link>
           </div>
@@ -106,7 +109,7 @@ export default function Home() {
               href="/templates"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white text-xs font-bold rounded-xl transition-all shadow-[0_0_30px_rgba(168,85,247,0.4)] hover:scale-105 active:scale-95 shimmer-active"
             >
-              <span>Explore Complete 76-Template Registry</span>
+              <span>See all {TEMPLATE_COUNT} templates</span>
               <span>→</span>
             </Link>
           </div>
@@ -118,13 +121,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-xs font-mono uppercase tracking-wider mb-3 shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-              <span>✦ TRANSPARENT MEMBERSHIP</span>
+              <span>✦ PRICING</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
-              Developer-First Flat Subscriptions
+              Simple monthly plans
             </h2>
             <p className="text-sm sm:text-base text-purple-200/75 leading-relaxed">
-              Cancel anytime. Downloaded template files and commercial perpetual rights remain yours forever.
+              Cancel anytime from your account. Templates you downloaded while subscribed stay licensed to you under the plan you had. <Link href="/licensing" className="underline decoration-purple-500/50 hover:text-white">Compare licences</Link> · <Link href="/refunds" className="underline decoration-purple-500/50 hover:text-white">Refund policy</Link>
             </p>
           </div>
 
@@ -138,10 +141,10 @@ export default function Home() {
           <div className="mt-14 pt-8 border-t border-purple-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-purple-300/80">
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-              <span>256-bit TLS Encrypted Global Checkout via Dodo Payments</span>
+              <span>Secure checkout by Dodo Payments. We never see your card details.</span>
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              <span className="text-purple-400 font-mono text-[11px]">Accepted Rails:</span>
+              <span className="text-purple-400 font-mono text-[11px]">We accept:</span>
               <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Apple Pay</span>
               <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Google Pay</span>
               <span className="px-2.5 py-1 rounded-lg bg-[#0e0624] border border-purple-500/25 text-purple-200 font-medium text-[11px]">Visa &amp; Mastercard</span>
@@ -155,33 +158,33 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-3">
-              Technical Architecture &amp; Licensing FAQ
+              Frequently asked questions
             </h2>
-            <p className="text-sm text-purple-200/75">Everything engineers need to know about code ownership, licenses, and tooling.</p>
+            <p className="text-sm text-purple-200/75">Still unsure? <Link href="/contact" className="underline decoration-purple-500/50 hover:text-white">Ask us</Link> — a real person replies.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <div className="p-7 rounded-2xl border border-purple-500/25 bg-[#0d0622]/85 backdrop-blur-md shadow-[0_4px_25px_rgba(7,3,20,0.6)]">
-              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">01 // Delivery Format</div>
-              <h3 className="text-base font-bold text-white mb-2">Standalone Codebases</h3>
+              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">01 // What do I get?</div>
+              <h3 className="text-base font-bold text-white mb-2">Plain HTML files</h3>
               <p className="text-xs text-purple-200/75 leading-relaxed">
-                Every template ships as a pure, self-sufficient HTML5 file. All styling is defined via semantic CSS variables and embedded CSS. Zero build steps required to preview or host.
+                Each template downloads as an index.html with its CSS and images. Open it in a browser to check it, then upload it to any host — Netlify, Vercel, GitHub Pages or a normal cPanel server.
               </p>
             </div>
 
             <div className="p-7 rounded-2xl border border-purple-500/25 bg-[#0d0622]/85 backdrop-blur-md shadow-[0_4px_25px_rgba(7,3,20,0.6)]">
-              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">02 // Perpetual Licensing</div>
-              <h3 className="text-base font-bold text-white mb-2">Unlimited Commercial Rights</h3>
+              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">02 // Can I use it for clients?</div>
+              <h3 className="text-base font-bold text-white mb-2">Depends on your plan</h3>
               <p className="text-xs text-purple-200/75 leading-relaxed">
-                Use downloaded templates across unlimited client or personal production projects. Even if your subscription lapses, code you downloaded remains 100% yours forever.
+                Free is for personal sites. Basic adds your own freelance projects. Pro allows client and commercial work, and Enterprise covers agencies with many clients. Licences for files you downloaded don&apos;t expire when you cancel. <Link href="/licensing" className="underline decoration-purple-500/50 hover:text-white">Full licence terms →</Link>
               </p>
             </div>
 
             <div className="p-7 rounded-2xl border border-purple-500/25 bg-[#0d0622]/85 backdrop-blur-md shadow-[0_4px_25px_rgba(7,3,20,0.6)]">
-              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">03 // Framework Agnostic</div>
-              <h3 className="text-base font-bold text-white mb-2">Instant React / Vue Portability</h3>
+              <div className="text-purple-400 text-sm mb-3 font-mono font-bold">03 // I use React or Astro</div>
+              <h3 className="text-base font-bold text-white mb-2">Copy sections straight in</h3>
               <p className="text-xs text-purple-200/75 leading-relaxed">
-                Because the markup is pure semantic HTML5, you can copy sections directly into Next.js, Astro, Nuxt, Svelte, or plain static hosts with zero migration friction.
+                The markup is plain semantic HTML, so you can paste sections into Next.js, Astro, Nuxt or Svelte components. Members can also export JSX, Vue or Astro versions from the code tab on each template.
               </p>
             </div>
           </div>
@@ -196,20 +199,20 @@ export default function Home() {
 
             <div className="relative z-10">
               <span className="text-xs font-mono uppercase tracking-widest text-purple-300 font-bold px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/35 inline-block mb-4">
-                Instant Access
+                Start free
               </span>
               <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4 leading-tight">
-                Ready to Deploy Your Next Masterpiece?
+                Your next website is one download away
               </h2>
               <p className="text-sm sm:text-base text-purple-200/80 max-w-xl mx-auto mb-8 leading-relaxed">
-                Join hundreds of engineers, creators, and agencies shipping lightning-fast, zero-dependency websites in minutes.
+                Sign up free and download a starter template today. Upgrade only when you need more.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/templates"
                   className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 text-white font-bold text-xs rounded-xl shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all hover:scale-105 shimmer-active"
                 >
-                  Browse All 76+ Templates →
+                  Browse all {TEMPLATE_COUNT} templates →
                 </Link>
                 <Link
                   href="/#pricing"

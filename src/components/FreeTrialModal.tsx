@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 export default function FreeTrialModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,7 +160,7 @@ export default function FreeTrialModal() {
 
         {/* Heading */}
         <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-2">
-          Unlock All 76+ Templates For Free
+          Unlock All {TEMPLATE_COUNT} Templates For Free
         </h2>
 
         {/* Subhead */}
@@ -183,7 +184,7 @@ export default function FreeTrialModal() {
               ✓
             </div>
             <div>
-              <strong className="text-white">76+ Production Codebases:</strong> SaaS, AI, Fintech, E-Commerce, Portfolios, and Dashboards.
+              <strong className="text-white">{TEMPLATE_COUNT} Production Codebases:</strong> SaaS, AI, Fintech, E-Commerce, Portfolios, and Dashboards.
             </div>
           </div>
 

@@ -50,8 +50,21 @@ export async function POST(req: Request) {
     console.log('[TemplateHub Form Gateway] Submission received:', JSON.stringify(submission));
 
     // If a redirect URL is specified by the form creator, redirect back
+    // Only follow absolute http(s) redirects so the endpoint can't be abused
+    // to bounce visitors to javascript: or other schemes.
+    let safeRedirect: string | null = null;
     if (redirectUrl) {
-      return NextResponse.redirect(redirectUrl, {
+      try {
+        const parsed = new URL(redirectUrl);
+        if (parsed.protocol === 'https:' || parsed.protocol === 'http:') safeRedirect = parsed.toString();
+      } catch {
+        safeRedirect = null;
+      }
+    }
+
+    if (safeRedirect) {
+      return NextResponse.redirect(safeRedirect, {
+        status: 303,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },

@@ -8,28 +8,37 @@ import SinglePurchaseButton from '@/components/SinglePurchaseButton';
 import ReviewsSection from '@/components/ReviewsSection';
 import MasterBundleDownloadButton from '@/components/MasterBundleDownloadButton';
 import TemplateLogo from '@/components/TemplateLogo';
+import { SITE_URL } from '@/lib/site';
+
+// Pre-render every template page at build time for instant loads.
+export function generateStaticParams() {
+  return templates.map((t) => ({ id: t.id }));
+}
+export const dynamicParams = false;
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const template = templates.find((t) => t.id === id);
-  if (!template) return { title: 'Template Not Found | TemplateHub' };
+  if (!template) return { title: 'Template not found' };
 
-  const title = `${template.name} — Premium ${template.category.toUpperCase()} Website Template | TemplateHub`;
-  const description = `${template.description} Responsive standalone HTML5/CSS codebase with commercial client rights and instant in-browser sandbox preview.`;
+  const categoryLabel = template.category.replace(/-/g, ' ');
+  const title = `${template.name} — ${categoryLabel.replace(/\b\w/g, (c) => c.toUpperCase())} Website Template`;
+  const description = `${template.description} Responsive HTML & CSS, no build step. Live preview and in-browser customisation.`.slice(0, 300);
 
   return {
     title,
     description,
+    alternates: { canonical: `/templates/${template.id}` },
     openGraph: {
       title,
       description,
-      url: `https://www.templatehub.website/templates/${template.id}`,
+      url: `${SITE_URL}/templates/${template.id}`,
       siteName: 'TemplateHub',
       images: [
         {
-          url: `https://www.templatehub.website${template.previewImage}`,
-          width: 1200,
-          height: 630,
+          url: `${SITE_URL}${template.previewImage}`,
+          width: 1280,
+          height: 800,
           alt: `${template.name} Preview`,
         },
       ],
@@ -39,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       card: 'summary_large_image',
       title,
       description,
-      images: [`https://www.templatehub.website${template.previewImage}`],
+      images: [`${SITE_URL}${template.previewImage}`],
     },
   };
 }
@@ -65,18 +74,12 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
         '@type': 'Product',
         name: template.name,
         description: template.description,
-        image: `https://www.templatehub.website${template.previewImage}`,
+        image: `${SITE_URL}${template.previewImage}`,
         category: template.category,
         brand: {
           '@type': 'Brand',
           name: 'TemplateHub',
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: template.rating.toFixed(1),
-          reviewCount: Math.max(14, Math.floor(template.downloads / 18)),
-        },
-        offers: {
+        },        offers: {
           '@type': 'AggregateOffer',
           priceCurrency: 'EUR',
           lowPrice: '3.00',
@@ -89,7 +92,7 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
               price: '9.00',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
-              url: `https://www.templatehub.website/templates/${template.id}`,
+              url: `${SITE_URL}/templates/${template.id}`,
             },
             {
               '@type': 'Offer',
@@ -97,21 +100,18 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
               price: '3.00',
               priceCurrency: 'EUR',
               availability: 'https://schema.org/InStock',
-              url: 'https://www.templatehub.website/#pricing',
+              url: `${SITE_URL}/#pricing`,
             },
           ],
         },
       },
       {
-        '@type': 'SoftwareApplication',
-        name: template.name,
-        applicationCategory: 'DesignApplication',
-        operatingSystem: 'All modern web browsers',
-        offers: {
-          '@type': 'Offer',
-          price: '9.00',
-          priceCurrency: 'EUR',
-        },
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          { '@type': 'ListItem', position: 2, name: 'Templates', item: `${SITE_URL}/templates` },
+          { '@type': 'ListItem', position: 3, name: template.name, item: `${SITE_URL}/templates/${template.id}` },
+        ],
       },
     ],
   };

@@ -151,22 +151,26 @@ const VISION_FILTERS: Record<string, { label: string; filterStyle: string }> = {
   contrast: { label: 'High Contrast (WCAG AAA)', filterStyle: 'contrast(175%) brightness(105%)' },
 };
 
+type ViewMode = 'preview' | 'autoedit' | 'code';
+
 interface InteractivePreviewFrameProps {
   template: Template;
+  /** Which tab to open first. Defaults to the live preview. */
+  initialMode?: ViewMode;
 }
-
-type ViewMode = 'preview' | 'autoedit' | 'code';
 type ViewportMode = 'desktop' | 'laptop' | 'tablet' | 'mobile';
 
-export default function InteractivePreviewFrame({ template }: InteractivePreviewFrameProps) {
+export default function InteractivePreviewFrame({ template, initialMode = 'preview' }: InteractivePreviewFrameProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const userTier = (user?.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
   const hasAccess = isSignedIn && hasTierAccess(userTier, template.tier);
 
-  const [viewMode, setViewMode] = useState<ViewMode>('preview');
+  const [viewMode, setViewMode] = useState<ViewMode>(initialMode);
   const [viewport, setViewport] = useState<ViewportMode>('desktop');
   const [primaryColor, setPrimaryColor] = useState('#a855f7');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // Anyone can try the Auto-Edit Studio; downloading the result needs the right plan.
+  const [showUnlockPrompt, setShowUnlockPrompt] = useState(false);
   const [isIframeInteractive, setIsIframeInteractive] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [showCssTokensModal, setShowCssTokensModal] = useState(false);
@@ -336,6 +340,11 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   };
 
   const handleDownloadCustomHtml = () => {
+    if (!hasAccess) {
+      setViewMode('autoedit');
+      setShowUnlockPrompt(true);
+      return;
+    }
     const content = customHtml || (rawCode ? injectStoreDataIntoHtml(rawCode, storeData) : '');
     if (!content) return;
     const blob = new Blob([content], { type: 'text/html' });
@@ -350,6 +359,10 @@ export default function InteractivePreviewFrame({ template }: InteractivePreview
   };
 
   const handleExportCustomZip = async () => {
+    if (!hasAccess) {
+      setShowUnlockPrompt(true);
+      return;
+    }
     const content = customHtml || (rawCode ? injectStoreDataIntoHtml(rawCode, storeData) : '');
     if (!content) return;
     setDownloadingCustom(true);
@@ -459,11 +472,12 @@ Deploy directly to Vercel, Netlify, or any static web host.
             }`}
           >
             <span>🪄</span>
-            <span className="hidden sm:inline">Auto-Edit with </span>
-            <span>Store Auto-Edit</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30">
-              Pro
-            </span>
+            <span>Auto-Edit</span>
+            {!hasAccess && (
+              <span className="text-[10px] px-1.5 py-0.2 rounded font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Try free
+              </span>
+            )}
           </button>
 
           {/* CODE INSPECTOR TAB */}
@@ -573,10 +587,10 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 setShowLighthouseModal(true);
               }}
               className="px-2 py-1 text-xs font-semibold rounded-md border bg-emerald-950/60 border-emerald-500/30 text-emerald-300 hover:text-white hover:bg-emerald-900 transition-all flex items-center gap-1"
-              title="Live 100/100 Core Web Vitals Audit"
+              title="Speed check and PageSpeed Insights link"
             >
               <span>⚡</span>
-              <span className="hidden xl:inline">100/100</span>
+              <span className="hidden xl:inline">Speed</span>
             </button>
 
             {/* Blueprint X-Ray Architecture Mode */}
@@ -948,17 +962,21 @@ Deploy directly to Vercel, Netlify, or any static web host.
       {/* AUTO-EDIT STUDIO MODE (MEMBERSHIP GATED) */}
       {viewMode === 'autoedit' && (
         <div className="min-h-[580px] p-6 bg-zinc-950">
-          {!hasAccess ? (
-            /* Locked State for Non-Members */
+          {!hasAccess && showUnlockPrompt ? (
+            /* Shown when a visitor without the right plan tries to download their edit */
             <div className="h-[500px] flex flex-col items-center justify-center text-center max-w-lg mx-auto">
               <div className="w-16 h-16 rounded-3xl bg-amber-500/10 border border-amber-500/20 text-3xl flex items-center justify-center mb-5 text-amber-400">
                 🔒
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">
-                Auto-Edit Studio is a Membership Exclusive
+                {isSignedIn ? `Download needs the ${template.tier.charAt(0).toUpperCase() + template.tier.slice(1)} plan` : 'Create a free account to download'}
               </h3>
               <p className="text-xs sm:text-sm text-zinc-400 mb-6 leading-relaxed">
-                Save hours of manual coding. Enter your store name, mission, product catalog, contact info, and upload pictures to let our engine automatically restructure this entire website template for your business.
+                {isSignedIn
+                  ? `Your edits are ready. Upgrade to download ${template.name} with your details as a ready-to-host ZIP.`
+                  : template.tier === 'free'
+                    ? 'Your edits are ready. Sign up free — no card needed — to download this template with your details.'
+                    : `Your edits are ready. Sign up and choose the ${template.tier} plan (or higher) to download this template.`}
               </p>
               <div className="bg-zinc-900 border border-white/10 rounded-2xl p-4 text-left w-full mb-6 font-mono text-xs space-y-1.5 text-zinc-300">
                 <div className="flex items-center gap-2 text-indigo-400 font-bold">
@@ -969,11 +987,18 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 <div>✓ Generates customized single-file HTML &amp; production ZIP</div>
               </div>
               <Link
-                href="/#pricing"
+                href={!isSignedIn ? '/signup' : '/#pricing'}
                 className="w-full py-3 px-6 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-amber-500/20"
               >
-                Upgrade to {template.tier.toUpperCase()} Plan to Unlock
+                {!isSignedIn ? 'Sign up free' : `See the ${template.tier} plan`}
               </Link>
+              <button
+                type="button"
+                onClick={() => setShowUnlockPrompt(false)}
+                className="mt-3 text-xs text-zinc-400 hover:text-white underline underline-offset-4"
+              >
+                ← Keep editing
+              </button>
             </div>
           ) : (
             /* Unlocked Auto-Edit Studio Interface */
@@ -982,11 +1007,16 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 <div>
                   <h3 className="text-xl font-bold text-white flex items-center gap-2">
                     <span>🪄</span>
-                    <span>Store Auto-Edit Studio</span>
+                    <span>Auto-Edit Studio</span>
                   </h3>
                   <p className="text-xs text-zinc-400 mt-1">
-                    Enter your store specifications and images. Hit Apply to preview and download your tailored site.
+                    Fill in your details and photos, then hit Apply &amp; Preview. Nothing is uploaded — it all happens in your browser.
                   </p>
+                  {!hasAccess && (
+                    <p className="text-[11px] text-emerald-300/90 mt-1.5">
+                      You&apos;re trying the studio for free. {isSignedIn ? `Downloading needs the ${template.tier} plan.` : 'Sign up to download your result.'}
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -1316,11 +1346,18 @@ Deploy directly to Vercel, Netlify, or any static web host.
                 Raw source code extraction and clipboard copying are reserved exclusively for active {template.tier.toUpperCase()} members.
               </p>
               <Link
-                href="/#pricing"
+                href={!isSignedIn ? '/signup' : '/#pricing'}
                 className="w-full py-3 px-6 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-zinc-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-amber-500/20"
               >
-                Upgrade to {template.tier.toUpperCase()} Plan to Unlock
+                {!isSignedIn ? 'Sign up free' : `See the ${template.tier} plan`}
               </Link>
+              <button
+                type="button"
+                onClick={() => setShowUnlockPrompt(false)}
+                className="mt-3 text-xs text-zinc-400 hover:text-white underline underline-offset-4"
+              >
+                ← Keep editing
+              </button>
             </div>
           ) : (
             /* Unlocked Source Code Inspector */
@@ -1447,6 +1484,7 @@ Deploy directly to Vercel, Netlify, or any static web host.
           isOpen={showLighthouseModal}
           onClose={() => setShowLighthouseModal(false)}
           templateName={template.name}
+          previewPath={template.livePreviewUrl}
         />
       )}
 

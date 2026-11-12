@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import CosmicPurpleCanvas from '@/components/CosmicPurpleCanvas';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface HeroProps {
   onOpenCommandPalette?: () => void;
@@ -43,26 +44,25 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-fuchsia-400"></span>
             </span>
-            <span className="font-bold text-white tracking-wide">56 SOVEREIGN MASTERPIECES</span>
+            <span className="font-bold text-white tracking-wide">{TEMPLATE_COUNT} TEMPLATES</span>
             <span className="text-purple-500/70 hidden sm:inline">/</span>
-            <span className="text-purple-300 hidden md:inline">ZERO RUNTIME NPM BLOAT</span>
+            <span className="text-purple-300 hidden md:inline">NO NPM, NO BUILD STEP</span>
             <span className="text-purple-500/70 hidden sm:inline">/</span>
-            <span className="text-emerald-400 font-bold">100/100 LIGHTHOUSE</span>
+            <span className="text-emerald-400 font-bold">EDIT IN YOUR BROWSER</span>
           </div>
         </div>
 
         {/* Masterpiece Headline with Purple Glow */}
         <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10 px-2">
           <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white mb-4 sm:mb-6 leading-[1.08] sm:leading-[1.03] break-words">
-            The Sovereign{' '}
+            Launch a beautiful website{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-fuchsia-200 to-violet-300 drop-shadow-[0_0_35px_rgba(168,85,247,0.6)]">
-              Template Engine
-            </span>{' '}
-            for Visionaries.
+              this afternoon.
+            </span>
           </h1>
 
           <p className="text-sm sm:text-lg md:text-xl text-purple-200/80 leading-relaxed font-normal max-w-3xl mx-auto">
-            Engineered as standalone, framework-free masterworks. Single-file architectures, reactive CSS custom tokens, and zero fragile build pipelines. Download, auto-edit with your store data, and deploy forever.
+            Pick one of {TEMPLATE_COUNT} ready-made website templates, drop in your name, colours, photos and products right in the browser, and download plain HTML files you can host anywhere. No coding, no npm, no build step.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
             href="/templates"
             className="w-full sm:w-auto px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-purple-600 via-violet-600 to-fuchsia-600 hover:from-purple-500 hover:via-violet-500 hover:to-fuchsia-500 rounded-xl transition-all shadow-[0_0_30px_rgba(168,85,247,0.45)] hover:shadow-[0_0_40px_rgba(168,85,247,0.7)] hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shimmer-active"
           >
-            <span>Explore All 56 Templates</span>
+            <span>Browse all {TEMPLATE_COUNT} templates</span>
             <span className="text-base sm:text-lg">→</span>
           </Link>
 
@@ -95,7 +95,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
             href="/#pricing"
             className="w-full sm:w-auto px-5 sm:px-6 py-3.5 text-xs sm:text-sm font-medium text-purple-200 border border-purple-500/20 bg-[#0c051f]/70 hover:bg-[#160a36] hover:text-white rounded-xl transition-all text-center active:scale-95"
           >
-            Subscription Access (from €3/mo)
+            Plans from €3/month
           </Link>
         </div>
 
@@ -136,7 +136,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                     : 'text-purple-300/70 hover:text-white'
                 }`}
               >
-                🔍 Telemetry
+                🔍 What you get
               </button>
               <button
                 onClick={() => setActiveTab('packager')}
@@ -157,9 +157,9 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
               <div className="relative aspect-[4/3] sm:aspect-[16/9] min-h-[280px] sm:min-h-[380px] w-full rounded-xl overflow-hidden border border-purple-500/25 bg-[#070314]">
                 <iframe
                   src="/sandboxes/astral-aerospace/index.html"
-                  title="ASTRAL Aerospace Live Masterpiece Showcase"
+                  title="Live preview of the ASTRAL Aerospace template"
                   className="w-full h-full border-0"
-                  loading="eager"
+                  loading="lazy"
                 />
                 <div className="absolute bottom-2.5 right-2.5 flex items-center gap-2">
                   <Link
@@ -180,13 +180,13 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     ACTIVE COMPLIANCE HARNESS
                   </span>
-                  <span className="text-purple-300 text-[10px]">ALL 56 TEMPLATES VALIDATED</span>
+                  <span className="text-purple-300 text-[10px]">WHAT YOU DOWNLOAD</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <div className="p-2.5 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
-                    <div className="text-purple-400/80 text-[10px]">HTML5 CONFORMANCE</div>
-                    <div className="text-base sm:text-lg font-bold text-emerald-400">100% STRICT</div>
-                    <div className="text-[10px] text-purple-300/60 mt-0.5">Zero hydration mismatches</div>
+                    <div className="text-purple-400/80 text-[10px]">FORMAT</div>
+                    <div className="text-base sm:text-lg font-bold text-emerald-400">HTML + CSS</div>
+                    <div className="text-[10px] text-purple-300/60 mt-0.5">Opens in any browser</div>
                   </div>
                   <div className="p-2.5 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
                     <div className="text-purple-400/80 text-[10px]">EXTERNAL RUNTIME LIBS</div>
@@ -194,9 +194,9 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                     <div className="text-[10px] text-purple-300/60 mt-0.5">Single-file autonomy</div>
                   </div>
                   <div className="p-2.5 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
-                    <div className="text-purple-400/80 text-[10px]">WCAG CONTRAST RATIO</div>
-                    <div className="text-base sm:text-lg font-bold text-purple-300">AAA CERTIFIED</div>
-                    <div className="text-[10px] text-purple-300/60 mt-0.5">High-legibility ratios</div>
+                    <div className="text-purple-400/80 text-[10px]">HOSTING</div>
+                    <div className="text-base sm:text-lg font-bold text-purple-300">ANYWHERE</div>
+                    <div className="text-[10px] text-purple-300/60 mt-0.5">Netlify, Vercel, cPanel, S3</div>
                   </div>
                 </div>
                 <div className="p-3 sm:p-4 bg-[#070314] rounded-lg border border-purple-500/20 text-purple-200/90 leading-relaxed text-[10px] sm:text-[11px] overflow-x-auto">
@@ -219,34 +219,34 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-base">🪄</span>
-                    <h3 className="text-xs sm:text-sm font-bold text-white">Store Auto-Edit &amp; PKZIP Engine</h3>
+                    <h3 className="text-xs sm:text-sm font-bold text-white">Auto-Edit Studio</h3>
                   </div>
                   <p className="text-[11px] sm:text-xs text-purple-200/80 leading-relaxed mb-3 sm:mb-4">
-                    Subscribers can instantly inject brand headlines, products, contacts, and custom store photos with live DOM replacement right in the browser, then download clean standalone ZIP bundles.
+                    Type in your business name, headline, products and contact details, upload your own photos, and watch the template update live. Then download it as a ready-to-host ZIP.
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-center">
                     <div className="p-2 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
                       <div className="text-sm sm:text-base font-bold text-purple-300">1-Click</div>
-                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Live DOM Inject</div>
+                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Live preview</div>
                     </div>
                     <div className="p-2 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
                       <div className="text-sm sm:text-base font-bold text-fuchsia-300">Local</div>
-                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Image Base64</div>
+                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Your photos</div>
                     </div>
                     <div className="p-2 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
                       <div className="text-sm sm:text-base font-bold text-emerald-300">Clean ZIP</div>
-                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Zero Build System</div>
+                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Ready to host</div>
                     </div>
                     <div className="p-2 sm:p-3 bg-[#0e0624] rounded-lg border border-purple-500/20">
-                      <div className="text-sm sm:text-base font-bold text-cyan-300">Protected</div>
-                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Clerk Guarded</div>
+                      <div className="text-sm sm:text-base font-bold text-cyan-300">Private</div>
+                      <div className="text-[9px] sm:text-[10px] text-purple-400/80 mt-0.5">Edits stay on your device</div>
                     </div>
                   </div>
                 </div>
                 <div className="pt-3 sm:pt-4 border-t border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-                  <span className="text-[10px] sm:text-[11px] text-purple-300/80 font-mono">Available on all 56 template pages</span>
+                  <span className="text-[10px] sm:text-[11px] text-purple-300/80 font-mono">Works with all {TEMPLATE_COUNT} templates</span>
                   <Link
-                    href="/templates/astral-aerospace"
+                    href="/studio"
                     className="w-full sm:w-auto text-center px-4 py-2 bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white rounded-lg text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] active:scale-95 transition-transform"
                   >
                     Open Auto-Edit Studio →
@@ -260,7 +260,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
           <div className="px-3 sm:px-6 py-2.5 sm:py-3 bg-[#070314] border-t border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-purple-300/80">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-              <span className="text-[11px] sm:text-xs">All 56 Masterpiece Codebases Ready for Deployment</span>
+              <span className="text-[11px] sm:text-xs">{TEMPLATE_COUNT} templates ready to download</span>
             </div>
             <div className="flex items-center gap-3 sm:gap-4 text-[10px] sm:text-[11px] font-mono">
               <span className="text-purple-400">STANDALONE HTML5</span>
@@ -276,17 +276,17 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
         <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-6 text-[11px] sm:text-xs text-purple-300/90">
           <div className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0e0624]/80 border border-purple-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)] flex items-center gap-2 animate-float">
             <span className="text-purple-400 font-bold">⚡</span>
-            <span>DOM Boot: &lt; 15ms</span>
+            <span>No dependencies to update</span>
           </div>
 
           <div className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0e0624]/80 border border-purple-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)] flex items-center gap-2 animate-float-delayed">
             <span className="text-fuchsia-400 font-bold">💎</span>
-            <span>Cyber-Amethyst Engine</span>
+            <span>Mobile-friendly layouts</span>
           </div>
 
           <div className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#0e0624]/80 border border-purple-500/30 backdrop-blur-md shadow-[0_0_20px_rgba(168,85,247,0.2)] flex items-center gap-2 animate-float">
             <span className="text-emerald-400 font-bold">✓</span>
-            <span>Commercial Perpetual Rights</span>
+            <span>Keep what you download</span>
           </div>
         </div>
 

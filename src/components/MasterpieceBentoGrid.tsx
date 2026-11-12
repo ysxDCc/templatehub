@@ -26,16 +26,16 @@ export default function MasterpieceBentoGrid() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-xs font-mono uppercase tracking-wider mb-4 shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-            <span>✦ Engineered Without Compromise</span>
+            <span>✦ Why TemplateHub</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
-            Not Mere Templates. <br />
+            Simple files. <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-300 via-fuchsia-200 to-violet-300 drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
-              Sovereign Codebase Engines.
+              Nothing to break later.
             </span>
           </h2>
           <p className="text-purple-200/80 text-base sm:text-lg leading-relaxed">
-            Eliminate runtime fragility. Every codebase is self-contained HTML5, semantic CSS variables, and zero bundled node_modules dependencies.
+            Every template is plain HTML and CSS with a little vanilla JavaScript. There are no packages to install or update, so the site you launch today still works years from now.
           </p>
         </div>
 
@@ -47,23 +47,23 @@ export default function MasterpieceBentoGrid() {
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                 <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 font-bold">
-                  LIVE TOKEN HARNESS
+                  TRY IT
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-purple-500/20 border border-purple-500/35 text-purple-200">
-                  CSS Variables Reactive
+                  Live demo
                 </span>
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                Dynamic Brand Token Customizer
+                Your brand colour, everywhere
               </h3>
               <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-5 sm:mb-6">
-                Test how effortlessly our templates absorb your brand identity. Select a theme token below to watch the live UI node adapt instantly.
+                Each template's colours live in a few CSS variables. Pick a colour below and the sample card updates instantly — the real templates work the same way.
               </p>
 
               {/* Swatch Selector */}
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6 bg-[#070314] p-2 sm:p-2.5 rounded-2xl border border-purple-500/25 max-w-full shadow-inner">
-                <span className="text-xs text-purple-300 font-medium px-1 sm:px-2">Palette:</span>
-                <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto hide-scrollbar py-1">
+                <span id="palette-label" className="text-xs text-purple-300 font-medium px-1 sm:px-2">Brand colour:</span>
+                <div role="radiogroup" aria-labelledby="palette-label" className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto hide-scrollbar py-2 px-1.5">
                   {colorPalettes.map((p) => (
                     <button
                       key={p.name}
@@ -75,6 +75,9 @@ export default function MasterpieceBentoGrid() {
                           : 'opacity-70 hover:opacity-100 hover:scale-110'
                       }`}
                       title={p.name}
+                      role="radio"
+                      aria-checked={activeColor === p.color}
+                      aria-label={p.name}
                     />
                   ))}
                 </div>
@@ -98,7 +101,7 @@ export default function MasterpieceBentoGrid() {
                     ⚡
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-bold text-white truncate">Quantum Cloud Mesh</div>
+                    <div className="text-xs font-bold text-white truncate">Your Business Name</div>
                     <div className="text-[10px] text-purple-300/70 font-mono truncate">
                       --brand-primary: {activeColor}
                     </div>
@@ -112,23 +115,23 @@ export default function MasterpieceBentoGrid() {
                     border: `1px solid ${activeColor}50`,
                   }}
                 >
-                  Sub-3ms Edge
+                  Sample
                 </span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                 <div className="bg-[#0e0624] p-2.5 sm:p-3 rounded-xl border border-purple-500/20">
-                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Uptime SLA</div>
-                  <div className="text-sm font-bold text-white">99.999%</div>
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Buttons</div>
+                  <div className="text-sm font-bold text-white">Updated</div>
                 </div>
                 <div className="bg-[#0e0624] p-2.5 sm:p-3 rounded-xl border border-purple-500/20">
-                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Edge Latency</div>
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Accents</div>
                   <div className="text-sm font-bold" style={{ color: activeColor }}>
-                    2.8 ms
+                    Updated
                   </div>
                 </div>
                 <div className="bg-[#0e0624] p-2.5 sm:p-3 rounded-xl border border-purple-500/20">
-                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Global Mesh</div>
-                  <div className="text-sm font-bold text-white">340 PoPs</div>
+                  <div className="text-[10px] text-purple-400/80 uppercase font-mono">Borders</div>
+                  <div className="text-sm font-bold text-white">Updated</div>
                 </div>
               </div>
             </div>
@@ -138,31 +141,31 @@ export default function MasterpieceBentoGrid() {
           <div className="md:col-span-5 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-5 sm:p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-bold block mb-4">
-                ARCHITECTURAL SOVEREIGNTY
+                NO DEPENDENCIES
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                Immune to Dependency Rot
+                Nothing to install or update
               </h3>
               <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-6">
-                Typical templates pull 400+ transitive npm packages that break every 3 months. Our templates have zero dependencies. Run them today, run them in 2036.
+                Many React and Next.js themes rely on hundreds of npm packages that need regular updates. Ours are plain files: open index.html and it works.
               </p>
 
               {/* Comparison Matrix */}
               <div className="space-y-3 font-mono text-[11px] sm:text-xs">
                 <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-between text-rose-300">
-                  <span>Standard Theme:</span>
-                  <span className="font-bold">428 packages</span>
+                  <span>Typical framework theme:</span>
+                  <span className="font-bold">hundreds of packages</span>
                 </div>
                 <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/35 flex items-center justify-between text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
                   <span>TemplateHub:</span>
-                  <span className="font-bold">0 packages, &lt;50KB</span>
+                  <span className="font-bold">0 packages</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-6 border-t border-purple-500/20 mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-              <span className="text-xs text-purple-300">Self-sufficient codebases</span>
-              <span className="text-xs text-emerald-400 font-bold">100% Perpetual Guarantee</span>
+              <span className="text-xs text-purple-300">Host on any static server</span>
+              <span className="text-xs text-emerald-400 font-bold">Downloads are yours to keep</span>
             </div>
           </div>
 
@@ -170,24 +173,24 @@ export default function MasterpieceBentoGrid() {
           <div className="md:col-span-5 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-5 sm:p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-fuchsia-400 font-bold block mb-4">
-                NO-CODE CUSTOMIZATION
+                NO CODE NEEDED
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                In-Browser Store Auto-Edit Studio
+                Auto-Edit Studio
               </h3>
               <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-4">
-                Paid members can click any template and enter brand info, product titles, phone numbers, and upload local photos. Our engine updates the DOM live and builds a downloadable package in seconds.
+                Pick a template, fill in your business name, products and contact details, and upload your photos. The preview updates as you type, and you download the finished site as a ZIP.
               </p>
               <div className="flex flex-wrap gap-2 text-[10px] font-mono text-purple-300">
-                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Base64 Image Map</span>
-                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ PKZIP Bundler</span>
-                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Live Split-Pane</span>
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Your own photos</span>
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ One-click ZIP</span>
+                <span className="px-2.5 py-1 rounded-md bg-[#070314] border border-purple-500/30">✓ Live preview</span>
               </div>
             </div>
 
             <div className="pt-6 border-t border-purple-500/20 mt-6">
               <Link
-                href="/templates/astral-aerospace"
+                href="/studio"
                 className="text-xs font-bold text-fuchsia-300 hover:text-white transition-colors flex items-center gap-1.5 active:scale-95"
               >
                 <span>Launch Auto-Edit Studio</span>
@@ -200,43 +203,35 @@ export default function MasterpieceBentoGrid() {
           <div className="md:col-span-7 bg-[#0d0622]/85 border border-purple-500/25 rounded-3xl p-5 sm:p-8 backdrop-blur-xl flex flex-col justify-between hover:border-purple-400/50 transition-all duration-300 shadow-[0_4px_30px_rgba(7,3,20,0.8)]">
             <div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 font-bold block mb-4">
-                PERFORMANCE BENCHMARK
+                FAST BY DEFAULT
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                Certified 100/100 Core Web Vitals
+                Built to load fast
               </h3>
               <p className="text-xs sm:text-sm text-purple-200/75 leading-relaxed mb-6">
-                Because there is zero JavaScript hydration tax, our templates achieve perfect Lighthouse metrics out of the box on mobile and desktop.
+                With no framework to download, pages render quickly on phones and laptops. Don't take our word for it: run Google PageSpeed Insights on any template — there's a link on every template page.
               </p>
 
-              {/* 4 Score Rings */}
+              {/* Performance checklist */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div className="p-3 sm:p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
-                  <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 mb-1">100</div>
-                  <div className="text-[10px] sm:text-[11px] font-bold text-white">Performance</div>
-                  <div className="text-[9px] sm:text-[10px] text-purple-400/80 font-mono mt-0.5">LCP 0.4s</div>
-                </div>
-                <div className="p-3 sm:p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
-                  <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 mb-1">100</div>
-                  <div className="text-[10px] sm:text-[11px] font-bold text-white">Accessibility</div>
-                  <div className="text-[9px] sm:text-[10px] text-purple-400/80 font-mono mt-0.5">WCAG AAA</div>
-                </div>
-                <div className="p-3 sm:p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
-                  <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 mb-1">100</div>
-                  <div className="text-[10px] sm:text-[11px] font-bold text-white">Best Practices</div>
-                  <div className="text-[9px] sm:text-[10px] text-purple-400/80 font-mono mt-0.5">Modern Web</div>
-                </div>
-                <div className="p-3 sm:p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
-                  <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 mb-1">100</div>
-                  <div className="text-[10px] sm:text-[11px] font-bold text-white">SEO Score</div>
-                  <div className="text-[9px] sm:text-[10px] text-purple-400/80 font-mono mt-0.5">Semantic</div>
-                </div>
+                {[
+                  { label: 'Performance', note: 'No framework to load' },
+                  { label: 'Accessibility', note: 'Semantic HTML' },
+                  { label: 'Best practices', note: 'HTTPS-ready, no trackers' },
+                  { label: 'SEO', note: 'Meta tags included' },
+                ].map((item) => (
+                  <div key={item.label} className="p-3 sm:p-4 bg-[#070314] rounded-2xl border border-purple-500/25 text-center">
+                    <div className="text-xl sm:text-2xl font-extrabold text-emerald-400 mb-1" aria-hidden="true">✓</div>
+                    <div className="text-[10px] sm:text-[11px] font-bold text-white">{item.label}</div>
+                    <div className="text-[9px] sm:text-[10px] text-purple-400/80 font-mono mt-0.5">{item.note}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
             <div className="pt-6 border-t border-purple-500/20 mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-purple-300">
-              <span>Audited with Google Chrome Lighthouse v12</span>
-              <span className="font-mono text-purple-400 font-semibold">ZERO REGRESSIONS</span>
+              <span>Real scores depend on your images and hosting.</span>
+              <span className="font-mono text-purple-400 font-semibold">Test it yourself</span>
             </div>
           </div>
 

@@ -7,6 +7,7 @@ import QuickViewModal from '@/components/QuickViewModal';
 import { useFavorites } from '@/context/FavoritesContext';
 import { cyberSound } from '@/lib/sound';
 import { Template } from '@/types';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 type PaletteHue = 'all' | 'purple' | 'cyan' | 'emerald' | 'amber' | 'fuchsia' | 'slate';
 
@@ -78,7 +79,7 @@ export default function TemplatesPage() {
       {/* Header with Purple Aesthetic Glows */}
       <div className="relative text-center mb-10 sm:mb-16">
         <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full border border-purple-500/35 bg-purple-500/10 text-purple-300 text-[11px] sm:text-xs font-semibold mb-3 sm:mb-4 backdrop-blur-md shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-          <span>✦ Explore 76 Hand-Crafted Production Masterpieces</span>
+          <span>✦ {TEMPLATE_COUNT} hand-built website templates</span>
         </div>
         <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-3 sm:mb-4">
           Browse{' '}
@@ -87,7 +88,7 @@ export default function TemplatesPage() {
           </span>
         </h1>
         <p className="text-purple-200/75 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-          Find the ideal sovereign codebase for your startup, agency, SaaS, or client project. Filter by industry, accent palette, or subscription tier.
+          Find the right template for your business, blog, shop or client project. Filter by industry, colour or plan.
         </p>
       </div>
 
@@ -103,7 +104,7 @@ export default function TemplatesPage() {
             </span>
             <input
               type="text"
-              placeholder="Search 56 templates by keyword, tags, or industry..."
+              placeholder={`Search ${TEMPLATE_COUNT} templates by keyword, tag, or industry...`}
               className="w-full bg-[#070314] border border-purple-500/30 rounded-xl py-2 sm:py-2.5 pl-10 sm:pl-11 pr-4 text-xs sm:text-sm text-white placeholder-purple-300/40 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-all"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
