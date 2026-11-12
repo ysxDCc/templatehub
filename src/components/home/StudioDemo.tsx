@@ -1,6 +1,7 @@
 import Section from '@/components/ui/Section';
 import Button from '@/components/ui/Button';
 import Reveal from '@/components/ui/Reveal';
+import BeforeAfter from '@/components/fx/BeforeAfter';
 
 /** Looping CSS-only animation of a template being edited in the Studio. */
 export default function StudioDemo() {
@@ -30,7 +31,11 @@ export default function StudioDemo() {
                 <span className="th-name text-xs font-bold">Leo&apos;s Coffee</span>
                 <span className="th-swatch-bg h-4 w-10 rounded" />
               </div>
-              <div className="mt-4 h-3 w-4/5 rounded bg-white/20" />
+              <div className="mt-3 relative h-14 rounded bg-white/5 overflow-hidden">
+                <div className="th-demo-photo absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,#fbbf24_0,#b45309_35%,#451a03_75%)]" />
+                <span className="absolute bottom-1 left-2 text-[10px] text-white/80">your-photo.jpg</span>
+              </div>
+              <div className="mt-3 h-3 w-4/5 rounded bg-white/20" />
               <div className="mt-2 h-3 w-3/5 rounded bg-white/10" />
               <div className="mt-4 th-swatch-bg h-6 w-20 rounded" />
               <div className="mt-4 grid grid-cols-3 gap-1.5">
@@ -57,6 +62,10 @@ export default function StudioDemo() {
           </div>
         </Reveal>
       </div>
+      <Reveal className="mt-14">
+        <h3 className="text-xl font-semibold text-ink mb-4">Drag to see the difference</h3>
+        <BeforeAfter templateId="osteria-bella" previewUrl="/preview/osteria-bella" />
+      </Reveal>
     </Section>
   );
 }

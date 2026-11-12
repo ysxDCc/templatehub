@@ -6,6 +6,7 @@ interface RevealProps {
   as?: ElementType;
   delay?: number;
   className?: string;
+  style?: React.CSSProperties;
   children: ReactNode;
 }
 
@@ -13,7 +14,7 @@ interface RevealProps {
  * Fades and lifts its content in the first time it scrolls into view.
  * CSS in globals.css handles the animation and the reduced-motion fallback.
  */
-export default function Reveal({ as: Tag = 'div', delay = 0, className = '', children }: RevealProps) {
+export default function Reveal({ as: Tag = 'div', delay = 0, className = '', style, children }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Reveal({ as: Tag = 'div', delay = 0, className = '', chi
   }, []);
 
   return (
-    <Tag ref={ref} data-reveal="" className={className} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
+    <Tag ref={ref} data-reveal="" className={className} style={delay ? { ...style, transitionDelay: `${delay}ms` } : style}>
       {children}
     </Tag>
   );

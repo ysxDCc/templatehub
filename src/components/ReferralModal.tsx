@@ -104,7 +104,15 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
               onClick={handleCopyLink}
               className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md transition-all shrink-0 active:scale-95"
             >
-              {copied ? '✓ Copied' : 'Copy'}
+              <span className="relative inline-flex items-center justify-center min-w-[4.5rem]">
+                <span className={`transition-all duration-300 ${copied ? 'opacity-0 scale-75' : 'opacity-100'}`}>Copy</span>
+                <span aria-live="polite" className={`absolute inset-0 inline-flex items-center justify-center gap-1 transition-all duration-300 ${copied ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
+                  {copied && (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path className="th-check-mark" d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  )}
+                  {copied ? 'Copied' : ''}
+                </span>
+              </span>
             </button>
           </div>
           <p className="text-[11px] text-purple-400/70">

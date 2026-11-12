@@ -1,4 +1,5 @@
 import Reveal from '@/components/ui/Reveal';
+import Spotlight from '@/components/fx/Spotlight';
 
 const POINTS = [
   { title: 'Nothing to install', body: 'Plain HTML and CSS. No npm packages to update, so your site keeps working for years.' },
@@ -9,7 +10,8 @@ const POINTS = [
 
 export default function WhyStrip() {
   return (
-    <section aria-labelledby="why-title" className="py-16 md:py-20 border-y border-line bg-surface/50">
+    <section aria-labelledby="why-title" className="border-y border-line bg-surface/50">
+      <Spotlight className="py-16 md:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <h2 id="why-title" className="sr-only">Why TemplateHub</h2>
         <ul className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -21,6 +23,7 @@ export default function WhyStrip() {
           ))}
         </ul>
       </div>
+      </Spotlight>
     </section>
   );
 }

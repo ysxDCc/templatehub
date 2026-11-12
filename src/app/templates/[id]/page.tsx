@@ -143,7 +143,9 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
           <div className="min-w-0 space-y-10">
             {template.livePreviewUrl !== '#' ? (
-              <InteractivePreviewFrame template={template} />
+              <div style={{ viewTransitionName: 'tpl-hero' }}>
+                <InteractivePreviewFrame template={template} />
+              </div>
             ) : (
               <div className="relative aspect-[16/10] w-full rounded-section overflow-hidden border border-line bg-bg">
                 <Image src={template.previewImage} alt={`${template.name} preview`} fill className="object-cover" sizes="(min-width:1024px) 760px, 100vw" />

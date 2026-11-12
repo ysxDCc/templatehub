@@ -394,3 +394,66 @@
   .th-tilt { transform: none !important; }
   .th-logo__shine { display: none; }
 }
+
+/* ================= Motion system v3 ================= */
+
+/* ---- View transitions: card morphs into its template page; results reshuffle ---- */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 280ms; animation-timing-function: var(--ease-out-soft); }
+::view-transition-group(tpl-hero) { animation-duration: 450ms; animation-timing-function: var(--ease-out-soft); }
+::view-transition-group(*) { animation-duration: 380ms; animation-timing-function: var(--ease-out-soft); }
+
+/* ---- Skeleton shimmer while images/previews load ---- */
+.th-skeleton { position: relative; overflow: hidden; background: #110a2b; }
+.th-skeleton::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 20%, rgb(196 181 253 / 0.08) 45%, transparent 70%);
+  transform: translateX(-100%); animation: th-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes th-shimmer { to { transform: translateX(100%); } }
+
+/* ---- Heart pop + floating +1 ---- */
+.th-heart-pop { animation: th-heart-pop 450ms var(--ease-spring); }
+@keyframes th-heart-pop { 0% { transform: scale(1); } 30% { transform: scale(1.45); } 100% { transform: scale(1); } }
+.th-plus-one { position: absolute; left: 50%; top: 0; pointer-events: none; font-size: 12px; font-weight: 700; color: #fda4af; animation: th-plus 700ms var(--ease-out-soft) forwards; }
+@keyframes th-plus { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -22px); } }
+
+/* ---- Confetti + success check ---- */
+.th-confetti { position: fixed; inset: 0; pointer-events: none; z-index: 80; overflow: hidden; }
+.th-confetti i { position: absolute; top: -12px; width: 8px; height: 12px; border-radius: 2px; animation: th-fall var(--d, 1.6s) cubic-bezier(.2,.6,.4,1) var(--delay, 0s) forwards; }
+@keyframes th-fall { from { transform: translate3d(0,0,0) rotate(0); opacity: 1; } to { transform: translate3d(var(--x, 0px), 105vh, 0) rotate(var(--r, 540deg)); opacity: 0.9; } }
+.th-check-circle { stroke-dasharray: 152; stroke-dashoffset: 152; animation: th-draw 600ms var(--ease-out-soft) forwards; }
+.th-check-mark { stroke-dasharray: 40; stroke-dashoffset: 40; animation: th-draw 400ms var(--ease-out-soft) 450ms forwards; }
+@keyframes th-draw { to { stroke-dashoffset: 0; } }
+
+/* ---- Cursor spotlight for dark sections ---- */
+.th-spotlight { position: relative; isolation: isolate; }
+.th-spotlight::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 400ms;
+  background: radial-gradient(520px circle at var(--sx, 50%) var(--sy, 50%), rgb(124 58 237 / 0.18), transparent 60%);
+}
+.th-spotlight.is-lit::before { opacity: 1; }
+
+/* ---- Magnetic buttons ---- */
+.th-magnetic { transition: transform 350ms var(--ease-spring); }
+.th-magnetic.is-pulling { transition: transform 120ms linear; }
+
+/* ---- Scroll-driven hero preview (progressive enhancement) ---- */
+@supports (animation-timeline: view()) {
+  .th-scroll-tilt { animation: th-scroll-tilt linear both; animation-timeline: view(); animation-range: exit 0% exit 100%; }
+  @keyframes th-scroll-tilt { to { transform: perspective(1200px) rotateX(10deg) scale(0.92); opacity: 0.4; } }
+}
+
+/* ---- Fuller Studio demo loop: photo + name + colour ---- */
+@keyframes th-photo { 0%, 30% { opacity: 0; transform: scale(1.08); } 40%, 88% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.th-demo-photo { animation: th-photo 6s var(--ease-out-soft) infinite; }
+
+/* ---- Loading screen: cube assembles (only shows if loading takes > 300ms) ---- */
+.th-loading { animation: th-fade-in 300ms ease-out 300ms both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .th-skeleton::after, .th-heart-pop, .th-plus-one, .th-confetti, .th-demo-photo, .th-scroll-tilt { animation: none !important; }
+  .th-confetti { display: none; }
+  .th-check-circle, .th-check-mark { animation: none !important; stroke-dashoffset: 0; }
+  .th-magnetic { transform: none !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

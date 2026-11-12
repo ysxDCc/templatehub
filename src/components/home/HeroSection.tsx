@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import Button from '@/components/ui/Button';
 import { TEMPLATE_COUNT } from '@/lib/site';
 import HeroPreviewCarousel from './HeroPreviewCarousel';
+import Magnetic from '@/components/fx/Magnetic';
 
 const HEADLINE = ['Launch', 'a', 'beautiful', 'website', 'this', 'afternoon.'];
 const HERO_TEMPLATES = ['astral-aerospace', 'vortex-fitness', 'osteria-bella', 'cloudscale-saas', 'minimal-folio'];
@@ -33,13 +34,15 @@ export default function HeroSection() {
             Pick a ready-made template, add your name, photos and products right in the browser, and download plain HTML you can host anywhere. No code, no build step.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Button href="/templates" size="lg">Browse templates</Button>
-            <Button href="/studio" size="lg" variant="secondary">Try the Studio free</Button>
+            <Magnetic><Button href="/templates" size="lg" className="w-full sm:w-auto">Browse templates</Button></Magnetic>
+            <Magnetic><Button href="/studio" size="lg" variant="secondary" className="w-full sm:w-auto">Try the Studio free</Button></Magnetic>
           </div>
           <p className="mt-4 text-sm text-muted">Free starter template · plans from €3/month · cancel anytime</p>
         </div>
         <div className="th-hero-in [animation-delay:120ms]">
+          <div className="th-scroll-tilt">
           <HeroPreviewCarousel templateIds={HERO_TEMPLATES} />
+          </div>
         </div>
       </div>
     </section>
