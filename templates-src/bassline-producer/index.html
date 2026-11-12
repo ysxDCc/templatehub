@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bassline — Beats, mixing &amp; mastering that hit hard</title>
+<meta name="description" content="Bassline is an independent producer selling exclusive beats, leases, mixing and mastering for artists who want low end that moves rooms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#c6ff00;
+  --acid:#c6ff00;
+  --uv:#7b2cff;
+  --uv-l:#b892ff;
+  --black:#08080a;
+  --panel:#121216;
+  --panel-2:#1b1b22;
+  --line:#2a2a33;
+  --text:#f2f2f5;
+  --muted:#a6a6b3;
+  --wide:"Unbounded",ui-sans-serif,system-ui,sans-serif;
+  --body:"Archivo",ui-sans-serif,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--black);color:var(--text);font:400 1.05rem/1.6 var(--body);overflow-x:hidden}
+h1,h2,h3{font-family:var(--wide);line-height:1.02;margin:0 0 .5em;letter-spacing:-.01em;font-weight:900}
+h2{font-size:clamp(1.9rem,4.6vw,3.6rem);text-transform:uppercase}
+p{margin:0 0 1em}
+a{color:var(--accent)}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:8px;background:var(--accent);color:#000;padding:12px 16px;z-index:100}
+.skip:focus{left:12px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.tag{display:inline-flex;align-items:center;gap:10px;font:700 .74rem var(--wide);letter-spacing:.18em;text-transform:uppercase;color:var(--uv-l);margin-bottom:16px}
+.tag::before{content:"";width:10px;height:10px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:12px 26px;border-radius:999px;font:700 .82rem var(--wide);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:2px solid var(--text);color:var(--text);background:transparent;cursor:pointer;transition:background .2s,color .2s,box-shadow .25s,transform .2s}
+.btn:hover{background:var(--text);color:#000}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#000}
+.btn-primary:hover{background:var(--accent);color:#000;box-shadow:0 0 0 6px rgba(198,255,0,.18),0 0 40px rgba(198,255,0,.45);transform:translateY(-2px)}
+
+/* header */
+header{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.solid{background:rgba(8,8,10,.9);backdrop-filter:blur(12px);border-color:var(--line)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;min-height:80px;gap:20px}
+.logo{font:900 1.3rem var(--wide);color:var(--text);text-decoration:none;letter-spacing:.04em;display:inline-flex;align-items:center;gap:12px;min-height:44px;text-transform:uppercase}
+.logo i{display:flex;gap:3px;align-items:flex-end;height:22px}
+.logo i b{width:4px;background:var(--accent);border-radius:2px}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:4px;align-items:center}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;color:var(--text);text-decoration:none;font-weight:600;font-size:.95rem;border-radius:99px}
+nav a:hover{color:var(--accent)}
+nav .btn-primary{margin-left:8px;color:#000}
+nav .btn-primary:hover{color:#000}
+.burger{display:none;width:50px;height:50px;border-radius:50%;border:2px solid var(--text);background:transparent;cursor:pointer;place-items:center;color:var(--text)}
+.burger svg{width:22px;height:22px}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:130px 0 0;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto auto;width:70vw;height:70vw;max-width:900px;max-height:900px;background:radial-gradient(circle,rgba(123,44,255,.55),transparent 62%);z-index:-1}
+.hero::after{content:"";position:absolute;inset:auto auto -30% -15%;width:60vw;height:60vw;max-width:700px;max-height:700px;background:radial-gradient(circle,rgba(198,255,0,.16),transparent 60%);z-index:-1}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.5rem,7vw,6.6rem);text-transform:uppercase;line-height:.92;letter-spacing:-.02em}
+.hero h1 .stroke{color:transparent;-webkit-text-stroke:2px var(--accent)}
+.hero p.lead{font-size:clamp(1.1rem,1.6vw,1.3rem);color:#d0d0da;max-width:42ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.deck{background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:0 40px 80px -40px rgba(123,44,255,.6)}
+.deck-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.deck small{color:var(--muted);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+.deck h2{font-size:1.15rem;margin:4px 0 0;text-transform:none}
+.bpm{font:900 2.4rem var(--wide);color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.bpm span{font-size:.75rem;color:var(--muted);margin-left:4px;font-weight:500}
+.bpm .beatc{display:block;text-align:right;margin-top:6px;font:500 .72rem var(--body)}
+.bpm .beatc b{color:var(--accent)}
+.pads{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0}
+.pad{aspect-ratio:1;border-radius:12px;background:#22222b;border:1px solid #30303b;transition:background .08s,box-shadow .08s}
+.pad.hit{background:var(--uv);box-shadow:0 0 22px rgba(123,44,255,.8)}
+.pad.hit.k{background:var(--accent);box-shadow:0 0 22px rgba(198,255,0,.7)}
+.toggle{display:flex;align-items:center;gap:12px;width:100%;min-height:54px;border-radius:16px;background:#000;border:1px solid var(--line);color:var(--text);font:700 .8rem var(--wide);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:0 16px}
+.toggle:hover{border-color:var(--accent)}
+.toggle .ic{width:34px;height:34px;border-radius:50%;background:var(--accent);display:grid;place-items:center;flex:none}
+.toggle .ic svg{width:14px;height:14px}
+.toggle .pl{display:none}
+.toggle[aria-pressed="false"] .pl{display:block}
+.toggle[aria-pressed="false"] .pa{display:none}
+.toggle em{margin-left:auto;font-style:normal;color:var(--muted);font-family:var(--body);font-weight:500;letter-spacing:0;text-transform:none}
+
+/* equaliser */
+.eq{display:flex;align-items:flex-end;gap:clamp(2px,.5vw,6px);height:min(18vh,170px);margin-top:44px;padding:0 20px;position:relative}
+.eq span{flex:1;height:100%;border-radius:6px 6px 0 0;background:linear-gradient(to top,var(--uv) 0%,#a35bff 45%,var(--accent) 100%);transform-origin:50% 100%;transform:scaleY(var(--h,.3));will-change:transform;opacity:.95}
+.eq-floor{height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+
+/* services */
+.section{padding:120px 0;position:relative}
+section{scroll-margin-top:90px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:56px}
+.head p{max-width:46ch;color:var(--muted);margin:0}
+.services{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.svc{background:var(--black);padding:34px 28px;transition:background .3s}
+.svc:hover{background:var(--panel)}
+.svc .num{font:700 .8rem var(--wide);color:var(--uv-l);letter-spacing:.14em}
+.svc h3{font-size:1.25rem;margin:22px 0 12px;text-transform:uppercase}
+.svc p{color:var(--muted);margin:0}
+.svc svg{margin-top:26px}
+
+/* beats */
+.beats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.beat{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column;transition:transform .3s,border-color .3s,box-shadow .3s}
+.beat::before{content:"";position:absolute;inset:-1px;border-radius:22px;padding:1px;background:linear-gradient(135deg,var(--accent),var(--uv));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
+.beat:hover,.beat:focus-within{transform:translateY(-6px);box-shadow:0 0 0 1px rgba(198,255,0,.25),0 20px 60px -10px rgba(123,44,255,.55),0 0 40px -6px rgba(198,255,0,.35)}
+.beat:hover::before,.beat:focus-within::before{opacity:1}
+.art{aspect-ratio:16/10;border-radius:14px;margin-bottom:18px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px;gap:3px}
+.art i{flex:1;height:38%;background:rgba(0,0,0,.55);border-radius:3px 3px 0 0;transform-origin:50% 100%}
+.art i:nth-child(2n){height:62%}.art i:nth-child(3n){height:80%}.art i:nth-child(5n){height:50%}.art i:nth-child(7n){height:28%}
+.beat.on .art i{animation:mini .5s ease-in-out infinite alternate}
+.art i:nth-child(3n){animation-delay:-.2s!important}.art i:nth-child(4n){animation-delay:-.35s!important}.art i:nth-child(5n){animation-delay:-.1s!important}
+@keyframes mini{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
+.a1{background:radial-gradient(circle at 20% 20%,#c6ff00,transparent 50%),linear-gradient(135deg,#7b2cff,#1a0640)}
+.a2{background:radial-gradient(circle at 80% 30%,#ff3df2,transparent 45%),linear-gradient(135deg,#1b1b22,#7b2cff)}
+.a3{background:conic-gradient(from 200deg at 70% 60%,#c6ff00,#00e5ff,#7b2cff,#c6ff00)}
+.a4{background:repeating-linear-gradient(45deg,#c6ff00 0 12px,#08080a 12px 24px)}
+.a5{background:radial-gradient(circle at 50% 120%,#ff7a00,transparent 60%),linear-gradient(#08080a,#3b0f8a)}
+.a6{background:linear-gradient(120deg,#00e5ff,#7b2cff 50%,#ff3df2)}
+.beat-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.beat-meta span{font:600 .75rem var(--body);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:99px;background:#22222b;color:#d0d0da}
+.card-title{font-size:1.2rem;text-transform:uppercase;margin-bottom:6px}
+.beat p{color:var(--muted);font-size:.96rem;flex:1}
+.beat-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.price{font:900 1.6rem var(--wide);color:var(--accent)}
+.price small{font:500 .8rem var(--body);color:var(--muted);margin-left:4px}
+.prev{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:99px;border:1px solid var(--line);background:#000;color:var(--text);font:600 .9rem var(--body);cursor:pointer}
+.prev:hover{border-color:var(--accent)}
+.prev[aria-pressed="true"]{background:var(--accent);color:#000;border-color:var(--accent)}
+
+/* credits + licences */
+.credits{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.credits div{padding:34px 24px;border-left:1px solid var(--line)}
+.credits div:first-child{border-left:0}
+.credits b{display:block;font:900 clamp(2rem,4vw,3.2rem) var(--wide);color:var(--accent);line-height:1}
+.credits span{color:var(--muted)}
+.lic{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.lic div{border:1px dashed #3a3a46;border-radius:18px;padding:22px}
+.lic h3{font-size:.95rem;text-transform:uppercase;margin-bottom:6px}
+.lic p{color:var(--muted);margin:0;font-size:.95rem}
+.lic strong{color:var(--uv-l);font-family:var(--wide);font-size:1.1rem}
+
+/* split: mixing */
+.mix{background:linear-gradient(180deg,var(--black),#120726 60%,var(--black))}
+.mix-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.knobs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:30px}
+.knob{text-align:center;font:600 .78rem var(--body);color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.knob svg{width:100%;max-width:110px;margin:0 auto 10px}
+.steps{list-style:none;padding:0;margin:28px 0 0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:56px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.steps li::before{content:"0" counter(s);font:900 1.2rem var(--wide);color:var(--accent)}
+.steps b{display:block;font-family:var(--wide);font-size:.95rem;text-transform:uppercase;margin-bottom:4px}
+.steps span{color:var(--muted)}
+
+/* drop band */
+.drop{margin:0 20px;border-radius:30px;background:linear-gradient(110deg,var(--uv),#3b0f8a 55%,#08080a);padding:56px 0;position:relative;overflow:hidden}
+.drop::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;border:40px solid rgba(198,255,0,.2)}
+.drop-row{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;position:relative;z-index:1}
+.drop h2{margin:0;font-size:clamp(1.6rem,3.4vw,2.6rem)}
+.drop p{margin:6px 0 0;color:#e6dcff;max-width:46ch}
+
+/* quotes */
+.quotes{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:22px}
+.quote{margin:0;padding:30px;border-radius:22px;border:1px solid var(--line);background:var(--panel)}
+.quote:first-child{background:var(--accent);color:#000;border-color:var(--accent)}
+.quote:first-child figcaption,.quote:first-child small{color:#1a1a1a}
+.quote blockquote{margin:0 0 22px;font:700 1.2rem/1.4 var(--wide);letter-spacing:-.01em}
+.quote:not(:first-child) blockquote{font:500 1.1rem/1.55 var(--body)}
+.quote figcaption{font-weight:700}
+.quote small{display:block;color:var(--muted);font-weight:500}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;font:700 1rem var(--wide);text-transform:uppercase;letter-spacing:.01em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:14px;height:14px;background:linear-gradient(var(--accent),var(--accent)) center/100% 2px no-repeat,linear-gradient(var(--accent),var(--accent)) center/2px 100% no-repeat;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding-right:30px}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:60px}
+.info{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:4px}
+.info li{display:grid;grid-template-columns:100px 1fr;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.info span{font:700 .72rem var(--wide);letter-spacing:.14em;text-transform:uppercase;color:var(--uv-l)}
+.info a{color:var(--text);display:inline-flex;min-height:44px;align-items:center}
+.info a:hover{color:var(--accent)}
+form.card{align-content:start;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:34px;display:grid;gap:18px}
+.field{display:grid;gap:8px}
+label{font:700 .74rem var(--wide);letter-spacing:.12em;text-transform:uppercase;color:#d0d0da}
+input,select,textarea{font:inherit;color:var(--text);background:#000;border:1px solid #3a3a46;border-radius:14px;padding:13px 16px;min-height:52px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(198,255,0,.25)}
+textarea{min-height:140px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+footer{border-top:1px solid var(--line);padding:70px 0 34px;overflow:hidden}
+.big{font:900 clamp(3rem,15vw,13rem)/.85 var(--wide);text-transform:uppercase;color:transparent;-webkit-text-stroke:1px #3a3a46;letter-spacing:-.02em;margin:0 0 40px;white-space:nowrap}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center;color:var(--muted)}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap}
+footer ul a{color:var(--text);text-decoration:none;display:inline-flex;min-height:44px;align-items:center;padding:0 12px}
+footer ul a:hover{color:var(--accent)}
+
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1080px){
+  .services{grid-template-columns:1fr 1fr}
+  .beats{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .hero-grid,.mix-grid,.faq-grid,.contact-grid{grid-template-columns:1fr}
+  .deck{max-width:460px}
+  .quotes,.lic{grid-template-columns:1fr}
+  .credits{grid-template-columns:1fr 1fr}
+  .credits div:nth-child(3){border-left:0}
+  .credits div:nth-child(n+3){border-top:1px solid var(--line)}
+  .burger{display:grid}
+  nav ul{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;background:rgba(8,8,10,.97);padding:12px 20px 24px;border-bottom:1px solid var(--line)}
+  nav ul.open{display:flex}
+  nav .btn-primary{margin:10px 0 0}
+  header.open{background:rgba(8,8,10,.97)}
+}
+@media (max-width:620px){
+  .section{padding:80px 0}
+  .services,.beats{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr}
+  form.card{padding:22px}
+  .eq{height:120px;margin-top:40px;padding:0 10px}
+  .hero{padding-top:110px}
+  .knobs{padding:18px;gap:10px}
+  .info li{grid-template-columns:1fr}
+  .hero h1 .stroke{-webkit-text-stroke-width:1.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header id="top">
+  <div class="wrap nav-row">
+    <a href="#" class="logo"><i aria-hidden="true"><b style="height:40%"></b><b style="height:100%"></b><b style="height:65%"></b><b style="height:85%"></b></i>Bassline</a>
+    <nav aria-label="Main">
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+      <ul id="menu">
+        <li><a href="#beats">Beats</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#mixing">Mixing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#contact">Book a session</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="tag">Producer · Beatmaker · Mix engineer</span>
+      <h1 id="hero-h">Low end that <span class="stroke">moves</span> rooms.</h1>
+      <p class="lead">Exclusive beats, instant leases and analog-warm mixing &amp; mastering from a two-room studio built for bass. 400+ placements, zero cookie-cutter loops.</p>
+      <div class="hero-cta"><a class="btn btn-primary" href="#beats">Browse beats</a><a class="btn" href="#mixing">Mix &amp; master</a></div>
+    </div>
+    <div class="deck reveal" aria-label="Beat visualiser controls">
+      <div class="deck-top">
+        <div><small>Now looping</small><h2>Midnight Static</h2></div>
+        <div class="bpm">124<span>BPM</span><small class="beatc" aria-hidden="true">Beat <b id="beatNum">1</b>/4</small></div>
+      </div>
+      <div class="pads" aria-hidden="true"><i class="pad"></i><i class="pad"></i><i class="pad"></i><i class="pad"></i><i class="pad"></i><i class="pad"></i><i class="pad"></i><i class="pad"></i></div>
+      <button class="toggle" id="toggle" type="button" aria-pressed="true">
+        <span class="ic" aria-hidden="true"><svg class="pa" viewBox="0 0 14 14"><rect x="2" y="1" width="3.5" height="12" fill="#000"/><rect x="8.5" y="1" width="3.5" height="12" fill="#000"/></svg><svg class="pl" viewBox="0 0 14 14"><path d="M3 1l10 6-10 6z" fill="#000"/></svg></span>
+        <span id="toggleLabel">Pause visualiser</span><em>No audio</em>
+      </button>
+    </div>
+  </div>
+  <div class="eq" id="eq" aria-hidden="true"></div>
+  <div class="eq-floor" aria-hidden="true"></div>
+</section>
+
+<section class="section" id="services" aria-labelledby="svc-h">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">What I do</span><h2 id="svc-h">Four ways to<br>get loud.</h2></div><p>Whether you need a finished beat tonight or a full record taken from demo to master, everything runs through the same speakers and the same ears.</p></div>
+    <div class="services reveal">
+      <article class="svc"><span class="num">01</span><h3>Beat leases</h3><p>Instant download, tagged-free WAV and stems. Release on every platform.</p><svg width="60" height="24" viewBox="0 0 60 24" aria-hidden="true"><path d="M0 12h8l4-10 6 20 6-16 4 6h32" fill="none" stroke="#c6ff00" stroke-width="2.5"/></svg></article>
+      <article class="svc"><span class="num">02</span><h3>Exclusives</h3><p>Own the beat outright, taken off the store forever, with full trackouts.</p><svg width="60" height="24" viewBox="0 0 60 24" aria-hidden="true"><rect x="2" y="6" width="56" height="12" rx="6" fill="none" stroke="#b892ff" stroke-width="2.5"/><circle cx="46" cy="12" r="4" fill="#c6ff00"/></svg></article>
+      <article class="svc"><span class="num">03</span><h3>Custom production</h3><p>Send references and a voice memo; get a beat built around your voice.</p><svg width="60" height="24" viewBox="0 0 60 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="#c6ff00" stroke-width="2.5"/><circle cx="36" cy="12" r="9" fill="none" stroke="#b892ff" stroke-width="2.5"/></svg></article>
+      <article class="svc"><span class="num">04</span><h3>Mix &amp; master</h3><p>Hybrid analog chain, two revisions included, 5-day turnaround.</p><svg width="60" height="24" viewBox="0 0 60 24" aria-hidden="true"><path d="M4 22V10M16 22V2M28 22V14M40 22V6M52 22V12" stroke="#c6ff00" stroke-width="4" stroke-linecap="round"/></svg></article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="beats" aria-labelledby="beats-h" style="padding-top:20px">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">The beat store</span><h2 id="beats-h">Fresh off<br>the MPC.</h2></div><p>Lease prices shown. Hit preview to watch it bump — full audio lives in the store player. Exclusive offers on request.</p></div>
+    <div class="beats">
+      <article class="beat reveal"><div class="art a1" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>124 BPM</span><span>F♯ min</span><span>Garage</span></div><h3 class="card-title">Midnight Static</h3><p>Shuffled 2-step drums, a sub that talks back and a vocal chop you'll hum all week.</p><div class="beat-foot"><span class="price">$45<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+      <article class="beat reveal"><div class="art a2" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>140 BPM</span><span>D min</span><span>Drill</span></div><h3 class="card-title">Concrete Bloom</h3><p>Sliding 808s under a haunted choir. Built for punchlines.</p><div class="beat-foot"><span class="price">$50<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+      <article class="beat reveal"><div class="art a3" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>92 BPM</span><span>A♭ maj</span><span>R&amp;B</span></div><h3 class="card-title">Velvet Hours</h3><p>Rhodes, tape hiss and a bassline that sits right in the pocket.</p><div class="beat-foot"><span class="price">$40<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+      <article class="beat reveal"><div class="art a4" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>174 BPM</span><span>E min</span><span>DnB</span></div><h3 class="card-title">Acid Rain</h3><p>A 303 line that screams, rolling breaks and a reese for the second drop.</p><div class="beat-foot"><span class="price">$55<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+      <article class="beat reveal"><div class="art a5" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>128 BPM</span><span>G min</span><span>House</span></div><h3 class="card-title">Sunset Grid</h3><p>Four-to-the-floor with a filtered disco loop and plenty of room for a hook.</p><div class="beat-foot"><span class="price">$45<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+      <article class="beat reveal"><div class="art a6" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="beat-meta"><span>150 BPM</span><span>C♯ min</span><span>Hyperpop</span></div><h3 class="card-title">Glass Arcade</h3><p>Bitcrushed synths, sparkle and a kick that clips on purpose.</p><div class="beat-foot"><span class="price">$40<small>lease</small></span><button class="prev" type="button" aria-pressed="false">▶ Preview</button></div></article>
+    </div>
+    <div class="lic reveal">
+      <div><h3>Basic lease</h3><strong>from $40</strong><p>MP3 + WAV, 100k streams, non-exclusive.</p></div>
+      <div><h3>Premium lease</h3><strong>from $90</strong><p>WAV + trackout stems, 500k streams, music video rights.</p></div>
+      <div><h3>Exclusive</h3><strong>from $650</strong><p>Full ownership, unlimited use, removed from the store.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap reveal" aria-label="Studio credits">
+  <div class="credits">
+    <div><b>400+</b><span>released placements</span></div>
+    <div><b>1.2B</b><span>combined streams</span></div>
+    <div><b>9 yrs</b><span>behind the desk</span></div>
+    <div><b>48h</b><span>average revision turnaround</span></div>
+  </div>
+</div>
+
+<section class="section mix" id="mixing" aria-labelledby="mix-h">
+  <div class="wrap mix-grid">
+    <div class="knobs reveal" aria-hidden="true">
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#c6ff00" stroke-width="8" stroke-dasharray="180 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="74" y2="30" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Sub</div>
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#b892ff" stroke-width="8" stroke-dasharray="120 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="20" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Drive</div>
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#c6ff00" stroke-width="8" stroke-dasharray="90 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="28" y2="30" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Air</div>
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#b892ff" stroke-width="8" stroke-dasharray="150 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="68" y2="24" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Glue</div>
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#c6ff00" stroke-width="8" stroke-dasharray="200 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="78" y2="44" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Width</div>
+      <div class="knob"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="#08080a" stroke="#2a2a33" stroke-width="8"/><circle cx="50" cy="50" r="40" fill="none" stroke="#b892ff" stroke-width="8" stroke-dasharray="210 252" transform="rotate(135 50 50)" stroke-linecap="round"/><line x1="50" y1="50" x2="79" y2="52" stroke="#f2f2f5" stroke-width="5" stroke-linecap="round"/></svg>Loud</div>
+    </div>
+    <div class="reveal">
+      <span class="tag">Mixing &amp; mastering</span>
+      <h2 id="mix-h">From bedroom demo to club-ready.</h2>
+      <p style="color:var(--muted)">Stereo mixes from $180, stem mixes from $320 and masters from $60 per track. Every session is mixed on monitors and checked on a 2,000-watt club rig.</p>
+      <ol class="steps">
+        <li><div><b>Send your stems</b><span>Upload WAVs and a reference track. I'll reply with notes within 24 hours.</span></div></li>
+        <li><div><b>First mix in 5 days</b><span>Analog bus, tuned low end, vocals sat right on top.</span></div></li>
+        <li><div><b>Two revision rounds</b><span>Timestamped notes, quick turnarounds, no surprise fees.</span></div></li>
+        <li><div><b>Master &amp; deliver</b><span>Streaming, club and vinyl-ready masters plus instrumentals.</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="q-h">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">Artists say</span><h2 id="q-h">Word from<br>the booth.</h2></div></div>
+    <div class="quotes">
+      <figure class="quote reveal"><blockquote>"Leased 'Concrete Bloom' on a Tuesday, it hit 2 million streams by the summer. The 808s alone did half the work."</blockquote><figcaption>Kai<small>Rapper · lease customer</small></figcaption></figure>
+      <figure class="quote reveal"><blockquote>"My vocals finally sound expensive. The mix notes were clear and the second revision was perfect."</blockquote><figcaption>Noor<small>Singer-songwriter · mix &amp; master</small></figcaption></figure>
+      <figure class="quote reveal"><blockquote>"Custom beat built from a voice memo of me humming. Still don't know how. It's my most-played track live."</blockquote><figcaption>Jules<small>Producer-DJ · custom</small></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="drop" aria-labelledby="drop-h">
+  <div class="wrap drop-row reveal">
+    <div>
+      <h2 id="drop-h">Friday beat drops.</h2>
+      <p>Three new beats every Friday, first dibs on exclusives and a free drum kit each month for the list.</p>
+    </div>
+    <a class="btn btn-primary" href="#contact">Get on the list</a>
+  </div>
+</section>
+
+<section class="section" id="faq" aria-labelledby="faq-h" style="padding-top:20px">
+  <div class="wrap faq-grid">
+    <div class="reveal"><span class="tag">FAQ</span><h2 id="faq-h">Fine print, no fluff.</h2></div>
+    <div class="reveal">
+      <details open><summary>What do I get with a lease?</summary><p>Untagged WAV and MP3, trackout stems, and rights for up to 500,000 streams and paid performances. Credit "prod. Bassline" and you're good to go.</p></details>
+      <details><summary>Can I upgrade to exclusive later?</summary><p>Yes — your lease fee counts toward the exclusive price as long as nobody else has bought it first.</p></details>
+      <details><summary>What format should I send stems in?</summary><p>24-bit WAV at the session's sample rate, all starting from bar 1, with effects you love printed and a dry copy too.</p></details>
+      <details><summary>How fast is mixing turnaround?</summary><p>Five working days for the first mix, 48 hours for each revision. Rush slots are available for album deadlines.</p></details>
+      <details><summary>Do you do in-person sessions?</summary><p>Yes, by appointment at the studio. Half-day and full-day blocks include an assistant engineer.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact" aria-labelledby="contact-h" style="padding-top:40px">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="tag">Book a session</span>
+      <h2 id="contact-h">Let's make it knock.</h2>
+      <p style="color:var(--muted)">Tell me about your project — exclusive enquiries, custom beats, mixes or studio time. Replies within 24 hours.</p>
+      <ul class="info">
+        <li><span>Email</span><a href="mailto:studio@example.com">studio@example.com</a></li>
+        <li><span>Phone</span><a href="tel:+15550189911">+1 555 018 9911</a></li>
+        <li><span>Studio</span>Unit 7B, 410 Foundry Street, Detroit, MI</li>
+      </ul>
+    </div>
+    <form class="card reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="f-name">Artist name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="f-svc">Service</label><select id="f-svc" name="service"><option>Beat lease</option><option>Exclusive beat</option><option>Custom production</option><option>Mix &amp; master</option><option>Studio time</option></select></div>
+      <div class="field"><label for="f-msg">Project details</label><textarea id="f-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send it</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="big" aria-hidden="true">Bassline</p>
+    <div class="foot">
+      <a href="#" class="logo"><i aria-hidden="true"><b style="height:40%"></b><b style="height:100%"></b><b style="height:65%"></b><b style="height:85%"></b></i>Bassline</a>
+      <ul aria-label="Footer"><li><a href="#beats">Beats</a></li><li><a href="#services">Services</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li></ul>
+      <span>© 2026 Bassline Studio. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // header + nav
+  var header = document.getElementById('top'), burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function solid(){ header.classList.toggle('solid', scrollY > 40); }
+  addEventListener('scroll', solid, {passive:true}); solid();
+  function setMenu(o){ burger.setAttribute('aria-expanded', o); burger.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', o); header.classList.toggle('open', o); }
+  burger.addEventListener('click', function(){ setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true'){ setMenu(false); burger.focus(); } });
+
+  // reveals
+  var rv = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) rv.forEach(function(e){ e.classList.add('in'); });
+  else { var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.12}); rv.forEach(function(e){ io.observe(e); }); }
+
+  // equaliser bars pulsing to a simulated 124 BPM beat (visual only, no audio)
+  var eq = document.getElementById('eq'), N = innerWidth < 620 ? 28 : 56, bars = [];
+  for (var i = 0; i < N; i++){ var s = document.createElement('span'); var rest = .12 + .25 * Math.abs(Math.sin(i * .7)); s.style.setProperty('--h', rest.toFixed(3)); eq.appendChild(s); bars.push({el:s, v:rest, seed:Math.random() * 6.28}); }
+  var pads = document.querySelectorAll('.pad'), beatNum = document.getElementById('beatNum');
+  var toggle = document.getElementById('toggle'), label = document.getElementById('toggleLabel');
+  var BEAT = 60000 / 124, playing = !reduce, onScreen = true, raf = 0, t0 = performance.now(), lastBeat = -1;
+  function frame(now){
+    raf = 0;
+    var t = now - t0, beat = Math.floor(t / BEAT), phase = (t % BEAT) / BEAT;
+    var kick = Math.pow(1 - phase, 3), hat = Math.pow(1 - ((phase * 2) % 1), 6) * .45;
+    if (beat !== lastBeat){
+      lastBeat = beat; var b = beat % 4;
+      beatNum.textContent = b + 1;
+      pads.forEach(function(p, n){ p.classList.toggle('hit', n === b || n === 4 + ((beat * 3) % 4)); p.classList.toggle('k', n === b); });
+    }
+    for (var i = 0; i < N; i++){
+      var bar = bars[i], x = i / N;
+      var low = Math.max(0, 1 - x * 2.2) * kick;
+      var mid = (.35 + .35 * Math.sin(t / 260 + bar.seed)) * (.4 + .6 * kick) * (1 - Math.abs(x - .5));
+      var high = x > .55 ? hat * (.6 + .4 * Math.sin(t / 90 + bar.seed)) : 0;
+      var target = Math.min(1, .14 + low * .92 + mid * .7 + high);
+      bar.v += (target - bar.v) * (target > bar.v ? .55 : .12);
+      bar.el.style.setProperty('--h', bar.v.toFixed(3));
+    }
+    run();
+  }
+  function run(){ if (playing && onScreen && !document.hidden && !raf) raf = requestAnimationFrame(frame); }
+  function halt(){ if (raf){ cancelAnimationFrame(raf); raf = 0; } }
+  function setPlaying(p){
+    playing = p; toggle.setAttribute('aria-pressed', p); label.textContent = p ? 'Pause visualiser' : 'Play visualiser';
+    if (p){ t0 = performance.now(); run(); } else { halt(); pads.forEach(function(x){ x.classList.remove('hit', 'k'); }); }
+  }
+  toggle.addEventListener('click', function(){ setPlaying(!playing); });
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ onScreen = e[0].isIntersecting; onScreen ? run() : halt(); }).observe(eq);
+  document.addEventListener('visibilitychange', function(){ document.hidden ? halt() : run(); });
+  setPlaying(playing);
+
+  // beat card previews (visual only)
+  document.querySelectorAll('.prev').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.beat'), on = btn.getAttribute('aria-pressed') !== 'true';
+      document.querySelectorAll('.prev[aria-pressed="true"]').forEach(function(o){ if (o !== btn){ o.setAttribute('aria-pressed', 'false'); o.textContent = '▶ Preview'; o.closest('.beat').classList.remove('on'); } });
+      btn.setAttribute('aria-pressed', on); btn.textContent = on ? '❚❚ Stop' : '▶ Preview'; card.classList.toggle('on', on);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "id": "camp-wildwood",
+  "name": "Camp Wildwood",
+  "description": "Kids' summer camp template with a five-layer parallax forest-and-mountain hero, bouncy activity badges and weekly session cards.",
+  "category": "education",
+  "tier": "pro",
+  "logo": "🏕️ WILDWOOD",
+  "tags": ["Summer Camp", "Kids", "Outdoors", "Hand-drawn", "Parallax"],
+  "features": [
+    "Layered SVG landscape hero with tents, lake and campfire",
+    "Six stitched merit badges that pop in and bounce on hover",
+    "Six weekly session cards with ages, inclusions and prices",
+    "Day-at-camp timeline, sticky-note reviews and registration form"
+  ],
+  "signature": "Mountains, forests, lake and campsite layers move at different speeds on scroll; activity badges bounce like springs"
+}

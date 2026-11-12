@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lotus Flow Yoga — Breathe, move, return to calm</title>
+<meta name="description" content="Lotus Flow Yoga is a calm neighbourhood yoga and meditation studio with daily classes, gentle flows and guided breathwork.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#3a7672;
+  --lavender:#8f84bd;
+  --lavender-soft:#e7e2f3;
+  --dusk:#2d2944;
+  --ink:#2d2944;
+  --muted:#5a5670;
+  --sand:#f4ede2;
+  --sand-deep:#e8dcc8;
+  --teal-soft:#cfe5e1;
+  --white:#fffdf9;
+  --radius:28px;
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Nunito','Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--sand);line-height:1.65;font-size:1.0625rem;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;margin:0 0 .5em;letter-spacing:-.01em}
+h2{font-size:clamp(2.2rem,4.5vw,3.4rem)}
+h3{font-size:1.6rem}
+p{margin:0 0 1em}
+.wrap{width:min(1180px,100% - 2.5rem);margin-inline:auto}
+.eyebrow{font-family:var(--sans);font-weight:800;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:.6em;margin-bottom:1rem}
+.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
+.skip{position:absolute;left:-999px;top:0;background:var(--dusk);color:#fff;padding:.8rem 1.2rem;z-index:200;border-radius:0 0 12px 0}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:48px;padding:.8rem 1.6rem;border-radius:999px;font:700 .98rem/1 var(--sans);text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer;transition:transform .3s,background .3s,color .3s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 10px 30px -12px var(--accent)}
+.btn-primary:hover{box-shadow:0 16px 36px -12px var(--accent)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(244,237,226,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(45,41,68,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:76px;gap:1rem}
+.logo{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--serif);font-size:1.6rem;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:.01em;min-height:44px}
+.logo svg{width:34px;height:34px;color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;margin:0;padding:0}
+.nav-links a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:.75rem 0;min-height:44px;display:inline-flex;align-items:center;position:relative}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:.55rem;height:1.5px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+.nav-links a:not(.btn):hover::after{transform:scaleX(1)}
+.nav-links .btn{color:#fff;padding:.7rem 1.3rem}
+.menu-btn{display:none;width:48px;height:48px;border:1.5px solid rgba(45,41,68,.2);border-radius:50%;background:transparent;cursor:pointer;align-items:center;justify-content:center;color:var(--ink)}
+.menu-btn span{display:block;width:18px;height:1.5px;background:currentColor;position:relative;transition:transform .3s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:currentColor;transition:transform .3s}
+.menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+.menu-btn[aria-expanded="true"] span{background:transparent}
+.menu-btn[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:clamp(3rem,7vw,6rem) 0 clamp(4rem,8vw,7rem);isolation:isolate}
+.aura{position:absolute;inset:-20%;z-index:-1;pointer-events:none}
+.aura i{position:absolute;border-radius:50%;filter:blur(60px);opacity:.75;will-change:transform}
+.aura i:nth-child(1){width:55vw;height:55vw;max-width:720px;max-height:720px;left:5%;top:0;background:radial-gradient(circle,#c9bfe8 0%,transparent 68%);animation:drift1 26s ease-in-out infinite alternate}
+.aura i:nth-child(2){width:45vw;height:45vw;max-width:620px;max-height:620px;right:2%;top:12%;background:radial-gradient(circle,#b9ddd7 0%,transparent 66%);animation:drift2 32s ease-in-out infinite alternate}
+.aura i:nth-child(3){width:50vw;height:50vw;max-width:680px;max-height:680px;left:30%;bottom:-5%;background:radial-gradient(circle,#f3d9c4 0%,transparent 66%);animation:drift3 29s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(18%,22%) scale(1.25)}}
+@keyframes drift2{to{transform:translate(-25%,18%) scale(.85)}}
+@keyframes drift3{to{transform:translate(-15%,-25%) scale(1.2)}}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(3rem,7.4vw,6rem);font-weight:400;line-height:.98;margin-bottom:1.4rem}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero p{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--muted);max-width:33em;margin-bottom:2rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.8rem;margin-top:2.6rem;font-size:.92rem;color:var(--muted)}
+.hero-meta strong{display:block;font-family:var(--serif);font-size:2rem;font-weight:500;color:var(--ink);line-height:1}
+.breathe{display:grid;place-items:center;gap:1.4rem;text-align:center}
+.breathe-stage{position:relative;width:min(400px,78vw);aspect-ratio:1;display:grid;place-items:center}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(58,118,114,.35)}
+.ring.r2{inset:12%;border-style:solid;border-color:rgba(143,132,189,.25)}
+.orb{position:absolute;inset:10%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffffff 0%,#e3dcf4 30%,#a99fd2 70%,#7b70ae 100%);box-shadow:0 30px 80px -20px rgba(91,80,150,.55),inset 0 -20px 40px rgba(58,118,114,.25);transform:scale(.62);transition-property:transform;transition-timing-function:cubic-bezier(.45,0,.55,1)}
+.orb::after{content:"";position:absolute;inset:-14%;border-radius:50%;border:2px solid rgba(58,118,114,.3);opacity:.6}
+.breathe-label{position:relative;z-index:2;font-family:var(--serif);font-size:clamp(1.6rem,3.4vw,2.2rem);font-style:italic;color:var(--dusk);transition:opacity .6s}
+.breathe-count{display:block;font-family:var(--sans);font-style:normal;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dusk);margin-top:.3rem;font-weight:700}
+.breathe-btn{min-height:44px}
+.breathe-note{font-size:.88rem;color:var(--muted);max-width:22em;margin:0}
+
+/* sections */
+section{padding:clamp(4rem,9vw,7.5rem) 0}
+.section-head{max-width:640px;margin-bottom:3.2rem}
+.section-head p{color:var(--muted)}
+.center{text-align:center;margin-inline:auto}
+.center .eyebrow::after{content:"";width:28px;height:1px;background:currentColor}
+
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.pillar{background:var(--white);border-radius:var(--radius);padding:2.2rem;position:relative;overflow:hidden;border:1px solid rgba(45,41,68,.06)}
+.pillar .ico{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--lavender-soft);color:var(--dusk);margin-bottom:1.4rem}
+.pillar:nth-child(2) .ico{background:var(--teal-soft)}
+.pillar:nth-child(3) .ico{background:var(--sand-deep)}
+.pillar p{color:var(--muted);margin:0}
+
+/* timetable */
+.timetable{background:var(--dusk);color:#f2eef9;border-radius:clamp(0px,4vw,48px);margin-inline:clamp(0px,2vw,24px)}
+.timetable .eyebrow{color:#a8dcd5}
+.timetable .section-head p{color:#cfc9e2}
+.tt-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.tt-tab{min-height:44px;min-width:56px;padding:.6rem 1.1rem;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#f2eef9;font:700 .92rem var(--sans);cursor:pointer;transition:background .3s,color .3s}
+.tt-tab[aria-selected="true"]{background:#f2eef9;color:var(--dusk)}
+.tt-tab:hover{border-color:#fff}
+.tt-day h3{font-size:1.4rem;color:#fff;margin:0 0 1rem}
+.js .tt-day[hidden]{display:none}
+.tt-list{list-style:none;margin:0 0 2rem;padding:0;display:grid;gap:.8rem}
+.tt-item{display:grid;grid-template-columns:110px 1fr auto auto;gap:1.5rem;align-items:center;padding:1.1rem 1.4rem;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);transition:background .3s,transform .3s}
+.tt-item:hover{background:rgba(255,255,255,.1);transform:translateX(4px)}
+.tt-time{font-family:var(--serif);font-size:1.5rem;color:#fff}
+.tt-class strong{display:block;font-size:1.05rem;color:#fff}
+.tt-class span{font-size:.9rem;color:#cfc9e2}
+.tt-level{font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .8rem;border-radius:999px;background:rgba(168,220,213,.16);color:#bfe7e1;white-space:nowrap}
+.tt-item .btn{min-height:44px;padding:.55rem 1.1rem;border-color:rgba(255,255,255,.45);color:#fff;font-size:.88rem}
+.tt-item .btn:hover{background:#fff;color:var(--dusk)}
+
+/* passes */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:stretch}
+.card{background:var(--white);border-radius:var(--radius);padding:2.4rem 2rem;display:flex;flex-direction:column;border:1px solid rgba(45,41,68,.07);transition:transform .4s,box-shadow .4s}
+.card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(45,41,68,.35)}
+.card.featured{background:linear-gradient(160deg,#ece7f7,#dff0ec);border-color:transparent;position:relative}
+.card.featured::before{content:"Most loved";position:absolute;top:1.4rem;right:1.4rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:#fff;padding:.3rem .7rem;border-radius:999px}
+.card-title{font-size:1.9rem;margin-bottom:.3rem}
+.card .sub{color:var(--muted);font-size:.95rem}
+.price{display:block;font-family:var(--serif);font-size:3.2rem;line-height:1;color:var(--ink);margin:1.2rem 0 .3rem}
+.price small{font-family:var(--sans);font-size:.9rem;color:var(--muted)}
+.card ul{list-style:none;padding:0;margin:1.2rem 0 2rem;display:grid;gap:.6rem;font-size:.97rem}
+.card li{display:flex;gap:.6rem;align-items:flex-start}
+.card li::before{content:"";flex:none;width:8px;height:8px;margin-top:.55em;border-radius:50%;background:var(--lavender)}
+.card .btn{margin-top:auto}
+
+/* teachers */
+.teachers{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.teacher{text-align:center}
+.portrait{aspect-ratio:4/5;border-radius:200px 200px var(--radius) var(--radius);margin-bottom:1.2rem;display:grid;place-items:end center;overflow:hidden}
+.portrait svg{width:70%}
+.teacher:nth-child(1) .portrait{background:linear-gradient(180deg,#d9d2ef,#b7acd9)}
+.teacher:nth-child(2) .portrait{background:linear-gradient(180deg,#d4ebe7,#a6d0ca)}
+.teacher:nth-child(3) .portrait{background:linear-gradient(180deg,#f2e3d1,#e1c6a5)}
+.teacher h3{margin-bottom:.1rem}
+.teacher p{color:var(--muted);font-size:.95rem;margin:0}
+
+/* testimonials */
+.quotes{display:grid;grid-template-columns:1.3fr 1fr;gap:1.5rem}
+blockquote{margin:0;background:var(--white);border-radius:var(--radius);padding:2.4rem;border:1px solid rgba(45,41,68,.06)}
+blockquote p{font-family:var(--serif);font-size:1.45rem;line-height:1.35;font-style:italic;margin-bottom:1.2rem}
+blockquote:first-child{display:flex;flex-direction:column;justify-content:center}
+blockquote:first-child p{font-size:clamp(1.6rem,2.6vw,2.2rem)}
+blockquote footer{font-size:.92rem;color:var(--muted);font-weight:700}
+.quotes-side{display:grid;gap:1.5rem}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:3rem;align-items:start}
+details{border-bottom:1px solid rgba(45,41,68,.15);padding:.4rem 0}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:56px;font-family:var(--serif);font-size:1.4rem;font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--sans);font-size:1.6rem;color:var(--accent);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding-bottom:.8rem;margin:0}
+
+/* contact */
+.contact-box{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;border-radius:clamp(24px,4vw,44px);overflow:hidden;background:var(--white);box-shadow:0 40px 80px -50px rgba(45,41,68,.5)}
+.contact-info{padding:clamp(2rem,4vw,3.5rem);background:linear-gradient(160deg,#3a3456,#2d2944);color:#efeaf8}
+.contact-info h2{color:#fff}
+.contact-info .eyebrow{color:#a8dcd5}
+.contact-info dl{margin:2rem 0 0;display:grid;gap:1.2rem}
+.contact-info dt{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:#bdb5d6;font-weight:800}
+.contact-info dd{margin:0;font-size:1.05rem}
+.contact-info a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
+form{padding:clamp(2rem,4vw,3.5rem);display:grid;gap:1.1rem;grid-template-columns:1fr 1fr}
+.field{display:grid;gap:.4rem}
+.field.full{grid-column:1/-1}
+label{font-weight:700;font-size:.9rem}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sand);border:1.5px solid transparent;border-radius:16px;padding:.85rem 1rem;min-height:48px;width:100%;transition:border-color .3s,background .3s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);background:#fff}
+textarea{min-height:130px;resize:vertical}
+form .btn{grid-column:1/-1;justify-self:start}
+
+footer.site{padding:3rem 0;font-size:.92rem;color:var(--muted)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem}
+.foot nav{display:flex;flex-wrap:wrap;gap:.4rem 1.5rem}
+.foot a{color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:960px){
+  .hero-grid,.faq-grid,.contact-box,.quotes{grid-template-columns:1fr}
+  .breathe-stage{width:min(300px,70vw)}
+  .pillars,.cards,.teachers{grid-template-columns:1fr 1fr}
+  .tt-item{grid-template-columns:90px 1fr;row-gap:.7rem}
+  .tt-level{justify-self:start}
+}
+@media (max-width:820px){
+  .menu-btn{display:inline-flex}
+  .nav>nav{display:contents}
+  .nav-links{position:absolute;top:76px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:1rem 1.25rem 1.5rem;background:var(--sand);border-bottom:1px solid rgba(45,41,68,.1);box-shadow:0 20px 40px -20px rgba(45,41,68,.3)}
+  .js .nav-links{display:none}
+  .js .nav-links.open{display:flex}
+  .nav-links a{padding:.9rem 0;font-size:1.1rem}
+  .nav-links .btn{margin-top:.6rem}
+}
+@media (max-width:620px){
+  .pillars,.cards,.teachers{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  .tt-item{grid-template-columns:1fr;gap:.5rem}
+  .tt-item .btn{justify-self:start}
+  .hero-meta{gap:1.2rem}
+  .teacher .portrait{max-width:220px;margin-inline:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+  .orb{transform:scale(.85)}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 31c-5-4-7-9-7-14 3 2 6 5 7 9 1-4 4-7 7-9 0 5-2 10-7 14Z"/><path d="M20 31c-6 0-11-3-14-7 4-1 8 0 11 2M20 31c6 0 11-3 14-7-4-1-8 0-11 2"/><path d="M20 26c-1.5-4-1.5-9 0-15 1.5 6 1.5 11 0 15Z"/></svg>Lotus Flow</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><span></span></button>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#timetable">Timetable</a></li>
+        <li><a href="#passes">Passes</a></li>
+        <li><a href="#teachers">Teachers</a></li>
+        <li><a href="#contact" class="btn btn-primary">Book a class</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="aura" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Yoga &amp; meditation studio</span>
+        <h1 id="hero-title">Slow down. <em>Breathe</em> a little deeper.</h1>
+        <p>Lotus Flow is a light-filled studio for gentle vinyasa, restorative yoga and guided meditation — small classes, warm teachers and a timetable that fits real life.</p>
+        <div class="hero-ctas">
+          <a href="#timetable" class="btn btn-primary">See this week’s classes</a>
+          <a href="#passes" class="btn">First week free</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>34</strong> classes a week</div>
+          <div><strong>12</strong> mats per room</div>
+          <div><strong>6am</strong> earliest flow</div>
+        </div>
+      </div>
+      <div class="breathe" role="group" aria-label="Breathing exercise">
+        <div class="breathe-stage">
+          <div class="ring" aria-hidden="true"></div>
+          <div class="ring r2" aria-hidden="true"></div>
+          <div class="orb" aria-hidden="true"></div>
+          <p class="breathe-label"><span id="breathe-word">Breathe with me</span><span class="breathe-count" id="breathe-count">in 4 · hold 2 · out 6</span></p>
+        </div>
+        <button class="btn breathe-btn" id="breathe-btn" type="button" aria-pressed="false">Pause breathing</button>
+        <p class="breathe-note">Follow the circle for one minute: in through the nose, out through soft lips.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="classes" aria-labelledby="classes-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Ways to practise</span>
+        <h2 id="classes-title">Three paths back to yourself</h2>
+        <p>Every class is capped at twelve, so teachers know your name and your knees. Mats, bolsters and blankets are always provided.</p>
+      </div>
+      <div class="pillars">
+        <article class="pillar reveal">
+          <div class="ico" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17c3-6 6-9 9-9s6 3 9 9"/><path d="M7 17c2-3 3-4 5-4s3 1 5 4"/></svg></div>
+          <h3>Gentle Vinyasa</h3>
+          <p>Breath-led flows that build heat slowly. Perfect for building strength without the rush.</p>
+        </article>
+        <article class="pillar reveal">
+          <div class="ico" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 18h16"/><path d="M6 18c0-4 2.7-7 6-7s6 3 6 7"/><circle cx="12" cy="6" r="2.5"/></svg></div>
+          <h3>Restore &amp; Yin</h3>
+          <p>Long, supported holds with bolsters and blankets to release the deep layers of tension.</p>
+        </article>
+        <article class="pillar reveal">
+          <div class="ico" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg></div>
+          <h3>Meditation &amp; Breath</h3>
+          <p>Guided sits, pranayama and yoga nidra to quiet the mind — no experience needed.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="timetable" class="timetable" aria-labelledby="tt-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Class timetable</span>
+        <h2 id="tt-title">This week on the mat</h2>
+        <p>Drop in or book ahead. Classes open for booking seven days in advance and you can cancel free of charge up to 4 hours before.</p>
+      </div>
+      <div class="tt-tabs" role="tablist" aria-label="Choose a day">
+        <button class="tt-tab" role="tab" aria-selected="true" aria-controls="day-mon" id="tab-mon">Mon</button>
+        <button class="tt-tab" role="tab" aria-selected="false" aria-controls="day-wed" id="tab-wed" tabindex="-1">Wed</button>
+        <button class="tt-tab" role="tab" aria-selected="false" aria-controls="day-fri" id="tab-fri" tabindex="-1">Fri</button>
+        <button class="tt-tab" role="tab" aria-selected="false" aria-controls="day-sun" id="tab-sun" tabindex="-1">Sun</button>
+      </div>
+      <div class="tt-day" id="day-mon" role="tabpanel" aria-labelledby="tab-mon">
+        <h3>Monday</h3>
+        <ul class="tt-list">
+          <li class="tt-item"><span class="tt-time">06:30</span><span class="tt-class"><strong>Sunrise Flow</strong><span>with Maya · 60 min · Lotus Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">12:15</span><span class="tt-class"><strong>Lunchtime Reset</strong><span>with Theo · 45 min · Garden Room</span></span><span class="tt-level">Beginner</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">18:00</span><span class="tt-class"><strong>Slow Vinyasa</strong><span>with Maya · 75 min · Lotus Room</span></span><span class="tt-level">Intermediate</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">19:45</span><span class="tt-class"><strong>Yin &amp; Sound</strong><span>with Inés · 60 min · Garden Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+        </ul>
+      </div>
+      <div class="tt-day" id="day-wed" role="tabpanel" aria-labelledby="tab-wed" hidden>
+        <h3>Wednesday</h3>
+        <ul class="tt-list">
+          <li class="tt-item"><span class="tt-time">07:00</span><span class="tt-class"><strong>Breath &amp; Sit</strong><span>with Inés · 30 min · Garden Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">09:30</span><span class="tt-class"><strong>Prenatal Yoga</strong><span>with Maya · 60 min · Lotus Room</span></span><span class="tt-level">Prenatal</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">18:30</span><span class="tt-class"><strong>Strong Flow</strong><span>with Theo · 60 min · Lotus Room</span></span><span class="tt-level">Intermediate</span><a class="btn" href="#contact">Book</a></li>
+        </ul>
+      </div>
+      <div class="tt-day" id="day-fri" role="tabpanel" aria-labelledby="tab-fri" hidden>
+        <h3>Friday</h3>
+        <ul class="tt-list">
+          <li class="tt-item"><span class="tt-time">06:30</span><span class="tt-class"><strong>Sunrise Flow</strong><span>with Theo · 60 min · Lotus Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">17:30</span><span class="tt-class"><strong>Weekend Unwind</strong><span>with Inés · 75 min · Garden Room</span></span><span class="tt-level">Beginner</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">20:00</span><span class="tt-class"><strong>Candlelit Restore</strong><span>with Maya · 60 min · Lotus Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+        </ul>
+      </div>
+      <div class="tt-day" id="day-sun" role="tabpanel" aria-labelledby="tab-sun" hidden>
+        <h3>Sunday</h3>
+        <ul class="tt-list">
+          <li class="tt-item"><span class="tt-time">09:00</span><span class="tt-class"><strong>Long Slow Sunday</strong><span>with Maya · 90 min · Lotus Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">11:00</span><span class="tt-class"><strong>Yoga Basics Workshop</strong><span>with Theo · 120 min · Garden Room</span></span><span class="tt-level">Beginner</span><a class="btn" href="#contact">Book</a></li>
+          <li class="tt-item"><span class="tt-time">17:00</span><span class="tt-class"><strong>Yoga Nidra</strong><span>with Inés · 45 min · Garden Room</span></span><span class="tt-level">All levels</span><a class="btn" href="#contact">Book</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="passes" aria-labelledby="passes-title">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Passes &amp; memberships</span>
+        <h2 id="passes-title">Find your rhythm</h2>
+        <p>No joining fees, no lock-ins. Pause your membership any time you travel.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <h3 class="card-title">Drop-in</h3>
+          <p class="sub">For the curious and the occasional.</p>
+          <span class="price">$24 <small>/ class</small></span>
+          <ul><li>Any class on the timetable</li><li>Mat &amp; props included</li><li>Valid for 30 days</li></ul>
+          <a href="#contact" class="btn">Buy a class</a>
+        </article>
+        <article class="card featured reveal">
+          <h3 class="card-title">Unlimited</h3>
+          <p class="sub">For a steady, grounded practice.</p>
+          <span class="price">$129 <small>/ month</small></span>
+          <ul><li>Unlimited classes &amp; meditation</li><li>Two guest passes each month</li><li>10% off workshops &amp; retreats</li></ul>
+          <a href="#contact" class="btn btn-primary">Start unlimited</a>
+        </article>
+        <article class="card reveal">
+          <h3 class="card-title">Ten Breaths</h3>
+          <p class="sub">A flexible ten-class pack.</p>
+          <span class="price">$195 <small>/ 10 classes</small></span>
+          <ul><li>Share with a partner</li><li>Valid for 4 months</li><li>Free tea after every class</li></ul>
+          <a href="#contact" class="btn">Buy the pack</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="teachers" aria-labelledby="teachers-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Our teachers</span>
+        <h2 id="teachers-title">Kind guides, not drill sergeants</h2>
+      </div>
+      <div class="teachers">
+        <article class="teacher reveal">
+          <div class="portrait"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="72" r="34" fill="#3d3660"/><path d="M60 72c0-30 18-44 40-44s40 14 40 44c-8-14-22-20-40-20s-32 6-40 20Z" fill="#2d2944"/><path d="M30 200c0-46 32-72 70-72s70 26 70 72Z" fill="#f4ede2"/></svg></div>
+          <h3>Maya Lindqvist</h3>
+          <p>Vinyasa &amp; prenatal · 12 years teaching</p>
+        </article>
+        <article class="teacher reveal">
+          <div class="portrait"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="74" r="32" fill="#4b3a2e"/><path d="M70 60c4-20 18-28 30-28s28 8 30 28c-10-6-20-8-30-8s-20 2-30 8Z" fill="#2b2119"/><path d="M30 200c0-46 32-72 70-72s70 26 70 72Z" fill="#2d2944"/></svg></div>
+          <h3>Theo Okafor</h3>
+          <p>Strong flow &amp; basics · 8 years teaching</p>
+        </article>
+        <article class="teacher reveal">
+          <div class="portrait"><svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="74" r="32" fill="#c99a78"/><path d="M64 80c-4-34 14-50 36-50s40 16 36 50c-4-18-16-28-36-28s-32 10-36 28Z" fill="#6b3f2a"/><path d="M30 200c0-46 32-72 70-72s70 26 70 72Z" fill="#3a7672"/></svg></div>
+          <h3>Inés Moreau</h3>
+          <p>Yin, sound &amp; meditation · 15 years teaching</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="love-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Kind words</span>
+        <h2 id="love-title">What students carry home</h2>
+      </div>
+      <div class="quotes">
+        <blockquote class="reveal"><p>“I came for my back and stayed for the quiet. Sunday’s long slow class is the best ninety minutes of my week.”</p><footer>— Hannah, member since spring</footer></blockquote>
+        <div class="quotes-side">
+          <blockquote class="reveal"><p>“Theo made a total beginner feel completely at home.”</p><footer>— Marco</footer></blockquote>
+          <blockquote class="reveal"><p>“Yoga nidra with Inés is the only thing that fixes my sleep.”</p><footer>— Priya</footer></blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="reveal">
+        <span class="eyebrow">Good to know</span>
+        <h2 id="faq-title">Before your first class</h2>
+        <p style="color:var(--muted)">Arrive ten minutes early, bring water and wear something you can stretch in. We’ll take care of the rest.</p>
+      </div>
+      <div class="reveal">
+        <details open><summary>I’ve never done yoga. Where should I start?</summary><p>Try Lunchtime Reset, Weekend Unwind or the Sunday Basics workshop. Tell your teacher it’s your first time and they’ll offer options throughout.</p></details>
+        <details><summary>Do I need my own mat?</summary><p>No. Clean mats, blocks, straps, bolsters and blankets are provided free in every class.</p></details>
+        <details><summary>Is there parking and changing space?</summary><p>Yes — free street parking after 6pm, two changing rooms with showers and lockers for your valuables.</p></details>
+        <details><summary>Can I freeze my membership?</summary><p>Of course. Pause for up to two months a year, at no cost, straight from your booking email.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <div class="contact-info">
+          <span class="eyebrow">Visit or write</span>
+          <h2 id="contact-title">Save your spot on the mat</h2>
+          <p>Tell us which class you’d like and we’ll confirm within the day.</p>
+          <dl>
+            <div><dt>Studio</dt><dd>48 Willow Lane, Brookfield</dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:hello@example.com">hello@example.com</a></dd></div>
+            <div><dt>Phone</dt><dd><a href="tel:+15550142211">+1 555 014 2211</a></dd></div>
+            <div><dt>Front desk</dt><dd>Mon–Fri 6am–9pm · Sat–Sun 8am–6pm</dd></div>
+          </dl>
+        </div>
+        <form action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field full"><label for="f-class">Class you’re interested in</label>
+            <select id="f-class" name="class"><option>First week free trial</option><option>Sunrise Flow</option><option>Slow Vinyasa</option><option>Yin &amp; Sound</option><option>Prenatal Yoga</option><option>Yoga Nidra</option></select></div>
+          <div class="field full"><label for="f-msg">Message</label><textarea id="f-msg" name="message" placeholder="Any injuries or questions we should know about?" required></textarea></div>
+          <button type="submit" class="btn btn-primary">Send booking request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo" aria-label="Lotus Flow, back to top" style="font-size:1.3rem">Lotus Flow</a>
+    <nav aria-label="Footer"><a href="#timetable">Timetable</a><a href="#passes">Passes</a><a href="#contact">Contact</a></nav>
+    <p style="margin:0">© <span id="year">2026</span> Lotus Flow Yoga. Breathe easy.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // mobile nav
+  var btn = document.querySelector('.menu-btn'), links = document.getElementById('nav-links');
+  function setMenu(open){ btn.setAttribute('aria-expanded', open); btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); links.classList.toggle('open', open); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  links.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // timetable tabs
+  var tabs = [].slice.call(document.querySelectorAll('.tt-tab'));
+  function select(tab){
+    tabs.forEach(function(t){ var on = t === tab; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(t); });
+    t.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d){ var n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); e.preventDefault(); }
+    });
+  });
+
+  // reveals
+  var rev = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { rev.forEach(function(el){ el.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    rev.forEach(function(el, i){ el.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(el); });
+  }
+
+  // breathe with me: inhale 4s, hold 2s, exhale 6s
+  var orb = document.querySelector('.orb'), word = document.getElementById('breathe-word'), count = document.getElementById('breathe-count'), bb = document.getElementById('breathe-btn');
+  var phases = [ { w: 'Inhale', s: 1, d: 4 }, { w: 'Hold', s: 1, d: 2 }, { w: 'Exhale', s: .62, d: 6 } ];
+  var idx = 0, timer = null, tick = null, left = 0, paused = false, visible = true;
+  if (reduce) {
+    bb.hidden = true;
+    word.textContent = 'Breathe with me';
+    count.textContent = 'in 4 · hold 2 · out 6';
+    return;
+  }
+  function run(){
+    var ph = phases[idx];
+    orb.style.transitionDuration = ph.d + 's';
+    orb.style.transform = 'scale(' + ph.s + ')';
+    word.textContent = ph.w;
+    left = ph.d; count.textContent = left;
+    clearInterval(tick);
+    tick = setInterval(function(){ left--; if (left > 0) count.textContent = left; }, 1000);
+    timer = setTimeout(function(){ idx = (idx + 1) % phases.length; run(); }, ph.d * 1000);
+  }
+  function stop(){
+    clearTimeout(timer); clearInterval(tick); timer = null;
+    var cur = getComputedStyle(orb).transform; orb.style.transitionDuration = '0s'; orb.style.transform = cur;
+  }
+  function sync(){
+    var should = !paused && visible && !document.hidden;
+    if (should && !timer) { idx = 0; run(); }
+    else if (!should && timer) { stop(); word.textContent = paused ? 'Paused' : word.textContent; }
+  }
+  bb.addEventListener('click', function(){
+    paused = !paused;
+    bb.textContent = paused ? 'Resume breathing' : 'Pause breathing';
+    bb.setAttribute('aria-pressed', paused);
+    if (paused) { count.textContent = 'tap resume when ready'; }
+    sync();
+  });
+  document.addEventListener('visibilitychange', sync);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(es){ visible = es[0].isIntersecting; sync(); }).observe(document.querySelector('.breathe-stage'));
+  } else { sync(); }
+  // pause the drifting aura when the hero is off-screen
+  var aura = document.querySelector('.aura');
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ aura.querySelectorAll('i').forEach(function(i){ i.style.animationPlayState = es[0].isIntersecting ? 'running' : 'paused'; }); }).observe(document.querySelector('.hero'));
+})();
+</script>
+</body>
+</html>

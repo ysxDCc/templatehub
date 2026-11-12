@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Roastery — Small-batch coffee, roasted every Tuesday</title>
+<meta name="description" content="Ember Roastery roasts single-origin coffee in small batches and ships it within 48 hours. Bean subscriptions, brew gear and a tasting bar.">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #c2410c; }
+:root {
+  --accent: #c2410c;
+  --espresso: #1d130e;
+  --roast: #2c1c14;
+  --mocha: #4a3125;
+  --cream: #f6eee2;
+  --latte: #eadbc6;
+  --ink: #24170f;
+  --muted: #6b5446;
+  --on-dark: #f6eee2;
+  --on-dark-muted: #cdb9a5;
+  --glow: #f08a4b;
+  --radius: 18px;
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  transition: --accent .5s ease;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { font-family: var(--sans); background: var(--cream); color: var(--ink); line-height: 1.65; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--glow); outline-offset: 3px; border-radius: 6px; }
+.wrap { width: min(1180px, 100% - 40px); margin-inline: auto; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--cream); color: var(--ink); padding: 10px 16px; z-index: 200; border-radius: 8px; }
+.skip:focus { left: 12px; }
+.eyebrow { font: 700 .78rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+.dark .eyebrow, .hero .eyebrow { color: var(--glow); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 600; line-height: 1.08; letter-spacing: -.01em; }
+h2 { font-size: clamp(2rem, 4.4vw, 3.3rem); margin: 14px 0 16px; }
+h2 em { font-style: italic; font-weight: 400; color: var(--accent); }
+.dark h2 em { color: var(--glow); }
+.lead { font-size: 1.08rem; color: var(--muted); max-width: 56ch; }
+section { padding: clamp(72px, 10vw, 128px) 0; }
+.dark { background: var(--espresso); color: var(--on-dark); }
+.dark .lead { color: var(--on-dark-muted); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 26px; border-radius: 999px; font: 700 .95rem/1 var(--sans); text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: transform .25s, background-color .25s, box-shadow .25s, color .25s; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 10px 26px -12px var(--accent); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px var(--accent); }
+.btn-ghost { border-color: currentColor; color: inherit; background: transparent; }
+.btn-ghost:hover { background: var(--on-dark); color: var(--espresso); }
+.btn-sm { min-height: 44px; padding: 0 18px; font-size: .88rem; }
+
+/* Header */
+header { position: sticky; top: 0; z-index: 100; background: rgba(29, 19, 14, .9); backdrop-filter: blur(12px); color: var(--on-dark); border-bottom: 1px solid rgba(246, 238, 226, .08); }
+.nav { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 20px; }
+.logo { font: 800 1.45rem/1 var(--serif); text-decoration: none; letter-spacing: .02em; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+.logo svg { width: 30px; height: 30px; color: var(--glow); }
+.nav ul { list-style: none; display: flex; gap: 6px; align-items: center; }
+.nav ul a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; text-decoration: none; font-weight: 500; font-size: .95rem; color: var(--on-dark-muted); border-radius: 999px; transition: color .2s, background-color .2s; }
+.nav ul a:hover { color: var(--on-dark); background: rgba(246, 238, 226, .08); }
+.nav .btn { margin-left: 8px; }
+.burger { display: none; width: 48px; height: 48px; border-radius: 12px; border: 1px solid rgba(246, 238, 226, .2); background: transparent; color: var(--on-dark); cursor: pointer; }
+.burger span, .burger span::before, .burger span::after { display: block; width: 20px; height: 2px; background: currentColor; margin: auto; position: relative; transition: transform .3s, background-color .3s; }
+.burger span::before, .burger span::after { content: ""; position: absolute; left: 0; }
+.burger span::before { top: -6px; } .burger span::after { top: 6px; }
+.burger[aria-expanded="true"] span { background: transparent; }
+.burger[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* Hero */
+.hero { position: relative; background: radial-gradient(ellipse 60% 70% at 72% 55%, rgba(240, 138, 75, .22), transparent 70%), linear-gradient(160deg, #24170f 0%, var(--espresso) 55%, #140d09 100%); color: var(--on-dark); padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 8vw, 110px); overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; opacity: .14; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E"); }
+.hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+.hero h1 { font-size: clamp(2.7rem, 6.4vw, 5.4rem); font-weight: 800; margin: 22px 0 22px; letter-spacing: -.025em; }
+.hero h1 em { font-weight: 400; font-style: italic; color: var(--glow); }
+.hero p { font-size: clamp(1.02rem, 1.4vw, 1.18rem); color: var(--on-dark-muted); max-width: 48ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.hero-stats { display: flex; gap: clamp(20px, 4vw, 44px); margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(246, 238, 226, .12); flex-wrap: wrap; }
+.hero-stats strong { display: block; font: 600 1.9rem/1 var(--serif); color: var(--on-dark); }
+.hero-stats span { font-size: .85rem; color: var(--on-dark-muted); }
+.cup-stage { position: relative; aspect-ratio: 1; width: min(100%, 520px); justify-self: center; }
+.cup-stage .ring { position: absolute; inset: 2%; animation: spin 40s linear infinite; color: var(--on-dark-muted); }
+.cup-stage .ring text { font: 600 13px var(--sans); letter-spacing: .34em; fill: currentColor; }
+.cup-stage .halo { position: absolute; inset: 17%; border-radius: 50%; background: radial-gradient(circle at 50% 60%, rgba(240, 138, 75, .35), rgba(194, 65, 12, .08) 60%, transparent 72%); }
+.cup-stage .cup { position: absolute; left: 14%; right: 14%; bottom: 13%; }
+#steam { position: absolute; left: 22%; width: 56%; top: 2%; height: 52%; pointer-events: none; }
+.steam-static { position: absolute; left: 30%; width: 40%; top: 12%; height: 38%; display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Origins ticker */
+.ticker { background: var(--accent); color: #fff; overflow: hidden; padding: 16px 0; }
+.ticker-track { display: flex; gap: 48px; width: max-content; animation: tick 38s linear infinite; font: italic 400 1.35rem/1 var(--serif); white-space: nowrap; }
+.ticker-track span::after { content: "✦"; font-style: normal; font-size: .8rem; margin-left: 48px; opacity: .7; vertical-align: middle; }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* Craft */
+.craft-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px; }
+.craft-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.craft { background: #fffaf3; border: 1px solid var(--latte); border-radius: var(--radius); padding: 34px 30px; position: relative; overflow: hidden; transition: transform .35s, box-shadow .35s; }
+.craft:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -28px rgba(44, 28, 20, .55); }
+.craft .num { position: absolute; right: 22px; top: 14px; font: italic 400 4rem/1 var(--serif); color: var(--latte); }
+.craft svg { width: 54px; height: 54px; color: var(--accent); margin-bottom: 22px; }
+.craft h3 { font-size: 1.45rem; margin-bottom: 10px; }
+.craft p { color: var(--muted); }
+
+/* Roast dial */
+.roast { background: linear-gradient(180deg, var(--espresso), var(--roast)); }
+.roast-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+.bean-stage { position: relative; aspect-ratio: 1; max-width: 420px; width: 100%; justify-self: center; }
+.bean-stage::before { content: ""; position: absolute; inset: 8%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--accent) 45%, transparent), transparent 70%); }
+.bean-stage svg { position: relative; width: 100%; height: 100%; }
+.roast-panel { background: rgba(246, 238, 226, .05); border: 1px solid rgba(246, 238, 226, .12); border-radius: 24px; padding: clamp(26px, 4vw, 42px); }
+.roast-read { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 26px 0 22px; padding-top: 22px; border-top: 1px solid rgba(246, 238, 226, .12); }
+.roast-read output { font: 600 2.2rem/1 var(--serif); }
+.roast-read span { font-size: .9rem; color: var(--on-dark-muted); }
+.range-label { font-weight: 700; font-size: .9rem; display: block; margin-bottom: 12px; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 10px; border-radius: 999px; background: linear-gradient(90deg, #d9a66b, #b45309 30%, #c2410c 55%, #7c2d12 80%, #3b1a0c); }
+input[type=range]::-moz-range-track { height: 10px; border-radius: 999px; background: linear-gradient(90deg, #d9a66b, #b45309 30%, #c2410c 55%, #7c2d12 80%, #3b1a0c); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -10px; border-radius: 50%; background: var(--cream); border: 6px solid var(--accent); box-shadow: 0 6px 16px rgba(0, 0, 0, .4); }
+input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--cream); border: 6px solid var(--accent); }
+.range-scale { display: flex; justify-content: space-between; font-size: .8rem; color: var(--on-dark-muted); text-transform: uppercase; letter-spacing: .12em; margin-top: 4px; }
+.notes { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 10px; list-style: none; }
+.notes li { padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(246, 238, 226, .2); font-size: .92rem; }
+.roast-desc { color: var(--on-dark-muted); min-height: 3.3em; }
+.roast-panel .btn { margin-top: 22px; }
+
+/* Shop */
+.shop-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; }
+.beans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.bean { background: #fffaf3; border-radius: var(--radius); border: 1px solid var(--latte); overflow: hidden; display: flex; flex-direction: column; transition: transform .35s, box-shadow .35s; }
+.bean:hover { transform: translateY(-6px); box-shadow: 0 26px 44px -30px rgba(44, 28, 20, .6); }
+.bean-art { aspect-ratio: 5 / 4; display: grid; place-items: center; background: var(--tone); position: relative; }
+.bean-art svg { width: 46%; height: auto; filter: drop-shadow(0 16px 18px rgba(0, 0, 0, .28)); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.bean:hover .bean-art svg { transform: rotate(-4deg) scale(1.05); }
+.tag { position: absolute; top: 14px; left: 14px; background: var(--cream); color: var(--ink); font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; }
+.bean-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+.origin { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.bean h3 { font-size: 1.35rem; margin: 6px 0 6px; }
+.bean .taste { color: var(--muted); font-size: .94rem; flex: 1; }
+.dots { display: flex; gap: 5px; margin: 14px 0 18px; align-items: center; font-size: .78rem; color: var(--muted); }
+.dots i { width: 18px; height: 6px; border-radius: 4px; background: var(--latte); }
+.dots i.on { background: var(--mocha); }
+.dots b { font-weight: 500; margin-left: 6px; }
+.bean-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.price { font: 600 1.45rem/1 var(--serif); }
+.price small { font: 500 .8rem var(--sans); color: var(--muted); }
+.bean .btn { background: var(--ink); color: var(--cream); }
+.bean .btn:hover { background: var(--accent); }
+
+/* Plans */
+.plans-wrap { background: var(--latte); }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 52px; align-items: stretch; }
+.plan { background: var(--cream); border-radius: 24px; padding: 36px 30px; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(74, 49, 37, .12); }
+.plan.featured { background: var(--espresso); color: var(--on-dark); transform: translateY(-14px); box-shadow: 0 40px 60px -40px rgba(29, 19, 14, .8); }
+.plan h3 { font-size: 1.6rem; }
+.plan .price { font-size: 2.6rem; }
+.plan .per { color: var(--muted); font-size: .9rem; }
+.plan.featured .per, .plan.featured li { color: var(--on-dark-muted); }
+.plan ul { list-style: none; display: grid; gap: 10px; margin: 8px 0 18px; flex: 1; align-content: start; }
+.plan li { padding-left: 28px; position: relative; color: var(--muted); }
+.plan li::before { content: ""; position: absolute; left: 0; top: .45em; width: 14px; height: 9px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+.plan.featured li::before { border-color: var(--glow); }
+.badge { align-self: flex-start; background: var(--accent); color: #fff; font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; }
+
+/* Testimonials */
+.quotes { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 22px; margin-top: 48px; }
+.quote { border-radius: var(--radius); padding: 32px; background: #fffaf3; border: 1px solid var(--latte); display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.quote.big { background: var(--accent); color: #fff; border: 0; }
+.quote blockquote { font: 400 1.15rem/1.5 var(--serif); }
+.quote.big blockquote { font-size: clamp(1.3rem, 2.2vw, 1.75rem); font-style: italic; }
+.quote footer { display: flex; align-items: center; gap: 12px; font-size: .9rem; }
+.avatar { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font: 600 1.1rem var(--serif); background: var(--latte); color: var(--ink); }
+.stars { color: var(--accent); letter-spacing: 3px; }
+.quote.big .stars { color: #fff; }
+
+/* FAQ */
+.faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 80px); }
+details { border-bottom: 1px solid rgba(74, 49, 37, .18); }
+summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; min-height: 44px; font: 600 1.18rem/1.3 var(--serif); }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font: 400 1.6rem/1 var(--sans); color: var(--accent); transition: transform .3s; flex-shrink: 0; }
+details[open] summary::after { transform: rotate(45deg); }
+details p { color: var(--muted); padding: 0 0 22px; max-width: 62ch; }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 72px); }
+.info { display: grid; gap: 22px; margin-top: 34px; }
+.info div { display: flex; gap: 16px; align-items: flex-start; }
+.info svg { width: 22px; height: 22px; color: var(--glow); flex-shrink: 0; margin-top: 3px; }
+.info strong { display: block; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--on-dark-muted); }
+.info a { text-decoration: none; border-bottom: 1px solid rgba(246, 238, 226, .3); }
+.hours { margin-top: 30px; padding: 22px; border-radius: 16px; background: rgba(246, 238, 226, .05); border: 1px solid rgba(246, 238, 226, .1); font-size: .95rem; color: var(--on-dark-muted); }
+form { background: var(--cream); color: var(--ink); border-radius: 24px; padding: clamp(24px, 4vw, 40px); display: grid; gap: 18px; }
+.field { display: grid; gap: 8px; }
+.field label { font-weight: 700; font-size: .88rem; }
+.field input, .field select, .field textarea { font: inherit; padding: 13px 16px; border-radius: 12px; border: 1.5px solid #cbb59c; background: #fffaf3; color: var(--ink); min-height: 48px; width: 100%; }
+.field textarea { min-height: 130px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Footer */
+.site-footer { background: #140d09; color: var(--on-dark-muted); padding: 56px 0 36px; }
+.foot { display: flex; justify-content: space-between; gap: 30px; flex-wrap: wrap; align-items: center; }
+.site-footer .logo { color: var(--on-dark); }
+.site-footer nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.site-footer nav a { display: inline-flex; min-height: 44px; align-items: center; text-decoration: none; }
+.site-footer nav a:hover { color: var(--on-dark); }
+.copy { margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(246, 238, 226, .1); font-size: .85rem; }
+
+/* Reveal */
+.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 1080px) {
+  .beans { grid-template-columns: repeat(2, 1fr); }
+  .quotes { grid-template-columns: 1fr 1fr; }
+  .quote.big { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .burger { display: grid; place-items: center; }
+  .nav ul { position: absolute; top: 76px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 4px; padding: 16px 20px 24px; background: var(--espresso); border-bottom: 1px solid rgba(246, 238, 226, .1); display: none; }
+  .nav ul.open { display: flex; }
+  .nav ul a { font-size: 1.05rem; padding: 0 12px; }
+  .nav .btn { margin: 8px 0 0; }
+  .hero-grid, .roast-grid, .faq-grid, .contact-grid, .craft-head { grid-template-columns: 1fr; }
+  .cup-stage { width: min(100%, 420px); }
+  .craft-grid, .plans { grid-template-columns: 1fr; }
+  .plan.featured { transform: none; }
+}
+@media (max-width: 560px) {
+  .beans, .quotes, .row2 { grid-template-columns: 1fr; }
+  .hero-cta .btn { flex: 1 1 100%; }
+  .hero-stats { gap: 18px 28px; }
+  .eyebrow { letter-spacing: .12em; font-size: .72rem; }
+  .bean-art { aspect-ratio: 16 / 10; }
+  .bean-art svg { width: 30%; }
+  .bean-stage { max-width: 260px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
+  #steam { display: none; }
+  .steam-static { display: block; }
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="bag" viewBox="0 0 120 160">
+    <path d="M18 22 L102 22 L110 150 Q60 158 10 150 Z" fill="#f6eee2"/>
+    <path d="M18 22 L102 22 L104 40 L16 40 Z" fill="#e2d0b8"/>
+    <path d="M30 10 h60 l12 12 H18 Z" fill="#d6c2a6"/>
+    <rect x="26" y="62" width="68" height="62" rx="6" fill="currentColor"/>
+    <ellipse cx="60" cy="86" rx="11" ry="15" fill="#f6eee2" opacity=".92"/>
+    <path d="M60 72 q-5 14 0 28" stroke="currentColor" stroke-width="2.4" fill="none"/>
+    <rect x="36" y="108" width="48" height="4" rx="2" fill="#f6eee2" opacity=".7"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo" aria-label="Ember Roastery home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 2c1 6-6 9-6 16a6 6 0 0 0 12 0c0-3-1.5-5-3-6.5.2 2.4-.8 4-2.5 4.5 1.5-4-1-9.5-.5-14z"/><path fill="none" stroke="currentColor" stroke-width="2" d="M6 26h20"/></svg>
+      Ember Roastery
+    </a>
+    <nav aria-label="Main">
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
+      <ul id="menu">
+        <li><a href="#craft">Our craft</a></li>
+        <li><a href="#roast">Roast finder</a></li>
+        <li><a href="#shop">Beans</a></li>
+        <li><a href="#plans">Subscriptions</a></li>
+        <li><a href="#visit">Visit</a></li>
+        <li><a href="#plans" class="btn btn-primary btn-sm">Subscribe</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">Small-batch roasters · Since 2014</span>
+        <h1 id="hero-title">Roasted on Tuesday. <em>In your cup</em> by Friday.</h1>
+        <p>We buy green coffee directly from twelve farms, roast it in thirty-kilo batches over a slow ember flame, and ship it while it still sings. Subscriptions start at $18.</p>
+        <div class="hero-cta">
+          <a href="#plans" class="btn btn-primary">Start a subscription</a>
+          <a href="#shop" class="btn btn-ghost">Shop single bags</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>12</strong><span>partner farms</span></div>
+          <div><strong>48h</strong><span>roast to doorstep</span></div>
+          <div><strong>4.9★</strong><span>from 2,300 reviews</span></div>
+        </div>
+      </div>
+      <div class="cup-stage" aria-hidden="true">
+        <div class="halo"></div>
+        <svg class="ring" viewBox="0 0 400 400"><defs><path id="circ" d="M200 200 m-178 0 a178 178 0 1 1 356 0 a178 178 0 1 1 -356 0"/></defs><text><textPath href="#circ" textLength="1105" lengthAdjust="spacing">FRESH ROASTED · SMALL BATCH · DIRECT TRADE · SLOW EMBER · ROASTED TUESDAYS ·</textPath></text></svg>
+        <canvas id="steam"></canvas>
+        <svg class="steam-static" viewBox="0 0 100 100" fill="none" stroke="rgba(246,238,226,.45)" stroke-width="3" stroke-linecap="round"><path d="M35 95 C25 75 45 65 35 45 C27 30 40 20 36 5"/><path d="M52 95 C42 75 62 65 52 45 C44 30 57 20 53 5"/><path d="M68 95 C58 78 76 68 67 50"/></svg>
+        <svg class="cup" viewBox="0 0 300 200">
+          <defs>
+            <linearGradient id="cupG" x1="0" x2="1"><stop offset="0" stop-color="#e9dcc8"/><stop offset=".45" stop-color="#fbf5ec"/><stop offset="1" stop-color="#cdb79a"/></linearGradient>
+            <radialGradient id="coffeeG" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#8a4a22"/><stop offset=".6" stop-color="#4a2512"/><stop offset="1" stop-color="#2a140a"/></radialGradient>
+          </defs>
+          <ellipse cx="150" cy="182" rx="140" ry="16" fill="#0d0805" opacity=".55"/>
+          <ellipse cx="150" cy="172" rx="132" ry="20" fill="#d8c4a8"/>
+          <ellipse cx="150" cy="168" rx="112" ry="13" fill="#efe3d1"/>
+          <path d="M228 66 c46 -6 54 56 4 66" fill="none" stroke="url(#cupG)" stroke-width="16" stroke-linecap="round"/>
+          <path d="M58 42 h184 c-4 70 -26 118 -92 122 c-66 -4 -88 -52 -92 -122z" fill="url(#cupG)"/>
+          <ellipse cx="150" cy="42" rx="92" ry="16" fill="#efe3d1"/>
+          <ellipse cx="150" cy="44" rx="84" ry="12" fill="url(#coffeeG)"/>
+          <path d="M124 44 q10 -6 26 -2 q14 4 22 -1" stroke="#c98a5a" stroke-width="2.5" fill="none" opacity=".7"/>
+          <path d="M78 64 c6 40 18 70 40 84" stroke="#fff" stroke-width="5" opacity=".35" fill="none" stroke-linecap="round"/>
+          <path d="M150 96 c-10 -14 -22 -4 -14 6 l14 14 l14 -14 c8 -10 -4 -20 -14 -6z" fill="#c2410c" opacity=".85"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Huila, Colombia</span><span>Guji, Ethiopia</span><span>Nyeri, Kenya</span><span>Cerrado, Brazil</span><span>Huehuetenango, Guatemala</span><span>Kayanza, Burundi</span>
+      <span>Huila, Colombia</span><span>Guji, Ethiopia</span><span>Nyeri, Kenya</span><span>Cerrado, Brazil</span><span>Huehuetenango, Guatemala</span><span>Kayanza, Burundi</span>
+    </div>
+  </div>
+
+  <section id="craft" aria-labelledby="craft-title">
+    <div class="wrap">
+      <div class="craft-head">
+        <div class="reveal"><span class="eyebrow">The Ember method</span><h2 id="craft-title">Slow fire, <em>short road</em>, honest coffee.</h2></div>
+        <p class="lead reveal" style="--d:.1s">Every bag carries the farm, the altitude, the roast date and the name of the person who roasted it. No blends to hide behind, no stale shelf time.</p>
+      </div>
+      <div class="craft-grid">
+        <article class="craft reveal">
+          <span class="num" aria-hidden="true">01</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M8 40c6-14 14-22 32-30-2 18-10 28-26 30"/><path d="M8 40l18-18"/></svg>
+          <h3>Direct from twelve farms</h3>
+          <p>We visit each farm every harvest and pay 40–80% above fair-trade minimums, agreed before the cherries ripen.</p>
+        </article>
+        <article class="craft reveal" style="--d:.1s">
+          <span class="num" aria-hidden="true">02</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M24 4c2 10-10 14-10 26a10 10 0 0 0 20 0c0-5-3-8-5-10 0 4-2 6-4 7 2-7-2-15-1-23z"/></svg>
+          <h3>Roasted every Tuesday</h3>
+          <p>Thirty-kilo batches on our restored 1962 drum roaster, profiled by hand and cupped before a single bag is sealed.</p>
+        </article>
+        <article class="craft reveal" style="--d:.2s">
+          <span class="num" aria-hidden="true">03</span>
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true"><path d="M6 16l18-9 18 9v18l-18 9-18-9z"/><path d="M6 16l18 9 18-9M24 25v18"/></svg>
+          <h3>Shipped within 48 hours</h3>
+          <p>Compostable valve bags, carbon-neutral delivery and a peak-flavour window printed right on the label.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="roast" class="roast dark" aria-labelledby="roast-title">
+    <div class="wrap roast-grid">
+      <div class="bean-stage reveal" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <g transform="rotate(-24 100 100)">
+            <ellipse id="beanBody" cx="100" cy="100" rx="56" ry="78" fill="#7c3a14"/>
+            <ellipse cx="100" cy="100" rx="56" ry="78" fill="url(#beanShine)"/>
+            <path id="beanCrease" d="M100 24 C80 60 120 140 100 176" stroke="#2a140a" stroke-width="7" fill="none" stroke-linecap="round"/>
+          </g>
+          <defs><radialGradient id="beanShine" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient></defs>
+        </svg>
+      </div>
+      <div class="roast-panel reveal" style="--d:.1s">
+        <span class="eyebrow">Roast finder</span>
+        <h2 id="roast-title">Find <em>your</em> roast.</h2>
+        <p class="lead">Slide from bright and floral to deep and smoky. The whole page warms with you.</p>
+        <div class="roast-read"><output id="roastName" for="roastLevel">Medium</output><span id="roastTemp">Drop at 214°C</span></div>
+        <label class="range-label" for="roastLevel">Roast level</label>
+        <input type="range" id="roastLevel" min="0" max="100" value="50" aria-describedby="roastDesc">
+        <div class="range-scale" aria-hidden="true"><span>Light</span><span>Medium</span><span>Dark</span></div>
+        <ul class="notes" id="roastNotes"><li>Caramel</li><li>Milk chocolate</li><li>Red apple</li></ul>
+        <p class="roast-desc" id="roastDesc">Balanced sweetness and a round body. Lovely as a flat white or a long black.</p>
+        <a href="#shop" class="btn btn-primary" id="roastPick">Shop Huila Ember Blend</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="shop" aria-labelledby="shop-title">
+    <div class="wrap">
+      <div class="shop-head">
+        <div class="reveal"><span class="eyebrow">This week's roast</span><h2 id="shop-title">Single origins, <em>freshly fired</em>.</h2></div>
+        <p class="lead reveal">250g bags, whole bean or ground to order. Free shipping over $40.</p>
+      </div>
+      <div class="beans">
+        <article class="bean reveal">
+          <div class="bean-art" style="--tone:#efd9b5;color:#b45309"><span class="tag">New crop</span><svg viewBox="0 0 120 160" aria-hidden="true"><use href="#bag"/></svg></div>
+          <div class="bean-body">
+            <span class="origin">Guji · Ethiopia</span>
+            <h3 class="card-title">Hambela Sunrise</h3>
+            <p class="taste">Bergamot, white peach and jasmine. Tea-like and luminous.</p>
+            <div class="dots" aria-label="Roast level: light"><i class="on"></i><i></i><i></i><i></i><i></i><b>Light</b></div>
+            <div class="bean-foot"><span class="price">$21</span><a href="#contact-form" class="btn btn-sm">Add to bag</a></div>
+          </div>
+        </article>
+        <article class="bean reveal" style="--d:.08s">
+          <div class="bean-art" style="--tone:#e9c9a8;color:#9a3412"><svg viewBox="0 0 120 160" aria-hidden="true"><use href="#bag"/></svg></div>
+          <div class="bean-body">
+            <span class="origin">Nyeri · Kenya</span>
+            <h3 class="card-title">Gatomboya AA</h3>
+            <p class="taste">Blackcurrant, grapefruit and raw sugar. Juicy and bold.</p>
+            <div class="dots" aria-label="Roast level: light-medium"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><b>Light-medium</b></div>
+            <div class="bean-foot"><span class="price">$24</span><a href="#contact-form" class="btn btn-sm">Add to bag</a></div>
+          </div>
+        </article>
+        <article class="bean reveal" style="--d:.16s">
+          <div class="bean-art" style="--tone:#d9b28e;color:#c2410c"><span class="tag">Best seller</span><svg viewBox="0 0 120 160" aria-hidden="true"><use href="#bag"/></svg></div>
+          <div class="bean-body">
+            <span class="origin">Huila · Colombia</span>
+            <h3 class="card-title">Huila Ember Blend</h3>
+            <p class="taste">Caramel, milk chocolate and red apple. Our everyday hero.</p>
+            <div class="dots" aria-label="Roast level: medium"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><b>Medium</b></div>
+            <div class="bean-foot"><span class="price">$18</span><a href="#contact-form" class="btn btn-sm">Add to bag</a></div>
+          </div>
+        </article>
+        <article class="bean reveal" style="--d:.24s">
+          <div class="bean-art" style="--tone:#b98f6f;color:#4a2512"><svg viewBox="0 0 120 160" aria-hidden="true"><use href="#bag"/></svg></div>
+          <div class="bean-body">
+            <span class="origin">Cerrado · Brazil</span>
+            <h3 class="card-title">Night Kiln</h3>
+            <p class="taste">Dark cocoa, molasses and toasted hazelnut. Built for espresso.</p>
+            <div class="dots" aria-label="Roast level: dark"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><b>Dark</b></div>
+            <div class="bean-foot"><span class="price">$19</span><a href="#contact-form" class="btn btn-sm">Add to bag</a></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="plans" class="plans-wrap" aria-labelledby="plans-title">
+    <div class="wrap">
+      <div class="reveal" style="text-align:center;max-width:680px;margin:auto">
+        <span class="eyebrow">Bean subscriptions</span>
+        <h2 id="plans-title">Never run out of <em>good mornings</em>.</h2>
+        <p class="lead" style="margin:auto">Pick a rhythm, skip or pause anytime, and swap origins whenever you like. Every plan ships the week it's roasted.</p>
+      </div>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3>Explorer</h3>
+          <div><span class="price">$18</span> <span class="per">/ delivery</span></div>
+          <ul><li>One 250g bag every two weeks</li><li>Roaster's pick, new origin each time</li><li>Tasting card &amp; brew guide</li></ul>
+          <a href="#contact-form" class="btn btn-ghost">Choose Explorer</a>
+        </article>
+        <article class="plan featured reveal" style="--d:.1s">
+          <span class="badge">Most loved</span>
+          <h3>Daily Ritual</h3>
+          <div><span class="price">$32</span> <span class="per">/ delivery</span></div>
+          <ul><li>Two 250g bags every two weeks</li><li>Choose your roast level</li><li>Free shipping, always</li><li>10% off brew gear</li></ul>
+          <a href="#contact-form" class="btn btn-primary">Choose Daily Ritual</a>
+        </article>
+        <article class="plan reveal" style="--d:.2s">
+          <h3>Office Roast</h3>
+          <div><span class="price">$58</span> <span class="per">/ week</span></div>
+          <ul><li>2kg whole bean weekly</li><li>Free grinder loan</li><li>Quarterly team cupping</li></ul>
+          <a href="#contact-form" class="btn btn-ghost">Talk to us</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="love-title">
+    <div class="wrap">
+      <div class="reveal"><span class="eyebrow">Kind words</span><h2 id="love-title">Poured, sipped, <em>reviewed</em>.</h2></div>
+      <div class="quotes">
+        <figure class="quote big reveal">
+          <blockquote>“I didn't know coffee could taste like peaches until the Hambela arrived. Two years in and the Tuesday email still makes my week.”</blockquote>
+          <footer><span class="avatar" aria-hidden="true">M</span><span><strong>Marisol</strong><br>Daily Ritual subscriber</span><span class="stars" aria-label="5 out of 5 stars" style="margin-left:auto">★★★★★</span></footer>
+        </figure>
+        <figure class="quote reveal" style="--d:.1s">
+          <blockquote>“Freshest beans in the city, and the roast date is never more than four days old.”</blockquote>
+          <footer><span class="avatar" aria-hidden="true">J</span><span><strong>Jonah</strong><br>Home espresso nerd</span></footer>
+        </figure>
+        <figure class="quote reveal" style="--d:.2s">
+          <blockquote>“Our office switched to Ember and the kitchen became the most popular meeting room.”</blockquote>
+          <footer><span class="avatar" aria-hidden="true">P</span><span><strong>Priya</strong><br>Office Roast plan</span></footer>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="plans-wrap" aria-labelledby="faq-title">
+    <div class="wrap faq-grid">
+      <div class="reveal"><span class="eyebrow">Good to know</span><h2 id="faq-title">Brewing <em>questions</em>.</h2><p class="lead">Can't find it here? Our roasters answer every email personally.</p></div>
+      <div class="reveal" style="--d:.1s">
+        <details open><summary>When will my coffee arrive?</summary><p>We roast on Tuesdays and ship Wednesday morning. Most orders arrive Thursday or Friday, never more than five days off roast.</p></details>
+        <details><summary>Can I pause or skip a delivery?</summary><p>Yes, any time before Monday midnight from your account page, or just reply to your shipping email and we'll handle it.</p></details>
+        <details><summary>Whole bean or ground?</summary><p>Whole bean stays fresh longest, but we'll grind to order for espresso, filter, French press or cold brew at no extra cost.</p></details>
+        <details><summary>Is your packaging recyclable?</summary><p>Our bags are home-compostable, including the valve. Shipping boxes are 100% recycled cardboard with paper tape.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="visit" class="dark" aria-labelledby="visit-title">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">Tasting bar &amp; roastery</span>
+        <h2 id="visit-title">Come smell the <em>roast</em>.</h2>
+        <p class="lead">Free public cupping every Saturday at 10am. Wholesale, events and subscription questions welcome too.</p>
+        <div class="info">
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span><strong>Address</strong>48 Foundry Lane, Riverside District, Portland OR 97201</span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg><span><strong>Email</strong><a href="mailto:hello@example.com">hello@example.com</a></span></div>
+          <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span><strong>Phone</strong><a href="tel:+15550142233">+1 555 014 2233</a></span></div>
+        </div>
+        <div class="hours">Mon–Fri 7am–4pm · Sat 8am–3pm · Sunday we rest the roaster.</div>
+      </div>
+      <form id="contact-form" class="reveal" style="--d:.1s" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <div class="row2">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="topic">I'm interested in</label>
+          <select id="topic" name="topic"><option>A subscription</option><option>Wholesale for my café</option><option>Office coffee</option><option>Something else</option></select></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot">
+      <a href="#" class="logo">Ember Roastery</a>
+      <nav aria-label="Footer"><ul><li><a href="#shop">Beans</a></li><li><a href="#plans">Subscriptions</a></li><li><a href="#roast">Roast finder</a></li><li><a href="#visit">Contact</a></li></ul></nav>
+    </div>
+    <p class="copy">© <span id="yr">2026</span> Ember Roastery. Roasted with care in Portland.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Mobile nav
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function setMenu(open) { burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', open); }
+  burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+
+  // Reveals
+  var items = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) items.forEach(function (el) { el.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  // Roast slider: interpolates accent + bean colour
+  var stops = [
+    { at: 0, accent: [180, 83, 9], bean: [196, 140, 88], name: 'Light', temp: 'Drop at 201°C', notes: ['Jasmine', 'Bergamot', 'Stone fruit'], desc: 'Bright acidity and a delicate, tea-like body. Best as pour-over or filter.', pick: 'Hambela Sunrise' },
+    { at: 50, accent: [194, 65, 12], bean: [124, 58, 20], name: 'Medium', temp: 'Drop at 214°C', notes: ['Caramel', 'Milk chocolate', 'Red apple'], desc: 'Balanced sweetness and a round body. Lovely as a flat white or a long black.', pick: 'Huila Ember Blend' },
+    { at: 100, accent: [140, 40, 14], bean: [52, 26, 12], name: 'Dark', temp: 'Drop at 226°C', notes: ['Dark cocoa', 'Molasses', 'Toasted hazelnut'], desc: 'Heavy body, low acidity and a bittersweet finish that loves milk.', pick: 'Night Kiln' }
+  ];
+  var range = document.getElementById('roastLevel'), root = document.documentElement;
+  var beanBody = document.getElementById('beanBody'), crease = document.getElementById('beanCrease');
+  var nameEl = document.getElementById('roastName'), tempEl = document.getElementById('roastTemp'), notesEl = document.getElementById('roastNotes'), descEl = document.getElementById('roastDesc'), pickEl = document.getElementById('roastPick');
+  function mix(a, b, t) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }); }
+  function rgb(c) { return 'rgb(' + c.join(',') + ')'; }
+  var last = null;
+  function applyRoast() {
+    var v = +range.value, a = v <= 50 ? stops[0] : stops[1], b = v <= 50 ? stops[1] : stops[2], t = (v - a.at) / (b.at - a.at);
+    root.style.setProperty('--accent', rgb(mix(a.accent, b.accent, t)));
+    beanBody.setAttribute('fill', rgb(mix(a.bean, b.bean, t)));
+    crease.setAttribute('stroke', rgb(mix(mix(a.bean, b.bean, t), [20, 10, 5], .6)));
+    var s = v < 34 ? stops[0] : v > 66 ? stops[2] : stops[1];
+    range.setAttribute('aria-valuetext', s.name + ' roast');
+    if (s !== last) {
+      last = s; nameEl.textContent = s.name; tempEl.textContent = s.temp; descEl.textContent = s.desc;
+      notesEl.innerHTML = s.notes.map(function (n) { return '<li>' + n + '</li>'; }).join('');
+      pickEl.textContent = 'Shop ' + s.pick;
+    }
+  }
+  range.addEventListener('input', applyRoast);
+  applyRoast();
+
+  // Steam particles
+  var canvas = document.getElementById('steam');
+  if (reduce || !canvas.getContext) return;
+  var ctx = canvas.getContext('2d'), parts = [], W = 0, H = 0, running = false, visible = true, raf;
+  function size() { var r = canvas.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; canvas.width = W * d; canvas.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
+  function spawn() { return { x: W * (.3 + Math.random() * .4), y: H, r: 10 + Math.random() * 10, vy: .35 + Math.random() * .45, ph: Math.random() * 6.28, amp: 8 + Math.random() * 14, life: 0, max: 220 + Math.random() * 140 }; }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    if (parts.length < 46 && Math.random() < .5) parts.push(spawn());
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var p = parts[i]; p.life++; p.y -= p.vy; p.r += .14;
+      var k = p.life / p.max, x = p.x + Math.sin(p.ph + p.life * .022) * p.amp * k;
+      var a = Math.sin(Math.PI * Math.min(k, 1)) * .11;
+      if (k >= 1 || p.y < -p.r) { parts.splice(i, 1); continue; }
+      var g = ctx.createRadialGradient(x, p.y, 0, x, p.y, p.r);
+      g.addColorStop(0, 'rgba(250,240,228,' + a + ')'); g.addColorStop(1, 'rgba(250,240,228,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, p.y, p.r, 0, 6.283); ctx.fill();
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { if (!running && visible && !document.hidden) { running = true; raf = requestAnimationFrame(frame); } }
+  function stop() { running = false; cancelAnimationFrame(raf); }
+  size(); addEventListener('resize', size);
+  new IntersectionObserver(function (es) { visible = es[0].isIntersecting; visible ? start() : stop(); }).observe(canvas);
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  start();
+})();
+</script>
+</body>
+</html>

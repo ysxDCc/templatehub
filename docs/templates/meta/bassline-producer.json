@@ -1,0 +1,11 @@
+{
+  "id": "bassline-producer",
+  "name": "Bassline",
+  "description": "Club-dark site for a music producer selling beats, leases and mixing, with a beat-synced equaliser and glowing beat cards.",
+  "category": "audio",
+  "tier": "pro",
+  "logo": "🎛️ BASSLINE",
+  "tags": ["Music Producer", "Beat Store", "Mixing", "Acid Green", "Equaliser Animation"],
+  "features": ["Full-width equaliser and drum pads pulsing to a simulated 124 BPM beat, with play/pause", "Six beat cards with BPM/key tags, lease prices, glow on hover and visual previews", "Service grid, licence tiers, studio credits and a four-step mixing process", "Artist testimonials, FAQ and a booking form with a service selector"],
+  "signature": "Equaliser bars and drum pads pulse to a fake 124 BPM beat with a play/pause toggle (no audio); beat cards glow on hover"
+}

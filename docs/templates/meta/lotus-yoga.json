@@ -1,0 +1,11 @@
+{
+  "id": "lotus-yoga",
+  "name": "Lotus Flow Yoga",
+  "description": "Calm yoga and meditation studio site with a tabbed weekly class timetable and a guided 'breathe with me' circle in the hero.",
+  "category": "fitness",
+  "tier": "basic",
+  "logo": "🪷 LOTUS FLOW",
+  "tags": ["Yoga", "Meditation", "Timetable", "Calm", "Breathing Animation"],
+  "features": ["Pausable breathe-with-me circle with inhale, hold and exhale cues", "Keyboard-friendly day tabs for the weekly class timetable", "Three membership passes with a highlighted favourite", "Teacher profiles, FAQ accordion and class booking form"],
+  "signature": "A breathing orb expands and contracts with inhale/hold/exhale labels over a slowly drifting dusk-gradient aura"
+}

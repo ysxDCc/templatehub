@@ -1,0 +1,11 @@
+{
+  "id": "grace-community",
+  "name": "Grace Community Church",
+  "description": "Warm, welcoming church and community centre site with soft light rays, a live next-service countdown, livestream times and a filterable events calendar.",
+  "category": "nonprofit",
+  "tier": "pro",
+  "logo": "✝️ GRACE",
+  "tags": ["Church", "Community", "Events", "Livestream", "Countdown"],
+  "features": ["Gentle rotating light rays and glow behind the hero (paused off-screen)", "Live 'next service starts in' countdown with a Live now state", "Filterable events calendar whose cards slide in on scroll", "Service and livestream times, first-visit guide, FAQ and contact form"],
+  "signature": "Soft light rays turn slowly behind the hero; a live countdown shows the next service and event cards slide in"
+}

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Habitly — Tiny habits, giant streaks</title>
+<meta name="description" content="Habitly is the playful habit tracker that turns tiny daily wins into streaks you never want to break.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#ffb627;
+  --grape:#4b1d78;
+  --grape-2:#6a2fa8;
+  --grape-ink:#2a0d47;
+  --lilac:#f1e9fb;
+  --mango:#ffb627;
+  --mango-soft:#fff3d6;
+  --ink:#1f1530;
+  --muted:#5a4d6b;
+  --white:#ffffff;
+  --radius:22px;
+  --shadow:0 24px 60px -24px rgba(43,13,71,.35);
+  --display:"Outfit",ui-sans-serif,system-ui,sans-serif;
+  --body:"Manrope",ui-sans-serif,system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);color:var(--ink);background:var(--white);line-height:1.6;overflow-x:hidden}
+img,svg{max-width:100%;display:block}
+a{color:var(--grape-2)}
+h1,h2,h3{font-family:var(--display);line-height:1.05;margin:0 0 .5em;letter-spacing:-.02em}
+h2{font-size:clamp(2rem,4.5vw,3.25rem);font-weight:800}
+p{margin:0 0 1em}
+.wrap{width:min(1180px,100% - 40px);margin-inline:auto}
+.skip{position:absolute;left:-999px;top:8px;background:var(--grape);color:#fff;padding:12px 16px;border-radius:10px;z-index:100}
+.skip:focus{left:12px}
+:focus-visible{outline:3px solid var(--grape-2);outline-offset:3px;border-radius:8px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grape-2);margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:4px;border-radius:4px;background:var(--accent)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border-radius:999px;font:700 1rem var(--display);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-primary{background:var(--accent);color:var(--grape-ink);box-shadow:0 10px 0 -4px var(--grape-ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 0 -4px var(--grape-ink)}
+.btn-ghost{border-color:var(--grape);color:var(--grape)}
+.btn-ghost:hover{background:var(--grape);color:#fff}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(75,29,120,.08)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;min-height:74px;gap:20px}
+.logo{display:inline-flex;align-items:center;gap:10px;font:900 1.5rem var(--display);color:var(--grape);text-decoration:none;letter-spacing:-.03em;min-height:44px}
+.logo-mark{width:34px;height:34px;border-radius:11px;background:var(--grape);display:grid;place-items:center}
+nav ul{list-style:none;display:flex;gap:6px;margin:0;padding:0;align-items:center}
+nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:600}
+nav a:hover{background:var(--lilac)}
+nav .btn{margin-left:8px;color:var(--grape-ink)}
+.burger{display:none;width:48px;height:48px;border-radius:14px;border:2px solid var(--grape);background:#fff;cursor:pointer;place-items:center}
+.burger span{display:block;width:20px;height:2px;background:var(--grape);border-radius:2px;position:relative;transition:transform .25s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--grape);border-radius:2px;transition:transform .25s}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;padding:64px 0 96px;overflow:hidden;background:
+  radial-gradient(600px 400px at 85% 20%,rgba(255,182,39,.35),transparent 60%),
+  radial-gradient(500px 500px at 10% 90%,rgba(106,47,168,.14),transparent 60%),#fff}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.7rem,6.4vw,5.4rem);font-weight:900;color:var(--grape-ink)}
+.hero h1 .hl{position:relative;white-space:nowrap;z-index:0}
+.hero h1 .hl::after{content:"";position:absolute;left:-4px;right:-4px;bottom:.08em;height:.32em;background:var(--accent);border-radius:8px;z-index:-1;transform:skewX(-8deg)}
+.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:34ch}
+.stores{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 22px}
+.store{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:8px 20px 8px 14px;border-radius:16px;background:var(--grape-ink);color:#fff;text-decoration:none;transition:transform .2s,background .2s}
+.store:hover{transform:translateY(-2px);background:var(--grape)}
+.store small{display:block;font-size:.7rem;opacity:.85;line-height:1.1}
+.store strong{display:block;font:700 1.08rem var(--display);line-height:1.1}
+.rating{display:flex;align-items:center;gap:12px;color:var(--muted);font-weight:600;font-size:.95rem}
+.avatars{display:flex}
+.avatars i{width:34px;height:34px;border-radius:50%;border:3px solid #fff;margin-left:-10px;display:grid;place-items:center;font:700 .8rem var(--display);font-style:normal;color:var(--grape-ink)}
+.avatars i:first-child{margin-left:0}
+
+/* phone */
+.phone-stage{perspective:1400px;display:grid;place-items:center;position:relative;min-height:600px}
+.orbit{position:absolute;width:min(520px,100%);aspect-ratio:1;border-radius:50%;border:2px dashed rgba(75,29,120,.18)}
+.orbit.o2{width:min(380px,80%);border-color:rgba(255,182,39,.55)}
+.phone{--rx:6deg;--ry:-14deg;width:290px;height:590px;border-radius:46px;background:linear-gradient(145deg,#2c0f4a,#140624);padding:12px;position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.8,.2,1);box-shadow:30px 40px 80px -30px rgba(43,13,71,.6),inset 0 0 0 2px rgba(255,255,255,.08)}
+.phone::before{content:"";position:absolute;inset:-1px;border-radius:47px;background:linear-gradient(120deg,rgba(255,255,255,.25),transparent 30%);pointer-events:none;transform:translateZ(1px)}
+.screen-wrap{position:relative;height:100%;border-radius:36px;overflow:hidden;background:#faf7ff}
+.notch{position:absolute;top:10px;left:50%;width:96px;height:26px;margin-left:-48px;border-radius:20px;background:#140624;z-index:5}
+.screen{position:absolute;inset:0;padding:52px 18px 18px;opacity:0;transform:translateX(30px) scale(.98);transition:opacity .6s,transform .6s;font-size:.85rem}
+.screen.on{opacity:1;transform:none}
+.float-chip{position:absolute;background:#fff;border-radius:18px;padding:10px 14px;box-shadow:var(--shadow);font:700 .85rem var(--display);display:flex;align-items:center;gap:8px;transform:translateZ(90px);color:var(--grape-ink)}
+.chip-a{left:-92px;top:96px;z-index:6}
+.chip-b{right:-56px;bottom:120px;z-index:6}
+.chip-dot{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--mango-soft)}
+.s-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.s-head b{font:800 1.25rem var(--display);color:var(--grape-ink)}
+.s-pill{background:var(--accent);color:var(--grape-ink);font-weight:800;border-radius:99px;padding:4px 10px;font-size:.75rem}
+.habit{display:flex;align-items:center;gap:10px;background:#fff;border-radius:16px;padding:10px 12px;margin-bottom:9px;box-shadow:0 6px 16px -10px rgba(43,13,71,.4)}
+.habit .ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:1rem}
+.habit .tx{flex:1;line-height:1.2}
+.habit .tx small{color:var(--muted);display:block}
+.tick{width:26px;height:26px;border-radius:50%;border:2.5px solid #d9cdea;display:grid;place-items:center}
+.tick.done{background:var(--grape);border-color:var(--grape)}
+.tick.done::after{content:"";width:9px;height:5px;border:2.5px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.today-prog{margin-top:14px;background:var(--grape);color:#fff;border-radius:16px;padding:12px 14px;font-weight:700}
+.today-prog i{display:block;height:8px;border-radius:8px;background:rgba(255,255,255,.2);margin-top:8px;overflow:hidden}
+.today-prog b{display:block;height:100%;background:var(--accent);border-radius:8px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding:14px;background:#fff;border-radius:18px;margin-bottom:12px}
+.bars span{flex:1;border-radius:8px 8px 4px 4px;background:var(--lilac);position:relative}
+.bars span.hot{background:linear-gradient(var(--accent),#ff8a00)}
+.days{display:flex;justify-content:space-between;padding:0 14px;color:var(--muted);font-weight:700;font-size:.7rem;margin:-6px 0 12px}
+.statrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.stat{background:var(--grape);color:#fff;border-radius:16px;padding:12px}
+.stat.alt{background:var(--mango-soft);color:var(--grape-ink)}
+.stat b{display:block;font:800 1.5rem var(--display)}
+.ring{width:190px;height:190px;margin:10px auto 16px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .center{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.1}
+.ring .center b{font:900 2.4rem var(--display);color:var(--grape-ink)}
+.focus-btns{display:flex;gap:8px;justify-content:center}
+.focus-btns span{padding:9px 16px;border-radius:99px;background:var(--grape);color:#fff;font-weight:700}
+.focus-btns span+span{background:#fff;color:var(--grape);box-shadow:inset 0 0 0 2px var(--grape)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:26px;position:relative;z-index:2}
+.dots button{width:44px;height:44px;border:0;background:transparent;cursor:pointer;display:grid;place-items:center;padding:0}
+.dots button::before{content:"";width:10px;height:10px;border-radius:99px;background:#d9cdea;transition:width .3s,background .3s}
+.dots button[aria-pressed="true"]::before{width:28px;background:var(--grape)}
+
+/* features */
+section{scroll-margin-top:80px}
+.section{padding:110px 0}
+.sec-head{max-width:680px;margin-bottom:56px}
+.sec-head p{color:var(--muted);font-size:1.1rem}
+.features{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+.feat{grid-column:span 4;background:var(--lilac);border-radius:var(--radius);padding:30px;position:relative;overflow:hidden;transition:transform .3s}
+.feat:hover{transform:translateY(-4px)}
+.feat.big{grid-column:span 8;background:var(--grape);color:#fff}
+.feat.big p{color:#e9dcf7}
+.feat.mango{background:var(--mango-soft)}
+.feat.wide{grid-column:span 8}
+.feat h3{font-size:1.45rem;font-weight:800}
+.feat p{color:var(--muted);margin:0}
+.feat-ic{width:56px;height:56px;border-radius:18px;background:#fff;display:grid;place-items:center;margin-bottom:22px;box-shadow:0 8px 20px -12px rgba(43,13,71,.5)}
+.feat.big .feat-ic{background:var(--accent)}
+.feat-deco{position:absolute;right:-50px;top:-50px;width:170px;opacity:.55;pointer-events:none}
+.feat h3,.feat p{position:relative;z-index:1}
+
+/* streak */
+.streak{background:var(--grape-ink);color:#fff;border-radius:40px;margin:0 20px;padding:90px 0;position:relative;overflow:hidden}
+.streak::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 300px at 30% 60%,rgba(255,182,39,.25),transparent 70%);pointer-events:none}
+.streak-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;position:relative}
+.flame-box{display:grid;place-items:center;text-align:center}
+.flame{width:180px;height:220px;transform-origin:50% 100%;animation:flicker 1.6s ease-in-out infinite alternate}
+.flame .inner{transform-origin:50% 100%;animation:flicker 1.1s ease-in-out infinite alternate-reverse}
+@keyframes flicker{0%{transform:scale(1,1) skewX(0)}35%{transform:scale(1.03,.96) skewX(2deg)}70%{transform:scale(.97,1.05) skewX(-2deg)}100%{transform:scale(1.02,.98) skewX(1deg)}}
+.count{font:900 clamp(4.5rem,11vw,8rem) var(--display);line-height:.9;color:var(--accent);font-variant-numeric:tabular-nums;margin-top:-10px}
+.count-label{font:700 1.1rem var(--display);letter-spacing:.14em;text-transform:uppercase;color:#e9dcf7}
+.streak h2{color:#fff}
+.streak p{color:#e2d5f2;font-size:1.1rem}
+.week{display:flex;gap:10px;margin:28px 0;flex-wrap:wrap}
+.week div{width:52px;height:64px;border-radius:16px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-weight:800;font-size:.8rem;color:#e9dcf7;line-height:1.2;text-align:center}
+.week div.lit{background:var(--accent);color:var(--grape-ink)}
+.week div span{display:block;font-size:1.1rem}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.plan{border:2px solid #ebe2f6;border-radius:28px;padding:34px 30px;display:flex;flex-direction:column;background:#fff;transition:transform .3s,border-color .3s,box-shadow .3s}
+.plan:hover{transform:translateY(-6px);border-color:var(--grape-2);box-shadow:var(--shadow)}
+.plan.pop{background:var(--grape);color:#fff;border-color:var(--grape);position:relative}
+.plan.pop .tag{position:absolute;top:-15px;left:30px;background:var(--accent);color:var(--grape-ink);font:800 .78rem var(--display);padding:6px 14px;border-radius:99px;letter-spacing:.08em;text-transform:uppercase}
+.card-title{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.plan .sub{color:var(--muted);margin-bottom:22px}
+.plan.pop .sub{color:#e2d5f2}
+.price{font:900 3rem var(--display);letter-spacing:-.03em;display:block;line-height:1}
+.per{font-size:.95rem;color:var(--muted);margin:6px 0 22px}
+.plan.pop .per{color:#e2d5f2}
+.plan ul{list-style:none;padding:0;margin:0 0 28px;flex:1}
+.plan li{padding:8px 0 8px 30px;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:12px;width:18px;height:18px;border-radius:6px;background:var(--lilac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.5l2.5 2.5L13 6.5' fill='none' stroke='%234b1d78' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.plan.pop .btn-ghost{border-color:#fff;color:#fff}
+.plan.pop .btn-ghost:hover{background:#fff;color:var(--grape)}
+
+/* testimonials */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.quote{background:var(--mango-soft);border-radius:28px;padding:30px;margin:0}
+.quote:nth-child(2){background:var(--lilac);transform:translateY(30px)}
+.quote blockquote{margin:0 0 20px;font:600 1.15rem/1.5 var(--display);color:var(--grape-ink)}
+.quote figcaption{display:flex;align-items:center;gap:12px;font-weight:700}
+.quote figcaption i{width:42px;height:42px;border-radius:14px;background:var(--grape);color:#fff;display:grid;place-items:center;font-style:normal;font-family:var(--display)}
+.quote small{display:block;color:var(--muted);font-weight:500}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+details{border-bottom:2px solid #ebe2f6;padding:6px 0}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;font:700 1.15rem var(--display);color:var(--grape-ink)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:36px;height:36px;border-radius:12px;background:var(--lilac);display:grid;place-items:center;font-size:1.4rem;color:var(--grape);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg);background:var(--accent)}
+details p{color:var(--muted);padding:0 50px 12px 0}
+
+/* contact */
+.contact{background:linear-gradient(160deg,var(--lilac),#fff 70%)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+.info{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:14px}
+.info li{display:flex;gap:14px;align-items:center}
+.info b{display:block;font-family:var(--display)}
+.info span.ic{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 8px 20px -12px rgba(43,13,71,.5)}
+.info a{color:var(--grape-2);font-weight:700;display:inline-flex;align-items:center;min-height:44px}
+form.card{background:#fff;border-radius:30px;padding:34px;box-shadow:var(--shadow);display:grid;gap:16px}
+.field{display:grid;gap:6px}
+label{font-weight:700;font-size:.92rem;color:var(--grape-ink)}
+input,textarea{width:100%;font:inherit;padding:14px 16px;border-radius:14px;border:2px solid #e3d8f1;background:#fcfaff;color:var(--ink);min-height:50px}
+input:focus,textarea:focus{border-color:var(--grape-2);outline:none;box-shadow:0 0 0 4px rgba(106,47,168,.18)}
+textarea{min-height:130px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* cta + footer */
+.cta{padding:0 0 100px}
+.cta-box{background:var(--accent);border-radius:40px;padding:60px;display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;color:var(--grape-ink)}
+.cta-box h2{margin:0;max-width:16ch}
+.cta-box .store{background:var(--grape-ink)}
+footer{background:var(--grape-ink);color:#d9cdea;padding:60px 0 36px}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+footer .logo{color:#fff}
+footer .logo-mark{background:var(--accent)}
+footer ul{list-style:none;padding:0;margin:0;display:flex;gap:4px;flex-wrap:wrap}
+footer ul a{color:#f1e9fb;text-decoration:none;display:inline-flex;min-height:44px;align-items:center;padding:0 12px}
+footer ul a:hover{color:var(--accent)}
+.copy{border-top:1px solid rgba(255,255,255,.1);margin-top:36px;padding-top:24px;font-size:.9rem}
+
+/* reveal */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .hero-grid,.streak-grid,.faq-grid,.contact-grid{grid-template-columns:1fr}
+  .phone-stage{min-height:540px}
+  .feat,.feat.big,.feat.wide{grid-column:span 12}
+  .plans,.quotes{grid-template-columns:1fr}
+  .quote:nth-child(2){transform:none}
+  .plans{max-width:480px;margin-inline:auto}
+}
+@media (max-width:860px){
+  .burger{display:grid}
+  nav ul{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;background:#fff;padding:12px 20px 22px;border-bottom:1px solid #ebe2f6;box-shadow:0 20px 40px -20px rgba(43,13,71,.3);display:none}
+  nav ul.open{display:flex}
+  nav .btn{margin:8px 0 0}
+}
+@media (max-width:560px){
+  .section{padding:76px 0}
+  .hero{padding:40px 0 70px}
+  .phone{width:250px;height:510px}
+  .chip-a{left:-22px;top:70px}
+  .chip-b{right:-18px;bottom:80px}
+  .streak{margin:0 10px;border-radius:28px;padding:64px 0}
+  .row2{grid-template-columns:1fr}
+  .cta-box{padding:36px 26px;border-radius:28px}
+  form.card{padding:24px}
+  .week div{width:40px;height:56px}
+  .hero h1 .hl{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+  .screen{opacity:1;transform:none;display:none}.screen.on{display:block}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap nav-row">
+    <a href="#" class="logo"><span class="logo-mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9" fill="none" stroke="#ffb627" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Habitly</a>
+    <nav aria-label="Main">
+      <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span></button>
+      <ul id="menu">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#streaks">Streaks</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#download">Get the app</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="download">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Habit tracker for iOS &amp; Android</span>
+      <h1>Tiny habits. <span class="hl">Giant streaks.</span></h1>
+      <p class="lead">Habitly turns two-minute wins into streaks you'll protect like treasure. Check in, keep the flame alive, and watch your days add up.</p>
+      <div class="stores">
+        <a class="store" href="#">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.9-.9-3.1-.8C6.8 7.4 5.3 8.3 4.5 9.8c-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.1.8c1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7 0 0-2.7-1-2.7-4.2zM14.1 5.8c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>
+          <span><small>Download on the</small><strong>App Store</strong></span>
+        </a>
+        <a class="store" href="#">
+          <svg width="24" height="26" viewBox="0 0 24 26" aria-hidden="true"><path fill="#ffb627" d="M2 1.5l12 11.5L2 24.5c-.6-.3-1-1-1-1.8V3.3c0-.8.4-1.5 1-1.8z"/><path fill="#fff" d="M17.5 9.4L14 13l3.5 3.6 4.2-2.4c1.2-.7 1.2-1.7 0-2.4z"/><path fill="#c9a5f0" d="M2 1.5c.4-.2 1-.2 1.6.1l13.9 7.8L14 13z"/><path fill="#e9dcf7" d="M2 24.5c.4.2 1 .2 1.6-.1l13.9-7.8L14 13z"/></svg>
+          <span><small>Get it on</small><strong>Google Play</strong></span>
+        </a>
+      </div>
+      <div class="rating">
+        <div class="avatars" aria-hidden="true"><i style="background:#ffb627">M</i><i style="background:#c9a5f0">J</i><i style="background:#ffd98a">A</i><i style="background:#e9dcf7">R</i></div>
+        <span>4.9 average from 38,000+ daily streakers</span>
+      </div>
+    </div>
+
+    <div class="phone-stage reveal" id="stage">
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="orbit o2" aria-hidden="true"></div>
+      <div>
+        <div class="phone" id="phone" role="img" aria-label="Habitly app preview showing today's habits, weekly stats and a focus timer">
+          <div class="screen-wrap" aria-hidden="true">
+            <div class="notch"></div>
+            <div class="screen on">
+              <div class="s-head"><b>Today</b><span class="s-pill">🔥 47 days</span></div>
+              <div class="habit"><span class="ic" style="background:#fff3d6">💧</span><span class="tx"><b>Drink water</b><small>8 of 8 glasses</small></span><span class="tick done"></span></div>
+              <div class="habit"><span class="ic" style="background:#f1e9fb">📖</span><span class="tx"><b>Read 10 pages</b><small>Before bed</small></span><span class="tick done"></span></div>
+              <div class="habit"><span class="ic" style="background:#e4f6ec">🧘</span><span class="tx"><b>Stretch</b><small>5 minutes</small></span><span class="tick done"></span></div>
+              <div class="habit"><span class="ic" style="background:#fde4e4">🏃</span><span class="tx"><b>Walk outside</b><small>6,200 / 8,000 steps</small></span><span class="tick"></span></div>
+              <div class="habit"><span class="ic" style="background:#fff3d6">✍️</span><span class="tx"><b>Journal</b><small>One line counts</small></span><span class="tick"></span></div>
+              <div class="today-prog"><span>3 of 5 done</span><i><b style="width:60%"></b></i></div>
+            </div>
+            <div class="screen">
+              <div class="s-head"><b>This week</b><span class="s-pill">+18%</span></div>
+              <div class="bars"><span style="height:55%"></span><span style="height:70%"></span><span class="hot" style="height:92%"></span><span style="height:64%"></span><span class="hot" style="height:100%"></span><span style="height:80%"></span><span class="hot" style="height:88%"></span></div>
+              <div class="days"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+              <div class="statrow"><div class="stat"><b>94%</b>completion</div><div class="stat alt"><b>31</b>habits done</div><div class="stat alt"><b>47</b>day streak</div><div class="stat"><b>6</b>perfect days</div></div>
+            </div>
+            <div class="screen">
+              <div class="s-head"><b>Focus</b><span class="s-pill">Deep work</span></div>
+              <div class="ring"><svg viewBox="0 0 190 190" width="190" height="190"><circle cx="95" cy="95" r="80" fill="none" stroke="#f1e9fb" stroke-width="16"/><circle cx="95" cy="95" r="80" fill="none" stroke="#ffb627" stroke-width="16" stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="150"/></svg><div class="center"><div><b>17:42</b><br><small>of 25 minutes</small></div></div></div>
+              <div class="focus-btns"><span>Pause</span><span>Skip</span></div>
+              <div class="habit" style="margin-top:16px"><span class="ic" style="background:#f1e9fb">🎧</span><span class="tx"><b>Rain sounds</b><small>Ambient · on</small></span></div>
+            </div>
+          </div>
+          <div class="float-chip chip-a" aria-hidden="true"><span class="chip-dot">✅</span>Habit done!</div>
+          <div class="float-chip chip-b" aria-hidden="true"><span class="chip-dot">🔥</span>47-day streak</div>
+        </div>
+        <div class="dots" role="group" aria-label="Preview screens">
+          <button aria-pressed="true" aria-label="Show Today screen"></button>
+          <button aria-pressed="false" aria-label="Show weekly stats screen"></button>
+          <button aria-pressed="false" aria-label="Show focus timer screen"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why it sticks</span>
+      <h2>Built for the days you don't feel like it.</h2>
+      <p>Most habit apps nag. Habitly nudges, celebrates and forgives — so you keep showing up long after the New Year glow fades.</p>
+    </div>
+    <div class="features">
+      <article class="feat big reveal">
+        <div class="feat-ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M14 3c2 4 7 6 7 13a7 7 0 01-14 0c0-3 1.5-5 3-6 0 2 1 3 2 3 0-4 1-7 2-10z" fill="#4b1d78"/></svg></div>
+        <h3>Streaks with a safety net</h3>
+        <p>Life happens. Earn "freeze" tokens on good weeks and spend them on sick days, flights and birthdays — your flame survives.</p>
+        <svg class="feat-deco" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="90" fill="none" stroke="#ffb627" stroke-width="18" stroke-dasharray="420 200" stroke-linecap="round"/></svg>
+      </article>
+      <article class="feat mango reveal">
+        <div class="feat-ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><rect x="4" y="4" width="20" height="20" rx="6" fill="none" stroke="#4b1d78" stroke-width="2.6"/><path d="M9 14l3.5 3.5L19 11" fill="none" stroke="#4b1d78" stroke-width="2.6" stroke-linecap="round"/></svg></div>
+        <h3>Two-tap check-ins</h3>
+        <p>Log from your lock screen, widget or watch. No forms, no friction.</p>
+      </article>
+      <article class="feat reveal">
+        <div class="feat-ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><path d="M4 22V12M11 22V6M18 22v-8M25 22V9" stroke="#4b1d78" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>Gentle insights</h3>
+        <p>See which hour you're most consistent and get nudges that fit your actual life.</p>
+      </article>
+      <article class="feat wide mango reveal">
+        <div class="feat-ic" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28"><circle cx="10" cy="11" r="4" fill="#4b1d78"/><circle cx="19" cy="11" r="4" fill="none" stroke="#4b1d78" stroke-width="2.4"/><path d="M3 23c1-4 4-6 7-6s6 2 7 6M14 23c1-4 3-6 5-6s5 2 6 6" fill="none" stroke="#4b1d78" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+        <h3>Accountability circles</h3>
+        <p>Share a streak with up to five friends. When one of you checks in, everyone's flame glows a little brighter — and nobody sees what you'd rather keep private.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="streak" id="streaks" aria-labelledby="streak-h">
+  <div class="wrap streak-grid">
+    <div class="flame-box reveal">
+      <svg class="flame" viewBox="0 0 180 220" aria-hidden="true">
+        <defs>
+          <linearGradient id="fo" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff7a00"/><stop offset=".6" stop-color="#ffb627"/><stop offset="1" stop-color="#ffe08a"/></linearGradient>
+          <linearGradient id="fi" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffd257"/></linearGradient>
+        </defs>
+        <path d="M90 6c14 38 70 64 70 128a70 70 0 01-140 0c0-34 18-56 34-66-2 22 8 38 22 42-6-40 2-74 14-104z" fill="url(#fo)"/>
+        <path class="inner" d="M90 96c8 22 36 34 36 66a36 36 0 01-72 0c0-16 8-28 16-32 0 10 4 18 12 20-2-20 2-38 8-54z" fill="url(#fi)"/>
+      </svg>
+      <div class="count" id="count" aria-live="off">47</div>
+      <div class="count-label">day streak</div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow" style="color:#ffd98a">The flame</span>
+      <h2 id="streak-h">Every check-in feeds the fire.</h2>
+      <p>Your streak flame grows taller every week you keep going. Hit milestones at 7, 30 and 100 days to unlock new flame colours, app icons and a very smug badge.</p>
+      <div class="week" aria-label="Example week: six of seven days completed">
+        <div class="lit"><span>✓</span>Mon</div><div class="lit"><span>✓</span>Tue</div><div class="lit"><span>✓</span>Wed</div><div class="lit"><span>✓</span>Thu</div><div class="lit"><span>✓</span>Fri</div><div class="lit"><span>✓</span>Sat</div><div><span>•</span>Sun</div>
+      </div>
+      <a class="btn btn-primary" href="#pricing">Start your streak</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Pricing</span>
+      <h2>Free forever. Fancier if you like.</h2>
+      <p>Every plan includes unlimited check-ins and streaks. Upgrade for insights, freezes and the family circle.</p>
+    </div>
+    <div class="plans">
+      <article class="plan reveal">
+        <h3 class="card-title">Starter</h3>
+        <p class="sub">For your first few habits.</p>
+        <span class="price">$0</span>
+        <p class="per">free, forever</p>
+        <ul><li>Up to 5 habits</li><li>Streak flame &amp; milestones</li><li>Home-screen widget</li><li>1 freeze token per month</li></ul>
+        <a class="btn btn-ghost" href="#">Download free</a>
+      </article>
+      <article class="plan pop reveal">
+        <span class="tag">Most loved</span>
+        <h3 class="card-title">Plus</h3>
+        <p class="sub">For people who mean it.</p>
+        <span class="price">$4.99</span>
+        <p class="per">per month · or $39 a year</p>
+        <ul><li>Unlimited habits</li><li>Insights &amp; best-time nudges</li><li>4 freeze tokens per month</li><li>Focus timer &amp; ambient sounds</li><li>Watch &amp; lock-screen check-ins</li></ul>
+        <a class="btn btn-primary" href="#">Try 14 days free</a>
+      </article>
+      <article class="plan reveal">
+        <h3 class="card-title">Circle</h3>
+        <p class="sub">Up to 6 people, one plan.</p>
+        <span class="price">$9.99</span>
+        <p class="per">per month · or $79 a year</p>
+        <ul><li>Everything in Plus, for 6</li><li>Shared accountability streaks</li><li>Private family challenges</li><li>Priority support</li></ul>
+        <a class="btn btn-ghost" href="#">Start a circle</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:20px" aria-labelledby="love-h">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Streaker stories</span>
+      <h2 id="love-h">Small wins, loudly celebrated.</h2>
+    </div>
+    <div class="quotes">
+      <figure class="quote reveal"><blockquote>"I've tried nine habit apps. Habitly is the only one where I actually feel bad letting the flame go out. 212 days of reading so far."</blockquote><figcaption><i aria-hidden="true">M</i><span>Maya<small>Reading streak · 212 days</small></span></figcaption></figure>
+      <figure class="quote reveal"><blockquote>"The freeze tokens are genius. I got the flu and didn't lose three months of progress. That alone kept me going."</blockquote><figcaption><i aria-hidden="true">J</i><span>Jonah<small>Running streak · 94 days</small></span></figcaption></figure>
+      <figure class="quote reveal"><blockquote>"Our family circle has a shared 'no phones at dinner' streak. My kids police it harder than I do."</blockquote><figcaption><i aria-hidden="true">R</i><span>Rosa<small>Circle plan · family of 5</small></span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" aria-labelledby="faq-h">
+  <div class="wrap faq-grid">
+    <div class="reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 id="faq-h">Questions, answered.</h2>
+      <p style="color:var(--muted)">Still curious? Drop us a note below — a real human replies within a day.</p>
+    </div>
+    <div class="reveal">
+      <details open><summary>Is Habitly really free?</summary><p>Yes. Starter is free forever with up to five habits and full streak tracking. Plus and Circle add extras, never paywalls on your data.</p></details>
+      <details><summary>What happens if I miss a day?</summary><p>If you have a freeze token, it's used automatically and your streak lives on. If not, the flame resets — but your history and stats stay forever.</p></details>
+      <details><summary>Does it work offline?</summary><p>Completely. Check-ins sync the moment you're back online, and your streak counts the day you actually did it.</p></details>
+      <details><summary>Can I export my data?</summary><p>Any time, as CSV or JSON, from Settings. Your habits are yours.</p></details>
+      <details><summary>Is there a student discount?</summary><p>Students and teachers get Plus for 50% off. Just email us from your school address.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta" aria-label="Download">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h2>Your day-one streak starts in 30 seconds.</h2>
+      <div class="stores" style="margin:0">
+        <a class="store" href="#"><span><small>Download on the</small><strong>App Store</strong></span></a>
+        <a class="store" href="#"><span><small>Get it on</small><strong>Google Play</strong></span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="contact" aria-labelledby="contact-h">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="eyebrow">Say hello</span>
+      <h2 id="contact-h">Talk to the Habitly team.</h2>
+      <p style="color:var(--muted)">Partnerships, press, bugs or just a streak you're proud of — we read everything.</p>
+      <ul class="info">
+        <li><span class="ic" aria-hidden="true">✉️</span><span><b>Email</b><a href="mailto:hello@example.com">hello@example.com</a></span></li>
+        <li><span class="ic" aria-hidden="true">📞</span><span><b>Phone</b><a href="tel:+15550142233">+1 555 014 2233</a></span></li>
+        <li><span class="ic" aria-hidden="true">📍</span><span><b>Studio</b>88 Orchard Lane, Suite 4, Portland, OR</span></li>
+      </ul>
+    </div>
+    <form class="card reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="row2">
+        <div class="field"><label for="c-name">Name</label><input id="c-name" type="text" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="c-email">Email</label><input id="c-email" type="email" name="email" autocomplete="email" required></div>
+      </div>
+      <div class="field"><label for="c-msg">Message</label><textarea id="c-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Send message</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#" class="logo"><span class="logo-mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9" fill="none" stroke="#2a0d47" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Habitly</a>
+        <p style="margin-top:10px;max-width:32ch">Tiny habits, giant streaks. Made with care by a small team in Portland.</p>
+      </div>
+      <ul aria-label="Footer">
+        <li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#faq">FAQ</a></li><li><a href="#contact">Contact</a></li><li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+    <p class="copy">© 2026 Habitly Labs. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // nav
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu');
+  function setMenu(open){ burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', open); }
+  burger.addEventListener('click', function(){ setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true'){ setMenu(false); burger.focus(); } });
+
+  // reveals
+  var reveals = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { reveals.forEach(function(el){ el.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function(entries){ entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  // phone: screen cycling
+  var screens = document.querySelectorAll('.screen'), dots = document.querySelectorAll('.dots button'), idx = 0, timer = null, visible = true;
+  function show(i){ idx = i; screens.forEach(function(s, n){ s.classList.toggle('on', n === i); }); dots.forEach(function(d, n){ d.setAttribute('aria-pressed', n === i); }); }
+  function start(){ if (reduce || timer || !visible || document.hidden) return; timer = setInterval(function(){ show((idx + 1) % screens.length); }, 3400); }
+  function stop(){ clearInterval(timer); timer = null; }
+  dots.forEach(function(d, n){ d.addEventListener('click', function(){ stop(); show(n); start(); }); });
+  var stage = document.getElementById('stage'), phone = document.getElementById('phone');
+  if ('IntersectionObserver' in window) new IntersectionObserver(function(e){ visible = e[0].isIntersecting; visible ? start() : stop(); }).observe(stage);
+  document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : start(); });
+  start();
+
+  // phone: pointer tilt (mouse only)
+  if (!reduce) {
+    var raf = 0, tx = 0, ty = 0;
+    stage.addEventListener('pointermove', function(e){
+      if (e.pointerType !== 'mouse') return;
+      var r = stage.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - .5); ty = ((e.clientY - r.top) / r.height - .5);
+      if (!raf) raf = requestAnimationFrame(function(){ raf = 0; phone.style.setProperty('--ry', (tx * 30) + 'deg'); phone.style.setProperty('--rx', (-ty * 22) + 'deg'); });
+    });
+    stage.addEventListener('pointerleave', function(e){ if (e.pointerType !== 'mouse') return; phone.style.setProperty('--ry', '-14deg'); phone.style.setProperty('--rx', '6deg'); });
+  }
+
+  // streak counter
+  var count = document.getElementById('count'), target = 47;
+  if (!reduce && 'IntersectionObserver' in window) {
+    count.textContent = '0';
+    var co = new IntersectionObserver(function(e){
+      if (!e[0].isIntersecting) return; co.disconnect();
+      var t0 = performance.now(), dur = 1800;
+      (function tick(now){ var p = Math.min(1, (now - t0) / dur), eased = 1 - Math.pow(1 - p, 3); count.textContent = Math.round(eased * target); if (p < 1) requestAnimationFrame(tick); })(t0);
+    }, {threshold:.5});
+    co.observe(count);
+  }
+})();
+</script>
+</body>
+</html>

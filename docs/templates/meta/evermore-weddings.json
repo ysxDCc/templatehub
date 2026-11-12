@@ -1,0 +1,11 @@
+{
+  "id": "evermore-weddings",
+  "name": "Evermore",
+  "description": "Romantic, film-toned wedding and elopement photographer site with polaroid prints that drop onto the page and an accessible keyboard lightbox.",
+  "category": "photography",
+  "tier": "pro",
+  "logo": "📷 Evermore",
+  "tags": ["Wedding", "Photography", "Elopement", "Romantic", "Polaroid Animation"],
+  "features": ["Illustrated sunset hero with film grain and a drifting light leak", "Polaroid gallery whose prints drop and settle at a tilt as you scroll", "Lightbox with arrow-key browsing, Esc to close and a focus trap", "Arched collection cards, testimonials, FAQ and date enquiry form"],
+  "signature": "Polaroid prints drop onto the page and settle with a gentle tilt; tap one to open an accessible lightbox"
+}

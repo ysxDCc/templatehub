@@ -1,0 +1,11 @@
+{
+  "id": "sterling-law",
+  "name": "Sterling & Hart",
+  "description": "Boutique law firm site in navy, ivory and gold with a self-drawing monogram seal, practice-area accordion and transparent fixed-fee cards.",
+  "category": "professional",
+  "tier": "pro",
+  "logo": "⚖️ STERLING & HART",
+  "tags": ["Law Firm", "Attorney", "Professional", "Classic Serif", "Monogram Animation"],
+  "features": ["Hero monogram seal that draws itself in gold and navy strokes", "Smooth one-at-a-time practice areas accordion with accessible buttons", "Fixed-fee cards with 'from' pricing and a featured plan", "Partner profiles, client quotes, FAQ and confidential enquiry form"],
+  "signature": "An S&H monogram seal draws itself stroke by stroke in the hero; practice areas unfold in a smooth animated accordion"
+}

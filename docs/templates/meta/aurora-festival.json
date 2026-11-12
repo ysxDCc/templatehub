@@ -1,0 +1,11 @@
+{
+  "id": "aurora-festival",
+  "name": "Aurora Fest",
+  "description": "Vivid night-sky site for a three-day outdoor music and arts festival with morphing aurora blobs, a lineup marquee and glowing ticket tiers.",
+  "category": "events",
+  "tier": "enterprise",
+  "logo": "🌌 Aurora Fest",
+  "tags": ["Music Festival", "Outdoor Event", "Tickets", "Aurora Gradient", "Lineup Marquee"],
+  "features": ["Slowly morphing teal, violet and pink gradient blobs over a starry hero, paused off-screen", "Two-row infinite lineup marquee that pauses on hover, focus or with a pause button", "Three ticket tiers with animated glowing gradient borders on hover and focus", "Night-by-night lineup, experience grid, travel planner with festival hours, FAQ and contact form"],
+  "signature": "Liquid aurora gradient blobs drift and morph behind the hero; an infinite lineup marquee and ticket tiers that glow on hover"
+}

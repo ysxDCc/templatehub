@@ -1,0 +1,11 @@
+{
+  "id": "dispatch-newsletter",
+  "name": "The Dispatch",
+  "description": "Newsprint-style site for an independent weekly newsletter with free and paid tiers, decoding headlines and an issue stack that fans out.",
+  "category": "blog",
+  "tier": "pro",
+  "logo": "📰 The Dispatch",
+  "tags": ["Newsletter", "Editorial", "Subscriptions", "Newsprint", "Text Scramble"],
+  "features": ["Broadsheet masthead with dateline bar, ticker and in-this-issue contents", "Email signup form plus Reader, Member and Founding subscription tiers", "Latest-issue cards that fan out from a paper stack as you scroll", "Newsroom masthead, letters to the editor, FAQ and a write-to-the-desk form"],
+  "signature": "Headlines decode from scrambled type; latest-issue cards fan out like a stack of papers on scroll"
+}

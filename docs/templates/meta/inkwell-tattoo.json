@@ -1,0 +1,11 @@
+{
+  "id": "inkwell-tattoo",
+  "name": "Inkwell Tattoo",
+  "description": "Dark custom tattoo studio site with artist-filtered flash portfolio, SVG ink-bleed reveals, scrambling blackletter headings and clear rates.",
+  "category": "beauty",
+  "tier": "pro",
+  "logo": "🖋 INKWELL",
+  "tags": ["Tattoo", "Studio", "Portfolio", "Dark", "Ink Bleed Animation"],
+  "features": ["Portfolio cards that bleed into view through an SVG turbulence mask", "Artist filter buttons for the hand-drawn flash portfolio", "Section headings that decode with a glyph text-scramble", "Four-tier rates, aftercare FAQ and a detailed consultation form"],
+  "signature": "Tattoo flash bleeds onto each card through a turbulent SVG mask while headings scramble into place"
+}

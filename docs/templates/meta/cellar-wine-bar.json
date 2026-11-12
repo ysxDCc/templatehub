@@ -1,0 +1,16 @@
+{
+  "id": "cellar-wine-bar",
+  "name": "Cellar & Cork",
+  "description": "Candlelit wine bar and bottle shop template where a wine glass fills as you scroll and headings rise word by word.",
+  "category": "dining",
+  "tier": "pro",
+  "logo": "🍷 CELLAR & CORK",
+  "tags": ["Wine Bar", "Bottle Shop", "Tastings", "Elegant", "Scroll Animation"],
+  "features": [
+    "Scroll-linked wine glass that fills from a taste to the brim (rAF throttled)",
+    "Split-text word reveals on every section heading",
+    "Tasting flight cards, Thursday masterclass calendar and bottle-shop list",
+    "Reservation form with date and party size, FAQ and testimonials"
+  ],
+  "signature": "A wine glass fills as you scroll; section headings reveal word by word"
+}

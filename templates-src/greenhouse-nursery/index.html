@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Greenhouse — Plant nursery, garden centre &amp; care guides</title>
+<meta name="description" content="Greenhouse is a family plant nursery and garden centre with healthy houseplants, outdoor plants, workshops and friendly care guides.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#a84f2a;
+  --leaf:#173f26;
+  --leaf-2:#245c37;
+  --moss:#3f7a4a;
+  --lime:#c5e063;
+  --terra:#c8693e;
+  --cream:#f6f1e3;
+  --cream-2:#ece4cf;
+  --ink:#1b2a1f;
+  --muted:#4d5a50;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Karla','Segoe UI',system-ui,sans-serif;
+  --r:22px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:17px;line-height:1.65;color:var(--ink);background:var(--cream);overflow-x:hidden}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.08;margin:0 0 .45em;letter-spacing:-.015em}
+h2{font-size:clamp(2rem,4.2vw,3.2rem)}
+h2 em,h1 em{font-style:italic;font-weight:400}
+p{margin:0 0 1em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:.5em;font-weight:700;text-transform:uppercase;letter-spacing:.16em;font-size:.78rem;color:var(--accent);margin-bottom:1rem}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor}
+.skip{position:absolute;left:-999px;top:8px;background:var(--leaf);color:#fff;padding:10px 16px;z-index:200;border-radius:8px}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:50px;padding:.8em 1.6em;border-radius:999px;font:700 1rem var(--sans);text-decoration:none;cursor:pointer;
+  border:2px solid currentColor;color:var(--leaf);background:transparent;transition:transform .25s ease,background .25s,color .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:#8f4021;border-color:#8f4021}
+.btn-light{color:var(--cream)}
+.btn-light:hover{background:var(--cream);color:var(--leaf)}
+
+/* vines */
+.vine{position:fixed;top:0;bottom:0;width:64px;z-index:40;pointer-events:none}
+.vine.left{left:0}.vine.right{right:0;transform:scaleX(-1)}
+.vine svg{width:100%;height:100%;overflow:visible}
+.vine .stem{fill:none;stroke:var(--moss);stroke-width:3;stroke-linecap:round}
+.vine .vleaf{fill:var(--moss);transform-box:fill-box;transform-origin:0% 50%;transform:scale(0);transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.vine .vleaf.lime{fill:#8fb33a}
+.vine .vleaf.on{transform:scale(1)}
+
+/* header */
+header.site{position:absolute;top:0;left:0;right:0;z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;height:88px}
+.logo{display:inline-flex;align-items:center;gap:.55rem;font-family:var(--serif);font-weight:800;font-size:1.5rem;color:var(--cream);text-decoration:none;min-height:44px}
+.logo svg{width:34px;height:34px}
+.nav ul{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.nav ul a{color:var(--cream);text-decoration:none;font-weight:600;padding:12px 14px;display:inline-block;border-radius:999px;min-height:44px}
+.nav ul a:hover{background:rgba(246,241,227,.12)}
+.nav ul a:focus-visible{outline-color:var(--lime)}
+.basket{display:inline-flex;align-items:center;gap:8px}
+.basket b{background:var(--lime);color:var(--leaf);min-width:24px;height:24px;border-radius:12px;display:inline-grid;place-items:center;font-size:.8rem;transition:transform .3s}
+.basket b.bump{transform:scale(1.35)}
+.menu-btn{display:none;width:50px;height:50px;border-radius:50%;border:2px solid var(--cream);background:transparent;color:var(--cream);cursor:pointer;position:relative}
+.menu-btn i,.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:13px;width:20px;height:2px;background:currentColor;transition:transform .25s}
+.menu-btn i{top:23px}.menu-btn i::before{left:0;top:-6px}.menu-btn i::after{left:0;top:6px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(6px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* hero */
+.hero{background:radial-gradient(120% 90% at 80% 10%,#2b6a3e 0,var(--leaf) 55%,#10301c 100%);color:var(--cream);padding:150px 0 120px;position:relative;overflow:hidden;border-radius:0 0 48px 48px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.8rem,7vw,5.8rem);font-weight:400;line-height:.98;margin-bottom:.35em}
+.hero h1 strong{font-weight:800;color:var(--lime)}
+.hero p{font-size:1.2rem;max-width:30em;color:#e2ead9}
+.hero .eyebrow{color:var(--lime)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.hero-stats{display:flex;gap:36px;margin-top:44px;flex-wrap:wrap}
+.hero-stats div{font-family:var(--serif);font-size:2rem;line-height:1}
+.hero-stats span{display:block;font-family:var(--sans);font-size:.85rem;color:#cfdcc6;margin-top:6px}
+.arch{position:relative;aspect-ratio:4/5;border-radius:999px 999px 28px 28px;background:linear-gradient(180deg,#e9f2cf 0,#d5e7a8 100%);overflow:hidden;border:10px solid rgba(246,241,227,.12)}
+.arch::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.5%,rgba(23,63,38,.25) 49.5% 50.5%,transparent 50.5%),linear-gradient(0deg,transparent 64%,rgba(23,63,38,.25) 64% 64.8%,transparent 64.8%)}
+.arch svg{position:absolute;inset:auto 0 0 0;width:100%}
+.p-leaf{position:absolute;pointer-events:none;will-change:transform}
+.p-leaf svg{width:100%;height:auto}
+
+/* sections */
+section{scroll-margin-top:30px}
+.block{padding:110px 0}
+.head{max-width:680px;margin-bottom:54px}
+.head p{color:var(--muted);font-size:1.1rem}
+.center{text-align:center;margin-inline:auto}
+.center .eyebrow::after{content:"";width:22px;height:2px;background:currentColor}
+
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.service{background:#fff;border-radius:var(--r);padding:34px 30px;position:relative;overflow:hidden;transition:transform .3s}
+.service:hover{transform:translateY(-6px)}
+.service .ic{width:64px;height:64px;border-radius:50%;background:var(--cream-2);display:grid;place-items:center;margin-bottom:20px}
+.service .ic svg{width:34px;height:34px}
+.service h3{font-size:1.5rem}
+.service p{color:var(--muted);margin:0}
+.service::after{content:"";position:absolute;right:-40px;bottom:-40px;width:120px;height:120px;border-radius:50%;background:var(--lime);opacity:.25}
+
+/* shop */
+.shop{background:var(--cream-2);border-radius:48px;margin:0 16px}
+.shop-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:46px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--leaf);background:transparent;color:var(--leaf);font:600 .95rem var(--sans);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--leaf);color:var(--cream)}
+.plants{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.plant{background:var(--cream);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s}
+.plant:hover{transform:translateY(-6px);box-shadow:0 24px 40px -24px rgba(23,63,38,.45)}
+.plant[hidden]{display:none}
+.plant-art{background:radial-gradient(circle at 50% 70%,var(--bg,#dfe9c2) 0 58%,transparent 58.5%),var(--cream);aspect-ratio:5/4;display:grid;place-items:end center;padding-top:14px}
+.plant-art svg{width:68%;height:auto;transition:transform .5s cubic-bezier(.3,1.4,.5,1);transform-origin:50% 100%}
+.plant:hover .plant-art svg{transform:rotate(-3deg) scale(1.04)}
+.plant-body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+.plant-body h3{font-size:1.45rem;margin:0}
+.latin{font-family:var(--serif);font-style:italic;color:var(--muted);margin:0 0 12px;font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.chip{font-size:.8rem;font-weight:700;padding:4px 10px;border-radius:999px;background:#fff;color:var(--leaf);border:1px solid rgba(23,63,38,.15)}
+.buy{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.price{font-family:var(--serif);font-weight:800;font-size:1.5rem;color:var(--leaf)}
+.add{min-height:46px;padding:0 18px;border-radius:999px;border:0;background:var(--leaf);color:var(--cream);font:700 .95rem var(--sans);cursor:pointer;transition:background .2s}
+.add:hover{background:var(--accent)}
+.add.done{background:var(--moss)}
+
+/* care guides tabs */
+.care{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:start}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tabs [role=tab]{min-height:48px;padding:0 20px;border-radius:999px;border:2px solid rgba(23,63,38,.2);background:#fff;font:700 1rem var(--sans);color:var(--leaf);cursor:pointer}
+.tabs [role=tab][aria-selected="true"]{background:var(--lime);border-color:var(--lime);color:var(--leaf)}
+.panel{background:#fff;border-radius:var(--r);padding:34px;position:relative}
+.panel h3{font-size:1.7rem}
+.panel ol{margin:0;padding:0;list-style:none;counter-reset:s}
+.panel li{counter-increment:s;padding:12px 0 12px 52px;position:relative;border-top:1px solid var(--cream-2)}
+.panel li::before{content:counter(s);position:absolute;left:0;top:10px;width:36px;height:36px;border-radius:50%;background:var(--cream-2);display:grid;place-items:center;font-family:var(--serif);font-weight:800;color:var(--accent)}
+.panel .tip{margin-top:18px;background:var(--leaf);color:var(--cream);border-radius:16px;padding:16px 20px;font-size:.95rem}
+.panel .tip b{color:var(--lime)}
+.care-side p{color:var(--muted)}
+.season{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px}
+.season li{display:flex;gap:16px;align-items:center;background:rgba(255,255,255,.6);border-radius:16px;padding:14px 18px}
+.season li b{font-family:var(--serif);color:var(--accent);min-width:3.2em}
+
+/* workshops strip */
+.strip{background:var(--leaf);color:var(--cream);border-radius:48px;margin:0 16px;overflow:hidden;position:relative}
+.strip h2{color:var(--cream)}
+.strip .eyebrow{color:var(--lime)}
+.workshops{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.ws{border:1px solid rgba(246,241,227,.2);border-radius:var(--r);padding:28px}
+.ws time{font-weight:700;color:var(--lime);font-size:.9rem;letter-spacing:.08em;text-transform:uppercase}
+.ws h3{font-size:1.4rem;margin:.4em 0}
+.ws p{color:#d7e2cf;margin-bottom:16px}
+.ws .price{color:var(--cream);font-size:1.25rem}
+
+/* testimonials */
+.reviews{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:24px}
+.review{background:#fff;border-radius:var(--r);padding:32px;margin:0}
+.review:first-child{background:var(--accent);color:#fff}
+.review:first-child blockquote{font-size:1.45rem}
+.review blockquote{margin:0 0 18px;font-family:var(--serif);font-size:1.15rem;line-height:1.4}
+.review figcaption{font-weight:700}
+.review figcaption span{display:block;font-weight:400;font-size:.9rem;opacity:.85}
+.stars{color:var(--accent);letter-spacing:3px;margin-bottom:12px}
+.review:first-child .stars{color:#fff}
+
+/* faq */
+.faq{max-width:840px;margin:0 auto}
+.faq details{background:#fff;border-radius:18px;margin-bottom:12px;padding:0 26px}
+.faq summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;font-family:var(--serif);font-size:1.2rem;font-weight:600;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:0;top:50%;width:26px;height:26px;margin-top:-13px;border-radius:50%;background:var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 5v10M5 10h10' stroke='%23173f26' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center/16px no-repeat;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:20px;margin:0}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px}
+.info{background:var(--leaf);color:var(--cream);border-radius:var(--r);padding:36px;position:relative;overflow:hidden}
+.info h3{font-size:1.5rem;color:var(--cream)}
+.info a{color:var(--lime)}
+.info dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:12px 20px}
+.info dt{font-weight:700;color:var(--lime)}
+.info dd{margin:0}
+form.contact{background:#fff;border-radius:var(--r);padding:36px}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:700;margin-bottom:6px;font-size:.95rem}
+.field input,.field textarea,.field select{width:100%;font:inherit;padding:13px 16px;border-radius:14px;border:2px solid var(--cream-2);background:var(--cream);color:var(--ink);min-height:50px}
+.field textarea{min-height:130px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--moss);background:#fff;box-shadow:0 0 0 4px rgba(197,224,99,.5)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+footer.site{background:#10301c;color:#cfdcc6;padding:60px 0 36px;margin-top:110px}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;align-items:center}
+footer.site a{color:var(--cream);text-decoration:none;display:inline-block;padding:10px 8px}
+footer.site a:hover{color:var(--lime)}
+
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:980px){
+  .hero-grid,.care,.contact-grid{grid-template-columns:1fr}
+  .arch{max-width:380px;width:100%;margin:0 auto}
+  .services,.workshops{grid-template-columns:1fr}
+  .plants{grid-template-columns:repeat(2,1fr)}
+  .reviews{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;top:80px;left:16px;right:16px;flex-direction:column;align-items:stretch;background:var(--leaf);border-radius:24px;padding:14px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:14px 18px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 26px}
+  .block{padding:76px 0}
+  .plants{grid-template-columns:1fr}
+  .shop,.strip{margin:0 8px;border-radius:32px}
+  .hero{padding:120px 0 90px;border-radius:0 0 32px 32px}
+  .hero-stats{gap:24px}
+  .two{grid-template-columns:1fr}
+  .vine{width:24px;opacity:.7}
+  .panel,form.contact,.info{padding:26px 20px}
+  .info dl{grid-template-columns:1fr;gap:2px}
+  .info dd{margin-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .js .reveal{opacity:1;transform:none}
+  .p-leaf{transform:none !important}
+  .vine .vleaf{transform:scale(1)}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="vine left" aria-hidden="true"><svg><path class="stem"/><g class="leaves"></g></svg></div>
+<div class="vine right" aria-hidden="true"><svg><path class="stem"/><g class="leaves"></g></svg></div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 36V18" stroke="#c5e063" stroke-width="3" stroke-linecap="round"/><path d="M20 20C8 20 5 10 6 4c10 0 15 6 14 16zM20 24c10 0 14-8 14-14-9 0-14 5-14 14z" fill="#c5e063"/></svg>Greenhouse</a>
+    <nav aria-label="Main">
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu"><i></i></button>
+      <ul id="nav-list">
+        <li><a href="#plants">Plants</a></li>
+        <li><a href="#care">Care guides</a></li>
+        <li><a href="#workshops">Workshops</a></li>
+        <li><a href="#visit">Visit</a></li>
+        <li><a href="#plants" class="basket" aria-live="polite">Basket <b id="count">0</b></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="p-leaf" data-speed="-0.25" style="width:150px;left:-30px;top:120px" aria-hidden="true"><svg viewBox="0 0 100 160"><path d="M50 155C10 120 5 50 50 5c45 45 40 115 0 150z" fill="#245c37"/><path d="M50 150V15" stroke="#173f26" stroke-width="3"/></svg></div>
+  <div class="p-leaf" data-speed="0.18" style="width:90px;left:44%;bottom:30px;transform:rotate(40deg)" aria-hidden="true"><svg viewBox="0 0 100 160"><path d="M50 155C10 120 5 50 50 5c45 45 40 115 0 150z" fill="#3f7a4a"/><path d="M50 150V15" stroke="#245c37" stroke-width="3"/></svg></div>
+  <div class="p-leaf" data-speed="-0.4" style="width:70px;right:4%;top:110px" aria-hidden="true"><svg viewBox="0 0 100 160"><path d="M50 155C10 120 5 50 50 5c45 45 40 115 0 150z" fill="#c5e063" opacity=".8"/></svg></div>
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Family nursery since 1994</span>
+      <h1 id="hero-title">Grow something <strong>good</strong> <em>this season.</em></h1>
+      <p>Two acres of glasshouses full of healthy houseplants, hardy perennials and fruit trees — grown on site, potted by hand, and sold with honest advice so they actually thrive at home.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#plants">Shop fresh plants</a>
+        <a class="btn btn-light" href="#care">Read care guides</a>
+      </div>
+      <div class="hero-stats">
+        <div>1,200+<span>varieties in stock</span></div>
+        <div>94%<span>grown on site</span></div>
+        <div>30 days<span>happy-plant promise</span></div>
+      </div>
+    </div>
+    <div class="arch reveal" aria-hidden="true">
+      <svg viewBox="0 0 400 460">
+        <ellipse cx="200" cy="440" rx="170" ry="20" fill="#173f26" opacity=".15"/>
+        <g fill="#245c37">
+          <path d="M200 300C120 290 70 230 80 150c70-10 120 40 120 150z"/>
+          <path d="M200 300c80-10 130-70 120-150-70-10-120 40-120 150z" fill="#3f7a4a"/>
+          <path d="M200 290C170 210 170 120 200 60c40 60 40 150 0 230z" fill="#173f26"/>
+          <path d="M196 300C140 300 100 270 70 300c40 30 90 30 126 0z" fill="#3f7a4a"/>
+          <path d="M204 300c56 0 96-30 126 0-40 30-90 30-126 0z"/>
+        </g>
+        <g stroke="#e9f2cf" stroke-width="5" opacity=".9">
+          <path d="M115 180l20 18M100 215l28 14M260 175l-20 20M280 210l-28 16"/>
+        </g>
+        <g stroke="#173f26" stroke-width="3" fill="none" opacity=".5"><path d="M200 290V80M200 300L95 165M200 300l110-140"/></g>
+        <path d="M120 300h160l-18 140H138z" fill="#c8693e"/>
+        <rect x="110" y="292" width="180" height="30" rx="6" fill="#d97f52"/>
+        <path d="M130 360c40 10 100 10 140 0" stroke="#a84f2a" stroke-width="5" fill="none"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="svc-title">
+  <div class="wrap">
+    <div class="head center reveal"><span class="eyebrow">What we do</span><h2 id="svc-title">More than a garden centre — <em>a green neighbour.</em></h2><p>Bring us your questions, your droopy pothos and your bare patio. We’ll send you home with something that suits it.</p></div>
+    <div class="services">
+      <article class="service reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 22h20l-3 14H13z" fill="#c8693e"/><path d="M20 22V8M20 14c-6 0-9-4-9-8 6 0 9 3 9 8zM20 12c5 0 8-3 8-7-5 0-8 3-8 7z" stroke="#173f26" stroke-width="2.5" fill="#3f7a4a"/></svg></div><h3>The Nursery</h3><p>Houseplants, perennials, herbs and fruit trees raised in our own glasshouses, labelled with honest care notes.</p></article>
+      <article class="service reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="13" fill="none" stroke="#173f26" stroke-width="2.5"/><path d="M20 12v16M12 20h16" stroke="#a84f2a" stroke-width="3" stroke-linecap="round"/></svg></div><h3>Plant Hospital</h3><p>Every Saturday our growers diagnose pests, yellowing leaves and root rot — free, with a cup of tea.</p></article>
+      <article class="service reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 32l10-10M14 34l14-14 4-12-12 4-14 14z" fill="#3f7a4a" stroke="#173f26" stroke-width="2.2" stroke-linejoin="round"/></svg></div><h3>Garden Design</h3><p>From window boxes to whole back gardens: planting plans, delivery and planting by our small landscape team.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="block shop" id="plants" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div class="shop-head reveal">
+      <div><span class="eyebrow">Fresh from the glasshouse</span><h2 id="shop-title">This week’s favourites</h2></div>
+      <div class="filters" role="group" aria-label="Filter plants">
+        <button type="button" aria-pressed="true" data-f="all">All</button>
+        <button type="button" aria-pressed="false" data-f="easy">Beginner-friendly</button>
+        <button type="button" aria-pressed="false" data-f="pet">Pet-safe</button>
+        <button type="button" aria-pressed="false" data-f="outdoor">Outdoor</button>
+      </div>
+    </div>
+    <div class="plants">
+      <article class="plant reveal" data-tags="easy">
+        <div class="plant-art" style="--bg:#dfe9c2"><svg viewBox="0 0 120 130" aria-hidden="true"><g fill="#245c37"><path d="M60 80C30 78 14 54 20 30c26-2 42 18 40 50z"/><path d="M60 80c30-2 46-26 40-50-26-2-42 18-40 50z" fill="#3f7a4a"/><path d="M60 78C48 52 50 22 62 6c14 18 12 50-2 72z" fill="#173f26"/></g><g stroke="#dfe9c2" stroke-width="3"><path d="M30 44l10 8M28 58l12 4M90 44l-10 8M92 58l-12 4"/></g><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">Swiss Cheese Plant</h3><p class="latin">Monstera deliciosa · 30cm pot</p><div class="chips"><span class="chip">☀ Bright, indirect</span><span class="chip">💧 Weekly</span></div>
+          <div class="buy"><span class="price">$38</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+      <article class="plant reveal" data-tags="easy">
+        <div class="plant-art" style="--bg:#f0dcc8"><svg viewBox="0 0 120 130" aria-hidden="true"><g fill="#245c37"><path d="M44 82C40 50 42 24 50 6c6 20 8 50 4 76z"/><path d="M56 82c-2-36 2-58 10-74 4 22 4 52 0 74z" fill="#3f7a4a"/><path d="M66 82c2-28 8-46 20-60-2 22-6 44-12 60z"/><path d="M36 82c-6-20-8-36-4-52 8 14 12 32 12 52z" fill="#3f7a4a"/></g><g stroke="#c5e063" stroke-width="2" opacity=".7"><path d="M47 30l6 2M47 50l7 2M60 36l6 2M60 58l6 2"/></g><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">Snake Plant</h3><p class="latin">Dracaena trifasciata · 21cm pot</p><div class="chips"><span class="chip">☀ Any light</span><span class="chip">💧 Monthly</span></div>
+          <div class="buy"><span class="price">$24</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+      <article class="plant reveal" data-tags="pet easy">
+        <div class="plant-art" style="--bg:#dfe9c2"><svg viewBox="0 0 120 130" aria-hidden="true"><g stroke="#3f7a4a" stroke-width="3" fill="none" stroke-linecap="round"><path d="M60 80C50 50 30 36 10 34M60 80C66 48 84 30 108 30M60 80C58 50 60 30 62 8M60 80C40 66 24 64 12 70M60 80c18-14 34-16 48-10"/></g><g fill="#245c37"><circle cx="20" cy="36" r="4"/><circle cx="30" cy="40" r="4"/><circle cx="40" cy="46" r="4"/><circle cx="98" cy="31" r="4"/><circle cx="86" cy="34" r="4"/><circle cx="76" cy="42" r="4"/><circle cx="61" cy="16" r="4"/><circle cx="61" cy="28" r="4"/><circle cx="61" cy="40" r="4"/><circle cx="22" cy="68" r="4"/><circle cx="96" cy="68" r="4"/></g><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">Boston Fern</h3><p class="latin">Nephrolepis exaltata · 17cm pot</p><div class="chips"><span class="chip">🐾 Pet-safe</span><span class="chip">💧 Keep moist</span></div>
+          <div class="buy"><span class="price">$19</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+      <article class="plant reveal" data-tags="easy">
+        <div class="plant-art" style="--bg:#e3e8d5"><svg viewBox="0 0 120 130" aria-hidden="true"><path d="M50 82V30a10 10 0 0 1 20 0v52z" fill="#3f7a4a"/><path d="M50 56H38a8 8 0 0 1-8-8V38a6 6 0 0 1 12 0v6h8M70 50h10V34a6 6 0 0 1 12 0v12a8 8 0 0 1-8 8H70" fill="#245c37"/><g stroke="#e3e8d5" stroke-width="1.6"><path d="M56 30v48M64 30v48"/></g><circle cx="60" cy="20" r="6" fill="#e86f8c"/><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">Flowering Cactus</h3><p class="latin">Echinopsis hybrid · 12cm pot</p><div class="chips"><span class="chip">☀ Full sun</span><span class="chip">💧 Fortnightly</span></div>
+          <div class="buy"><span class="price">$14</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+      <article class="plant reveal" data-tags="pet">
+        <div class="plant-art" style="--bg:#f0dcc8"><svg viewBox="0 0 120 130" aria-hidden="true"><g fill="#3f7a4a"><path d="M60 80c-14-2-20-14-14-24 10-2 16 8 14 24z"/><path d="M60 80c14-2 20-14 14-24-10-2-16 8-14 24z" fill="#245c37"/><path d="M60 78C50 64 52 46 60 38c8 8 10 26 0 40z"/></g><g fill="#e86f8c"><circle cx="48" cy="52" r="5"/><circle cx="72" cy="50" r="5"/><circle cx="60" cy="34" r="5"/></g><g fill="#fbe7a1"><circle cx="48" cy="52" r="1.8"/><circle cx="72" cy="50" r="1.8"/><circle cx="60" cy="34" r="1.8"/></g><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">African Violet</h3><p class="latin">Saintpaulia ionantha · 12cm pot</p><div class="chips"><span class="chip">🐾 Pet-safe</span><span class="chip">☀ Bright windowsill</span></div>
+          <div class="buy"><span class="price">$12</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+      <article class="plant reveal" data-tags="outdoor">
+        <div class="plant-art" style="--bg:#dfe9c2"><svg viewBox="0 0 120 130" aria-hidden="true"><path d="M58 82c0-20-2-34-8-46M62 82c2-18 6-30 14-40" stroke="#7a5a3a" stroke-width="4" fill="none"/><g fill="#8aa37a"><ellipse cx="44" cy="30" rx="16" ry="12"/><ellipse cx="66" cy="20" rx="18" ry="13"/><ellipse cx="82" cy="36" rx="15" ry="11"/><ellipse cx="54" cy="46" rx="12" ry="9"/></g><g fill="#3f4a35"><circle cx="48" cy="36" r="3"/><circle cx="70" cy="26" r="3"/><circle cx="80" cy="40" r="3"/></g><path d="M34 80h52l-6 46H40z" fill="#c8693e"/><rect x="30" y="76" width="60" height="10" rx="3" fill="#d97f52"/></svg></div>
+        <div class="plant-body"><h3 class="card-title">Patio Olive Tree</h3><p class="latin">Olea europaea · 80cm standard</p><div class="chips"><span class="chip">☀ Full sun</span><span class="chip">🌿 Outdoor</span></div>
+          <div class="buy"><span class="price">$65</span><button class="add" type="button">Add to basket</button></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="care" aria-labelledby="care-title">
+  <div class="wrap care">
+    <div class="care-side reveal">
+      <span class="eyebrow">Care guides</span>
+      <h2 id="care-title">Keep it alive, <em>keep it happy.</em></h2>
+      <p>Our growers wrote these short guides after twenty-odd years of answering the same five questions at the till. Pick a topic.</p>
+      <ul class="season">
+        <li><b>Nov</b> Move tropicals away from cold windows and radiators.</li>
+        <li><b>Dec</b> Water less — most houseplants are resting.</li>
+        <li><b>Jan</b> Wipe dusty leaves so they catch more winter light.</li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="tabs" role="tablist" aria-label="Care topics">
+        <button role="tab" id="t-light" aria-selected="true" aria-controls="p-light">Light</button>
+        <button role="tab" id="t-water" aria-selected="false" aria-controls="p-water" tabindex="-1">Water</button>
+        <button role="tab" id="t-soil" aria-selected="false" aria-controls="p-soil" tabindex="-1">Soil</button>
+        <button role="tab" id="t-repot" aria-selected="false" aria-controls="p-repot" tabindex="-1">Repotting</button>
+      </div>
+      <div class="panel" role="tabpanel" id="p-light" aria-labelledby="t-light">
+        <h3>Reading the light in your home</h3>
+        <ol><li>South-facing windows give bright, direct sun — perfect for cacti and olives.</li><li>East and west windows suit most tropicals; a sheer curtain softens harsh afternoon sun.</li><li>North rooms? Choose snake plants, ZZ plants and ferns.</li></ol>
+        <p class="tip"><b>Grower’s tip:</b> if a plant leans hard toward the window, give it a quarter-turn every time you water.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="p-water" aria-labelledby="t-water" hidden>
+        <h3>Watering without worry</h3>
+        <ol><li>Push a finger 3cm into the soil — only water if it feels dry.</li><li>Water thoroughly until it drains, then empty the saucer after 15 minutes.</li><li>Use room-temperature water; cold water shocks tropical roots.</li></ol>
+        <p class="tip"><b>Grower’s tip:</b> more houseplants die from too much love than too little. When in doubt, wait a day.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="p-soil" aria-labelledby="t-soil" hidden>
+        <h3>The right mix for the right roots</h3>
+        <ol><li>Tropicals love a chunky mix: compost, bark and perlite.</li><li>Cacti and succulents need gritty, fast-draining soil.</li><li>Feed with a diluted liquid feed every two weeks from spring to early autumn.</li></ol>
+        <p class="tip"><b>Grower’s tip:</b> bring a small bag to our potting bench and we’ll mix custom soil by the scoop.</p>
+      </div>
+      <div class="panel" role="tabpanel" id="p-repot" aria-labelledby="t-repot" hidden>
+        <h3>When (and how) to repot</h3>
+        <ol><li>Roots poking out of drainage holes? It’s time — ideally in spring.</li><li>Go up just one pot size (2–5cm wider) to avoid soggy soil.</li><li>Water lightly afterwards and keep out of direct sun for a week.</li></ol>
+        <p class="tip"><b>Grower’s tip:</b> we repot anything bought here for free — just bring it back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block strip" id="workshops" aria-labelledby="ws-title">
+  <div class="p-leaf" data-speed="-0.2" style="width:120px;right:-20px;top:40px;transform:rotate(-30deg)" aria-hidden="true"><svg viewBox="0 0 100 160"><path d="M50 155C10 120 5 50 50 5c45 45 40 115 0 150z" fill="#245c37"/></svg></div>
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Get your hands dirty</span><h2 id="ws-title">Weekend workshops</h2><p style="color:#d7e2cf">Small groups, all materials included, and you take home everything you make.</p></div>
+    <div class="workshops">
+      <article class="ws reveal"><time datetime="2026-11-21">Sat 21 Nov · 10am</time><h3>Terrarium Building</h3><p>Layer soil, moss and mini ferns into a glass world that waters itself.</p><span class="price">$45</span></article>
+      <article class="ws reveal"><time datetime="2026-11-28">Sat 28 Nov · 2pm</time><h3>Winter Wreath Making</h3><p>Foraged greenery, dried citrus and pine cones, with mulled apple juice.</p><span class="price">$55</span></article>
+      <article class="ws reveal"><time datetime="2026-12-05">Sat 5 Dec · 11am</time><h3>Propagation Party</h3><p>Learn to multiply your plants for free — bring cuttings, leave with babies.</p><span class="price">$30</span></article>
+    </div>
+    <p class="reveal" style="margin-top:36px"><a class="btn btn-light" href="#visit">Book a workshop place</a></p>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="rev-title">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Happy plant parents</span><h2 id="rev-title">Kind words from the potting bench</h2></div>
+    <div class="reviews">
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“The Plant Hospital saved my grandmother’s 30-year-old rubber plant. I may have cried a little in the car park.”</blockquote><figcaption>Amara<span>Regular since 2019</span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“Honest advice — they talked me out of a fiddle-leaf fig for my dark flat. Bought a fern instead. Thriving.”</blockquote><figcaption>Tomasz<span>First-time plant owner</span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“The terrarium workshop was the best Saturday morning I’ve had all year.”</blockquote><figcaption>Grace<span>Workshop guest</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="faq-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="head center reveal"><span class="eyebrow">Good to know</span><h2 id="faq-title">Questions we hear a lot</h2></div>
+    <div class="faq reveal">
+      <details><summary>What is the 30-day happy-plant promise?</summary><p>If a plant from us struggles within 30 days, bring it back with your receipt. We’ll diagnose it and replace it if it can’t be saved.</p></details>
+      <details><summary>Do you deliver?</summary><p>Yes — local delivery within 15 miles from $8, free over $100. Large trees and soil deliveries are booked by phone.</p></details>
+      <details><summary>Which plants are safe for cats and dogs?</summary><p>Look for the paw chip on our labels. Ferns, calatheas, spider plants and African violets are all good choices.</p></details>
+      <details><summary>Can I bring my own pots?</summary><p>Absolutely. Our potting bench will plant into your pot for free when you buy the plant here.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="visit" aria-labelledby="visit-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Visit &amp; contact</span><h2 id="visit-title">Come and wander the glasshouses</h2></div>
+    <div class="contact-grid">
+      <div class="info reveal">
+        <h3>Greenhouse Nursery</h3>
+        <dl>
+          <dt>Address</dt><dd>48 Orchard Lane, Fernhill Valley</dd>
+          <dt>Hours</dt><dd>Mon–Sat 8:30am–6pm · Sun 10am–4pm</dd>
+          <dt>Email</dt><dd><a href="mailto:grow@example.com">grow@example.com</a></dd>
+          <dt>Phone</dt><dd><a href="tel:+15550193344">+1 555 019 3344</a></dd>
+          <dt>Parking</dt><dd>Free, with trolleys and a loading bay</dd>
+        </dl>
+      </div>
+      <form class="contact reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <div class="two">
+          <div class="field"><label for="c-name">Your name</label><input id="c-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="c-topic">Topic</label><select id="c-topic" name="topic"><option>Plant question</option><option>Workshop booking</option><option>Garden design</option><option>Delivery</option></select></div>
+        <div class="field"><label for="c-msg">Message</label><textarea id="c-msg" name="message" required placeholder="Tell us about your plant, space or project…"></textarea></div>
+        <button class="btn btn-primary" type="submit">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 36V18" stroke="#c5e063" stroke-width="3" stroke-linecap="round"/><path d="M20 20C8 20 5 10 6 4c10 0 15 6 14 16zM20 24c10 0 14-8 14-14-9 0-14 5-14 14z" fill="#c5e063"/></svg>Greenhouse</a>
+    <p style="margin:0">© <span id="year">2026</span> Greenhouse Nursery. Grown with care.</p>
+    <nav aria-label="Footer"><a href="#plants">Plants</a><a href="#care">Care</a><a href="#visit">Visit</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var NS = 'http://www.w3.org/2000/svg';
+
+  // nav
+  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
+  function setMenu(o){ btn.setAttribute('aria-expanded', o); btn.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); list.classList.toggle('open', o); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  list.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // basket
+  var count = document.getElementById('count'), n = 0;
+  document.querySelectorAll('.add').forEach(function(b){
+    b.addEventListener('click', function(){
+      n++; count.textContent = n; count.classList.add('bump'); setTimeout(function(){ count.classList.remove('bump'); }, 300);
+      b.textContent = 'Added ✓'; b.classList.add('done');
+      setTimeout(function(){ b.textContent = 'Add to basket'; b.classList.remove('done'); }, 1600);
+    });
+  });
+
+  // filters
+  var fbtns = document.querySelectorAll('.filters button');
+  fbtns.forEach(function(f){
+    f.addEventListener('click', function(){
+      fbtns.forEach(function(x){ x.setAttribute('aria-pressed', x === f); });
+      var k = f.dataset.f;
+      document.querySelectorAll('.plant').forEach(function(p){ p.hidden = !(k === 'all' || p.dataset.tags.indexOf(k) > -1); });
+    });
+  });
+
+  // tabs
+  var tabs = [].slice.call(document.querySelectorAll('[role=tab]'));
+  function select(t){
+    tabs.forEach(function(x){ var on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ select(t); });
+    t.addEventListener('keydown', function(e){
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
+      if (j === null) return; e.preventDefault(); var nt = tabs[(j + tabs.length) % tabs.length]; select(nt); nt.focus();
+    });
+  });
+
+  // vines: build a wavy stem the height of the viewport, draw it with scroll progress
+  var vines = [].map.call(document.querySelectorAll('.vine'), function(v, idx){
+    return { svg: v.querySelector('svg'), stem: v.querySelector('.stem'), g: v.querySelector('.leaves'), el: v, off: idx * 90, leaves: [], len: 0 };
+  });
+  function buildVines(){
+    var h = window.innerHeight, w = vines[0].el.clientWidth || 64, mid = w * 0.42, amp = w * 0.28;
+    vines.forEach(function(v){
+      v.svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+      var d = 'M' + mid + ' -10', step = 110, y = -10, s = 1, k = 0;
+      while (y < h + 20){ var ny = y + step; d += ' C' + (mid + amp * s) + ' ' + (y + step * .35) + ' ' + (mid + amp * s) + ' ' + (y + step * .65) + ' ' + mid + ' ' + ny; y = ny; s = -s; }
+      v.stem.setAttribute('d', d);
+      v.len = v.stem.getTotalLength();
+      v.stem.style.strokeDasharray = v.len;
+      v.g.innerHTML = ''; v.leaves = [];
+      for (var t = 60 + v.off * .5; t < v.len - 20; t += 70){
+        var p = v.stem.getPointAtLength(t), side = (k++ % 2) ? 1 : -1, sz = w * (0.32 + (k % 3) * 0.06);
+        var leaf = document.createElementNS(NS, 'path');
+        leaf.setAttribute('d', 'M' + p.x + ' ' + p.y + ' q' + (sz * .5 * side) + ' ' + (-sz * .55) + ' ' + (sz * side) + ' 0 q' + (-sz * .5 * side) + ' ' + (sz * .55) + ' ' + (-sz * side) + ' 0z');
+        leaf.setAttribute('class', 'vleaf' + (k % 4 === 0 ? ' lime' : ''));
+        if (side < 0) leaf.style.transformOrigin = '100% 50%';
+        v.g.appendChild(leaf); v.leaves.push({ el: leaf, at: t / v.len });
+      }
+    });
+    update();
+  }
+  function progress(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 1;
+  }
+  var pleaves = [].slice.call(document.querySelectorAll('.p-leaf'));
+  function update(){
+    var pr = reduce ? 1 : Math.max(0.04, progress());
+    vines.forEach(function(v){
+      v.stem.style.strokeDashoffset = v.len * (1 - pr);
+      v.leaves.forEach(function(l){ l.el.classList.toggle('on', l.at <= pr); });
+    });
+    if (!reduce){
+      pleaves.forEach(function(el){
+        var r = el.parentElement.getBoundingClientRect();
+        var base = el.dataset.rot || (el.dataset.rot = (el.style.transform || ''));
+        el.style.transform = 'translate3d(0,' + (r.top * parseFloat(el.dataset.speed)).toFixed(1) + 'px,0) ' + base;
+      });
+    }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ update(); ticking = false; }); } }, { passive: true });
+  window.addEventListener('resize', buildVines);
+  buildVines();
+
+  // reveals
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) els.forEach(function(e){ e.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 100 + 'ms'; io.observe(e); });
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

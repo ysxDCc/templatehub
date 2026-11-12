@@ -1,0 +1,11 @@
+{
+  "id": "swiftmove-movers",
+  "name": "SwiftMove",
+  "description": "Bold orange-and-slate moving company site with a room-by-room estimator that stacks boxes in a truck and a route that draws between two pins.",
+  "category": "local-services",
+  "tier": "basic",
+  "logo": "🚚 SWIFTMOVE",
+  "tags": ["Movers", "Moving Company", "Estimator", "Bold", "Route Animation"],
+  "features": ["Hero map where a route line draws and a mini truck drives between pins", "Move-size estimator: boxes drop and stack in the truck as you add rooms", "Live truck size, crew, time and ballpark price readout", "Service cards with prices, reviews, FAQ and free-quote form"],
+  "signature": "A route line draws between two map pins as a truck drives it; boxes stack up in the truck as you pick rooms"
+}

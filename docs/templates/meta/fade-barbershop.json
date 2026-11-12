@@ -1,0 +1,11 @@
+{
+  "id": "fade-barbershop",
+  "name": "Fade & Co.",
+  "description": "Vintage barbershop site with a spinning barber pole, a typewriter service ticker, live walk-in status and a chalkboard price menu.",
+  "category": "beauty",
+  "tier": "free",
+  "logo": "💈 FADE & CO.",
+  "tags": ["Barbershop", "Grooming", "Walk-ins", "Vintage", "Barber Pole Animation"],
+  "features": ["CSS barber pole with seamless rotating stripes in the hero", "Typewriter line cycling through the shop's services", "Live open/closed walk-in status with today's hours highlighted", "Chalkboard service menu with dotted price leaders, barber profiles and booking form"],
+  "signature": "A brass-capped barber pole spins in the hero while a typewriter cycles 'Skin fades.', 'Hot towel shaves.' and more"
+}

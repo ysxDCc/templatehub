@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yokocho Ramen — Late-night ramen bar, open till 3AM</title>
+<meta name="description" content="Yokocho Ramen is a twelve-seat late-night ramen bar serving 48-hour tonkotsu, house-made noodles and cold beer until 3AM.">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #e11d48;
+  --night: #0c0a10;
+  --alley: #15121b;
+  --wall: #1d1824;
+  --line: rgba(255, 255, 255, .1);
+  --text: #f4efe8;
+  --muted: #b9b1bf;
+  --neon-red: #ff3b5c;
+  --neon-teal: #2de2d0;
+  --lantern: #ffb347;
+  --display: 'Bebas Neue', 'Oswald', 'Roboto Condensed', 'Arial Narrow', 'DejaVu Sans Condensed', Impact, sans-serif;
+  --sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+body { font-family: var(--sans); background: var(--night); color: var(--text); line-height: 1.6; overflow-x: hidden; font-size: 1.04rem; }
+svg { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--neon-teal); outline-offset: 3px; }
+.wrap { width: min(1200px, 100% - 40px); margin-inline: auto; }
+.skip { position: absolute; left: -999px; top: 8px; z-index: 300; background: var(--text); color: var(--night); padding: 10px 16px; }
+.skip:focus { left: 12px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: .95; letter-spacing: .02em; text-transform: uppercase; font-stretch: condensed; }
+h2 { font-size: clamp(3rem, 7vw, 5.6rem); margin: 8px 0 18px; }
+.tag { display: inline-flex; align-items: center; gap: 10px; font: 700 .8rem/1 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--neon-teal); }
+.tag::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
+.lead { color: var(--muted); max-width: 58ch; font-size: 1.1rem; }
+section { padding: clamp(76px, 10vw, 130px) 0; position: relative; }
+.jp { font-family: 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', sans-serif; font-weight: 700; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 28px; font: 700 .95rem/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border: 2px solid transparent; cursor: pointer; transition: transform .2s, box-shadow .2s, background-color .2s, color .2s; }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 0 0 0 transparent; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 24px -2px var(--accent); }
+.btn-ghost { border-color: var(--neon-teal); color: var(--neon-teal); background: transparent; }
+.btn-ghost:hover { background: var(--neon-teal); color: var(--night); }
+
+/* Header */
+header { position: sticky; top: 0; z-index: 100; background: rgba(12, 10, 16, .88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.nav { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
+.logo { font: 400 2rem/1 var(--display); letter-spacing: .06em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+.logo b { font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif; font-size: .9rem; background: var(--accent); color: #fff; padding: 6px 7px; line-height: 1; }
+.nav ul { list-style: none; display: flex; align-items: center; gap: 4px; }
+.nav ul a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; text-decoration: none; font-weight: 600; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); transition: color .2s, text-shadow .2s; }
+.nav ul a:hover { color: var(--neon-teal); text-shadow: 0 0 12px rgba(45, 226, 208, .6); }
+.nav ul .btn { color: #fff; margin-left: 8px; min-height: 44px; }
+.nav ul .btn:hover { text-shadow: none; color: #fff; }
+.open-chip { display: inline-flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--neon-teal); }
+.open-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--neon-teal); box-shadow: 0 0 8px var(--neon-teal); }
+.burger { display: none; width: 48px; height: 48px; background: transparent; border: 1px solid var(--line); color: var(--text); cursor: pointer; }
+.burger span, .burger span::before, .burger span::after { display: block; width: 22px; height: 2px; background: currentColor; margin: auto; position: relative; transition: transform .25s, background-color .25s; }
+.burger span::before, .burger span::after { content: ""; position: absolute; left: 0; }
+.burger span::before { top: -7px; } .burger span::after { top: 7px; }
+.burger[aria-expanded="true"] span { background: transparent; }
+.burger[aria-expanded="true"] span::before { transform: translateY(7px) rotate(45deg); }
+.burger[aria-expanded="true"] span::after { transform: translateY(-7px) rotate(-45deg); }
+
+/* Hero */
+.hero { min-height: min(92vh, 860px); display: flex; align-items: center; overflow: hidden; padding: 60px 0 90px;
+  background:
+    radial-gradient(ellipse 40% 50% at 78% 38%, rgba(255, 59, 92, .18), transparent 70%),
+    radial-gradient(ellipse 30% 40% at 20% 80%, rgba(45, 226, 208, .1), transparent 70%),
+    linear-gradient(180deg, #0c0a10 0%, #17121d 70%, #0c0a10 100%); }
+.hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 90px), linear-gradient(180deg, transparent, rgba(45, 226, 208, .05)); pointer-events: none; }
+.hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; }
+.hero h1 { font-size: clamp(4.4rem, 12vw, 10.5rem); line-height: .86; margin: 18px 0 22px; }
+.hero h1 span { color: var(--neon-red); text-shadow: 0 0 18px rgba(255, 59, 92, .55); }
+.hero p { color: var(--muted); font-size: 1.18rem; max-width: 44ch; }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.hero-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; list-style: none; }
+.hero-facts li { border: 1px solid var(--line); padding: 8px 14px; font-size: .88rem; color: var(--muted); }
+.hero-facts strong { color: var(--text); }
+
+/* Neon sign */
+.sign-wrap { position: relative; justify-self: center; width: min(100%, 440px); }
+.lanterns { position: absolute; top: -70px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 6%; pointer-events: none; }
+.lantern { width: 54px; transform-origin: 50% 0; animation: sway 5s ease-in-out infinite alternate; }
+.lantern:nth-child(2) { animation-duration: 6.2s; animation-delay: -2s; }
+.lantern:nth-child(3) { animation-duration: 5.6s; animation-delay: -1s; }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.sign { position: relative; overflow: hidden; margin-top: 60px; border: 2px solid #2a2433; background: linear-gradient(180deg, #120f17, #0a080d); padding: 34px 26px 30px; display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; box-shadow: inset 0 0 40px rgba(0, 0, 0, .8), 0 30px 60px -30px rgba(0, 0, 0, .9); }
+.sign-wrap::before, .sign-wrap::after { content: ""; position: absolute; top: 0; z-index: -1; width: 2px; height: 60px; background: #3a3344; }
+.sign-wrap::before { left: 22%; } .sign-wrap::after { right: 22%; }
+.tube-v { writing-mode: vertical-rl; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1; color: #ffe7ec; letter-spacing: .1em; text-shadow: 0 0 4px #fff, 0 0 10px var(--neon-red), 0 0 22px var(--neon-red), 0 0 44px var(--neon-red); }
+.tube-h { font: 400 clamp(2.4rem, 5vw, 3.9rem)/.9 var(--display); font-stretch: condensed; white-space: nowrap; color: #e9fffc; letter-spacing: .06em; text-shadow: 0 0 4px #fff, 0 0 10px var(--neon-teal), 0 0 24px var(--neon-teal), 0 0 48px var(--neon-teal); }
+.tube-sub { display: block; font: 600 .82rem/1.4 var(--sans); letter-spacing: .4em; color: #ffd9e0; text-transform: uppercase; margin-top: 10px; text-shadow: 0 0 8px var(--neon-red); }
+.bowl-neon { grid-column: 1 / -1; margin-top: 4px; overflow: visible; filter: drop-shadow(0 0 3px var(--lantern)) drop-shadow(0 0 9px var(--lantern)); }
+.bowl-neon path, .bowl-neon line { fill: none; stroke: #ffe6c7; stroke-width: 2.4; stroke-linecap: round; }
+/* flicker on */
+.flicker-a { animation: flickerOn 1.8s linear both; }
+.flicker-b { animation: flickerOn 2.4s linear .3s both; }
+.flicker-c { animation: flickerOn 2s linear .8s both; }
+@keyframes flickerOn {
+  0%, 9% { opacity: .12; } 10% { opacity: 1; } 12% { opacity: .2; } 20% { opacity: .15; } 22% { opacity: 1; } 24% { opacity: .25; }
+  40% { opacity: .2; } 42%, 48% { opacity: 1; } 50% { opacity: .35; } 54%, 100% { opacity: 1; }
+}
+.buzz { animation: buzz 7s linear 3s infinite; }
+@keyframes buzz { 0%, 91%, 93%, 95%, 100% { opacity: 1; } 92%, 94% { opacity: .35; } }
+.paused .flicker-a, .paused .flicker-b, .paused .flicker-c, .paused .buzz, .paused .lantern { animation-play-state: paused; }
+
+/* Features */
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--line); border: 1px solid var(--line); margin-top: 56px; }
+.feature { background: var(--alley); padding: 38px 32px; position: relative; overflow: hidden; }
+.feature .big { position: absolute; right: 14px; top: 6px; font: 400 8rem/1 var(--display); color: rgba(255, 255, 255, .04); }
+.feature svg { width: 44px; height: 44px; color: var(--neon-red); margin-bottom: 22px; }
+.feature h3 { font-size: 2.3rem; margin-bottom: 8px; }
+.feature p { color: var(--muted); position: relative; }
+
+/* How to order */
+.order { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; list-style: none; counter-reset: o; }
+.order li { counter-increment: o; display: flex; gap: 16px; align-items: flex-start; padding: 22px; border: 1px dashed rgba(45, 226, 208, .35); }
+.order li::before { content: counter(o); flex-shrink: 0; width: 44px; height: 44px; display: grid; place-items: center; font: 400 1.6rem/1 var(--display); color: var(--night); background: var(--neon-teal); }
+.order strong { display: block; font-size: 1.05rem; }
+.order span { color: var(--muted); font-size: .94rem; }
+
+/* Menu rail */
+.menu { background: var(--alley); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+.menu-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.rail-ctrl { display: flex; gap: 10px; }
+.rail-ctrl button { width: 52px; height: 52px; border: 1px solid var(--line); background: var(--wall); color: var(--text); cursor: pointer; font-size: 1.3rem; transition: border-color .2s, color .2s, opacity .2s; }
+.rail-ctrl button:hover:not(:disabled) { border-color: var(--neon-teal); color: var(--neon-teal); }
+.rail-ctrl button:disabled { opacity: .35; cursor: default; }
+.rail { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 40px var(--gut) 26px; scroll-padding-inline: var(--gut); --gut: max(20px, (100% - 1200px) / 2); margin-top: 10px; scrollbar-width: thin; scrollbar-color: var(--accent) var(--wall); overscroll-behavior-x: contain; }
+.rail::-webkit-scrollbar { height: 8px; }
+.rail::-webkit-scrollbar-track { background: var(--wall); }
+.rail::-webkit-scrollbar-thumb { background: var(--accent); }
+.rail:focus-visible { outline-offset: -3px; }
+.dish { flex: 0 0 clamp(260px, 30vw, 330px); scroll-snap-align: start; background: var(--night); border: 1px solid var(--line); display: flex; flex-direction: column; transition: transform .3s, border-color .3s; }
+.dish:hover { transform: translateY(-6px); border-color: rgba(255, 59, 92, .5); }
+.dish-art { position: relative; aspect-ratio: 1 / .82; display: grid; place-items: center; background: radial-gradient(circle at 50% 55%, #241d2c, #120f17 70%); border-bottom: 1px solid var(--line); }
+.dish-art svg { width: 72%; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.dish:hover .dish-art svg { transform: rotate(18deg); }
+.dish-art .no { position: absolute; top: 14px; left: 16px; font: 400 1.5rem/1 var(--display); color: var(--muted); }
+.dish-art .hot { position: absolute; top: 14px; right: 14px; font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 5px 10px; background: var(--accent); color: #fff; }
+.dish-body { padding: 22px 22px 24px; display: flex; flex-direction: column; flex: 1; }
+.dish .jp { color: var(--neon-teal); font-size: .9rem; letter-spacing: .1em; }
+.dish h3 { font-size: 2.1rem; margin: 6px 0 8px; }
+.dish p { color: var(--muted); font-size: .95rem; flex: 1; }
+.dish-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.price { font: 400 2rem/1 var(--display); color: var(--lantern); letter-spacing: .04em; }
+.dish-foot small { color: var(--muted); font-size: .82rem; }
+.rail-hint { color: var(--muted); font-size: .88rem; margin-top: 6px; }
+
+/* Sides / set */
+.extras { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(30px, 6vw, 70px); align-items: start; }
+.sides { list-style: none; margin-top: 30px; }
+.sides li { display: flex; align-items: baseline; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.sides li span:first-child { font-weight: 600; font-size: 1.1rem; }
+.sides li .dots { flex: 1; border-bottom: 2px dotted rgba(255, 255, 255, .18); transform: translateY(-4px); }
+.sides li em { font-style: normal; color: var(--muted); font-size: .9rem; display: block; font-weight: 400; }
+.sides li b { font: 400 1.6rem/1 var(--display); color: var(--lantern); }
+.set-card { position: relative; border: 2px solid var(--neon-red); padding: 40px 34px; box-shadow: 0 0 0 1px rgba(255, 59, 92, .2), 0 0 40px -10px rgba(255, 59, 92, .45), inset 0 0 40px -20px rgba(255, 59, 92, .5); background: linear-gradient(160deg, rgba(255, 59, 92, .08), transparent 60%); }
+.set-card .stamp { position: absolute; top: -18px; right: 24px; background: var(--neon-teal); color: var(--night); font: 400 1.3rem/1 var(--display); letter-spacing: .08em; padding: 8px 14px; transform: rotate(4deg); }
+.set-card h3 { font-size: 3.2rem; }
+.set-card ul { list-style: none; margin: 18px 0 24px; display: grid; gap: 8px; color: var(--muted); }
+.set-card li::before { content: "＋ "; color: var(--neon-red); }
+.set-card .price { font-size: 3.4rem; }
+
+/* Reviews */
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 50px; }
+.review { background: var(--alley); border: 1px solid var(--line); padding: 32px 28px; position: relative; }
+.review::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--c, var(--neon-red)); box-shadow: 0 0 12px var(--c, var(--neon-red)); }
+.review blockquote { font-size: 1.12rem; }
+.review figcaption { margin-top: 18px; color: var(--muted); font-size: .9rem; display: flex; justify-content: space-between; }
+.review figcaption strong { color: var(--text); }
+.review .time { font: 400 1.2rem/1 var(--display); color: var(--neon-teal); letter-spacing: .06em; }
+
+/* FAQ */
+.faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(30px, 6vw, 70px); }
+details { border-bottom: 1px solid var(--line); }
+summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 18px; min-height: 44px; padding: 20px 0; font-weight: 700; font-size: 1.15rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font: 400 2rem/1 var(--display); color: var(--neon-red); transition: transform .25s; }
+details[open] summary::after { transform: rotate(45deg); }
+details p { color: var(--muted); padding-bottom: 22px; max-width: 60ch; }
+
+/* Contact */
+.contact { background: var(--alley); border-top: 1px solid var(--line); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 70px); }
+.hours { margin-top: 28px; border: 1px solid var(--line); }
+.hours div { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.hours div:last-child { border-bottom: 0; }
+.hours div span:last-child { color: var(--lantern); font-weight: 600; }
+.reach { margin-top: 26px; display: grid; gap: 10px; }
+.reach a, .reach p { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; text-decoration: none; color: var(--text); }
+.reach a:hover { color: var(--neon-teal); }
+.reach svg { width: 20px; height: 20px; color: var(--neon-red); flex-shrink: 0; }
+form { background: var(--night); border: 1px solid var(--line); padding: clamp(24px, 4vw, 40px); display: grid; gap: 18px; }
+form h3 { font-size: 2.4rem; }
+.field { display: grid; gap: 8px; }
+.field label { font-size: .82rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.field input, .field textarea, .field select { font: inherit; color: var(--text); background: var(--wall); border: 1px solid rgba(255, 255, 255, .16); padding: 13px 15px; min-height: 50px; width: 100%; }
+.field textarea { min-height: 120px; resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus { outline: 2px solid var(--neon-teal); outline-offset: 0; border-color: transparent; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+footer.site { padding: 46px 0 34px; border-top: 1px solid var(--line); color: var(--muted); }
+.foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+footer.site ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0 18px; }
+footer.site ul a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; text-decoration: none; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; font-size: .85rem; }
+footer.site ul a:hover { color: var(--neon-teal); }
+footer.site small { display: block; margin-top: 20px; font-size: .85rem; }
+
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--d, 0s); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+@media (max-width: 960px) {
+  .burger { display: grid; place-items: center; }
+  .open-chip { display: none; }
+  .nav ul { position: absolute; top: 72px; left: 0; right: 0; flex-direction: column; align-items: stretch; background: var(--night); border-bottom: 1px solid var(--line); padding: 10px 20px 24px; display: none; }
+  .nav ul.open { display: flex; }
+  .nav ul .btn { margin: 10px 0 0; }
+  .hero-grid, .extras, .faq-grid, .contact-grid { grid-template-columns: 1fr; }
+  .sign-wrap { margin-top: 70px; }
+  .features, .reviews, .order { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .row2 { grid-template-columns: 1fr; }
+  .hero-cta .btn { flex: 1 1 100%; }
+  .sign { padding: 26px 18px 22px; gap: 16px; }
+  .tube-sub { letter-spacing: .26em; }
+  .lantern { width: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; }
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="bowl" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="96" fill="#1b1720"/>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#e11d48" stroke-width="5"/>
+      <circle cx="100" cy="100" r="84" fill="none" stroke="#f4efe8" stroke-width="1.5" stroke-dasharray="6 6" opacity=".25"/>
+      <circle cx="100" cy="100" r="78" fill="currentColor"/>
+      <g fill="none" stroke="#f3d27a" stroke-width="5" stroke-linecap="round" opacity=".95">
+        <path d="M44 112c10-8 18 8 28 0s18 8 28 0 18 8 28 0"/>
+        <path d="M50 128c10-8 18 8 28 0s18 8 28 0 18 8 28 0"/>
+        <path d="M62 144c10-8 18 8 28 0s18 8 28 0"/>
+      </g>
+      <g transform="rotate(-18 120 66)"><rect x="96" y="44" width="54" height="42" rx="12" fill="#c98a5a"/><path d="M104 54c12 4 26 4 38 0M104 66c12 4 26 4 38 0M104 76c12 3 26 3 36 0" stroke="#8a4f2c" stroke-width="3" fill="none"/></g>
+      <g transform="translate(66 70)"><ellipse rx="19" ry="15" fill="#fff8ec"/><ellipse rx="10" ry="8" cy="1" fill="#f59e0b"/><ellipse rx="5" ry="3.5" cx="-2" cy="0" fill="#fbbf24"/></g>
+      <rect x="128" y="96" width="34" height="46" rx="3" fill="#1e2b22" transform="rotate(12 145 119)"/>
+      <g fill="#7ad36a"><circle cx="90" cy="96" r="4"/><circle cx="102" cy="90" r="3.5"/><circle cx="96" cy="104" r="3"/><circle cx="110" cy="100" r="4"/><circle cx="84" cy="88" r="3"/></g>
+      <g fill="#fff" opacity=".12"><ellipse cx="70" cy="136" rx="10" ry="5"/><ellipse cx="130" cy="74" rx="7" ry="4"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo">Yokocho <b aria-hidden="true">横丁</b></a>
+    <span class="open-chip"><i aria-hidden="true"></i>Open 6PM – 3AM</span>
+    <nav aria-label="Main">
+      <button class="burger" aria-expanded="false" aria-controls="menu-links" aria-label="Open menu"><span></span></button>
+      <ul id="menu-links">
+        <li><a href="#bar">The bar</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#extras">Sides</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#find">Find us</a></li>
+        <li><a href="#find" class="btn btn-primary">Join the line</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="reveal">
+        <span class="tag">Alley 7 · Twelve seats · Walk-ins</span>
+        <h1 id="hero-title">Slurp till <span>3AM.</span></h1>
+        <p>Forty-eight-hour pork bone broth, noodles cut every afternoon and a neon counter that stays lit long after the rest of the city goes quiet.</p>
+        <div class="hero-cta">
+          <a href="#menu" class="btn btn-primary">See the menu</a>
+          <a href="#find" class="btn btn-ghost">Find the alley</a>
+        </div>
+        <ul class="hero-facts">
+          <li><strong>48h</strong> broth</li>
+          <li><strong>12</strong> counter seats</li>
+          <li><strong>$15</strong> bowls from</li>
+        </ul>
+      </div>
+      <div class="sign-wrap" id="sign" aria-hidden="true">
+        <div class="lanterns">
+          <svg class="lantern" viewBox="0 0 60 110"><path d="M30 0v16" stroke="#3a3344" stroke-width="2"/><rect x="18" y="14" width="24" height="8" rx="2" fill="#2a2433"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="#e11d48"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="url(#lg)"/><path d="M6 46h48M5 58h50M6 70h48" stroke="#7f1027" stroke-width="1.5" opacity=".6"/><rect x="18" y="92" width="24" height="8" rx="2" fill="#2a2433"/><path d="M26 100v10M34 100v10" stroke="#ffb347" stroke-width="1.5"/><defs><radialGradient id="lg" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".75"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient></defs></svg>
+          <svg class="lantern" viewBox="0 0 60 110"><path d="M30 0v16" stroke="#3a3344" stroke-width="2"/><rect x="18" y="14" width="24" height="8" rx="2" fill="#2a2433"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="#e11d48"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="url(#lg)"/><path d="M6 46h48M5 58h50M6 70h48" stroke="#7f1027" stroke-width="1.5" opacity=".6"/><rect x="18" y="92" width="24" height="8" rx="2" fill="#2a2433"/><path d="M26 100v10M34 100v10" stroke="#ffb347" stroke-width="1.5"/></svg>
+          <svg class="lantern" viewBox="0 0 60 110"><path d="M30 0v16" stroke="#3a3344" stroke-width="2"/><rect x="18" y="14" width="24" height="8" rx="2" fill="#2a2433"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="#e11d48"/><ellipse cx="30" cy="58" rx="26" ry="36" fill="url(#lg)"/><path d="M6 46h48M5 58h50M6 70h48" stroke="#7f1027" stroke-width="1.5" opacity=".6"/><rect x="18" y="92" width="24" height="8" rx="2" fill="#2a2433"/><path d="M26 100v10M34 100v10" stroke="#ffb347" stroke-width="1.5"/></svg>
+        </div>
+        <div class="sign">
+          <span class="tube-v jp flicker-a">ラーメン</span>
+          <div>
+            <span class="tube-h flicker-b"><span class="buzz">YOKO</span>CHO</span>
+            <span class="tube-sub flicker-c">Ramen · Beer · Late</span>
+          </div>
+          <svg class="bowl-neon flicker-c" viewBox="0 0 300 70"><path d="M60 26h180c-6 26-40 40-90 40S66 52 60 26z"/><line x1="100" y1="4" x2="150" y2="22"/><line x1="112" y1="0" x2="160" y2="20"/><path d="M130 18c4-6 0-10 4-16M170 18c4-6 0-10 4-16"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bar" aria-labelledby="bar-title">
+    <div class="wrap">
+      <div class="reveal"><span class="tag">The counter</span><h2 id="bar-title">Small bar. Big broth.</h2><p class="lead">We do one thing until three in the morning: deep, glossy bowls of ramen, served across a cedar counter by the people who made them.</p></div>
+      <div class="features">
+        <article class="feature reveal"><span class="big" aria-hidden="true">48</span>
+          <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 20h32c-1 10-7 18-16 18S7 30 6 20z"/><path d="M15 6c-3 4 3 6 0 10M22 4c-3 4 3 6 0 10M29 6c-3 4 3 6 0 10"/></svg>
+          <h3>48-hour broth</h3><p>Pork bones rolled at a hard boil for two days until the stock turns creamy, rich and impossibly deep.</p></article>
+        <article class="feature reveal" style="--d:.1s"><span class="big" aria-hidden="true">03</span>
+          <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 12c6-4 10 4 16 0s10 4 16 0M4 22c6-4 10 4 16 0s10 4 16 0M4 32c6-4 10 4 16 0s10 4 16 0"/></svg>
+          <h3>Noodles cut daily</h3><p>Three noodle types made in-house every afternoon: thin and straight, wavy, and thick for dipping.</p></article>
+        <article class="feature reveal" style="--d:.2s"><span class="big" aria-hidden="true">3AM</span>
+          <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M34 28A14 14 0 1 1 18 8a11 11 0 0 0 16 20z"/></svg>
+          <h3>Open till 3AM</h3><p>Kitchen open until 2:30, seven nights a week. Last call for beer and highballs at 2:45.</p></article>
+      </div>
+      <ol class="order" aria-label="How to order">
+        <li class="reveal"><div><strong>Grab a ticket</strong><span>Pick your bowl at the vending machine by the door. Cards and cash welcome.</span></div></li>
+        <li class="reveal" style="--d:.1s"><div><strong>Choose your firmness</strong><span>Tell the chef: soft, regular, firm or <em>barikata</em> extra-firm noodles.</span></div></li>
+        <li class="reveal" style="--d:.2s"><div><strong>Slurp loudly</strong><span>It cools the noodles and it's a compliment. Kae-dama refills are $2.</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="menu" class="menu" aria-labelledby="menu-title">
+    <div class="wrap menu-head">
+      <div class="reveal"><span class="tag">Tonight's bowls</span><h2 id="menu-title">The menu rail</h2><p class="rail-hint">Scroll sideways, use the arrows, or focus the rail and use your arrow keys.</p></div>
+      <div class="rail-ctrl"><button type="button" id="prev" aria-label="Previous dishes" aria-controls="rail">←</button><button type="button" id="next" aria-label="Next dishes" aria-controls="rail">→</button></div>
+    </div>
+    <div class="rail" id="rail" tabindex="0" role="region" aria-label="Ramen menu, scrolls horizontally">
+      <article class="dish">
+        <div class="dish-art"><span class="no">01</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#f1e2c6"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">豚骨</span><h3 class="card-title">Classic Tonkotsu</h3><p>48-hour pork broth, thin noodles, chashu, ajitama egg, wood-ear and black garlic oil.</p><div class="dish-foot"><span class="price">$17</span><small>House favourite</small></div></div>
+      </article>
+      <article class="dish">
+        <div class="dish-art"><span class="no">02</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#9a5a2a"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">醤油</span><h3 class="card-title">Tokyo Shoyu</h3><p>Clear chicken and dashi broth, aged soy tare, wavy noodles, menma and charred leek.</p><div class="dish-foot"><span class="price">$16</span><small>Light &amp; savoury</small></div></div>
+      </article>
+      <article class="dish">
+        <div class="dish-art"><span class="no">03</span><span class="hot">Spicy</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#c2361f"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">担々麺</span><h3 class="card-title">Red Lantern Tantanmen</h3><p>Sesame-chilli broth, spiced pork mince, bok choy and a slick of numbing Sichuan pepper oil.</p><div class="dish-foot"><span class="price">$18</span><small>Heat level 3/5</small></div></div>
+      </article>
+      <article class="dish">
+        <div class="dish-art"><span class="no">04</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#c98a3a"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">味噌</span><h3 class="card-title">Hokkaido Miso</h3><p>Blend of three misos, butter, sweetcorn, thick wavy noodles and wok-tossed bean sprouts.</p><div class="dish-foot"><span class="price">$17</span><small>Rich &amp; warming</small></div></div>
+      </article>
+      <article class="dish">
+        <div class="dish-art"><span class="no">05</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#e9d9a0"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">塩</span><h3 class="card-title">Yuzu Shio</h3><p>Sea-salt chicken broth brightened with yuzu, thin noodles, chicken chashu and mitsuba.</p><div class="dish-foot"><span class="price">$15</span><small>Bright &amp; clean</small></div></div>
+      </article>
+      <article class="dish">
+        <div class="dish-art"><span class="no">06</span><svg viewBox="0 0 200 200" aria-hidden="true" style="color:#8aa05a"><use href="#bowl"/></svg></div>
+        <div class="dish-body"><span class="jp">野菜</span><h3 class="card-title">Midnight Garden</h3><p>Vegan shiitake and kombu broth, roasted mushrooms, tofu chashu and chilli crisp.</p><div class="dish-foot"><span class="price">$16</span><small>Vegan</small></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="extras" aria-labelledby="extras-title">
+    <div class="wrap extras">
+      <div class="reveal">
+        <span class="tag">On the side</span>
+        <h2 id="extras-title">Gyoza, karaage, cold beer.</h2>
+        <ul class="sides">
+          <li><span>Crispy gyoza <em>Pork &amp; cabbage, six pieces</em></span><span class="dots" aria-hidden="true"></span><b>$8</b></li>
+          <li><span>Chicken karaage <em>Ginger-soy, yuzu kewpie</em></span><span class="dots" aria-hidden="true"></span><b>$9</b></li>
+          <li><span>Chashu rice bowl <em>Torched pork, pickled ginger</em></span><span class="dots" aria-hidden="true"></span><b>$7</b></li>
+          <li><span>Draft lager <em>Crisp, ice-cold, 16oz</em></span><span class="dots" aria-hidden="true"></span><b>$7</b></li>
+          <li><span>Yuzu highball <em>Whisky, soda, yuzu peel</em></span><span class="dots" aria-hidden="true"></span><b>$11</b></li>
+        </ul>
+      </div>
+      <div class="set-card reveal" style="--d:.15s">
+        <span class="stamp">After midnight</span>
+        <span class="tag">Night owl set</span>
+        <h3>Bowl + gyoza + beer</h3>
+        <ul><li>Any ramen from the rail</li><li>Three crispy gyoza</li><li>Draft lager or yuzu soda</li></ul>
+        <span class="price">$24</span>
+        <p class="lead" style="margin-top:8px;font-size:.95rem">Served midnight to close, every night.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="rev-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="reveal"><span class="tag">Overheard at the counter</span><h2 id="rev-title">2AM reviews</h2></div>
+      <div class="reviews">
+        <figure class="review reveal"><blockquote>“The tonkotsu is basically a hug in a bowl. I've stopped pretending I come here for anything else.”</blockquote><figcaption><strong>Kenji</strong><span class="time">01:47</span></figcaption></figure>
+        <figure class="review reveal" style="--d:.1s;--c:var(--neon-teal)"><blockquote>“Finished a night shift, walked into the glow, left with a tantanmen-induced smile.”</blockquote><figcaption><strong>Rosa</strong><span class="time">02:31</span></figcaption></figure>
+        <figure class="review reveal" style="--d:.2s;--c:var(--lantern)"><blockquote>“Twelve seats, zero pretence and the best vegan ramen I've had outside Tokyo.”</blockquote><figcaption><strong>Dev</strong><span class="time">23:15</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div class="reveal"><span class="tag">Before you queue</span><h2 id="faq-title">Good to know</h2></div>
+      <div class="reveal" style="--d:.1s">
+        <details open><summary>Do you take reservations?</summary><p>We're walk-in only for the counter. Groups of 6 to 12 can book the whole bar from 6 to 8pm by emailing us.</p></details>
+        <details><summary>How long is the wait?</summary><p>Usually 10 to 20 minutes after 10pm on weekends. Leave your number at the door and we'll text you when a seat opens.</p></details>
+        <details><summary>Vegan or gluten-free options?</summary><p>Midnight Garden is fully vegan. Gluten-free rice noodles can be swapped into any bowl for $1.</p></details>
+        <details><summary>Can I order takeaway?</summary><p>Yes. Broth and noodles are packed separately so nothing goes soggy on the way home.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="find" class="contact" aria-labelledby="find-title">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <span class="tag">Find the alley</span>
+        <h2 id="find-title">Follow the red lanterns.</h2>
+        <p class="lead">Turn into Lantern Alley off 4th Street, walk past the record shop and look for the teal glow.</p>
+        <div class="hours">
+          <div><span>Mon – Thu</span><span>6PM – 1AM</span></div>
+          <div><span>Fri – Sat</span><span>6PM – 3AM</span></div>
+          <div><span>Sunday</span><span>5PM – Midnight</span></div>
+        </div>
+        <div class="reach">
+          <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-7 7-12a7 7 0 0 0-14 0c0 5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>7 Lantern Alley, Downtown, Seattle WA 98104</p>
+          <a href="mailto:slurp@example.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg>slurp@example.com</a>
+          <a href="tel:+15550193030"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>+1 555 019 3030</a>
+        </div>
+      </div>
+      <form class="reveal" style="--d:.1s" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <h3>Book the bar or say hi</h3>
+        <div class="row2">
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="field"><label for="reason">About</label><select id="reason" name="reason"><option>Private bar booking</option><option>Takeaway catering</option><option>Feedback</option><option>Other</option></select></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+        <button class="btn btn-primary" type="submit">Send it</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot">
+      <a href="#" class="logo">Yokocho <b aria-hidden="true">横丁</b></a>
+      <nav aria-label="Footer"><ul><li><a href="#menu">Menu</a></li><li><a href="#extras">Sides</a></li><li><a href="#faq">FAQ</a></li><li><a href="#find">Find us</a></li></ul></nav>
+    </div>
+    <small>© <span id="yr">2026</span> Yokocho Ramen. Slurping responsibly since 2019.</small>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var burger = document.querySelector('.burger'), menu = document.getElementById('menu-links');
+  function setMenu(open) { burger.setAttribute('aria-expanded', open); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); menu.classList.toggle('open', open); }
+  burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') { setMenu(false); burger.focus(); } });
+
+  // Menu rail: arrow buttons + keyboard
+  var rail = document.getElementById('rail'), prev = document.getElementById('prev'), next = document.getElementById('next');
+  function step() { var d = rail.querySelector('.dish'); return d ? d.getBoundingClientRect().width + 22 : 300; }
+  function go(dir) { rail.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' }); }
+  function update() { prev.disabled = rail.scrollLeft < 4; next.disabled = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4; }
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  rail.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+  var ticking = false;
+  rail.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { update(); ticking = false; }); } }, { passive: true });
+  addEventListener('resize', update); update();
+
+  // Reveals + pause neon loops when off-screen
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) { els.forEach(function (el) { el.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function (el) { io.observe(el); });
+  var sign = document.getElementById('sign');
+  function vis(on) { sign.classList.toggle('paused', !on || document.hidden); }
+  var onScreen = true;
+  new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; vis(onScreen); }).observe(sign);
+  document.addEventListener('visibilitychange', function () { vis(onScreen); });
+})();
+</script>
+</body>
+</html>

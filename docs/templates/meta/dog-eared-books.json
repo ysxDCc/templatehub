@@ -1,0 +1,16 @@
+{
+  "id": "dog-eared-books",
+  "name": "Dog-Eared Books",
+  "description": "Independent bookshop & café template with staff-pick book covers that swing open in 3D to reveal handwritten-style bookseller notes.",
+  "category": "e-commerce",
+  "tier": "free",
+  "logo": "📚 DOG-EARED",
+  "tags": ["Bookshop", "Café", "Events", "Library Tones", "Page Flip"],
+  "features": [
+    "Six illustrated CSS/SVG book covers that open on hover or keyboard focus",
+    "Pausable marquee of staff-pick one-liners with a dedicated pause button",
+    "Chalkboard café menu and due-date-stamp events list",
+    "Library-card styled contact form with topic selector"
+  ],
+  "signature": "Book covers open like a real book in 3D on hover/focus; staff-pick one-liners drift past in a slow marquee that pauses on hover"
+}

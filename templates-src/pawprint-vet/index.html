@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pawprint Vet Clinic — Friendly veterinary care for pets &amp; their people</title>
+<meta name="description" content="Pawprint Vet Clinic is a friendly neighbourhood veterinary practice offering wellness exams, vaccinations, dental care, surgery and same-day urgent appointments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#0f766e;
+  --teal-deep:#134e4a;
+  --teal-soft:#ccede8;
+  --sun:#ffd23f;
+  --sun-soft:#fff1c2;
+  --peach:#ffe3d3;
+  --warm:#fffaf2;
+  --ink:#16302e;
+  --muted:#4a605d;
+  --round:'Fredoka','Nunito','Segoe UI',system-ui,sans-serif;
+  --sans:'Nunito','Segoe UI',system-ui,sans-serif;
+  --r:28px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:17px;line-height:1.65;color:var(--ink);background:var(--warm);overflow-x:hidden}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--round);font-weight:700;line-height:1.1;margin:0 0 .45em;color:var(--teal-deep)}
+h2{font-size:clamp(2rem,4.4vw,3.1rem)}
+p{margin:0 0 1em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.pill{display:inline-flex;align-items:center;gap:8px;background:var(--sun-soft);color:var(--teal-deep);font-weight:800;font-size:.85rem;padding:6px 14px;border-radius:999px;margin-bottom:16px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--teal-deep);color:#fff;padding:10px 16px;z-index:200;border-radius:12px}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:10px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:52px;padding:0 1.6em;border-radius:999px;font:700 1.05rem var(--round);text-decoration:none;cursor:pointer;
+  border:3px solid var(--teal-deep);color:var(--teal-deep);background:#fff;transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 6px 0 var(--teal-deep)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{box-shadow:0 6px 0 var(--teal-deep)}
+
+/* header */
+.topbar{background:var(--teal-deep);color:#e6f6f3;font-size:.9rem;text-align:center;padding:8px 16px}
+.topbar a{color:var(--sun);font-weight:800}
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.94);backdrop-filter:blur(8px);border-bottom:2px solid rgba(19,78,74,.08)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--round);font-weight:700;font-size:1.45rem;color:var(--teal-deep);text-decoration:none;min-height:44px}
+.logo .mark{width:42px;height:42px;border-radius:50%;background:var(--sun);display:grid;place-items:center}
+.logo .mark svg{width:24px;height:24px}
+.nav ul{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;color:var(--ink);font-weight:800;padding:12px 14px;border-radius:999px;display:inline-block;min-height:44px}
+.nav ul a:hover{background:var(--teal-soft)}
+.nav .btn{min-height:48px}
+.nav ul a.btn-primary{color:#fff;background:var(--accent)}
+.menu-btn{display:none;width:52px;height:52px;border-radius:50%;border:0;background:var(--sun);cursor:pointer;position:relative}
+.menu-btn i,.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:15px;width:22px;height:3px;border-radius:2px;background:var(--teal-deep);transition:transform .25s}
+.menu-btn i{top:25px}.menu-btn i::before{left:0;top:-7px}.menu-btn i::after{left:0;top:7px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:70px 0 190px}
+.hero::before{content:"";position:absolute;right:-12%;top:-30%;width:70%;aspect-ratio:1;border-radius:46% 54% 42% 58%/55% 45% 55% 45%;background:var(--sun);opacity:.55;z-index:0}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(2.6rem,6vw,4.6rem);line-height:1.02}
+.hero h1 mark{background:linear-gradient(transparent 58%,var(--sun) 58% 92%,transparent 92%);color:inherit;padding:0 .08em}
+.hero p{font-size:1.2rem;color:var(--muted);max-width:31em}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0 26px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;font-weight:800;color:var(--teal-deep);font-size:.95rem;list-style:none;padding:0;margin:0}
+.trust li::before{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;margin-right:8px}
+.pets{position:relative;max-width:520px;margin-left:auto;width:100%}
+.pets svg{width:100%;height:auto;filter:drop-shadow(0 24px 30px rgba(19,78,74,.18))}
+.bubble{position:absolute;background:#fff;border-radius:20px;padding:12px 16px;font-weight:800;font-size:.92rem;box-shadow:0 12px 30px -10px rgba(19,78,74,.35);display:flex;gap:10px;align-items:center;color:var(--teal-deep)}
+.bubble span{font-size:1.3rem}
+.bubble.b1{left:-6%;top:0}
+.bubble.b2{right:-2%;bottom:10%}
+.trail{position:absolute;left:0;right:0;bottom:46px;height:100px;z-index:1;pointer-events:none}
+.paw{position:absolute;width:34px;height:34px;color:var(--accent);opacity:.18;animation:step 7s ease-in-out infinite;animation-delay:calc(var(--i) * .42s)}
+.paw svg{width:100%;height:100%;transform:rotate(var(--rot,80deg))}
+@keyframes step{0%{opacity:0;transform:scale(.4)}5%{opacity:.85;transform:scale(1.12)}9%{transform:scale(1)}45%{opacity:.85}62%,100%{opacity:0;transform:scale(1)}}
+.hero.off .paw{animation-play-state:paused}
+
+/* stats band */
+.band{background:var(--teal-deep);color:#fff;border-radius:var(--r);margin-top:-40px;position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);padding:30px 20px}
+.band div{text-align:center;padding:6px 10px;border-right:2px dashed rgba(255,255,255,.18)}
+.band div:last-child{border:0}
+.band b{display:block;font-family:var(--round);font-size:2.3rem;color:var(--sun);line-height:1.1}
+.band span{font-size:.92rem;color:#d4ece8}
+
+section{scroll-margin-top:90px}
+.block{padding:110px 0}
+.head{max-width:680px;margin-bottom:50px}
+.head p{color:var(--muted);font-size:1.1rem}
+.center{text-align:center;margin-inline:auto}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.svc{background:#fff;border-radius:var(--r);padding:30px 28px;border:3px solid transparent;display:flex;flex-direction:column;transition:border-color .2s;position:relative}
+.svc:hover,.svc:focus-within{border-color:var(--sun)}
+.svc:hover .ic,.svc:focus-within .ic,.svc:hover h3,.svc:focus-within h3{animation:wiggle .7s ease-in-out}
+.svc:hover,.svc:focus-within{animation:wiggle-card .7s ease-in-out}
+@keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-9deg)}40%{transform:rotate(7deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(2deg)}}
+@keyframes wiggle-card{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.2deg)}50%{transform:rotate(1deg)}75%{transform:rotate(-.5deg)}}
+.svc .ic{width:70px;height:70px;border-radius:24px;background:var(--sun-soft);display:grid;place-items:center;margin-bottom:18px}
+.svc:nth-child(3n+2) .ic{background:var(--teal-soft)}
+.svc:nth-child(3n+3) .ic{background:var(--peach)}
+.svc .ic svg{width:38px;height:38px}
+.svc h3{font-size:1.45rem;margin-bottom:.3em;display:inline-block;transform-origin:left center}
+.svc p{color:var(--muted);flex:1}
+.svc .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+.price{font-family:var(--round);font-weight:700;font-size:1.5rem;color:var(--accent)}
+.price small{font-size:.8rem;color:var(--muted);font-family:var(--sans);font-weight:600;margin-right:4px}
+.svc a.more{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;background:var(--teal-soft);color:var(--teal-deep);font-weight:800;text-decoration:none}
+.svc a.more:hover{background:var(--sun)}
+
+/* new patient steps */
+.steps-sec{background:var(--teal-soft);border-radius:48px;margin:0 16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;counter-reset:st;list-style:none;margin:0;padding:0}
+.steps li{background:var(--warm);border-radius:var(--r);padding:30px 28px 28px;position:relative;counter-increment:st}
+.steps li::before{content:counter(st);position:absolute;top:-22px;left:24px;width:48px;height:48px;border-radius:50%;background:var(--sun);display:grid;place-items:center;font-family:var(--round);font-weight:700;font-size:1.4rem;color:var(--teal-deep);border:4px solid var(--teal-soft)}
+.steps h3{font-size:1.3rem;margin-top:10px}
+.steps p{color:var(--muted);margin:0}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.vet{text-align:center;background:#fff;border-radius:var(--r);padding:30px 24px}
+.vet svg{width:150px;height:150px;margin:0 auto 16px}
+.vet h3{font-size:1.35rem;margin-bottom:.1em}
+.vet .role{color:var(--accent);font-weight:800;margin-bottom:.6em}
+.vet p{color:var(--muted);margin:0;font-size:.98rem}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.review{margin:0;background:#fff;border-radius:var(--r);padding:30px;position:relative}
+.review:nth-child(2){background:var(--sun-soft);transform:translateY(24px)}
+.review blockquote{margin:0 0 16px;font-size:1.08rem}
+.review figcaption{display:flex;align-items:center;gap:12px;font-weight:800}
+.review figcaption span.av{width:46px;height:46px;border-radius:50%;background:var(--teal-soft);display:grid;place-items:center;font-size:1.4rem}
+.review figcaption small{display:block;font-weight:600;color:var(--muted)}
+.stars{color:#b7791f;letter-spacing:2px;margin-bottom:10px;font-size:1.1rem}
+
+/* faq + hours */
+.faq-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:start}
+.faq details{background:#fff;border-radius:22px;margin-bottom:12px;padding:0 24px}
+.faq summary{list-style:none;cursor:pointer;padding:20px 44px 20px 0;font-family:var(--round);font-weight:600;font-size:1.15rem;color:var(--teal-deep);position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:var(--sun);display:grid;place-items:center;font-size:1.3rem;transition:transform .25s}
+.faq details[open] summary::after{content:"–"}
+.faq details p{color:var(--muted);padding-bottom:18px;margin:0}
+.hours{background:var(--teal-deep);color:#fff;border-radius:var(--r);padding:32px}
+.hours h3{color:#fff;font-size:1.5rem}
+.hours table{width:100%;border-collapse:collapse}
+.hours td{padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.2)}
+.hours td:last-child{text-align:right;font-weight:800}
+.hours .emer{margin-top:20px;background:var(--sun);color:var(--teal-deep);border-radius:18px;padding:16px 18px;font-weight:800}
+.hours .emer a{color:var(--teal-deep)}
+
+/* contact */
+.contact{background:#fff;border-radius:48px;margin:0 16px}
+.contact-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px}
+.c-list{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:14px}
+.c-list li{display:flex;gap:14px;align-items:center}
+.c-list .ic{width:48px;height:48px;border-radius:16px;background:var(--sun-soft);display:grid;place-items:center;flex:none;font-size:1.3rem}
+.c-list small{display:block;color:var(--muted);font-weight:600}
+form.appt{background:var(--warm);border-radius:var(--r);padding:34px;border:3px dashed var(--teal-soft)}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:800;margin-bottom:6px;color:var(--teal-deep)}
+.field input,.field select,.field textarea{width:100%;font:inherit;padding:12px 16px;border-radius:16px;border:2px solid #e6dccb;background:#fff;color:var(--ink);min-height:50px}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--teal-soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+footer.site{padding:56px 0 36px;margin-top:90px;background:var(--teal-deep);color:#d4ece8}
+.foot{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+footer.site .logo{color:#fff}
+footer.site a{color:#fff;text-decoration:none;display:inline-block;padding:10px 8px}
+footer.site nav a:hover{color:var(--sun)}
+
+.js .reveal{opacity:0;transform:translateY(28px) scale(.98);transition:opacity .7s ease,transform .7s cubic-bezier(.3,1.3,.5,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-grid,.faq-grid,.contact-grid{grid-template-columns:1fr}
+  .pets{margin:10px auto 0;max-width:440px}
+  .services,.team,.reviews{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr;gap:40px}
+  .review:nth-child(2){transform:none}
+}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;top:84px;left:16px;right:16px;flex-direction:column;align-items:stretch;background:#fff;border-radius:24px;padding:14px;box-shadow:0 24px 40px rgba(19,78,74,.2)}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:14px 18px}
+  .band{grid-template-columns:repeat(2,1fr);gap:16px 0}
+  .band div:nth-child(2){border:0}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  .block{padding:76px 0}
+  .services,.team,.reviews{grid-template-columns:1fr}
+  .steps-sec,.contact{margin:0 8px;border-radius:32px}
+  .two{grid-template-columns:1fr}
+  form.appt{padding:24px 18px}
+  .bubble{font-size:.8rem;padding:8px 12px}
+  .bubble.b1{left:0;top:4%}.bubble.b2{right:0;bottom:4%}
+  .paw{width:24px;height:24px}
+  .band b{font-size:1.8rem}
+  .hero::before{width:120%;right:-50%;top:-10%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .js .reveal{opacity:1;transform:none}
+  .paw{opacity:.22}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="topbar">Same-day sick visits available · <a href="tel:+15550148822">Call +1 555 014 8822</a></div>
+<header class="site">
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="mark" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="#134e4a"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>Pawprint Vet</a>
+    <nav aria-label="Main">
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu"><i></i></button>
+      <ul id="nav-list">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#team">Our vets</a></li>
+        <li><a href="#new">New patients</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#contact">Book a visit</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="trail" aria-hidden="true">
+    <span class="paw" style="--i:0;left:2%;bottom:12%;--rot:70deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:1;left:9%;bottom:50%;--rot:80deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:2;left:17%;bottom:12%;--rot:76deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:3;left:25%;bottom:50%;--rot:86deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:4;left:33%;bottom:12%;--rot:82deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:5;left:41%;bottom:50%;--rot:92deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:6;left:50%;bottom:12%;--rot:96deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:7;left:58%;bottom:50%;--rot:100deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:8;left:66%;bottom:12%;--rot:94deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:9;left:74%;bottom:50%;--rot:84deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:10;left:82%;bottom:12%;--rot:70deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+    <span class="paw" style="--i:11;left:90%;bottom:50%;--rot:62deg"><svg viewBox="0 0 40 40"><g fill="currentColor"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>
+  </div>
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="pill">🐾 Now welcoming new patients</span>
+      <h1 id="hero-title">Big care for small <mark>(and not-so-small)</mark> friends.</h1>
+      <p>Pawprint is a neighbourhood vet clinic for dogs, cats, rabbits and the occasional tortoise. Gentle hands, clear prices and vets who explain everything — twice if you like.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#contact">Book an appointment</a>
+        <a class="btn" href="#services">See services &amp; prices</a>
+      </div>
+      <ul class="trust">
+        <li>Low-stress handling</li>
+        <li>Open 7 days</li>
+        <li>Transparent pricing</li>
+      </ul>
+    </div>
+    <div class="pets reveal" aria-hidden="true">
+      <svg viewBox="0 0 500 460">
+        <circle cx="250" cy="240" r="200" fill="#ccede8"/>
+        <circle cx="250" cy="240" r="200" fill="none" stroke="#0f766e" stroke-width="4" stroke-dasharray="2 14" stroke-linecap="round"/>
+        <!-- dog -->
+        <g>
+          <path d="M120 170c-30 10-46 70-30 110 10 22 34 10 40-10z" fill="#8a5a3c"/>
+          <path d="M300 170c30 10 46 70 30 110-10 22-34 10-40-10z" fill="#8a5a3c"/>
+          <ellipse cx="210" cy="240" rx="100" ry="110" fill="#e0a872"/>
+          <ellipse cx="210" cy="300" rx="62" ry="50" fill="#fbe3c4"/>
+          <circle cx="172" cy="226" r="11" fill="#16302e"/><circle cx="248" cy="226" r="11" fill="#16302e"/>
+          <circle cx="176" cy="222" r="3.5" fill="#fff"/><circle cx="252" cy="222" r="3.5" fill="#fff"/>
+          <ellipse cx="210" cy="276" rx="20" ry="14" fill="#16302e"/>
+          <path d="M210 290v14M210 304c-10 12-24 10-30 2M210 304c10 12 24 10 30 2" stroke="#16302e" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M200 322c4 16 16 16 20 0z" fill="#f47c7c"/>
+          <path d="M126 350c30 22 140 22 168 0v40H126z" fill="#0f766e"/>
+          <circle cx="210" cy="372" r="13" fill="#ffd23f"/>
+        </g>
+        <!-- cat -->
+        <g>
+          <path d="M318 196l12-56 36 38zM420 196l-12-56-36 38z" fill="#4a4f5a"/>
+          <path d="M326 186l8-30 18 20zM412 186l-8-30-18 20z" fill="#f2a7a7"/>
+          <ellipse cx="369" cy="240" rx="66" ry="62" fill="#5b616d"/>
+          <path d="M340 200q6 10 0 20M369 192v20M398 200q-6 10 0 20" stroke="#4a4f5a" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="346" cy="242" rx="9" ry="11" fill="#ffd23f"/><ellipse cx="392" cy="242" rx="9" ry="11" fill="#ffd23f"/>
+          <ellipse cx="346" cy="243" rx="3" ry="8" fill="#16302e"/><ellipse cx="392" cy="243" rx="3" ry="8" fill="#16302e"/>
+          <path d="M362 264h14l-7 8z" fill="#f2a7a7"/>
+          <path d="M369 272c-4 8-12 8-16 4M369 272c4 8 12 8 16 4M330 262l-30-4M330 270l-30 6M408 262l30-4M408 270l30 6" stroke="#e8ecf0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- stethoscope -->
+        <path d="M80 110c0 40 20 60 50 60s50-20 50-60" stroke="#134e4a" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <circle cx="130" cy="190" r="14" fill="#ffd23f" stroke="#134e4a" stroke-width="6"/>
+        <path d="M130 170v6" stroke="#134e4a" stroke-width="6"/>
+      </svg>
+      <div class="bubble b1"><span>🩺</span>Next slot: today 3:40pm</div>
+      <div class="bubble b2"><span>💛</span>4.9 from 1,300+ pet parents</div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="band reveal" role="list" aria-label="Clinic at a glance">
+    <div role="listitem"><b>18 yrs</b><span>caring for local pets</span></div>
+    <div role="listitem"><b>6 vets</b><span>&amp; 11 nurses</span></div>
+    <div role="listitem"><b>7 days</b><span>a week, incl. evenings</span></div>
+    <div role="listitem"><b>15 min</b><span>average wait time</span></div>
+  </div>
+</div>
+
+<section class="block" id="services" aria-labelledby="svc-title">
+  <div class="wrap">
+    <div class="head center reveal"><span class="pill">Services &amp; prices</span><h2 id="svc-title">Everything your pet needs, under one roof</h2><p>No surprise bills: we give you a written estimate before any treatment, and prices below include a full consult.</p></div>
+    <div class="services">
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 22c0-8 6-14 12-14s12 6 12 14-6 12-12 12S8 30 8 22z" fill="none" stroke="#134e4a" stroke-width="3"/><path d="M14 22h4l2-4 3 8 2-4h3" stroke="#0f766e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3 class="card-title">Wellness exam</h3><p>A nose-to-tail check-up, weight and diet review, and plenty of time for your questions.</p><div class="row"><span class="price">$65</span><a class="more" href="#contact">Book</a></div></article>
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M26 6l8 8M30 10L14 26l-4-4L26 6zM10 22l-4 4 8 8 4-4M8 32l-4 4" stroke="#134e4a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16l4 4" stroke="#0f766e" stroke-width="3"/></svg></div><h3 class="card-title">Vaccinations</h3><p>Core and lifestyle vaccines for puppies, kittens and grown-ups, with free reminder texts.</p><div class="row"><span class="price"><small>from</small>$35</span><a class="more" href="#contact">Book</a></div></article>
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 10c4-4 8-2 10 0 2-2 6-4 10 0 3 4 1 10 0 14l-2 10c-1 2-3 2-4 0l-2-8h-4l-2 8c-1 2-3 2-4 0l-2-10c-1-4-3-10 0-14z" fill="none" stroke="#134e4a" stroke-width="3" stroke-linejoin="round"/></svg></div><h3 class="card-title">Dental care</h3><p>Scale and polish under anaesthetic, dental X-rays and a take-home brushing plan.</p><div class="row"><span class="price"><small>from</small>$240</span><a class="more" href="#contact">Book</a></div></article>
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="8" y="12" width="24" height="20" rx="5" fill="none" stroke="#134e4a" stroke-width="3"/><path d="M15 12V8h10v4M20 17v10M15 22h10" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/></svg></div><h3 class="card-title">Surgery &amp; neutering</h3><p>Modern theatre, dedicated anaesthesia nurse and a cosy recovery ward with live updates.</p><div class="row"><span class="price"><small>from</small>$320</span><a class="more" href="#contact">Book</a></div></article>
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="12" y="8" width="16" height="24" rx="4" fill="none" stroke="#134e4a" stroke-width="3"/><path d="M16 14h8M16 19h8M16 24h5" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/></svg></div><h3 class="card-title">Microchipping</h3><p>A quick, gentle chip plus registration so lost pets find their way home faster.</p><div class="row"><span class="price">$45</span><a class="more" href="#contact">Book</a></div></article>
+      <article class="svc reveal"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 34s-12-7-12-17a7 7 0 0 1 12-5 7 7 0 0 1 12 5c0 10-12 17-12 17z" fill="none" stroke="#134e4a" stroke-width="3" stroke-linejoin="round"/><path d="M20 15v9M15.5 19.5h9" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/></svg></div><h3 class="card-title">Same-day sick visit</h3><p>Vomiting, limping or just “not right”? We keep slots open every day for urgent cases.</p><div class="row"><span class="price">$95</span><a class="more" href="#contact">Book</a></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="block steps-sec" id="new" aria-labelledby="new-title">
+  <div class="wrap">
+    <div class="head reveal"><span class="pill" style="background:#fff">New here?</span><h2 id="new-title">Joining Pawprint takes three easy steps</h2></div>
+    <ol class="steps">
+      <li class="reveal"><h3>Tell us about your pet</h3><p>Fill in the short form below or call the front desk. We’ll request old records for you.</p></li>
+      <li class="reveal"><h3>Come for a meet-and-sniff</h3><p>Your first visit includes a relaxed welcome exam and a treat-filled tour of the clinic.</p></li>
+      <li class="reveal"><h3>Get a care plan</h3><p>Leave with a simple yearly plan for vaccines, parasite control and check-ups — no pressure.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="team" aria-labelledby="team-title">
+  <div class="wrap">
+    <div class="head center reveal"><span class="pill">Meet the vets</span><h2 id="team-title">Friendly faces (and very gentle hands)</h2></div>
+    <div class="team">
+      <article class="vet reveal"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="75" fill="#fff1c2"/><path d="M30 150c0-30 20-46 45-46s45 16 45 46z" fill="#0f766e"/><circle cx="75" cy="66" r="30" fill="#8d5a3b"/><path d="M45 62c0-22 14-34 30-34s30 12 30 34c-8-10-20-14-30-14s-22 4-30 14z" fill="#2b1a12"/><circle cx="64" cy="68" r="3" fill="#16302e"/><circle cx="86" cy="68" r="3" fill="#16302e"/><path d="M66 80q9 7 18 0" stroke="#16302e" stroke-width="3" fill="none" stroke-linecap="round"/></svg><h3>Dr. Amara Okafor</h3><p class="role">Clinical director</p><p>Loves senior dogs, old jazz records and explaining blood results with drawings.</p></article>
+      <article class="vet reveal"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="75" fill="#ccede8"/><path d="M30 150c0-30 20-46 45-46s45 16 45 46z" fill="#134e4a"/><circle cx="75" cy="66" r="30" fill="#f2c9a5"/><path d="M42 72c-4-30 12-44 33-44s36 14 33 44c-4-18-16-24-33-24s-29 6-33 24z" fill="#d98b3a"/><circle cx="64" cy="68" r="3" fill="#16302e"/><circle cx="86" cy="68" r="3" fill="#16302e"/><path d="M66 80q9 7 18 0" stroke="#16302e" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="56" y="62" width="16" height="12" rx="5" fill="none" stroke="#16302e" stroke-width="2"/><rect x="78" y="62" width="16" height="12" rx="5" fill="none" stroke="#16302e" stroke-width="2"/></svg><h3>Dr. Lena Whitfield</h3><p class="role">Feline &amp; dental lead</p><p>Has three rescue cats and an unshakeable belief that every cat can learn to love the carrier.</p></article>
+      <article class="vet reveal"><svg viewBox="0 0 150 150" aria-hidden="true"><circle cx="75" cy="75" r="75" fill="#ffe3d3"/><path d="M30 150c0-30 20-46 45-46s45 16 45 46z" fill="#0f766e"/><circle cx="75" cy="66" r="30" fill="#c58a62"/><path d="M47 56c4-18 16-26 28-26s26 6 28 26c-10-6-18-8-28-8s-18 2-28 8z" fill="#3a2a20"/><path d="M58 88q17 16 34 0v6q-17 14-34 0z" fill="#3a2a20"/><circle cx="64" cy="68" r="3" fill="#16302e"/><circle cx="86" cy="68" r="3" fill="#16302e"/></svg><h3>Dr. Sam Ortega</h3><p class="role">Surgery &amp; exotics</p><p>Our go-to for rabbits, guinea pigs and reptiles — and the clinic’s best whistler.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-labelledby="rev-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="head reveal"><span class="pill">Happy tails</span><h2 id="rev-title">What pet parents say</h2></div>
+    <div class="reviews">
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“Biscuit is terrified of vets, but Dr. Okafor sat on the floor with him for ten minutes first. He walked out wagging.”</blockquote><figcaption><span class="av" aria-hidden="true">🐶</span><span>Jordan<small>&amp; Biscuit, beagle</small></span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“They called me after Miso’s dental surgery with a photo of her napping in a blanket. I nearly cried.”</blockquote><figcaption><span class="av" aria-hidden="true">🐱</span><span>Priyanka<small>&amp; Miso, tabby</small></span></figcaption></figure>
+      <figure class="review reveal"><div class="stars" aria-label="5 out of 5">★★★★★</div><blockquote>“Finally a vet who knows rabbits! Clear estimate, no upselling, and Clover is back to zooming.”</blockquote><figcaption><span class="av" aria-hidden="true">🐰</span><span>Elliot<small>&amp; Clover, lop</small></span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div>
+      <div class="head reveal" style="margin-bottom:30px"><span class="pill">Good to know</span><h2 id="faq-title">Questions, answered</h2></div>
+      <div class="faq reveal">
+        <details><summary>Do you see emergencies?</summary><p>We see urgent cases during opening hours with same-day slots. Out of hours, our phone line redirects to the nearest 24-hour animal hospital.</p></details>
+        <details><summary>Do you offer payment plans?</summary><p>Yes — our Pawprint Care Club spreads routine care over monthly payments from $19, and we can split larger bills.</p></details>
+        <details><summary>Can I stay with my pet during the exam?</summary><p>Always, for consults. For surgery and dental work, you can say goodbye at the door and we’ll send updates.</p></details>
+        <details><summary>Which animals do you treat?</summary><p>Dogs, cats, rabbits, guinea pigs, ferrets and small reptiles. Ask us about anything else!</p></details>
+      </div>
+    </div>
+    <aside class="hours reveal" aria-labelledby="hours-title">
+      <h3 id="hours-title">Opening hours</h3>
+      <table>
+        <tr><td>Monday – Friday</td><td>8am – 8pm</td></tr>
+        <tr><td>Saturday</td><td>9am – 5pm</td></tr>
+        <tr><td>Sunday</td><td>10am – 2pm</td></tr>
+      </table>
+      <p class="emer">Worried right now? Call <a href="tel:+15550148822">+1 555 014 8822</a> — a nurse will help you decide what to do.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="block contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="pill">Book a visit</span>
+      <h2 id="contact-title">Let’s get your pet booked in</h2>
+      <p style="color:var(--muted)">Send us a few details and our front desk will reply with a time — usually within the hour during opening times.</p>
+      <ul class="c-list">
+        <li><span class="ic" aria-hidden="true">📍</span><span><small>Visit</small>27 Maple Row, Brookfield</span></li>
+        <li><span class="ic" aria-hidden="true">✉️</span><span><small>Email</small><a href="mailto:hello@example.com">hello@example.com</a></span></li>
+        <li><span class="ic" aria-hidden="true">📞</span><span><small>Phone</small><a href="tel:+15550148822">+1 555 014 8822</a></span></li>
+      </ul>
+    </div>
+    <form class="appt reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="two">
+        <div class="field"><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="a-pet">Pet’s name</label><input id="a-pet" name="pet" type="text"></div>
+        <div class="field"><label for="a-species">Species</label><select id="a-species" name="species"><option>Dog</option><option>Cat</option><option>Rabbit</option><option>Other</option></select></div>
+      </div>
+      <div class="field"><label for="a-msg">What can we help with?</label><textarea id="a-msg" name="message" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Request appointment 🐾</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo"><span class="mark" aria-hidden="true"><svg viewBox="0 0 40 40"><g fill="#134e4a"><ellipse cx="20" cy="27" rx="9" ry="8"/><ellipse cx="9" cy="17" rx="4" ry="5"/><ellipse cx="16" cy="10" rx="4" ry="5"/><ellipse cx="24" cy="10" rx="4" ry="5"/><ellipse cx="31" cy="17" rx="4" ry="5"/></g></svg></span>Pawprint Vet</a>
+    <p style="margin:0">© <span id="year">2026</span> Pawprint Vet Clinic. Treats are always free.</p>
+    <nav aria-label="Footer"><a href="#services">Services</a><a href="#team">Vets</a><a href="#contact">Contact</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
+  function setMenu(o){ btn.setAttribute('aria-expanded', o); btn.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); list.classList.toggle('open', o); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  list.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // pause the paw trail when the hero is off-screen or the tab is hidden
+  var hero = document.querySelector('.hero');
+  if (!reduce && 'IntersectionObserver' in window){
+    var inView = true;
+    function sync(){ hero.classList.toggle('off', !inView || document.hidden); }
+    new IntersectionObserver(function(e){ inView = e[0].isIntersecting; sync(); }).observe(hero);
+    document.addEventListener('visibilitychange', sync);
+  }
+
+  // let the wiggle replay on each hover by restarting the animation
+  document.querySelectorAll('.svc').forEach(function(c){
+    c.addEventListener('animationend', function(){ c.style.animation = 'none'; void c.offsetWidth; c.style.animation = ''; });
+  });
+
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) els.forEach(function(e){ e.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

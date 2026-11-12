@@ -1,0 +1,16 @@
+{
+  "id": "petal-florist",
+  "name": "Petal & Stem",
+  "description": "Soft, airy florist shop template with same-day delivery, a filterable bouquet shop and SVG flowers that bloom as you scroll.",
+  "category": "e-commerce",
+  "tier": "free",
+  "logo": "🌸 PETAL & STEM",
+  "tags": ["Florist", "Flowers", "Shop", "Delivery", "Bloom Animation"],
+  "features": [
+    "SVG flowers that bloom on scroll: stems draw, leaves unfurl, petals rotate open",
+    "Filterable bouquet shop with add-to-bag counter and screen-reader announcements",
+    "Live same-day delivery cutoff message, gift add-ons and weekly subscription plans",
+    "Services, reviews, delivery FAQ and a working contact form"
+  ],
+  "signature": "SVG flowers bloom (stem draws, petals scale and rotate open) as sections scroll into view"
+}

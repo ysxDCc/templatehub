@@ -1,0 +1,11 @@
+{
+  "id": "motion-physio",
+  "name": "Motion Physio",
+  "description": "Physiotherapy and sports rehab clinic site with an interactive draw-in body map of treatment areas and animated recovery-outcome rings.",
+  "category": "healthcare",
+  "tier": "pro",
+  "logo": "🏃 MOTION PHYSIO",
+  "tags": ["Physiotherapy", "Sports Rehab", "Clinic", "Clinical", "Body Map Animation"],
+  "features": ["SVG body figure whose skeleton lines draw in and highlight treatment zones on hover, focus or tap", "Progress rings that fill and count up recovery stats on scroll", "Priced treatment cards with a featured sports-rehab block", "Four-step care path, specialist team, FAQ and appointment form"],
+  "signature": "Joint lines of an SVG figure draw in and light up coral treatment zones on hover/focus; outcome rings fill on scroll"
+}

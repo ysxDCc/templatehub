@@ -1,0 +1,11 @@
+{
+  "id": "summit-conference",
+  "name": "Summit 2027",
+  "description": "Sharp midnight-and-cyan site for a two-day design and engineering conference with a live countdown, speakers, schedule and tickets.",
+  "category": "events",
+  "tier": "enterprise",
+  "logo": "△ SUMMIT 27",
+  "tags": ["Conference", "Tech Event", "Tickets", "Midnight Blue", "Live Countdown"],
+  "features": ["Live countdown to May 13, 2027 that pauses while the tab is hidden", "Magnetic speaker cards that lean toward the mouse pointer", "Accessible day 1 / day 2 schedule tabs with arrow-key, Home and End support", "Three ticket tiers, tracks, venue map, FAQ and a team/partner enquiry form"],
+  "signature": "Live countdown to doors opening, magnetic speaker cards (mouse only) and keyboard-friendly day-1/day-2 schedule tabs"
+}

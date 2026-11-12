@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpine Ski School — Ski &amp; snowboard lessons for every age</title>
+<meta name="description" content="Alpine Ski School offers ski and snowboard lessons for kids, teens and adults, from first tracks to off-piste, with certified instructors and kit hire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,800;1,800&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{
+  --accent:#d0212b;
+  --navy:#0d2a45;
+  --navy-2:#163d61;
+  --ice:#dff1fb;
+  --ice-2:#bfe3f7;
+  --sky:#2f77ad;
+  --snow:#ffffff;
+  --ink:#0d2a45;
+  --muted:#46607a;
+  --line:#d3e4ef;
+  --display:'Barlow Condensed','Arial Narrow',Impact,sans-serif;
+  --sans:'Barlow','Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);font-size:17px;line-height:1.6;color:var(--ink);background:var(--snow);overflow-x:hidden}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);text-transform:uppercase;line-height:.95;margin:0 0 .4em;letter-spacing:.005em}
+h2{font-size:clamp(2.4rem,5.4vw,4.2rem);font-weight:800;font-style:italic}
+h3{font-weight:800}
+p{margin:0 0 1em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.tag{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.tag::before{content:"";width:28px;height:6px;background:repeating-linear-gradient(-60deg,var(--accent) 0 4px,transparent 4px 7px)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--navy);color:#fff;padding:10px 16px;z-index:200}
+.skip:focus{left:8px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:52px;padding:0 1.6em;font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:.06em;text-transform:uppercase;
+  text-decoration:none;border:2px solid var(--navy);color:var(--navy);background:transparent;cursor:pointer;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:background .2s,color .2s,transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:#b01b24}
+.btn-ghost{border-color:#fff;color:#fff}
+.btn-ghost:hover{background:#fff;color:var(--navy)}
+
+/* header */
+header.site{position:absolute;top:0;left:0;right:0;z-index:30}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px}
+.logo{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-style:italic;font-size:1.7rem;text-transform:uppercase;color:#fff;text-decoration:none;letter-spacing:.02em;min-height:44px}
+.logo svg{width:38px;height:30px}
+.nav ul{list-style:none;display:flex;gap:4px;margin:0;padding:0;align-items:center}
+.nav ul a{color:#fff;text-decoration:none;font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:.08em;padding:12px 14px;display:inline-block;min-height:44px}
+.nav ul a:hover{color:var(--ice-2)}
+.nav ul a:focus-visible{outline-color:#fff}
+.nav .btn{min-height:46px;font-size:1.05rem}
+.menu-btn{display:none;width:50px;height:50px;background:var(--accent);border:0;color:#fff;cursor:pointer;position:relative}
+.menu-btn i,.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:14px;width:22px;height:3px;background:currentColor;transition:transform .25s}
+.menu-btn i{top:24px}.menu-btn i::before{left:0;top:-7px}.menu-btn i::after{left:0;top:7px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-7px) rotate(-45deg)}
+.menu-btn:focus-visible{outline-color:#fff}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:max(680px,100svh);color:#fff;overflow:hidden;
+  background:linear-gradient(180deg,#0b2440 0%,#174d7c 42%,#4f98c9 70%,#a9d8f2 100%);display:flex;align-items:center;padding:120px 0 290px}
+#snow{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.peaks{position:absolute;left:0;right:0;bottom:-2px;width:100%;height:auto;z-index:0;min-width:900px}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(320px,.7fr);gap:48px;align-items:center;width:100%}
+.hero h1{font-size:clamp(3rem,7.4vw,6.4rem);font-weight:800;font-style:italic;margin-bottom:.25em;text-shadow:0 4px 30px rgba(11,36,64,.35)}
+.hero h1 span{color:#fff;background:var(--accent);padding:0 .12em;display:inline-block;transform:skewX(-8deg)}
+.hero p{font-size:1.2rem;max-width:32em;color:#e8f4fc;text-shadow:0 1px 10px rgba(11,36,64,.5)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.ticket{background:#fff;color:var(--navy);padding:26px 26px 22px;position:relative;box-shadow:0 30px 60px -20px rgba(11,36,64,.6);transform:rotate(2deg)}
+.ticket::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px;background:radial-gradient(circle at 8px 10px,transparent 6px,#fff 6.5px) 0 0/16px 10px repeat-x}
+.ticket h2{font-size:1.6rem;font-style:normal;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.ticket h2 small{font-family:var(--sans);font-size:.75rem;letter-spacing:.1em;background:#10a35a;color:#fff;padding:4px 8px}
+.ticket dl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0}
+.ticket dt{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.ticket dd{margin:0;font-family:var(--display);font-weight:800;font-size:2rem;line-height:1}
+.ticket .bar{margin-top:18px;height:34px;background:repeating-linear-gradient(90deg,var(--navy) 0 2px,transparent 2px 4px,var(--navy) 4px 7px,transparent 7px 9px,var(--navy) 9px 10px,transparent 10px 13px)}
+
+/* stripe */
+.stripe{background:var(--accent);color:#fff;transform:skewY(-2deg);margin-top:-30px;position:relative;z-index:3}
+.stripe ul{transform:skewY(2deg);list-style:none;margin:0;padding:22px 28px;display:flex;justify-content:center;flex-wrap:wrap;gap:12px 44px;font-family:var(--display);font-weight:800;font-size:1.35rem;text-transform:uppercase;letter-spacing:.06em}
+.stripe li::before{content:"✱ ";opacity:.75}
+
+section{scroll-margin-top:20px}
+.block{padding:110px 0}
+.head{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:50px;flex-wrap:wrap}
+.head p{max-width:32em;color:var(--muted);margin:0}
+
+/* why */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:2px solid var(--navy)}
+.why article{padding:36px 32px;border-right:2px solid var(--navy);position:relative}
+.why article:last-child{border-right:0}
+.why .n{font-family:var(--display);font-weight:800;font-size:4.2rem;line-height:1;color:var(--ice-2);-webkit-text-stroke:2px var(--navy)}
+.why h3{font-size:1.9rem;margin-top:10px}
+.why p{color:var(--muted);margin:0}
+
+/* levels / trail */
+.levels-sec{background:var(--ice);clip-path:polygon(0 4%,100% 0,100% 96%,0 100%);padding:150px 0}
+.levels{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center}
+.slope{background:linear-gradient(180deg,#eef8fd,#fff);border:2px solid var(--navy);position:relative}
+.slope svg{width:100%;height:auto}
+.trail{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:0;transition:stroke-dashoffset 3.2s cubic-bezier(.45,.05,.3,1)}
+.js .slope-svg:not(.drawn) .trail{stroke-dashoffset:1}
+.mk{transform-box:fill-box;transform-origin:center;transition:transform .5s cubic-bezier(.3,1.8,.5,1),opacity .3s}
+.js .slope-svg:not(.drawn) .mk{transform:scale(0);opacity:0}
+.slope-svg.drawn .mk:nth-of-type(1){transition-delay:.1s}
+.slope-svg.drawn .mk:nth-of-type(2){transition-delay:1.1s}
+.slope-svg.drawn .mk:nth-of-type(3){transition-delay:2.2s}
+.slope-svg.drawn .mk:nth-of-type(4){transition-delay:3.1s}
+.mk.hot .ring{stroke:var(--accent);stroke-width:4}
+.mk text{font-family:var(--display);font-weight:800;font-size:22px;fill:var(--navy);text-transform:uppercase}
+.level-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.level-list button{width:100%;text-align:left;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;background:#fff;border:2px solid transparent;padding:14px 16px;cursor:pointer;font:inherit;color:var(--ink);transition:border-color .2s,transform .2s}
+.level-list button:hover,.level-list button[aria-pressed="true"]{border-color:var(--navy);transform:translateX(-6px)}
+.level-list b{display:block;font-family:var(--display);font-size:1.45rem;text-transform:uppercase;line-height:1.05}
+.level-list span.d{color:var(--muted);font-size:.95rem}
+.sym{width:34px;height:34px}
+
+/* lessons */
+.lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.lesson{border:2px solid var(--navy);background:#fff;display:flex;flex-direction:column;position:relative;transition:transform .25s,box-shadow .25s}
+.lesson:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--accent)}
+.lesson-top{background:var(--navy);color:#fff;padding:22px 24px 18px;position:relative;overflow:hidden}
+.lesson-top::after{content:"";position:absolute;right:-20px;top:0;bottom:0;width:90px;background:repeating-linear-gradient(-60deg,rgba(255,255,255,.08) 0 8px,transparent 8px 16px)}
+.bib{display:inline-block;font-family:var(--display);font-weight:800;background:#fff;color:var(--navy);padding:2px 10px;font-size:1rem;letter-spacing:.08em;margin-bottom:10px}
+.lesson h3{font-size:2rem;margin:0;color:#fff}
+.lesson .who{font-size:.9rem;color:var(--ice-2);text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.lesson-body{padding:22px 24px 24px;display:flex;flex-direction:column;flex:1}
+.lesson ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:6px}
+.lesson li{padding-left:22px;position:relative;color:var(--muted)}
+.lesson li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;background:var(--accent);transform:rotate(45deg)}
+.lesson .foot{margin-top:auto;display:flex;align-items:end;justify-content:space-between;gap:12px;border-top:2px dashed var(--line);padding-top:16px}
+.price{font-family:var(--display);font-weight:800;font-size:2.3rem;line-height:1;color:var(--accent)}
+.per{display:block;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.lesson .btn{min-height:46px;font-size:1rem;padding:0 1.1em}
+.lesson.board .lesson-top{background:var(--accent)}
+.lesson.board .who{color:#ffe1e3}
+
+/* instructors / testimonials */
+.dark{background:var(--navy);color:#fff}
+.dark h2{color:#fff}
+.dark .tag{color:#ff8f95}
+.dark .tag::before{background:repeating-linear-gradient(-60deg,#ff8f95 0 4px,transparent 4px 7px)}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.quote{background:var(--navy-2);padding:30px;margin:0;border-top:6px solid var(--accent)}
+.quote blockquote{margin:0 0 18px;font-size:1.1rem}
+.quote figcaption{font-family:var(--display);font-weight:800;font-size:1.3rem;text-transform:uppercase}
+.quote figcaption span{display:block;font-family:var(--sans);font-weight:500;font-size:.85rem;color:var(--ice-2);text-transform:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:70px;border-top:1px solid rgba(255,255,255,.2);padding-top:40px}
+.stats div{font-family:var(--display);font-weight:800;font-size:3.4rem;line-height:1;font-style:italic}
+.stats span{display:block;font-family:var(--sans);font-size:.9rem;font-weight:500;font-style:normal;color:var(--ice-2)}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:50px}
+.faq details{border-bottom:2px solid var(--navy)}
+.faq details:first-child{border-top:2px solid var(--navy)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 50px 20px 0;font-family:var(--display);font-weight:800;font-size:1.5rem;text-transform:uppercase;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:16px;height:16px;margin-top:-12px;border-right:4px solid var(--accent);border-bottom:4px solid var(--accent);transform:rotate(45deg);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(225deg);margin-top:-4px}
+.faq p{color:var(--muted);padding-bottom:18px;margin:0}
+
+/* contact */
+.book{background:var(--ice)}
+.book-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}
+.contact-list{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:16px}
+.contact-list li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center}
+.contact-list .i{width:44px;height:44px;background:var(--navy);display:grid;place-items:center}
+.contact-list .i svg{width:22px;height:22px}
+.contact-list small{display:block;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--muted);font-size:.75rem}
+form.booking{background:#fff;border:2px solid var(--navy);padding:34px;box-shadow:12px 12px 0 var(--navy)}
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;padding:12px 14px;border:2px solid var(--line);background:#f7fbfe;color:var(--ink);min-height:50px;border-radius:0}
+.field textarea{min-height:120px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy);background:#fff;box-shadow:4px 4px 0 var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+footer.site{background:var(--navy);color:var(--ice-2);padding:50px 0 34px}
+.foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+footer.site a{color:#fff;text-decoration:none;display:inline-block;padding:10px 8px}
+footer.site a:hover{color:var(--ice-2)}
+
+.js .reveal{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1000px){
+  .hero-inner,.levels,.faq-grid,.book-grid{grid-template-columns:1fr}
+  .ticket{max-width:420px;transform:none}
+  .lessons,.quotes{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;top:76px;left:16px;right:16px;flex-direction:column;align-items:stretch;background:var(--navy);padding:14px;box-shadow:0 24px 40px rgba(0,0,0,.4);border-top:4px solid var(--accent)}
+  .nav ul.open{display:flex}
+  .nav ul a{padding:14px 12px}
+  .why{grid-template-columns:1fr}
+  .why article{border-right:0;border-bottom:2px solid var(--navy)}
+  .why article:last-child{border-bottom:0}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  .block{padding:76px 0}
+  .levels-sec{padding:100px 0;clip-path:polygon(0 2%,100% 0,100% 98%,0 100%)}
+  .lessons,.quotes{grid-template-columns:1fr}
+  .hero{padding:110px 0 200px}
+  .two{grid-template-columns:1fr}
+  form.booking{padding:24px 18px;box-shadow:8px 8px 0 var(--navy)}
+  .stripe ul{font-size:1.1rem;gap:6px 22px}
+  .stats div{font-size:2.6rem}
+  .ticket dd{font-size:1.6rem}
+  .logo{font-size:1.3rem}.logo svg{width:30px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .js .reveal{opacity:1;transform:none}
+  .js .slope-svg .trail{stroke-dashoffset:0}
+  .js .slope-svg .mk{transform:none;opacity:1}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 48 36" aria-hidden="true"><path d="M2 34L18 8l8 12 6-8 14 22z" fill="#fff"/><path d="M14 15l4-7 4 6-4-2z" fill="#d0212b"/></svg>Alpine Ski School</a>
+    <nav aria-label="Main">
+      <button class="menu-btn" aria-expanded="false" aria-controls="nav-list" aria-label="Open menu"><i></i></button>
+      <ul id="nav-list">
+        <li><a href="#levels">Levels</a></li>
+        <li><a href="#lessons">Lessons</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="btn btn-primary" href="#book">Book now</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <svg class="peaks" viewBox="0 0 1440 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M0 250L160 140 260 190 420 60 560 170 700 90 860 200 1000 70 1160 180 1300 110 1440 190V360H0z" fill="#8fc4e6" opacity=".7"/>
+    <path d="M0 290L200 170 330 240 520 120 690 250 860 150 1040 260 1220 160 1440 250V360H0z" fill="#d6ecf8"/>
+    <path d="M520 120l-50 50 30-6 22 20 26-28 34 12z M860 150l-44 44 26-4 22 16 18-26 30 8z M1220 160l-50 46 30-6 20 18 24-26 34 10z" fill="#fff"/>
+    <path d="M0 330C240 280 480 300 720 320S1200 300 1440 290V360H0z" fill="#fff"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="reveal">
+      <span class="tag" style="color:#fff">Season 2026/27 · Bookings open</span>
+      <h1 id="hero-title">Carve your first turn. <span>Then your hundredth.</span></h1>
+      <p>Ski and snowboard lessons for ages 4 to 84 on the sunny side of Mount Ardent. Small groups, patient instructors and a hot chocolate at the end of every lesson.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#lessons">See lessons &amp; prices</a>
+        <a class="btn btn-ghost" href="#levels">Find my level</a>
+      </div>
+    </div>
+    <aside class="ticket reveal" aria-label="Today’s mountain conditions">
+      <h2>Today on the hill <small>OPEN</small></h2>
+      <dl>
+        <div><dt>Summit temp</dt><dd>−6°C</dd></div>
+        <div><dt>Fresh snow</dt><dd>32 cm</dd></div>
+        <div><dt>Lifts open</dt><dd>14 / 16</dd></div>
+        <div><dt>Next lesson</dt><dd>10:00</dd></div>
+      </dl>
+      <div class="bar" aria-hidden="true"></div>
+    </aside>
+  </div>
+</section>
+
+<div class="stripe" aria-hidden="true"><ul><li>Kit hire included</li><li>Max 6 per group</li><li>Certified instructors</li><li>Ages 4+</li></ul></div>
+
+<section class="block" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">Why ski with us</span><h2 id="why-title">Built for nervous beginners &amp; powder hounds</h2></div><p>Thirty-one years of teaching on the same mountain means we know every gentle green and every secret tree run.</p></div>
+    <div class="why reveal">
+      <article><div class="n" aria-hidden="true">01</div><h3>Tiny groups</h3><p>Never more than six students per instructor — four for under-sevens — so you get real feedback on every run.</p></article>
+      <article><div class="n" aria-hidden="true">02</div><h3>Everything included</h3><p>Skis or board, boots, helmet and lift pass are bundled into lesson prices. Just bring warm socks.</p></article>
+      <article><div class="n" aria-hidden="true">03</div><h3>Progress you can see</h3><p>Every student gets a level card stamped on the slope and a short video of their best run.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="levels-sec" id="levels" aria-labelledby="levels-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">Find your level</span><h2 id="levels-title">From the bunny hill to the summit</h2></div><p>Follow the trail: every level is a stop on the way up. Not sure where you fit? Pick the lower one — instructors move you up on day one.</p></div>
+    <div class="levels">
+      <div class="slope reveal">
+        <svg class="slope-svg" viewBox="0 0 800 500" role="img" aria-labelledby="slope-t">
+          <title id="slope-t">Mountain diagram with a trail climbing from Level 1 at the base to Level 4 at the summit</title>
+          <path d="M0 500V380L170 230 250 280 420 50 560 210 650 160 800 300V500z" fill="#d6ecf8"/>
+          <path d="M420 50L360 130l30-8 30 26 30-30 32 16z" fill="#fff"/>
+          <path d="M650 160l-40 40 22-4 20 14 18-20 26 6z" fill="#fff"/>
+          <path d="M0 470c160-30 300-10 420-20s260-40 380-10V500H0z" fill="#fff"/>
+          <g fill="#0d2a45" opacity=".55"><path d="M620 440l14-34 14 34zM650 450l12-30 12 30zM80 380l14-34 14 34zM100 392l12-30 12 30z"/></g>
+          <path d="M110 470C220 450 330 430 400 385S300 320 360 285 470 230 440 190 400 110 420 72" fill="none" stroke="#9cc3dd" stroke-width="14" stroke-linecap="round" opacity=".5"/>
+          <path class="trail" pathLength="1" d="M110 470C220 450 330 430 400 385S300 320 360 285 470 230 440 190 400 110 420 72"/>
+          <g class="mk" data-lv="1"><circle class="ring" cx="110" cy="470" r="22" fill="#fff" stroke="#0d2a45" stroke-width="3"/><circle cx="110" cy="470" r="12" fill="#10a35a"/><text x="142" y="448">L1</text></g>
+          <g class="mk" data-lv="2"><circle class="ring" cx="400" cy="385" r="22" fill="#fff" stroke="#0d2a45" stroke-width="3"/><rect x="389" y="374" width="22" height="22" fill="#1f6fd1"/><text x="432" y="392">L2</text></g>
+          <g class="mk" data-lv="3"><circle class="ring" cx="440" cy="190" r="22" fill="#fff" stroke="#0d2a45" stroke-width="3"/><path d="M440 177l13 22h-26z" fill="#d0212b"/><text x="472" y="198">L3</text></g>
+          <g class="mk" data-lv="4"><circle class="ring" cx="420" cy="72" r="22" fill="#fff" stroke="#0d2a45" stroke-width="3"/><path d="M420 58l11 14-11 14-11-14z" fill="#0d2a45"/><text x="452" y="66">L4</text></g>
+        </svg>
+      </div>
+      <ul class="level-list reveal">
+        <li><button type="button" data-lv="1" aria-pressed="false"><svg class="sym" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="14" fill="#10a35a"/></svg><span><b>L1 · First Tracks</b><span class="d">Never skied. Gear, balance, gliding and stopping.</span></span></button></li>
+        <li><button type="button" data-lv="2" aria-pressed="false"><svg class="sym" viewBox="0 0 34 34" aria-hidden="true"><rect x="4" y="4" width="26" height="26" fill="#1f6fd1"/></svg><span><b>L2 · Linking Turns</b><span class="d">Snowplough to parallel on blue runs.</span></span></button></li>
+        <li><button type="button" data-lv="3" aria-pressed="false"><svg class="sym" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 3l15 27H2z" fill="#d0212b"/></svg><span><b>L3 · Red Runs</b><span class="d">Carving, moguls and steeper pitches.</span></span></button></li>
+        <li><button type="button" data-lv="4" aria-pressed="false"><svg class="sym" viewBox="0 0 34 34" aria-hidden="true"><path d="M17 2l13 15-13 15L4 17z" fill="#0d2a45"/></svg><span><b>L4 · Summit &amp; Off-piste</b><span class="d">Black runs, powder and avalanche awareness.</span></span></button></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="lessons" aria-labelledby="lessons-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">Lessons &amp; prices</span><h2 id="lessons-title">Pick your crew</h2></div><p>All group prices are per person and include equipment hire and a beginner-area lift pass. Multi-day bundles save up to 20%.</p></div>
+    <div class="lessons">
+      <article class="lesson reveal"><div class="lesson-top"><span class="bib">BIB 04</span><h3 class="card-title">Snow Cubs</h3><span class="who">Ages 4–6 · Ski</span></div><div class="lesson-body"><ul><li>Half-day, max 4 kids</li><li>Magic-carpet lift &amp; snow garden</li><li>Snack and medal ceremony</li></ul><div class="foot"><div><span class="price">$89</span><span class="per">per half-day</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+      <article class="lesson reveal"><div class="lesson-top"><span class="bib">BIB 12</span><h3 class="card-title">Shred Crew</h3><span class="who">Ages 7–15 · Ski</span></div><div class="lesson-body"><ul><li>Full day, max 6 riders</li><li>Lunch with instructors</li><li>Friday race &amp; video night</li></ul><div class="foot"><div><span class="price">$145</span><span class="per">per day</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+      <article class="lesson reveal"><div class="lesson-top"><span class="bib">BIB 21</span><h3 class="card-title">Adult First Timers</h3><span class="who">16+ · Ski</span></div><div class="lesson-body"><ul><li>3 mornings, max 6 adults</li><li>Zero-to-green-run guarantee</li><li>Après hot chocolate</li></ul><div class="foot"><div><span class="price">$289</span><span class="per">3-day course</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+      <article class="lesson board reveal"><div class="lesson-top"><span class="bib">BIB 33</span><h3 class="card-title">Board Starter</h3><span class="who">10+ · Snowboard</span></div><div class="lesson-body"><ul><li>2 afternoons, max 5 riders</li><li>Falling-leaf to linked turns</li><li>Impact shorts included</li></ul><div class="foot"><div><span class="price">$199</span><span class="per">2-day course</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+      <article class="lesson reveal"><div class="lesson-top"><span class="bib">BIB 01</span><h3 class="card-title">Private Lesson</h3><span class="who">Any age · Ski or board</span></div><div class="lesson-body"><ul><li>Up to 4 friends or family</li><li>Skip-the-queue lift access</li><li>Choose your instructor</li></ul><div class="foot"><div><span class="price">$120</span><span class="per">per hour</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+      <article class="lesson board reveal"><div class="lesson-top"><span class="bib">BIB 99</span><h3 class="card-title">Freeride Clinic</h3><span class="who">L3+ · Ski or board</span></div><div class="lesson-body"><ul><li>Powder, trees &amp; couloirs</li><li>Transceiver, probe &amp; shovel kit</li><li>Avalanche-safety briefing</li></ul><div class="foot"><div><span class="price">$240</span><span class="per">per day</span></div><a class="btn btn-primary" href="#book">Book</a></div></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="block dark" id="reviews" aria-labelledby="rev-title">
+  <div class="wrap">
+    <div class="head reveal"><div><span class="tag">From the chairlift</span><h2 id="rev-title">Students say it best</h2></div></div>
+    <div class="quotes">
+      <figure class="quote reveal"><blockquote>“I was 52 and terrified. By Wednesday I was doing a green run with my grandkids. Coach Lars is a saint.”</blockquote><figcaption>Margit<span>Adult First Timers</span></figcaption></figure>
+      <figure class="quote reveal"><blockquote>“My son came home every day shouting about ‘pizza and French fries’. Now he’s faster than me.”</blockquote><figcaption>Ravi<span>Parent · Snow Cubs</span></figcaption></figure>
+      <figure class="quote reveal"><blockquote>“The freeride clinic was the best day of my season — fresh tracks and I actually understand avalanche risk now.”</blockquote><figcaption>Noor<span>Freeride Clinic</span></figcaption></figure>
+    </div>
+    <div class="stats reveal">
+      <div>31<span>seasons teaching</span></div>
+      <div>48<span>certified instructors</span></div>
+      <div>9,400<span>students last winter</span></div>
+      <div>4.9★<span>average lesson rating</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <div class="reveal"><span class="tag">Before you go</span><h2 id="faq-title">Good questions</h2><p style="color:var(--muted)">Still wondering? Call the ski school desk — we answer from 7:30am every day of the season.</p></div>
+    <div class="faq reveal">
+      <details><summary>What should I wear?</summary><p>Waterproof jacket and trousers, thermal base layers, gloves (not mittens for boarders), goggles and sun cream. Helmets come with every lesson.</p></details>
+      <details><summary>What if the weather is bad?</summary><p>We teach in light snow and wind. If lifts close for safety we reschedule your lesson or refund it in full — your choice.</p></details>
+      <details><summary>Can my child join mid-week?</summary><p>Yes. Snow Cubs and Shred Crew run every day, so kids join the group that matches their level on any morning.</p></details>
+      <details><summary>Do you teach adaptive skiing?</summary><p>We have four adaptive instructors and sit-ski equipment. Get in touch so we can plan the right session together.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="block book" id="book" aria-labelledby="book-title">
+  <div class="wrap book-grid">
+    <div class="reveal">
+      <span class="tag">Book a lesson</span>
+      <h2 id="book-title">Save your spot on the snow</h2>
+      <p style="color:var(--muted)">Tell us who’s coming and when. We’ll confirm availability and the best group within a few hours.</p>
+      <ul class="contact-list">
+        <li><span class="i"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 6 9-6" fill="none" stroke="#fff" stroke-width="2"/></svg></span><span><small>Email</small><a href="mailto:snow@example.com">snow@example.com</a></span></li>
+        <li><span class="i"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z" fill="none" stroke="#fff" stroke-width="2"/></svg></span><span><small>Ski school desk</small><a href="tel:+15550176620">+1 555 017 6620</a></span></li>
+        <li><span class="i"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6-7-12a7 7 0 0 1 14 0c0 6-7 12-7 12z" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg></span><span><small>Meeting point</small>Base Lodge, 1 Gondola Way, Mount Ardent</span></li>
+      </ul>
+    </div>
+    <form class="booking reveal" action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+      <div class="two">
+        <div class="field"><label for="b-name">Name</label><input id="b-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="b-email">Email</label><input id="b-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="b-lesson">Lesson</label><select id="b-lesson" name="lesson"><option>Snow Cubs</option><option>Shred Crew</option><option>Adult First Timers</option><option>Board Starter</option><option>Private Lesson</option><option>Freeride Clinic</option></select></div>
+        <div class="field"><label for="b-date">Preferred date</label><input id="b-date" name="date" type="date"></div>
+      </div>
+      <div class="field"><label for="b-msg">Message</label><textarea id="b-msg" name="message" placeholder="Number of people, ages and current level…" required></textarea></div>
+      <button class="btn btn-primary" type="submit">Request booking</button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-row">
+    <a href="#" class="logo"><svg viewBox="0 0 48 36" aria-hidden="true"><path d="M2 34L18 8l8 12 6-8 14 22z" fill="#fff"/><path d="M14 15l4-7 4 6-4-2z" fill="#d0212b"/></svg>Alpine Ski School</a>
+    <p style="margin:0">© <span id="year">2026</span> Alpine Ski School. See you on the slopes.</p>
+    <nav aria-label="Footer"><a href="#lessons">Lessons</a><a href="#faq">FAQ</a><a href="#book">Book</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // nav
+  var btn = document.querySelector('.menu-btn'), list = document.getElementById('nav-list');
+  function setMenu(o){ btn.setAttribute('aria-expanded', o); btn.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); list.classList.toggle('open', o); }
+  btn.addEventListener('click', function(){ setMenu(btn.getAttribute('aria-expanded') !== 'true'); });
+  list.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){ setMenu(false); btn.focus(); } });
+
+  // snowfall canvas
+  var canvas = document.getElementById('snow'), hero = document.querySelector('.hero');
+  var ctx = canvas.getContext('2d'), flakes = [], W = 0, H = 0, dpr = 1, running = false, visible = true, raf = 0, wind = 0;
+  function size(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = hero.clientWidth; H = hero.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.min(170, Math.round(W * H / 9000));
+    flakes = [];
+    for (var i = 0; i < n; i++) flakes.push(mk(true));
+  }
+  function mk(any){
+    var z = Math.random();
+    return { x: Math.random() * W, y: any ? Math.random() * H : -10, r: .8 + z * 2.6, s: .4 + z * 1.4, a: .35 + z * .6, p: Math.random() * 6.28 };
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fff';
+    for (var i = 0; i < flakes.length; i++){
+      var f = flakes[i];
+      ctx.globalAlpha = f.a;
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  function step(t){
+    wind = Math.sin(t / 4000) * .6;
+    for (var i = 0; i < flakes.length; i++){
+      var f = flakes[i];
+      f.p += .01; f.y += f.s; f.x += wind * f.s + Math.sin(f.p) * .3;
+      if (f.y > H + 6){ flakes[i] = mk(false); }
+      if (f.x > W + 6) f.x = -6; else if (f.x < -6) f.x = W + 6;
+    }
+    draw();
+    raf = requestAnimationFrame(step);
+  }
+  function play(){ if (!running && visible && !document.hidden && !reduce){ running = true; raf = requestAnimationFrame(step); } }
+  function stop(){ running = false; cancelAnimationFrame(raf); }
+  size();
+  if (reduce) draw();
+  else {
+    new IntersectionObserver(function(e){ visible = e[0].isIntersecting; visible ? play() : stop(); }).observe(hero);
+    document.addEventListener('visibilitychange', function(){ document.hidden ? stop() : play(); });
+    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(size, 200); });
+    play();
+  }
+
+  // trail drawing
+  var slope = document.querySelector('.slope-svg');
+  if (reduce || !('IntersectionObserver' in window)) slope.classList.add('drawn');
+  else new IntersectionObserver(function(e, o){ if (e[0].isIntersecting){ slope.classList.add('drawn'); o.disconnect(); } }, { threshold: .35 }).observe(slope);
+  var lvBtns = document.querySelectorAll('.level-list button');
+  lvBtns.forEach(function(b){
+    function hot(on){ var m = slope.querySelector('.mk[data-lv="' + b.dataset.lv + '"]'); m.classList.toggle('hot', on); }
+    b.addEventListener('mouseenter', function(){ hot(true); });
+    b.addEventListener('mouseleave', function(){ if (b.getAttribute('aria-pressed') !== 'true') hot(false); });
+    b.addEventListener('click', function(){
+      lvBtns.forEach(function(x){ x.setAttribute('aria-pressed', 'false'); slope.querySelector('.mk[data-lv="' + x.dataset.lv + '"]').classList.remove('hot'); });
+      b.setAttribute('aria-pressed', 'true'); hot(true);
+    });
+  });
+
+  // reveals
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) els.forEach(function(e){ e.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(en){ en.forEach(function(x){ if (x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+    els.forEach(function(e, i){ e.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(e); });
+  }
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

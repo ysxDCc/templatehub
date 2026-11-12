@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inkwell Tattoo — Custom tattoos, drawn for one skin only</title>
+<meta name="description" content="Inkwell Tattoo is a private custom tattoo studio with three resident artists specialising in fineline, neo-traditional and blackwork. Book a consultation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#ff4a26;
+  --ink:#0c0b0b;
+  --ink-2:#151313;
+  --ink-3:#1f1c1b;
+  --bone:#ede5d5;
+  --bone-dim:#b8afa0;
+  --line:rgba(237,229,213,.14);
+  --black:'Pirata One','Old English Text MT',Georgia,serif;
+  --grot:'Space Grotesk','Helvetica Neue',Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--grot);font-size:1.0625rem;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+svg{display:block;max-width:100%}
+a{color:var(--accent)}
+h1,h2,h3{margin:0 0 .5em;line-height:1;font-weight:400}
+h2{font-family:var(--black);font-size:clamp(2.8rem,6.5vw,5.2rem);letter-spacing:.01em}
+h3{font-family:var(--grot);font-weight:600;font-size:1.15rem;letter-spacing:.02em}
+p{margin:0 0 1em}
+.wrap{width:min(1240px,100% - 2.5rem);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:-999px;top:0;z-index:200;background:var(--accent);color:var(--ink);padding:.8rem 1.2rem;font-weight:700}
+.skip:focus{left:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.label{display:inline-flex;align-items:center;gap:.7rem;font-size:.78rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:1.2rem}
+.label b{color:var(--accent);font-weight:600}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:52px;padding:.9rem 1.6rem;font:600 .95rem/1 var(--grot);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid var(--bone);color:var(--bone);background:transparent;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.btn:hover{background:var(--bone);color:var(--ink)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.btn-primary:hover{background:var(--bone);border-color:var(--bone)}
+.btn .arr{transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+
+header{position:sticky;top:0;z-index:60;background:rgba(12,11,11,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-family:var(--black);font-size:2.1rem;color:var(--bone);text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;min-height:44px;line-height:1}
+.logo svg{width:26px;height:26px;color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:2.2rem;list-style:none;margin:0;padding:0}
+.nav-links a{color:var(--bone);text-decoration:none;font-size:.85rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center;position:relative}
+.nav-links a:not(.btn)::before{content:"";position:absolute;left:0;right:0;bottom:10px;height:1px;background:var(--accent);transform:scaleX(0);transition:transform .3s;transform-origin:right}
+.nav-links a:not(.btn):hover::before{transform:scaleX(1);transform-origin:left}
+.nav-links .btn{color:var(--ink);min-height:46px;padding:.7rem 1.2rem}
+.menu-btn{display:none;width:48px;height:48px;border:1px solid var(--line);background:transparent;color:var(--bone);cursor:pointer;align-items:center;justify-content:center}
+.menu-btn i{display:block;width:20px;height:2px;background:currentColor;position:relative;transition:background .2s}
+.menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;width:20px;height:2px;background:currentColor;transition:transform .3s}
+.menu-btn i::before{top:-7px}.menu-btn i::after{top:7px}
+.menu-btn[aria-expanded="true"] i{background:transparent}
+.menu-btn[aria-expanded="true"] i::before{transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] i::after{transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{position:relative;padding:clamp(3rem,6vw,5rem) 0 clamp(3rem,6vw,5rem);overflow:hidden;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:2rem;align-items:center}
+.hero h1{font-family:var(--black);font-size:clamp(3.6rem,10vw,9rem);line-height:.86;margin-bottom:1.6rem;letter-spacing:-.005em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{font-size:1.2rem;color:var(--bone-dim);max-width:31em;margin-bottom:2.2rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:1rem}
+.hero-art{position:relative}
+.hero-art svg{width:100%;height:auto;max-height:560px}
+.hero-meta{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:2.5rem;margin-top:3rem;padding-top:1.6rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--bone-dim);letter-spacing:.06em}
+.hero-meta strong{display:block;font-family:var(--black);font-weight:400;font-size:2.2rem;color:var(--bone);line-height:1;letter-spacing:0}
+
+section{padding:clamp(4rem,9vw,7.5rem) 0}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:3rem}
+.sec-head p{color:var(--bone-dim);margin:0;max-width:32em;justify-self:end}
+
+/* styles strip */
+.styles{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.style{padding:2.4rem 2rem 2.4rem 0;border-bottom:1px solid var(--line)}
+.style + .style{padding-left:2rem;border-left:1px solid var(--line)}
+.style .n{font-family:var(--black);font-size:3rem;color:var(--accent);line-height:1;display:block;margin-bottom:1rem}
+.style p{color:var(--bone-dim);margin:0}
+
+/* portfolio */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+.filter{min-height:46px;padding:.5rem 1.2rem;border:1px solid var(--line);background:transparent;color:var(--bone);font:600 .82rem var(--grot);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.filter:hover{border-color:var(--bone)}
+.filter[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.work{position:relative;margin:0;background:var(--ink-2);border:1px solid var(--line);transition:border-color .3s}
+.work:hover,.work:focus-within{border-color:rgba(255,74,38,.6)}
+.work .art-wrap{aspect-ratio:1/1;display:grid;place-items:center;padding:8%;background:radial-gradient(circle at 50% 45%,#221e1c,var(--ink-2) 70%)}
+.work .art-wrap svg{width:100%;height:100%}
+.work figcaption{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1rem 1.2rem;border-top:1px solid var(--line);min-height:86px}
+.work figcaption h3{margin:0 0 .2rem}
+.work figcaption span{display:block;font-size:.85rem;color:var(--bone-dim)}
+.work .tag{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);padding:.3rem .6rem;color:var(--bone-dim);white-space:nowrap}
+.work[hidden]{display:none}
+
+/* artists */
+.artists{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.artist{border:1px solid var(--line);padding:2rem;background:var(--ink-2);display:flex;flex-direction:column}
+.artist .sig{font-family:var(--black);font-size:2.6rem;line-height:1;color:var(--bone);margin-bottom:.4rem}
+.artist .role{color:var(--accent);font-size:.8rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem}
+.artist p{color:var(--bone-dim)}
+.artist ul{list-style:none;margin:auto 0 0;padding:1rem 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.5rem}
+.artist li{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .6rem;background:var(--ink-3)}
+
+/* rates */
+.rates{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.rate{padding:2rem 1.6rem;display:flex;flex-direction:column;gap:.6rem;min-height:280px}
+.rate + .rate{border-left:1px solid var(--line)}
+.rate .card-title{font-family:var(--black);font-size:2rem;font-weight:400;margin:0}
+.rate p{color:var(--bone-dim);font-size:.96rem;margin:0}
+.price{margin-top:auto;font-size:1.7rem;font-weight:700;color:var(--bone)}
+.price small{font-size:.8rem;font-weight:500;color:var(--bone-dim);letter-spacing:.06em}
+.rate.hot{background:var(--accent);color:var(--ink)}
+.rate.hot p,.rate.hot .price,.rate.hot .price small{color:var(--ink)}
+.rates-note{margin-top:1.2rem;color:var(--bone-dim);font-size:.92rem}
+
+/* words */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.quote{margin:0;border-top:2px solid var(--accent);padding-top:1.4rem}
+.quote p{font-size:1.18rem;line-height:1.5}
+.quote footer{color:var(--bone-dim);font-size:.85rem;letter-spacing:.16em;text-transform:uppercase}
+
+/* faq */
+.faq-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:3rem}
+details{border-bottom:1px solid var(--line)}
+details:first-of-type{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;font-weight:600;font-size:1.1rem;padding:.6rem 0}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:14px;height:14px;background:linear-gradient(var(--accent),var(--accent)) center/100% 2px no-repeat,linear-gradient(var(--accent),var(--accent)) center/2px 100% no-repeat;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--bone-dim);margin:0;padding-bottom:1.3rem}
+
+/* contact */
+.contact{background:var(--bone);color:var(--ink)}
+.contact h2{color:var(--ink)}
+.contact .label{color:#5a524a}
+.contact-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem}
+.contact dl{margin:2rem 0 0;display:grid;gap:1.2rem}
+.contact dt{font-size:.75rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#5a524a}
+.contact dd{margin:0;font-size:1.1rem}
+.contact dd a{color:var(--ink);min-height:44px;display:inline-flex;align-items:center;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:4px}
+form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem 1.5rem}
+.field{display:grid;gap:.4rem}
+.field.full{grid-column:1/-1}
+label{font-size:.78rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+input,select,textarea{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px solid var(--ink);padding:.7rem 0;min-height:50px;width:100%;border-radius:0}
+select{background:transparent}
+input:focus,select:focus,textarea:focus{outline:none;border-bottom-color:#c4300f;box-shadow:0 2px 0 #c4300f}
+textarea{min-height:120px;resize:vertical}
+form .btn{grid-column:1/-1;justify-self:start;border-color:var(--ink);background:var(--ink);color:var(--bone)}
+form .btn:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.contact .note{grid-column:1/-1;font-size:.88rem;color:#5a524a;margin:0}
+
+footer.site{padding:3rem 0 2.4rem;border-top:1px solid var(--line)}
+.foot{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:space-between;align-items:center}
+.foot nav{display:flex;flex-wrap:wrap;gap:0 1.8rem}
+.foot nav a{color:var(--bone);text-decoration:none;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;min-height:44px;display:inline-flex;align-items:center}
+.foot p{margin:0;color:var(--bone-dim);font-size:.9rem}
+
+.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:1040px){
+  .rates{grid-template-columns:1fr 1fr}
+  .rate:nth-child(3){border-left:0}
+  .rate:nth-child(n+3){border-top:1px solid var(--line)}
+  .grid,.artists,.quotes{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .hero-grid,.faq-grid,.contact-grid,.sec-head{grid-template-columns:1fr}
+  .sec-head p{justify-self:start}
+  .hero-art{max-width:380px;margin-inline:auto}
+  .styles{grid-template-columns:1fr}
+  .style + .style{padding-left:0;border-left:0}
+  .style{padding-right:0}
+  .menu-btn{display:inline-flex}
+  .nav>nav{display:contents}
+  .nav-links{position:absolute;top:78px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--ink);border-bottom:1px solid var(--line);padding:.8rem 1.25rem 1.5rem}
+  .js .nav-links{display:none}
+  .js .nav-links.open{display:flex}
+  .nav-links a{padding:.8rem 0;font-size:1rem}
+  .nav-links .btn{margin-top:.6rem}
+}
+@media (max-width:640px){
+  .grid,.artists,.quotes,.rates,form{grid-template-columns:1fr}
+  .rate + .rate{border-left:0;border-top:1px solid var(--line)}
+  .rate{min-height:0}
+  .hero-meta{grid-template-columns:repeat(3,1fr);gap:1rem}
+  .hero-meta strong{font-size:1.8rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* Comfortable tap targets for contact links */
+a[href^="mailto:"],a[href^="tel:"]{display:inline-flex;align-items:center;min-height:46px}
+.burger,.nav-toggle,.menu-toggle,.hamburger{min-width:44px;min-height:44px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- shared filter: gives the reveal mask a ragged, bleeding edge -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="blot" x="-30%" y="-30%" width="160%" height="160%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="4" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c3 5 6 8 6 12a6 6 0 0 1-12 0c0-4 3-7 6-12Z"/></svg>Inkwell</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu"><i></i></button>
+    <nav aria-label="Main">
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#artists">Artists</a></li>
+        <li><a href="#rates">Rates</a></li>
+        <li><a href="#faq">Aftercare</a></li>
+        <li><a href="#contact" class="btn btn-primary">Book a consult</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="label"><b>●</b> Private studio · Books open for spring</span>
+        <h1 id="hero-title">Drawn once. <em>Worn</em> forever.</h1>
+        <p>Inkwell is a custom tattoo studio where every design is drawn from scratch for one person only. Fineline, neo-traditional and heavy blackwork — by appointment, in a quiet room, with the kettle on.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">Start your design <span class="arr" aria-hidden="true">→</span></a>
+          <a href="#work" class="btn">See healed work</a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>3</strong>resident artists</div>
+          <div><strong>11</strong>years on Canal St</div>
+          <div><strong>0</strong>pieces repeated</div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 300 400" data-bleed>
+          <defs>
+            <filter id="ink-h" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" seed="2" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-h"><g filter="url(#blot)"><circle class="blob" cx="150" cy="200" r="400" fill="#fff"/></g></mask>
+          </defs>
+          <g mask="url(#m-h)"><g filter="url(#ink-h)" stroke="#ede5d5" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M150 18 L170 230 L150 262 L130 230 Z" fill="#ede5d5"/>
+            <path d="M150 30 L150 240" stroke="#0c0b0b" stroke-width="3"/>
+            <rect x="96" y="226" width="108" height="20" rx="10" fill="#0c0b0b"/>
+            <path d="M140 246 h20 v70 h-20 Z" fill="#0c0b0b"/>
+            <path d="M140 262 h20 M140 278 h20 M140 294 h20"/>
+            <circle cx="150" cy="332" r="16" fill="#ff4a26"/>
+            <g transform="translate(150 170)">
+              <circle r="56" fill="#ff4a26"/>
+              <path d="M0 0 m-8 0 a8 8 0 1 1 16 0 a16 16 0 1 1 -32 0 a26 26 0 1 1 52 0 a36 36 0 1 1 -72 0" fill="none" stroke="#0c0b0b" stroke-width="4"/>
+              <path d="M-50 30 C-90 40 -100 70 -96 90 C-70 86 -52 66 -46 42Z" fill="#0c0b0b"/>
+              <path d="M50 30 C92 30 108 56 106 78 C80 78 60 60 46 40Z" fill="#0c0b0b"/>
+            </g>
+            <path d="M40 120 q30 -18 60 0 q-30 18 -60 0Z M200 120 q30 -18 60 0 q-30 18 -60 0Z" fill="none" opacity=".5"/>
+            <path d="M60 372 h180" stroke-dasharray="2 10"/>
+          </g></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="styles-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">What we do</span><h2 id="styles-title"><span class="sr-only">Three disciplines</span><span aria-hidden="true" data-scramble>Three disciplines</span></h2></div>
+        <p>Each artist works in their own lane, so you’re matched with the hand that suits your idea best.</p>
+      </div>
+      <div class="styles">
+        <article class="style reveal"><span class="n" aria-hidden="true">i.</span><h3>Fineline &amp; botanical</h3><p>Single-needle botanicals, script and delicate ornament that heals crisp and ages gracefully.</p></article>
+        <article class="style reveal"><span class="n" aria-hidden="true">ii.</span><h3>Neo-traditional</h3><p>Bold outlines and saturated colour — roses, daggers and animals with a modern, painterly twist.</p></article>
+        <article class="style reveal"><span class="n" aria-hidden="true">iii.</span><h3>Blackwork &amp; ornamental</h3><p>Heavy black, geometric flow and patterning built to wrap the body’s natural lines.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="work-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Portfolio</span><h2 id="work-title"><span class="sr-only">Fresh from the needle</span><span aria-hidden="true" data-scramble>Fresh from the needle</span></h2></div>
+        <p>A handful of recent pieces. Filter by artist — hover any card to watch the ink settle.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter portfolio by artist">
+        <button class="filter" type="button" aria-pressed="true" data-f="all">All work</button>
+        <button class="filter" type="button" aria-pressed="false" data-f="mara">Mara</button>
+        <button class="filter" type="button" aria-pressed="false" data-f="kenji">Kenji</button>
+        <button class="filter" type="button" aria-pressed="false" data-f="dove">Dove</button>
+      </div>
+      <div class="grid">
+        <figure class="work reveal" data-artist="mara" tabindex="0" aria-label="Garden Rose by Mara">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-0" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-0"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-0)"><g filter="url(#ink-0)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><g transform="translate(100 88)"><circle r="46" fill="#ff4a26"/><path d="M0 0 m-7 0 a7 7 0 1 1 14 0 a14 14 0 1 1 -28 0 a22 22 0 1 1 44 0 a30 30 0 1 1 -60 0" fill="none" stroke="#0c0b0b" stroke-width="4"/></g>
+<path d="M100 134 C98 160 104 180 98 210" fill="none" stroke-width="4"/><path d="M100 160 C78 146 62 156 58 168 C76 172 92 170 100 160Z" fill="#0c0b0b"/><path d="M101 182 C122 168 140 176 144 188 C126 192 110 190 101 182Z" fill="#0c0b0b"/>
+<path d="M60 60 l-10 -6 M140 60 l10 -6 M100 26 v-12" stroke-width="3"/></g></g>
+          </svg></div>
+          <figcaption><div><h3>Garden Rose</h3><span>Mara · forearm · 3 hrs</span></div><span class="tag">Fineline</span></figcaption>
+        </figure>
+        <figure class="work reveal" data-artist="kenji" tabindex="0" aria-label="Fortune Dagger by Kenji">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-1" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="4" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-1"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-1)"><g filter="url(#ink-1)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M100 14 L114 140 L100 162 L86 140Z" fill="#ede5d5"/><path d="M100 24 V150" stroke="#0c0b0b" stroke-width="3"/><rect x="54" y="146" width="92" height="18" rx="9" fill="#0c0b0b"/><path d="M90 164h20v46H90Z" fill="#0c0b0b"/><path d="M90 178h20M90 192h20"/><circle cx="100" cy="222" r="12" fill="#ff4a26"/>
+<path d="M40 110 C70 90 130 130 160 104 L160 126 C130 152 70 112 40 132Z" fill="#ff4a26"/><text x="100" y="124" text-anchor="middle" font-family="Pirata One,Georgia,serif" font-size="18" fill="#0c0b0b" stroke="none">Fortune</text></g></g>
+          </svg></div>
+          <figcaption><div><h3>Fortune Dagger</h3><span>Kenji · calf · 5 hrs</span></div><span class="tag">Neo-trad</span></figcaption>
+        </figure>
+        <figure class="work reveal" data-artist="dove" tabindex="0" aria-label="Night Moth by Dove">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-2" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="5" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-2"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-2)"><g filter="url(#ink-2)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M100 70 C60 30 20 50 26 92 C30 120 70 126 100 110Z" fill="#0c0b0b"/><path d="M100 70 C140 30 180 50 174 92 C170 120 130 126 100 110Z" fill="#0c0b0b"/><path d="M100 112 C70 120 46 150 60 176 C76 192 96 166 100 140Z" fill="#0c0b0b"/><path d="M100 112 C130 120 154 150 140 176 C124 192 104 166 100 140Z" fill="#0c0b0b"/><circle cx="58" cy="86" r="12" fill="#ff4a26"/><circle cx="142" cy="86" r="12" fill="#ff4a26"/><circle cx="72" cy="158" r="6" fill="#ede5d5"/><circle cx="128" cy="158" r="6" fill="#ede5d5"/><ellipse cx="100" cy="116" rx="9" ry="50" fill="#ede5d5"/><path d="M96 68 C88 50 80 44 70 40 M104 68 C112 50 120 44 130 40" fill="none"/><path d="M92 100h16M92 116h16M92 132h16" stroke="#0c0b0b" stroke-width="3"/></g></g>
+          </svg></div>
+          <figcaption><div><h3>Night Moth</h3><span>Dove · sternum · 4 hrs</span></div><span class="tag">Blackwork</span></figcaption>
+        </figure>
+        <figure class="work reveal" data-artist="kenji" tabindex="0" aria-label="Homeward Swallow by Kenji">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-3" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="6" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-3"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-3)"><g filter="url(#ink-3)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M30 110 Q80 62 118 86 L176 46 L146 100 L184 120 L134 118 Q104 150 58 128Z" fill="#ff4a26"/><path d="M58 128 Q88 120 118 86" fill="none"/><path d="M118 86 L146 100" fill="none"/><path d="M30 110 Q26 104 34 100" fill="#0c0b0b"/><circle cx="52" cy="106" r="4" fill="#0c0b0b"/><path d="M66 132 Q96 150 128 140 Q110 168 72 160Z" fill="#0c0b0b"/>
+<path d="M60 190 h80" stroke-dasharray="2 10"/></g></g>
+          </svg></div>
+          <figcaption><div><h3>Homeward Swallow</h3><span>Kenji · chest · 3 hrs</span></div><span class="tag">Neo-trad</span></figcaption>
+        </figure>
+        <figure class="work reveal" data-artist="dove" tabindex="0" aria-label="Coiled Serpent by Dove">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-4" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-4"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-4)"><g filter="url(#ink-4)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M48 210 C40 160 156 168 152 118 C148 76 64 92 60 58 C58 36 92 22 116 34" fill="none" stroke="#ede5d5" stroke-width="24"/><path d="M48 210 C40 160 156 168 152 118 C148 76 64 92 60 58 C58 36 92 22 116 34" fill="none" stroke="#ff4a26" stroke-width="14"/><path d="M48 210 C40 160 156 168 152 118 C148 76 64 92 60 58 C58 36 92 22 116 34" fill="none" stroke="#0c0b0b" stroke-width="3" stroke-dasharray="6 12"/><path d="M110 22 L142 34 L112 50Z" fill="#ede5d5"/><circle cx="122" cy="34" r="3" fill="#0c0b0b" stroke="none"/><path d="M142 34 l12 -4 M142 34 l12 4" stroke="#ff4a26" stroke-width="2"/></g></g>
+          </svg></div>
+          <figcaption><div><h3>Coiled Serpent</h3><span>Dove · thigh · 6 hrs</span></div><span class="tag">Blackwork</span></figcaption>
+        </figure>
+        <figure class="work reveal" data-artist="mara" tabindex="0" aria-label="Sacred Heart by Mara">
+          <div class="art-wrap"><svg viewBox="0 0 200 240" data-bleed aria-hidden="true">
+            <defs><filter id="ink-5" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="8" result="n"/><feDisplacementMap class="disp" in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
+            <mask id="m-5"><g filter="url(#blot)"><circle class="blob" cx="100" cy="120" r="260" fill="#fff"/></g></mask></defs>
+            <g mask="url(#m-5)"><g filter="url(#ink-5)" stroke="#ede5d5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M100 196 C40 150 30 110 50 84 C68 62 92 70 100 90 C108 70 132 62 150 84 C170 110 160 150 100 196Z" fill="#ff4a26"/><path d="M84 66 C80 46 96 40 92 20 C108 32 112 48 104 60 C116 52 118 40 116 32 C128 46 124 62 116 72" fill="none" stroke-width="3.5"/><path d="M100 104 V170 M76 130 H124" stroke="#0c0b0b" stroke-width="5"/><path d="M38 130 l-14 0 M162 130 l14 0 M52 76 l-10 -10 M148 76 l10 -10 M40 104 l-14 -4 M160 104 l14 -4" stroke-width="3"/></g></g>
+          </svg></div>
+          <figcaption><div><h3>Sacred Heart</h3><span>Mara · upper arm · 4 hrs</span></div><span class="tag">Fineline</span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="artists" aria-labelledby="artists-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Residents</span><h2 id="artists-title"><span class="sr-only">The hands</span><span aria-hidden="true" data-scramble>The hands</span></h2></div>
+        <p>Consultations are free and unhurried. Bring references, photos or just a feeling.</p>
+      </div>
+      <div class="artists">
+        <article class="artist reveal"><span class="sig">Mara</span><span class="role">Fineline · Botanical</span><p>Trained as a botanical illustrator before picking up a machine. Known for flowing single-needle florals that follow the muscle.</p><ul><li>Fineline</li><li>Script</li><li>Florals</li></ul></article>
+        <article class="artist reveal"><span class="sig">Kenji</span><span class="role">Neo-traditional</span><p>Twelve years of bold lines and loud colour. If it has a dagger, a snake or a swallow, Kenji has an opinion on it.</p><ul><li>Colour</li><li>Flash days</li><li>Cover-ups</li></ul></article>
+        <article class="artist reveal"><span class="sig">Dove</span><span class="role">Blackwork · Ornamental</span><p>Large-scale blackwork and ornamental sleeves designed directly on the body with a marker before a single line goes in.</p><ul><li>Sleeves</li><li>Geometric</li><li>Back pieces</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="rates" aria-labelledby="rates-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="label">Rates</span><h2 id="rates-title"><span class="sr-only">Honest pricing</span><span aria-hidden="true" data-scramble>Honest pricing</span></h2></div>
+        <p>A deposit secures your date and comes off the final price. You’ll always get a quote before we start.</p>
+      </div>
+      <div class="rates">
+        <article class="rate reveal"><h3 class="card-title">Flash</h3><p>Pick a pre-drawn design from the wall on monthly flash days. Walk-ins welcome.</p><span class="price">from $120</span></article>
+        <article class="rate reveal"><h3 class="card-title">Small custom</h3><p>Palm-sized, fully custom, usually finished in a single session under three hours.</p><span class="price">from $250</span></article>
+        <article class="rate hot reveal"><h3 class="card-title">Half day</h3><p>Four hours with your artist — ideal for forearm pieces and sleeve sessions.</p><span class="price">$600 <small>/ 4 hrs</small></span></article>
+        <article class="rate reveal"><h3 class="card-title">Full day</h3><p>Seven hours for large-scale work: backs, thighs, full sleeves. Lunch is on us.</p><span class="price">$1,100 <small>/ day</small></span></article>
+      </div>
+      <p class="rates-note">Deposit $100 for small work, $200 for sessions. Touch-ups within 3 months are free.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="words-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="label">Healed &amp; happy</span><h2 id="words-title"><span class="sr-only">Kind words</span><span aria-hidden="true" data-scramble>Kind words</span></h2></div></div>
+      <div class="quotes">
+        <blockquote class="quote reveal"><p>“Mara turned three blurry photos of my grandmother’s garden into the most beautiful thing I own.”</p><footer>— Leah · forearm botanical</footer></blockquote>
+        <blockquote class="quote reveal"><p>“First tattoo, zero nerves by the end. Kenji explained every single step and the colour is unreal.”</p><footer>— Sam · neo-trad swallow</footer></blockquote>
+        <blockquote class="quote reveal"><p>“Two years of sessions with Dove on my sleeve. Worth every hour. People stop me in the street.”</p><footer>— Ravi · blackwork sleeve</footer></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title" style="padding-top:0">
+    <div class="wrap faq-grid">
+      <div><span class="label">Before &amp; after</span><h2 id="faq-title"><span class="sr-only">Aftercare &amp; FAQ</span><span aria-hidden="true" data-scramble>Aftercare &amp; FAQ</span></h2><p style="color:var(--bone-dim)">Everything you need to know before your session — and how to keep your new ink looking sharp for decades.</p></div>
+      <div class="reveal">
+        <details open><summary>How do I prepare for my session?</summary><p>Sleep well, eat a proper meal, stay hydrated and skip alcohol for 24 hours. Wear clothes that give easy access to the area.</p></details>
+        <details><summary>How should I look after a fresh tattoo?</summary><p>Keep the film on for 3–5 days, then wash gently twice a day and apply a thin layer of unscented balm. No swimming, sun or picking for two weeks.</p></details>
+        <details><summary>Do you do cover-ups?</summary><p>Yes — Kenji and Dove both specialise in them. Send a clear photo of the existing piece with your enquiry.</p></details>
+        <details><summary>What’s your minimum age?</summary><p>You must be 18 or over and bring a valid photo ID to every appointment. No exceptions, even with parental consent.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div>
+        <span class="label">Enquiries</span>
+        <h2 id="contact-title"><span class="sr-only">Tell us your idea</span><span aria-hidden="true" data-scramble>Tell us your idea</span></h2>
+        <p>Every enquiry is read by the artist themselves. Expect a reply within three working days.</p>
+        <dl>
+          <div><dt>Studio</dt><dd>27 Canal Street, upstairs · Riverside</dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:ink@example.com">ink@example.com</a></dd></div>
+          <div><dt>Phone</dt><dd><a href="tel:+15550187731">+1 555 018 7731</a></dd></div>
+          <div><dt>Hours</dt><dd>Tue–Sat · 11:00–19:00 · by appointment</dd></div>
+        </dl>
+      </div>
+      <form action="https://www.templatehub.website/api/forms/submit?to=you@example.com" method="POST">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="f-artist">Artist</label><select id="f-artist" name="artist"><option>Not sure yet</option><option>Mara — fineline</option><option>Kenji — neo-traditional</option><option>Dove — blackwork</option></select></div>
+        <div class="field"><label for="f-place">Placement &amp; size</label><input id="f-place" name="placement" type="text" placeholder="e.g. inner forearm, 12 cm"></div>
+        <div class="field full"><label for="f-msg">Your idea</label><textarea id="f-msg" name="message" required placeholder="Describe the piece, the feeling, any references…"></textarea></div>
+        <button type="submit" class="btn">Send enquiry <span class="arr" aria-hidden="true">→</span></button>
+        <p class="note">You must be 18+. A deposit is only taken once your design is agreed.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <a href="#" class="logo" aria-label="Inkwell Tattoo, back to top">Inkwell</a>
+    <nav aria-label="Footer"><a href="#work">Work</a><a href="#rates">Rates</a><a href="#faq">Aftercare</a><a href="#contact">Book</a></nav>
+    <p>© <span id="year">2026</span> Inkwell Tattoo Studio. Drawn by hand.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var mb = document.querySelector('.menu-btn'), links = document.getElementById('nav-links');
+  function setMenu(o){ mb.setAttribute('aria-expanded', o); mb.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); links.classList.toggle('open', o); }
+  mb.addEventListener('click', function(){ setMenu(mb.getAttribute('aria-expanded') !== 'true'); });
+  links.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && mb.getAttribute('aria-expanded') === 'true'){ setMenu(false); mb.focus(); } });
+
+  // portfolio filter
+  var filters = [].slice.call(document.querySelectorAll('.filter')), works = [].slice.call(document.querySelectorAll('.work'));
+  filters.forEach(function(f){ f.addEventListener('click', function(){
+    filters.forEach(function(x){ x.setAttribute('aria-pressed', x === f); });
+    works.forEach(function(w){ var show = f.dataset.f === 'all' || w.dataset.artist === f.dataset.f; w.hidden = !show; if (show && !reduce) bleed(w.querySelector('[data-bleed]'), 900); });
+  }); });
+
+  // reveals
+  var rev = document.querySelectorAll('.reveal');
+  if (reduce || !hasIO) rev.forEach(function(el){ el.classList.add('in'); });
+  else {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    rev.forEach(function(el, i){ el.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(el); });
+  }
+
+  if (reduce) return; // everything below is decorative motion
+
+  // INK BLEED: the mask blob grows with a ragged turbulent edge while the art's displacement settles to zero
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function bleed(svg, dur){
+    if (!svg) return;
+    var blob = svg.querySelector('.blob'), disp = svg.querySelector('.disp');
+    var t0 = null; dur = dur || 1600;
+    if (svg._raf) cancelAnimationFrame(svg._raf);
+    function step(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / dur, 1), e = ease(p);
+      blob.setAttribute('r', (e * 260).toFixed(1));
+      disp.setAttribute('scale', ((1 - e) * 70).toFixed(1));
+      if (p < 1) svg._raf = requestAnimationFrame(step); else svg._raf = null;
+    }
+    svg._raf = requestAnimationFrame(step);
+  }
+  function wobble(svg){
+    if (!svg || svg._raf) return;
+    var disp = svg.querySelector('.disp'), t0 = null;
+    function step(t){
+      if (!t0) t0 = t;
+      var p = Math.min((t - t0) / 700, 1);
+      disp.setAttribute('scale', (Math.sin(p * Math.PI) * 16).toFixed(1));
+      if (p < 1) svg._raf = requestAnimationFrame(step); else svg._raf = null;
+    }
+    svg._raf = requestAnimationFrame(step);
+  }
+  var bleeders = [].slice.call(document.querySelectorAll('[data-bleed]'));
+  bleeders.forEach(function(svg){ svg.querySelector('.blob').setAttribute('r', '0'); svg.querySelector('.disp').setAttribute('scale', '70'); });
+  if (hasIO){
+    var bio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ bleed(e.target, 1700); bio.unobserve(e.target); } }); }, { threshold: .35 });
+    bleeders.forEach(function(s){ bio.observe(s); });
+  } else bleeders.forEach(function(s){ bleed(s); });
+  works.forEach(function(w){
+    var s = w.querySelector('[data-bleed]');
+    w.addEventListener('mouseenter', function(){ wobble(s); });
+    w.addEventListener('focusin', function(){ wobble(s); });
+  });
+
+  // TEXT SCRAMBLE on section headings
+  var glyphs = '†‡§¶#%&*+=/\\|<>?!ABCDEFGHJKLMNPRSTUVWXYZ';
+  function scramble(el){
+    if (el._busy) return; el._busy = true; var final = el.dataset.t || (el.dataset.t = el.textContent), len = final.length, t0 = null, dur = 900 + len * 25;
+    var starts = [], ends = [];
+    for (var i = 0; i < len; i++){ starts.push(Math.random() * 250); ends.push(300 + Math.random() * (dur - 300)); }
+    function step(t){
+      if (!t0) t0 = t;
+      var el2 = t - t0, out = '', done = true;
+      for (var i = 0; i < len; i++){
+        var ch = final[i];
+        if (ch === ' ' || el2 >= ends[i]) out += ch;
+        else if (el2 >= starts[i]) { out += glyphs[(Math.random() * glyphs.length) | 0]; done = false; }
+        else { out += ch; done = false; }
+      }
+      el.textContent = out;
+      if (!done && !document.hidden) requestAnimationFrame(step); else { el.textContent = final; el._busy = false; }
+    }
+    requestAnimationFrame(step);
+  }
+  var heads = [].slice.call(document.querySelectorAll('[data-scramble]'));
+  if (hasIO){
+    var sio = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ scramble(e.target); sio.unobserve(e.target); } }); }, { threshold: .6 });
+    heads.forEach(function(h){ sio.observe(h); h.parentNode.addEventListener('mouseenter', function(){ scramble(h); }); });
+  }
+})();
+</script>
+</body>
+</html>

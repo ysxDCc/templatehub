@@ -1,0 +1,11 @@
+{
+  "id": "craft-academy",
+  "name": "Craft Academy",
+  "description": "Warm workshop-style site for an online woodworking course, with a scroll-drawn learning path and flip-over module cards.",
+  "category": "education",
+  "tier": "pro",
+  "logo": "🪚 Craft Academy",
+  "tags": ["Online Course", "Woodworking", "Education", "Walnut", "Scroll-drawn Path"],
+  "features": ["Eight-module learning path whose SVG line draws through each node as you scroll", "Flip cards that turn over to reveal every lesson in a module", "Instructor bio, three enrolment packages and student reviews", "FAQ accordion and an enquiry form with a package selector"],
+  "signature": "A curriculum path line draws itself through module nodes on scroll; module cards flip to show their lesson lists"
+}

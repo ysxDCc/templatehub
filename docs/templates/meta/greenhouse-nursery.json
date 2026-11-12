@@ -1,0 +1,16 @@
+{
+  "id": "greenhouse-nursery",
+  "name": "Greenhouse",
+  "description": "Plant nursery & garden centre template where SVG vines grow up the page edges as you scroll, with plant shop, care-guide tabs and workshops.",
+  "category": "green",
+  "tier": "basic",
+  "logo": "🌱 GREENHOUSE",
+  "tags": ["Plants", "Nursery", "Garden Centre", "Botanical", "Growing Vines"],
+  "features": [
+    "Six hand-drawn SVG potted plants with care chips, filters and a live basket counter",
+    "Accessible tabbed care guides with keyboard arrow navigation",
+    "Weekend workshop listings and a seasonal to-do list",
+    "Visit panel with hours plus a contact form with topic selector"
+  ],
+  "signature": "Scroll-linked SVG vines grow along both page edges and sprout leaves, while hero leaves drift with subtle parallax"
+}

@@ -65,7 +65,11 @@ export type TemplateCategory =
   | 'spa'
   | 'astronomy'
   | 'dining'
-  | 'bionics';
+  | 'bionics'
+  | 'professional'
+  | 'local-services'
+  | 'events'
+  | 'nonprofit';
 
 export type SubscriptionTier = 'free' | 'basic' | 'pro' | 'enterprise';
 

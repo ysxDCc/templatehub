@@ -1,3 +1,4 @@
+import TemplateStats from '@/components/TemplateStats';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -119,7 +120,7 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
         <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 pt-4 text-sm text-muted">
           <Link href="/templates" className="inline-flex items-center min-h-11 hover:text-ink">Templates</Link>
           <span aria-hidden="true">/</span>
-          <Link href={`/templates?category=${template.category}`} className="inline-flex items-center min-h-11 capitalize hover:text-ink">
+          <Link href={`/templates?category=${template.category}`} className="inline-flex items-center justify-center min-h-11 min-w-11 capitalize hover:text-ink">
             {template.category.replace(/-/g, ' ')}
           </Link>
           <span aria-hidden="true">/</span>
@@ -129,9 +130,7 @@ export default async function TemplateDetail({ params }: { params: Promise<{ id:
         <header className="pt-2 pb-6">
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <Badge tone={template.tier}>{template.tier}</Badge>
-            <span className="text-sm text-muted">
-              <span className="text-amber-300">★ {template.rating.toFixed(1)}</span> · {template.downloads.toLocaleString()} downloads
-            </span>
+            <TemplateStats rating={template.rating} downloads={template.downloads} className="text-sm" />
           </div>
           <div className="flex items-center gap-3">
             <TemplateLogo template={template} size={40} />

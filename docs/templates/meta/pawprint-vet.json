@@ -1,0 +1,16 @@
+{
+  "id": "pawprint-vet",
+  "name": "Pawprint Vet Clinic",
+  "description": "Friendly veterinary clinic template with a trail of paw prints walking across the hero and service cards that wiggle on hover.",
+  "category": "healthcare",
+  "tier": "pro",
+  "logo": "🐾 PAWPRINT",
+  "tags": ["Veterinary", "Pets", "Clinic", "Playful", "Paw Trail"],
+  "features": [
+    "Illustrated dog-and-cat hero with live 'next slot' and rating bubbles",
+    "Six priced service cards with icons and quick Book links",
+    "Three-step new-patient guide, vet team cards and opening-hours panel",
+    "Appointment form with pet name and species fields"
+  ],
+  "signature": "A staggered trail of paw prints walks across the hero (paused off-screen); service cards do a playful wiggle on hover or focus"
+}
