@@ -19,6 +19,7 @@ const args = Object.fromEntries(
 const base = args.base || 'http://127.0.0.1:3123';
 const pages = (args.pages || '/').split(',');
 const widths = (args.widths || '320,390,1440').split(',').map(Number);
+const scope = args.scope || 'body'; // e.g. --scope=main to ignore nav/footer
 const only = args.only ? new Set(args.only.split(',')) : null;
 const want = (c) => !only || only.has(c);
 const outDir = 'ui-check-output';
@@ -56,9 +57,9 @@ for (const p of pages) {
     }
 
     if (want('tap')) {
-      const small = await page.evaluate(() => {
+      const small = await page.evaluate((scope) => {
         const out = [];
-        for (const el of document.querySelectorAll('a, button, [role=tab], summary, input, select, textarea')) {
+        for (const el of document.querySelectorAll(`${scope} :is(a, button, [role=tab], summary, input, select, textarea)`)) {
           if (el.closest('.legal-prose p, .legal-prose li, .legal-prose td, [aria-hidden="true"], [data-tap-exempt]')) continue;
           const s = getComputedStyle(el);
           if (s.visibility === 'hidden' || s.display === 'none') continue;
@@ -71,12 +72,12 @@ for (const p of pages) {
           }
         }
         return out;
-      });
+      }, scope);
       if (small.length) fail(p, width, 'tap', `${small.length} small targets, e.g. ${small.slice(0, 5).join('; ')}`);
     }
 
     if (want('axe') && width === 390) {
-      const res = await new AxeBuilder({ page }).disableRules(['frame-tested']).analyze();
+      const res = await new AxeBuilder({ page }).include(scope).disableRules(['frame-tested']).analyze();
       const bad = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
       for (const v of bad) fail(p, width, 'axe', `${v.id} (${v.impact}) ×${v.nodes.length}: ${v.nodes[0]?.target?.join(' ')}`);
     }
