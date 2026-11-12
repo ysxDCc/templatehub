@@ -23,7 +23,7 @@ export default function InfoPage({ eyebrow, title, intro, showUpdated, children 
   return (
     <div className="bg-[#070314] min-h-screen">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-        <nav aria-label="Breadcrumb" className="text-xs font-mono text-purple-400/80 mb-6">
+        <nav aria-label="Breadcrumb" className="text-xs font-mono text-muted mb-6">
           <Link href="/" className="inline-flex items-center min-h-11 min-w-11 hover:text-white">Home</Link>
           <span className="mx-2" aria-hidden="true">/</span>
           <span className="text-purple-200">{title}</span>
@@ -35,9 +35,9 @@ export default function InfoPage({ eyebrow, title, intro, showUpdated, children 
           </div>
         )}
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4">{title}</h1>
-        {intro && <p className="text-base sm:text-lg text-purple-200/80 leading-relaxed mb-4">{intro}</p>}
+        {intro && <p className="text-base sm:text-lg text-muted leading-relaxed mb-4">{intro}</p>}
         {showUpdated && (
-          <p className="text-xs font-mono text-purple-400/70 mb-10">Last updated: {LEGAL_LAST_UPDATED}</p>
+          <p className="text-xs font-mono text-muted mb-10">Last updated: {LEGAL_LAST_UPDATED}</p>
         )}
 
         <article className="legal-prose">{children}</article>
@@ -49,7 +49,7 @@ export default function InfoPage({ eyebrow, title, intro, showUpdated, children 
               <li key={r.href}>
                 <Link
                   href={r.href}
-                  className="inline-block px-3 py-1.5 rounded-lg text-xs border border-purple-500/25 bg-[#0e0624] text-purple-200 hover:text-white hover:border-purple-400/50"
+                  className="min-h-11 inline-block px-3 py-1.5 rounded-lg text-xs border border-purple-500/25 bg-[#0e0624] text-purple-200 hover:text-white hover:border-purple-400/50"
                 >
                   {r.label}
                 </Link>

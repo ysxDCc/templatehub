@@ -7,7 +7,7 @@ export default function CheckoutSuccessPage({
 }) {
   return (
     <div className="min-h-[calc(100vh-160px)] flex items-center justify-center px-4 py-16 bg-[#09090b]">
-      <div className="max-w-md w-full bg-zinc-900/70 border border-white/10 rounded-2xl p-8 text-center backdrop-blur-md shadow-2xl relative overflow-hidden">
+      <div className="max-w-md w-full bg-surface border border-line rounded-2xl p-8 text-center backdrop-blur-md shadow-2xl relative overflow-hidden">
         {/* Glow backdrop */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48 bg-emerald-500/20 blur-3xl pointer-events-none rounded-full" />
 
@@ -25,7 +25,7 @@ export default function CheckoutSuccessPage({
         <h1 className="text-2xl font-bold tracking-tight text-white mb-2">
           Welcome to TemplateHub!
         </h1>
-        <p className="text-sm text-zinc-400 mb-8 leading-relaxed">
+        <p className="text-sm text-muted mb-8 leading-relaxed">
           Your subscription via Dodo Payments is now active. You have unlocked unlimited template access and full commercial licenses.
         </p>
 
@@ -38,13 +38,13 @@ export default function CheckoutSuccessPage({
           </Link>
           <Link
             href="/builder"
-            className="w-full py-3 px-4 bg-zinc-800 text-zinc-200 font-medium text-sm rounded-lg hover:bg-zinc-700 border border-white/10 transition-colors"
+            className="w-full py-3 px-4 bg-raised text-zinc-200 font-medium text-sm rounded-lg hover:bg-zinc-700 border border-line transition-colors"
           >
             Open Visual No-Code Customizer
           </Link>
           <Link
             href="/"
-            className="text-xs text-zinc-400 hover:text-white pt-2 transition-colors"
+            className="text-xs text-muted hover:text-white pt-2 transition-colors"
           >
             Return to Homepage
           </Link>
