@@ -5,6 +5,7 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { cyberSound } from '@/lib/sound';
 import type { SubscriptionTier } from '@/types';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface MasterBundleDownloadButtonProps {
   className?: string;
@@ -27,7 +28,7 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
 
     const tier = (user?.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
     if (tier !== 'pro' && tier !== 'enterprise') {
-      setErrorMessage('The 56-Template Master Bundle is an exclusive perk for Pro & Enterprise members.');
+      setErrorMessage(`The ${TEMPLATE_COUNT}-template bundle is included with Pro and Enterprise.`);
       return;
     }
 
@@ -51,7 +52,7 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'TemplateHub-56-Master-Agency-Bundle.zip';
+        a.download = `TemplateHub-${TEMPLATE_COUNT}-Template-Bundle.zip`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -77,8 +78,8 @@ export default function MasterBundleDownloadButton({ className = '' }: MasterBun
         <span className="text-sm">📦</span>
         <span>
           {downloading
-            ? 'Packing 56 Templates (ZIP)…'
-            : 'Download Complete 56-Template Master Pack (ZIP)'}
+            ? `Packing ${TEMPLATE_COUNT} templates (ZIP)…`
+            : `Download all ${TEMPLATE_COUNT} templates (ZIP)`}
         </span>
       </button>
 

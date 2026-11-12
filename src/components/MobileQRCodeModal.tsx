@@ -20,7 +20,7 @@ export default function MobileQRCodeModal({
 
   if (!isOpen) return null;
 
-  const targetUrl = `https://www.templatehub.website/sandboxes/${templateId}/index.html`;
+  const targetUrl = `https://www.templatehub.website/preview/${templateId}`;
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(
     targetUrl
   )}&color=e879f9&bgcolor=070314&margin=1`;

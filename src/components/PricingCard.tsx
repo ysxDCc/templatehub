@@ -155,7 +155,9 @@ export default function PricingCard({ plan }: PricingCardProps) {
 
       {plan.trialDays && (
         <p className="text-[11px] text-center text-purple-300/80 mt-2.5 leading-tight font-medium">
-          €0 today, then €{plan.price}/mo. <span className="text-purple-400">Cancel anytime.</span>
+          €0 today. After {plan.trialDays} days your card is charged €{plan.price} and then every month until you cancel.{' '}
+          <span className="text-purple-400">Cancel any time before the trial ends to pay nothing.</span>{' '}
+          <Link href="/terms#subscriptions" className="underline decoration-purple-500/50 hover:text-white">Terms</Link>
         </p>
       )}
     </div>

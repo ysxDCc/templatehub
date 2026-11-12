@@ -164,7 +164,7 @@ export default function SocialCardGeneratorModal({
     ctx.stroke();
     ctx.font = 'bold 14px "JetBrains Mono", monospace';
     ctx.fillStyle = '#34d399';
-    ctx.fillText('⚡ 100/100 LIGHTHOUSE', 98, footerY + 26);
+    ctx.fillText('⚡ NO BUILD STEP', 98, footerY + 26);
 
     // Badge 2: Zero Dependencies
     roundRect(ctx, 310, footerY, 230, 42, 10);

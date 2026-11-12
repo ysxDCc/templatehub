@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Logo from '@/components/Logo';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 export default function Footer() {
   return (
@@ -16,15 +17,15 @@ export default function Footer() {
               <Logo size="lg" />
             </Link>
             <p className="mt-4 text-xs sm:text-sm text-purple-200/70 leading-relaxed max-w-sm">
-              The sovereign subscription marketplace for high-performance website templates. 
-              Engineered for founders, agencies, and full-stack builders.
+              Fast, dependency-free website templates you can preview, customise in your browser and host anywhere.
+              Made for small businesses, freelancers and agencies.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 text-xs font-semibold border border-emerald-500/30">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>All 56 Masterpieces Live</span>
+                <span>{TEMPLATE_COUNT} templates live</span>
               </span>
-              <span className="text-xs text-purple-400/70 font-mono">v3.0.0 Cyber</span>
+
             </div>
           </div>
 
@@ -34,7 +35,7 @@ export default function Footer() {
               Templates
             </h4>
             <ul className="space-y-2.5 text-xs text-purple-200/70">
-              <li><Link href="/templates" className="hover:text-white transition-colors">All 56 Templates</Link></li>
+              <li><Link href="/templates" className="hover:text-white transition-colors">All {TEMPLATE_COUNT} templates</Link></li>
               <li><Link href="/templates/astral-aerospace" className="hover:text-white transition-colors">ASTRAL Aerospace</Link></li>
               <li><Link href="/templates/neo-tokyo-cyberpunk" className="hover:text-white transition-colors">Neo-Tokyo Cyberpunk</Link></li>
               <li><Link href="/templates/velox-f1-racing" className="hover:text-white transition-colors">VELOX F1 Racing</Link></li>
@@ -53,34 +54,34 @@ export default function Footer() {
               <li><Link href="/#pricing" className="hover:text-white transition-colors">Basic Plan (€3/mo)</Link></li>
               <li><Link href="/#pricing" className="hover:text-white transition-colors">Pro Plan (€10/mo)</Link></li>
               <li><Link href="/#pricing" className="hover:text-white transition-colors">Enterprise License</Link></li>
+              <li><Link href="/studio" className="hover:text-white transition-colors">Auto-Edit Studio</Link></li>
               <li><Link href="/ai-generator" className="hover:text-white transition-colors">AI Template Studio</Link></li>
               <li><Link href="/compare" className="hover:text-white transition-colors">Compare Tool</Link></li>
+              <li><Link href="/builder" className="hover:text-white transition-colors">Page Builder</Link></li>
             </ul>
           </div>
 
           {/* Links Col 3: Community & Governance */}
           <div>
             <h4 className="text-white text-xs font-bold uppercase tracking-wider mb-4 text-purple-300 font-mono">
-              Ecosystem
+              Company
             </h4>
             <ul className="space-y-2.5 text-xs text-purple-200/70">
-              <li><Link href="/#license" className="hover:text-white transition-colors">Commercial License</Link></li>
-              <li><Link href="/#license" className="hover:text-white transition-colors">Code Ownership</Link></li>
-              <li><Link href="/templates" className="hover:text-white transition-colors">Store Auto-Edit</Link></li>
-              <li><a href="https://templatehub.website" className="hover:text-white transition-colors">Status: Operational</a></li>
+              <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
+              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/licensing" className="hover:text-white transition-colors">Licensing</Link></li>
+              <li><Link href="/affiliate" className="hover:text-white transition-colors">Partner programme (30%)</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-purple-500/20 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-purple-300/60 font-mono text-center md:text-left">
-          <p>© 2026 TemplateHub Inc. Built with Next.js, React &amp; Tailwind CSS.</p>
+          <p>© {new Date().getFullYear()} TemplateHub. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
-            <span className="hover:text-purple-200 cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-purple-200 cursor-pointer">Cookie Settings</span>
-            <span className="text-emerald-400 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              256-bit TLS Encrypted
-            </span>
+            <Link href="/terms" className="hover:text-purple-200">Terms</Link>
+            <Link href="/privacy" className="hover:text-purple-200">Privacy</Link>
+            <Link href="/privacy#cookies" className="hover:text-purple-200">Cookies</Link>
+            <Link href="/refunds" className="hover:text-purple-200">Refunds</Link>
           </div>
         </div>
       </div>

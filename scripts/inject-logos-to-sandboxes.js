@@ -11,7 +11,7 @@ const ids = [
 let updatedCount = 0;
 
 for (const id of ids) {
-  const htmlPath = path.join(__dirname, '..', 'public', 'sandboxes', id, 'index.html');
+  const htmlPath = path.join(__dirname, '..', 'templates-src', id, 'index.html');
   const logoPath = path.join(__dirname, '..', 'public', 'logos', `${id}.svg`);
 
   if (!fs.existsSync(htmlPath) || !fs.existsSync(logoPath)) {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { templates } from '@/data/templates';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface CommandPaletteProps {
   isOpen: boolean;
@@ -62,12 +63,14 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
   }, [isOpen]);
 
   const quickLinks: PaletteItem[] = [
-    { name: 'Browse All 56 Masterpieces', href: '/templates', icon: '💎', type: 'Archive' },
-    { name: 'Store Auto-Edit Studio', href: '/templates/astral-aerospace', icon: '🪄', type: 'Studio' },
+    { name: `Browse all ${TEMPLATE_COUNT} templates`, href: '/templates', icon: '💎', type: 'Archive' },
+    { name: 'Auto-Edit Studio', href: '/studio', icon: '🪄', type: 'Studio' },
     { name: 'AI Template Generator', href: '/ai-generator', icon: '🤖', type: 'AI' },
     { name: 'Side-by-Side Comparison', href: '/compare', icon: '⚖️', type: 'Tool' },
-    { name: 'Visual No-Code Customizer', href: '/builder', icon: '✏️', type: 'Tool' },
-    { name: 'Developer Subscriptions', href: '/#pricing', icon: '💳', type: 'Plans' },
+    { name: 'Page Builder', href: '/builder', icon: '✏️', type: 'Tool' },
+    { name: 'Pricing & plans', href: '/#pricing', icon: '💳', type: 'Plans' },
+    { name: 'Licensing', href: '/licensing', icon: '📜', type: 'Help' },
+    { name: 'Contact support', href: '/contact', icon: '✉️', type: 'Help' },
   ];
 
   const searchResults = query.trim()
@@ -139,7 +142,7 @@ export default function CommandPalette({ isOpen, onClose }: CommandPaletteProps)
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search all 56 templates, tools, or verticals..."
+            placeholder={`Search all ${TEMPLATE_COUNT} templates, tools, or industries...`}
             className="w-full bg-transparent text-xs sm:text-sm text-white placeholder-purple-300/40 focus:outline-none"
           />
           <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono bg-[#070314] text-purple-300 border border-purple-500/30 rounded">

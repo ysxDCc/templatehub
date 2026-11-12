@@ -1,33 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { cyberSound } from '@/lib/sound';
+import { SITE_URL } from '@/lib/site';
 
 interface LighthouseAuditModalProps {
   isOpen: boolean;
   onClose: () => void;
   templateName: string;
+  /** Path of the live preview, e.g. /preview/apex-landing */
+  previewPath?: string;
 }
 
 export default function LighthouseAuditModal({
   isOpen,
   onClose,
   templateName,
+  previewPath,
 }: LighthouseAuditModalProps) {
-  const [auditing, setAuditing] = useState(false);
-  const [fcp, setFcp] = useState(0.18);
-  const [lcp, setLcp] = useState(0.32);
-
-  const handleRerunAudit = () => {
-    cyberSound.playClick();
-    setAuditing(true);
-    setTimeout(() => {
-      cyberSound.playSuccess();
-      setFcp(Number((0.14 + Math.random() * 0.08).toFixed(2)));
-      setLcp(Number((0.28 + Math.random() * 0.09).toFixed(2)));
-      setAuditing(false);
-    }, 1200);
-  };
+  // These are typical lab values for a static, framework-free page. The real
+  // audit is one click away on Google PageSpeed Insights.
+  const auditing = false;
+  const fcp = 0.2;
+  const lcp = 0.35;
+  const pageSpeedUrl = previewPath
+    ? `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(`${SITE_URL}${previewPath}`)}`
+    : 'https://pagespeed.web.dev/';
 
   if (!isOpen) return null;
 
@@ -54,11 +51,11 @@ export default function LighthouseAuditModal({
                   Lighthouse &amp; Core Web Vitals Benchmark
                 </h3>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  Live Audit
+                  Typical values
                 </span>
               </div>
               <p className="text-xs text-zinc-400 font-mono">
-                Auditing {templateName} in isolated browser runtime
+                Expected results for {templateName}. Run a real audit below.
               </p>
             </div>
           </div>
@@ -168,22 +165,22 @@ export default function LighthouseAuditModal({
         {/* Footer Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-white/10">
           <div className="flex items-center gap-2 text-xs text-zinc-400 font-mono">
-            <span>Payload: ~32 KB</span>
+            <span>No trackers</span>
             <span>•</span>
-            <span>0 Trackers</span>
-            <span>•</span>
-            <span className="text-emerald-400">Carbon Rating: A+</span>
+            <span>No framework</span>
           </div>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
-            <button
-              onClick={handleRerunAudit}
-              disabled={auditing}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-[0_0_15px_rgba(16,185,129,0.35)] transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-60"
+            <a
+              href={pageSpeedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => cyberSound.playClick()}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-[0_0_15px_rgba(16,185,129,0.35)] transition-all flex items-center justify-center gap-2 active:scale-95"
             >
-              <span>{auditing ? '⏳' : '⚡'}</span>
-              <span>{auditing ? 'Measuring Telemetry…' : 'Re-Run Live Audit'}</span>
-            </button>
+              <span>⚡</span>
+              <span>Run a real audit on PageSpeed Insights ↗</span>
+            </a>
           </div>
         </div>
       </div>

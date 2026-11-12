@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@clerk/nextjs/server';
+
+const MAX_PROMPT_LENGTH = 1000;
 
 export async function POST(req: Request) {
   try {
@@ -8,7 +11,17 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
+    if (prompt.length > MAX_PROMPT_LENGTH) {
+      return NextResponse.json(
+        { error: `Please keep your prompt under ${MAX_PROMPT_LENGTH} characters.` },
+        { status: 400 }
+      );
+    }
+
+    // Only signed-in users may spend the paid Gemini quota; everyone else gets
+    // the built-in generator below.
+    const { userId } = await auth();
+    const apiKey = userId ? process.env.GEMINI_API_KEY : undefined;
 
     if (apiKey) {
       try {

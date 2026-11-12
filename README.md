@@ -50,4 +50,4 @@ npm start
   - `src/app/ai-generator/` — AI site generator studio
 - `src/components/` — Modular UI components (Navbar, Hero, Modals, Cards)
 - `src/data/` — Static data (templates registry, pricing plans, reviews)
-- `public/sandboxes/` — Standalone HTML/CSS/JS template engines
+- `templates-src/` — Template source files (private; served watermarked at `/preview/[id]` and clean via `/api/template-source` to members)

@@ -3,7 +3,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 
 const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
-const templatesDir = path.join(__dirname, '..', 'public', 'sandboxes');
+const templatesDir = path.join(__dirname, '..', 'templates-src');
 const outDir = path.join(__dirname, '..', 'public', 'previews');
 
 if (!fs.existsSync(outDir)) {

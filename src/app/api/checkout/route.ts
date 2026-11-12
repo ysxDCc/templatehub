@@ -39,6 +39,10 @@ export async function POST(req: Request) {
 
     const origin = req.headers.get('origin') || 'https://www.templatehub.website';
 
+    // Partner referral code, set by middleware when a visitor opens a ?ref= link.
+    const refMatch = (req.headers.get('cookie') || '').match(/(?:^|;\s*)th_ref=([A-Za-z0-9_-]{2,40})/);
+    const referrer = refMatch ? refMatch[1] : undefined;
+
     const sessionPayload: any = {
       product_cart: [
         {
@@ -53,6 +57,7 @@ export async function POST(req: Request) {
       metadata: {
         planId: isSingle ? 'single-template' : planId,
         ...(templateId ? { templateId } : {}),
+        ...(referrer ? { referrer } : {}),
       },
     };
 

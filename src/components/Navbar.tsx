@@ -8,6 +8,7 @@ import CommandPalette from '@/components/CommandPalette';
 import Logo from '@/components/Logo';
 import { cyberSound } from '@/lib/sound';
 import ReferralModal from '@/components/ReferralModal';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,14 +55,14 @@ export default function Navbar() {
                 <Logo size="md" />
               </Link>
 
-              <div className="hidden lg:flex items-center space-x-6 text-sm">
+              <div className="hidden lg:flex items-center space-x-5 text-sm">
                 <Link 
                   href="/templates" 
-                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
                 >
                   <span>Templates</span>
                   <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300">
-                    56
+                    {TEMPLATE_COUNT}
                   </span>
                 </Link>
 
@@ -77,7 +78,7 @@ export default function Navbar() {
 
                 <Link 
                   href="/ai-generator" 
-                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
                 >
                   <span>AI Studio</span>
                   <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-gradient-to-r from-purple-500/30 to-fuchsia-500/30 text-purple-200 border border-purple-400/30 font-semibold shadow-[0_0_8px_rgba(168,85,247,0.3)]">
@@ -93,10 +94,10 @@ export default function Navbar() {
                 </Link>
 
                 <Link 
-                  href="/builder" 
-                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5"
+                  href="/studio" 
+                  className="text-purple-200/80 hover:text-white transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
                 >
-                  <span>Visual Customizer</span>
+                  <span>Auto-Edit Studio</span>
                   <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold">
                     Live
                   </span>
@@ -106,7 +107,7 @@ export default function Navbar() {
                   Pricing
                 </Link>
 
-                <Link href="/#license" className="text-purple-200/80 hover:text-white transition-colors font-medium">
+                <Link href="/licensing" className="text-purple-200/80 hover:text-white transition-colors font-medium">
                   Licensing
                 </Link>
               </div>
@@ -226,7 +227,7 @@ export default function Navbar() {
             <div className="md:hidden flex items-center gap-1.5">
               <button
                 onClick={handleToggleSound}
-                className={`w-10 h-10 flex items-center justify-center border rounded-xl text-xs transition-transform active:scale-95 ${
+                className={`hidden sm:flex w-10 h-10 items-center justify-center border rounded-xl text-xs transition-transform active:scale-95 ${
                   isSoundActive
                     ? 'border-purple-400/60 bg-purple-950/80 text-purple-200'
                     : 'border-purple-500/20 bg-[#0e0624] text-purple-400/70'
@@ -274,7 +275,7 @@ export default function Navbar() {
                 <span>Explore Templates</span>
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 font-bold">
-                56 Total
+                {TEMPLATE_COUNT} Total
               </span>
             </Link>
 
@@ -320,13 +321,13 @@ export default function Navbar() {
             </Link>
 
             <Link 
-              href="/builder" 
+              href="/studio" 
               onClick={() => setIsOpen(false)}
               className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >
               <span className="flex items-center gap-2.5">
-                <span>✏️</span>
-                <span>Visual Customizer</span>
+                <span>🪄</span>
+                <span>Auto-Edit Studio</span>
               </span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">
                 Live
@@ -345,7 +346,7 @@ export default function Navbar() {
             </Link>
 
             <Link 
-              href="/#license" 
+              href="/licensing" 
               onClick={() => setIsOpen(false)}
               className="px-3.5 py-3 rounded-xl text-sm font-semibold text-purple-100 hover:text-white hover:bg-purple-950/40 flex items-center justify-between border border-purple-500/10 active:bg-purple-900/30 transition-colors"
             >

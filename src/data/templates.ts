@@ -8,7 +8,7 @@ export const templates: Template[] = [
     category: 'landing-page',
     previewImage: '/previews/apex-landing.png',
     logo: '⚡ Apex',
-    livePreviewUrl: '/sandboxes/apex-landing/index.html',
+    livePreviewUrl: '/preview/apex-landing',
     tier: 'free',
     tags: ['Tailwind', 'Responsive', 'Hero Section', 'Dark Mode'],
     features: [
@@ -28,7 +28,7 @@ export const templates: Template[] = [
     category: 'portfolio',
     previewImage: '/previews/minimal-folio.png',
     logo: '✦ Alex Morgan',
-    livePreviewUrl: '/sandboxes/minimal-folio/index.html',
+    livePreviewUrl: '/preview/minimal-folio',
     tier: 'basic',
     tags: ['Minimal', 'Portfolio', 'Light/Dark', 'Fast'],
     features: [
@@ -48,7 +48,7 @@ export const templates: Template[] = [
     category: 'blog',
     previewImage: '/previews/dev-chronicle.png',
     logo: '⟨/⟩ DevChronicle',
-    livePreviewUrl: '/sandboxes/dev-chronicle/index.html',
+    livePreviewUrl: '/preview/dev-chronicle',
     tier: 'basic',
     tags: ['MDX', 'Code Highlighting', 'Search', 'Clean'],
     features: [
@@ -68,7 +68,7 @@ export const templates: Template[] = [
     category: 'fitness',
     previewImage: '/previews/vortex-fitness.png',
     logo: '⚡ VORTEX',
-    livePreviewUrl: '/sandboxes/vortex-fitness/index.html',
+    livePreviewUrl: '/preview/vortex-fitness',
     tier: 'basic',
     tags: ['Gym', 'Fitness', 'BMI Tool', 'Schedule', 'High Energy'],
     features: [
@@ -88,7 +88,7 @@ export const templates: Template[] = [
     category: 'restaurant',
     previewImage: '/previews/osteria-bella.png',
     logo: '🍷 L’Osteria Bella',
-    livePreviewUrl: '/sandboxes/osteria-bella/index.html',
+    livePreviewUrl: '/preview/osteria-bella',
     tier: 'basic',
     tags: ['Restaurant', 'Fine Dining', 'Menu', 'Booking', 'Wine'],
     features: [
@@ -108,7 +108,7 @@ export const templates: Template[] = [
     category: 'beauty',
     previewImage: '/previews/velvet-beauty.png',
     logo: '🌸 Velvet & Bloom',
-    livePreviewUrl: '/sandboxes/velvet-beauty/index.html',
+    livePreviewUrl: '/preview/velvet-beauty',
     tier: 'basic',
     tags: ['Skincare', 'Cosmetics', 'Clean Beauty', 'Organic', 'Botanical'],
     features: [
@@ -128,7 +128,7 @@ export const templates: Template[] = [
     category: 'e-commerce',
     previewImage: '/previews/storefront-pro.png',
     logo: '🛍️ STOREFRONT',
-    livePreviewUrl: '/sandboxes/storefront-pro/index.html',
+    livePreviewUrl: '/preview/storefront-pro',
     tier: 'pro',
     tags: ['E-Commerce', 'Cart Drawer', 'Filters', 'Product Grid'],
     features: [
@@ -148,7 +148,7 @@ export const templates: Template[] = [
     category: 'saas',
     previewImage: '/previews/cloudscale-saas.png',
     logo: '☁️ CloudScale',
-    livePreviewUrl: '/sandboxes/cloudscale-saas/index.html',
+    livePreviewUrl: '/preview/cloudscale-saas',
     tier: 'pro',
     tags: ['SaaS', 'Pricing Toggle', 'Auth Pages', 'Animations'],
     features: [
@@ -168,7 +168,7 @@ export const templates: Template[] = [
     category: 'dashboard',
     previewImage: '/previews/pulse-metrics.png',
     logo: '📈 PulseMetrics',
-    livePreviewUrl: '/sandboxes/pulse-metrics/index.html',
+    livePreviewUrl: '/preview/pulse-metrics',
     tier: 'pro',
     tags: ['Dashboard', 'Charts', 'Tables', 'Admin'],
     features: [
@@ -188,7 +188,7 @@ export const templates: Template[] = [
     category: 'ai',
     previewImage: '/previews/aether-ai.png',
     logo: '⚡ Aether.AI',
-    livePreviewUrl: '/sandboxes/aether-ai/index.html',
+    livePreviewUrl: '/preview/aether-ai',
     tier: 'pro',
     tags: ['AI Agents', 'LLMs', 'Terminal', 'Developer Tool', 'Dark Obsidian'],
     features: [
@@ -208,7 +208,7 @@ export const templates: Template[] = [
     category: 'real-estate',
     previewImage: '/previews/prestige-estates.png',
     logo: '🏛️ Prestige Estates',
-    livePreviewUrl: '/sandboxes/prestige-estates/index.html',
+    livePreviewUrl: '/preview/prestige-estates',
     tier: 'pro',
     tags: ['Real Estate', 'Luxury', 'Villas', 'Brokerage', 'Calculators'],
     features: [
@@ -228,7 +228,7 @@ export const templates: Template[] = [
     category: 'agency',
     previewImage: '/previews/krypton-agency.png',
     logo: '⚡ KRYPTON',
-    livePreviewUrl: '/sandboxes/krypton-agency/index.html',
+    livePreviewUrl: '/preview/krypton-agency',
     tier: 'pro',
     tags: ['Creative Agency', 'Neo-Brutalist', '3D WebGL', 'Portfolio', 'Studio'],
     features: [
@@ -248,7 +248,7 @@ export const templates: Template[] = [
     category: 'dashboard',
     previewImage: '/previews/nexus-enterprise.png',
     logo: '🛡️ Nexus',
-    livePreviewUrl: '/sandboxes/nexus-enterprise/index.html',
+    livePreviewUrl: '/preview/nexus-enterprise',
     tier: 'enterprise',
     tags: ['Enterprise', 'RBAC', 'Audit Log', 'Full Source'],
     features: [
@@ -268,7 +268,7 @@ export const templates: Template[] = [
     category: 'saas',
     previewImage: '/previews/nova-saas-platform.png',
     logo: '🚀 Nova',
-    livePreviewUrl: '/sandboxes/nova-saas-platform/index.html',
+    livePreviewUrl: '/preview/nova-saas-platform',
     tier: 'enterprise',
     tags: ['B2B SaaS', 'Team Billing', 'Workspaces', 'Figma'],
     features: [
@@ -288,7 +288,7 @@ export const templates: Template[] = [
     category: 'podcast',
     previewImage: '/previews/zenith-podcast.png',
     logo: '🎙️ Zenith',
-    livePreviewUrl: '/sandboxes/zenith-podcast/index.html',
+    livePreviewUrl: '/preview/zenith-podcast',
     tier: 'basic',
     tags: ['Podcast', 'Media', 'Episodes', 'Dark Mode', 'Audio'],
     features: [
@@ -309,7 +309,7 @@ export const templates: Template[] = [
     category: 'crypto',
     previewImage: '/previews/cipher-crypto.png',
     logo: '₿ Cipher',
-    livePreviewUrl: '/sandboxes/cipher-crypto/index.html',
+    livePreviewUrl: '/preview/cipher-crypto',
     tier: 'pro',
     tags: ['Crypto', 'Web3', 'DeFi', 'Blockchain', 'Neon'],
     features: [
@@ -330,7 +330,7 @@ export const templates: Template[] = [
     category: 'travel',
     previewImage: '/previews/atlas-travel.png',
     logo: '✈️ Atlas',
-    livePreviewUrl: '/sandboxes/atlas-travel/index.html',
+    livePreviewUrl: '/preview/atlas-travel',
     tier: 'basic',
     tags: ['Travel', 'Tourism', 'Destinations', 'Booking', 'Luxury'],
     features: [
@@ -351,7 +351,7 @@ export const templates: Template[] = [
     category: 'photography',
     previewImage: '/previews/luma-photography.png',
     logo: '📸 Luma',
-    livePreviewUrl: '/sandboxes/luma-photography/index.html',
+    livePreviewUrl: '/preview/luma-photography',
     tier: 'basic',
     tags: ['Photography', 'Portfolio', 'Gallery', 'Masonry', 'Dark Gold'],
     features: [
@@ -372,7 +372,7 @@ export const templates: Template[] = [
     category: 'gaming',
     previewImage: '/previews/pixel-gaming.png',
     logo: '🎮 PIXEL',
-    livePreviewUrl: '/sandboxes/pixel-gaming/index.html',
+    livePreviewUrl: '/preview/pixel-gaming',
     tier: 'pro',
     tags: ['Gaming', 'Esports', 'Team', 'Tournaments', 'Cyber'],
     features: [
@@ -393,7 +393,7 @@ export const templates: Template[] = [
     category: 'healthcare',
     previewImage: '/previews/medica-health.png',
     logo: '⚕️ Medica',
-    livePreviewUrl: '/sandboxes/medica-health/index.html',
+    livePreviewUrl: '/preview/medica-health',
     tier: 'pro',
     tags: ['Healthcare', 'Medical', 'Clinic', 'Doctors', 'Appointment'],
     features: [
@@ -414,7 +414,7 @@ export const templates: Template[] = [
     category: 'education',
     previewImage: '/previews/eduspark-academy.png',
     logo: '🎓 EduSpark',
-    livePreviewUrl: '/sandboxes/eduspark-academy/index.html',
+    livePreviewUrl: '/preview/eduspark-academy',
     tier: 'basic',
     tags: ['Education', 'LMS', 'Courses', 'E-Learning', 'Online Academy'],
     features: [
@@ -435,7 +435,7 @@ export const templates: Template[] = [
     category: 'green',
     previewImage: '/previews/verdant-eco.png',
     logo: '🌿 Verdant',
-    livePreviewUrl: '/sandboxes/verdant-eco/index.html',
+    livePreviewUrl: '/preview/verdant-eco',
     tier: 'basic',
     tags: ['Sustainability', 'Green Tech', 'Eco', 'B Corp', 'Climate'],
     features: [
@@ -456,7 +456,7 @@ export const templates: Template[] = [
     category: 'food',
     previewImage: '/previews/artisan-bakery.png',
     logo: '🥐 Le Petit',
-    livePreviewUrl: '/sandboxes/artisan-bakery/index.html',
+    livePreviewUrl: '/preview/artisan-bakery',
     tier: 'basic',
     tags: ['Bakery', 'Food', 'Patisserie', 'Menu', 'Artisan'],
     features: [
@@ -477,7 +477,7 @@ export const templates: Template[] = [
     category: 'fintech',
     previewImage: '/previews/quantum-fintech.png',
     logo: '⚡ Quantum',
-    livePreviewUrl: '/sandboxes/quantum-fintech/index.html',
+    livePreviewUrl: '/preview/quantum-fintech',
     tier: 'enterprise',
     tags: ['Fintech', 'B2B', 'Banking', 'Infrastructure', 'Enterprise'],
     features: [
@@ -498,7 +498,7 @@ export const templates: Template[] = [
     category: 'ai',
     previewImage: '/previews/hyperion-ai-studio.png',
     logo: '✨ Hyperion',
-    livePreviewUrl: '/sandboxes/hyperion-ai-studio/index.html',
+    livePreviewUrl: '/preview/hyperion-ai-studio',
     tier: 'pro',
     tags: ['AI Video', 'Diffusion', 'Cinema', 'Generative', 'Multimodal'],
     features: [
@@ -519,7 +519,7 @@ export const templates: Template[] = [
     category: 'energy',
     previewImage: '/previews/solaris-clean-energy.png',
     logo: '☀️ Solaris',
-    livePreviewUrl: '/sandboxes/solaris-clean-energy/index.html',
+    livePreviewUrl: '/preview/solaris-clean-energy',
     tier: 'pro',
     tags: ['Energy', 'Solar', 'Microgrid', 'BESS', 'Telemetry'],
     features: [
@@ -540,7 +540,7 @@ export const templates: Template[] = [
     category: 'security',
     previewImage: '/previews/vanguard-security.png',
     logo: '🛡️ Vanguard',
-    livePreviewUrl: '/sandboxes/vanguard-security/index.html',
+    livePreviewUrl: '/preview/vanguard-security',
     tier: 'enterprise',
     tags: ['Cybersecurity', 'SOC', 'eBPF', 'Zero-Trust', 'Incident Response'],
     features: [
@@ -561,7 +561,7 @@ export const templates: Template[] = [
     category: 'crypto',
     previewImage: '/previews/solana-launchpad.png',
     logo: '⚡ Solana',
-    livePreviewUrl: '/sandboxes/solana-launchpad/index.html',
+    livePreviewUrl: '/preview/solana-launchpad',
     tier: 'pro',
     tags: ['Solana', 'DeFi', 'Bonding Curve', 'DEX', 'Raydium'],
     features: [
@@ -582,7 +582,7 @@ export const templates: Template[] = [
     category: 'luxury',
     previewImage: '/previews/chronos-luxury-watches.png',
     logo: '⌚ Chronos',
-    livePreviewUrl: '/sandboxes/chronos-luxury-watches/index.html',
+    livePreviewUrl: '/preview/chronos-luxury-watches',
     tier: 'basic',
     tags: ['Luxury', 'Horology', 'Watches', 'Swiss Made', 'Cinzel'],
     features: [
@@ -603,7 +603,7 @@ export const templates: Template[] = [
     category: 'cloud',
     previewImage: '/previews/aurora-cloud.png',
     logo: '🌐 Aurora',
-    livePreviewUrl: '/sandboxes/aurora-cloud/index.html',
+    livePreviewUrl: '/preview/aurora-cloud',
     tier: 'enterprise',
     tags: ['Serverless', 'Edge', 'V8 Isolates', 'Cloud', 'Distributed'],
     features: [
@@ -624,7 +624,7 @@ export const templates: Template[] = [
     category: 'aerospace',
     previewImage: '/previews/astral-aerospace.png',
     logo: '🚀 ASTRAL',
-    livePreviewUrl: '/sandboxes/astral-aerospace/index.html',
+    livePreviewUrl: '/preview/astral-aerospace',
     tier: 'enterprise',
     tags: ['Aerospace', 'SpaceX', 'Telemetry', 'Orbital', 'Countdown', 'Deep Space'],
     features: [
@@ -645,7 +645,7 @@ export const templates: Template[] = [
     category: 'architecture',
     previewImage: '/previews/monolith-architecture.png',
     logo: '🏛️ MONOLITH',
-    livePreviewUrl: '/sandboxes/monolith-architecture/index.html',
+    livePreviewUrl: '/preview/monolith-architecture',
     tier: 'pro',
     tags: ['Architecture', 'Brutalist', 'Blueprint', 'Structural', 'Minimalist'],
     features: [
@@ -666,7 +666,7 @@ export const templates: Template[] = [
     category: 'cyberpunk',
     previewImage: '/previews/neo-tokyo-cyberpunk.png',
     logo: '⚡ NEO-TOKYO',
-    livePreviewUrl: '/sandboxes/neo-tokyo-cyberpunk/index.html',
+    livePreviewUrl: '/preview/neo-tokyo-cyberpunk',
     tier: 'pro',
     tags: ['Cyberpunk', 'Synthwave', 'Hacker Terminal', 'CRT Scanlines', 'Neon'],
     features: [
@@ -687,7 +687,7 @@ export const templates: Template[] = [
     category: 'furniture',
     previewImage: '/previews/nordic-living.png',
     logo: '🪵 Skagen',
-    livePreviewUrl: '/sandboxes/nordic-living/index.html',
+    livePreviewUrl: '/preview/nordic-living',
     tier: 'basic',
     tags: ['Nordic', 'Furniture', 'Scandinavian', 'Organic', 'Editorial', 'Interiors'],
     features: [
@@ -708,7 +708,7 @@ export const templates: Template[] = [
     category: 'motorsport',
     previewImage: '/previews/velox-f1-racing.png',
     logo: '🏎️ VELOX',
-    livePreviewUrl: '/sandboxes/velox-f1-racing/index.html',
+    livePreviewUrl: '/preview/velox-f1-racing',
     tier: 'pro',
     tags: ['Motorsport', 'Formula 1', 'Telemetry', 'Leaderboard', 'Carbon Fiber'],
     features: [
@@ -729,7 +729,7 @@ export const templates: Template[] = [
     category: 'biotech',
     previewImage: '/previews/neuro-biotech.png',
     logo: '🧬 NeuroSynth',
-    livePreviewUrl: '/sandboxes/neuro-biotech/index.html',
+    livePreviewUrl: '/preview/neuro-biotech',
     tier: 'enterprise',
     tags: ['Biotech', 'Genomics', 'Neural Interface', 'Clinical Trials', 'CRISPR'],
     features: [
@@ -750,7 +750,7 @@ export const templates: Template[] = [
     category: 'quantum',
     previewImage: '/previews/hyperion-quantum.png',
     logo: '⚛️ Hyperion',
-    livePreviewUrl: '/sandboxes/hyperion-quantum/index.html',
+    livePreviewUrl: '/preview/hyperion-quantum',
     tier: 'enterprise',
     tags: ['Quantum', 'Superconductor', 'Qubits', 'Cryogenics', 'Cloud SDK', 'Deep Tech'],
     features: [
@@ -771,7 +771,7 @@ export const templates: Template[] = [
     category: 'hypercar',
     previewImage: '/previews/valkyrie-hypercars.png',
     logo: '⚡ Valkyrie',
-    livePreviewUrl: '/sandboxes/valkyrie-hypercars/index.html',
+    livePreviewUrl: '/preview/valkyrie-hypercars',
     tier: 'enterprise',
     tags: ['Hypercar', 'Motorsport', 'Electric', 'Aero', 'Carbon Fiber', 'Luxury'],
     features: [
@@ -792,7 +792,7 @@ export const templates: Template[] = [
     category: 'spatial',
     previewImage: '/previews/arcadia-spatial-vr.png',
     logo: '🥽 Arcadia',
-    livePreviewUrl: '/sandboxes/arcadia-spatial-vr/index.html',
+    livePreviewUrl: '/preview/arcadia-spatial-vr',
     tier: 'pro',
     tags: ['Spatial', 'VR', 'Neural', 'Micro-OLED', 'Spatial Audio', 'Hardware'],
     features: [
@@ -813,7 +813,7 @@ export const templates: Template[] = [
     category: 'geothermal',
     previewImage: '/previews/strata-geothermal.png',
     logo: '🌋 Strata',
-    livePreviewUrl: '/sandboxes/strata-geothermal/index.html',
+    livePreviewUrl: '/preview/strata-geothermal',
     tier: 'pro',
     tags: ['Geothermal', 'Clean Energy', 'Supercritical', 'Baseload', 'Infrastructure'],
     features: [
@@ -834,7 +834,7 @@ export const templates: Template[] = [
     category: 'yachts',
     previewImage: '/previews/celestial-superyachts.png',
     logo: '⚓ Celestial',
-    livePreviewUrl: '/sandboxes/celestial-superyachts/index.html',
+    livePreviewUrl: '/preview/celestial-superyachts',
     tier: 'enterprise',
     tags: ['Superyachts', 'Maritime', 'Luxury', 'Explorer', 'Naval', 'Bespoke'],
     features: [
@@ -855,7 +855,7 @@ export const templates: Template[] = [
     category: 'audio',
     previewImage: '/previews/synapse-audio-daw.png',
     logo: '🎛️ Synapse',
-    livePreviewUrl: '/sandboxes/synapse-audio-daw/index.html',
+    livePreviewUrl: '/preview/synapse-audio-daw',
     tier: 'pro',
     tags: ['Audio', 'DAW', 'Music Production', 'AI Synthesis', 'Spatial Audio', 'Equalizer'],
     features: [
@@ -876,7 +876,7 @@ export const templates: Template[] = [
     category: 'architecture',
     previewImage: '/previews/elysium-private-estates.png',
     logo: '🏝️ Elysium',
-    livePreviewUrl: '/sandboxes/elysium-private-estates/index.html',
+    livePreviewUrl: '/preview/elysium-private-estates',
     tier: 'enterprise',
     tags: ['Real Estate', 'Private Island', 'Architecture', 'Luxury', 'Off-Grid', 'Sanctuary'],
     features: [
@@ -897,7 +897,7 @@ export const templates: Template[] = [
     category: 'space',
     previewImage: '/previews/orion-deep-space.png',
     logo: '🛰️ Orion',
-    livePreviewUrl: '/sandboxes/orion-deep-space/index.html',
+    livePreviewUrl: '/preview/orion-deep-space',
     tier: 'enterprise',
     tags: ['Deep Space', 'Asteroid Mining', 'Propulsion', 'Logistics', 'Robotics', 'Space'],
     features: [
@@ -918,7 +918,7 @@ export const templates: Template[] = [
     category: 'agriculture',
     previewImage: '/previews/terra-aquaponics.png',
     logo: '🌱 Terra',
-    livePreviewUrl: '/sandboxes/terra-aquaponics/index.html',
+    livePreviewUrl: '/preview/terra-aquaponics',
     tier: 'basic',
     tags: ['Aquaponics', 'Agriculture', 'Vertical Farming', 'Biosphere', 'Sustainability'],
     features: [
@@ -939,7 +939,7 @@ export const templates: Template[] = [
     category: 'cybersecurity',
     previewImage: '/previews/aegis-cyber-defense.png',
     logo: '🛡️ Aegis',
-    livePreviewUrl: '/sandboxes/aegis-cyber-defense/index.html',
+    livePreviewUrl: '/preview/aegis-cyber-defense',
     tier: 'enterprise',
     tags: ['Cybersecurity', 'Zero Trust', 'SOC', 'eBPF', 'War Room', 'Threat Intel'],
     features: [
@@ -960,7 +960,7 @@ export const templates: Template[] = [
     category: 'industrial',
     previewImage: '/previews/vulcan-foundry.png',
     logo: '🔥 Vulcan',
-    livePreviewUrl: '/sandboxes/vulcan-foundry/index.html',
+    livePreviewUrl: '/preview/vulcan-foundry',
     tier: 'enterprise',
     tags: ['Industrial', 'Titanium', 'Additive Manufacturing', 'Robotics', 'Foundry', 'Heavy Tech'],
     features: [
@@ -981,7 +981,7 @@ export const templates: Template[] = [
     category: 'oceanic',
     previewImage: '/previews/abyss-oceanics.png',
     logo: '🌊 Abyss',
-    livePreviewUrl: '/sandboxes/abyss-oceanics/index.html',
+    livePreviewUrl: '/preview/abyss-oceanics',
     tier: 'enterprise',
     tags: ['Deep Sea', 'Submersible', 'Bathyscaphe', 'Sonar', 'Hydrothermal', 'Exploration'],
     features: [
@@ -1002,7 +1002,7 @@ export const templates: Template[] = [
     category: 'culture',
     previewImage: '/previews/symphony-opera.png',
     logo: '🎻 Imperial',
-    livePreviewUrl: '/sandboxes/symphony-opera/index.html',
+    livePreviewUrl: '/preview/symphony-opera',
     tier: 'basic',
     tags: ['Opera', 'Philharmonic', 'Classical Music', 'Acoustics', 'Culture', 'Luxury'],
     features: [
@@ -1023,7 +1023,7 @@ export const templates: Template[] = [
     category: 'auction',
     previewImage: '/previews/apex-horology-auction.png',
     logo: '⏳ Apex Horology',
-    livePreviewUrl: '/sandboxes/apex-horology-auction/index.html',
+    livePreviewUrl: '/preview/apex-horology-auction',
     tier: 'pro',
     tags: ['Horology', 'Auction', 'Vintage Watches', 'Patek', 'Rolex', 'Collectibles'],
     features: [
@@ -1044,7 +1044,7 @@ export const templates: Template[] = [
     category: 'arcade',
     previewImage: '/previews/chrono-drift-arcade.png',
     logo: '🕹️ ChronoDrift',
-    livePreviewUrl: '/sandboxes/chrono-drift-arcade/index.html',
+    livePreviewUrl: '/preview/chrono-drift-arcade',
     tier: 'basic',
     tags: ['Synthwave', 'Arcade', 'Retro', '80s', 'Outrun', 'Pixel Art', 'Gaming'],
     features: [
@@ -1065,7 +1065,7 @@ export const templates: Template[] = [
     category: 'spa',
     previewImage: '/previews/glacier-nordic-spa.png',
     logo: '❄️ Glacier',
-    livePreviewUrl: '/sandboxes/glacier-nordic-spa/index.html',
+    livePreviewUrl: '/preview/glacier-nordic-spa',
     tier: 'basic',
     tags: ['Wellness', 'Spa', 'Nordic', 'Hydrotherapy', 'Geothermal', 'Sanctuary'],
     features: [
@@ -1086,7 +1086,7 @@ export const templates: Template[] = [
     category: 'astronomy',
     previewImage: '/previews/nebula-optics.png',
     logo: '🔭 Nebula',
-    livePreviewUrl: '/sandboxes/nebula-optics/index.html',
+    livePreviewUrl: '/preview/nebula-optics',
     tier: 'pro',
     tags: ['Astronomy', 'Telescopes', 'Astrophotography', 'Deep Sky', 'Optics', 'Science'],
     features: [
@@ -1107,7 +1107,7 @@ export const templates: Template[] = [
     category: 'dining',
     previewImage: '/previews/kuro-omakase.png',
     logo: '🍣 Kuro',
-    livePreviewUrl: '/sandboxes/kuro-omakase/index.html',
+    livePreviewUrl: '/preview/kuro-omakase',
     tier: 'pro',
     tags: ['Omakase', 'Japanese', 'Culinary', 'Fine Dining', 'Sashimi', 'Minimalist'],
     features: [
@@ -1128,7 +1128,7 @@ export const templates: Template[] = [
     category: 'motorsport',
     previewImage: '/previews/sol-motorsport-motogp.png',
     logo: '🏍️ Sol Racing',
-    livePreviewUrl: '/sandboxes/sol-motorsport-motogp/index.html',
+    livePreviewUrl: '/preview/sol-motorsport-motogp',
     tier: 'enterprise',
     tags: ['MotoGP', 'Motorcycle', 'Racing', 'Telemetry', 'Aerodynamics', 'Grand Prix'],
     features: [
@@ -1149,7 +1149,7 @@ export const templates: Template[] = [
     category: 'bionics',
     previewImage: '/previews/kinetics-prosthetics.png',
     logo: '🦾 Kinetics',
-    livePreviewUrl: '/sandboxes/kinetics-prosthetics/index.html',
+    livePreviewUrl: '/preview/kinetics-prosthetics',
     tier: 'enterprise',
     tags: ['Bionics', 'Prosthetics', 'Neural', 'EMG', 'Biomechanics', 'MedTech'],
     features: [
@@ -1170,7 +1170,7 @@ export const templates: Template[] = [
     category: 'energy',
     previewImage: '/previews/solaris-fusion.png',
     logo: '☀️ Solaris Fusion',
-    livePreviewUrl: '/sandboxes/solaris-fusion/index.html',
+    livePreviewUrl: '/preview/solaris-fusion',
     tier: 'enterprise',
     tags: ['Nuclear Fusion', 'Plasma Physics', 'Clean Energy', 'Tokamak', 'DeepTech', 'Baseload'],
     features: [
@@ -1191,7 +1191,7 @@ export const templates: Template[] = [
     category: 'beauty',
     previewImage: '/previews/velvet-atelier.png',
     logo: '✦ Atelier Velvet',
-    livePreviewUrl: '/sandboxes/velvet-atelier/index.html',
+    livePreviewUrl: '/preview/velvet-atelier',
     tier: 'pro',
     tags: ['Haute Couture', 'Fashion', 'Parisian', 'Luxury', 'Editorial', 'Bespoke'],
     features: [
@@ -1212,7 +1212,7 @@ export const templates: Template[] = [
     category: 'biotech',
     previewImage: '/previews/aether-neuro.png',
     logo: '🧠 Aether Neuro',
-    livePreviewUrl: '/sandboxes/aether-neuro/index.html',
+    livePreviewUrl: '/preview/aether-neuro',
     tier: 'enterprise',
     tags: ['BCI', 'Neurotech', 'Brain Interface', 'EEG', 'Biometrics', 'DeepTech'],
     features: [
@@ -1233,7 +1233,7 @@ export const templates: Template[] = [
     category: 'cloud',
     previewImage: '/previews/obsidian-terminal.png',
     logo: '⟨_⟩ Obsidian CLI',
-    livePreviewUrl: '/sandboxes/obsidian-terminal/index.html',
+    livePreviewUrl: '/preview/obsidian-terminal',
     tier: 'free',
     tags: ['Developer Tools', 'CLI', 'Terminal', 'Rust', 'Retro Cyber', 'Open Source'],
     features: [
@@ -1254,7 +1254,7 @@ export const templates: Template[] = [
     category: 'aerospace',
     previewImage: '/previews/valkyrie-aero.png',
     logo: '🚀 Valkyrie Aero',
-    livePreviewUrl: '/sandboxes/valkyrie-aero/index.html',
+    livePreviewUrl: '/preview/valkyrie-aero',
     tier: 'enterprise',
     tags: ['Aerospace', 'Hypersonic', 'Mach 7', 'Defense', 'Propulsion', 'Aviation'],
     features: [
@@ -1275,7 +1275,7 @@ export const templates: Template[] = [
     category: 'luxury',
     previewImage: '/previews/horology-complication.png',
     logo: '⌛ Manufacture',
-    livePreviewUrl: '/sandboxes/horology-complication/index.html',
+    livePreviewUrl: '/preview/horology-complication',
     tier: 'enterprise',
     tags: ['Haute Horlogerie', 'Watches', 'Tourbillon', 'Swiss Made', 'Mechanical', 'Luxury'],
     features: [
@@ -1296,7 +1296,7 @@ export const templates: Template[] = [
     category: 'food',
     previewImage: '/previews/arcane-distillery.png',
     logo: '🥃 Arcane Casks',
-    livePreviewUrl: '/sandboxes/arcane-distillery/index.html',
+    livePreviewUrl: '/preview/arcane-distillery',
     tier: 'pro',
     tags: ['Distillery', 'Single Cask', 'Botanicals', 'Whisky', 'Investment', 'Artisan'],
     features: [
@@ -1317,7 +1317,7 @@ export const templates: Template[] = [
     category: 'ai',
     previewImage: '/previews/hyperion-robotics.png',
     logo: '🤖 Hyperion Robotics',
-    livePreviewUrl: '/sandboxes/hyperion-robotics/index.html',
+    livePreviewUrl: '/preview/hyperion-robotics',
     tier: 'enterprise',
     tags: ['Humanoid', 'Robotics', 'Automation', 'Kinematics', 'AI', 'Manufacturing'],
     features: [
@@ -1338,7 +1338,7 @@ export const templates: Template[] = [
     category: 'energy',
     previewImage: '/previews/magma-deepcore.png',
     logo: '🌋 Magma DeepCore',
-    livePreviewUrl: '/sandboxes/magma-deepcore/index.html',
+    livePreviewUrl: '/preview/magma-deepcore',
     tier: 'enterprise',
     tags: ['Geothermal', 'Deep Drilling', 'Supercritical', 'Baseload', 'Clean Energy', 'Grid'],
     features: [
@@ -1359,7 +1359,7 @@ export const templates: Template[] = [
     category: 'fitness',
     previewImage: '/previews/apex-endurance.png',
     logo: '⚡ Apex Endurance',
-    livePreviewUrl: '/sandboxes/apex-endurance/index.html',
+    livePreviewUrl: '/preview/apex-endurance',
     tier: 'pro',
     tags: ['Endurance', 'Athletics', 'VO2 Max', 'Lactate', 'Telemetry', 'Performance'],
     features: [
@@ -1380,7 +1380,7 @@ export const templates: Template[] = [
     category: 'audio',
     previewImage: '/previews/monolith-acoustics.png',
     logo: '🎛️ Monolith Audio',
-    livePreviewUrl: '/sandboxes/monolith-acoustics/index.html',
+    livePreviewUrl: '/preview/monolith-acoustics',
     tier: 'enterprise',
     tags: ['Audiophile', 'Hi-Fi', 'Electrostatic', 'Vacuum Tube', 'Acoustics', 'Sound'],
     features: [
@@ -1401,7 +1401,7 @@ export const templates: Template[] = [
     category: 'green',
     previewImage: '/previews/terra-mycelium.png',
     logo: '🌱 Terra Mycelium',
-    livePreviewUrl: '/sandboxes/terra-mycelium/index.html',
+    livePreviewUrl: '/preview/terra-mycelium',
     tier: 'pro',
     tags: ['Mycelium', 'Biomaterials', 'Circular Economy', 'Packaging', 'Sustainable', 'Fungi'],
     features: [
@@ -1422,7 +1422,7 @@ export const templates: Template[] = [
     category: 'aerospace',
     previewImage: '/previews/helios-orbital.png',
     logo: '🛰️ Helios Orbital',
-    livePreviewUrl: '/sandboxes/helios-orbital/index.html',
+    livePreviewUrl: '/preview/helios-orbital',
     tier: 'enterprise',
     tags: ['Space Solar', 'Wireless Power', 'Orbital', 'Clean Energy', 'Constellation', 'DeepTech'],
     features: [
@@ -1443,7 +1443,7 @@ export const templates: Template[] = [
     category: 'dining',
     previewImage: '/previews/kaiseki-sanctuary.png',
     logo: '🍣 Kyoto Kaiseki',
-    livePreviewUrl: '/sandboxes/kaiseki-sanctuary/index.html',
+    livePreviewUrl: '/preview/kaiseki-sanctuary',
     tier: 'enterprise',
     tags: ['Kaiseki', 'Michelin 3-Star', 'Kyoto', 'Fine Dining', 'Japanese', 'Culinary'],
     features: [
@@ -1464,7 +1464,7 @@ export const templates: Template[] = [
     category: 'fintech',
     previewImage: '/previews/vanguard-quant.png',
     logo: '📈 Vanguard Quant',
-    livePreviewUrl: '/sandboxes/vanguard-quant/index.html',
+    livePreviewUrl: '/preview/vanguard-quant',
     tier: 'enterprise',
     tags: ['HFT', 'Quant', 'Market Making', 'Order Book', 'Fintech', 'Algorithms'],
     features: [
@@ -1485,7 +1485,7 @@ export const templates: Template[] = [
     category: 'yachts',
     previewImage: '/previews/hydros-foil.png',
     logo: '⚓ Hydros Foil',
-    livePreviewUrl: '/sandboxes/hydros-foil/index.html',
+    livePreviewUrl: '/preview/hydros-foil',
     tier: 'enterprise',
     tags: ['Hydrofoil', 'Electric Marine', 'Zero Emission', 'Naval', 'Mobility', 'Cleantech'],
     features: [
@@ -1506,7 +1506,7 @@ export const templates: Template[] = [
     category: 'green',
     previewImage: '/previews/solarium-conservatory.png',
     logo: '🌿 Solarium Biosphere',
-    livePreviewUrl: '/sandboxes/solarium-conservatory/index.html',
+    livePreviewUrl: '/preview/solarium-conservatory',
     tier: 'pro',
     tags: ['Botanical', 'Conservatory', 'Biosphere', 'Flora', 'Conservation', 'Nature'],
     features: [
@@ -1527,7 +1527,7 @@ export const templates: Template[] = [
     category: 'security',
     previewImage: '/previews/sentinel-swarm.png',
     logo: '🛡️ Sentinel Swarm',
-    livePreviewUrl: '/sandboxes/sentinel-swarm/index.html',
+    livePreviewUrl: '/preview/sentinel-swarm',
     tier: 'enterprise',
     tags: ['Defense', 'Drones', 'Swarm AI', 'Radar', 'Naval', 'Autonomous'],
     features: [
@@ -1548,7 +1548,7 @@ export const templates: Template[] = [
     category: 'architecture',
     previewImage: '/previews/brutalist-sanctuary.png',
     logo: '🏛️ Sanctuary',
-    livePreviewUrl: '/sandboxes/brutalist-sanctuary/index.html',
+    livePreviewUrl: '/preview/brutalist-sanctuary',
     tier: 'pro',
     tags: ['Brutalist', 'Architecture', 'Raw Concrete', 'Monolithic', 'Sanctuary', 'Design'],
     features: [
@@ -1569,7 +1569,7 @@ export const templates: Template[] = [
     category: 'healthcare',
     previewImage: '/previews/pulselab-crispr.png',
     logo: '🧬 PulseLab CRISPR',
-    livePreviewUrl: '/sandboxes/pulselab-crispr/index.html',
+    livePreviewUrl: '/preview/pulselab-crispr',
     tier: 'enterprise',
     tags: ['CRISPR', 'Diagnostics', 'Microfluidics', 'MedTech', 'Genetics', 'Pathogen'],
     features: [

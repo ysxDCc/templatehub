@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { cyberSound } from '@/lib/sound';
+import { TEMPLATE_COUNT } from '@/lib/site';
 
 interface ReferralModalProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
   };
 
   const tweetText = encodeURIComponent(
-    `Check out @TemplateHub — 56 sovereign zero-dependency website templates with interactive sandboxes and in-browser auto-editor: ${referralLink}`
+    `Check out @TemplateHub — ${TEMPLATE_COUNT} fast, dependency-free website templates you can preview and customise in the browser: ${referralLink}`
   );
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
 
@@ -90,7 +91,7 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
         {/* Custom Affiliate Link */}
         <div className="space-y-2 mb-6">
           <label className="block text-xs font-mono text-purple-300 font-semibold">
-            Your Sovereign Referral Link:
+            Your referral link:
           </label>
           <div className="flex items-center gap-2 bg-[#070314] p-1.5 rounded-xl border border-purple-500/35">
             <input
@@ -107,7 +108,8 @@ export default function ReferralModal({ isOpen, onClose }: ReferralModalProps) {
             </button>
           </div>
           <p className="text-[11px] text-purple-400/70">
-            Cookie duration: 60 days. First-click attribution with automatic monthly payouts.
+            Referrals are remembered for 60 days (first click wins). Paid monthly.{' '}
+            <a href="/affiliate" className="underline hover:text-white">Join &amp; read the terms →</a>
           </p>
         </div>
 
