@@ -11,6 +11,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Template sources live outside /public; make sure the routes that read them ship with the files.
+  outputFileTracingIncludes: {
+    "/preview/[id]": ["./templates-src/**/*"],
+    "/api/template-source": ["./templates-src/**/*"],
+    "/api/download": ["./templates-src/**/*"],
+    "/api/download/master-bundle": ["./templates-src/**/*"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -25,7 +32,7 @@ const nextConfig: NextConfig = {
       { source: "/:path*", headers: securityHeaders },
       {
         // Preview screenshots and template files rarely change; cache them for a week.
-        source: "/(previews|logos|sandboxes)/:path*",
+        source: "/(previews|logos)/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
       },
     ];

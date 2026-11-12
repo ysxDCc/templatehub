@@ -163,7 +163,8 @@ type ViewportMode = 'desktop' | 'laptop' | 'tablet' | 'mobile';
 export default function InteractivePreviewFrame({ template, initialMode = 'preview' }: InteractivePreviewFrameProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const userTier = (user?.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
-  const hasAccess = isSignedIn && hasTierAccess(userTier, template.tier);
+  const unlockedTemplates = (user?.publicMetadata?.unlockedTemplates as string[] | undefined) ?? [];
+  const hasAccess = !!isSignedIn && (hasTierAccess(userTier, template.tier) || unlockedTemplates.includes(template.id));
 
   const [viewMode, setViewMode] = useState<ViewMode>(initialMode);
   const [viewport, setViewport] = useState<ViewportMode>('desktop');
@@ -223,22 +224,32 @@ export default function InteractivePreviewFrame({ template, initialMode = 'previ
     { name: 'Purple', color: '#a855f7' },
   ];
 
-  // Fetch HTML source code ONLY when authorized user switches to code inspector or auto-edit
+  // Members get the clean source; everyone else edits the watermarked preview copy
+  // (they can try the Auto-Edit Studio, but downloading is gated by plan).
+  const sourceUrl = hasAccess ? `/api/template-source?id=${template.id}` : template.livePreviewUrl;
+  const loadedSourceUrl = useRef<string | null>(null);
   useEffect(() => {
-    if ((viewMode === 'code' || viewMode === 'autoedit') && !rawCode && template.livePreviewUrl) {
-      setCodeLoading(true);
-      fetch(template.livePreviewUrl)
-        .then((res) => res.text())
-        .then((text) => {
-          setRawCode(text);
-          setCodeLoading(false);
-        })
-        .catch(() => {
-          setRawCode('<!-- Failed to load template source code -->');
-          setCodeLoading(false);
-        });
-    }
-  }, [viewMode, rawCode, template.livePreviewUrl]);
+    if (viewMode !== 'code' && viewMode !== 'autoedit') return;
+    if (!sourceUrl || loadedSourceUrl.current === sourceUrl) return;
+    loadedSourceUrl.current = sourceUrl;
+    setCodeLoading(true);
+    fetch(sourceUrl)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })
+      .then((text) => {
+        setRawCode(text);
+        setCustomHtml(null);
+        setAppliedCustom(false);
+        setCodeLoading(false);
+      })
+      .catch(() => {
+        loadedSourceUrl.current = null;
+        setRawCode('<!-- Failed to load template source code -->');
+        setCodeLoading(false);
+      });
+  }, [viewMode, sourceUrl]);
 
   const handleColorChange = (newColor: string) => {
     setPrimaryColor(newColor);
@@ -289,9 +300,12 @@ export default function InteractivePreviewFrame({ template, initialMode = 'previ
       return convertHtmlToVue(rawCode, template.name);
     }
     if (codeFormat === 'forms') {
-      return `<!-- Sovereign Working Contact Form Endpoint -->
-<!-- Submissions are routed directly through TemplateHub Form Gateway -->
-<form action="https://www.templatehub.website/api/forms/submit?to=${encodeURIComponent(storeData.contactEmail || 'user@example.com')}" method="POST" class="space-y-4">
+      return `<!-- Working contact form: submissions are emailed to you by TemplateHub Forms. -->
+<!-- The "to" address must be the email of your TemplateHub account. -->
+<!-- Optional: add &redirect=https://your-site.com/thanks to send visitors to your own thank-you page. -->
+<form action="https://www.templatehub.website/api/forms/submit?to=${encodeURIComponent(storeData.contactEmail || 'you@example.com')}" method="POST" class="space-y-4">
+  <!-- Spam trap: keep this hidden field empty -->
+  <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" />
   <div>
     <label for="name" class="block text-sm font-medium">Your Name</label>
     <input type="text" id="name" name="name" required class="w-full px-4 py-2 rounded-lg border" />

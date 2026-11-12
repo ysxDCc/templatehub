@@ -1,18 +1,9 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-import DodoPayments from 'dodopayments';
-import { templates } from '@/data/templates';
-import type { SubscriptionTier } from '@/types';
+import { canAccessTemplate, getEntitlement } from '@/lib/entitlement';
+import { findTemplate, readTemplateHtml } from '@/lib/template-source';
+import { SITE_URL } from '@/lib/site';
 import { createZipArchive } from '@/lib/zip';
-
-const TIER_ORDER: Record<SubscriptionTier, number> = {
-  free: 0,
-  basic: 1,
-  pro: 2,
-  enterprise: 3,
-};
 
 export async function GET(req: Request) {
   const { userId } = await auth();
@@ -32,52 +23,13 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: 'Missing templateId parameter' }, { status: 400 });
   }
 
-  const template = templates.find((t) => t.id === templateId);
+  const template = findTemplate(templateId);
   if (!template) {
     return NextResponse.json({ error: 'Template not found' }, { status: 404 });
   }
 
-  // Fetch the full user object to read publicMetadata
-  const clerk = await clerkClient();
-  const user = await clerk.users.getUser(userId);
-  let userSubscription = (user.publicMetadata?.subscription as SubscriptionTier | undefined) ?? 'free';
-  const unlockedTemplates = (user.publicMetadata?.unlockedTemplates as string[] | undefined) ?? [];
-
-  // Self-healing fallback: If metadata still shows 'free', check Dodo Payments live API for active subscription
-  if (userSubscription === 'free') {
-    const email = user.emailAddresses?.[0]?.emailAddress;
-    const apiKey = process.env.DODO_PAYMENTS_API_KEY;
-    if (email && apiKey) {
-      try {
-        const dodo = new DodoPayments({
-          bearerToken: apiKey,
-          environment: (process.env.DODO_PAYMENTS_ENVIRONMENT as any) || 'live_mode',
-        });
-        const subs = await dodo.subscriptions.list({ status: 'active' });
-        const activeSub = subs.items?.find(
-          (s: any) => s.customer?.email?.toLowerCase() === email.toLowerCase()
-        );
-        if (activeSub) {
-          userSubscription = 'pro';
-          // Sync to Clerk database in background so future requests are instantaneous
-          await clerk.users.updateUserMetadata(userId, {
-            publicMetadata: {
-              ...user.publicMetadata,
-              subscription: 'pro',
-            },
-          });
-        }
-      } catch (err) {
-        console.error('Dodo auto-sync check fallback error:', err);
-      }
-    }
-  }
-
-  const userTierLevel = TIER_ORDER[userSubscription] ?? 0;
-  const requiredTierLevel = TIER_ORDER[template.tier];
-  const isSingleUnlocked = unlockedTemplates.includes(templateId);
-
-  if (userTierLevel < requiredTierLevel && !isSingleUnlocked) {
+  const ent = await getEntitlement(userId);
+  if (!canAccessTemplate(ent, template)) {
     return NextResponse.json(
       {
         error: `Upgrade your plan or buy this template individually to download`,
@@ -90,19 +42,9 @@ export async function GET(req: Request) {
 
   // If ZIP bundle format requested, assemble and stream zip
   if (format === 'zip') {
-    const templateFilePath = path.join(
-      process.cwd(),
-      'public',
-      'sandboxes',
-      templateId,
-      'index.html'
-    );
-
-    let htmlContent = '';
-    if (fs.existsSync(templateFilePath)) {
-      htmlContent = fs.readFileSync(templateFilePath, 'utf8');
-    } else {
-      htmlContent = `<!DOCTYPE html><html><body><h1>${template.name}</h1></body></html>`;
+    const htmlContent = await readTemplateHtml(template.id);
+    if (!htmlContent) {
+      return NextResponse.json({ error: 'Template file missing' }, { status: 500 });
     }
 
     const readmeContent = `# ${template.name}
@@ -112,7 +54,6 @@ ${template.description}
 - Tier: ${template.tier.toUpperCase()}
 - Category: ${template.category}
 - Accessibility Rating: ${template.accessibilityScore || 'AA'}
-- Rating: ${template.rating} / 5.0
 
 ## Quickstart
 1. Open \`index.html\` directly in any modern web browser.
@@ -126,7 +67,8 @@ ${template.description}
 - All Google Fonts and icons are preloaded and responsive.
 
 ## License
-Licensed under TemplateHub Single Product & Commercial License.
+Your licence depends on the plan you had when you downloaded this file.
+See ${SITE_URL}/licensing
 `;
 
     const themeConfig = JSON.stringify(
@@ -138,7 +80,7 @@ Licensed under TemplateHub Single Product & Commercial License.
         tags: template.tags,
         features: template.features,
         version: '1.0.0',
-        author: 'TemplateHub Master Atelier',
+        author: 'TemplateHub',
       },
       null,
       2
@@ -162,11 +104,11 @@ Licensed under TemplateHub Single Product & Commercial License.
 
 Copyright (c) 2026 TemplateHub. All rights reserved.
 
-Permission is hereby granted to the subscriber to use, customize, and deploy
-this template for personal and commercial websites, client deliverables, and SaaS applications.
+You may use this template under the licence of the TemplateHub plan you
+held when you downloaded it (${ent.tier} plan). What each plan allows is
+described at ${SITE_URL}/licensing
 
-Redistribution or resale of the raw template source code as a competing marketplace item
-is strictly prohibited.
+You may not resell, share or redistribute the template itself.
 `;
 
     const zipBuffer = createZipArchive([
@@ -189,7 +131,7 @@ is strictly prohibited.
 
   // Sufficient tier & HTML format — return JSON with download URL
   return NextResponse.json({
-    downloadUrl: `/sandboxes/${templateId}/index.html`,
+    downloadUrl: `/api/template-source?id=${template.id}&download=1`,
     templateName: template.name,
   });
 }

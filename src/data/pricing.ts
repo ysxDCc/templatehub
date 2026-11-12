@@ -3,6 +3,18 @@ import { PricingPlan } from '@/types';
 export const SINGLE_TEMPLATE_PRODUCT_ID = 'pdt_0NrAVl49cJx0ieQvv8P07';
 export const SINGLE_TEMPLATE_PRICE = 9;
 
+/** Dodo product ids → plan. Shared by the webhook and the entitlement check. */
+export const PRODUCT_TO_TIER: Record<string, 'basic' | 'pro' | 'enterprise'> = {
+  // Live mode products
+  pdt_0NrADRDfp8T2zDVsEGRI1: 'basic',
+  pdt_0NrADRIRwLn8v87737eXX: 'pro',
+  pdt_0NrADRKsIRfzGl1RtXlG7: 'enterprise',
+  // Test mode products
+  pdt_0NpgItSPPrLwWxL1VNu5h: 'basic',
+  pdt_0NpgIuba73JMfBWvtkFHg: 'pro',
+  pdt_0NpgIueDKNSywrCSEg3EN: 'enterprise',
+};
+
 export const pricingPlans: PricingPlan[] = [
   {
     id: 'free',

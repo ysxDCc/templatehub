@@ -7,7 +7,7 @@ interface LighthouseAuditModalProps {
   isOpen: boolean;
   onClose: () => void;
   templateName: string;
-  /** Path of the live preview, e.g. /sandboxes/apex-landing/index.html */
+  /** Path of the live preview, e.g. /preview/apex-landing */
   previewPath?: string;
 }
 

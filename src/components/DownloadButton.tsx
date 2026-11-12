@@ -14,7 +14,6 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
   const { isLoaded, isSignedIn, user } = useUser();
   const [loadingHtml, setLoadingHtml] = useState(false);
   const [loadingZip, setLoadingZip] = useState(false);
-  const [copiedEmbed, setCopiedEmbed] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState<{ tier: string } | null>(null);
 
   const userSub = ((user?.publicMetadata as any)?.subscription as string) || '';
@@ -98,12 +97,6 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
     }
   };
 
-  const handleCopyEmbed = () => {
-    const embedCode = `<iframe src="https://www.templatehub.website/sandboxes/${template.id}/index.html" width="100%" height="800" frameborder="0" loading="lazy"></iframe>`;
-    navigator.clipboard.writeText(embedCode);
-    setCopiedEmbed(true);
-    setTimeout(() => setCopiedEmbed(false), 2000);
-  };
 
   if (upgradeMessage) {
     return (
@@ -180,14 +173,6 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
           <span>Export .zip</span>
         </button>
       </div>
-
-      {/* Secondary Embed copy button */}
-      <button
-        onClick={handleCopyEmbed}
-        className="w-full bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-zinc-300 hover:text-white py-1.5 px-3 rounded-md text-[11px] font-medium transition-colors flex items-center justify-center gap-1.5"
-      >
-        <span>{copiedEmbed ? '✓ Copied Iframe Embed Code!' : '⟨/⟩ Copy Embed Snippet'}</span>
-      </button>
     </div>
   );
 }

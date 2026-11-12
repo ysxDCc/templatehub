@@ -156,7 +156,7 @@ export default function Hero({ onOpenCommandPalette }: HeroProps) {
             {activeTab === 'sandbox' && (
               <div className="relative aspect-[4/3] sm:aspect-[16/9] min-h-[280px] sm:min-h-[380px] w-full rounded-xl overflow-hidden border border-purple-500/25 bg-[#070314]">
                 <iframe
-                  src="/sandboxes/astral-aerospace/index.html"
+                  src="/preview/astral-aerospace"
                   title="Live preview of the ASTRAL Aerospace template"
                   className="w-full h-full border-0"
                   loading="lazy"
