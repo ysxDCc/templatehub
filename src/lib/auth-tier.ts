@@ -19,3 +19,8 @@ export function hasTierAccess(
   const needed = TIER_ORDER[requiredTier] ?? 0;
   return current >= needed;
 }
+
+/** Templates a plan may download (used for the all-templates bundle). */
+export function accessibleTemplates<T extends { tier: SubscriptionTier }>(userTier: SubscriptionTier | undefined, list: T[]): T[] {
+  return list.filter((t) => hasTierAccess(userTier, t.tier));
+}

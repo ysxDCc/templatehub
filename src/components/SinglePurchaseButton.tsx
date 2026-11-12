@@ -56,7 +56,7 @@ export default function SinglePurchaseButton({
       <button
         onClick={handleBuySingle}
         disabled={loading}
-        className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border bg-[#13072e] hover:bg-[#1f0b4d] text-purple-200 hover:text-white border-purple-500/40 hover:border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[0_0_20px_rgba(168,85,247,0.35)] disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
+        className={`w-full min-h-11 py-2.5 px-4 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 border bg-[#13072e] hover:bg-[#1f0b4d] text-purple-200 hover:text-white border-purple-500/40 hover:border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)] hover:shadow-[0_0_20px_rgba(168,85,247,0.35)] disabled:opacity-60 disabled:cursor-not-allowed ${className}`}
       >
         <span>⚡</span>
         <span>
@@ -65,7 +65,7 @@ export default function SinglePurchaseButton({
       </button>
 
       {error && (
-        <div className="text-[11px] text-rose-400 bg-rose-500/10 border border-rose-500/25 p-2 rounded-lg text-center leading-tight">
+        <div className="text-xs text-rose-400 bg-rose-500/10 border border-rose-500/25 p-2 rounded-lg text-center leading-tight">
           {error}
         </div>
       )}

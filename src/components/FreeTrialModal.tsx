@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-import { TEMPLATE_COUNT } from '@/lib/site';
+import { templates } from '@/data/templates';
+
+const PRO_TEMPLATE_COUNT = templates.filter((t) => t.tier !== 'enterprise').length;
 
 export default function FreeTrialModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -175,12 +177,12 @@ export default function FreeTrialModal() {
 
         {/* Heading */}
         <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-2">
-          Unlock All {TEMPLATE_COUNT} Templates For Free
+          Try Pro free for 3 days
         </h2>
 
         {/* Subhead */}
         <p className="text-sm text-purple-200/80 mb-6 leading-relaxed">
-          Start your 3-day complimentary Pro trial today. Full unrestricted access to every codebase, asset, and commercial license.
+          Download any of the {PRO_TEMPLATE_COUNT} Free, Basic and Pro templates with a commercial licence. €0 today, cancel anytime before the trial ends.
         </p>
 
         {/* Key value propositions */}
@@ -199,7 +201,7 @@ export default function FreeTrialModal() {
               ✓
             </div>
             <div>
-              <strong className="text-white">{TEMPLATE_COUNT} Production Codebases:</strong> SaaS, AI, Fintech, E-Commerce, Portfolios, and Dashboards.
+              <strong className="text-white">{PRO_TEMPLATE_COUNT} templates:</strong> SaaS, AI, shops, restaurants, portfolios and more.
             </div>
           </div>
 
