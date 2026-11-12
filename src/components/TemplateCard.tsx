@@ -1,6 +1,8 @@
 'use client';
 
-import { useRef, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type MouseEvent, type PointerEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import { waitForPath, withViewTransition } from '@/lib/view-transition';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Template } from '@/types';
@@ -18,6 +20,57 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(template.id);
   const ref = useRef<HTMLElement>(null);
+  const imgWrap = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const router = useRouter();
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [livePreview, setLivePreview] = useState(false);
+  const [pop, setPop] = useState(0);
+  const hoverTimer = useRef<number | undefined>(undefined);
+  const scrollRaf = useRef<number | undefined>(undefined);
+  const href = `/templates/${template.id}`;
+
+  // Hover preview: after a short pause, load the live template and glide down it.
+  const startPreview = (e: PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== 'mouse' || template.livePreviewUrl === '#' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = window.setTimeout(() => setLivePreview(true), 450);
+  };
+  const stopPreview = () => {
+    window.clearTimeout(hoverTimer.current);
+    if (scrollRaf.current) cancelAnimationFrame(scrollRaf.current);
+    setLivePreview(false);
+  };
+  const onFrameLoad = () => {
+    const win = frameRef.current?.contentWindow;
+    if (!win) return;
+    const start = performance.now();
+    const max = Math.min(2400, Math.max(0, (win.document.documentElement.scrollHeight || 0) - win.innerHeight));
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / 7000);
+      const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      win.scrollTo({ top: max * eased, behavior: 'instant' as ScrollBehavior });
+      if (t < 1) scrollRaf.current = requestAnimationFrame(step);
+    };
+    scrollRaf.current = requestAnimationFrame(step);
+  };
+  useEffect(() => () => {
+    window.clearTimeout(hoverTimer.current);
+    if (scrollRaf.current) cancelAnimationFrame(scrollRaf.current);
+  }, []);
+
+  // Card → page morph using the View Transitions API (falls back to normal navigation).
+  const openTemplate = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    const doc = document as Document & { startViewTransition?: unknown };
+    if (!doc.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    e.preventDefault();
+    if (imgWrap.current) imgWrap.current.style.viewTransitionName = 'tpl-hero';
+    withViewTransition(async () => {
+      router.push(href);
+      await waitForPath(href);
+    });
+  };
 
   // Gentle 3D tilt that follows a mouse (never on touch, never with reduced motion).
   const onMove = (e: PointerEvent<HTMLElement>) => {
@@ -46,17 +99,33 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
     <article
       ref={ref}
       onPointerMove={onMove}
-      onPointerLeave={onLeave}
+      onPointerLeave={() => {
+        onLeave();
+        stopPreview();
+      }}
+      onPointerEnter={startPreview}
       className="th-tilt th-sheen group relative h-full flex flex-col rounded-card border border-line bg-surface overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-line-strong hover:shadow-[0_20px_44px_-20px_rgb(124_58_237/0.55)] focus-within:border-line-strong"
     >
-      <div className="relative aspect-[16/10] w-full bg-bg overflow-hidden">
+      <div ref={imgWrap} className={`relative aspect-[16/10] w-full overflow-hidden ${imgLoaded ? 'bg-bg' : 'th-skeleton'}`}>
         <Image
+          onLoad={() => setImgLoaded(true)}
           src={template.previewImage}
           alt=""
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover object-top transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.04]"
+          className={`object-cover object-top transition-[transform,opacity] duration-500 ease-[var(--ease-out-soft)] group-hover:scale-[1.04] ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
+        {livePreview && (
+          <iframe
+            ref={frameRef}
+            src={template.livePreviewUrl}
+            title=""
+            aria-hidden="true"
+            tabIndex={-1}
+            onLoad={onFrameLoad}
+            className="absolute inset-0 w-[400%] h-[400%] origin-top-left scale-[0.25] border-0 pointer-events-none th-fade-in"
+          />
+        )}
         <div className="absolute top-2 right-2 z-10">
           <Badge tone={template.tier}>{template.tier}</Badge>
         </div>
@@ -65,7 +134,7 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
       <div className="flex flex-col flex-1 p-4">
         <h3 className="text-base font-semibold text-ink leading-snug">
           {/* The whole card is clickable via this link's ::after overlay. */}
-          <Link href={`/templates/${template.id}`} data-stretched-link="" className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
+          <Link href={href} onClick={openTemplate} data-stretched-link="" className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
             {template.name}
           </Link>
         </h3>
@@ -92,12 +161,18 @@ export default function TemplateCard({ template, onQuickView }: TemplateCardProp
             )}
             <button
               type="button"
-              onClick={() => toggleFavorite(template.id)}
+              onClick={() => {
+                if (!favorited) setPop((n) => n + 1);
+                toggleFavorite(template.id);
+              }}
               aria-label={favorited ? `Remove ${template.name} from saved` : `Save ${template.name}`}
               aria-pressed={favorited}
-              className={`inline-flex items-center justify-center w-11 h-11 rounded-control hover:bg-white/5 ${favorited ? 'text-rose-300' : 'text-muted hover:text-ink'}`}
+              className={`relative inline-flex items-center justify-center w-11 h-11 rounded-control hover:bg-white/5 ${favorited ? 'text-rose-300' : 'text-muted hover:text-ink'}`}
             >
-              <svg aria-hidden="true" className="w-5 h-5" viewBox="0 0 24 24" fill={favorited ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.8}>
+              {pop > 0 && favorited && (
+                <span key={`plus-${pop}`} aria-hidden="true" className="th-plus-one">+1</span>
+              )}
+              <svg key={`heart-${pop}`} aria-hidden="true" className={`w-5 h-5 ${pop > 0 && favorited ? 'th-heart-pop' : ''}`} viewBox="0 0 24 24" fill={favorited ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={1.8}>
                 <path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.8 4.5c2.2 0 3.6 1.2 5.2 3 1.6-1.8 3-3 5.2-3 3.8 0 5.9 3.9 4.4 7.3C19.5 16.4 12 21 12 21z" />
               </svg>
             </button>

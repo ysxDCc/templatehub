@@ -10,6 +10,7 @@ import BottomSheet from '@/components/ui/BottomSheet';
 import Button from '@/components/ui/Button';
 import Reveal from '@/components/ui/Reveal';
 import { useFavorites } from '@/context/FavoritesContext';
+import { withViewTransition } from '@/lib/view-transition';
 import { TEMPLATE_COUNT } from '@/lib/site';
 import {
   countActive,
@@ -46,7 +47,23 @@ function TemplatesContent() {
       const merged = { ...urlFilters, q: query, ...next };
       if (next.q !== undefined) setQuery(next.q);
       const qs = filtersToQuery(merged);
-      router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+      const target = qs ? `${pathname}?${qs}` : pathname;
+      if (next.q !== undefined) {
+        // Typing: update instantly, no animation (keeps the input responsive).
+        router.replace(target, { scroll: false });
+        return;
+      }
+      // Filters and sort: let the cards glide to their new places.
+      withViewTransition(
+        () =>
+          new Promise<void>((resolve) => {
+            router.replace(target, { scroll: false });
+            const want = qs ? `?${qs}` : '';
+            const start = performance.now();
+            const tick = () => (location.search === want || performance.now() - start > 1500 ? requestAnimationFrame(() => resolve()) : requestAnimationFrame(tick));
+            tick();
+          })
+      );
     },
     [urlFilters, query, router, pathname]
   );
@@ -140,7 +157,7 @@ function TemplatesContent() {
           {results.length > 0 ? (
             <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {results.map((t, i) => (
-                <Reveal as="li" key={t.id} delay={(i % 3) * 50}>
+                <Reveal as="li" key={t.id} delay={(i % 3) * 50} style={{ viewTransitionName: `card-${t.id}` }}>
                   <TemplateCard template={t} onQuickView={setQuickView} />
                 </Reveal>
               ))}

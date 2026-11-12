@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useState } from 'react';
+import Celebrate from '@/components/fx/Celebrate';
 import type { Template } from '@/types';
 
 interface DownloadButtonProps {
@@ -15,6 +16,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
   const [loadingHtml, setLoadingHtml] = useState(false);
   const [loadingZip, setLoadingZip] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState<{ tier: string } | null>(null);
+  const [burst, setBurst] = useState(0);
 
   const userSub = ((user?.publicMetadata as any)?.subscription as string) || '';
   const isProOrHigher = userSub === 'pro' || userSub === 'enterprise';
@@ -73,6 +75,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
           a.click();
           window.URL.revokeObjectURL(url);
           document.body.removeChild(a);
+          setBurst((b) => b + 1);
         }
       } else {
         const res = await fetch(`/api/download?templateId=${template.id}`);
@@ -85,6 +88,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
+          setBurst((b) => b + 1);
         } else if (res.status === 401 && data.requiresAuth) {
           router.push('/signup');
         } else if (res.status === 403 && data.requiresUpgrade) {
@@ -123,6 +127,7 @@ export default function DownloadButton({ template }: DownloadButtonProps) {
 
   return (
     <div className="space-y-2">
+      <Celebrate burstKey={burst} />
       {isProOrHigher && (
         <div className="flex items-center justify-between px-3 min-h-11 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-mono">
           <span className="flex items-center gap-1.5">
