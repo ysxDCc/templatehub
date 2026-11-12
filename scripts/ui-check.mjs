@@ -81,6 +81,18 @@ for (const p of pages) {
       if (small.length) fail(p, width, 'tap', `${small.length} small targets, e.g. ${small.slice(0, args.verbose ? 50 : 5).join('; ')}`);
     }
 
+    if (want('fixed') && width < 768) {
+      // Fixed bars (tab bar, buy bar, Studio actions) must sit inside the screen.
+      await page.waitForTimeout(600);
+      const off = await page.evaluate(() =>
+        [...document.querySelectorAll('body *')]
+          .filter((el) => getComputedStyle(el).position === 'fixed' && el.getBoundingClientRect().height > 0 && getComputedStyle(el).display !== 'none')
+          .map((el) => ({ cls: String(el.className).slice(0, 40), b: Math.round(el.getBoundingClientRect().bottom), t: Math.round(el.getBoundingClientRect().top) }))
+          .filter((r) => r.t > innerHeight || r.b > innerHeight + 1)
+      );
+      for (const o of off) fail(p, width, 'fixed', `fixed element off-screen (top ${o.t}, bottom ${o.b}): ${o.cls}`);
+    }
+
     if (want('axe') && width === 390) {
       const res = await new AxeBuilder({ page }).include(scope).exclude('iframe').exclude('[data-user-content]').disableRules(['frame-tested']).analyze();
       const bad = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');

@@ -19,6 +19,7 @@
   --radius-section: 24px;
 
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
 }
 
 @layer base {
@@ -266,14 +267,17 @@
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(16px);
+  filter: blur(4px);
   transition:
-    opacity 400ms var(--ease-out-soft),
-    transform 400ms var(--ease-out-soft);
+    opacity 600ms var(--ease-out-soft),
+    transform 600ms var(--ease-out-soft),
+    filter 600ms var(--ease-out-soft);
 }
 [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 /* No JavaScript? Show everything. */
@@ -283,7 +287,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; filter: none !important; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -310,5 +314,83 @@
 @keyframes th-sheet-in { from { transform: translateY(100%) } to { transform: none } }
 @keyframes th-dialog-in { from { opacity: 0; transform: translateY(12px) scale(0.98) } to { opacity: 1; transform: none } }
 .th-fade-in { animation: th-fade-in 200ms ease-out both; }
-.th-sheet-in { animation: th-sheet-in 250ms var(--ease-out-soft) both; }
+.th-sheet-in { animation: th-sheet-in 420ms var(--ease-spring) both; }
 @media (min-width: 768px) { .th-sheet-in { animation-name: th-dialog-in; } }
+
+
+/* ================= Motion system v2 (smooth animations) ================= */
+
+/* ---- Animated logo: faces fly in and snap together, part on hover ---- */
+.th-logo__face, .th-logo__tile, .th-logo__word { transform-box: fill-box; transform-origin: center; }
+.th-logo__face { transition: transform 450ms var(--ease-spring); }
+.th-logo--animate .th-logo__tile { animation: th-logo-tile 500ms var(--ease-out-soft) both; }
+.th-logo--animate .th-logo__face--top { animation: th-logo-top 700ms var(--ease-spring) 120ms both; }
+.th-logo--animate .th-logo__face--left { animation: th-logo-left 700ms var(--ease-spring) 220ms both; }
+.th-logo--animate .th-logo__face--right { animation: th-logo-right 700ms var(--ease-spring) 320ms both; }
+.th-logo--animate .th-logo__word { animation: th-logo-word 600ms var(--ease-out-soft) 300ms both; }
+.th-logo__shine { opacity: 0; }
+.th-logo--animate .th-logo__shine { animation: th-logo-shine 900ms ease-in-out 950ms both; }
+.th-logo:hover .th-logo__face--top, a:focus-visible .th-logo__face--top { transform: translateY(-1.6px); }
+.th-logo:hover .th-logo__face--left, a:focus-visible .th-logo__face--left { transform: translate(-1.4px, 0.9px); }
+.th-logo:hover .th-logo__face--right, a:focus-visible .th-logo__face--right { transform: translate(1.4px, 0.9px); }
+.th-logo:hover .th-logo__shine { animation: th-logo-shine 800ms ease-in-out both; }
+@keyframes th-logo-tile { from { opacity: 0; transform: scale(0.6) rotate(-12deg); } to { opacity: 1; transform: none; } }
+@keyframes th-logo-top { from { opacity: 0; transform: translateY(-14px) scale(0.8); } to { opacity: 1; transform: none; } }
+@keyframes th-logo-left { from { opacity: 0; transform: translate(-12px, 9px) scale(0.8); } to { opacity: 1; transform: none; } }
+@keyframes th-logo-right { from { opacity: 0; transform: translate(12px, 9px) scale(0.8); } to { opacity: 1; transform: none; } }
+@keyframes th-logo-word { from { opacity: 0; transform: translateX(-8px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes th-logo-shine { 0% { opacity: 0; transform: skewX(-20deg) translateX(0); } 20% { opacity: 1; } 100% { opacity: 0; transform: skewX(-20deg) translateX(58px); } }
+
+/* ---- Page transition: each new page fades and rises in ---- */
+.th-page { animation: th-page-in 450ms var(--ease-out-soft) backwards; } /* not "both": a lingering transform would trap position:fixed bars */
+@keyframes th-page-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---- Hero: word-by-word headline and a slowly drifting glow ---- */
+.th-word { display: inline-block; animation: th-word-in 700ms var(--ease-out-soft) both; }
+@keyframes th-word-in { from { opacity: 0; transform: translateY(0.45em); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+.th-glow-drift { animation: th-glow-drift 14s ease-in-out infinite alternate; }
+@keyframes th-glow-drift { 0% { transform: translate(-50%, 0) scale(1); } 50% { transform: translate(-46%, 24px) scale(1.08); } 100% { transform: translate(-54%, -12px) scale(0.96); } }
+.th-gradient-text {
+  background: linear-gradient(90deg, #f5f3ff 0%, #c4b5fd 35%, #f5f3ff 60%, #c4b5fd 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: th-gradient-pan 8s ease-in-out infinite alternate;
+}
+@keyframes th-gradient-pan { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+
+/* ---- Count-up numbers with no JavaScript (CSS @property) ---- */
+@property --th-n { syntax: '<integer>'; initial-value: 0; inherits: false; }
+.th-count { --th-n: var(--th-to); counter-reset: th var(--th-n); animation: th-count 1.4s var(--ease-out-soft) 300ms both; }
+.th-count::after { content: counter(th); }
+@keyframes th-count { from { --th-n: 0; } to { --th-n: var(--th-to); } }
+
+/* ---- Buttons: soft shine sweep on hover (primary only) ---- */
+.th-shine { position: relative; overflow: hidden; isolation: isolate; }
+.th-shine::after {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+@media (hover: hover) { .th-shine:hover::after { transition: transform 700ms var(--ease-out-soft); transform: translateX(120%); } }
+
+/* ---- Template cards: 3D tilt (set by JS on fine pointers) + sheen ---- */
+.th-tilt { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px)); transition: transform 300ms var(--ease-out-soft); will-change: transform; }
+.th-tilt.is-tilting { transition: transform 80ms linear; }
+.th-sheen::before {
+  content: ''; position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0;
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 0%), rgb(196 181 253 / 0.16), transparent 45%);
+  transition: opacity 300ms;
+}
+.th-sheen:hover::before { opacity: 1; }
+
+/* ---- Phone tab bar: sliding pill + icon bounce ---- */
+.th-tab-pill { transition: transform 450ms var(--ease-spring); }
+.th-bounce { animation: th-bounce 500ms var(--ease-spring); }
+@keyframes th-bounce { 0% { transform: scale(1); } 35% { transform: scale(0.82) translateY(1px); } 100% { transform: scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .th-logo *, .th-page, .th-word, .th-glow-drift, .th-gradient-text, .th-count, .th-bounce { animation: none !important; }
+  .th-word { opacity: 1; transform: none; filter: none; }
+  .th-tilt { transform: none !important; }
+  .th-logo__shine { display: none; }
+}
