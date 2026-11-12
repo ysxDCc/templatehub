@@ -324,16 +324,21 @@
 .th-logo__face, .th-logo__tile, .th-logo__word { transform-box: fill-box; transform-origin: center; }
 .th-logo__face { transition: transform 450ms var(--ease-spring); }
 .th-logo--animate .th-logo__tile { animation: th-logo-tile 500ms var(--ease-out-soft) both; }
-.th-logo--animate .th-logo__face--top { animation: th-logo-top 700ms var(--ease-spring) 120ms both; }
-.th-logo--animate .th-logo__face--left { animation: th-logo-left 700ms var(--ease-spring) 220ms both; }
-.th-logo--animate .th-logo__face--right { animation: th-logo-right 700ms var(--ease-spring) 320ms both; }
+.th-logo--animate .th-logo__face--top { animation: th-logo-top 700ms var(--ease-spring) 120ms both, th-breathe-top 6s ease-in-out 3s infinite; }
+.th-logo--animate .th-logo__face--left { animation: th-logo-left 700ms var(--ease-spring) 220ms both, th-breathe-left 6s ease-in-out 3s infinite; }
+.th-logo--animate .th-logo__face--right { animation: th-logo-right 700ms var(--ease-spring) 320ms both, th-breathe-right 6s ease-in-out 3s infinite; }
 .th-logo--animate .th-logo__word { animation: th-logo-word 600ms var(--ease-out-soft) 300ms both; }
 .th-logo__shine { opacity: 0; }
-.th-logo--animate .th-logo__shine { animation: th-logo-shine 900ms ease-in-out 950ms both; }
+.th-logo--animate .th-logo__shine { animation: th-logo-shine 900ms ease-in-out 950ms both, th-logo-shine-loop 6s ease-in-out 3.6s infinite; }
 .th-logo:hover .th-logo__face--top, a:focus-visible .th-logo__face--top { transform: translateY(-1.6px); }
 .th-logo:hover .th-logo__face--left, a:focus-visible .th-logo__face--left { transform: translate(-1.4px, 0.9px); }
 .th-logo:hover .th-logo__face--right, a:focus-visible .th-logo__face--right { transform: translate(1.4px, 0.9px); }
 .th-logo:hover .th-logo__shine { animation: th-logo-shine 800ms ease-in-out both; }
+/* Idle loop: every 6s the faces part slightly and rejoin, then a shine sweeps across. */
+@keyframes th-breathe-top { 0%, 80%, 100% { transform: none; } 88% { transform: translateY(-1.8px); } }
+@keyframes th-breathe-left { 0%, 80%, 100% { transform: none; } 88% { transform: translate(-1.6px, 1px); } }
+@keyframes th-breathe-right { 0%, 80%, 100% { transform: none; } 88% { transform: translate(1.6px, 1px); } }
+@keyframes th-logo-shine-loop { 0%, 84% { opacity: 0; transform: skewX(-20deg) translateX(0); } 87% { opacity: 1; } 100% { opacity: 0; transform: skewX(-20deg) translateX(58px); } }
 @keyframes th-logo-tile { from { opacity: 0; transform: scale(0.6) rotate(-12deg); } to { opacity: 1; transform: none; } }
 @keyframes th-logo-top { from { opacity: 0; transform: translateY(-14px) scale(0.8); } to { opacity: 1; transform: none; } }
 @keyframes th-logo-left { from { opacity: 0; transform: translate(-12px, 9px) scale(0.8); } to { opacity: 1; transform: none; } }
@@ -457,3 +462,5 @@
   .th-magnetic { transform: none !important; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
+/* Hovering takes over from the idle loop so the faces part smoothly under the pointer. */
+.th-logo:hover .th-logo__face { animation: none; }

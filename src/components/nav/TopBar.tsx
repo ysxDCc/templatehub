@@ -23,6 +23,8 @@ export default function TopBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Changing the key re-mounts the logo, replaying its assemble animation.
+  const [logoKey, setLogoKey] = useState(0);
   const paletteOpenRef = useRef(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -78,8 +80,8 @@ export default function TopBar() {
         }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-          <Link href="/" aria-label="TemplateHub home" className="flex items-center min-h-11 shrink-0">
-            <Logo size="sm" />
+          <Link href="/" aria-label="TemplateHub home" className="flex items-center min-h-11 shrink-0" onClick={() => setLogoKey((k) => k + 1)}>
+            <Logo key={logoKey} size="sm" />
           </Link>
 
           <nav aria-label="Main" className="hidden lg:flex items-center gap-1">
