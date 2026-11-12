@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* ---------- Design tokens (redesign 2026) ---------- */
+@theme {
+  --color-bg: #08051a;
+  --color-surface: #110a2b;
+  --color-raised: #1a1140;
+  --color-line: rgb(168 85 247 / 0.18);
+  --color-line-strong: rgb(196 181 253 / 0.35);
+  --color-primary: #7c3aed;
+  --color-primary-hover: #6d28d9;
+  --color-lilac: #c4b5fd;
+  --color-ink: #f5f3ff;
+  --color-muted: #b9aed9;
+  --color-success: #34d399;
+
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --radius-section: 24px;
+
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,7 +30,7 @@
   }
 
   body {
-    background-color: #070314;
+    background-color: #08051a;
     color: #f5f3ff;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
@@ -234,3 +255,54 @@
 .legal-prose table { width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.85rem; }
 .legal-prose th, .legal-prose td { border: 1px solid rgb(168 85 247 / 0.25); padding: 0.6rem 0.75rem; text-align: left; vertical-align: top; }
 .legal-prose th { background: #0e0624; color: #fff; font-weight: 600; }
+
+
+/* ---------- Accessibility & motion (redesign 2026) ---------- */
+:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 400ms var(--ease-out-soft),
+    transform 400ms var(--ease-out-soft);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* No JavaScript? Show everything. */
+@media (scripting: none) {
+  [data-reveal] { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Homepage motion (redesign 2026) ---------- */
+@keyframes th-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+@keyframes th-typing { 0%, 10% { width: 0 } 45%, 85% { width: 8.5ch } 100% { width: 0 } }
+@keyframes th-caret { 50% { border-color: transparent } }
+@keyframes th-colour { 0%, 40% { background-color: #7c3aed } 50%, 90% { background-color: #10b981 } 100% { background-color: #7c3aed } }
+@keyframes th-colour-text { 0%, 40% { color: #c4b5fd } 50%, 90% { color: #6ee7b7 } 100% { color: #c4b5fd } }
+.th-type { width: 8.5ch; animation: th-typing 6s steps(9) infinite, th-caret 0.8s step-end infinite; }
+.th-swatch, .th-swatch-bg { background-color: #7c3aed; animation: th-colour 6s ease-in-out infinite; }
+.th-name { color: #c4b5fd; animation: th-colour-text 6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .th-type { animation: none !important; width: auto; border-right: 0; }
+  .th-swatch, .th-swatch-bg, .th-name { animation: none !important; }
+}
+@keyframes th-hero-in { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
+.th-hero-in { animation: th-hero-in 500ms var(--ease-out-soft) both; }

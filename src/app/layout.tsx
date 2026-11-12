@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from '@/components/Navbar';
+import TopBar from '@/components/nav/TopBar';
+import BottomTabBar from '@/components/nav/BottomTabBar';
 import Footer from '@/components/Footer';
 import { ClerkProvider } from '@clerk/nextjs';
 import { FavoritesProvider } from '@/context/FavoritesContext';
@@ -81,7 +82,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className="dark scroll-smooth">
-        <body className={`${inter.className} bg-[#070314] text-purple-100 min-h-screen antialiased flex flex-col selection:bg-purple-600 selection:text-white`}>
+        <body className={`${inter.className} bg-bg text-ink min-h-screen antialiased flex flex-col pb-[calc(56px+env(safe-area-inset-bottom))] md:pb-0 selection:bg-purple-600 selection:text-white`}>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
@@ -93,11 +94,12 @@ export default function RootLayout({
             Skip to content
           </a>
           <FavoritesProvider>
-            <Navbar />
+            <TopBar />
             <main id="main" className="flex-1">
               {children}
             </main>
             <Footer />
+            <BottomTabBar />
           </FavoritesProvider>
         </body>
       </html>
