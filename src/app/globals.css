@@ -306,3 +306,9 @@
 }
 @keyframes th-hero-in { from { opacity: 0; transform: translateY(12px) } to { opacity: 1; transform: none } }
 .th-hero-in { animation: th-hero-in 500ms var(--ease-out-soft) both; }
+@keyframes th-fade-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes th-sheet-in { from { transform: translateY(100%) } to { transform: none } }
+@keyframes th-dialog-in { from { opacity: 0; transform: translateY(12px) scale(0.98) } to { opacity: 1; transform: none } }
+.th-fade-in { animation: th-fade-in 200ms ease-out both; }
+.th-sheet-in { animation: th-sheet-in 250ms var(--ease-out-soft) both; }
+@media (min-width: 768px) { .th-sheet-in { animation-name: th-dialog-in; } }

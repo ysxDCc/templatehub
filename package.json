@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ui-check": "node scripts/ui-check.mjs"
+    "ui-check": "node scripts/ui-check.mjs",
+    "test": "tsx --test src/**/*.test.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^7.9.15",
@@ -25,6 +26,7 @@
     "@types/react-dom": "^19.0.0",
     "playwright": "^1.65.0",
     "tailwindcss": "^4.0.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.0.0"
   }
 }
