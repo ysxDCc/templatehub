@@ -8,6 +8,9 @@ export default async function SignUpPage({
   const resolvedParams = await searchParams;
   const plan = resolvedParams?.plan;
   const isProTrial = plan === 'pro';
+  // Any paid plan picked before signing in continues to checkout afterwards.
+  const paidPlan = plan === 'basic' || plan === 'pro' || plan === 'enterprise' ? plan : null;
+  const afterAuth = paidPlan ? `/checkout/start?plan=${paidPlan}` : '/templates';
 
   return (
     <div className="flex flex-col min-h-[calc(100vh-160px)] items-center justify-center px-4 py-16 bg-[#070314]">
@@ -34,9 +37,9 @@ export default async function SignUpPage({
       )}
       <SignUp
         routing="hash"
-        forceRedirectUrl={isProTrial ? '/checkout/start?plan=pro' : '/templates'}
-        fallbackRedirectUrl={isProTrial ? '/checkout/start?plan=pro' : '/templates'}
-        signInUrl={isProTrial ? '/login?plan=pro' : '/login'}
+        forceRedirectUrl={afterAuth}
+        fallbackRedirectUrl={afterAuth}
+        signInUrl={paidPlan ? `/login?plan=${paidPlan}` : '/login'}
       />
     </div>
   );

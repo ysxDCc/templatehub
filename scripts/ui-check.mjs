@@ -61,10 +61,14 @@ for (const p of pages) {
         const out = [];
         for (const el of document.querySelectorAll(`:is(${scope}) :is(a, button, [role=tab], summary, input, select, textarea)`)) {
           if (el.closest('.legal-prose p, .legal-prose li, .legal-prose td, [aria-hidden="true"], [data-tap-exempt]')) continue;
+          // Links inside running text are exempt (WCAG 2.5.8 inline exception).
+          if (el.tagName === 'A' && el.closest('p')) continue;
+          // Stretched links cover their whole card via ::after; measure the card instead.
+          const box = el.hasAttribute('data-stretched-link') ? el.closest('article, li, [data-card]') : el;
           const s = getComputedStyle(el);
           if (s.visibility === 'hidden' || s.display === 'none') continue;
           if (el.type === 'hidden') continue;
-          const r = el.getBoundingClientRect();
+          const r = (box || el).getBoundingClientRect();
           if (r.width <= 1 || r.height <= 1) continue; // visually hidden (sr-only)
           if (Math.round(r.width) < 44 || Math.round(r.height) < 44) {
             const label = (el.getAttribute('aria-label') || el.textContent || el.tagName).trim().slice(0, 40);
@@ -73,7 +77,7 @@ for (const p of pages) {
         }
         return out;
       }, scope);
-      if (small.length) fail(p, width, 'tap', `${small.length} small targets, e.g. ${small.slice(0, 5).join('; ')}`);
+      if (small.length) fail(p, width, 'tap', `${small.length} small targets, e.g. ${small.slice(0, args.verbose ? 50 : 5).join('; ')}`);
     }
 
     if (want('axe') && width === 390) {

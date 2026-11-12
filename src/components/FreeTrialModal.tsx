@@ -64,12 +64,27 @@ export default function FreeTrialModal() {
       return;
     }
 
-    // Trigger popup smoothly after visitor lands
-    const timer = setTimeout(() => {
+    // Show the offer once the visitor is clearly interested: after scrolling
+    // halfway down the page or 30 seconds, whichever comes first. Popping up
+    // immediately blocks the page on phones (and Google penalises that).
+    let shown = false;
+    const open = () => {
+      if (shown) return;
+      shown = true;
       setIsOpen(true);
-    }, 700);
-
-    return () => clearTimeout(timer);
+      cleanup();
+    };
+    const onScroll = () => {
+      const depth = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+      if (depth >= 0.5) open();
+    };
+    const timer = setTimeout(open, 30000);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    function cleanup() {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', onScroll);
+    }
+    return cleanup;
   }, [isLoaded, isSignedIn, user]);
 
   const handleDismiss = () => {

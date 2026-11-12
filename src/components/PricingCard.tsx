@@ -1,165 +1,125 @@
 'use client';
 
 import { useState } from 'react';
-import { PricingPlan } from '@/types';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import type { PricingPlan } from '@/types';
 
 interface PricingCardProps {
   plan: PricingPlan;
 }
 
 export default function PricingCard({ plan }: PricingCardProps) {
-  const isHighlighted = plan.id === 'pro';
-  const { user } = useUser();
+  const highlighted = !!plan.highlighted;
+  const { user, isSignedIn } = useUser();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleCheckout = async () => {
     if (!plan.dodoProductId) return;
 
+    // Plans are attached to accounts by email, so buyers must have an account
+    // first. /checkout/start sends them through sign-up and back to payment.
+    if (!isSignedIn) {
+      router.push(`/checkout/start?plan=${plan.id}`);
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
-
       const res = await fetch('/api/checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           planId: plan.id,
           customerEmail: user?.primaryEmailAddress?.emailAddress,
           customerName: user?.fullName || user?.firstName,
         }),
       });
-
       const data = await res.json();
-
-      if (!res.ok || !data.checkoutUrl) {
-        throw new Error(data.error || 'Failed to initialize payment checkout.');
-      }
-
-      // Redirect user directly to Dodo Payments checkout
+      if (!res.ok || !data.checkoutUrl) throw new Error(data.error || 'Could not start checkout.');
       window.location.href = data.checkoutUrl;
-    } catch (err: any) {
-      console.error('Checkout error:', err);
-      setError(err?.message || 'Checkout failed. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Checkout failed. Please try again.');
       setLoading(false);
     }
   };
 
+  const ctaLabel = plan.id === 'free' ? 'Start for free' : plan.trialDays ? `Start ${plan.trialDays}-day free trial` : `Choose ${plan.name}`;
+
   return (
     <div
-      className={`relative flex flex-col p-6 rounded-2xl transition-all duration-300 ${
-        isHighlighted
-          ? 'bg-[#140838] border-2 border-purple-500 shadow-[0_0_50px_rgba(168,85,247,0.35)] scale-[1.02]'
-          : 'bg-[#0d0622]/85 border border-purple-500/25 hover:border-purple-400/50 shadow-[0_4px_25px_rgba(7,3,20,0.7)]'
+      className={`relative h-full flex flex-col p-6 rounded-card border transition-[border-color,transform] duration-300 ${
+        highlighted
+          ? 'bg-raised border-primary shadow-[0_24px_60px_-24px_rgb(124_58_237/0.7)]'
+          : 'bg-surface border-line hover:border-line-strong'
       }`}
     >
-      {isHighlighted && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap z-20">
-          <span className="inline-block whitespace-nowrap bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white text-[10px] font-extrabold uppercase tracking-wider py-1 px-3.5 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.7)] border border-purple-400/30">
-            {plan.trialDays ? '✦ 3-DAY FREE TRIAL' : 'MOST POPULAR'}
-          </span>
-        </div>
+      {highlighted && (
+        <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-primary text-white text-xs font-semibold">
+          Most popular
+        </span>
       )}
 
-      {/* Plan header */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-white mb-1.5 flex items-center justify-between">
-          <span>{plan.name}</span>
-          {isHighlighted && (
-            <span className="text-purple-400 text-sm">✦</span>
-          )}
-        </h3>
-        <p className="text-xs text-purple-200/75 min-h-[32px] leading-relaxed">
-          {plan.description}
-        </p>
-      </div>
+      <h3 className="text-lg font-semibold text-ink">{plan.name}</h3>
+      <p className="mt-1 text-sm text-muted leading-relaxed min-h-[2.75rem]">{plan.description}</p>
 
-      {/* Price figure */}
-      <div className="mb-6 pb-6 border-b border-purple-500/20">
-        <div className="flex items-baseline text-white">
-          <span className="text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-100 to-purple-300">
-            €{plan.price}
-          </span>
-          <span className="ml-1.5 text-xs text-purple-300/70 font-medium font-mono">
-            /{plan.interval}
-          </span>
-        </div>
-        {plan.trialDays && (
-          <div className="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-semibold text-emerald-300">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>€0 due today • 3 days free</span>
-          </div>
-        )}
+      <div className="mt-5 flex items-baseline gap-1">
+        <span className="text-4xl font-bold text-ink tracking-tight">€{plan.price}</span>
+        <span className="text-sm text-muted">/ month</span>
       </div>
+      {plan.trialDays ? (
+        <p className="mt-1 text-sm font-medium text-success">€0 today · {plan.trialDays} days free</p>
+      ) : (
+        <p className="mt-1 text-sm text-transparent select-none" aria-hidden="true">.</p>
+      )}
 
-      {/* Features list */}
-      <ul className="flex-1 space-y-3 mb-8 text-xs text-purple-200/90">
-        {plan.features.map((feature, idx) => (
-          <li key={idx} className="flex items-start gap-2.5">
-            <svg
-              className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      <ul className="mt-6 mb-6 flex-1 space-y-3 text-[15px] text-ink/90">
+        {plan.features.map((f) => (
+          <li key={f} className="flex items-start gap-2.5">
+            <svg aria-hidden="true" className="w-5 h-5 shrink-0 text-lilac" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span className="leading-snug">{feature}</span>
+            <span className="leading-snug">{f}</span>
           </li>
         ))}
       </ul>
 
       {error && (
-        <p className="text-xs text-rose-300 mb-3 bg-rose-500/15 p-2 rounded-lg border border-rose-500/30 text-center">
+        <p role="alert" className="mb-3 text-sm text-rose-200 bg-rose-500/15 border border-rose-500/30 rounded-control p-2 text-center">
           {error}
         </p>
       )}
 
-      {/* Action Button */}
       {plan.id === 'free' ? (
         <Link
           href="/signup"
-          className="w-full py-2.5 px-4 rounded-xl font-semibold text-xs text-center transition-all block bg-[#070314] text-purple-200 hover:text-white hover:bg-[#1a0b3b] border border-purple-500/30"
+          className="inline-flex items-center justify-center min-h-12 rounded-control font-semibold bg-raised border border-line text-ink hover:border-line-strong transition-colors active:scale-[0.97]"
         >
-          Start for Free
+          {ctaLabel}
         </Link>
       ) : (
         <button
+          type="button"
           onClick={handleCheckout}
           disabled={loading}
-          className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs text-center transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed ${
-            isHighlighted
-              ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white shadow-[0_0_25px_rgba(168,85,247,0.4)] hover:shadow-[0_0_35px_rgba(168,85,247,0.7)] hover:scale-[1.02] active:scale-98 shimmer-active'
-              : 'bg-purple-900/60 hover:bg-purple-800 text-purple-100 border border-purple-500/40 hover:border-purple-400'
+          className={`inline-flex items-center justify-center gap-2 min-h-12 rounded-control font-semibold transition-colors active:scale-[0.97] disabled:opacity-60 ${
+            highlighted ? 'bg-primary hover:bg-primary-hover text-white' : 'bg-raised border border-line text-ink hover:border-line-strong'
           }`}
         >
-          {loading ? (
-            <>
-              <svg className="animate-spin h-3.5 w-3.5 text-current" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span>Connecting to checkout...</span>
-            </>
-          ) : plan.trialDays ? (
-            <span>Start 3-Day Free Trial</span>
-          ) : (
-            <span>Upgrade to {plan.name}</span>
-          )}
+          {loading ? 'Opening secure checkout…' : ctaLabel}
         </button>
       )}
 
-      {plan.trialDays && (
-        <p className="text-[11px] text-center text-purple-300/80 mt-2.5 leading-tight font-medium">
-          €0 today. After {plan.trialDays} days your card is charged €{plan.price} and then every month until you cancel.{' '}
-          <span className="text-purple-400">Cancel any time before the trial ends to pay nothing.</span>{' '}
-          <Link href="/terms#subscriptions" className="underline decoration-purple-500/50 hover:text-white">Terms</Link>
+      {plan.trialDays ? (
+        <p className="mt-3 text-xs text-muted leading-relaxed text-center">
+          After {plan.trialDays} days, €{plan.price}/month until you cancel. Cancel before the trial ends to pay nothing.{' '}
+          <Link href="/terms#subscriptions" className="underline text-lilac">Terms</Link>
         </p>
-      )}
+      ) : null}
     </div>
   );
 }

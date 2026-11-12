@@ -290,3 +290,17 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Homepage motion (redesign 2026) ---------- */
+@keyframes th-float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
+@keyframes th-typing { 0%, 10% { width: 0 } 45%, 85% { width: 8.5ch } 100% { width: 0 } }
+@keyframes th-caret { 50% { border-color: transparent } }
+@keyframes th-colour { 0%, 40% { background-color: #7c3aed } 50%, 90% { background-color: #10b981 } 100% { background-color: #7c3aed } }
+@keyframes th-colour-text { 0%, 40% { color: #c4b5fd } 50%, 90% { color: #6ee7b7 } 100% { color: #c4b5fd } }
+.th-type { width: 8.5ch; animation: th-typing 6s steps(9) infinite, th-caret 0.8s step-end infinite; }
+.th-swatch, .th-swatch-bg { background-color: #7c3aed; animation: th-colour 6s ease-in-out infinite; }
+.th-name { color: #c4b5fd; animation: th-colour-text 6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .th-type { animation: none !important; width: auto; border-right: 0; }
+  .th-swatch, .th-swatch-bg, .th-name { animation: none !important; }
+}
